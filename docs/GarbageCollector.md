@@ -280,14 +280,18 @@ authors must follow at the root side.
 ## Memory Allocation
 
 - Threads request batches of cells from `ProtoSpace` (`getFreeCells`).
-- If the free list is low, the GC is triggered.
+- Allocation alone does not start a collection unless a heap limit is
+  configured with `ProtoSpace::setHeapLimits`.  Without a limit (the
+  default), a cycle starts when `ProtoSpace::triggerGC()` is called and
+  fewer than 20% of the heap's cells are free; the comment on the GC
+  trigger sources in `core/ProtoSpace.cpp` lists every path.
 - **Concurrent Allocation**: threads can continue to allocate memory from
   the OS (growing the heap) even if a GC cycle is currently running.
   This ensures that a high allocation rate does not stall the entire
   system.
-- If no free cells are available and a GC cycle is not enough to satisfy
-  the request, `ProtoSpace` allocates a new chunk of memory from the OS
-  using `posix_memalign`.
+- If no free cells are available, `ProtoSpace` allocates a new chunk of
+  memory from the OS using `posix_memalign`, within the heap limit when
+  one is set.
 
 ### OS allocation cap (16 MiB)
 
@@ -320,7 +324,9 @@ long critical sections when chaining cells under the global lock.
 
 ## How to use
 
-The GC is mostly automatic.  However, threads must be "managed" by
+Collection runs on the GC thread; embedders request cycles with
+`triggerGC()` or configure a heap limit (see "Memory Allocation"
+above).  Threads must be "managed" by
 `ProtoSpace` to participate in the STW protocol.  Use `ProtoThread` and
 its synchronization methods to ensure proper GC behavior in custom
 threading scenarios.
@@ -329,7 +335,7 @@ threading scenarios.
 // Explicit synchronization if needed
 thread->synchToGC();
 
-// Or trigger a cycle from any thread
+// Request a cycle: one starts when fewer than 20% of heap cells are free
 space.triggerGC();
 
 // Wrap a long blocking syscall so it does not stall the STW quorum
@@ -362,9 +368,11 @@ behaviour can be reasoned about quantitatively.
 | **`stringInternMap`** (legacy, dead) | **0** | n/a | **not iterated; field retained for ABI** |
 | `dirtySegments.exchange()` | < 1 μs | constant | O(1) atomic |
 
-**Realistic total for a typical workload** (e.g. protoPython running
+**Estimated total for a typical workload** (e.g. protoPython running
 pyperformance, protoST with a moderate actor count, protoJS
-interactive): **30–250 μs**.  Comfortably sub-millisecond.
+interactive): **30–250 μs**, from the per-component estimates above.
+No measured pause distribution is recorded yet; see "Real-time
+positioning" below.
 
 The single architectural property that delivers this: **every term in
 the table is either constant or scales with thread/stack quantities
@@ -383,7 +391,7 @@ gave up to get it.
 
 | GC | Typical pause | Decoupling mechanism | Per-access cost | Architectural constraint |
 |---|---|---|---|---|
-| **protoCore (post-snapshot)** | **30–250 μs** | **snapshot of 256 shard roots; immutable Cells** | **zero** | **all mutability routed through `MUTABLE_ROOT_SHARDS` shards (no per-Cell mutable slots; Cells are `const`-only after construction)** |
+| **protoCore (post-snapshot)** | **30–250 μs (estimate)** | **snapshot of 256 shard roots; immutable Cells** | **zero** | **all mutability routed through `MUTABLE_ROOT_SHARDS` shards (no per-Cell mutable slots; Cells are `const`-only after construction)** |
 | ZGC (Java) | 100 μs – 1 ms | concurrent mark + relocation + load barriers + multi-mapping (colored pointers) | load barrier on every reference read | 64-bit multi-mapped virtual address space; JVM-specific; difficult to embed |
 | Shenandoah (Java) | 100 μs – 1 ms | concurrent mark + Brooks pointers + concurrent compaction | indirection + write barrier on every reference | +1 forwarding word per object (Brooks pointer); every dereference pays one indirection |
 | Go | 100 μs – 1 ms | tricolor concurrent mark + hybrid (Yuasa + Dijkstra) write barrier | hybrid write barrier on every pointer store | compiler-emitted barriers; runtime not separable from Go semantics; not embeddable as a library |
@@ -431,7 +439,7 @@ The pause profile above places protoCore in the **soft real-time**
 category as the term is commonly used in the literature.  Concretely:
 
 **Well-suited for:**
-- Interactive UI (presupuesto > 16 ms/frame, 60 fps gaming)
+- Interactive UI and 60 fps games (a frame budget of about 16 ms)
 - Web servers with p99 SLA in the millisecond range
 - General server workloads (REST, microservices, message handlers)
 - `protoST` as a digital-twin demonstrator at realistic actor counts

@@ -1,33 +1,54 @@
 # protoCore Installation Guide
 
-This guide covers installing protoCore on **Linux**, **macOS**, and **Windows**. protoCore is built as a **shared library** (`libprotoCore.so`, `libprotoCore.dylib`, or `protoCore.dll`) and is required by runtimes such as **protoJS** and **protoPython**.
+This guide covers building protoCore from source, installing the shared library and its public header, and generating packages with CPack. protoCore is required by the runtimes built on it, such as protoJS and protoPython.
+
+---
+
+## Platform Support
+
+- **Linux** with GCC or Clang is the platform these instructions are written for.
+- **macOS**: `CMakeLists.txt` configures the TGZ and DragNDrop CPack generators for macOS. This guide does not verify the macOS build.
+- **Windows**: `CMakeLists.txt` configures the ZIP and NSIS CPack generators for Windows, but the cell allocator calls `posix_memalign` (`core/ProtoSpace.cpp`, `core/ProtoContext.cpp`), which the Microsoft C runtime does not provide, and `CMakeLists.txt` adds the GCC/Clang option `-fno-delete-null-pointer-checks` for every compiler. A native MSVC build is not expected to work without source changes.
+
+No continuous integration is configured in this repository.
 
 ---
 
 ## Prerequisites
 
-- **C++20** compiler (GCC 10+, Clang 12+, or MSVC 2019+)
-- **CMake** 3.16+
-- **Threads** (pthread on Unix; system threading on Windows)
+- A C++ compiler with C++20 support (GCC or Clang)
+- **CMake** 3.16 or later (`cmake_minimum_required` in `CMakeLists.txt`)
+- A threads library (`find_package(Threads REQUIRED)`)
+- Network access during the first configuration: `test/CMakeLists.txt` downloads GoogleTest 1.14.0 with `FetchContent`
 
 ---
 
-## Building from Source (all platforms)
+## Building from Source
 
 From the protoCore project root:
 
 ```bash
-cmake -B build -S .
+cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+```
+
+This builds the shared library, the test executable `build/test/proto_tests` and the benchmark executables. To build only the library:
+
+```bash
 cmake --build build --target protoCore
 ```
 
-The shared library is produced in `build/`:
+The library version is `1.2.0` (`project(... VERSION 1.2.0)`) and its ABI version is `1` (`SOVERSION 1`). On Linux the build directory contains:
 
-- **Linux:** `build/libprotoCore.so`
-- **macOS:** `build/libprotoCore.dylib`
-- **Windows:** `build/protoCore.dll` (or in a configuration subdirectory, e.g. `build/Release/`)
+| File | Role |
+|------|------|
+| `build/libprotoCore.so.1.2.0` | The shared library |
+| `build/libprotoCore.so.1` | Link used by the dynamic loader (soname) |
+| `build/libprotoCore.so` | Link used at link time (`-lprotoCore`) |
 
-To run tests after building:
+On macOS CMake uses the names `libprotoCore.1.2.0.dylib`, `libprotoCore.1.dylib` and `libprotoCore.dylib`.
+
+To run the tests after a full build:
 
 ```bash
 ctest --test-dir build --output-on-failure
@@ -37,203 +58,128 @@ ctest --test-dir build --output-on-failure
 
 ## Installing the Built Library
 
-After building, you can install the library and header to a prefix (system or staging).
+The install rules belong to the `protoCore` component and are defined only when protoCore is the top-level CMake project (a project that includes protoCore with `add_subdirectory` handles its own packaging).
 
-**System install (requires appropriate privileges):**
-
-```bash
-sudo cmake --install build --component protoCore
-```
-
-**Staging install (e.g. for packaging or local use):**
+**Staging install** (for packaging or local use):
 
 ```bash
 cmake --install build --component protoCore --prefix ./dist
 ```
 
-**Installed layout:**
+**System install** (default prefix `/usr/local`; requires appropriate privileges):
 
-| File / directory | Default path (Linux/macOS) | Purpose |
-|------------------|----------------------------|---------|
-| Shared library   | `lib/libprotoCore.so` (or `.dylib` / `.dll`) | Runtime |
-| Public header    | `include/protoCore.h` | Compile-time |
+```bash
+sudo cmake --install build --component protoCore
+sudo ldconfig
+```
 
-On Linux, typical system paths are `/usr/local/lib` and `/usr/local/include` when using the default prefix. Ensure the library is on the linker path (e.g. `LD_LIBRARY_PATH` or `ldconfig`) when building or running applications that depend on protoCore.
+**Installed files** (Linux, paths relative to the prefix):
+
+| File | Path |
+|------|------|
+| Shared library | `lib/libprotoCore.so.1.2.0`, with the links `lib/libprotoCore.so.1` and `lib/libprotoCore.so` |
+| Public header | `include/protoCore.h` |
+
+The library and header directories come from `GNUInstallDirs`. With the default `/usr/local` prefix they are `lib` and `include`; with other prefixes or distributions the library directory may be `lib64` or a multiarch directory. On Windows the install rules place the DLL in `bin/` and the import library in `lib/`.
+
+The install rules export no CMake package configuration file, so consumers locate protoCore with `find_library` and `find_path` (or `-I<prefix>/include -L<prefix>/lib -lprotoCore`).
 
 ---
 
-## Linux
+## Packages (CPack)
 
-### Option A: Clean TGZ (runtime only, recommended for distribution)
+### Configured generators
 
-To create a **minimal package** containing only the shared library and public header (no test frameworks):
+`CMakeLists.txt` selects the CPack generators at configure time, only for the current platform, so `cpack` does not fail when tools for other formats are missing:
+
+| Platform | Generators |
+|----------|------------|
+| Linux | TGZ; DEB when `dpkg` is found; RPM when `rpmbuild` is found |
+| macOS | TGZ, DragNDrop |
+| Windows | ZIP, NSIS |
+
+On Linux the configure output reports the extra generators, for example `CPack: DEB generator enabled (dpkg found)`.
+
+### Building packages
 
 ```bash
-cmake -B build -S .
+cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+cmake --build build --target protoCore
+cd build
+cpack            # every configured generator
+cpack -G DEB     # a single generator
+```
+
+Packages are written to the directory where `cpack` runs. The only install rules in a top-level build are those for the library and `protoCore.h` (`test/CMakeLists.txt` forces `INSTALL_GTEST` off, and the test and benchmark executables have no install rules), so the packages contain only the library files and the public header.
+
+### Package file names (version 1.2.0)
+
+The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-1.2.0-<system>`:
+
+| Platform | Files |
+|----------|-------|
+| Linux | `protoCore-1.2.0-Linux.tar.gz`, `protoCore-1.2.0-Linux.deb`, `protoCore-1.2.0-Linux.rpm` |
+| macOS | `protoCore-1.2.0-Darwin.tar.gz`, `protoCore-1.2.0-Darwin.dmg` |
+| Windows | `protoCore-1.2.0-win64.zip` and an NSIS `.exe` (`win32` on 32-bit builds) |
+
+### Installing and removing the Linux packages
+
+`CPACK_PACKAGE_NAME` is `protoCore`. CMake's DEB and RPM generators use it in lower case, so the installed package is named `protocore`.
+
+**.deb (Debian/Ubuntu):**
+
+```bash
+dpkg -c protoCore-1.2.0-Linux.deb      # list the package contents
+sudo dpkg -i protoCore-1.2.0-Linux.deb
+dpkg -L protocore                      # list the installed files
+sudo dpkg -r protocore                 # or: sudo apt remove protocore
+```
+
+**.rpm (Fedora/RHEL/openSUSE):**
+
+```bash
+rpm -qlp protoCore-1.2.0-Linux.rpm     # list the package contents
+sudo rpm -ivh protoCore-1.2.0-Linux.rpm
+rpm -ql protocore                      # list the installed files
+sudo rpm -e protocore
+```
+
+After installing, run `sudo ldconfig` if dependent programs cannot find `libprotoCore.so.1`.
+
+### Minimal archive: `package_protocore_only`
+
+The custom target `package_protocore_only` builds a tarball without running CPack:
+
+```bash
 cmake --build build --target protoCore
 cmake --build build --target package_protocore_only
 ```
 
-This produces `build/protoCore-<version>-Linux.tar.gz` with layout:
+It writes `build/protoCore-1.2.0-Linux.tar.gz` with this layout:
 
-- `protoCore-<version>-Linux/include/protoCore.h`
-- `protoCore-<version>-Linux/lib/libprotoCore.so.<soversion>`
+- `protoCore-1.2.0-Linux/include/protoCore.h`
+- `protoCore-1.2.0-Linux/lib/libprotoCore.so.1.2.0`
 
-Use this for distribution or embedding; GTest/GMock are not included.
-
-### Option B: Install from package (.deb or .rpm)
-
-Packages are generated with **CPack** after a successful build. Only the **protoCore** component is packed (no test frameworks).
-
-1. **Build and package:**
-
-   ```bash
-   cmake -B build -S .
-   cmake --build build --target protoCore
-   cd build
-   cpack -G TGZ
-   ```
-
-   For a minimal TGZ you can instead use the `package_protocore_only` target (see Option A).
-
-   This produces, among others:
-
-   - **Debian/Ubuntu:** `protoCore-1.0.0-Linux.deb` (or similar)
-   - **Fedora/RHEL:** `protoCore-1.0.0-Linux.rpm` (or similar)
-
-2. **Install:**
-
-   **.deb (Debian/Ubuntu):**
-   ```bash
-   sudo dpkg -i protoCore-1.0.0-Linux.deb
-   ```
-
-   **.rpm (Fedora/RHEL/openSUSE):**
-   ```bash
-   sudo rpm -ivh protoCore-1.0.0-Linux.rpm
-   # or: sudo dnf install protoCore-1.0.0-Linux.rpm
-   ```
-
-3. **Verify:** Ensure the library and header are in the expected paths (e.g. `/usr/local/lib`, `/usr/local/include`) and that dependent projects (e.g. protoJS) can find `libprotoCore.so`.
-
-4. **Uninstall:**
-
-   ```bash
-   sudo apt remove protoCore    # Debian/Ubuntu
-   sudo rpm -e protoCore        # Fedora/RHEL
-   ```
-
-### Option C: Build and install from source (Linux)
-
-See **Building from Source** and **Installing the Built Library** above. After install, you may need to run `sudo ldconfig` (Linux) so the dynamic linker finds the library.
+The target copies only the versioned library file (`$<TARGET_FILE:protoCore>`), not the `libprotoCore.so.1` and `libprotoCore.so` links; create them when installing the archive by hand (`ln -s libprotoCore.so.1.2.0 libprotoCore.so.1` and `ln -s libprotoCore.so.1 libprotoCore.so`). The target uses `tar`, names the directory `-Linux` on every platform, and writes to the same file name as the CPack TGZ generator, so running both in the same build directory overwrites one archive with the other.
 
 ---
 
-## macOS
+## Using protoCore in Another Project
 
-### Option A: Install from package (.dmg or .tgz)
+- **Compile and link:** add the installed (or build) include directory and library directory to your build, and link with `protoCore`.
+- **Runtime:** make the shared library visible to the loader:
+  - **Linux:** install to a directory known to `ldconfig`, or set `LD_LIBRARY_PATH`.
+  - **macOS:** install to a standard location (for example `/usr/local/lib`), or set `DYLD_LIBRARY_PATH`.
 
-1. **Build and package:**
-
-   ```bash
-   cmake -B build -S .
-   cmake --build build --target protoCore
-   cd build
-   cpack
-   ```
-
-   CPack generates a **DragNDrop** (.dmg) and/or **TGZ** archive.
-
-2. **Install:** Open the .dmg and drag the package to the desired location, or extract the .tgz and copy the library and header to `/usr/local/lib` and `/usr/local/include` (or another prefix).
-
-3. **Verify:**
-   ```bash
-   ls /usr/local/lib/libprotoCore.dylib
-   otool -L /usr/local/lib/libprotoCore.dylib
-   ```
-
-### Option B: Build and install from source
-
-Build as in **Building from Source**, then run:
-
-```bash
-sudo cmake --install build --component protoCore
-```
-
-Or use a custom prefix (e.g. `--prefix ./dist`) and adjust `DYLD_LIBRARY_PATH` or install to a path that is already on the default search path.
-
----
-
-## Windows
-
-### Option A: Install from package (.exe / NSIS or .zip)
-
-1. **Build and package:**
-
-   ```cmd
-   cmake -B build -S . -G "Visual Studio 17 2022" -A x64
-   cmake --build build --config Release --target protoCore
-   cd build
-   cpack
-   ```
-
-   CPack generates **NSIS** (.exe) and/or **ZIP** installers.
-
-2. **Install:** Run the NSIS installer or extract the ZIP to a directory (e.g. `C:\Program Files\protoCore`). Ensure the `bin` (or library) directory is on `PATH` if required by your build or runtime.
-
-3. **Verify:** Check that `protoCore.dll` and `protoCore.h` are present and that dependent projects (e.g. protoJS) can find them.
-
-### Option B: Build and install from source
-
-Build as above, then install to a prefix:
-
-```cmd
-cmake --install build --config Release --component protoCore --prefix C:\protoCore
-```
-
-Add the directory containing `protoCore.dll` to your system or user `PATH` when building or running applications that use protoCore.
-
----
-
-## Using protoCore in Another Project (e.g. protoJS)
-
-- **Link:** Point your build system to the installed (or built) protoCore library and include directory.
-- **Runtime:** Ensure the shared library is on the loader path:
-  - **Linux:** `LD_LIBRARY_PATH` or install to a path searched by `ldconfig`.
-  - **macOS:** `DYLD_LIBRARY_PATH` or install to a standard location (e.g. `/usr/local/lib`).
-  - **Windows:** Add the directory containing `protoCore.dll` to `PATH`.
-
-protoJS looks for `libprotoCore.so` (or `.dylib` / `.dll`) in the protoCore `build/` or `build_check/` directory when built from a sibling repo; for installed protoCore, ensure the library is in a path that the linker and runtime loader use.
-
----
-
-## Packaging Summary (CPack)
-
-CPack is configured to **generate only packages for the current OS**, so it does not fail when tools for other formats are missing (e.g. on Debian/Ubuntu, RPM is not built unless `rpmbuild` is installed; on Fedora/RHEL, DEB is not built unless `dpkg` is available).
-
-| Platform | Generators (when tools present) | Typical output |
-|----------|----------------------------------|----------------|
-| Linux (Debian/Ubuntu) | TGZ, DEB | `.tar.gz`, `.deb` |
-| Linux (Fedora/RHEL, with rpmbuild) | TGZ, RPM | `.tar.gz`, `.rpm` |
-| macOS    | TGZ, DragNDrop | `.tar.gz`, `.dmg` |
-| Windows  | ZIP, NSIS | `.zip`, `.exe` |
-
-Packages contain only the **protoCore** component (shared library and public header). To build packages:
-
-```bash
-cmake -B build -S .
-cmake --build build --target protoCore
-cd build && cpack
-```
-
-For a specific generator (e.g. DEB only): `cpack -G DEB`.
+protoJS's `CMakeLists.txt`, when no installed protoCore is configured, looks for the library in the sibling directories `../protoCore/build` and `../protoCore/build_check`.
 
 ---
 
 ## Troubleshooting
 
-- **Library not found at runtime:** Set `LD_LIBRARY_PATH` (Linux), `DYLD_LIBRARY_PATH` (macOS), or `PATH` (Windows) to the directory containing the shared library, or install to a standard location and run `ldconfig` (Linux).
-- **Header not found:** Pass the include directory (e.g. `include/` under your install prefix) to your compiler (`-I` or CMake `include_directories`).
-- **CPack fails:** Ensure CMake and the build completed successfully and that you run `cpack` from the same build directory. On Linux, packaging tools (e.g. for DEB/RPM) may need to be installed.
+- **Library not found at runtime:** set `LD_LIBRARY_PATH` (Linux) or `DYLD_LIBRARY_PATH` (macOS) to the directory containing the shared library, or install to a standard location and run `sudo ldconfig` (Linux).
+- **Header not found:** pass the include directory (`include/` under your install prefix) to your compiler (`-I`, or `target_include_directories` in CMake).
+- **Configuration fails while fetching GoogleTest:** the first configuration downloads GoogleTest; check network access.
+- **CPack fails:** make sure the `protoCore` target is built and that you run `cpack` from the same build directory. DEB and RPM packages need `dpkg` and `rpmbuild` to be installed before configuring.
 
 For testing and coverage, see [TESTING.md](TESTING.md) and the [Testing User Guide](Structural%20description/guides/04_testing_user_guide.md).

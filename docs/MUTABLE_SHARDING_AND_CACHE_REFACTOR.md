@@ -1,6 +1,6 @@
 # Mutable Object Refactor: Wider Sharding + Per-Thread Value Cache
 
-**Status:** IMPLEMENTED AND VALIDATED (April 2026)
+**Status:** Implemented (April 2026). Sections 1–9 record the design as written before implementation, when `mutableRoot` had 16 shards; section 10 records the results.
 **Author:** core team
 **Date:** 2026-04-25
 **Scope:** `protoCore` only. **The public API does not change.**
@@ -22,12 +22,11 @@ load shard root  →  AVL lookup by mutable_ref  →  current snapshot
 
 In `protoPython` essentially every user-level object is mutable
 (modules, classes, instances, dicts, lists). The AVL traversal becomes
-the hottest path of the runtime. The user's request:
-
-> *"Hacer un sharding con 256 roots organizados por id % 256 (...) y agregar
-> un cache de mutable valor actual, similar al cache de atributos (...)
-> haria que el caso más comun de un mutable accedido por su propia thread
-> fuera una operación O(1)."*
+the hottest path of the runtime. The original proposal was to shard the
+side table into 256 roots selected by `id % 256`, and to add a per-thread
+cache of each mutable's current value, similar to the attribute cache, so
+that the most common case (a mutable accessed by its own thread) becomes
+an O(1) operation.
 
 ---
 
@@ -42,7 +41,7 @@ to be.
 `headers/protoCore.h:850-851`
 
 ```cpp
-static constexpr int MUTABLE_ROOT_SHARDS = 256;
+static constexpr int MUTABLE_ROOT_SHARDS = 16;
 std::atomic<ProtoSparseList*> mutableRoot[MUTABLE_ROOT_SHARDS];
 ```
 
@@ -101,7 +100,7 @@ implGetAt(mutable_ref)    ← AVL traversal, O(log N_shard)
 
 ## 3. Refined Strategy
 
-The user's proposal is sound; we refine it on three axes: shard count
+The proposal is sound; this section refines it on three axes: shard count
 justification, cache validation protocol, and GC interaction.
 
 ### 3.1 Shard count: 16 → 256
@@ -202,7 +201,7 @@ Thread A writes; thread B reads:
 4. Thread B re-resolves through the new R₁ and refreshes its own cache.
 
 No coordination, no signaling, no invalidation broadcast.
-**This is the core elegance the user identified.**
+**This is the central property of the proposal.**
 
 ### 3.3 ABA, lifetime and GC interaction
 
@@ -295,8 +294,8 @@ public surfaces.
 | `ProtoThreadExtension` layout                               | Adds one pointer; internal-only |
 
 **Verification step (part of the implementation plan, not done now):**
-`grep -r MUTABLE_ROOT_SHARDS` across `protoPython/`, `protoJS/`,
-`editor/` to confirm the constant is not used outside `protoCore`. If
+`grep -r MUTABLE_ROOT_SHARDS` across `protoPython/` and `protoJS/`
+to confirm the constant is not used outside `protoCore`. If
 any external code reads it, we keep `MUTABLE_ROOT_SHARDS` as a
 `constexpr` whose *value* changes — source-compatible, ABI-compatible
 because it is inlined at every callsite.
@@ -327,12 +326,12 @@ traversal shortens by ~25 %.
 
 ---
 
-## 6. Migration Plan (deferred — not executed yet)
+## 6. Migration Plan (as written before implementation)
 
-Per the user's directive *"antes de lanzar analizar y mejorar la
-estrategia"*, we **stop here** and only land this design document.
+At the time of writing, the strategy was to be analysed and refined
+before any implementation, so only this design document was committed.
 
-When implementation begins, the planned phases are:
+The planned phases were:
 
 1. **Phase A — widen shards.** Bump `MUTABLE_ROOT_SHARDS` to 256, add
    the `ShardSlot` cache-line padding, switch `%` to `&`. Update GC
@@ -377,16 +376,20 @@ Each phase is one commit on `master`, gated by:
 
 ---
 
-## 8. Acceptance Criteria for the Refactor (when implementation lands)
+## 8. Acceptance Criteria for the Refactor
 
-- [ ] All `protoCore` tests pass (`ctest --test-dir build`).
-- [ ] No regression in `protoPython` test_grammar baseline.
-- [ ] No regression in `protoJS` test262 baseline.
-- [ ] Microbenchmark: ≥ 3× speed-up on a synthetic
-      "mutable object hot read" loop versus today.
-- [ ] No new `proto_internal.h` symbol leaks into public API of
-      `protoPython` or `protoJS`.
-- [ ] GC stress test (`test/gc_stress`) green at the previous load.
+These criteria were set before implementation. This document does not
+record the test runs made when the change was merged, so a criterion is
+marked as met only where section 10 or the current code shows it.
+
+| Criterion | Status |
+|---|---|
+| All `protoCore` tests pass (`ctest --test-dir build`) | Not recorded here; see [TESTING.md](TESTING.md) to run the suite |
+| No regression in the `protoPython` test_grammar baseline | Not recorded here |
+| No regression in the `protoJS` test262 baseline | Not recorded here |
+| Microbenchmark: ≥ 3× speed-up on a mutable-object hot-read loop | Met according to section 10 (snapshot resolution more than 5× faster than the AVL search) |
+| No new `proto_internal.h` symbol leaks into the public API | Partly: `MutableValueCacheEntry` is defined only in `headers/proto_internal.h`, but `headers/protoCore.h` forward-declares it and `ProtoContext` holds a pointer to it |
+| GC stress test green at the previous load | Not recorded here; the stress tests are in `test/GCStressTests.cpp` |
 
 ---
 
@@ -400,28 +403,32 @@ Each phase is one commit on `master`, gated by:
 | Foreign-thread sync   | Implicit via shard-root pointer change (no broadcast)     |
 | GC integration        | Cache scanned as root via `processReferences`             |
 | Public API change     | **None**                                                  |
-| Status                | **DESIGN ONLY** — implementation deferred                 |
+| Status                | Implemented in April 2026; see section 10                 |
 
-The refactor delivers the user's O(1) own-thread access target without
+The refactor delivers the O(1) own-thread access target without
 adding new public surface and without disturbing the existing shard,
 GC, or atomic-update machinery — it builds on them.
 
 ---
 
-## 7. Implementation Results (April 2026)
+## 10. Implementation Results (April 2026)
 
-The refactor was successfully merged and validated using `performance/cache_timing_benchmark.cpp`.
+The refactor was merged on 2026-04-25 (commit `7d3674cd`). The figures below were recorded at that time with `performance/cache_timing_benchmark.cpp`.
 
 ### Benchmark Results
 | Metric | Performance | Improvement |
 | :--- | :--- | :--- |
 | **Mutable Snapshot Resolution** | **~2.1 ns** | **>5x faster** than AVL search |
 | **End-to-End Attribute Access** | **8.7 ns** | **~40% reduction** in hot-path latency |
-| **Contention (256 shards)** | **<1% CPU overhead** | Scaling linearly up to 128 cores |
+| **Contention (256 shards)** | **<1% CPU overhead** | — |
 
 ### Key Files
 - `core/ProtoObject.cpp`: Implementation of `resolveMutableSnapshot` and cache invalidation.
 - `headers/proto_internal.h`: Definition of `MutableValueCacheEntry`.
 - `core/ProtoSpace.cpp`: Initialization of 256 shards with cache-line padding.
+
+The original results table also stated linear scaling up to 128 cores. No measurement on hardware of that size is recorded, so that statement has been removed.
+
+In the current code, the shard is selected with `mutable_ref % ProtoSpace::MUTABLE_ROOT_SHARDS` (`core/ProtoObject.cpp`), and `AttributeCacheEntry` has grown to 32 bytes while `MutableValueCacheEntry` remains 24 bytes (`headers/proto_internal.h`).
 
 The 256-shard system provides a significant headroom for future high-concurrency workloads while the per-thread cache effectively transforms a global state lookup into a local memory operation.

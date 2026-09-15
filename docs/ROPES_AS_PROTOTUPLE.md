@@ -1,15 +1,17 @@
 # Strings as ProtoTuple Only (Ropes)
 
+> **Superseded (note added 2026-09-15).** This note describes an earlier string representation and does not match the current code. `ProtoString` now uses a three-tier representation: strings of up to 6 UTF-8 bytes embedded in the pointer (`INLINE_STRING_MAX_BYTES` in `headers/proto_internal.h`), interned symbols, and heap strings backed by a persistent AVL tree of `StringLeafNode` and `StringInternalNode` cells. `ProtoString` no longer uses tuples. Current description: [DESIGN.md § 2](../DESIGN.md#2-the-data-model-immutable-and-efficient). Design specification: [2026-03-31-string-refactoring-design.md](archive/design-specs/2026-03-31-string-refactoring-design.md).
+
 ## Overview
 
-ProtoString is implemented exclusively using **ProtoTuple** and tagged pointers. No dedicated rope node type exists. Long strings are either inline (up to 7 characters in the pointer) or a tree of **ProtoTuple** cells.
+In this design, ProtoString was implemented exclusively using **ProtoTuple** and tagged pointers, with no dedicated rope node type. A string was either inline (up to 7 ASCII characters in the pointer in this design; the current inline tier holds up to 6 UTF-8 bytes) or a tree of **ProtoTuple** cells.
 
 ## Representations
 
 ### 1. Inline string (no cell)
 
 - **Tag**: `POINTER_TAG_EMBEDDED_VALUE` with `EMBEDDED_TYPE_INLINE_STRING`.
-- **Payload**: Up to 7 logical UTF-32 code units in the 54-bit value (e.g. length in low bits, then 7×7-bit code units for ASCII 0–127).
+- **Payload** (this design): up to 7 code units in the range 0–127, packed as 7 bits each after a length field. The current inline tier stores up to 6 UTF-8 bytes instead.
 - **Invariant**: Zero allocation; all data in the pointer word.
 
 ### 2. Leaf (tuple of characters)
@@ -33,9 +35,9 @@ ProtoTuple already has `processReferences` that visits slot references. Concat t
 
 ## Creation
 
-- **fromUTF8String**: If decoded length ≤ 7 and all code points in 0..127, build inline representation and return (no cell, no intern). Otherwise build leaf tuple as today, then intern and return.
+- **fromUTF8String** (this design): if the decoded length is at most 7 and all code points are in 0..127, build the inline representation and return (no cell, no intern). Otherwise build a leaf tuple, then intern and return.
 - **appendLast**: Create concat tuple with left = this, right = other, size = sum; wrap in ProtoStringImplementation and return.
-38: 
-39: ## Comparison
-40: 
-41: String comparison is lexicographical (Unicode code point by code point) and optimized for rope structures. Instead of repeatedly descending the tree for each character ($O(N \log N)$), it uses a `RopeCharacterIterator` that maintains a traversal stack, achieving $O(N)$ performance for full string comparisons. Use `compareStrings(context, s1, s2)` for efficient comparison.
+
+## Comparison
+
+String comparison is lexicographical (Unicode code point by code point) and optimized for rope structures. Instead of repeatedly descending the tree for each character ($O(N \log N)$), it uses a `RopeCharacterIterator` that maintains a traversal stack, achieving $O(N)$ performance for full string comparisons. Use `compareStrings(context, s1, s2)` for efficient comparison.

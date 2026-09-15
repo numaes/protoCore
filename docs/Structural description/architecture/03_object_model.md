@@ -1,59 +1,55 @@
-# Architecture Deep Dive: The Object Model and protoContext
+# Architecture Overview: The Object Model and ProtoContext
 
-## Introduction
+This overview summarizes how protoCore represents values, how objects inherit from each other, and how the per-thread attribute cache speeds up lookups. [DESIGN.md](../../../DESIGN.md) is the detailed reference.
 
-At the heart of ProtoCore lies a highly dynamic, structurally flexible object model designed to provide maximum expressive power with minimal runtime overhead. Eschewing the rigid, static structures of class-based inheritance (as seen in C++ or Java), Proto implements a sophisticated prototype-based system backed by highly optimized memory representations and a thread-local execution anchor known as the `protoContext`.
+## ProtoContext
 
-## The `protoContext` Life Cycle
+Almost every protoCore API call takes a `ProtoContext*` as its first argument. A context represents one method call on one thread:
 
-The `protoContext` is the foundational execution environment for any thread interacting with the ProtoCore runtime. It acts as the vital bridge between a localized OS thread and the global, shared memory space (`ProtoSpace`).
+- **Chaining.** The constructor `ProtoContext(ProtoSpace* space, ProtoContext* previous = nullptr, ...)` creates the context for a call, and `previous` links it to the caller's context, so each thread has a chain of contexts. `ProtoContext` has no default constructor. On the main thread, `ProtoSpace::rootContext` is the root of the chain; threads managed by protoCore have their own context chains.
+- **Locals.** A context holds the call's local variables (`automaticLocals`), the variables captured by closures (`closureLocals`) and the return value (`returnValue`). The garbage collector scans them as roots.
+- **Allocation.** Cells allocated through a context come from the thread's pool of free cells and are recorded in the context's young-generation chain. When the context is destroyed, or at the next safepoint after its allocation count crosses `ProtoSpace::maxAllocatedCellsPerContext`, the chain is handed to the collector as a `DirtySegment`. Until then, the context protects those cells.
+- **Null context.** Allocating with a null `ProtoContext*` creates perpetual cells that the collector never reclaims; see DESIGN.md, "Keeping ProtoObjects alive across allocation boundaries the GC cannot see".
 
-### Initialization and Thread Binding
-When a new execution thread is spawned (or an existing C++ thread attaches to the runtime), a new `protoContext` must be instantiated. 
-1.  **Allocation:** The context is allocated and strictly bound to the thread via Thread-Local Storage (TLS). This ensures that context lookups are instantaneous and do not require cross-thread synchronization.
-2.  **Space Attachment:** The context is firmly registered with the global `ProtoSpace`, allowing the Garbage Collector to track its lifecycle and monitor its local stack for GC root scanning.
+## Tagged Pointers
 
-### The Role of the Context
-The `protoContext` is ubiquitous in the Proto API; virtually all operations require it as the first argument. It serves several critical, high-performance roles:
-*   **Allocation Anchor:** It holds thread-local allocation buffers, allowing the thread to rapidly allocate new Cells without acquiring global heap locks.
-*   **Execution State:** It tracks the current call frame, execution depth, and handles exception unwinding.
-*   **The Attribute Cache:** It houses the thread-local cache used to accelerate prototype resolution (detailed below).
+A `ProtoObject*` is a 64-bit word. Heap cells are 64-byte aligned, so the low 6 bits of a cell address are always zero; protoCore stores a 6-bit `pointer_tag` in them (`ProtoObjectPointer` in `headers/proto_internal.h`).
 
-### Destruction and Teardown
-When a thread finishes execution, the `protoContext` undergoes a rigorous teardown sequence. It flushes any pending allocations to the global pools, clears its thread-local caches, and finally detaches from the `ProtoSpace`. This signals the Garbage Collector that the thread's stack no longer needs to be scanned during the Stop-The-World phase.
+| `pointer_tag` | Meaning |
+|---|---|
+| 0 (`POINTER_TAG_OBJECT`) | An object cell (`ProtoObjectCell`) on the heap |
+| 1 (`POINTER_TAG_EMBEDDED_VALUE`) | An immediate value; a 4-bit `embedded_type` follows the tag |
+| 22 (`POINTER_TAG_SYMBOL`) | An interned string (symbol), compared by pointer identity |
+| 2–21, 23–26 | Other heap cell types: lists, tuples, strings, sparse lists, sets, multisets, buffers, methods, threads, `LargeInteger`, `Double`, iterators, and internal string and small-collection forms |
 
-## Tagged Pointers: Eliminating Heap Overhead
+Embedded types for tag 1:
 
-In fully dynamic languages, every primitive value (integers, booleans, short strings) conceptually behaves as an object. If every such value required a full heap allocation, memory fragmentation and GC pressure would paralyze the system.
+| `embedded_type` | Value |
+|---|---|
+| 0 | SmallInt: a signed 54-bit integer in bits 10–63 |
+| 2 | Unicode character |
+| 3 | Boolean |
+| 4 | Inline string: up to 6 UTF-8 bytes (`INLINE_STRING_MAX_BYTES`) |
+| 5 | None (`PROTO_NONE`) |
 
-ProtoCore circumvents this entirely utilizing **Tagged Pointers**.
-
-A `ProtoObject` handle is represented by a single 64-bit machine word. Rather than always acting as a raw memory address, Proto utilizes the lowest bits of this word—which are guaranteed to be zero for 64-byte aligned heap allocations—as a type "tag".
-
-This encoding scheme allows the runtime to instantly classify the handle:
-*   **Heap Object (Tag `00`):** The remaining 62 bits represent a direct memory address to an immutable 64-byte Cell on the GC heap.
-*   **SmallInt (Tag `10`):** The upper bits store a direct, 54-bit signed integer. 
-*   **Inline String (Tag `01` / `100`):** The handle embeds up to 6 bytes of UTF-8 string data directly within the pointer itself.
-*   **Symbol (Tag `10110`):** Represents an interned string or attribute key, enabling $O(1)$ identity comparisons.
-
-### Performance Impact
-By packing immediate values directly into the pointer, Proto eliminates millions of unnecessary heap allocations. Mathematical operations on `SmallInts` occur instantly in registers, entirely bypassing the memory allocator and the Garbage Collector.
+Immediate values need no heap allocation and are never seen by the collector. Values outside these ranges are promoted to heap objects (`LargeInteger`, `Double`, heap strings). Embedders can use the inline helpers `proto::isSmallInt`, `proto::asSmallInt`, `proto::smallIntInRange` and `proto::makeSmallInt` from `protoCore.h` to work with SmallInts without calling into the library.
 
 ## Prototype-Based Inheritance
 
-Proto employs prototype delegation rather than classical inheritance. Every object implicitly holds a `parent` link to another object (its prototype).
+protoCore uses prototype delegation instead of classes. An object's parents are held in a chain of `ParentLink` cells, and an object can have several parents. `newChild` creates an object whose parent is the receiver, `addParent` adds a parent, and `setParents` replaces the parent list.
 
-When a program attempts to read an attribute (e.g., `object.method()`), the runtime queries the object's internal state. If the attribute is absent, the runtime transparently traverses the `parent` link, querying the prototype. This delegation continues up the prototype chain until the attribute is found or the chain terminates.
+`getAttribute` looks in the object's own attributes first and then walks the parent chain until it finds the attribute or the chain ends. It returns `PROTO_NONE` when the attribute is missing; because an attribute can also hold `PROTO_NONE`, use `hasAttribute` or `hasOwnAttribute` to test for presence. `getOwnAttributeDirect` reads only the object's own attributes.
 
-This provides extreme flexibility, allowing developers to dynamically construct and modify inheritance hierarchies at runtime, creating patterns impossible in rigid, class-based architectures.
+`ProtoObject::call` looks up a method by name with `getAttribute` and, if the value is a method, calls its native function with the receiver and the arguments. Native methods are C++ functions of type `ProtoMethod`; `ProtoContext::fromMethod` wraps one, together with its receiver, in a method object.
 
-### The Thread-Local Attribute Cache
+## The Per-Thread Attribute Cache
 
-The inherent risk of prototype delegation is the cost of walking the prototype chain on every attribute access. To mitigate this, Proto implements a highly aggressive caching strategy anchored within the `protoContext`.
+Each thread keeps a 1024-entry attribute cache (`THREAD_CACHE_DEPTH`) in its `ProtoThreadExtension`. Each 32-byte entry records an object state, an attribute name and a result. The slot index is computed from the two pointers:
 
-Every `protoContext` maintains a thread-local, 1024-entry **Attribute Cache**.
-1.  When an attribute is accessed, the context computes a rapid bitwise hash of the `{Object Identity, Attribute Symbol}` pair.
-2.  This hash indexes the local cache array.
-3.  On a cache hit, the fully resolved value (even if it was inherited deep in the prototype chain) is returned in $O(1)$ time, typically taking less than 10 nanoseconds.
+```
+((object >> 6) ^ (name >> 4)) % THREAD_CACHE_DEPTH
+```
 
-Because this cache is strictly thread-local to the `protoContext`, it requires zero atomic operations or mutex locks to access, resulting in elite execution speeds for polymorphic property access.
+In `getAttribute`, an entry records an own-attribute fact: the value an object state owns for a name, or that it does not own that name. A hit avoids searching that object's attribute tree during the lookup. For a mutable object the key is its current state, so an update by any thread produces a different key; `setAttribute` also clears the matching entry on the writing thread. The cache belongs to a single thread, so reading it needs no locks.
+
+A second per-thread table, the mutable value cache, maps a mutable object's `mutable_ref` to its current state; see [the mutability model](02_mutability_model.md).

@@ -11,7 +11,7 @@ This directory holds protoCore's documentation. The index of all documentation, 
 - [GarbageCollector.md](GarbageCollector.md) — Garbage collector implementation and the phases of a collection cycle.
 - [STW_ELIMINATION_RESEARCH.md](STW_ELIMINATION_RESEARCH.md) — Research note on bounding the stop-the-world pause.
 - [MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) — Dated design and results of the sharded mutable root and per-thread value cache (April 2026).
-- [ROPES_AS_PROTOTUPLE.md](ROPES_AS_PROTOTUPLE.md) — Dated note on strings as `ProtoTuple` ropes (February 2026).
+- [ROPES_AS_PROTOTUPLE.md](ROPES_AS_PROTOTUPLE.md) — Superseded note on strings as `ProtoTuple` ropes (February 2026); see DESIGN.md for the current string representation.
 - [Structural description/](Structural%20description/README.md) — Guides (testing, creating modules) and architecture overviews (garbage collector, mutability model, object model).
 - [archive/](archive/README.md) — Historical analyses and design specifications; not maintained.
 

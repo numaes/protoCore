@@ -1,26 +1,26 @@
-# Proto: Architectural Design
+# protoCore: Architectural Design
 
-This document outlines the core architectural principles and design decisions behind the Proto library. For a full list of documentation, see [DOCUMENTATION.md](DOCUMENTATION.md). It is intended for developers who wish to understand the "why" behind the code, contribute to the project, or learn from its design.
+This document outlines the core architectural principles and design decisions behind the protoCore library. For a full list of documentation, see [DOCUMENTATION.md](DOCUMENTATION.md). It is intended for developers who wish to understand the "why" behind the code, contribute to the project, or learn from its design.
 
 ## Core Philosophy
 
-Proto is built on a set of synergistic principles designed to unify performance, flexibility, and concurrent safety:
+protoCore is built on a set of principles designed to unify performance, flexibility, and concurrent safety:
 
 1.  **Immutability by Default**: Core data structures are immutable to eliminate entire classes of concurrency bugs. Modifications produce new versions via structural sharing (copy-on-write), making parallel code safer and easier to reason about.
 2.  **Performance through a Hardware-Aware Memory Model**: The memory model is designed for extreme speed and low latency, using techniques like tagged pointers, per-thread allocation, and cache-line alignment to work *with* the hardware, not against it.
-3.  **Flexible Prototype-Based Object Model**: Instead of rigid class hierarchies, Proto uses a powerful object model based on Lieberman-style prototypes, allowing for dynamic and flexible object composition and inheritance.
+3.  **Flexible Prototype-Based Object Model**: Instead of class hierarchies, protoCore uses an object model based on Lieberman-style prototypes, allowing for dynamic and flexible object composition and inheritance.
 4.  **Concurrency as a First-Class Citizen**: The entire system is architected for true, GIL-free parallelism. Safety is derived from the immutable data model, not from complex and error-prone locking.
 
 ---
 
-## Gemini Implementation Guidelines
+## Implementation Rules
 
-To ensure consistent and correct code generation, the following architectural rules must be strictly followed in all sessions:
+The code base follows these rules:
 
 1.  **Public API vs. Internal Implementation**:
     *   The public-facing API is defined in `headers/protoCore.h`. These classes (e.g., `ProtoObject`, `ProtoList`) are opaque "handles" for users of the library.
     *   The internal implementation classes are defined in `headers/proto_internal.h` and always have the `Implementation` suffix (e.g., `ProtoListImplementation`). These classes inherit from `Cell` and contain the actual data and logic.
-    *   Public API methods are **never** virtual and should not be implemented in the header. They are "trampoline" functions that delegate the call to the corresponding internal implementation class.
+    *   Public API methods are, as a rule, non-virtual "trampoline" functions implemented in `core/`, which delegate the call to the corresponding internal implementation class. The exceptions are the `static inline` helpers for embedders (see "Public Inline Helpers for Embedders" below) and abstract interfaces that embedders implement, such as `ModuleProvider`.
 
 2.  **Casting and Type Conversion**:
     *   To get from a public API object to its internal implementation, always use the `toImpl<...>()` template function. For example: `toImpl<const ProtoListImplementation>(myProtoList)`.
@@ -31,8 +31,8 @@ To ensure consistent and correct code generation, the following architectural ru
     *   Internal implementation methods that are part of the public API's implementation are prefixed with `impl` (e.g., `myListImpl->implGetSize(context)`).
 
 4.  **File Structure**:
-    *   The implementation for a public class `ProtoFoo` and its internal counterpart `ProtoFooImplementation` should reside in `core/ProtoFoo.cpp`.
-    *   All internal class definitions **must** be in `headers/proto_internal.h`.
+    *   The implementation for a public class `ProtoFoo` and its internal counterpart `ProtoFooImplementation` normally resides in `core/ProtoFoo.cpp` (some files group related code, such as `core/Thread.cpp`).
+    *   Internal class definitions belong in `headers/proto_internal.h`; the module system keeps its internal declarations in `core/ModuleCache.h` and `core/ModuleProvider.h`.
     *   All public API class declarations **must** be in `headers/protoCore.h`.
 
 ---
@@ -76,14 +76,14 @@ At a high level, the system is composed of a few key entities:
 
 ## 1. The Memory Model: Performance and Safety
 
-The memory management system is a cornerstone of Proto's performance.
+The memory management system is a cornerstone of protoCore's performance.
 
 ### The `ProtoObject*` Handle: Pointer or Immediate Value?
 
-To avoid the overhead of heap allocation for simple values, Proto uses **tagged pointers**. A 64-bit `ProtoObject*` is not just a pointer; it's a "handle" that can represent either a heap object or an immediate value. The lowest bits of the address are used as a tag:
+To avoid the overhead of heap allocation for simple values, protoCore uses **tagged pointers**. A 64-bit `ProtoObject*` is not just a pointer; it's a "handle" that can represent either a heap object or an immediate value. The lowest 6 bits of the address, which are always zero for 64-byte-aligned cells, are used as a tag:
 
 *   **If the tag indicates a pointer**, the remaining bits are the memory address of a `Cell` on the heap (e.g., Objects, Lists, SparseLists).
-*   **If the tag indicates an embedded value**, the remaining bits store the value directly (e.g., a 56-bit integer, a boolean, or an **Inline String**).
+*   **If the tag indicates an embedded value**, the remaining bits store the value directly (e.g., a signed 54-bit integer, a boolean, a Unicode character, or an **Inline String**).
 
 #### Inline Strings (Embedded UTF-8 Pointer)
 
@@ -102,8 +102,8 @@ Pointer equality implies content equality for inline strings, eliminating the ne
 The GC is designed to minimize application pauses.
 
 *   **Dedicated GC Thread**: The GC runs in its own background thread.
-*   **Brief Stop-The-World Phase**: The GC only requires a very short "stop-the-world" pause. During this phase, all application threads are temporarily halted so the GC can safely and quickly scan the root set (thread stacks, global objects). This is the only moment of significant synchronization.
-*   **Concurrent Mark and Sweep**: Once the roots are identified, the marking and sweeping phases can run concurrently while the application threads resume execution. The immutable nature of the data structures is critical here, as it guarantees that the object graph will not be modified during the concurrent marking phase.
+*   **Brief Stop-The-World Phase**: The GC requires a short "stop-the-world" pause. During this phase, all application threads are halted so the GC can capture the root set (thread context chains, global objects) and a snapshot of the 256 mutable-shard roots. This is the only moment of significant synchronization.
+*   **Concurrent Mark and Sweep**: Once the roots are captured, the application threads resume, and marking, sweeping and bulk unmarking run concurrently. Cells are immutable after construction and all mutable state is reached through the shard snapshot, so the marker traverses a graph that does not change during the cycle (see [docs/GarbageCollector.md](docs/GarbageCollector.md)).
 *   **Cooperative GC Safepoints**: To ensure the GC can always reach a Stop-The-World (STW) state, long-running loops in embedders (like a bytecode interpreter) should periodically call `ProtoContext::safepoint()`. This is a low-overhead check (relaxed atomic load) that allows the thread to park if a GC cycle is pending. This prevents "GC starvation" where a single CPU-bound thread stalls the entire system.
 *   **Implicit Generational Collection**: The `ProtoContext` object, which represents a function's scope, tracks all new cells allocated within it. When a context is destroyed (i.e., a function returns), it provides its list of newly-allocated cells to the `ProtoSpace`. This acts as a highly efficient, implicit form of generational GC, as most objects are short-lived and can be identified for collection very quickly.
 
@@ -234,7 +234,7 @@ is bit-for-bit the historical unbounded path.
 
 ### Concurrency Primitives: Recursive Locking
 
-To prevent deadlocks during complex operations (e.g., allocation triggering GC, which then needs to access global metadata), ProtoCore utilizes a **Global Reentrant Mutex** (`globalMutex`).
+To prevent deadlocks during complex operations (e.g., allocation triggering GC, which then needs to access global metadata), protoCore uses a **Global Reentrant Mutex** (`globalMutex`).
 *   **Reentrancy**: The `std::recursive_mutex` allows a single thread to acquire the same lock multiple times without deadlocking. This is essential for the hybrid execution model where high-level operations (like interning or thread creation) may trigger low-level memory management tasks that also require the global lock.
 *   **Granularity**: While the system avoids a GIL, the `globalMutex` protects specific global registries (Tuple Dictionary, Thread List) and orchestrates the Stop-The-World phase. String interning uses a separate `SymbolTable` with fine-grained per-shard mutexes (one per 64 shards), avoiding contention on the global lock for string operations.
 
@@ -307,7 +307,7 @@ The full `ProtoRootSet` contract — `add`, `resolve`, `remove`, `forEachRoot`, 
 
 ## 2. The Data Model: Immutable and Efficient
 
-All core collection types in Proto are implemented as persistent, immutable data structures, backed by self-balancing AVL trees. This provides efficient structural sharing and guarantees O(log n) performance for most operations.
+All core collection types in protoCore are implemented as persistent, immutable data structures, backed by self-balancing AVL trees. This provides efficient structural sharing and guarantees O(log n) performance for most operations.
 
 * **`ProtoString`** — Three-tier architecture, all tiers sharing a uniform public API:
 
@@ -344,19 +344,19 @@ All core collection types in Proto are implemented as persistent, immutable data
 
 ## 3. The Object Model: Prototypes and Controlled Mutability
 
-Proto implements a flexible and dynamic object model inspired by the Self programming language and JavaScript.
+protoCore implements a flexible and dynamic object model inspired by the Self programming language and JavaScript.
 
-*   **Controlled Mutability (The 256-Shard System)**: While the default is immutability, Proto provides a high-performance mechanism for controlled mutation.
+*   **Controlled Mutability (The 256-Shard System)**: While the default is immutability, protoCore provides a mechanism for controlled mutation.
     *   **Mutable Identity**: A mutable object (`ProtoObjectCell`) holds a unique 64-bit `mutable_ref` ID.
-    *   **Global Side Table**: The ID refers to an entry in `ProtoSpace::mutableRoot`, which is organized into **256 independent shards** (indexed by `mutable_ref & 0xFF`). Each shard is a `std::atomic<ProtoSparseList*>`.
-    *   **Lock-Free Mutation**: A "mutation" is a lock-free `compare-and-swap` (CAS) operation on the shard root. This replaces the old immutable snapshot with a new one (structural sharing via AVL). 256 shards eliminate contention even on high-core-count machines.
+    *   **Global Side Table**: The ID refers to an entry in `ProtoSpace::mutableRoot`, which is organized into **256 independent shards** (selected by `mutable_ref % MUTABLE_ROOT_SHARDS`). Each shard slot holds a `std::atomic<ProtoSparseList*>` and is padded to 64 bytes.
+    *   **Lock-Free Mutation**: A "mutation" is a lock-free `compare-and-swap` (CAS) operation on the shard root. This replaces the old immutable snapshot with a new one (structural sharing via AVL). Writers conflict only when they update mutables in the same shard.
     *   **Validation via Pointer Equality**: Because AVL nodes and shard roots are immutable and newly allocated on change, pointer equality on a shard root guarantees content equality (no ABA problem at the snapshot level).
 
 ---
 
 ## 4. The Two-Tier Cache Architecture
 
-To eliminate the $O(\log N)$ cost of AVL lookups and prototype chain walks on hot paths, ProtoCore implements a sophisticated two-tier per-thread caching system.
+To eliminate the $O(\log N)$ cost of AVL lookups and prototype chain walks on hot paths, protoCore implements a two-tier per-thread caching system.
 
 ### Tier 1: Mutable Value Cache (Snapshot Resolution)
 Every `ProtoThread` carries a 1024-entry `MutableValueCacheEntry` table. This short-circuits the resolution of a mutable ID to its current snapshot.
@@ -365,47 +365,49 @@ Every `ProtoThread` carries a 1024-entry `MutableValueCacheEntry` table. This sh
 *   **Self-Healing**: If another thread CASes the shard root, the pointer equality check fails, forcing an authoritative AVL lookup and a cache refresh.
 
 ### Tier 2: Attribute Cache (Resolution & Inheritance)
-A 1024-entry `AttributeCacheEntry` table accelerates `getAttribute` lookups, short-circuiting both the local AVL search and the entire prototype chain traversal.
-*   **Hash Function**: `(reinterpret_cast<uintptr_t>(obj) ^ (reinterpret_cast<uintptr_t>(name) >> 6)) % 1024`.
-*   **6-bit Shift Optimization**: Because objects are 64-byte aligned (bits 0-5 are zero), we right-shift the attribute pointer by 6 bits to recover high-entropy bits for the index, maximizing cache utilization.
-*   **Consistency**: `setAttribute` uses the same hash to invalidate cache entries, ensuring that any write to an object is immediately visible to subsequent cached reads on the same thread.
+A 1024-entry `AttributeCacheEntry` table (`THREAD_CACHE_DEPTH`) accelerates attribute lookups. In `getAttribute`, an entry records an own-attribute fact for one object state: the value the object owns for a name, or that it does not own that name. A hit avoids the AVL search of that object during the lookup.
+*   **Hash Function**: `((reinterpret_cast<uintptr_t>(obj) >> 6) ^ (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH`, where `obj` is the resolved object state.
+*   **6-bit Shift**: Because cells are 64-byte aligned, bits 0-5 of the object pointer are always zero; shifting them out keeps them from cancelling index bits.
+*   **Entry Size**: Each entry is 32 bytes (checked by a `static_assert` in `headers/proto_internal.h`), so an entry's address is computed with a single shift and two entries fit in a 64-byte cache line.
+*   **Consistency**: `setAttribute` uses the same hash to clear the matching entry on the writing thread, so a write is immediately visible to later cached reads on that thread.
 
-### Performance Model
-| Access Type | Latency | Complexity |
-| :--- | :--- | :--- |
-| **Cached Hit** | **~8-10 ns** | $O(1)$ |
-| **AVL Search (Miss)** | **~11-14 ns** | $O(\log N)$ |
-| **Mutable Snapshot** | **+2 ns overhead** | $O(1)$ amortized |
+### Complexity
+| Access Type | Complexity |
+| :--- | :--- |
+| **Attribute cache hit** | $O(1)$ |
+| **AVL search (miss)** | $O(\log N)$ |
+| **Mutable snapshot resolution (cache hit)** | $O(1)$ |
 
-The small gap between a cache hit and a miss (~3 ns) is a result of the extreme efficiency of pointer-indexed AVL trees. This makes the system exceptionally robust to "cache thrashing" compared to systems using complex hidden classes or hash-based dictionaries.
+This repository records no benchmark results for these paths; the microbenchmarks in `performance/` (for example `cache_timing_benchmark.cpp` and `microbenchmark_final.cpp`) measure them.
 
 ---
 
 ## 5. Execution Model and Method Invocation
 
-The execution in Proto is centered around the `ProtoContext` and the concept of "trampoline" calls.
+Execution in protoCore is centered around the `ProtoContext` and the concept of "trampoline" calls.
 
 ### Method Invocation Lifecycle
 
-1.  **Lookup**: When a method is called on a `ProtoObject`, the system first looks for the attribute in the object's own `ProtoSparseList`.
-2.  **Delegation**: If not found locally, it recursively searches through the `ParentLink` chain.
-3.  **Binding**: If the found value is a function (a `ProtoMethod`), it is wrapped in a `ProtoMethodCell` along with the receiver (`self`).
-4.  **Invocation**: The `ProtoMethodCell::implInvoke` is called. This sets up the execution environment within the current `ProtoContext`.
+1.  **Lookup**: `ProtoObject::call(context, nextParent, method, self, positionalParameters, keywordParametersDict)` looks up `method` with `getAttribute`, which first searches the object's own attributes.
+2.  **Delegation**: If the attribute is not found locally, `getAttribute` searches through the `ParentLink` chain.
+3.  **Invocation**: If the value found is a method, `call` invokes its native function (a `ProtoMethod`) with the context, `self`, `nextParent` and the arguments. If it is not a method and the space has a `nonMethodCallback`, that callback handles the call; otherwise `call` returns `PROTO_NONE`.
+4.  **Method objects**: `ProtoContext::fromMethod(self, method)` creates a method object, a `ProtoMethodCell` that holds the receiver and the native function and is invoked through `ProtoMethodCell::implInvoke`.
 
 ### The `ReturnReference` Mechanism
 
-Internally, Proto uses a special `ReturnReference` cell. This is not exposed to the user but serves as a way for methods to return values through the `ProtoContext` while still being managed by the garbage collector. It ensures that the return value is tracked as a root if a GC cycle occurs exactly during a return operation.
+Internally, protoCore uses a special `ReturnReference` cell. This is not exposed to the user but serves as a way for methods to return values through the `ProtoContext` while still being managed by the garbage collector. It ensures that the return value is tracked as a root if a GC cycle occurs exactly during a return operation.
 
 ---
 
 ### Public Inline Helpers for Embedders
 To maximize performance in hot paths (like bytecode dispatchers), `protoCore.h` provides `static inline` helpers that allow embedders to handle the most common cases without cross-DSO function calls:
-*   `isSmallInt(obj)` / `asSmallInt(obj)`: Fast path for 54-bit signed integers.
-*   `isObjectFast(obj)`: Quick tag check for object handles.
-*   `ProtoContext::safepoint()`: Cooperative GC check.
+*   `proto::isSmallInt(obj)` / `proto::asSmallInt(obj)`: tag check and value extraction for signed 54-bit SmallInts.
+*   `proto::smallIntInRange(v)` / `proto::makeSmallInt(v)`: range check and encoding of a SmallInt.
+
+`ProtoContext::safepoint()`, declared in `protoCore.h`, is the cooperative GC check for loops that do not allocate. `isObjectFast(obj)`, a tag check for object handles, is internal (`headers/proto_internal.h`).
 
 ---
 
 ## 6. Conclusion: A Synergistic Design
 
-No single feature of Proto stands alone. The `const`-correct, immutable API is what makes the concurrent GC safe. The tagged-pointer system is what makes the use of `ProtoObject*` as a universal handle performant. The two-tier caching and 256-shard mutable architecture are what enable true, GIL-free concurrency with $O(1)$ amortized access. Together, these elements create a runtime that is uniquely positioned to offer both the flexibility of a dynamic language and the raw performance of modern C++.
+No single feature of protoCore stands alone. The `const`-correct, immutable API is what makes the concurrent GC safe. The tagged-pointer system is what makes the use of `ProtoObject*` as a universal handle performant. The two-tier caching and 256-shard mutable architecture are what enable true, GIL-free concurrency with $O(1)$ amortized access. Together, these elements aim to combine the flexibility of a dynamic language with the performance of C++.

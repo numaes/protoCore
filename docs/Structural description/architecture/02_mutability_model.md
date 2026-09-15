@@ -1,57 +1,34 @@
-# Architecture Deep Dive: Lock-Free Mutability and Mutable Yarding
+# Architecture Overview: The Mutability Model
 
-## Introduction
+This overview summarizes how protoCore supports mutable objects on top of immutable cells. [DESIGN.md](../../../DESIGN.md) §§ 3–4 and the dated design document [MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](../../MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) give the details.
 
-In concurrent systems, the orchestration of shared mutable state is classically the most complex and performance-degrading challenge. Traditional threading models rely heavily on mutual exclusion locks (mutexes) to synchronize access to shared data, preventing corruption. However, mutexes inherently induce serialization, context-switching overhead, and the constant threat of deadlocks, neutralizing the benefits of multi-core architectures.
+## Identity and State
 
-ProtoCore completely circumvents these bottlenecks by implementing a highly sophisticated, entirely lock-free mutability model. By strictly decoupling an object's structural identity from its logical state, Proto guarantees extreme scalability and thread safety under heavy concurrent mutation.
+Every heap cell in protoCore is immutable after construction. An immutable object keeps its attributes in its own cell, and "changing" it returns a new object. A mutable object, created with `newObject(true)` or `newChild(context, true)`, is instead an identity: its cell carries a `mutable_ref` number, taken from a counter in `ProtoSpace`, and the cell itself never changes.
 
-## The Paradigm: Identity vs. State Separation
+The current state of a mutable object, an immutable object holding its attributes, is stored outside the cell, in the space's `mutableRoot` table. Updating a mutable object publishes a new state for its `mutable_ref`; the object's cell is not written.
 
-In traditional object-oriented memory models (e.g., C++ or Java), an object's state is encapsulated within its allocated memory block. Mutating an attribute requires directly overwriting that memory, necessitating locks if multiple threads are involved.
+## The Sharded `mutableRoot`
 
-Proto rejects this design. In Proto, every object allocated on the heap is structurally **immutable**. An object serves only as an immutable identity—a persistent reference handle.
+`mutableRoot` has `MUTABLE_ROOT_SHARDS = 256` shards, and a mutable object belongs to shard `mutable_ref % MUTABLE_ROOT_SHARDS`. Each shard slot holds a `std::atomic<ProtoSparseList*>` and is padded to 64 bytes, so neighbouring slots do not share a cache line. The sparse list maps each `mutable_ref` in the shard to its current state.
 
-The actual, mutable state of the object is stored externally in a global, highly concurrent map known as the `mutableRoot`. When a thread updates an attribute, it does not write to the object's memory. Instead, it atomically publishes a new state association for that object's identity within the `mutableRoot`.
+## Compare-and-Swap Updates
 
-## The `mutableRoot`: Sharded Lock-Free Architecture
+An update such as `setAttribute` on a mutable object:
 
-To ensure the `mutableRoot` does not itself become a bottleneck, it is structurally engineered for massive parallel throughput.
+1. loads the current root of the object's shard;
+2. builds a new sparse list containing the new state, sharing the unchanged parts of the old one;
+3. publishes the new root with `compare_exchange_weak`;
+4. starts again from step 1 if another thread published a change to the same shard in the meantime.
 
-The `mutableRoot` is partitioned into **256 independent shards**. Each shard is a discrete lock-free data structure represented by a `std::atomic<ProtoSparseList*>`.
+Threads that update objects in different shards do not conflict. For an attribute-level compare-and-set, read the current value with `getOwnAttributeDirect` and write with `setAttributeIfEqual` in a retry loop.
 
-*   **Deterministic Sharding:** When an object requires mutation, its identity (the `mutable_ref` integer) is bitwise-ANDed (`mutable_ref & 0xFF`) to deterministically resolve its corresponding shard.
-*   **Zero Hardware Contention:** Because the 256 shards operate entirely independently, 256 distinct hardware threads can theoretically mutate 256 different objects concurrently without a single CPU cache line collision or atomic wait cycle. This translates to near-linear scaling on massive multi-core hardware.
+This lock-free path covers updates of mutable objects. Other runtime structures, such as the thread list and the collector's bookkeeping, are protected by `ProtoSpace::globalMutex`.
 
-### Mutable Yarding
+## Reading Mutable State
 
-To manage the lifecycle and allocation of the persistent data structures (like the `ProtoSparseList` nodes) that make up the `mutableRoot`'s state trees, ProtoCore employs a technique called **Mutable Yarding**.
+Each thread keeps a 1024-entry mutable value cache (`MUTABLE_VALUE_CACHE_DEPTH`). An entry records a `mutable_ref`, the shard root seen when the entry was filled, and the resolved state. A lookup loads the shard root again; if it is still the same pointer, the cached state is returned without searching the sparse list. A successful update to the shard installs a new root pointer, which invalidates every cached entry for that shard on its next lookup, so threads need no invalidation messages. The collector traces the cache entries, so a cached shard root cannot be freed and its address reused while the entry exists.
 
-A "Yard" is a specialized, localized memory allocator optimized specifically for rapid, lock-free allocation of mutation nodes. Instead of taxing the main garbage-collected heap for every tiny attribute update, state updates are allocated out of these yards. 
+## Interaction with the Garbage Collector
 
-Mutable Yarding ensures that the memory backing the object states is tightly packed, highly cache-local, and rapidly allocatable. When the Garbage Collector runs, it can efficiently sweep these yards, quickly identifying and reclaiming state nodes that are no longer referenced by the active `mutableRoot` shards.
-
-## The Lock-Free Update Protocol: Compare-And-Swap (CAS)
-
-The engine driving the concurrent state updates is the optimistic Compare-And-Swap (CAS) algorithm. When a thread invokes an operation like `setAttribute`, the following deterministic sequence occurs entirely without locks:
-
-1.  **Snapshot Loading:** The thread atomically loads the current root pointer of the target object's shard.
-2.  **Structural Sharing (Copy-on-Write):** The thread creates a new, modified version of the shard's tree incorporating the new attribute value. Crucially, because the trees are immutable, this operation utilizes structural sharing, reusing the vast majority of the existing tree structure. This makes the "copy" operation exceptionally fast ($O(\log N)$).
-3.  **Atomic Commitment:** The thread attempts to atomically swap the old shard pointer with the new shard pointer using `std::atomic::compare_exchange_strong`.
-4.  **Optimistic Retry:** If the `compare_exchange` fails—meaning another thread successfully published an update to the exact same shard in the intervening microseconds—the thread immediately retries the operation from step 1, applying its update to the *newest* snapshot.
-
-This CAS loop mathematically guarantees that all updates are safely committed without ever suspending a thread or invoking the OS scheduler. 
-
-### Architectural Advantages
-
-*   **Maximum Reader Throughput:** Threads reading state never block, never acquire locks, and never wait for writers. They simply read the most recently published snapshot.
-*   **Immunity to Deadlocks:** The complete absence of locking mechanisms renders deadlocks mathematically impossible.
-*   **Cache-Line Optimization:** The sharded architecture prevents "false sharing" and cache-line bouncing across CPU cores, maximizing L1/L2 cache efficiency.
-
-## GC Root Scanning Synergy
-
-The separation of state into the `mutableRoot` is the primary catalyst for Proto's ultra-low-latency Garbage Collector.
-
-In a traditional model, the GC must painstakingly scan the entire heap, inspecting every object to find mutable pointers to other objects. In Proto, because the heap itself is immutable, the GC only needs to scan the `mutableRoot`. The `mutableRoot` acts as a single, comprehensive ledger of all inter-object mutability in the entire system. 
-
-By scanning the shards of the `mutableRoot`, the GC instantly captures the exact topology of the live mutable state, drastically reducing the "Stop-The-World" root scanning pause to mere microseconds.
+Every change to mutable state goes through a shard root, so the 256 shard roots describe all mutable state in the system. During the stop-the-world phase the collector copies them into a per-cycle snapshot (`gcMutableSnapshot`), then marks from that snapshot while application threads continue to update the live table. No write barrier is needed. See [the garbage collector overview](01_garbage_collector.md) and [GarbageCollector.md](../../GarbageCollector.md).

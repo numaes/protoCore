@@ -35,7 +35,7 @@ Index of the documentation in this repository. Documents marked **dated** record
 | [docs/GarbageCollector.md](docs/GarbageCollector.md) | Garbage collector implementation: `ProtoSpace`, `ProtoContext`, `DirtySegment`, the mutable-shard snapshot, and each phase of a collection cycle. |
 | [docs/STW_ELIMINATION_RESEARCH.md](docs/STW_ELIMINATION_RESEARCH.md) | Research note on bounding the stop-the-world pause. Its concurrent-mark step is implemented (2026-05-30); the other directions are research only. |
 | [docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) | **Dated** (April 2026): design and measured results of the 256-shard mutable root and the per-thread mutable value cache. |
-| [docs/ROPES_AS_PROTOTUPLE.md](docs/ROPES_AS_PROTOTUPLE.md) | **Dated** (February 2026): `ProtoString` as `ProtoTuple` ropes. It predates the three-tier string redesign ([design specification](docs/archive/design-specs/2026-03-31-string-refactoring-design.md)) and may not match the current representation. |
+| [docs/ROPES_AS_PROTOTUPLE.md](docs/ROPES_AS_PROTOTUPLE.md) | **Superseded** (February 2026): `ProtoString` as `ProtoTuple` ropes. Replaced by the three-tier string representation ([design specification](docs/archive/design-specs/2026-03-31-string-refactoring-design.md)); DESIGN.md describes the current representation. |
 
 ## 4. Dated analyses
 

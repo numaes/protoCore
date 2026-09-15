@@ -113,4 +113,4 @@ With coverage:
 | Coverage report   | Build with `-DCOVERAGE=ON`, then `cmake --build build --target coverage` |
 | Full CI run       | `./scripts/ci_run_tests.sh` |
 
-For more detail (options, CI examples, filters), see the main [Testing Guide](../TESTING.md).
+For more detail (options, CI examples, filters), see the main [Testing Guide](../../TESTING.md).

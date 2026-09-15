@@ -1,64 +1,47 @@
-# Architecture Deep Dive: The Low-Latency Garbage Collector
+# Architecture Overview: The Garbage Collector
 
-## Introduction
+This overview summarizes protoCore's garbage collector. [GarbageCollector.md](../../GarbageCollector.md) describes each phase in detail.
 
-In modern runtime environments, memory management is frequently the primary bottleneck for system latency. Traditional tracing Garbage Collectors (GC)—such as those found in the Java Virtual Machine (e.g., G1, ZGC) or the V8 JavaScript engine—often introduce unpredictable latency spikes known as "stop-the-world" (STW) events. For real-time applications, high-frequency trading platforms, or interactive engines, these pauses are strictly unacceptable.
+## Design in Brief
 
-ProtoCore's Garbage Collector is engineered from the ground up to eradicate these unpredictable pauses. By leveraging immutable cell structures and a lock-free mutable state repository, Proto provides a fully concurrent GC that operates almost entirely in parallel with user programs, delivering near real-time performance guarantees.
+protoCore uses a concurrent, non-moving mark-and-sweep collector that runs on a dedicated thread. Application threads stop only for a short stop-the-world phase in which the collector captures the roots; marking, sweeping and bulk unmarking then run while the application threads continue.
 
-## Architectural Paradigm: Beyond Traditional GC
+Two properties of the object model make this possible without write barriers:
 
-### The Java GC Comparison
+- **Cells are immutable after construction.** The marker reads only fields that cannot change, so it traverses a stable graph.
+- **All mutable state goes through 256 shard roots** (see [the mutability model](02_mutability_model.md)). A copy of those 256 pointers, taken during the stop-the-world phase, is a complete snapshot of mutable state for the cycle.
 
-To understand Proto's architectural leap, it is useful to contrast it with state-of-the-art enterprise collectors like Java's ZGC or G1. 
+The cost of this approach is floating garbage: objects that become unreachable after the snapshot survive until the next cycle.
 
-Traditional concurrent collectors must deal with a constantly shifting object graph: application threads are constantly modifying object references while the GC is trying to traverse them. To safely mark objects concurrently, traditional VMs employ **Write Barriers**. A write barrier is injected machine code that executes every time an object reference is updated, notifying the GC of the change. This introduces a persistent, systemic overhead to every single memory write operation in the application.
+The collector does not move cells, so a cell keeps its address until it is reclaimed. A raw pointer held by native code does not keep a cell alive, however: the object must stay reachable from a root, such as a context's local variables, a `ProtoRootSet`, or a perpetual (null-context) allocation. [DESIGN.md](../../../DESIGN.md) describes these mechanisms.
 
-Furthermore, traditional GCs compact memory to prevent fragmentation, meaning objects are physically moved. This requires complex "read barriers" or heavy pointer forwarding mechanisms.
+## When a Cycle Starts
 
-### The ProtoCore Advantage: Zero Write Barriers
+The GC thread sleeps until a cycle is requested. According to the trigger sources documented in `core/ProtoSpace.cpp`, a cycle is requested:
 
-Proto completely eliminates both write and read barriers. 
+- when `ProtoSpace::triggerGC()` is called and fewer than 20% of the heap's cells are free;
+- when a heap limit is configured with `ProtoSpace::setHeapLimits` and an allocating thread must wait for memory to be reclaimed.
 
-Because the underlying heap structure in Proto consists exclusively of **immutable 64-byte Cells**, the topology of the heap cannot change once allocated. An object's intrinsic memory structure is never modified. Consequently, when the background GC thread marks the object graph, it does so against a stable, immutable snapshot. 
+With no heap limit (the default), allocation does not start collections by itself: `getFreeCells` grows the heap with memory from the operating system instead.
 
-Since the heap is immutable, there are no "mutations" for the GC to track during the marking phase. **Write barriers are entirely unnecessary.** This provides a massive, continuous performance advantage, allowing user programs to execute at native speeds without compiler-injected memory tracking overhead.
+## The Stop-the-World Phase
 
-### No Memory Compaction
+1. The collector sets a stop-the-world flag and waits until every running thread is parked. Threads park at cooperative safepoints: in the allocator (`allocCell`), in `ProtoContext::safepoint()`, or by being inside an unmanaged region (`ProtoContext::UnmanagedScope`) around a blocking system call.
+2. With all threads parked, it collects the roots: each thread's context chain (local variables, closure variables, return values, and the references held by young cells), the global roots (prototypes, the resolution chain, embedder `ProtoRootSet`s), and the snapshot of the 256 mutable-shard roots. It also records the tuple interner's published entry counts and takes the pending `DirtySegment`s for this cycle.
+3. It clears the flag, and the threads resume.
 
-Proto's GC does not compact the heap. Once a Cell is allocated, its physical memory address remains stable until it is reclaimed. This design yields two critical advantages:
-1. **Predictable Performance:** The system avoids the massive CPU and memory bandwidth costs associated with copying and moving memory segments.
-2. **Foreign Function Interface (FFI) Synergy:** Native C/C++ code can securely hold direct raw pointers to Proto objects without the risk of the GC moving the object out from under them.
+The work in this phase depends on the number of threads and the depth of their context chains, not on the size of the heap. [GarbageCollector.md](../../GarbageCollector.md) estimates the cost of each component.
 
-## The Collection Life Cycle
+## Critical Sections
 
-### 1. The Trigger
-A GC cycle is heuristically triggered when the total memory footprint exceeds a dynamically managed threshold, operating concurrently on a dedicated background thread.
+A thread that has allocated cells but not yet attached them to a root, for example while building a tree that it will publish with a final compare-and-swap, must not park: the collector could otherwise treat those cells as garbage. `ProtoContext::CriticalSection` is an RAII guard for such code. While a thread is inside a critical section, the safepoint checks skip parking, and the stop-the-world phase waits until the thread leaves the section or reaches a safepoint outside it. Critical sections should therefore be short and must not block.
 
-### 2. The Stop-The-World (STW) Phase
-This is the only phase where application threads are paused. In Proto, the STW phase is rigorously engineered to be deterministic and exceptionally short—typically in the microsecond range. This brevity allows the system to operate effectively in real-time constraints.
+## Concurrent Phases
 
-During the STW phase, the GC performs the "Root Scan". The roots are strictly defined and localized:
-*   **The Global `mutableRoot`:** Since all mutable state in the entire runtime is centrally stored in a 256-shard lock-free table, the GC can instantaneously capture the active mutation state.
-*   **Thread Stacks & `protoContext`:** The local execution state, call stacks, and the local attribute caches inside each thread's `protoContext`.
+- **Mark**: a depth-first traversal from the roots that marks reachable cells with a bit in each cell header. Only the collector uses the mark bit.
+- **Sweep**: walks the cells in the segments taken for this cycle. Unmarked cells are finalized and returned to the free pool; marked cells are kept and examined again in later cycles. Segments submitted after the stop-the-world phase wait for the next cycle.
+- **Bulk unmark**: clears the mark bits of the cells recorded during marking.
 
-### 3. Critical Sections and Thread Coordination
-To safely enter the STW phase, the GC must bring all user threads to a safe halt. Proto implements cooperative yielding using **Critical Sections**.
+## External Buffers
 
-When the GC requests a pause, a global flag is set. User threads periodically poll this flag at extremely low-cost, predictable intervals (e.g., at the end of bytecode loop iterations or function calls). When a thread observes the flag, it parks itself, yielding control to the GC. This cooperative model ensures that threads are paused at known, safe execution boundaries where the stack is fully verifiable, rather than arbitrary, unsafe instruction pointers. 
-
-### 4. Concurrent Marking
-Once the roots are captured, the STW phase terminates, and user programs immediately resume execution at full speed. 
-
-The GC background thread then traverses the object graph starting from the roots. Because the graph topology (the Cells themselves) is immutable, the GC thread safely traverses the graph in parallel with user threads, identifying all live objects without requiring locking or barriers.
-
-### 5. Concurrent Sweeping
-Following the mark phase, the GC performs a sweep. It iterates through the memory allocator blocks, identifying any Cells that were not marked as live, and returns them to the free lists for future allocation.
-
-## External Buffers and Shadow GC
-
-Certain system objects necessitate external memory allocations outside the standard 64-byte Cell grid (e.g., large contiguous IO buffers). Proto handles this via **Shadow GC**.
-
-Cells requiring external memory implement a virtual `finalize()` method. During the sweep phase, before the GC reclaims an unreachable cell, it invokes `finalize()`. The cell then safely executes `std::free` or `std::aligned_alloc` cleanup on its external segment. 
-
-**The Stable-Address Contract:** The raw pointer to an external buffer returned via `ProtoExternalBuffer::getRawPointer(context)` is guaranteed to remain perfectly stable until the object is rigorously proven unreachable and collected. The lack of heap compaction ensures the address never shifts, providing uncompromised stability for high-performance memory mapping and IO operations.
+`ProtoExternalBuffer` holds a contiguous memory segment outside the 64-byte cell heap, allocated with `std::aligned_alloc`. When the sweep reclaims an unreachable buffer cell, it calls the cell's `finalize()` method, which releases the segment with `std::free`. The address returned by `ProtoExternalBuffer::getRawPointer(context)` stays valid while the buffer object is reachable, so code that uses the memory must keep the object reachable for as long as it uses the address.

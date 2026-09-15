@@ -7,7 +7,7 @@ This guide explains how to create and register custom modules in protoCore using
 ## Prerequisites
 
 - protoCore built and linked (see [INSTALLATION.md](../../INSTALLATION.md)).
-- Include `protoCore.h` and use a valid `ProtoContext*` and `ProtoSpace*` (e.g. from your host application or test).
+- Include `protoCore.h`. You need a `ProtoSpace` and a `ProtoContext*` of the calling thread; on the main thread, use `space.rootContext`.
 
 ---
 
@@ -16,9 +16,9 @@ This guide explains how to create and register custom modules in protoCore using
 - **ModuleProvider**: An abstract interface that loads a module for a given *logical path*. You implement `tryLoad(logicalPath, ctx)` and return a **module object** (any `ProtoObject*` except `PROTO_NONE`) or `PROTO_NONE` on failure.
 - **ProviderRegistry**: A global singleton that stores registered providers. Each provider has a **GUID** (required) and an optional **alias** (e.g. `"my_provider"`). The resolution chain can reference a provider with `"provider:alias"` or `"provider:GUID"`.
 - **Resolution chain**: A list of entries (paths or `provider:...` specs) attached to each `ProtoSpace`. When loading a module, the runtime walks the chain and asks each entry to resolve the path; the first non-`PROTO_NONE` result wins.
-- **space.getImportModule(logicalPath, attrName2create)**: The single entry point to load a module (on ProtoSpace). It checks the shared cache first; on miss, it walks the resolution chain, calls the appropriate provider’s `tryLoad`, caches the result, registers it as a GC root, and returns a **wrapper** object whose attribute `attrName2create` (e.g. `"exports"`) points to the loaded module.
+- **space.getImportModule(context, logicalPath, attrName2create)**: The single entry point to load a module (on ProtoSpace). It checks the shared cache first; on miss, it walks the resolution chain, calls the appropriate provider's `tryLoad`, caches the result, registers it as a GC root, and returns a **wrapper** object whose attribute `attrName2create` (e.g. `"exports"`) points to the loaded module.
 
-The object you return from `tryLoad` is the **module content** (e.g. the “exports” of the module). The runtime stores it in the cache and exposes it to the host as the value of the wrapper’s `attrName2create` attribute.
+The object you return from `tryLoad` is the **module content** (e.g. the "exports" of the module). The runtime stores it in the cache and exposes it to the host as the value of the wrapper's `attrName2create` attribute.
 
 ---
 
@@ -29,7 +29,7 @@ Your provider must:
 1. Inherit from `proto::ModuleProvider`.
 2. Implement `getGUID()` and `getAlias()` (alias can be an empty string if you only use GUID).
 3. Implement `tryLoad(const std::string& logicalPath, ProtoContext* ctx)`:
-   - Return a **module object** (e.g. a `ProtoObject` with attributes representing the module’s exports), or
+   - Return a **module object** (e.g. a `ProtoObject` with attributes representing the module's exports), or
    - Return `PROTO_NONE` if the path is not handled by this provider.
 
 Do not throw; keep allocations minimal so that failures can be expressed by returning `PROTO_NONE`.
@@ -39,7 +39,7 @@ Do not throw; keep allocations minimal so that failures can be expressed by retu
 A minimal provider that only resolves the logical path `"greeter"` and returns a simple module object with a string attribute `"message"`:
 
 ```cpp
-#include "headers/protoCore.h"
+#include "protoCore.h"
 #include <string>
 
 namespace myapp {
@@ -50,14 +50,14 @@ public:
 
     const proto::ProtoObject* tryLoad(const std::string& logicalPath, proto::ProtoContext* ctx) override {
         if (logicalPath != "greeter")
-            return proto::PROTO_NONE;
+            return PROTO_NONE;
 
         const proto::ProtoObject* module = ctx->newObject(false);
-        if (!module) return proto::PROTO_NONE;
+        if (!module) return PROTO_NONE;
 
-        const proto::ProtoString* key = proto::ProtoString::fromUTF8String(ctx, "message");
+        const proto::ProtoString* key = proto::ProtoString::fromUTF8(ctx, "message");
         const proto::ProtoObject* value = ctx->fromUTF8String("Hello from the Greeter module!");
-        if (!key || !value) return proto::PROTO_NONE;
+        if (!key || !value) return PROTO_NONE;
 
         module = module->setAttribute(ctx, key, value);
         return module;
@@ -81,11 +81,12 @@ private:
 Register your provider with the global registry (e.g. at startup, before any `space.getImportModule` call):
 
 ```cpp
-#include "headers/protoCore.h"
+#include "protoCore.h"
+#include <memory>
 
 int main() {
-    proto::ProtoContext context;
     proto::ProtoSpace space;
+    proto::ProtoContext* ctx = space.rootContext;   // context of the main thread
 
     auto provider = std::make_unique<myapp::GreeterProvider>();
     proto::ProviderRegistry::instance().registerProvider(std::move(provider));
@@ -93,16 +94,18 @@ int main() {
     // Optional: set resolution chain so that "provider:greeter" is used (see below)
     // ...
 
-    const proto::ProtoObject* wrapper = space.getImportModule("greeter", "exports");
-    if (wrapper != proto::PROTO_NONE) {
-        const proto::ProtoString* exportsName = proto::ProtoString::fromUTF8String(space.rootContext, "exports");
-        const proto::ProtoObject* exports = wrapper->getAttribute(space.rootContext, exportsName);
+    const proto::ProtoObject* wrapper = space.getImportModule(ctx, "greeter", "exports");
+    if (wrapper != PROTO_NONE) {
+        const proto::ProtoString* exportsName = proto::ProtoString::fromUTF8(ctx, "exports");
+        const proto::ProtoObject* exports = wrapper->getAttribute(ctx, exportsName);
         // exports is the module object returned by GreeterProvider::tryLoad
         // (e.g. an object with attribute "message")
     }
     return 0;
 }
 ```
+
+`ProtoContext` has no default constructor: contexts are created by the runtime for each thread and method call (`ProtoContext(ProtoSpace* space, ProtoContext* previous = nullptr, ...)`), and the space provides `rootContext` for the main thread.
 
 ---
 
@@ -122,7 +125,7 @@ chain = chain->appendLast(ctx, ctx->fromUTF8String("provider:greeter"));
 chain = chain->appendLast(ctx, ctx->fromUTF8String("."));
 space.setResolutionChain(chain->asObject(ctx));
 
-// Now space.getImportModule("greeter", "exports") will call GreeterProvider::tryLoad("greeter", ctx).
+// Now space.getImportModule(ctx, "greeter", "exports") will call GreeterProvider::tryLoad("greeter", ctx).
 ```
 
 Alias takes precedence: if both alias and GUID match a spec, the provider registered with that alias is used.
@@ -134,20 +137,20 @@ Alias takes precedence: if both alias and GUID match a spec, the provider regist
 Use the single entry point:
 
 ```cpp
-const proto::ProtoObject* wrapper = space.getImportModule("greeter", "exports");
+const proto::ProtoObject* wrapper = space.getImportModule(ctx, "greeter", "exports");
 ```
 
 - **Cache**: If `"greeter"` was already loaded, `wrapper` is a new wrapper object whose `"exports"` attribute points to the cached module; no provider is called again.
-- **First load**: The runtime walks the resolution chain, calls the matching provider’s `tryLoad("greeter", ctx)`, inserts the returned module into the shared cache, adds it to the space's moduleRoots (GC roots), and returns a wrapper with `"exports"` set to that module.
+- **First load**: The runtime walks the resolution chain, calls the matching provider's `tryLoad("greeter", ctx)`, inserts the returned module into the shared cache, adds it to the space's `moduleRoots` (GC roots), and returns a wrapper with `"exports"` set to that module.
 - **Failure**: Returns `PROTO_NONE` (no exceptions).
 
-Host runtimes (e.g. protoJS) map the wrapper’s `"exports"` attribute to their native module representation (e.g. a JS object).
+Host runtimes (e.g. protoJS) map the wrapper's `"exports"` attribute to their native module representation (e.g. a JS object).
 
 ---
 
 ## 6. File-Based Modules (Default Chain)
 
-If you do not register custom providers, the default chain uses **path entries** only (e.g. `"."`, `"/usr/lib/proto"`). Those are handled by the built-in **FileSystemProvider**: for each path entry, it resolves `logicalPath` relative to that path; if the result is an existing file, it returns a minimal module object (e.g. with a `"path"` attribute). Full loading of native/script files is the responsibility of host runtimes (protoJS, protoPython). To add a custom directory to the chain:
+If you do not register custom providers, the default chain uses **path entries** only (e.g. `"."`, `"/usr/lib/proto"`). Those are handled by the built-in **FileSystemProvider**: for each path entry, it resolves `logicalPath` relative to that path; if the result is an existing file, it returns a minimal module object with a `"path"` attribute. Full loading of native/script files is the responsibility of host runtimes (protoJS, protoPython). To add a custom directory to the chain:
 
 ```cpp
 const proto::ProtoList* chain = ctx->newList();
@@ -165,7 +168,7 @@ space.setResolutionChain(chain->asObject(ctx));
 | 1 | Implement a class that inherits `ModuleProvider` and implements `tryLoad`, `getGUID`, `getAlias`. |
 | 2 | Register it with `ProviderRegistry::instance().registerProvider(std::move(provider))`. |
 | 3 | (Optional) Set `space.setResolutionChain(...)` with an entry `"provider:alias"` or `"provider:GUID"` so your provider is used for certain logical paths. |
-| 4 | Load modules with `space.getImportModule(logicalPath, "exports")` and read the wrapper’s `"exports"` attribute to get the module object. |
+| 4 | Load modules with `space.getImportModule(ctx, logicalPath, "exports")` and read the wrapper's `"exports"` attribute to get the module object. |
 
 ---
 

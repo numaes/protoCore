@@ -36,27 +36,32 @@ Construction and destruction are thread-safe (e.g. C++11 magic statics).
 Module access and loading are on **ProtoSpace** (not on a separate object), so that any language or host can use the same space-scoped resolution.
 
 ```cpp
-const ProtoObject* wrapper = space.getImportModule(logicalPath, attrName2create);
+const ProtoObject* getImportModule(ProtoContext* context, const char* logicalPath, const char* attrName2create);
+
+const ProtoObject* wrapper = space.getImportModule(context, logicalPath, attrName2create);
 ```
 
+`context` is a `ProtoContext*` of the calling thread (for example `space.rootContext` on the main thread). It is used for every allocation and is passed to the providers.
+
+- **Invalid arguments**: If `context`, `logicalPath` or `attrName2create` is null, returns `PROTO_NONE`.
 - **Cache**: If `logicalPath` is already in the SharedModuleCache, a wrapper object is built with attribute `attrName2create` pointing to the cached module and returned (no search).
-- **Search**: Otherwise, iterate `space.getResolutionChain()` in order. For each entry, resolve (path via FileSystemProvider, or provider spec via registry) and call the provider’s `tryLoad(logicalPath, space.rootContext)`. **Short-circuit**: the first result that is not `PROTO_NONE` is used.
+- **Search**: Otherwise, iterate `space.getResolutionChain()` in order. For each entry, resolve (path via FileSystemProvider, or provider spec via registry) and call the provider's `tryLoad(logicalPath, context)`. **Short-circuit**: the first result that is not `PROTO_NONE` is used.
 - **Success**: Build an immutable wrapper `ProtoObject` with attribute `attrName2create` pointing to the found module; insert the module into SharedModuleCache; add the module to `space.moduleRoots` (GC roots); return the wrapper.
 - **Failure**: Return `PROTO_NONE` (no exceptions).
 
-Thread-safe: cache uses `std::shared_mutex` (multiple readers, exclusive writer); module roots are updated under `ProtoSpace::globalMutex`.
+Thread-safe: the cache uses `std::shared_mutex` (multiple readers, exclusive writer); `space.moduleRoots` is updated under `ProtoSpace::moduleRootsMutex`.
 
 ## SharedModuleCache
 
 - **Key**: `std::string(logicalPath)`
 - **Value**: `const ProtoObject*` (the loaded module)
 - **Concurrency**: `std::shared_mutex` — shared lock for get, unique lock for insert.
-- **Lifecycle**: Cached pointers are kept alive via `space.moduleRoots` (scanned by GC). Cache is global (same key across spaces returns the same cached module).
+- **Lifecycle**: Cached pointers are kept alive via `space.moduleRoots` (scanned by GC). The cache is global (the same key across spaces returns the same cached module).
 
 ## FileSystemProvider
 
-- **Role**: Default handling for path entries. Given a base path (e.g. from chain entry `"."`), resolves `logicalPath` relative to that base; if the result is an existing file, returns a minimal module object (e.g. with a `"path"` attribute).
-- **Scope**: protoCore’s FileSystemProvider is minimal (path resolution and placeholder module); full native/script loading is the responsibility of host runtimes (e.g. protoJS, protoPython).
+- **Role**: Default handling for path entries. Given a base path (e.g. from chain entry `"."`), resolves `logicalPath` relative to that base; if the result is an existing file, returns a minimal module object with a `"path"` attribute.
+- **Scope**: protoCore's FileSystemProvider is minimal (path resolution and placeholder module); full native/script loading is the responsibility of host runtimes (e.g. protoJS, protoPython).
 
 ## Platform-default resolution chain
 
@@ -76,14 +81,17 @@ If the chain is not set (or is set to null), a platform-dependent default is use
 
 - **Isolation**: Use a project-local resolution chain (e.g. `["."]`) so that only local modules are loaded.
 - **Polylingual**: protoJS and protoPython can both call `ProtoSpace::getImportModule` (on their space); the result is a `ProtoObject` that both can map to their native module representation.
-- **Extensibility**: Register custom providers (e.g. `OdooProvider` that loads from a DB); put them at the front of the chain to override file-based resolution.
+- **Extensibility**: Register custom providers (e.g. an `OdooProvider` that loads from a database); put them at the front of the chain to override file-based resolution.
 
 ## Example
 
 ```cpp
-// Register a custom provider
+// Register a custom provider (MyProvider implements proto::ModuleProvider)
 auto provider = std::make_unique<MyProvider>("my-guid", "my_alias");
 ProviderRegistry::instance().registerProvider(std::move(provider));
+
+// Use the root context of the space on the main thread
+ProtoContext* ctx = space.rootContext;
 
 // Set chain: first try custom provider, then current directory
 const ProtoList* chain = ctx->newList();
@@ -92,9 +100,9 @@ chain = chain->appendLast(ctx, ctx->fromUTF8String("."));
 space.setResolutionChain(chain->asObject(ctx));
 
 // Load module
-const ProtoObject* result = space.getImportModule("my_module", "exports");
+const ProtoObject* result = space.getImportModule(ctx, "my_module", "exports");
 if (result != PROTO_NONE) {
-    const ProtoObject* exports = result->getAttribute(ctx, ProtoString::fromUTF8String(ctx, "exports"));
+    const ProtoObject* exports = result->getAttribute(ctx, ProtoString::fromUTF8(ctx, "exports"));
     // use exports...
 }
 ```
