@@ -219,8 +219,12 @@ never reads the live `mutableRoot` table again during this cycle.
    not see them.
 6. Mutable shard CAS by workers is invisible to the marker (snapshot
    discipline).
-7. Per-thread `mutableValueCache` is worker-local; the GC doesn't touch
-   it.
+7. The per-thread `attributeCache` and `mutableValueCache` are an
+   exception to point 1.  Their owning threads rewrite the entries at any
+   time, and the concurrent mark traces them through
+   `ProtoThreadExtension::processReferences`.  Each slot is loaded once
+   and reported only when it holds a cell, and the mark loop skips null
+   work-list entries.
 
 ### Cost
 - **STW pause:** O(threads + 256), independent of heap size or live-
@@ -479,6 +483,28 @@ guarantee:
 Neither is required for correctness; both would let the project make
 a numerical p99 claim with the same rigour the rest of the codebase
 operates under.
+
+## Known issues
+
+- **An exiting thread can be counted twice by the stop-the-world quorum
+  (builds with `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF`).**  `thread_main`
+  (`core/Thread.cpp`) decrements `runningThreads` as soon as the thread's
+  method returns, and only then rebuilds `space->threads`.  The rebuild
+  allocates.  In this configuration the allocation poll and the refill
+  path park on a pending stop-the-world request even inside the critical
+  section that `removeAt` opens, and parking increments `parkedThreads`.
+  While it is parked, the exiting thread counts as parked but no longer as
+  running, so the Phase 1 quorum (`parkedThreads >= runningThreads`) can
+  be met while another mutator is still running.  With the survivor
+  re-chain enabled (the default) the exit allocation does not park inside
+  the critical section.
+- **An exiting thread's unused cell batch is not returned.**  A
+  `ProtoThread` allocates from a private freelist
+  (`ProtoThreadExtension::freeCells`) that `getFreeCells` refills in
+  batches of up to 65,536 cells when several threads run.  When the thread
+  exits, the unused part of its last batch is returned to no freelist and
+  belongs to no young generation, so no cycle reclaims it: each thread
+  that exits can leave up to one batch of cells unusable.
 
 ## Future Research: Further bounding the STW pause
 

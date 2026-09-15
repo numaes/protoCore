@@ -76,8 +76,8 @@ All notable changes to protoCore are documented in this file.
   interned tuples are traced by the concurrent mark instead of inside the
   pause. See `docs/GarbageCollector.md` § "Concurrent Mark Without Barriers".
 - **`ProtoSpace` layout** — `ProtoSpace` gains the `gcMutableSnapshot[]` table
-  and a `tupleInterner` pointer. Embedders built against 1.2.0 must be
-  rebuilt; no source change is required.
+  and a `tupleInterner` pointer. Embedders built against 1.2.0, or against an
+  earlier build of this release, must be rebuilt; no source change is required.
 - **No GC trigger on free-list exhaustion without a heap limit** —
   `getFreeCells` refills from the OS without waking the collector. With no
   heap limit configured (the default), collections are started by
@@ -121,8 +121,9 @@ All notable changes to protoCore are documented in this file.
 ### Fixed
 - **The collector no longer dereferences a null work-list entry** — the
   concurrent mark crashed with a segmentation fault at address 0x8 (reading
-  `Cell::next_and_flags` of a null `Cell*`, `gcThreadLoop+0xdf8`), seen as
-  0.2–0.3 % of protoPython runs with `PROTOCORE_GC_MIN_BUDGET_CELLS=4096`.
+  `Cell::next_and_flags` of a null `Cell*`, `gcThreadLoop+0xdf8`), seen in
+  0.2–0.3 % of protoPython runs in a stress configuration with very frequent
+  collection cycles.
   `ProtoThreadExtension::processReferences` read every per-thread cache slot
   twice, once for `ProtoObject::isCellPointer` and once for `asCellPointer`,
   while the owning thread kept rewriting the slot; a slot that changed to
@@ -155,7 +156,7 @@ All notable changes to protoCore are documented in this file.
   stayed at zero and heap-limit reclamation waits, which wait for the counter
   to advance, never saw a cycle complete. The counter is now incremented for
   every cycle; the survivor re-chain still uses the same cycle number to decide
-  fold cycles. The heap-growth trigger tests now run in both configurations.
+  fold cycles.
 - **String hashes depend on content, not rope shape** — `getHash` on a heap
   string returned a cached hash that mixed its children's hashes, so equal
   content split differently by concatenation hashed differently (a 47-byte
@@ -210,8 +211,9 @@ All notable changes to protoCore are documented in this file.
 ### Tests
 - `ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark` flips the main
   thread's attribute-cache and mutable-value-cache slots between a cell and a
-  non-cell from a helper thread while cycles run every few thousand cells; it
-  crashed within about 25 ms before the null work-list fix.
+  non-cell from a helper thread while a hard heap limit just above the
+  startup heap forces repeated cycles; it crashed before the null work-list
+  fix.
   `GCMark.NullReferenceIsSkipped` pins a tagged null in a root set (it crashed
   before the fix), and
   `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
