@@ -32,3 +32,24 @@ Each thread keeps a 1024-entry mutable value cache (`MUTABLE_VALUE_CACHE_DEPTH`)
 ## Interaction with the Garbage Collector
 
 Every change to mutable state goes through a shard root, so the 256 shard roots describe all mutable state in the system. During the stop-the-world phase the collector copies them into a per-cycle snapshot (`gcMutableSnapshot`), then marks from that snapshot while application threads continue to update the live table. No write barrier is needed. See [the garbage collector overview](01_garbage_collector.md) and [GarbageCollector.md](../../GarbageCollector.md).
+
+## What a Mutable Object Costs, and When It Is Released
+
+This section is for embedders choosing between `newObject(true)` / `newChild(context, true)` and immutable objects.
+
+**Cost.** Compared with an immutable object, a mutable object pays for its identity on every use:
+
+- Every update builds a new state object and a new path in its shard's sparse list, and publishes it with a compare-and-swap on a shard that other mutables share. Concurrent updates in the same shard retry.
+- Every read resolves the identity to its state, through the thread's mutable value cache or a search of the shard.
+- While its entry exists, the state and everything it references stay reachable from `mutableRoot`, and every collection cycle marks them.
+
+**Release.** A mutable object's entry is removed by the collector after the object becomes unreachable, without any call from the embedder:
+
+1. In the cycle that collects the object's handle, the handle's finalizer records its `mutable_ref`, and after sweep the collector removes the entry from its shard.
+2. In the next cycle, the last state and the objects referenced only by it are freed.
+
+A thread's mutable value cache may keep an older shard root, and the released states in it, until the thread reuses that cache slot (at most 1024 entries per thread). Threads replace entries as they read and write other mutables. [GarbageCollector.md](../../GarbageCollector.md) § "Phase 5b" describes the release in detail.
+
+**Limitation without survivor re-inclusion.** With `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` (the default is ON), a cell that survives one collection cycle is never examined again. A mutable object that survives a cycle is therefore never collected, and its entry is never released. Only mutable objects that become unreachable before their first cycle lose their entry, and even then their last state, which survives that cycle, is not freed. This is expected behaviour of that configuration and applies to every cell, not only to mutable objects.
+
+**Guidance.** Use a mutable object only for a value that is really updated in place after construction and whose identity is shared: a counter or accumulator, a namespace that code redefines at run time, an object other code holds and expects to observe changing. For values that are built once and then only read — records, literal wrappers, function wrappers, markers, configuration snapshots — use an immutable object: `setAttribute` on an immutable object returns a new object, costs no compare-and-swap and creates no `mutableRoot` entry.

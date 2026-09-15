@@ -594,7 +594,20 @@ namespace proto {
 
         virtual CellType getType() const { return CellType::None; }
 
-
+        /**
+         * @brief Finalizer, run by the GC thread during sweep on a cell found
+         *        unreachable.
+         *
+         * Contract: a finalizer only completes an action on an internal or
+         * external structure — free an external buffer, run an external
+         * pointer's callback, record a number in collector bookkeeping.  It
+         * never allocates cells, never publishes to a shared structure with
+         * compare-and-swap, never loops over protoCore data and never
+         * dereferences other ProtoObject*.  It runs concurrently with the
+         * mutators, and `context` is not a context it may allocate through.
+         * Work that needs allocation belongs in a collector phase with its
+         * own context (see ProtoSpace::gcContext).
+         */
         virtual void finalize(ProtoContext *context) const {}
 
         virtual void

@@ -235,6 +235,20 @@ This means:
   the entire heap.
 - Sweep cannot free cached pointers; comparison is always defined.
 
+> **Current code (September 2026): release of entries.** This design, like
+> the code of April 2026, never removed an entry from `mutableRoot`: the last
+> state of every mutable object stayed reachable forever. The collector now
+> releases entries. `ProtoObjectCell::finalize` of a collected handle records
+> its `mutable_ref`; after sweep the GC thread removes the recorded refs
+> shard by shard, with one compare-and-swap per shard, allocating through its
+> own context `ProtoSpace::gcContext`. The entry disappears in the cycle that
+> collects the handle, and the state is freed in the next cycle. A cached
+> `shard_root` filled before a release keeps that older root, and the
+> released states in it, alive until its slot is reused, as described above.
+> With `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` a handle that survives a cycle
+> is never collected, so its entry is never released. See
+> [GarbageCollector.md](GarbageCollector.md) § "Phase 5b".
+
 #### 3.3.3 Invalidation at STW boundaries
 
 Optional optimisation: at start of STW, walk every thread cache and zero

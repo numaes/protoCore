@@ -351,6 +351,7 @@ protoCore implements a flexible and dynamic object model inspired by the Self pr
     *   **Global Side Table**: The ID refers to an entry in `ProtoSpace::mutableRoot`, which is organized into **256 independent shards** (selected by `mutable_ref % MUTABLE_ROOT_SHARDS`). Each shard slot holds a `std::atomic<ProtoSparseList*>` and is padded to 64 bytes.
     *   **Lock-Free Mutation**: A "mutation" is a lock-free `compare-and-swap` (CAS) operation on the shard root. This replaces the old immutable snapshot with a new one (structural sharing via AVL). Writers conflict only when they update mutables in the same shard.
     *   **Validation via Pointer Equality**: Because AVL nodes and shard roots are immutable and newly allocated on change, pointer equality on a shard root guarantees content equality (no ABA problem at the snapshot level).
+    *   **Release of Entries**: When a mutable object's handle is collected, its finalizer records the `mutable_ref`, and after sweep the collector removes the entry from its shard (one compare-and-swap per shard, allocating through the collector's own `ProtoSpace::gcContext`). The state is freed in the following cycle. Without `PROTOCORE_GC_REINCLUDE_SURVIVORS` a handle that survives a cycle is never collected, so its entry stays. See [docs/GarbageCollector.md](docs/GarbageCollector.md) § "Phase 5b" and, for embedders, [the mutability model](docs/Structural%20description/architecture/02_mutability_model.md) § "What a Mutable Object Costs, and When It Is Released".
 
 ---
 

@@ -119,6 +119,60 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **A mutable object's state is released after the object is collected** —
+  every update of a mutable object (`newObject(true)`,
+  `newChild(context, true)`, `clone(context, true)`) stores its state in
+  `ProtoSpace::mutableRoot`, keyed by its `mutable_ref`, and no code ever
+  removed an entry. The last state of every mutable object that was ever
+  written, and everything it referenced, therefore stayed reachable after the
+  object became garbage, and every cycle marked it again. The collector now
+  releases the entry:
+  - `ProtoObjectCell::finalize` of a collected handle only records its
+    `mutable_ref`;
+  - after sweep, the GC thread removes the recorded refs shard by shard with
+    one compare-and-swap per shard, redone from the new root when a mutator
+    published to the shard meanwhile;
+  - the path copies are allocated through the collector's own context,
+    `ProtoSpace::gcContext`, built with a new `ProtoContext::GCOwnedTag`
+    constructor that never registers as `mainContext`.
+
+  The entry disappears in the cycle that collects the handle, and the state is
+  freed in the next cycle. Two limits remain, both documented:
+  - With `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF`, a handle that survives a cycle
+    is never collected, so its entry stays. This is the expected behaviour of
+    that configuration.
+  - A thread's mutable value cache keeps a pre-release shard root alive until
+    its slot is reused.
+
+  Finalizers now have a written contract: they complete an action on a
+  structure, and never allocate, publish or process
+  (`docs/GarbageCollector.md` § "Finalizer contract"). Embedder guidance on
+  when to use mutable objects is in
+  `docs/Structural description/architecture/02_mutability_model.md`.
+
+  Measured with a probe that writes and drops 1,000,000 mutable objects, each
+  with one attribute holding a fresh object, in batches of 50,000 with one
+  cycle per batch:
+
+  | | Before | After |
+  |---|---|---|
+  | Entries left | 1,000,000 | 0 |
+  | Live cells after settling | 5,009,397 | 256,581 (1,737 once the thread's 1,024 cache entries are replaced; immutable control: 437) |
+  | Maximum RSS | 479 MB | 107 MB |
+  | Wall time | 14.4 s | 5.2 s |
+  | Mark, per settling cycle | 404–649 ms | 24–29 ms |
+  | Sweep, per settling cycle | 367–640 ms | 31–36 ms |
+  | Bulk unmark, per settling cycle | 92–114 ms | 3.4–3.6 ms |
+
+  The release itself took 17.6 ms on average and 24.2 ms at most per cycle
+  that released 50,000 entries. It is reported in the new `REL=` field of the
+  `PROTOCORE_GC_PROFILE` line.
+
+  **ABI change:** `ProtoSpace` gains the trailing members `gcContext` and
+  `gcFinalizedMutableRefs`, and `ProtoContext` gains a constructor and a
+  private flag. Embedders must rebuild.
+
+  Tests: `test/MutableRootReclaimTests.cpp`.
 - **Stop-the-world collects only roots** — Phase 2 of the collector walked
   every context's young chain and called `processReferences` on each young
   cell while all threads were stopped, so the pause grew with the number of

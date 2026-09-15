@@ -245,11 +245,25 @@ namespace proto
 
     /**
      * @brief Finalizer for the ProtoObjectCell.
-     * This object holds no external resources, so the finalizer is empty.
+     *
+     * For the handle of a mutable object (mutable_ref > 0) it records the
+     * mutable_ref, so that the collector releases the object's entry in
+     * mutableRoot after sweep (releaseFinalizedMutableEntries in
+     * ProtoSpace.cpp).  State cells are always built with mutable_ref 0 and
+     * every handle gets its own ref, so only the handle records it.
+     *
+     * Following the finalizer contract (Cell::finalize) it neither allocates
+     * nor touches mutableRoot.  The record is an append to
+     * ProtoSpace::gcFinalizedMutableRefs, GC-thread bookkeeping of the same
+     * kind as the mark work list: a plain std::vector of integers, used only
+     * by the GC thread, which is the only thread that runs finalizers.
      */
     void ProtoObjectCell::finalize(ProtoContext* context) const
     {
-    };
+        if (this->mutable_ref > 0 && context && context->space) {
+            context->space->gcFinalizedMutableRefs.push_back(this->mutable_ref);
+        }
+    }
 
     /**
      * @brief Informs the GC about the cells this object holds references to.

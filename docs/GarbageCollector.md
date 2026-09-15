@@ -64,6 +64,34 @@ GC thread**: writes happen under STW (workers parked), reads happen during
 mark (the only GC-thread-driven phase that traverses the heap).  No other
 thread observes the snapshot.
 
+### 6. The collector's allocation context — `gcContext`
+`ProtoSpace::gcContext` is a `ProtoContext` built with
+`ProtoContext::GCOwnedTag`.  It has no thread and no previous context, and
+it allocates from its own freelist under its own spinlock, so the GC thread
+never touches a mutator thread's freelist or critical-section counter.
+Unlike every other context it does not register itself as
+`ProtoSpace::mainContext` and belongs to no thread's context chain, so the
+stop-the-world root scan never visits it.
+
+Only the GC thread allocates through it, and only after sweep, when it
+releases mutables-tree entries (Phase 5b).  No stop-the-world can start
+while it holds a half-built structure, because the GC thread is the only
+thread that starts one.  When the release ends the collector submits the
+context's young generation, so every cell allocated through it is a
+candidate of the next cycle.
+
+### 7. Finalizer contract
+`Cell::finalize` runs on the GC thread during sweep, concurrently with the
+mutators.  A finalizer only **completes an action on an internal or
+external structure**: free an external buffer, run an external pointer's
+callback, record a number in collector bookkeeping.  It **never allocates
+cells, never publishes to a shared structure with compare-and-swap, never
+loops over protoCore data and never dereferences other `ProtoObject*`**.
+The `ProtoExternalPointer` callbacks passed to
+`ProtoContext::fromExternalPointer` are finalizers and follow the same
+contract.  Work that needs allocation runs in a collector phase with its own
+context instead (see Phase 5b).
+
 ## The GC Cycle
 
 The GC runs in a dedicated background thread (`gcThreadLoop` in
@@ -184,6 +212,77 @@ of young cells.
     — pushed onto the survivor pen for delayed re-inclusion.
 - New dirty segments pushed by workers after Phase 2's exchange are
   ignored this cycle and processed in the next.
+- Finalizers follow the finalizer contract (§ 7 above).  The only finalizer
+  with collector work is `ProtoObjectCell::finalize`: for a mutable
+  object's handle (`mutable_ref > 0`) it appends the `mutable_ref` to
+  `ProtoSpace::gcFinalizedMutableRefs`, a GC-thread-only
+  `std::vector<unsigned long>` of the same kind as `workList` and
+  `markedList`.  It does not allocate and does not touch `mutableRoot`.
+
+### Phase 5b — Release of mutables-tree entries (concurrent)
+A mutable object keeps its current state in `mutableRoot`, keyed by its
+`mutable_ref` (§ 4).  The handle cell does not reference its state, and the
+entry keeps the state, and everything the state references, reachable.  So
+the entry must be removed once the handle is garbage.  This phase is where
+that happens.
+
+- The GC thread sorts the refs recorded during sweep by shard.
+- For each shard it loads the live root, removes each recorded ref that is
+  present (`sparseListGetRaw` probe, then `removeAt`; absent refs are
+  skipped), and publishes the result with **one** compare-and-swap.  If a
+  mutator published to the shard meanwhile, the CAS fails; the GC reloads
+  the root and redoes that shard's batch.  At most 256 publications per
+  cycle, however many mutables died.
+- The path copies are allocated through `gcContext` (§ 6), whose young
+  generation is then submitted.
+- The list is cleared; its capacity is kept for the next cycle.
+- Instrumented builds report the time of this phase as `REL=` in the
+  `PROTOCORE_GC_PROFILE` line (cumulative, like `P5` and `P6`).
+
+**When memory is returned.**  A handle that is unreachable at the
+stop-the-world of cycle N is finalized in cycle N's sweep, and its entry is
+released at the end of cycle N.  The state and the objects only it
+references were reached in cycle N through the mutable snapshot, so they
+survive cycle N and are freed in cycle N+1 (with
+`PROTOCORE_GC_REINCLUDE_SURVIVORS`; with `survivorStagger > 1`, on the next
+fold).
+
+**Per-thread caches.**  A thread's mutable value cache entry holds the shard
+root that was current when the entry was filled, and the collector traces it
+so that address cannot be reused while the entry exists.  An entry filled
+before a release therefore keeps the older root, and the released states in
+it, alive until the thread reuses that slot (1024 entries per thread).
+Threads replace entries as they read and write other mutables.
+
+**Without survivor re-inclusion.**  With
+`PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` a cell that survives one cycle is
+never a candidate again.  A mutable handle that survives a cycle is
+therefore never finalized and its entry is never released; the release
+covers only mutables that become unreachable before their first cycle, and
+their states, which survive that cycle through the snapshot, are not freed
+either.  This is the expected behaviour of that configuration, the same as
+for every other cell.
+
+**Why the release is sound.**
+- *Nothing live can reach a finalized handle's `mutable_ref`.*  Finalize
+  runs only on unmarked candidates.  A mutator can only obtain cells that
+  were reachable at stop-the-world (marked) or allocated after it (young,
+  not candidates), so an unmarked handle is never used again.  Exactly one
+  cell carries a given ref: `clone(true)`, `newChild(true)` and
+  `newObject(true)` take a fresh value from `nextMutableRef`, an atomic
+  counter that is never decremented or reset, and every state cell is built
+  with `mutable_ref = 0`, so only the handle records its ref.
+- *The snapshot.*  `gcMutableSnapshot[]` still holds the entry, and mark
+  already traced the state through it; the release changes only the live
+  table, after mark.
+- *Concurrent writers.*  Every writer derives its new root from the root it
+  passes as the CAS's expected value, and so does the release.  Neither can
+  publish a root that was not derived from the currently published one, so
+  no update is lost on either side.  The removal changes the shard root,
+  which invalidates the per-thread cache entries for that shard.
+- *No ABA.*  Only the GC thread frees cells, and a root loaded after the
+  stop-the-world is marked or young, never a candidate of this cycle, so no
+  root can be freed and its address reused while a CAS is pending.
 
 ### Phase 6 — Bulk unmark
 - Walks the `markedList` from Phase 4 and clears the mark bit on every

@@ -1013,6 +1013,17 @@ namespace proto
         const ProtoObject* fromUnicodeChar(unsigned int unicodeChar);
         const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
         const ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
+        /**
+         * @brief Wraps an opaque C++ pointer in a collectable object.
+         *
+         * `finalizer`, when given, is called with `pointer` once the object
+         * is collected.  It runs on the GC thread during sweep, concurrently
+         * with the application threads, and follows the finalizer contract:
+         * it only completes an action on an external structure (release a
+         * resource, update a counter).  It must not allocate protoCore
+         * objects, call protoCore APIs, dereference other ProtoObject*, or
+         * block.  See docs/GarbageCollector.md § "Finalizer contract".
+         */
         const ProtoObject* fromExternalPointer(void* pointer, void (*finalizer)(void*) = nullptr);
         const ProtoObject* fromBuffer(unsigned long length, char* buffer, bool freeOnExit = false);
         const ProtoObject* newBuffer(unsigned long length);
@@ -1781,6 +1792,21 @@ namespace proto
          * candidate of the next cycle.
          */
         ProtoContext* gcContext{};
+
+        /**
+         * @brief `mutable_ref`s of the handles finalized by the current
+         *        cycle's sweep.
+         *
+         * GC-thread collector bookkeeping of the same kind as the mark work
+         * list and `markedList`: `ProtoObjectCell::finalize` appends a
+         * collected handle's `mutable_ref`, and the release phase after sweep
+         * removes those entries from `mutableRoot` and clears the list,
+         * keeping its capacity.  A plain C++ vector of integers, tightly
+         * scoped to one cycle on one thread: it holds no protoCore objects
+         * and no mutator ever sees it.  See docs/GarbageCollector.md
+         * § "Phase 5b".
+         */
+        std::vector<unsigned long> gcFinalizedMutableRefs;
     };
 }
 

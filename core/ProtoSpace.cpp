@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <algorithm>
 #include <iostream>
 #include <cstdlib>
 #include <set>
@@ -178,6 +179,87 @@ namespace proto {
             workList->push_back(ref);
         }
 
+        // Phase 5b: removes from the mutables tree the entries of the mutable
+        // objects whose handles this cycle's sweep finalized.  Runs on the GC
+        // thread after sweep, unlocked, concurrently with the mutators.
+        //
+        // ProtoObjectCell::finalize only records a collected handle's
+        // mutable_ref in space->gcFinalizedMutableRefs; finalizers never
+        // allocate or publish.  Here the refs are grouped by shard.  For each
+        // shard the live root is loaded, every recorded ref present in it is
+        // removed, and the result is published with one compare-and-swap.  A
+        // failed CAS means a mutator published to the shard meanwhile: the
+        // root is reloaded and the shard's batch redone from it, so neither
+        // side loses an update.  A ref that is absent (a mutable never
+        // written) costs a probe and no allocation.
+        //
+        // Soundness (docs/GarbageCollector.md § "Phase 5b"):
+        //  * an unmarked handle is unreachable, and exactly one cell carries
+        //    a given mutable_ref (fresh values from nextMutableRef, never
+        //    reused; states carry 0), so no live object uses a removed entry;
+        //  * gcMutableSnapshot still holds the entries and mark already
+        //    traced the states through it, so they survive this cycle and
+        //    are freed in the next one;
+        //  * a root loaded after the stop-the-world is marked or young, never
+        //    a candidate of this cycle, and only this thread frees cells, so
+        //    a pending CAS cannot suffer ABA.
+        //
+        // Path copies are allocated through space->gcContext.  No root scan
+        // can observe them half-built, because the GC thread is the only
+        // thread that starts a stop-the-world; the context's young generation
+        // is submitted at the end, so they are candidates of the next cycle.
+        void releaseFinalizedMutableEntries(ProtoSpace* space) {
+            std::vector<unsigned long>& refs = space->gcFinalizedMutableRefs;
+            if (refs.empty()) return;
+            ProtoContext* gc = space->gcContext;
+            constexpr unsigned long kShards = ProtoSpace::MUTABLE_ROOT_SHARDS;
+
+            std::sort(refs.begin(), refs.end(), [](unsigned long a, unsigned long b) {
+                const unsigned long sa = a % kShards;
+                const unsigned long sb = b % kShards;
+                return sa != sb ? sa < sb : a < b;
+            });
+
+            std::size_t begin = 0;
+            while (begin < refs.size()) {
+                const unsigned long shard = refs[begin] % kShards;
+                std::size_t end = begin + 1;
+                while (end < refs.size() && refs[end] % kShards == shard) ++end;
+
+                auto& slot = space->mutableRoot[shard].root;
+                for (int attempt = 1;; ++attempt) {
+                    ProtoSparseList* oldRoot = slot.load(std::memory_order_acquire);
+                    if (!oldRoot) break;
+                    const ProtoSparseList* newRoot = oldRoot;
+                    for (std::size_t i = begin; i < end; ++i) {
+                        if (sparseListGetRaw(gc, newRoot, refs[i]) == nullptr) continue;
+                        newRoot = newRoot->removeAt(gc, refs[i]);
+                    }
+                    if (newRoot == oldRoot) break;  // none of the refs is present
+                    ProtoSparseList* expected = oldRoot;
+                    if (slot.compare_exchange_strong(expected, const_cast<ProtoSparseList*>(newRoot),
+                                                     std::memory_order_acq_rel)) {
+                        break;
+                    }
+                    // A mutator published to this shard: redo the batch from
+                    // the new root, yielding now and then like the writers.
+                    if ((attempt & 31) == 0) std::this_thread::yield();
+                }
+                begin = end;
+            }
+            refs.clear();  // keeps the capacity for the next cycle
+
+            // Hand the path copies, including those of lost attempts, to the
+            // collector: the same handover as the threshold submission in
+            // ProtoContext::safepoint.
+            while (gc->lock.test_and_set(std::memory_order_acquire)) {}
+            Cell* chain = gc->lastAllocatedCell;
+            gc->lastAllocatedCell = nullptr;
+            gc->allocatedCellsCount = 0;
+            gc->lock.clear(std::memory_order_release);
+            if (chain) space->submitYoungGeneration(chain);
+        }
+
         void gcThreadLoop(ProtoSpace* space) {
             std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             GC_LOCK_TRACE("gcLoop ACQ(init)");
@@ -190,6 +272,8 @@ namespace proto {
             static std::atomic<uint64_t> dbg_total_phase4_us{0};
             static std::atomic<uint64_t> dbg_total_phase5_us{0};
             static std::atomic<uint64_t> dbg_total_phase6_us{0};
+            // Phase 5b, the release of mutables-tree entries (REL= in the line).
+            static std::atomic<uint64_t> dbg_total_release_us{0};
             static std::atomic<uint64_t> dbg_total_cells_marked{0};
             static std::atomic<uint64_t> dbg_total_segments_swept{0};
             const bool dbg_profile = std::getenv("PROTOCORE_GC_PROFILE") != nullptr;
@@ -852,10 +936,28 @@ namespace proto {
                 }
 
 #ifdef PROTOCORE_GC_INSTRUMENT
-                auto t_phase6_start = std::chrono::steady_clock::now();
+                auto t_release_start = std::chrono::steady_clock::now();
                 dbg_total_phase5_us.fetch_add(
                     std::chrono::duration_cast<std::chrono::microseconds>(
-                        t_phase6_start - t_phase5_start).count(),
+                        t_release_start - t_phase5_start).count(),
+                    std::memory_order_relaxed);
+#endif
+
+                // --- PHASE 5b: RELEASE MUTABLES-TREE ENTRIES ---
+                //
+                // Sweep finalized the handles of unreachable mutable objects;
+                // their finalizers recorded the mutable_refs.  Remove those
+                // entries from mutableRoot now, one compare-and-swap per shard,
+                // allocating through the collector's own context.  The states
+                // they held were marked through this cycle's snapshot and are
+                // freed next cycle.  See releaseFinalizedMutableEntries.
+                releaseFinalizedMutableEntries(space);
+
+#ifdef PROTOCORE_GC_INSTRUMENT
+                auto t_phase6_start = std::chrono::steady_clock::now();
+                dbg_total_release_us.fetch_add(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        t_phase6_start - t_release_start).count(),
                     std::memory_order_relaxed);
 #endif
 
@@ -919,12 +1021,13 @@ namespace proto {
                     // long-running test floods stderr.
                     if (cycles > 0) {
                         std::fprintf(stderr,
-                            "[GC-PROFILE] cycles=%lu  P1=%luus  P2=%luus  P4=%luus  P5=%luus  P6=%luus  marked=%lu  swept_segs=%lu\n",
+                            "[GC-PROFILE] cycles=%lu  P1=%luus  P2=%luus  P4=%luus  P5=%luus  REL=%luus  P6=%luus  marked=%lu  swept_segs=%lu\n",
                             (unsigned long)cycles,
                             (unsigned long)dbg_total_phase1_us.load(),
                             (unsigned long)dbg_total_phase2_us.load(),
                             (unsigned long)dbg_total_phase4_us.load(),
                             (unsigned long)dbg_total_phase5_us.load(),
+                            (unsigned long)dbg_total_release_us.load(),
                             (unsigned long)dbg_total_phase6_us.load(),
                             (unsigned long)dbg_total_cells_marked.load(),
                             (unsigned long)dbg_total_segments_swept.load());
