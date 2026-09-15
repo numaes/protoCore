@@ -16,17 +16,6 @@ All notable changes to protoCore are documented in this file.
   (where `NaN = 1` and `NaN <= 1` are true) can switch to `partialCompare`.
   The public header now includes `<compare>`; adding a non-virtual member
   does not change any layout.
-- **Park-only safepoint** — `ProtoContext::parkIfStopRequested()` parks the
-  calling thread while a stop-the-world phase is requested and, unlike
-  `safepoint()`, never submits the context's young generation, so cells held
-  only in C++ locals stay safe; `ProtoContext::isStopRequested()` is the
-  inline flag poll to put in front of it. The four copies of the park
-  handshake (allocation poll, `safepoint()`, the thread refill path and the
-  return from an unmanaged region) now share one internal helper,
-  `parkUntilWorldResumes`. The heap-limit reclaim wait, which runs inside the
-  allocator, and thread start now park without submitting.
-  `ProtoSpace::runningThreads` and `parkedThreads` are documented as internal
-  quorum counters that embedders must not write.
 - **Unmanaged-region API for blocking OS calls** — new pair of methods on
   `ProtoThread` and `ProtoContext`: `goUnmanaged()` /
   `returnFromUnmanaged()`. Bracket a blocking OS call (`read`, `write`,
@@ -319,11 +308,6 @@ All notable changes to protoCore are documented in this file.
 - `ListTest.HasComparesLargeIntegersByValue` checks `has` on inline and AVL
   lists holding 2^70 against an equal distinct object, neighbours and small
   integers (it threw `std::overflow_error` before the fix).
-- `ParkOnly` (three cases): `isStopRequested` follows the flag; 256 young
-  lists held only in C++ locals survive four cycles that stop the world while
-  the thread parks through `parkIfStopRequested` with a 16-cell submission
-  threshold (the young chain is not submitted); `safepoint()` submits where
-  `parkIfStopRequested()` does not.
 - `GCShutdown.CycleStartedWhileEndingSkipsMarkAndSweep` ends the space during
   a cycle's root collection and checks that 20,000 garbage external pointers
   are not finalized (all were before the fix);

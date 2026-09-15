@@ -1436,27 +1436,13 @@ namespace proto {
                     || space->state == SPACE_STATE_ENDING;
             });
         space->runningThreads.fetch_add(1, std::memory_order_acq_rel);
-        // Parking re-locks globalMutex and waits on the STW cv.  Doing it while
-        // we still hold globalMutex would leave the lock owned across that
-        // park (recursive_mutex drops only one level) and wedge the GC —
-        // release globalMutex around it.  Park only: this runs inside the
-        // allocator, where the caller may hold new cells in C++ locals, so the
-        // young generation must not be submitted here (safepoint() would).
+        // safepoint() re-locks globalMutex and may park on the STW cv.  Running
+        // it while we still hold globalMutex would leave the lock owned across
+        // that park (recursive_mutex drops only one level) and wedge the GC —
+        // release globalMutex around the safepoint.
         lock.unlock();
-        if (ctx) ctx->parkIfStopRequested();
+        if (ctx) ctx->safepoint();
         lock.lock();
-    }
-
-    void parkUntilWorldResumes(ProtoSpace* space) {
-        space->parkedThreads.fetch_add(1, std::memory_order_acq_rel);
-        {
-            GC_LOCK_TRACE("park STW ACQ");
-            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-            space->gcCV.notify_all();  // the quorum may now be met
-            space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
-            GC_LOCK_TRACE("park STW REL");
-        }
-        space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
     }
 
     void ProtoSpace::waitForHeapHeadroom(ProtoContext* ctx) {

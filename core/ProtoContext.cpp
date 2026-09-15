@@ -310,23 +310,25 @@ namespace proto
         }
 #endif
 
-        this->parkIfStopRequested();
-    }
-
-    void ProtoContext::parkIfStopRequested()
-    {
-        if (!this || !this->space) return;
-        if (!this->isStopRequested()) return;
+        if (!this->space->stwFlag.load(std::memory_order_relaxed)) return;
         // GC thread itself never parks against its own STW.
         if (this->space->gcThread &&
             std::this_thread::get_id() == this->space->gcThread->get_id()) return;
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-        // Critical-section discipline: a thread mid-construction must NOT
-        // park; STW would otherwise start with a half-built tree's cells in
-        // dirtySegments and unreachable from any root.
+        // Same critical-section discipline: a thread mid-construction
+        // must NOT park; STW would otherwise start with a half-built
+        // tree's cells in dirtySegments and unreachable from any root.
         if (this->criticalSectionDepth > 0) return;
 #endif
-        parkUntilWorldResumes(this->space);
+        this->space->parkedThreads++;
+        {
+            GC_LOCK_TRACE("safepoint STW ACQ");
+            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            this->space->gcCV.notify_all();
+            this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+            GC_LOCK_TRACE("safepoint STW REL");
+        }
+        this->space->parkedThreads--;
     }
 
     // 2026-05-25: thin wrappers around the thread-level unmanaged-region
@@ -378,10 +380,24 @@ namespace proto
         // and SparseList::implSetAt), do NOT park.  See safepoint() for the
         // rationale — STW root collection during a half-built structure
         // would orphan the in-flight cells.
-        if (this && (allocatedCellsCount & 63) == 0 && this->isStopRequested()) {
-            // Park only: allocCell runs inside helpers that hold new cells in
-            // C++ locals, so it never submits the young generation.
-            this->parkIfStopRequested();
+        if (this && this->space &&
+            (allocatedCellsCount & 63) == 0 &&
+            this->space->stwFlag.load(std::memory_order_relaxed) &&
+            std::this_thread::get_id() != this->space->gcThread->get_id()
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+            && this->criticalSectionDepth == 0
+#endif
+            ) {
+            this->space->parkedThreads++;
+            {
+                GC_LOCK_TRACE("allocCell STW ACQ");
+                std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                this->space->gcCV.notify_all();
+                this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+                GC_LOCK_TRACE("allocCell STW ACQ(wake)");
+                GC_LOCK_TRACE("allocCell STW REL");
+            }
+            this->space->parkedThreads--;
         }
 
         Cell* newCell = nullptr;

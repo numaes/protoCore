@@ -29,8 +29,7 @@ namespace proto {
             // condition counts us correctly.  Without this, the new thread
             // would sail past STW and run unsynchronised, sometimes leaving
             // the GC waiting indefinitely.
-            // Park only: the fresh context has nothing to submit.
-            context->parkIfStopRequested();
+            context->safepoint();
             try {
                 method(context, reinterpret_cast<const ProtoObject*>(context->thread), nullptr, args, kwargs);
             } catch (const std::exception& e) {
@@ -341,7 +340,13 @@ namespace proto {
             // unreachable from any root and freed.
             if (this->context && this->context->criticalSectionDepth > 0) return;
 #endif
-            parkUntilWorldResumes(this->space);
+            this->space->parkedThreads++;
+            {
+                std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                this->space->gcCV.notify_all(); // Notify GC that a thread parked
+                this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+            }
+            this->space->parkedThreads--;
         }
     }
 
@@ -398,7 +403,14 @@ namespace proto {
             this->space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
             // If STW is happening, block as a normal safepoint would.
             if (this->space->stwFlag.load(std::memory_order_acquire)) {
-                parkUntilWorldResumes(this->space);
+                this->space->parkedThreads.fetch_add(1, std::memory_order_acq_rel);
+                {
+                    std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                    this->space->gcCV.notify_all();
+                    this->space->stopTheWorldCV.wait(lock,
+                        [this] { return !this->space->stwFlag.load(); });
+                }
+                this->space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
             }
         }
     }

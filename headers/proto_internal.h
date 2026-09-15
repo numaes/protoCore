@@ -1290,19 +1290,6 @@ namespace proto {
                   "ProtoThreadExtension is allocated in a 64-byte cell");
 
     /**
-     * @brief The stop-the-world park handshake, shared by every park point
-     *        (allocation poll, safepoint, parkIfStopRequested, the thread
-     *        refill path and the return from an unmanaged region).
-     *
-     * Counts the calling thread as parked, wakes the collector so it can
-     * re-evaluate its quorum, waits until stwFlag is lowered, and uncounts
-     * the thread.  The caller has already decided that it may park (not
-     * the GC thread, not inside a critical section) and must not hold
-     * globalMutex.
-     */
-    void parkUntilWorldResumes(ProtoSpace* space);
-
-    /**
      * @brief Settles an exiting thread's refill batch: charges the consumed
      *        part to the allocation budget and returns the unused cells
      *        (`ext->freeCells`) to the space's global freelist.
