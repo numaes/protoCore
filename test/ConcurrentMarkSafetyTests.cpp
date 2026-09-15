@@ -18,8 +18,6 @@
 #include "../headers/proto_internal.h"
 #include <atomic>
 #include <chrono>
-#include <cstdlib>
-#include <string>
 #include <thread>
 #include <vector>
 
@@ -30,29 +28,6 @@ namespace {
 const ProtoString* sym(ProtoContext* ctx, const char* s) {
     return ProtoString::createSymbol(ctx, s);
 }
-
-// Sets (or, with value == nullptr, unsets) an environment variable for the
-// lifetime of the guard.  The GC pacing variables are read only by the
-// ProtoSpace constructor.
-class ScopedEnv {
-public:
-    ScopedEnv(const char* name, const char* value) : name_(name) {
-        if (const char* old = std::getenv(name)) {
-            hadOld_ = true;
-            old_ = old;
-        }
-        if (value) setenv(name, value, 1);
-        else unsetenv(name);
-    }
-    ~ScopedEnv() {
-        if (hadOld_) setenv(name_, old_.c_str(), 1);
-        else unsetenv(name_);
-    }
-private:
-    const char* name_;
-    bool hadOld_ = false;
-    std::string old_;
-};
 
 }  // namespace
 
@@ -219,19 +194,22 @@ TEST(ConcurrentMarkSafety, NoLostMutableReferences) {
 }
 
 // The per-thread attribute and mutable-value caches are rewritten by their
-// owning thread at any time.  A collector that reads a cache slot twice
-// (once to test for a cell pointer, once to convert it) can observe a cell
-// on the first read and nullptr or an embedded value on the second, and
-// then pushes nullptr on its work list.  Popping it crashed the mark loop
-// (SIGSEGV at address 0x8, within about 25 ms of this test on dbc12c89).
+// owning thread at any time, and the concurrent mark traces them through
+// ProtoThreadExtension::processReferences.  A collector that reads a cache
+// slot twice (once to test for a cell pointer, once to convert it) can
+// observe a cell on the first read and nullptr or an embedded value on the
+// second, and then pushes nullptr on its work list.  Popping it crashed the
+// mark loop (SIGSEGV at address 0x8).
 //
 // The helper thread below writes the main thread's caches directly.  Its
 // writes deliberately model the owner thread's own cache updates (cache
 // fills with a cell result, negative cache entries with nullptr, evictions),
-// at a rate that makes the race window observable.  Surviving is the
-// assertion; the cycle count proves the collector actually ran.
+// at a rate that makes the race window observable.  Collection cycles are
+// forced with a hard heap limit just above the startup heap: once the
+// garbage allocated below fills it, refills wait for cycles that reclaim the
+// destroyed contexts' cells.  Surviving is the assertion; the cycle count
+// proves the collector actually ran.
 TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
-    ScopedEnv budget("PROTOCORE_GC_MIN_BUDGET_CELLS", "4096");
     ProtoSpace space;
     ProtoContext* root = space.rootContext;
     ASSERT_NE(root->thread, nullptr);
@@ -240,6 +218,9 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
 
     const ProtoObject* cellValue = space.objectPrototype;
     ProtoSparseList* shardRoot = space.mutableRoot[0].root.load();
+
+    constexpr int kHeadroomCells = 40000;
+    space.setHeapLimits(/*soft=*/0, /*hard=*/space.heapSize + kHeadroomCells);
 
     // 0: flip attributeCache[i].result, 1: flip mutableValueCache[i], 2: stop.
     std::atomic<int> phase{0};
@@ -269,8 +250,9 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
         while (std::chrono::steady_clock::now() < phaseEnd &&
                space.getGCCycleCount() - phaseStart < 500) {
             // Garbage in a short-lived context: destroying it submits the
-            // young generation, and the 4096-cell budget starts a cycle on
-            // nearly every refill.  Safepoints let the cycles stop the world.
+            // young generation, and under the heap limit refills wait for
+            // the cycles that reclaim it.  Safepoints let a requested cycle
+            // stop the world.
             ProtoContext sub(&space, root, nullptr, nullptr, nullptr, nullptr);
             for (int j = 0; j < 4096; ++j) {
                 (void) sub.newObject(false);
