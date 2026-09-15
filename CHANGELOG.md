@@ -134,6 +134,26 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`Integer::asLong` no longer returns 0 for values above the second 64-bit
+  digit.**
+
+  **Cause.** A `LargeInteger` cell holds
+  `LargeIntegerImplementation::DIGIT_COUNT` (4) 64-bit digits, chained through
+  `next`. `asLong` rejected only `next != nullptr` or `digits[1] != 0`, so a
+  value whose only non-zero digit was `digits[2]` or `digits[3]` passed the
+  check and was returned as `digits[0]`. 2^128, 2^192 and 2^200 all read back
+  as 0, while 2^64 (`digits[1]`) and 2^256 (a second chunk) were rejected
+  correctly, which is why the window between them looked arbitrary. protoCore's
+  own bitwise operations, which call `asLong` on their operands, were affected
+  as well. Reported from protoClojure, where such literals evaluated to 0.
+
+  **Change.** `asLong` throws unless `next` is null and every digit above
+  `digits[0]` is zero. Parsing, printing and arithmetic were already correct:
+  a probe covering 2^(64k) for k = 1..8, the values on either side, both signs
+  and round trips through `asIntegerString` in bases 10 and 16 had 11 failures,
+  all of them `asLong`, and now has none.
+
+  **Tests.** `test/LargeIntegerRangeTests.cpp`.
 - **The per-thread caches are no longer GC roots.**
 
   **Problem.** `ProtoThreadExtension::processReferences` traced every

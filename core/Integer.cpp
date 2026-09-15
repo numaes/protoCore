@@ -160,10 +160,19 @@ namespace proto
 
         const auto* li = toImpl<const LargeIntegerImplementation>(object);
 
-        // A LargeInteger that chains (next != nullptr) or uses more than one 64-bit digit (digits[1] != 0)
-        // is guaranteed to be outside the long long range.
-        if (li->next != nullptr || li->digits[1] != 0) {
+        // A LargeInteger that chains (next != nullptr) or uses any digit above
+        // digits[0] is outside the long long range.  Every digit above the
+        // first must be checked, not just digits[1]: a chunk holds DIGIT_COUNT
+        // digits, so a value such as 2^128 ([0, 0, 1, 0]) or 2^192
+        // ([0, 0, 0, 1]) has digits[1] == 0 and used to be returned silently as
+        // digits[0], i.e. 0.
+        if (li->next != nullptr) {
             throw std::overflow_error("LargeInteger value exceeds long long range.");
+        }
+        for (int i = 1; i < LargeIntegerImplementation::DIGIT_COUNT; ++i) {
+            if (li->digits[i] != 0) {
+                throw std::overflow_error("LargeInteger value exceeds long long range.");
+            }
         }
 
         unsigned long long magnitude = li->digits[0];
