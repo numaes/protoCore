@@ -134,6 +134,34 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **A snapshot read from the mutables tree is never held across a
+  park point** — preparation for the per-thread caches no longer being GC
+  roots.
+
+  **Why.** Three kinds of code resolve a mutable object's current state, then
+  keep using it, or the shard root they read, across allocations that can
+  park for a stop-the-world. Only C++ locals reference those cells. If
+  another thread publishes a new state meanwhile, nothing else keeps the old
+  one alive. Until now the thread's own mutable value cache entry happened to
+  keep them alive, because the collector traced the caches.
+
+  **Changes.**
+  - `ProtoObject::getParents` and `ProtoObject::getAttributes` open their
+    outermost critical section before resolving the snapshot and keep it until
+    the result is built. Their heap checkpoint now runs before the resolve, not
+    during the build.
+  - No thread parks inside a critical section in any configuration:
+    - `ProtoContext::allocCell`, `ProtoContext::safepoint()`,
+      `ProtoThread::synchToGC()` and the headroom wait now skip parking inside
+      a critical section even with `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF`, as
+      they already did with it ON;
+    - in that configuration, the `setAttribute` family could previously park
+      while path-copying a shard root it had read;
+    - the stop-the-world quorum now waits for critical sections to end in
+      every configuration.
+  - This also removes a documented known issue of the OFF configuration: an
+    exiting thread, parked inside `removeAt`'s critical section, could be
+    counted twice by the quorum.
 - **Waiting for heap headroom no longer hands the waiting context's young
   generation to the collector** — under a hard heap limit, a thread that
   reaches the ceiling waits in `ProtoSpace::waitForHeapHeadroom`, called from

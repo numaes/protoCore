@@ -346,12 +346,11 @@ namespace proto
         // GC thread itself never parks against its own STW.
         if (this->space->gcThread &&
             std::this_thread::get_id() == this->space->gcThread->get_id()) return;
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-        // Same critical-section discipline: a thread mid-construction
-        // must NOT park; STW would otherwise start with a half-built
-        // tree's cells in dirtySegments and unreachable from any root.
+        // Same critical-section discipline, in every configuration: a thread
+        // inside a critical section must NOT park.  It may be mid-construction
+        // (a half-built tree in dirtySegments, unreachable from any root) or
+        // hold cells read from the mutables tree only in C++ locals.
         if (this->criticalSectionDepth > 0) return;
-#endif
         this->space->parkedThreads++;
         {
             GC_LOCK_TRACE("safepoint STW ACQ");
@@ -416,9 +415,10 @@ namespace proto
             (allocatedCellsCount & 63) == 0 &&
             this->space->stwFlag.load(std::memory_order_relaxed) &&
             std::this_thread::get_id() != this->space->gcThread->get_id()
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+            // Never park inside a critical section, in any configuration:
+            // the thread may hold cells read from the mutables tree, or
+            // half-built ones, only in C++ locals.
             && this->criticalSectionDepth == 0
-#endif
             ) {
             this->space->parkedThreads++;
             {

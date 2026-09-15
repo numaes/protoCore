@@ -640,18 +640,6 @@ operates under.
 
 ## Known issues
 
-- **An exiting thread can be counted twice by the stop-the-world quorum
-  (builds with `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF`).**  `thread_main`
-  (`core/Thread.cpp`) decrements `runningThreads` as soon as the thread's
-  method returns, and only then rebuilds `space->threads`.  The rebuild
-  allocates.  In this configuration the allocation poll and the refill
-  path park on a pending stop-the-world request even inside the critical
-  section that `removeAt` opens, and parking increments `parkedThreads`.
-  While it is parked, the exiting thread counts as parked but no longer as
-  running, so the Phase 1 quorum (`parkedThreads >= runningThreads`) can
-  be met while another mutator is still running.  With the survivor
-  re-chain enabled (the default) the exit allocation does not park inside
-  the critical section.
 - **An exiting thread's unused cell batch is not returned.**  A
   `ProtoThread` allocates from a private freelist
   (`ProtoThreadExtension::freeCells`) that `getFreeCells` refills in

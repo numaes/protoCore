@@ -1056,6 +1056,16 @@ namespace proto
         if (!proto::isObjectFast(this)) return context->newList();
         const auto* oc = toImpl<const ProtoObjectCell>(this);
 
+        // GC critical section opened BEFORE the mutable snapshot is resolved.
+        // The parent chain read from the snapshot is used across the list
+        // allocations below, and the snapshot is referenced only from this
+        // frame: if another thread publishes a new state, nothing else keeps
+        // the old one alive.  Inside the section no thread parks, so no
+        // stop-the-world can run between the resolve and the last use; the
+        // heap checkpoint runs at the section's entry, before the resolve.
+        // The result list is young in `context` when the section ends.
+        ProtoContext::CriticalSection cs(context);
+
         // Handle Mutable Objects (cache-fast)
         if (oc->mutable_ref > 0) {
              const proto::ProtoObject* storedState =
@@ -1811,6 +1821,18 @@ namespace proto
         auto oc = toImpl<const ProtoObjectCell>(this);
         const ProtoSparseListImplementation* attributes = oc->attributes;
 
+        // GC critical section opened BEFORE the mutable snapshot is resolved
+        // and held until the result is built.  The snapshot's attributes and
+        // parent chain are used across the recursive parent lookup and the
+        // merge allocations, and they are referenced only from this frame: if
+        // another thread publishes a new state, nothing else keeps the old one
+        // alive.  Inside the section no thread parks (the recursion's own
+        // sections are nested), so no stop-the-world runs between the resolve
+        // and the last use; the heap checkpoint runs at this entry, before the
+        // resolve.  The section also covers the merge, whose partial tree is
+        // reachable only via `attrs` until the final return.
+        ProtoContext::CriticalSection cs(context);
+
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
             if (storedState != nullptr) {
@@ -1831,12 +1853,8 @@ namespace proto
                     // merge loop below by walking via the Iterator API
                     // (which works on either form via tag dispatch).
                     const ProtoSparseList* parentAttrs = parentObj->getAttributes(context);
-                // Merge parent attributes with own attributes.  GC critical
-                // section: the loop below builds `attrs` incrementally and
-                // every implSetAt allocates new SparseList nodes; the
-                // partial tree is reachable only via this C++ local until
-                // the final `return`.
-                ProtoContext::CriticalSection cs(context);
+                // Merge parent attributes with own attributes (inside the
+                // critical section opened above).
                 const ProtoSparseListIterator* it = parentAttrs->getIterator(context);
                 while (it && it->hasNext(context)) {
                     unsigned long key = it->nextKey(context);

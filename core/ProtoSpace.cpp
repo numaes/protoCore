@@ -1441,10 +1441,7 @@ namespace proto {
             ctx->thread->synchToGC();
         } else if (ctx && space->stwFlag.load() &&
                    !(space->gcThread && std::this_thread::get_id() == space->gcThread->get_id())
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                   && ctx->criticalSectionDepth == 0
-#endif
-                   ) {
+                   && ctx->criticalSectionDepth == 0) {
             // A context without a thread parks the same way, keyed on the
             // context's own critical-section depth.
             space->parkedThreads++;
