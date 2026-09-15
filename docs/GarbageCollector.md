@@ -311,12 +311,21 @@ authors must follow at the root side.
 
 - Threads request batches of cells from `ProtoSpace` (`getFreeCells`).
 - **When a cycle starts.**  Without a hard heap limit (the default),
-  allocation paces collection.  `getFreeCells` charges every batch it
-  hands to a thread, from the freelist or from the OS, against an
-  allocation budget, and requests a cycle through the ordinary
-  `gcStarted` / `gcCV` wake-up once the cells handed out since the
-  previous cycle's stop-the-world snapshot reach it and the mutators have
-  submitted garbage candidates since that snapshot.  Candidates are
+  allocation paces collection.  The allocator charges the cells mutators
+  consume, from the freelist or from the OS, against an allocation
+  budget, and requests a cycle through the ordinary `gcStarted` / `gcCV`
+  wake-up once the cells charged since the previous cycle's stop-the-world
+  snapshot reach it and the mutators have submitted garbage candidates
+  since that snapshot.  A `ProtoThread` takes cells in refill batches (up
+  to 65,536 cells when several threads run); a batch is charged when the
+  thread exhausts it and refills, and at thread exit the used part is
+  charged and the unused cells return to the global freelist.  The charge
+  therefore lags allocation by at most one batch per thread, and threads
+  that hold a batch they barely use spend none of the budget.  (Until
+  September 2026 every batch was charged when handed out: 8 idle worker
+  threads cost 524,288 cells, half the default budget, before allocating
+  anything.)  Batches for contexts without a thread are charged when
+  handed out.  Candidates are
   pending `dirtySegments` from destroyed contexts or safepoint threshold
   submissions.  Cells still owned by a live context's young generation are
   never candidates.  A cycle started with nothing submitted could only
@@ -324,19 +333,21 @@ authors must follow at the root side.
   submission.  At the end of every cycle the budget is recomputed as
 
       budget   = max(gcMinBudgetCells, retained × gcGrowthPercent / 100)
-      retained = heapSize − freeCellsCount − cells handed out during the cycle
+      retained = heapSize − freeCellsCount − cells charged during the cycle
 
   `retained` counts the cells the cycle found occupied and could not
-  return to the freelist.  Cells handed out while the cycle ran are
+  return to the freelist.  Cells charged while the cycle ran are
   excluded, because counting them would make the budget grow with the
-  cycle's duration.  The budget is proportional to retained cells, not
+  cycle's duration.  The unused part of each thread's batch counts as
+  retained, an over-estimate of at most one batch per thread.  The budget is proportional to retained cells, not
   to `heapSize`, which never shrinks.  Collection work therefore stays
   proportional to allocation.  A workload with a constant live set keeps
   a bounded heap: in a scratch measurement that allocated 257 million
   cells of garbage with 1,000 live strings, the heap stayed at 3.9
   million cells (240 MiB) across 102 cycles.  Without the trigger it
   grew to 257 million cells (15.3 GiB).  The check runs only on the
-  refill path, once per batch, never per allocated cell.
+  refill path and at thread exit, once per batch, never per allocated
+  cell.
   - `PROTOCORE_GC_GROWTH_PERCENT` (default `100`, range `0`–`10000`) sets
     `gcGrowthPercent`.  `0` disables automatic cycles; collection then
     starts only through `triggerGC()`, which was the behaviour before

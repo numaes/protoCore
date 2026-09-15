@@ -136,6 +136,22 @@ All notable changes to protoCore are documented in this file.
   thread. Embedder caches that hold cell pointers must be kept alive through
   a root captured under stop-the-world or be dropped when
   `getGCCycleCount()` changes (`docs/GarbageCollector.md`).
+- **The allocation budget is charged for cells consumed, not batches handed
+  out** — `getFreeCells` charged each refill batch to the GC allocation
+  budget when a thread received it. With several threads running a batch is
+  65,536 cells, so every thread that allocated a single cell was charged a
+  whole batch: eight idle protoST workers cost 524,288 cells, half the
+  default 1,048,576-cell budget, and sixteen protoClojure workers the whole
+  budget, starting cycles in programs that produced almost no garbage (protoST
+  `parallel_speedup` ran at about twice its wall time). A ProtoThread's batch
+  is now charged when the thread exhausts it and refills, and at thread exit
+  the used part is charged (`settleThreadCells`). Cycles per allocated cell no
+  longer depend on the number of threads; the charge lags allocation by at
+  most one batch per thread. Contexts without a thread are still charged at
+  hand-out. **ABI:** `ProtoThreadExtension` gains `heldBatchCells` (its cell is
+  now 64 of 64 bytes) and `ProtoSpace` gains the overload
+  `getFreeCells(ProtoContext*, ProtoThreadExtension*)`; embedders must be
+  rebuilt.
 - **Exiting threads return their unused cells** — a `ProtoThread` allocates
   from a private freelist that is refilled in batches of up to 65,536 cells,
   and the unused part of its last batch was never returned when the thread
@@ -244,6 +260,14 @@ All notable changes to protoCore are documented in this file.
   `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
   instrumented and debug builds name a cell type whose `processReferences`
   reports `nullptr`.
+- `GCHeapGrowthTriggerTest.IdleThreadBatchesDoNotSpendTheBudget` (eight
+  threads take a batch each and go idle; no cycle may start; it failed before
+  the charge-on-consumption fix), `ManyThreadGarbageStillBoundsHeap` (eight
+  threads, 8 million cells of garbage, at least three cycles and growth below
+  a quarter of the allocation) and `ShortLivedThreadsAreCharged` (128 threads
+  that each allocate less than one batch start cycles and keep the heap below
+  half the allocation). The multi-thread tests wait while a cycle is pending,
+  so they test pacing rather than collector throughput.
 - `ThreadLifecycle.ShortLivedThreadsDoNotGrowTheHeapByABatchEach` runs 64
   sequential threads that allocate one object each and bounds the heap
   growth to four batches (2,228,224 cells before the fix).

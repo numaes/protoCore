@@ -1271,6 +1271,11 @@ namespace proto {
         // ProtoThread::goUnmanaged / returnFromUnmanaged for the
         // contract.
         std::atomic<int> unmanagedDepth{0};
+        // Size of the batch currently in `freeCells`, not yet charged to the
+        // allocation budget.  Written by ProtoSpace::getFreeCells(ctx, ext)
+        // and settleThreadCells under globalMutex, on behalf of the owning
+        // thread only.
+        unsigned long heldBatchCells{0};
 
         CellType getType() const override { return CellType::ThreadExtension; }
 
@@ -1281,8 +1286,12 @@ namespace proto {
         const ProtoObject *implAsObject(ProtoContext *context) const override;
     };
 
+    static_assert(sizeof(ProtoThreadExtension) <= 64,
+                  "ProtoThreadExtension is allocated in a 64-byte cell");
+
     /**
-     * @brief Returns the unused cells of an exiting thread's refill batch
+     * @brief Settles an exiting thread's refill batch: charges the consumed
+     *        part to the allocation budget and returns the unused cells
      *        (`ext->freeCells`) to the space's global freelist.
      *
      * Called once per ProtoThread, from thread_main, after the thread's last
