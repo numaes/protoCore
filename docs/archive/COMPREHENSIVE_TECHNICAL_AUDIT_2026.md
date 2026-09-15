@@ -1,4 +1,7 @@
 # ProtoCore Technical Audit 2026
+
+> **Historical document.** Dated record kept for reference; not maintained and may not match the current code. Current documentation: [DOCUMENTATION.md](../../DOCUMENTATION.md). Its "production ready" assessment is superseded: protoCore is not production ready.
+
 **Date:** April 30, 2026 (updated)  
 **Project:** ProtoCore - High-Performance Embeddable Dynamic Object System  
 **Version Analyzed:** Latest (master, cache optimization merged 2026-04-30)  
@@ -579,7 +582,7 @@ ProtoCore is currently integrated with:
 - ✅ True concurrency without GIL
 - ✅ Excellent cache locality
 
-For a more in-depth comparison with modern parallel runtimes (Pony, BEAM, Clojure), see the [RUNTIME_STRATEGY_2026.md](RUNTIME_STRATEGY_2026.md).
+For a more in-depth comparison with modern parallel runtimes (Pony, BEAM, Clojure), see the [RUNTIME_STRATEGY_2026.md](../../RUNTIME_STRATEGY_2026.md).
 
 ---
 
@@ -702,7 +705,7 @@ ProtoCore meets or exceeds the standards for:
 1. **Continue Integration** - ProtoJS integration fully operational
 2. **Monitor Usage** - Collect feedback from real-world deployments
 3. **Maintain Quality** - Preserve current high standards
-4. **Plan Enhancements** - Consider improvements from the [RUNTIME_STRATEGY_2026.md](RUNTIME_STRATEGY_2026.md) roadmap
+4. **Plan Enhancements** - Consider improvements from the [RUNTIME_STRATEGY_2026.md](../../RUNTIME_STRATEGY_2026.md) roadmap
 5. **Document Success** - Create case studies for adoption
 
 ---
@@ -801,7 +804,7 @@ ProtoCore meets or exceeds the standards for:
 - ✅ New module discovery tests (registry, chain, cache, toUTF8String) pass
 - ✅ GC scans `moduleRoots` for loaded modules
 
-**Reference:** [docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md) for full specification, platform defaults, and examples.
+**Reference:** [docs/MODULE_DISCOVERY.md](../MODULE_DISCOVERY.md) for full specification, platform defaults, and examples.
 
 ### String Refactoring — Three-Tier AVL Architecture ✅ (merged 2026-04-02)
 
@@ -863,4 +866,4 @@ ProtoCore meets or exceeds the standards for:
 
 ---
 
-**Documentation index:** See [DOCUMENTATION.md](DOCUMENTATION.md) for a unified index of all protoCore documentation and references.
+**Documentation index:** See [DOCUMENTATION.md](../../DOCUMENTATION.md) for a unified index of all protoCore documentation and references.

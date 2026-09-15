@@ -1135,7 +1135,7 @@ namespace proto {
     // cycle finishes (or a 50 ms watchdog fires, so a missed notify costs
     // latency, not a hang), rejoins the running set, and parks at a safepoint
     // if a stop-the-world began while it slept.  See
-    // docs/superpowers/specs/2026-05-22-allocation-limit-oom-design.md.
+    // docs/archive/design-specs/2026-05-22-allocation-limit-oom-design.md.
     static void reclaimWaitLocked(ProtoSpace* space,
                                   std::unique_lock<std::recursive_mutex>& lock,
                                   ProtoContext* ctx) {
@@ -1319,7 +1319,7 @@ namespace proto {
             // the bytecode dispatch). The Phase-1 barrier never
             // closed; mark + sweep ran exactly once at the very end
             // of the run. See
-            // protoST/docs/superpowers/specs/2026-05-23-saturation-experiment.md
+            // https://github.com/gamarino/protoST/blob/main/docs/archive/design-specs/2026-05-23-saturation-experiment.md
             // for the measurement (Phase-1 waited 2.27 s of a 2.5 s
             // run at workers=8).
             //

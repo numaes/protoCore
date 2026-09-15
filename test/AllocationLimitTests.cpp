@@ -8,7 +8,7 @@
 //     ceiling) reaches the out-of-memory escalation: the embedder callback is
 //     invoked and the process performs the controlled abort.
 //
-// See docs/superpowers/specs/2026-05-22-allocation-limit-oom-design.md.
+// See docs/archive/design-specs/2026-05-22-allocation-limit-oom-design.md.
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"

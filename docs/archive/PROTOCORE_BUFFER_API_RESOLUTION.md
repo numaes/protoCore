@@ -1,4 +1,7 @@
 # ProtoCore Buffer API Implementation - Resolution Summary
+
+> **Historical document.** Dated record kept for reference; not maintained and may not match the current code. Current documentation: [DOCUMENTATION.md](../../DOCUMENTATION.md). Its "production ready" assessment is superseded: protoCore is not production ready.
+
 **Date:** January 24, 2026  
 **Status:** ✅ **COMPLETE** - All methods implemented, tested, and committed
 

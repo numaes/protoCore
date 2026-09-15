@@ -1,4 +1,7 @@
 # ProtoCore GC Stress Test Analysis & Fix
+
+> **Historical document.** Dated record kept for reference; not maintained and may not match the current code. Current documentation: [DOCUMENTATION.md](../../DOCUMENTATION.md). Its "production ready" assessment is superseded: protoCore is not production ready.
+
 **Date:** January 24, 2026  
 **Issue:** GCStressTest.LargeAllocationReclamation failing  
 **Status:** ✅ FIXED - Test now passes with corrected expectations

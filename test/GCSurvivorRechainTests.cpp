@@ -1,5 +1,5 @@
 // Tests for the GC survivor re-chain and per-context allocation threshold
-// trigger.  See docs/superpowers/specs/2026-05-03-gc-survivor-rechain.md.
+// trigger.  See docs/archive/design-specs/2026-05-03-gc-survivor-rechain.md.
 //
 // All tests in this file are skipped when PROTOCORE_GC_REINCLUDE_SURVIVORS is
 // not defined; they exercise behaviour that is only correct under the flag.

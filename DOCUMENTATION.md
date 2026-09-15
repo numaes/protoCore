@@ -1,108 +1,58 @@
 # protoCore Documentation Index
 
-**Last updated:** May 2026  
-**Purpose:** Unified index of all protoCore documentation with references. Use this document to find the right doc for your need.
+Index of the documentation in this repository. Documents marked **dated** record the state of protoCore when they were written and may not match the current code.
 
 ---
 
-## 1. Entry points
+## 1. User documentation
 
-| Document | Description | When to use |
-|----------|-------------|-------------|
-| [README.md](README.md) | Project overview, quick start, build, status, protoJS | First contact; build and run. |
-| [docs/INSTALLATION.md](docs/INSTALLATION.md) | **Installation guide** — build, install, and package on Linux (.deb, .rpm), macOS (.dmg, .tgz), Windows (.exe, .zip); CPack usage | Install protoCore or create packages. |
-| [DESIGN.md](DESIGN.md) | Architectural design, public API vs internal, memory model, object model | Understand architecture and contribution rules. |
-| [COMPREHENSIVE_TECHNICAL_AUDIT_2026.md](COMPREHENSIVE_TECHNICAL_AUDIT_2026.md) | Full technical audit (architecture, implementation, tests, module system) | Current quality, metrics, and production readiness. |
-| [docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md) | **User guide: generating a module for Unified Module Discovery** (steps, links to full guide and spec) | Create and register a module for UMD. |
+| Document | Contents |
+|----------|----------|
+| [README.md](README.md) | Project overview, status, ecosystem, quick start, and build, test and packaging instructions. |
+| [docs/INSTALLATION.md](docs/INSTALLATION.md) | Building from source, installing the shared library, and CPack packaging per platform. |
+| [docs/TESTING.md](docs/TESTING.md) | Test suite (GoogleTest and CTest): running tests, re-running failures, parallel runs, coverage, and CI scripts. |
+| [docs/Structural description/guides/04_testing_user_guide.md](docs/Structural%20description/guides/04_testing_user_guide.md) | Short copy-paste guide to running the tests and generating a coverage report. |
+| [docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md) | Short guide to creating and registering a module for Unified Module Discovery (UMD). |
+| [docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md) | UMD specification: `ProviderRegistry`, `ModuleProvider`, resolution chain, `ProtoSpace::getImportModule`, `SharedModuleCache`, `FileSystemProvider`, platform defaults. |
+| [docs/Structural description/guides/05_creating_modules.md](docs/Structural%20description/guides/05_creating_modules.md) | Step-by-step guide to implementing, registering and loading a custom `ModuleProvider`, with an example. |
+| [LICENSE](LICENSE) | License terms. |
 
----
+## 2. Architecture overviews
 
-## 2. Analysis and planning
+| Document | Contents |
+|----------|----------|
+| [docs/Structural description/README.md](docs/Structural%20description/README.md) | Introduction to protoCore and index of the guides and architecture overviews below. |
+| [docs/Structural description/architecture/01_garbage_collector.md](docs/Structural%20description/architecture/01_garbage_collector.md) | Garbage collector overview: design without write barriers, collection life cycle, critical sections, external buffers. |
+| [docs/Structural description/architecture/02_mutability_model.md](docs/Structural%20description/architecture/02_mutability_model.md) | Mutability model overview: identity/state separation, sharded `mutableRoot`, compare-and-swap updates, GC root scanning. |
+| [docs/Structural description/architecture/03_object_model.md](docs/Structural%20description/architecture/03_object_model.md) | Object model overview: context life cycle, tagged pointers, prototype-based inheritance, thread-local attribute cache. |
 
-| Document | Description | When to use |
-|----------|-------------|-------------|
-| [TECHNICAL_ANALYSIS.md](TECHNICAL_ANALYSIS.md) | Technical analysis: architecture, memory model, object model, codebase layout, build | High-level technical overview and recommendations. |
-| [IMPROVEMENT_PLAN_2026.md](IMPROVEMENT_PLAN_2026.md) | Improvement plan: stability, developer experience, optional enhancements | Roadmap and maintenance. |
-| [next_steps.md](next_steps.md) | Vision: ecosystem (protoPython, protoJS, browser), contribution | Strategic vision and ecosystem. |
+## 3. Contributor and design documentation
 
----
+| Document | Contents |
+|----------|----------|
+| [DESIGN.md](DESIGN.md) | Architectural design and implementation rules: public API versus internal classes, memory model, garbage collector, unmanaged regions, heap allocation limit, data model, object model, two-tier cache, execution model. |
+| [CHANGELOG.md](CHANGELOG.md) | Release notes. |
+| [docs/GarbageCollector.md](docs/GarbageCollector.md) | Garbage collector implementation: `ProtoSpace`, `ProtoContext`, `DirtySegment`, the mutable-shard snapshot, and each phase of a collection cycle. |
+| [docs/STW_ELIMINATION_RESEARCH.md](docs/STW_ELIMINATION_RESEARCH.md) | Research note on bounding the stop-the-world pause. Its concurrent-mark step is implemented (2026-05-30); the other directions are research only. |
+| [docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) | **Dated** (April 2026): design and measured results of the 256-shard mutable root and the per-thread mutable value cache. |
+| [docs/ROPES_AS_PROTOTUPLE.md](docs/ROPES_AS_PROTOTUPLE.md) | **Dated** (February 2026): `ProtoString` as `ProtoTuple` ropes. It predates the three-tier string redesign ([design specification](docs/archive/design-specs/2026-03-31-string-refactoring-design.md)) and may not match the current representation. |
 
-## 3. Module system
+## 4. Dated analyses
 
-| Document | Description | When to use |
-|----------|-------------|-------------|
-| [docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md) | **User guide: generating a module for Unified Module Discovery** — steps, quick reference, links to full guide and spec | How to generate/create a module for UMD. |
-| [docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md) | Unified Module Discovery: resolution chain, ProviderRegistry, ProtoSpace::getImportModule, SharedModuleCache, FileSystemProvider, platform defaults | Specification and usage of the module system. |
-| [docs/Structural description/guides/05_creating_modules.md](docs/Structural%20description/guides/05_creating_modules.md) | Full user guide: creating modules (ModuleProvider, registration, resolution chain, Greeter example) | Implement and register custom modules (detailed). |
+| Document | Contents |
+|----------|----------|
+| [TECHNICAL_ANALYSIS.md](TECHNICAL_ANALYSIS.md) | **Dated** (January 2026, updated April 2026): high-level overview of the architecture, codebase layout, build system and technology stack. |
+| [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | **Dated** (January 2026): record of the methods added to protoCore for protoJS's `GCBridge` (`ProtoString::asObject` and others). |
+| [JIT_IMPACT_ANALYSIS_2026.md](JIT_IMPACT_ANALYSIS_2026.md) | **Dated** (April 2026): analysis of a built-in JIT; recommends optimization hooks in protoCore instead of a self-contained JIT. |
+| [RUNTIME_STRATEGY_2026.md](RUNTIME_STRATEGY_2026.md) | **Dated** (April 2026): comparison with BEAM, Pony, Clojure and Lua/QuickJS, suggested application domains, and proposed next steps. |
 
----
+## 5. API reference
 
-## 4. Structural description (guides, architecture, tutorials)
+The API reference is generated with Doxygen from the root [Doxyfile](Doxyfile): `doxygen Doxyfile` writes XML to `docs/doxygen/xml/`, which is not tracked. [docs/README.md](docs/README.md) describes the configuration and how to generate HTML.
 
-| Document | Description | When to use |
-|----------|-------------|-------------|
-| [docs/Structural description/README.md](docs/Structural%20description/README.md) | Welcome and index for Structural description | Navigate guides, architecture, tutorials. |
-| **Guides** | | |
-| [01_quick_start.md](docs/Structural%20description/guides/01_quick_start.md) | Build and run; first program | Get started quickly. |
-| [02_building_on_proto.md](docs/Structural%20description/guides/02_building_on_proto.md) | Building on protoCore (transpiler vs direct C++, integration) | Integrate protoCore into your app. |
-| [03_contributing.md](docs/Structural%20description/guides/03_contributing.md) | Contributing | How to contribute. |
-| [04_testing_user_guide.md](docs/Structural%20description/guides/04_testing_user_guide.md) | Running tests and coverage | Run tests and generate coverage. |
-| [05_creating_modules.md](docs/Structural%20description/guides/05_creating_modules.md) | Creating modules (see §3) | Create custom ModuleProviders. |
-| **Architecture** | | |
-| [01_garbage_collector.md](docs/Structural%20description/architecture/01_garbage_collector.md) | GC design and behavior | Understand GC. |
-| [02_mutability_model.md](docs/Structural%20description/architecture/02_mutability_model.md) | Mutability model | Understand mutability. |
-| [03_object_model.md](docs/Structural%20description/architecture/03_object_model.md) | Object and type system | Understand object model. |
-| [04_ffi_and_integration.md](docs/Structural%20description/architecture/04_ffi_and_integration.md) | FFI and C++ integration | FFI and embedding. |
-| **Tutorials** | | |
-| [01_building_a_repl.md](docs/Structural%20description/tutorials/01_building_a_repl.md) | Building a REPL | Tutorial: REPL. |
-| [02_transpiling_python.md](docs/Structural%20description/tutorials/02_transpiling_python.md) | Transpiling Python | Tutorial: Python transpiler. |
+## 6. Archive
 
----
-
-## 5. Testing and build docs
-
-| Document | Description | When to use |
-|----------|-------------|-------------|
-| [docs/TESTING.md](docs/TESTING.md) | Testing: CTest, parallel runs, caching, coverage, CI | Full testing documentation. |
-| [docs/README.md](docs/README.md) | Building Sphinx/Doxygen docs | Build the doc site. |
-
----
-
-## 6. Technical deep-dives
-
-| Document | Description | When to use |
-|----------|-------------|-------------|
-| [docs/GarbageCollector.md](docs/GarbageCollector.md) | GC implementation: ProtoSpace, ProtoContext, DirtySegment, GC cycle | GC internals. |
-
----
-
-## 7. Historical / reference (one-off audits and resolutions)
-
-These documents describe completed one-off work. The canonical current state is in [COMPREHENSIVE_TECHNICAL_AUDIT_2026.md](COMPREHENSIVE_TECHNICAL_AUDIT_2026.md) and [README.md](README.md).
-
-| Document | Description |
-|----------|-------------|
-| [API_COMPLETENESS_AUDIT_2026.md](API_COMPLETENESS_AUDIT_2026.md) | API completeness audit (36 methods implemented); status now in COMPREHENSIVE_TECHNICAL_AUDIT_2026. |
-| [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | Summary of GCBridge-related methods (ProtoString::asObject, etc.). |
-| [PROTOCORE_BUFFER_API_RESOLUTION.md](PROTOCORE_BUFFER_API_RESOLUTION.md) | Buffer API implementation resolution for protoJS. |
-| [GC_STRESS_TEST_FIX_ANALYSIS.md](GC_STRESS_TEST_FIX_ANALYSIS.md) | GC stress test fix (LargeAllocationReclamation). |
-| [docs/superpowers/specs/2026-03-31-string-refactoring-design.md](docs/superpowers/specs/2026-03-31-string-refactoring-design.md) | Design spec for the three-tier AVL string refactoring (April 2026). |
-| [docs/superpowers/plans/2026-03-31-string-refactoring.md](docs/superpowers/plans/2026-03-31-string-refactoring.md) | Implementation plan for the string refactoring (all 15 tasks completed). |
-| [docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) | **Implemented** — Design and validation of the 256-shard mutable root and 2-tier per-thread attribute cache (April 2026). |
-
----
-
-## 8. Superseded documents (removed or archived)
-
-- **AUDIT_EXECUTIVE_SUMMARY.md** — Content merged into COMPREHENSIVE_TECHNICAL_AUDIT_2026.md; use that document for the executive summary.
-- **docs/TechnicalAudit.md** — Superseded by COMPREHENSIVE_TECHNICAL_AUDIT_2026.md for architecture and audit findings.
-
----
-
-## Quick links by role
-
-- **New contributor:** README → docs/Structural description/README.md → 01_quick_start → 03_contributing.
-- **Embedding protoCore:** README → DESIGN → docs/Structural description/guides/02_building_on_proto.
-- **Module system / generating a UMD module:** docs/USER_GUIDE_UMD_MODULES.md → docs/MODULE_DISCOVERY.md → docs/Structural description/guides/05_creating_modules.md.
-- **Quality and audit:** COMPREHENSIVE_TECHNICAL_AUDIT_2026.md.
-- **Testing:** docs/TESTING.md, docs/Structural description/guides/04_testing_user_guide.md.
+| Document | Contents |
+|----------|----------|
+| [docs/archive/README.md](docs/archive/README.md) | Historical audits, plans and one-off analyses, with the reason each was archived. Their "production ready" assessments are superseded: protoCore is not production ready. |
+| [docs/archive/design-specs/README.md](docs/archive/design-specs/README.md) | Historical design specifications (string redesign, GC survivor re-chain, heap allocation limit). |

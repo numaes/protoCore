@@ -86,7 +86,7 @@ The project follows a clean separation between public API and internal implement
 
 *   **Language**: C++20 (Concepts, modules support readiness, modern stdlib).
 *   **Testing**: Google Test (gtest/gmock).
-*   **Documentation**: Doxygen, Sphinx, Breathe.
+*   **Documentation**: Doxygen.
 *   **Build**: CMake, Make.
 
 ## 6. Conclusion and Recommendations

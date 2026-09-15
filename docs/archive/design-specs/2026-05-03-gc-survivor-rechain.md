@@ -15,7 +15,7 @@ In `ProtoSpace.cpp:308–355`, after a sweep cycle:
 - Cells **not** marked → returned to free pool. Correct.
 - Cells **marked** (survivors) → mark bit cleared, **remain inside the captured `DirtySegment`**, and the entire segment is recycled to `dirtySegmentFreePool`. The cells are dropped from the GC's analysis set.
 
-A surviving cell never re-enters the candidate set. If it later becomes unreachable, it leaks forever. This is the root cause of the behaviour documented in `GC_STRESS_TEST_FIX_ANALYSIS.md` ("Promotion Delay … Conservative Collection") and the reason `memory_pressure`-style benchmarks are excluded from comparisons.
+A surviving cell never re-enters the candidate set. If it later becomes unreachable, it leaks forever. This is the root cause of the behaviour documented in `docs/archive/GC_STRESS_TEST_FIX_ANALYSIS.md` ("Promotion Delay … Conservative Collection") and the reason `memory_pressure`-style benchmarks are excluded from comparisons.
 
 A second, related symptom: a long-running function that allocates many short-lived cells (typical loop) accumulates them on `ProtoContext::lastAllocatedCell` and never releases them until the context is destroyed, even when the working set is small.
 
@@ -181,7 +181,7 @@ cmake -B build_on -S . -DPROTOCORE_GC_REINCLUDE_SURVIVORS=ON -DCMAKE_BUILD_TYPE=
 | Threshold too low → too many cycles | Configurable via env var. Start at 10K, tune from benchmarks. |
 | Threshold too high → loss of bounding effect | Heap-pressure trigger as backstop. |
 | Concurrency between sweep re-chain and mutator allocation | None. Re-chain operates on segments captured at STW; mutators allocate into per-context `lastAllocatedCell`, an independent structure. The push to global `dirtySegments` is already lock-free. |
-| Existing tests rely on pinning behaviour described in `GC_STRESS_TEST_FIX_ANALYSIS.md` | Run full suite under both flag states. If a test fails only with the flag ON, audit whether the test encodes a real invariant or just observes the leak. |
+| Existing tests rely on pinning behaviour described in `docs/archive/GC_STRESS_TEST_FIX_ANALYSIS.md` | Run full suite under both flag states. If a test fails only with the flag ON, audit whether the test encodes a real invariant or just observes the leak. |
 
 ## 7. Tests
 
@@ -268,4 +268,4 @@ None at implementation time. All previously open points were resolved:
 - `core/ProtoSpace.cpp:66–362` — `gcThreadLoop` (5 phases).
 - `core/ProtoSpace.cpp:308–355` — sweep (where the leak lives).
 - `core/ProtoContext.cpp:258–316` — `allocCell()` (where the threshold trigger goes).
-- `GC_STRESS_TEST_FIX_ANALYSIS.md` — pre-existing analysis of the leak symptoms.
+- `docs/archive/GC_STRESS_TEST_FIX_ANALYSIS.md` — pre-existing analysis of the leak symptoms.

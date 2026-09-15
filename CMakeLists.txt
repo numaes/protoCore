@@ -105,7 +105,7 @@ endif()
 
 # Option: re-include GC survivors into the next analysis cycle and enable
 # per-context allocation-threshold submission. See
-# docs/superpowers/specs/2026-05-03-gc-survivor-rechain.md for the design.
+# docs/archive/design-specs/2026-05-03-gc-survivor-rechain.md for the design.
 #
 # Default ON since the May 2026 audit: full protoCore (148/148) and
 # protoPython (163/163) test suites pass, and protoPython benchmarks

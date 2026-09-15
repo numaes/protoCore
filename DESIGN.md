@@ -230,7 +230,7 @@ is bit-for-bit the historical unbounded path.
     completed cycles each reclaim zero Cells, protoCore invokes
     `outOfMemoryCallback` once (the embedder may free caches) and, if OOM still
     holds, performs a controlled `std::abort()` with a diagnostic. See
-    `docs/superpowers/specs/2026-05-22-allocation-limit-oom-design.md`.
+    `docs/archive/design-specs/2026-05-22-allocation-limit-oom-design.md`.
 
 ### Concurrency Primitives: Recursive Locking
 

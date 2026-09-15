@@ -1,59 +1,34 @@
-# Proto Documentation
+# protoCore documentation directory
 
-This directory contains the source files for the Proto project's official documentation.
+This directory holds protoCore's documentation. The index of all documentation, including the documents in the repository root (README, DESIGN, CHANGELOG), is [DOCUMENTATION.md](../DOCUMENTATION.md).
 
-The documentation is built using **Sphinx**, a powerful documentation generator, and **Doxygen**, which is used to generate API references directly from the C++ source code comments.
+## Contents
 
-## Prerequisites
+- [INSTALLATION.md](INSTALLATION.md) — Building from source, installing the shared library, and CPack packaging.
+- [TESTING.md](TESTING.md) — Running the GoogleTest/CTest suite, re-running failures, parallel runs, coverage, and CI scripts.
+- [MODULE_DISCOVERY.md](MODULE_DISCOVERY.md) — Specification of Unified Module Discovery (resolution chain, providers, module cache).
+- [USER_GUIDE_UMD_MODULES.md](USER_GUIDE_UMD_MODULES.md) — Short guide to creating and registering a module for Unified Module Discovery.
+- [GarbageCollector.md](GarbageCollector.md) — Garbage collector implementation and the phases of a collection cycle.
+- [STW_ELIMINATION_RESEARCH.md](STW_ELIMINATION_RESEARCH.md) — Research note on bounding the stop-the-world pause.
+- [MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) — Dated design and results of the sharded mutable root and per-thread value cache (April 2026).
+- [ROPES_AS_PROTOTUPLE.md](ROPES_AS_PROTOTUPLE.md) — Dated note on strings as `ProtoTuple` ropes (February 2026).
+- [Structural description/](Structural%20description/README.md) — Guides (testing, creating modules) and architecture overviews (garbage collector, mutability model, object model).
+- [archive/](archive/README.md) — Historical analyses and design specifications; not maintained.
 
-Before you can build the documentation, you need to ensure the following tools are installed on your system:
+## Generating the API reference
 
-*   **Python** (3.6+)
-*   **Sphinx**: The primary documentation generator.
-*   **Breathe**: A Sphinx extension that acts as a bridge to Doxygen.
-*   **Doxygen**: The tool used to extract documentation from the C++ source files.
-
-You can install the required Python packages using pip:
+The API reference is generated from the C++ source comments with [Doxygen](https://www.doxygen.nl/), using the `Doxyfile` in the repository root. Install Doxygen with your package manager (for example `sudo apt-get install doxygen` on Debian/Ubuntu or `brew install doxygen` on macOS), then run from the repository root:
 
 ```bash
-pip install sphinx breathe
+doxygen Doxyfile
 ```
 
-To install Doxygen, use your system's package manager. For example:
+The root `Doxyfile` scans the repository recursively (`INPUT = .`, `RECURSIVE = YES`), skipping paths that match its `EXCLUDE_PATTERNS` (including `*/docs/*` and `*/lib/*`), and writes XML only (`GENERATE_XML = YES`, `GENERATE_HTML = NO`, `GENERATE_LATEX = NO`) to `docs/doxygen/xml/`. The `docs/doxygen/` directory is ignored by git. Build directories inside the source tree are not excluded. `HAVE_DOT = YES` is set, so Graphviz's `dot` is used for diagrams when it is installed.
 
-**On Debian/Ubuntu:**
+To produce HTML as well, override the setting on the command line:
+
 ```bash
-sudo apt-get install doxygen
+( cat Doxyfile; echo "GENERATE_HTML = YES" ) | doxygen -
 ```
 
-**On macOS (using Homebrew):**
-```bash
-brew install doxygen
-```
-
-## Building the Documentation
-
-The build process is managed by CMake, which will first run Doxygen and then Sphinx.
-
-1.  **Configure the project** (if you haven't already) from the root directory:
-    ```bash
-    mkdir build
-    cd build
-    cmake ..
-    ```
-
-2.  **Build the `docs` target** from within the `build` directory:
-    ```bash
-    make docs
-    ```
-    This command will first run Doxygen to generate XML files from the C++ source code and then run Sphinx to convert the `.rst` source files and the Doxygen output into a polished HTML website.
-
-## Viewing the Documentation
-
-After the build process is complete, the generated HTML files will be located in the `build/docs/html` directory.
-
-You can open the main page by opening the following file in your web browser:
-
-```
-build/docs/html/index.html
-```
+Then open `docs/doxygen/html/index.html` in a web browser.

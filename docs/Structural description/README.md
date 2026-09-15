@@ -31,7 +31,7 @@ ProtoCore is engineered for developers operating at the vanguard of software arc
 
 Ready to integrate ProtoCore into your infrastructure?
 
-*   **[Quick Start Guide](./guides/01_quick_start.md)** — Build the library and instantiate your first `protoContext`.
+*   **[Installation Guide](../INSTALLATION.md)** — Build and install the library.
 *   **[Creating Native Modules](./guides/05_creating_modules.md)** — Learn how to bind your C++ infrastructure to the Proto engine via the `ModuleProvider` API.
 
 ## Testing & Validation
@@ -48,12 +48,9 @@ To truly leverage ProtoCore, one must understand the mechanics underlying its gu
 *   **[The Low-Latency Garbage Collector](./architecture/01_garbage_collector.md)** — Concurrency, write-barrier elimination, and Critical Sections.
 *   **[The Mutability Model & Yarding](./architecture/02_mutability_model.md)** — Lock-free state management, the `mutableRoot`, and Mutable Yards.
 *   **[The Object Model & protoContext](./architecture/03_object_model.md)** — Tagged pointers, prototype delegation, and context lifecycle.
-*   **[FFI and Native Integration](./architecture/04_ffi_and_integration.md)** — Memory stability and managing GC critical sections across C++ boundaries.
 
 ## Community & Contribution
 
 ProtoCore is open-source. We welcome rigorous peer review and architectural contributions.
 
-*   **[GitHub Repository](https://github.com/your-repo/proto)**
-*   **[Architectural Discussions](https://github.com/your-repo/proto/discussions)**
-*   **[Contributor's Standard](./guides/03_contributing.md)**
+*   **[GitHub Repository](https://github.com/numaes/protoCore)**

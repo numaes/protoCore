@@ -6,7 +6,7 @@ This guide explains how to create and register custom modules in protoCore using
 
 ## Prerequisites
 
-- protoCore built and linked (see [Quick Start](01_quick_start.md)).
+- protoCore built and linked (see [INSTALLATION.md](../../INSTALLATION.md)).
 - Include `protoCore.h` and use a valid `ProtoContext*` and `ProtoSpace*` (e.g. from your host application or test).
 
 ---
@@ -172,4 +172,3 @@ space.setResolutionChain(chain->asObject(ctx));
 ## References
 
 - [MODULE_DISCOVERY.md](../../MODULE_DISCOVERY.md) — Full specification of the Unified Module Discovery system (resolution chain, ProviderRegistry, SharedModuleCache, ProtoSpace::getImportModule, FileSystemProvider, platform defaults).
-- [Building on protoCore](02_building_on_proto.md) — Direct C++ integration and context/space usage.

@@ -217,7 +217,7 @@ namespace proto {
 // invariant breaks and crashes appear in `getAttribute` with random
 // content read at the `attributes` offset (#92's class of bug).
 //
-// Audit reference: tasks/audit/01-layers.md F1.3.
+// Audit reference: https://github.com/gamarino/protoPython/blob/main/docs/audits/01-layers.md F1.3.
 //
 #define POINTER_TAG_OBJECT 0
 #define POINTER_TAG_EMBEDDED_VALUE 1

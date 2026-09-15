@@ -1,4 +1,7 @@
 # ProtoCore Improvement Plan 2026
+
+> **Historical document.** Dated record kept for reference; not maintained and may not match the current code. Current documentation: [DOCUMENTATION.md](../../DOCUMENTATION.md). Its "production ready" assessment is superseded: protoCore is not production ready.
+
 **Date:** January 24, 2026  
 **Status:** Production-grade system with optional enhancements  
 **Priority:** Maintenance with strategic improvements
@@ -33,7 +36,7 @@ Maintain production quality and monitor system health
 **1.3 Documentation Maintenance**
 - Keep DESIGN.md updated with any architectural changes
 - Maintain README.md with accurate build instructions
-- Update [DOCUMENTATION.md](DOCUMENTATION.md) (unified doc index) when adding or removing docs
+- Update [DOCUMENTATION.md](../../DOCUMENTATION.md) (unified doc index) when adding or removing docs
 - Update API documentation as needed
 
 **Timeline:** Ongoing  

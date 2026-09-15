@@ -64,7 +64,7 @@ All notable changes to protoCore are documented in this file.
     `liveCellsLastCycle`, `memoryReclaimedCV`; new `ProtoContext` method
     `heapLimitCheckpoint`.
   - See `DESIGN.md` § "The Heap Allocation Limit and Out-of-Memory Detection"
-    and `docs/superpowers/specs/2026-05-22-allocation-limit-oom-design.md`.
+    and `docs/archive/design-specs/2026-05-22-allocation-limit-oom-design.md`.
 
 ### Changed
 - **Interned strings are always perennial** — `SymbolTable::intern` now builds
