@@ -136,6 +136,15 @@ All notable changes to protoCore are documented in this file.
   thread. Embedder caches that hold cell pointers must be kept alive through
   a root captured under stop-the-world or be dropped when
   `getGCCycleCount()` changes (`docs/GarbageCollector.md`).
+- **An exiting `ProtoThread` stays in the stop-the-world quorum until it is
+  unregistered** — `thread_main` decremented `runningThreads` before it
+  rebuilt `space->threads`. That rebuild allocates, and in builds with
+  `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` the allocation can park on a
+  pending stop-the-world request, so the exiting thread counted as parked
+  but not as running and the quorum could be met while another mutator was
+  still running. The decrement now happens under `globalMutex` in the same
+  critical section that publishes the new thread list, followed by the
+  `gcCV` notification that previously ran without the mutex.
 - **The GC cycle counter advances in every build configuration** — the only
   increment of `gcCycleCount` sat inside the `PROTOCORE_GC_REINCLUDE_SURVIVORS`
   block, so with `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` `getGCCycleCount()`
@@ -227,6 +236,10 @@ All notable changes to protoCore are documented in this file.
   `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
   instrumented and debug builds name a cell type whose `processReferences`
   reports `nullptr`.
+- `ThreadLifecycle.ExitingThreadStaysCountedUntilUnregistered` raises the
+  stop-the-world flag while a thread exits and checks that the quorum is
+  never met while the test thread runs; it failed before the fix in the
+  survivor re-chain OFF build.
 - `ConcurrentMarkSafety.AttributeCacheChurnWithSmallBudget` writes and reads
   attributes on fresh objects through the public API for three seconds with
   a 4096-cell budget, then checks a pinned live set.
