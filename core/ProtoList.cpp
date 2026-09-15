@@ -113,22 +113,30 @@ namespace proto {
         return nextNode->implGetAt(context, index - left_size - 1);
     }
 
+    namespace {
+        // Element equality for has(): identity, integers by value (SmallInteger
+        // and LargeInteger of any size, through Integer::compare — asLong
+        // throws beyond long long), strings by content.  Doubles and other
+        // objects match by identity only.
+        bool listElementEquals(ProtoContext* context, const ProtoObject* element,
+                               const ProtoObject* target) {
+            if (element == target) return true;
+            if (!element) return false;
+            if (element->isInteger(context) && target->isInteger(context)) {
+                return Integer::compare(context, element, target) == 0;
+            }
+            if (element->isString(context) && target->isString(context)) {
+                return element->asString(context)->cmp_to_string(context, target->asString(context)) == 0;
+            }
+            return false;
+        }
+    }
+
     bool ProtoListImplementation::implHas(proto::ProtoContext* context, const proto::ProtoObject* targetValue) const {
         if (!targetValue) return false;
         if (isEmpty) return false;
         
-        if (value == targetValue) {
-            return true;
-        }
-        if (value->isInteger(context) && targetValue->isInteger(context)) {
-            if (value->asLong(context) == targetValue->asLong(context)) {
-                return true;
-            }
-        } else if (value->isString(context) && targetValue->isString(context)) {
-            if (value->asString(context)->cmp_to_string(context, targetValue->asString(context)) == 0) {
-                return true;
-            }
-        }
+        if (listElementEquals(context, value, targetValue)) return true;
         if (previousNode && previousNode->implHas(context, targetValue)) return true;
         if (nextNode && nextNode->implHas(context, targetValue)) return true;
         return false;
@@ -266,13 +274,7 @@ namespace proto {
     bool ProtoListSmallImplementation::implHas(ProtoContext* context, const ProtoObject* targetValue) const {
         if (!targetValue) return false;
         for (unsigned long i = 0; i < size; ++i) {
-            const ProtoObject* v = slots[i];
-            if (v == targetValue) return true;
-            if (v && v->isInteger(context) && targetValue->isInteger(context)) {
-                if (v->asLong(context) == targetValue->asLong(context)) return true;
-            } else if (v && v->isString(context) && targetValue->isString(context)) {
-                if (v->asString(context)->cmp_to_string(context, targetValue->asString(context)) == 0) return true;
-            }
+            if (listElementEquals(context, slots[i], targetValue)) return true;
         }
         return false;
     }

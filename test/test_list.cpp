@@ -97,3 +97,34 @@ TEST_F(ListTest, ListIteratorExhaustion) {
     it = it->advance(context);
     ASSERT_FALSE(it->hasNext(context));
 }
+
+// has() compares integer elements by value.  It converted both integers with
+// asLong, which throws std::overflow_error for a LargeInteger beyond long
+// long, so has() threw on any list holding such an element (or when asked for
+// one) instead of answering.
+TEST_F(ListTest, HasComparesLargeIntegersByValue) {
+    const ProtoObject* two70 = context->fromString("1180591620717411303424", 10);
+    const ProtoObject* sameValue = context->fromString("1180591620717411303424", 10);
+    const ProtoObject* two70plus1 = context->fromString("1180591620717411303425", 10);
+    const ProtoObject* negTwo70 = context->fromString("-1180591620717411303424", 10);
+    ASSERT_NE(two70, sameValue) << "the test needs two distinct objects of equal value";
+
+    // Inline form (up to five elements) and AVL form (more than five).
+    const ProtoList* small = context->newList()
+        ->appendLast(context, context->fromInteger(7))
+        ->appendLast(context, two70);
+    const ProtoList* avl = small;
+    for (int i = 0; i < 8; ++i) avl = avl->appendLast(context, context->fromInteger(100 + i));
+
+    for (const ProtoList* list : {small, avl}) {
+        EXPECT_TRUE(list->has(context, sameValue));
+        EXPECT_FALSE(list->has(context, two70plus1));
+        EXPECT_FALSE(list->has(context, negTwo70));
+        EXPECT_TRUE(list->has(context, context->fromInteger(7)));
+        EXPECT_FALSE(list->has(context, context->fromInteger(8)));
+    }
+    // A LargeInteger that fits in long long still equals the SmallInteger.
+    const ProtoList* withSmall = context->newList()->appendLast(context, context->fromInteger(42));
+    EXPECT_TRUE(withSmall->has(context, context->fromLong(42)));
+    EXPECT_FALSE(withSmall->has(context, two70));
+}

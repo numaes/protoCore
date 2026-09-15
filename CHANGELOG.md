@@ -147,6 +147,12 @@ All notable changes to protoCore are documented in this file.
   thread. Embedder caches that hold cell pointers must be kept alive through
   a root captured under stop-the-world or be dropped when
   `getGCCycleCount()` changes (`docs/GarbageCollector.md`).
+- **`ProtoList::has` with integers beyond `long long`** — both list forms
+  compared integer elements with `asLong`, which throws
+  `std::overflow_error` for a `LargeInteger` outside that range, so `has`
+  threw on a list holding such an element (or when asked for one). Integers
+  are now compared by value with `Integer::compare`, as `ProtoTuple::has`
+  already did.
 - **Destroying a space no longer waits for a full collection** — once
   `~ProtoSpace` marks the space ENDING, the GC thread abandons a cycle in
   progress (checked after resuming the world, every 4096 mark pops and every
@@ -281,6 +287,9 @@ All notable changes to protoCore are documented in this file.
   `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
   instrumented and debug builds name a cell type whose `processReferences`
   reports `nullptr`.
+- `ListTest.HasComparesLargeIntegersByValue` checks `has` on inline and AVL
+  lists holding 2^70 against an equal distinct object, neighbours and small
+  integers (it threw `std::overflow_error` before the fix).
 - `ParkOnly` (three cases): `isStopRequested` follows the flag; 256 young
   lists held only in C++ locals survive four cycles that stop the world while
   the thread parks through `parkIfStopRequested` with a 16-cell submission
