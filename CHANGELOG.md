@@ -162,15 +162,6 @@ All notable changes to protoCore are documented in this file.
   threw on a list holding such an element (or when asked for one). Integers
   are now compared by value with `Integer::compare`, as `ProtoTuple::has`
   already did.
-- **An exiting `ProtoThread` stays in the stop-the-world quorum until it is
-  unregistered** — `thread_main` decremented `runningThreads` before it
-  rebuilt `space->threads`. That rebuild allocates, and in builds with
-  `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` the allocation can park on a
-  pending stop-the-world request, so the exiting thread counted as parked
-  but not as running and the quorum could be met while another mutator was
-  still running. The decrement now happens under `globalMutex` in the same
-  critical section that publishes the new thread list, followed by the
-  `gcCV` notification that previously ran without the mutex.
 - **The GC cycle counter advances in every build configuration** — the only
   increment of `gcCycleCount` sat inside the `PROTOCORE_GC_REINCLUDE_SURVIVORS`
   block, so with `-DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` `getGCCycleCount()`
@@ -274,10 +265,6 @@ All notable changes to protoCore are documented in this file.
 - `ListTest.HasComparesLargeIntegersByValue` checks `has` on inline and AVL
   lists holding 2^70 against an equal distinct object, neighbours and small
   integers (it threw `std::overflow_error` before the fix).
-- `ThreadLifecycle.ExitingThreadStaysCountedUntilUnregistered` raises the
-  stop-the-world flag while a thread exits and checks that the quorum is
-  never met while the test thread runs; it failed before the fix in the
-  survivor re-chain OFF build.
 - `ConcurrentMarkSafety.AttributeCacheChurnWithSmallBudget` writes and reads
   attributes on fresh objects through the public API for three seconds with
   a 4096-cell budget, then checks a pinned live set.

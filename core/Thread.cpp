@@ -37,37 +37,23 @@ namespace proto {
                     std::cerr << "Uncaught exception in thread: " << e.what() << std::endl;
                 }
             }
-            // Unregister.  Rebuild the immutable threads list OUTSIDE the
-            // global mutex, then swap inside — see ProtoThreadImplementation
+            context->space->runningThreads--;
+            // Rebuild the immutable threads list OUTSIDE the global
+            // mutex, then swap inside — see ProtoThreadImplementation
             // constructor for the recursive_mutex / park deadlock this
             // pattern avoids.
-            //
-            // The thread stays counted in runningThreads until the swap is
-            // published.  The rebuild allocates, and an allocation may park
-            // on a stop-the-world request (in builds without the survivor
-            // re-chain the allocation poll and the refill park ignore the
-            // critical section removeAt opens).  A park counts the thread in
-            // parkedThreads, so it must still count in runningThreads, or the
-            // quorum parkedThreads >= runningThreads is met while another
-            // mutator still runs.  The decrement happens under globalMutex,
-            // in the same critical section as the publish: the collector
-            // holds that mutex through Phase 2, so neither lands while roots
-            // are scanned, and it re-evaluates the quorum only after the
-            // notification, when both are visible.
-            ProtoSpace* space = context->space;
             unsigned long threadId = reinterpret_cast<uintptr_t>(context->thread);
             while (true) {
-                const ProtoSparseList* oldThreads = space->threads;
+                const ProtoSparseList* oldThreads = context->space->threads;
                 const ProtoSparseList* newThreads =
                     oldThreads->removeAt(context, threadId);
                 std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-                if (space->threads == oldThreads) {
-                    space->threads = const_cast<ProtoSparseList*>(newThreads);
-                    space->runningThreads--;
-                    space->gcCV.notify_all(); // the quorum may now be met
+                if (context->space->threads == oldThreads) {
+                    context->space->threads = const_cast<ProtoSparseList*>(newThreads);
                     break;
                 }
             }
+            context->space->gcCV.notify_all(); // Notify GC that a thread finished
         }
     }
 
