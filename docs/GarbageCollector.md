@@ -431,8 +431,14 @@ threading scenarios.
 // Explicit synchronization if needed
 thread->synchToGC();
 
-// Poll the stop-the-world flag from a long-running loop (e.g. every 64 opcodes)
+// Poll the stop-the-world flag from a long-running loop (e.g. every 64 opcodes).
+// safepoint() may also submit the context's young generation, so call it only
+// where every live cell is reachable from a GC root (frame slots, root sets).
 ctx->safepoint();
+
+// Park-only poll: never submits, safe while cells are held in C++ locals
+// (native primitives, the exit of a blocking wait, interpreter back-edges).
+if (ctx->isStopRequested()) ctx->parkIfStopRequested();
 
 // Request a cycle explicitly: one starts when fewer than 20% of heap cells are free
 space.triggerGC();

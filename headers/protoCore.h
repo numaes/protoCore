@@ -794,6 +794,12 @@ namespace proto
         void setCurrentContext(ProtoContext* context);
         /** Returns the current execution context for this thread. O(1) thread-local read. */
         ProtoContext* getCurrentContext() const;
+        /**
+         * @brief Park-only safepoint at thread level: parks while a
+         * stop-the-world phase is requested (not inside a critical section),
+         * without submitting any young generation.  Equivalent to
+         * ProtoContext::parkIfStopRequested() on this thread's context.
+         */
         void synchToGC();
 
         /**
@@ -1032,8 +1038,42 @@ namespace proto
          *
          * Cheap on the fast path: a single relaxed atomic load of
          * `stwFlag`.  Only takes the global mutex if the flag is set.
+         *
+         * With the survivor re-chain enabled (the default build), it first
+         * submits this context's young generation to the collector once the
+         * context has allocated more than
+         * `ProtoSpace::maxAllocatedCellsPerContext` cells.  Submitted cells
+         * become sweep candidates, so call it only where every live young
+         * cell is reachable from a GC root (frame slots, root sets, the
+         * shard table) — never while cells are held only in C++ locals.
+         * Where that cannot be guaranteed, use parkIfStopRequested().
          */
         void safepoint();
+
+        /**
+         * @brief True while the collector requests a stop-the-world phase.
+         *
+         * A single relaxed atomic load, inline: suitable for a dispatch-loop
+         * poll in front of parkIfStopRequested().
+         */
+        inline bool isStopRequested() const;
+
+        /**
+         * @brief Park-only cooperative safepoint.
+         *
+         * If a stop-the-world phase is requested, parks the calling thread
+         * until the collector resumes the world; otherwise returns at once.
+         * Unlike safepoint() it never submits the young generation: while
+         * the thread is parked its young cells are scanned as roots and are
+         * not sweep candidates, so cells held only in C++ locals survive.
+         * Use it in native code that may hold such cells, such as the exit of
+         * a blocking wait inside a primitive, or at interpreter back-edges.
+         *
+         * Does not park inside a critical section (with the survivor
+         * re-chain enabled) or on the GC thread.  Must not be called inside
+         * an unmanaged region: returnFromUnmanaged() already parks.
+         */
+        void parkIfStopRequested();
 
         /**
          * @brief Enter an unmanaged region on this context's thread.
@@ -1773,6 +1813,17 @@ namespace proto
         std::condition_variable_any restartTheWorldCV;
         std::condition_variable_any gcCV;
         std::atomic<bool> gcStarted;
+        /**
+         * @brief Stop-the-world quorum counters.  Internal: owned by
+         * protoCore.  Phase 1 waits until `parkedThreads >= runningThreads`.
+         * `runningThreads` is changed only by ProtoThread start and exit and
+         * by the heap-limit reclaim wait; `parkedThreads` by the park
+         * handshake and unmanaged regions.  Embedders must not write either:
+         * a thread that leaves the quorum through both counters is counted
+         * twice and lets a collection start while a mutator still runs.  To
+         * block, use ProtoContext::UnmanagedScope; to cooperate, use
+         * safepoint() or parkIfStopRequested().
+         */
         std::atomic<int> runningThreads;
         std::atomic<bool> stwFlag;
         std::atomic<int> parkedThreads;
@@ -1789,6 +1840,10 @@ namespace proto
         std::vector<ProtoRootSet*> rootSets_;
         mutable std::mutex rootSetsMutex_;
     };
+
+    inline bool ProtoContext::isStopRequested() const {
+        return space && space->stwFlag.load(std::memory_order_relaxed);
+    }
 }
 
 #endif /* PROTO_H_ */
