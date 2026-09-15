@@ -1680,70 +1680,24 @@ namespace proto
         uint64_t getGCCycleCount() const { return gcCycleCount.load(std::memory_order_relaxed); }
 
         /**
-         * @brief Per-context young-generation submission threshold.
+         * @brief Per-context allocation threshold for the GC trigger.
          *
          * When PROTOCORE_GC_REINCLUDE_SURVIVORS is enabled and a single
          * ProtoContext has allocated more than this many cells since its
-         * last GC submission, ProtoContext::safepoint() submits the
-         * context's young chain to dirtySegments and resets the per-context
-         * count, so a long-running context's garbage becomes collectable
-         * before the context is destroyed.  It does not start a cycle; see
-         * gcGrowthPercent for when cycles start.
+         * last GC submission, allocCell() submits the context's young
+         * chain to dirtySegments, resets the per-context count, and calls
+         * triggerGC().  This bounds RSS in tight loops with small working
+         * sets without changing the algorithm: the GC still marks from
+         * roots and frees what is unreachable.
          *
          * Default: CONTEXT_GC_THRESHOLD_DEFAULT (10000 cells).
          * Override at startup via env var PROTOCORE_GC_CONTEXT_THRESHOLD.
          *
-         * Not atomic: set once at construction and never changed.
+         * Read by ProtoContext::allocCell() in the hot path; not atomic
+         * because it is set once at construction and never changed.
          */
         static constexpr unsigned int CONTEXT_GC_THRESHOLD_DEFAULT = 10000;
         unsigned int maxAllocatedCellsPerContext;
-
-        /**
-         * @brief Collection pacing when no hard heap limit is configured.
-         *
-         * getFreeCells charges every batch of cells it hands to a thread
-         * against an allocation budget.  `cellsSinceLastCycle` counts the
-         * cells handed out since the stop-the-world snapshot of the most
-         * recent cycle; once it reaches `gcAllocationBudget`, the mutators
-         * have submitted garbage candidates since that snapshot
-         * (`dirtySegments` is non-empty) and no cycle is pending,
-         * getFreeCells requests one through the ordinary gcStarted / gcCV
-         * wake-up.  Without submitted segments a cycle could reclaim
-         * nothing, so the request waits for the next submission.  At the
-         * end of every cycle the budget is recomputed as
-         *
-         *   max(gcMinBudgetCells, retained * gcGrowthPercent / 100)
-         *   retained = heapSize - freeCellsCount - cellsSinceLastCycle
-         *
-         * i.e. proportional to the cells the cycle found occupied and could
-         * not return to the freelist, excluding the cells handed out while
-         * the cycle ran, with a fixed floor so small programs never collect.
-         * Collection work stays proportional to allocation, and a workload
-         * with a constant live set keeps a bounded heap instead of growing
-         * it from the OS forever.
-         *
-         * `gcGrowthPercent` — default GC_GROWTH_PERCENT_DEFAULT (100); env
-         * var PROTOCORE_GC_GROWTH_PERCENT (0 .. GC_GROWTH_PERCENT_MAX).  `0`
-         * disables automatic cycles: without a heap limit, collection then
-         * starts only through triggerGC().
-         *
-         * `gcMinBudgetCells` — default GC_MIN_BUDGET_CELLS_DEFAULT (2^20
-         * cells, 64 MiB); env var PROTOCORE_GC_MIN_BUDGET_CELLS (1 ..
-         * INT_MAX).
-         *
-         * The trigger is inactive while a hard heap limit is set
-         * (maxHeapSize > 0): the limit's reclaim-wait path drives collection.
-         * Both environment variables are read once, by the constructor.
-         * `gcAllocationBudget` and `cellsSinceLastCycle` are guarded by
-         * globalMutex; the per-thread allocation fast path never touches them.
-         */
-        static constexpr unsigned int GC_GROWTH_PERCENT_DEFAULT = 100;
-        static constexpr unsigned int GC_GROWTH_PERCENT_MAX = 10000;
-        static constexpr unsigned long GC_MIN_BUDGET_CELLS_DEFAULT = 1UL << 20;
-        unsigned int gcGrowthPercent;
-        unsigned long gcMinBudgetCells;
-        unsigned long gcAllocationBudget;
-        unsigned long cellsSinceLastCycle;
         int blocksPerAllocation;
         int heapSize;
         /**

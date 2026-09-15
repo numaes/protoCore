@@ -447,8 +447,8 @@ namespace proto
                 // since its last submission, hand the young chain over to
                 // dirtySegments so the next GC cycle can reclaim the
                 // unreachable cells.  We do NOT trigger a GC here — the
-                // allocation-budget trigger in ProtoSpace::getFreeCells
-                // starts cycles, on the refill path.
+                // freeRatio gate inside getFreeCells already kicks the
+                // collector when it actually matters.
                 //
                 // This is safe even when a native helper (mutable
                 // setAttribute, SparseList rebuild, ...) is mid-construction

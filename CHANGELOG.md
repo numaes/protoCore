@@ -75,19 +75,17 @@ All notable changes to protoCore are documented in this file.
   Root collection also no longer iterates the unused `stringInternMap`, and
   interned tuples are traced by the concurrent mark instead of inside the
   pause. See `docs/GarbageCollector.md` § "Concurrent Mark Without Barriers".
-- **`ProtoSpace` layout** — `ProtoSpace` gains the `gcMutableSnapshot[]` table,
-  a `tupleInterner` pointer, and the collection-pacing members
-  `gcGrowthPercent`, `gcMinBudgetCells`, `gcAllocationBudget` and
-  `cellsSinceLastCycle`. Embedders built against 1.2.0, or against an earlier
-  build of this release, must be rebuilt; no source change is required.
+- **`ProtoSpace` layout** — `ProtoSpace` gains the `gcMutableSnapshot[]` table
+  and a `tupleInterner` pointer. Embedders built against 1.2.0 must be
+  rebuilt; no source change is required.
 - **No GC trigger on free-list exhaustion without a heap limit** —
-  `getFreeCells` refills from the OS without waking the collector when the
-  freelist runs out. Previously every exhaustion woke the collector, which
+  `getFreeCells` refills from the OS without waking the collector. With no
+  heap limit configured (the default), collections are started by
+  `triggerGC()` and at shutdown; configured soft and hard limits drive
+  collections as before. Previously every exhaustion woke the collector, which
   then waited in the stop-the-world quorum for threads that never reached a
   safepoint: in a protoST actor benchmark with 8 workers it waited 2.27 s of a
-  2.49 s run and swept once, at the end. (This change left programs with no
-  heap limit without any automatic collection; see the allocation-budget
-  trigger under "Fixed".)
+  2.49 s run and swept once, at the end.
 - **`toImpl` debug checks are compiled out of release builds** — the
   embedded-value tag, expected-tag and 64-byte alignment checks in `toImpl<>`
   now run only when `NDEBUG` is not defined, so release builds reduce the
@@ -158,29 +156,6 @@ All notable changes to protoCore are documented in this file.
   to advance, never saw a cycle complete. The counter is now incremented for
   every cycle; the survivor re-chain still uses the same cycle number to decide
   fold cycles. The heap-growth trigger tests now run in both configurations.
-- **GC cycles start from allocation when no heap limit is set** — without a
-  hard heap limit (the default), nothing started a collection unless the
-  embedder called `triggerGC()`, and no embedder in the ecosystem did, so the
-  heap grew by every cell allocated. In a probe that allocated garbage with a
-  constant live set of 1,000 strings, the heap reached 257 million cells
-  (15.3 GiB) with zero cycles. `getFreeCells` now charges every batch it hands
-  out against an allocation budget and requests a cycle through the existing
-  GC-thread wake-up once the cells handed out since the previous cycle reach
-  `max(PROTOCORE_GC_MIN_BUDGET_CELLS, retained × PROTOCORE_GC_GROWTH_PERCENT
-  / 100)`. `retained` is `heapSize − freeCellsCount` at the end of the cycle,
-  minus the cells handed out while it ran. A cycle is requested only if
-  contexts have submitted garbage since the previous cycle. Cells still owned
-  by a live context can never be reclaimed, and cycles started without
-  submissions only re-scanned them under stop-the-world: in
-  `immutable_sharing_benchmark` four such cycles reclaimed nothing, and their
-  stop-the-world root collection grew to 439 ms. The defaults are 1,048,576
-  cells (64 MiB) and 100%; `PROTOCORE_GC_GROWTH_PERCENT=0` restores the
-  previous behaviour. The same probe now holds the heap at 3.9 million cells (240 MiB)
-  across 102 cycles and finishes in 5.9 s instead of 14.5 s. The check runs
-  only on the refill path. It is inactive while a hard heap limit is set, and
-  the per-thread allocation fast path is unchanged. A requested cycle still
-  needs every running thread to park, so loops whose allocations all run
-  inside critical sections must call `ProtoContext::safepoint()`.
 - **String hashes depend on content, not rope shape** — `getHash` on a heap
   string returned a cached hash that mixed its children's hashes, so equal
   content split differently by concatenation hashed differently (a 47-byte
@@ -254,13 +229,6 @@ All notable changes to protoCore are documented in this file.
 - `ListTest.HasComparesLargeIntegersByValue` checks `has` on inline and AVL
   lists holding 2^70 against an equal distinct object, neighbours and small
   integers (it threw `std::overflow_error` before the fix).
-- `GCHeapGrowthTriggerTest` (five cases): with no heap limit, garbage
-  allocation with a constant live set starts cycles and keeps the heap bounded
-  without collecting live objects. The main case failed before the fix with 0
-  cycles and 15,990,784 cells of growth. `PROTOCORE_GC_GROWTH_PERCENT=0`
-  disables automatic cycles, malformed values fall back to the defaults, the
-  budget scales with the retained cells, and a spent budget waits until
-  garbage has been submitted.
 - New suites and cases: `ConcurrentMarkSafety` (mutation during mark, no lost
   mutable references), `UnmanagedRegionTest` (six cases), three `TupleTest`
   interning cases, `StringTest.EqualContentHashesEqualWhateverTheRepresentation`,

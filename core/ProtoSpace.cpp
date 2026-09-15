@@ -178,67 +178,6 @@ namespace proto {
             workList->push_back(ref);
         }
 
-        // Collection pacing without a heap limit (see ProtoSpace::gcGrowthPercent).
-        //
-        // Charge `cells` handed to a thread by getFreeCells against the
-        // allocation budget and, once the cells handed out since the most
-        // recent cycle's stop-the-world snapshot reach it, request a cycle
-        // through the ordinary gcStarted / gcCV wake-up.  Caller holds
-        // globalMutex.  Runs only on the refill path, once per batch — never
-        // per allocated cell.
-        void chargeAllocationBudget(ProtoSpace* space, unsigned long cells) {
-            space->cellsSinceLastCycle += cells;
-            if (space->gcGrowthPercent == 0) return;   // automatic cycles disabled
-            if (space->maxHeapSize > 0) return;        // the heap limit drives collection
-            if (space->cellsSinceLastCycle < space->gcAllocationBudget) return;
-            // A cycle can only reclaim cells the mutators have submitted
-            // (dirtySegments: destroyed contexts and safepoint threshold
-            // submissions).  Cells still owned by a live context's young
-            // generation are never candidates, so with nothing submitted
-            // since the last snapshot a cycle would only re-scan them:
-            // stop-the-world time that grows with the young chain, plus
-            // mark work, for zero reclaimed cells.  Defer instead; the
-            // counter keeps accumulating, and the first refill after a
-            // submission starts the cycle.
-            if (space->dirtySegments.load(std::memory_order_relaxed) == nullptr) return;
-            if (space->gcStarted.load(std::memory_order_relaxed)) return;  // already pending or running
-            if (space->state == SPACE_STATE_ENDING) return;
-            space->gcStarted = true;
-            space->gcCV.notify_all();
-        }
-
-        // Recompute the allocation budget at the end of a cycle.  The pacing
-        // period started at this cycle's stop-the-world snapshot, where
-        // cellsSinceLastCycle was reset, so that counter now holds exactly
-        // the cells handed out while the cycle ran.
-        //
-        // Retained cells = cells not on the global freelists at the end of
-        // the cycle (heapSize - freeCellsCount) minus the cells handed out
-        // during the cycle.  What remains is what the cycle found occupied
-        // and could not return: live cells, floating garbage, unsubmitted
-        // young cells and per-thread batches taken before the cycle.
-        // Excluding the in-flight cells is essential: they are fresh memory
-        // the mutators consumed while mark and sweep ran, and counting them
-        // as retained inflates the budget in proportion to the cycle's
-        // duration — a longer cycle then yields a larger budget, a larger
-        // heap and a longer next cycle, which diverges.  Basing the budget
-        // on retained cells rather than heapSize matters for the same
-        // reason: heapSize never shrinks.
-        //
-        // The in-flight cells stay charged to the new period, so if the
-        // mutators out-allocate a cycle the next one starts as soon as this
-        // one ends.  Caller holds globalMutex (or is the constructor).
-        void recomputeAllocationBudget(ProtoSpace* space) {
-            long retained = static_cast<long>(space->heapSize)
-                          - static_cast<long>(space->freeCellsCount)
-                          - static_cast<long>(space->cellsSinceLastCycle);
-            if (retained < 0) retained = 0;
-            const unsigned long proportional = static_cast<unsigned long>(
-                static_cast<uint64_t>(retained) * space->gcGrowthPercent / 100u);
-            space->gcAllocationBudget = proportional > space->gcMinBudgetCells
-                                      ? proportional : space->gcMinBudgetCells;
-        }
-
         void gcThreadLoop(ProtoSpace* space) {
             std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             GC_LOCK_TRACE("gcLoop ACQ(init)");
@@ -579,11 +518,6 @@ namespace proto {
 #endif
 
                 DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
-
-                // Start the next allocation-budget period at the snapshot:
-                // cells handed out from here on were not seen by this cycle.
-                // Still under globalMutex, like every other budget update.
-                space->cellsSinceLastCycle = 0;
 
                 // --- PHASE 3: RESUME THE WORLD ---
                 //
@@ -963,9 +897,6 @@ namespace proto {
                 GC_LOCK_TRACE("gcLoop ACQ(after-sweep)");
                 lock.lock(); // Re-acquire for next wait
                 space->gcStarted = false;
-                // Every completed cycle — whatever requested it — sizes the
-                // allocation budget from the cells it retained.
-                recomputeAllocationBudget(space);
                 // Publish the cycle's accounting for the heap-limit path:
                 //  * reclaimedLastCycle — cells the sweep returned to the
                 //    freelist; the authoritative out-of-memory signal
@@ -1065,28 +996,6 @@ namespace proto {
                 this->survivorStagger = static_cast<unsigned int>(parsed);
             }
         }
-
-        // Collection pacing without a heap limit: growth percentage (0
-        // disables automatic cycles) and the minimum allocation budget
-        // between cycles.  See ProtoSpace::gcGrowthPercent.
-        this->gcGrowthPercent = GC_GROWTH_PERCENT_DEFAULT;
-        if (const char* envGrowth = std::getenv("PROTOCORE_GC_GROWTH_PERCENT")) {
-            char* endPtr = nullptr;
-            unsigned long parsed = std::strtoul(envGrowth, &endPtr, 10);
-            if (endPtr != envGrowth && *endPtr == '\0' && parsed <= GC_GROWTH_PERCENT_MAX) {
-                this->gcGrowthPercent = static_cast<unsigned int>(parsed);
-            }
-        }
-        this->gcMinBudgetCells = GC_MIN_BUDGET_CELLS_DEFAULT;
-        if (const char* envBudget = std::getenv("PROTOCORE_GC_MIN_BUDGET_CELLS")) {
-            char* endPtr = nullptr;
-            unsigned long parsed = std::strtoul(envBudget, &endPtr, 10);
-            if (endPtr != envBudget && *endPtr == '\0' && parsed >= 1 && parsed <= INT_MAX) {
-                this->gcMinBudgetCells = parsed;
-            }
-        }
-        this->cellsSinceLastCycle = 0;
-        recomputeAllocationBudget(this);
 
         // Pre-allocate a pool of DirtySegments so submitYoungGeneration's
         // hot path (per-context threshold submission, every context-
@@ -1432,10 +1341,8 @@ namespace proto {
                 FreeChunk* chunk = this->freeChunks;
                 this->freeChunks = chunk->next;
                 Cell* batchHead = chunk->head;
-                const unsigned long handedOut = chunk->count;
-                this->freeCellsCount -= static_cast<int>(handedOut);
+                this->freeCellsCount -= static_cast<int>(chunk->count);
                 recycleFreeChunk(this, chunk);
-                chargeAllocationBudget(this, handedOut);
                 GC_LOCK_TRACE("getFreeCells REL(chunk)");
                 return batchHead;
             }
@@ -1445,12 +1352,9 @@ namespace proto {
             if (this->freeCells) {
                 if (this->freeCellsCount <= batchSize) {
                     Cell* batchHead = this->freeCells;
-                    const int handedOut = this->freeCellsCount;
                     this->freeCells = nullptr;
                     this->freeCellsTail = nullptr;
                     this->freeCellsCount = 0;
-                    if (handedOut > 0)
-                        chargeAllocationBudget(this, static_cast<unsigned long>(handedOut));
                     GC_LOCK_TRACE("getFreeCells REL(flat-all)");
                     return batchHead;
                 }
@@ -1467,7 +1371,6 @@ namespace proto {
                 current->setNext(nullptr);
                 this->freeCellsCount -= count;
                 if (!this->freeCells) this->freeCellsTail = nullptr;
-                chargeAllocationBudget(this, static_cast<unsigned long>(count));
                 GC_LOCK_TRACE("getFreeCells REL(flat-partial)");
                 return batchHead;
             }
@@ -1489,25 +1392,18 @@ namespace proto {
             // for the measurement (Phase-1 waited 2.27 s of a 2.5 s
             // run at workers=8).
             //
-            // Cycles are started by:
-            //   * the allocation-budget trigger (chargeAllocationBudget),
-            //     evaluated on every batch this function hands out —
-            //     from the freelist or from the OS — when no hard heap
-            //     limit is configured.  It is paced by allocation volume,
-            //     not by freelist exhaustion: a cycle starts once
-            //     max(gcMinBudgetCells, retained × gcGrowthPercent / 100)
-            //     cells have been handed out since the previous cycle's
-            //     snapshot, so cycles run back to back only while the
-            //     mutators out-allocate the collector.  Without this
-            //     trigger, a heap with no limit grew without bound unless
-            //     the embedder called triggerGC();
+            // The GC is now driven exclusively by:
             //   * the soft/hard cap paths (waitForHeapHeadroom /
-            //     reclaimWaitLocked) when maxHeapSize is configured AND
-            //     heapSize crosses softHeapLimit or maxHeapSize;
-            //   * triggerGC(), the public freeRatio-driven entry point
-            //     that callers can invoke explicitly.
-            // Exhaustion itself never blocks when there is no cap: the
-            // heap grows from the OS while a requested cycle runs.
+            //     reclaimWaitLocked) — those only kick in when a
+            //     maxHeapSize is configured AND heapSize crosses
+            //     softHeapLimit or maxHeapSize;
+            //   * triggerGC(), the public freeRatio-driven entry
+            //     point that callers can invoke explicitly;
+            //   * ~ProtoSpace, which notifies on shutdown.
+            // With the default maxHeapSize == 0 (no cap), getFreeCells
+            // never triggers — the runtime grows by OS allocations
+            // and the user gets the throughput they paid for. Set a
+            // cap if you want the GC to kick in.
 
             // Size the OS allocation (unchanged sizing policy).
             int blocksToAllocate;
@@ -1622,7 +1518,6 @@ namespace proto {
                 remainderStart += chunkSize;
             }
 
-            chargeAllocationBudget(this, static_cast<unsigned long>(batchSize));
             GC_LOCK_TRACE("getFreeCells REL(return OS)");
             return batchHead;
         }

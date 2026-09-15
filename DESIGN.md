@@ -197,18 +197,12 @@ no-ops, so embedders need not guard their call sites.
 
 ### The Heap Allocation Limit and Out-of-Memory Detection
 
-By default protoCore sets no ceiling on its `Cell` heap: when the freelist is
-empty, `getFreeCells` calls `posix_memalign` and only fails once the OS itself
-is exhausted. Collection is paced by allocation instead. Once the cells handed
-out since the previous cycle reach `max(PROTOCORE_GC_MIN_BUDGET_CELLS, retained
-cells × PROTOCORE_GC_GROWTH_PERCENT / 100)` and contexts have submitted garbage
-since then, a cycle is requested, so a constant live set keeps a bounded heap (see
-[docs/GarbageCollector.md](docs/GarbageCollector.md) § "Memory Allocation"). An
-embedder can instead impose a ceiling with `ProtoSpace::setHeapLimits(softCells,
+By default protoCore grows its `Cell` heap without bound — `getFreeCells` keeps
+calling `posix_memalign` and only fails once the OS itself is exhausted. An
+embedder can instead impose a budget with `ProtoSpace::setHeapLimits(softCells,
 hardCells)` (both counted in `Cell`s; `0` disables a limit, the default). The
-feature is fully gated on `maxHeapSize > 0`. While a hard limit is set, the
-allocation-budget trigger is inactive and the limit's reclaim-wait path starts
-cycles.
+feature is fully gated on `maxHeapSize > 0` — with no limit set, the allocator
+is bit-for-bit the historical unbounded path.
 
 *   **Hard ceiling**: `heapSize` (Cells obtained from the OS) never crosses
     `maxHeapSize`. `getFreeCells` clamps every OS request to the remaining
