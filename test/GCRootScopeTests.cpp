@@ -105,6 +105,44 @@ TEST(GCRootScope, YoungChainIsNotTraversedWhileTheWorldIsStopped) {
         << "the young chain was traversed while the world was stopped";
 }
 
+// Stop-the-world collects roots only, for the survivor pen as well.  A probe
+// cell kept alive by a root set survives its first cycle into the pen; with a
+// stagger of 2, every other cycle leaves the pen unfolded and scans it.  No
+// traversal of the probe may happen while the world is stopped.
+TEST(GCRootScope, SurvivorPenIsNotTraversedWhileTheWorldIsStopped) {
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
+    GTEST_SKIP() << "the survivor pen exists only with PROTOCORE_GC_REINCLUDE_SURVIVORS";
+#else
+    StwProbeCell::traversals = 0;
+    StwProbeCell::traversalsWhileStopped = 0;
+
+    ProtoSpace space;
+    space.survivorStagger = 2;
+    ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
+
+    ProtoRootSet* rs = space.createRootSet("gc-root-scope-pen");
+    ASSERT_NE(rs, nullptr);
+    ProtoRootSet::Handle pinned = ProtoRootSet::kNullHandle;
+    {
+        ProtoContext sub(&space, &live, nullptr, nullptr, nullptr, nullptr);
+        const Cell* probe = new (&sub) StwProbeCell(&sub);
+        pinned = rs->add(reinterpret_cast<const ProtoObject*>(probe));
+    }  // the probe is now a candidate that the root set keeps alive
+
+    const uint64_t cycles = forceCycles(space, &live, 8);
+    ASSERT_TRUE(waitForIdleCollector(space, &live));
+
+    EXPECT_GE(cycles, 8u);
+    EXPECT_GT(StwProbeCell::traversals.load(), 0u)
+        << "the collector never traversed the pinned probe cell";
+    EXPECT_EQ(StwProbeCell::traversalsWhileStopped.load(), 0u)
+        << "the survivor pen was traversed while the world was stopped";
+
+    rs->remove(pinned);
+    space.destroyRootSet(rs);
+#endif
+}
+
 // An old object whose only reference is held by a young cell of a live
 // context survives, and so does the young cell, which is held only by a C++
 // local and the context's young chain.

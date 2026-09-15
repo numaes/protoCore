@@ -443,29 +443,31 @@ namespace proto {
                 //
                 // Survivor pen — staggered re-chain.  The previous sweep
                 // pushed survivors into space->survivorPen instead of
-                // dirtySegments.  We treat them in one of two ways here,
-                // mutually exclusive within a cycle:
+                // dirtySegments.  Stop-the-world only captures the pen, in
+                // O(1); the work on its segments runs after the world
+                // resumes.  Two treatments, mutually exclusive within a
+                // cycle:
                 //
                 //   FOLD CYCLE  (gcCycleCount % stagger == 0):
-                //     Splice the pen into dirtySegments so cells become
-                //     candidates again.  Mark from roots will reach them
-                //     naturally; outgoing references are traced via the
-                //     normal candidate path.  No separate pen scan needed.
+                //     Take the whole pen (exchange).  After the world
+                //     resumes, its segments are linked in front of this
+                //     cycle's segmentsToProcess, so their cells are
+                //     candidates again.  Mark from roots reaches the live
+                //     ones; outgoing references are traced via the normal
+                //     candidate path.
                 //
                 //   NON-FOLD CYCLE (stagger > 1 only):
                 //     Pen cells stay in the pen this cycle (skip mark and
                 //     sweep cost).  But if a pen cell references a cell
-                //     that IS in dirtySegments, mark must still trace
-                //     through it or the referenced cell is freed and the
-                //     pen reference dangles.  Walk each pen cell and push
-                //     its outgoing references onto the workList, same
-                //     discipline as the per-context young chain.  The
-                //     pen cell itself is not pushed (not a candidate, no
-                //     liveness check).
+                //     that IS a candidate, mark must still trace through
+                //     it or the referenced cell is freed and the pen
+                //     reference dangles.  Record the pen head; after the
+                //     world resumes, mark walks each pen cell and pushes
+                //     its outgoing references, as for the young chains.
+                //     The pen cell itself is not pushed (not a candidate,
+                //     no liveness check).
                 //
-                // With stagger == 1 (default) every cycle is a fold cycle:
-                // functionally equivalent to sweep pushing directly to
-                // dirtySegments, with one extra atomic-list hop per cycle.
+                // With stagger == 1 (default) every cycle is a fold cycle.
                 // With stagger > 1, only every Nth cycle folds; survivors
                 // skip mark/sweep cost in the meantime, at the price of
                 // delayed reclamation by up to N cycles.
@@ -476,38 +478,13 @@ namespace proto {
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
                 const unsigned int stagger = space->survivorStagger ? space->survivorStagger : 1;
                 const bool foldThisCycle = ((newCycle % stagger) == 0);
+                // At most one of the two is non-null.
+                DirtySegment* penToFold = nullptr;
+                const DirtySegment* penToScan = nullptr;
                 if (foldThisCycle) {
-                    DirtySegment* penHead = space->survivorPen.exchange(nullptr, std::memory_order_acquire);
-                    while (penHead) {
-                        DirtySegment* nextSeg = penHead->next;
-                        penHead->next = space->dirtySegments.load(std::memory_order_relaxed);
-                        while (!space->dirtySegments.compare_exchange_weak(
-                                penHead->next, penHead,
-                                std::memory_order_release,
-                                std::memory_order_relaxed)) {
-                            // penHead->next reloaded by compare_exchange_weak on failure
-                        }
-                        penHead = nextSeg;
-                    }
+                    penToFold = space->survivorPen.exchange(nullptr, std::memory_order_acquire);
                 } else {
-                    // Stagger > 1, non-fold cycle: scan pen cells'
-                    // outgoing references so mark traces them.  Pen
-                    // pointer load is relaxed because we are inside STW;
-                    // mutators are parked and no sweep is in flight.
-                    DirtySegment* penSeg = space->survivorPen.load(std::memory_order_relaxed);
-                    while (penSeg) {
-                        Cell* scanCell = penSeg->cellChain;
-                        struct PenScanState { std::vector<const Cell*>* wl; const Cell* parent; } pst = {&workList, scanCell};
-                        while (scanCell) {
-                            pst.parent = scanCell;
-                            scanCell->processReferences(space->rootContext, &pst, [](ProtoContext* ctx, void* self, const Cell* ref) {
-                                auto* s = static_cast<PenScanState*>(self);
-                                pushReportedReference(s->wl, s->parent, ref, "Phase2(pen)");
-                            });
-                            scanCell = scanCell->getNext();
-                        }
-                        penSeg = penSeg->next;
-                    }
+                    penToScan = space->survivorPen.load(std::memory_order_acquire);
                 }
 #endif
 
@@ -600,6 +577,37 @@ namespace proto {
                         });
                     }
                 }
+
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                // Survivor pen captured in Phase 2.
+                //
+                // Fold: the exchanged pen is private to this thread.  Linking
+                // it in front of segmentsToProcess builds the list sweep
+                // walks; the candidate set itself was fixed by the two
+                // exchanges under stop-the-world.
+                if (penToFold) {
+                    DirtySegment* penTail = penToFold;
+                    while (penTail->next) penTail = penTail->next;
+                    penTail->next = segmentsToProcess;
+                    segmentsToProcess = penToFold;
+                }
+                // Non-fold: walk the pen captured in Phase 2 and push the
+                // references of its cells.  The view is stable: mutators
+                // never touch the pen or the links of its cells, this
+                // cycle's sweep runs after mark and only prepends new
+                // survivor segments at the pen head, and the pen is folded
+                // only under a later cycle's stop-the-world.
+                for (const DirtySegment* penSeg = penToScan; penSeg; penSeg = penSeg->next) {
+                    struct PenScanState { std::vector<const Cell*>* wl; const Cell* parent; } pst = {&workList, penSeg->cellChain};
+                    for (const Cell* scanCell = penSeg->cellChain; scanCell; scanCell = scanCell->getNext()) {
+                        pst.parent = scanCell;
+                        scanCell->processReferences(space->rootContext, &pst, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                            auto* s = static_cast<PenScanState*>(self);
+                            pushReportedReference(s->wl, s->parent, ref, "Phase4(pen)");
+                        });
+                    }
+                }
+#endif
 
                 // --- PHASE 4: MARK (concurrent with mutators) ---
                 //
