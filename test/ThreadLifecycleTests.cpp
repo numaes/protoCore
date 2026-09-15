@@ -1,5 +1,5 @@
-// ThreadLifecycleTests.cpp — stop-the-world accounting of ProtoThreads across
-// their exit.
+// ThreadLifecycleTests.cpp — stop-the-world accounting and cell ownership of
+// ProtoThreads across their exit.
 //
 // The stop-the-world quorum is `parkedThreads >= runningThreads`.  A thread
 // must stay counted in `runningThreads` for as long as it can still execute
@@ -33,6 +33,13 @@ const ProtoObject* waitForRelease(ProtoContext*, const ProtoObject*, const Paren
                                   const ProtoList*, const ProtoSparseList*) {
     g_started.store(true);
     while (!g_release.load()) std::this_thread::yield();
+    return PROTO_NONE;
+}
+
+// Thread body: allocate one object and return.
+const ProtoObject* allocateOneObject(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                     const ProtoList*, const ProtoSparseList*) {
+    (void) ctx->newObject(false);
     return PROTO_NONE;
 }
 
@@ -100,4 +107,25 @@ TEST(ThreadLifecycle, ExitingThreadStaysCountedUntilUnregistered) {
            "counted as parked but no longer as running";
     EXPECT_EQ(space.runningThreads.load(), 1);
     EXPECT_EQ(space.parkedThreads.load(), 0);
+}
+
+// A thread's unused cells go back to the global freelist when it exits.
+// Before the fix, the rest of every exiting thread's refill batch leaked, so a
+// sequence of short-lived threads that allocate one object each consumed a
+// fresh batch per thread and grew the heap by up to 65,536 cells each.
+TEST(ThreadLifecycle, ShortLivedThreadsDoNotGrowTheHeapByABatchEach) {
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    constexpr int kThreads = 64;
+
+    const int heapBefore = space.heapSize;
+    for (int i = 0; i < kThreads; ++i) {
+        const ProtoThread* t = space.newThread(root, nullptr, allocateOneObject, nullptr, nullptr);
+        joinUnmanaged(root, t);
+    }
+    const int grown = space.heapSize - heapBefore;
+
+    EXPECT_LT(grown, 4 * 65536)
+        << kThreads << " threads that allocate one object each grew the heap by "
+        << grown << " cells";
 }

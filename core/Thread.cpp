@@ -63,6 +63,12 @@ namespace proto {
                 std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
                 if (space->threads == oldThreads) {
                     space->threads = const_cast<ProtoSparseList*>(newThreads);
+                    // The thread allocates nothing after this point: hand the
+                    // unused part of its refill batch back to the space.
+                    // Without this the cells were on no freelist and in no
+                    // young generation, and leaked with the thread.
+                    settleThreadCells(space,
+                        toImpl<ProtoThreadImplementation>(context->thread)->extension);
                     space->runningThreads--;
                     space->gcCV.notify_all(); // the quorum may now be met
                     break;

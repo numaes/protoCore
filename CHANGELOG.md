@@ -136,6 +136,14 @@ All notable changes to protoCore are documented in this file.
   thread. Embedder caches that hold cell pointers must be kept alive through
   a root captured under stop-the-world or be dropped when
   `getGCCycleCount()` changes (`docs/GarbageCollector.md`).
+- **Exiting threads return their unused cells** — a `ProtoThread` allocates
+  from a private freelist that is refilled in batches of up to 65,536 cells,
+  and the unused part of its last batch was never returned when the thread
+  exited: those cells were on no freelist and in no young generation, so no
+  cycle could reclaim them. 64 sequential threads that allocated one object
+  each grew the heap by 2,228,224 cells. `thread_main` now splices the
+  remainder onto the global freelist (`settleThreadCells`) after the thread's
+  last allocation.
 - **An exiting `ProtoThread` stays in the stop-the-world quorum until it is
   unregistered** — `thread_main` decremented `runningThreads` before it
   rebuilt `space->threads`. That rebuild allocates, and in builds with
@@ -236,6 +244,9 @@ All notable changes to protoCore are documented in this file.
   `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
   instrumented and debug builds name a cell type whose `processReferences`
   reports `nullptr`.
+- `ThreadLifecycle.ShortLivedThreadsDoNotGrowTheHeapByABatchEach` runs 64
+  sequential threads that allocate one object each and bounds the heap
+  growth to four batches (2,228,224 cells before the fix).
 - `ThreadLifecycle.ExitingThreadStaysCountedUntilUnregistered` raises the
   stop-the-world flag while a thread exits and checks that the quorum is
   never met while the test thread runs; it failed before the fix in the
