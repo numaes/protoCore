@@ -289,3 +289,30 @@ TEST_F(NumericTest, DivmodApi) {
     ASSERT_EQ(tuple->getAt(context, 0)->asLong(context), 3); // Quotient
     ASSERT_EQ(tuple->getAt(context, 1)->asLong(context), 1); // Remainder
 }
+
+// A double's hash must agree with equality: 0.0 and -0.0 compare equal, and
+// every NaN is one set element whatever its sign or payload.  The hash used
+// std::hash<double> on the bit pattern, so NaNs of different sign or payload
+// (x86 0.0/0.0 is a negative NaN, std::nan("") a positive one) hashed apart.
+TEST_F(NumericTest, DoubleHashAgreesWithEquality) {
+    const double quiet = std::numeric_limits<double>::quiet_NaN();
+    const double values[] = {
+        quiet, -quiet, std::copysign(quiet, -1.0), std::nan("1"), std::nan("0x7ffff"),
+        -std::nan("12345"),
+    };
+    const unsigned long nanHash = context->fromDouble(quiet)->getHash(context);
+    for (double v : values) {
+        ASSERT_TRUE(std::isnan(v));
+        EXPECT_EQ(context->fromDouble(v)->getHash(context), nanHash);
+    }
+    EXPECT_EQ(context->fromDouble(-0.0)->getHash(context), context->fromDouble(0.0)->getHash(context));
+    EXPECT_EQ(context->fromDouble(1.5)->getHash(context), context->fromDouble(1.5)->getHash(context));
+    EXPECT_NE(context->fromDouble(1.5)->getHash(context), nanHash);
+
+    const ProtoSet* set = context->newSet()
+        ->add(context, context->fromDouble(-0.0))
+        ->add(context, context->fromDouble(std::copysign(quiet, -1.0)));
+    EXPECT_TRUE(set->has(context, context->fromDouble(0.0))->asBoolean(context));
+    EXPECT_TRUE(set->has(context, context->fromDouble(std::nan("7")))->asBoolean(context));
+    EXPECT_EQ(set->add(context, context->fromDouble(quiet))->getSize(context), 2u);
+}

@@ -147,6 +147,14 @@ All notable changes to protoCore are documented in this file.
   thread. Embedder caches that hold cell pointers must be kept alive through
   a root captured under stop-the-world or be dropped when
   `getGCCycleCount()` changes (`docs/GarbageCollector.md`).
+- **A double's hash agrees with equality** — `DoubleImplementation::getHash`
+  hashed the bit pattern, so NaNs of different sign or payload (x86
+  `0.0/0.0` is a negative NaN, `std::nan("")` a positive one) were different
+  `ProtoSet`/`ProtoMultiset` elements, and whether `-0.0` and `0.0` collided
+  depended on the standard library. All NaNs now hash as the canonical quiet
+  NaN and `-0.0` hashes as `0.0`; other doubles keep their hash. Hashes still
+  differ across numeric kinds (`1` and `1.0`), as documented for `ProtoSet`:
+  a language whose equality crosses kinds supplies its own hash.
 - **`ProtoList::has` with integers beyond `long long`** — both list forms
   compared integer elements with `asLong`, which throws
   `std::overflow_error` for a `LargeInteger` outside that range, so `has`
@@ -287,6 +295,9 @@ All notable changes to protoCore are documented in this file.
   `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
   instrumented and debug builds name a cell type whose `processReferences`
   reports `nullptr`.
+- `NumericTest.DoubleHashAgreesWithEquality` checks that quiet, negative and
+  payload NaNs hash alike, that `-0.0` and `0.0` hash alike, and that a set
+  treats them as one element (the NaN cases failed before the fix).
 - `ListTest.HasComparesLargeIntegersByValue` checks `has` on inline and AVL
   lists holding 2^70 against an equal distinct object, neighbours and small
   integers (it threw `std::overflow_error` before the fix).
