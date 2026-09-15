@@ -32,6 +32,20 @@ namespace proto {
         constexpr unsigned long kMaxBytesPerOSAllocation = 16u * 1024u * 1024u;
         /** Maximum number of blocks (BigCells) per OS request. */
         constexpr int kMaxBlocksPerOSAllocation = static_cast<int>(kMaxBytesPerOSAllocation / sizeof(BigCell));
+        /**
+         * Under a hard heap limit, all running threads' refill batches
+         * together use at most maxHeapSize / kLimitBatchFraction cells: each
+         * refill is capped at maxHeapSize / (kLimitBatchFraction * threads).
+         * Cells a thread holds in its private freelist count against the
+         * limit but cannot be reclaimed, so this bounds the part of the limit
+         * that is out of the collector's reach.
+         */
+        constexpr long kLimitBatchFraction = 8;
+        /**
+         * Floor of a capped refill, so that a very small limit or many threads
+         * do not turn every few allocations into a refill under globalMutex.
+         */
+        constexpr long kMinLimitedBatchCells = 512;
 
         std::atomic<uint64_t> s_getFreeCellsCalls{0};
         static long long diagCurrentTid() {
@@ -1556,10 +1570,47 @@ namespace proto {
                 if (scaled > 65536) scaled = 65536;
                 batchSize = scaled;
             }
+            // The OS request below keeps this unlimited size.
+            const int unlimitedBatchSize = batchSize;
+
+            // Under a hard heap limit, a refill is capped so that all running
+            // threads' batches together use at most 1/kLimitBatchFraction of
+            // the limit.  A batch counts against the limit as soon as it is
+            // handed out, but no cycle can reclaim the cells a thread holds,
+            // so unbounded batches (up to 65,536 cells each with several
+            // threads) can exhaust a small limit while the live set is far
+            // below it.  Without a limit nothing changes.
+            const bool limitedBatches = this->maxHeapSize > 0;
+            long limitCap = 0;
+            if (limitedBatches) {
+                const long threads = std::max(1, this->runningThreads.load());
+                limitCap = static_cast<long>(this->maxHeapSize) / (kLimitBatchFraction * threads);
+                if (limitCap < kMinLimitedBatchCells) limitCap = kMinLimitedBatchCells;
+                if (batchSize > limitCap) batchSize = static_cast<int>(limitCap);
+            }
 
             // Path #5 v2: chunked freelist — O(1) chunk pop.
             if (this->freeChunks) {
                 FreeChunk* chunk = this->freeChunks;
+                // Sweep publishes chunks of any size (a segment full of dead
+                // cells can exceed CELL_CHUNK_SIZE), and without a limit a
+                // chunk is handed out whole.  Under a limit, split only a
+                // chunk larger than the cap: when the cap does not bind (a
+                // generous limit) the chunk is still handed out whole.
+                if (limitedBatches && chunk->count > static_cast<unsigned long>(limitCap)) {
+                    // Hand out only batchSize cells of this chunk: cut its
+                    // chain after batchSize cells and leave the remainder
+                    // (same tail) on the free-chunk list.
+                    Cell* batchHead = chunk->head;
+                    Cell* last = batchHead;
+                    for (int i = 1; i < batchSize; ++i) last = last->getNext();
+                    chunk->head = last->getNext();
+                    chunk->count -= static_cast<unsigned long>(batchSize);
+                    last->internalSetNextRaw(nullptr);
+                    this->freeCellsCount -= batchSize;
+                    GC_LOCK_TRACE("getFreeCells REL(chunk-split)");
+                    return batchHead;
+                }
                 this->freeChunks = chunk->next;
                 Cell* batchHead = chunk->head;
                 this->freeCellsCount -= static_cast<int>(chunk->count);
@@ -1626,10 +1677,12 @@ namespace proto {
             // and the user gets the throughput they paid for. Set a
             // cap if you want the GC to kick in.
 
-            // Size the OS allocation (unchanged sizing policy).
+            // Size the OS allocation (unchanged sizing policy).  With a heap
+            // limit the thread still receives only the capped batchSize; the
+            // rest of the request is published as free chunks below.
             int blocksToAllocate;
             if (this->runningThreads > 1) {
-                blocksToAllocate = batchSize;
+                blocksToAllocate = unlimitedBatchSize;
             } else {
                 blocksToAllocate = this->blocksPerAllocation * 50;
             }

@@ -17,7 +17,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 |------|-------|
 | Version | 1.2.0 |
 | Status | Open for review; not production ready |
-| Test suite | 242 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-15 |
+| Test suite | 244 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-15 |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
@@ -185,7 +185,7 @@ protoCore reads the following environment variables. The `PROTOCORE_HEAP_LIMIT_C
 
 | Variable | Format | Default | Effect |
 |---|---|---|---|
-| `PROTOCORE_HEAP_LIMIT_CELLS` | `<hard>` or `<soft>,<hard>`: cell counts in decimal digits, each at most 2147483647 (one cell is 64 bytes) | unset: no limit | Calls `ProtoSpace::setHeapLimits(soft, hard)` once the space is built. A single value sets only the hard ceiling. `0`, or a hard part of `0`, means no limit. With a ceiling, the heap grows up to `<hard>` cells and a thread that needs more waits for a collection cycle to reclaim cells; if two cycles in a row reclaim nothing, protoCore reports out of memory and aborts. Above `<soft>`, the allocator waits for one cycle before growing the heap. |
+| `PROTOCORE_HEAP_LIMIT_CELLS` | `<hard>` or `<soft>,<hard>`: cell counts in decimal digits, each at most 2147483647 (one cell is 64 bytes) | unset: no limit | Calls `ProtoSpace::setHeapLimits(soft, hard)` once the space is built. A single value sets only the hard ceiling. `0`, or a hard part of `0`, means no limit. With a ceiling, the heap grows up to `<hard>` cells and a thread that needs more waits for a collection cycle to reclaim cells; if two cycles in a row reclaim nothing, protoCore reports out of memory and aborts. Above `<soft>`, the allocator waits for one cycle before growing the heap. Under a limit, each thread's refill batch shrinks so that all threads' batches together hold at most one eighth of `<hard>` (see [docs/GarbageCollector.md](docs/GarbageCollector.md) § "Memory Allocation"). |
 | `PROTOCORE_GC_CONTEXT_THRESHOLD` | positive integer, at most 4294967295 | `10000` | Builds with `PROTOCORE_GC_REINCLUDE_SURVIVORS` only: once a context has allocated more cells than this, `ProtoContext::safepoint()` hands its young cells to the collector. |
 | `PROTOCORE_GC_SURVIVOR_STAGGER` | integer from 1 to 256 | `1` | Builds with `PROTOCORE_GC_REINCLUDE_SURVIVORS` only: number of cycles between re-examinations of cells that survived a sweep. Higher values lower the marking cost of stable data and delay its reclamation. |
 | `PROTOCORE_GC_PROFILE` | any value | unset | Builds with `PROTOCORE_GC_INSTRUMENT` only: prints cumulative per-phase collector timings to standard error after every cycle (`P1`, `P2`, `P4`, `P5`, `REL`, `P6`; see [docs/GarbageCollector.md](docs/GarbageCollector.md)). |

@@ -437,6 +437,20 @@ authors must follow at the root side.
   make those cells candidates while nothing references them, and a later
   cycle would free them.  Young generations are submitted only when a
   context is destroyed or at a `safepoint()` the embedder calls.
+- **Refill batches adapt to a heap limit.**  A thread allocates from a
+  private freelist that `getFreeCells` refills in batches.  Those cells
+  count against the heap limit as soon as they are handed out, but no cycle
+  can reclaim cells a thread holds.  Without a limit a batch is
+  `blocksPerAllocation` (8,192) cells, or 60,000–65,536 with several running
+  threads, and a recycled chunk hands out up to 8,192 cells.  With a hard
+  limit, each refill is capped at
+  `maxHeapSize / (8 × runningThreads)` cells, never below 512: all running
+  threads' batches together use at most one eighth of the limit.  A free
+  chunk larger than the cap is split, and an OS request keeps its usual size
+  with the surplus published as free chunks.  Without a limit the sizes and
+  the code path are unchanged.  A smaller batch means more refills, each
+  taking `globalMutex`; the constants are `kLimitBatchFraction` and
+  `kMinLimitedBatchCells` in `core/ProtoSpace.cpp`.
 
 ### OS allocation cap (16 MiB)
 

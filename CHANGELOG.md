@@ -134,6 +134,48 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **Per-thread refill batches are sized to the heap limit.**
+
+  **Cause.** A thread allocates from a private freelist that `getFreeCells`
+  refills in batches of up to 65,536 cells when several threads run, or a whole
+  8,192-cell chunk. Those cells count against the heap limit, but no cycle can
+  reclaim what a thread holds. Under `PROTOCORE_HEAP_LIMIT_CELLS=500000`, eight
+  worker threads' batches alone exceeded the limit, so protoST aborted with
+  "out of memory" while the live set was 48,000–350,000 cells.
+
+  **Change.** Only when a hard limit is configured, each refill is capped at
+  `maxHeapSize / (8 × runningThreads)` cells, never below 512, so all threads'
+  batches together use at most one eighth of the limit. A larger free chunk is
+  split. An OS request keeps its usual size, and the surplus is published as
+  free chunks. Without a limit, batch sizes and the path are unchanged.
+
+  **Constants.** `kLimitBatchFraction = 8`, the suggested starting point.
+  `kMinLimitedBatchCells = 512`, so a tiny limit or many threads do not turn
+  every few allocations into a refill under `globalMutex`. The cap uses
+  `runningThreads` at each refill. That count dips while a thread waits for
+  headroom, but a waiting thread holds almost nothing, so the sum stays bounded.
+  A free chunk is split only when it is larger than the cap. When the cap does
+  not bind, as with a single thread under a generous limit, chunks are handed
+  out whole as before.
+
+  **Tests.** `test/HeapLimitBatchTests.cpp`:
+  - Eight threads start together under a 500,000-cell limit. The sum of the
+    cells held in their freelists stays within a quarter of the limit, and live
+    data survives. Without the cap, the sum reached 466,392 cells, with 65,423
+    in a single thread.
+  - Without a limit, a refill still hands out a full chunk.
+
+  **Measured.** `perf stat` user-space instructions, same binaries, uncapped
+  against capped library:
+
+  | Benchmark | No limit | `PROTOCORE_HEAP_LIMIT_CELLS=64000000` |
+  |---|---|---|
+  | Single-thread allocation probe (5,000,000 objects) | unchanged (−0.01%) | unchanged (±0.001%) |
+  | `immutable_sharing_benchmark` | unchanged (−0.02%) | unchanged (±0.001%) |
+  | `concurrent_append_benchmark` | ±8% run-to-run noise, no usable signal | same |
+
+  **protoST at 500,000 cells.** The out-of-memory aborts with small live sets
+  are gone. The remaining aborts report live sets of 406,000 to 583,000 cells.
 - **A snapshot read from the mutables tree is never held across a
   park point** — preparation for the per-thread caches no longer being GC
   roots.
