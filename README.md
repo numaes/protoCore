@@ -106,7 +106,7 @@ When protoCore is part of your CMake build (for example through `add_subdirector
 
 This repository does not publish benchmark results. The `performance/` directory contains microbenchmarks (attribute access, cache timing, lists, sparse lists, string concatenation, structural sharing, concurrent appends) that are built with the project; see [Running the benchmarks](#running-the-benchmarks).
 
-The protoCpp repository publishes a dated comparison that drives protoCore directly from C++: on the five benchmarks with a same-size CPython measurement, protoCpp is 1.04×–2.39× faster single-threaded and 14.33× faster on `multithread_cpu` (four threads); measured 2026-06-15, see https://github.com/gamarino/protoCpp/blob/main/RESULTS.md. In the same measurement the inline SmallInt helpers cut protoCpp wall time by 58.9% on `call_recursion`. The CPython version and build used for that comparison are not recorded.
+The protoCpp repository publishes a dated comparison (2026-06-15) that drives protoCore directly from C++. In whole-process wall time, protoCpp finishes before CPython on the five benchmarks with a same-size CPython measurement (1.04×–2.39× single-threaded, 14.33× on `multithread_cpu` with four threads). On three of those rows CPython's time is dominated by interpreter start-up, and the C++ and Python columns come from different harnesses and runs, so the figures do not isolate workload speed; see https://github.com/gamarino/protoCpp/blob/main/RESULTS.md for the full caveats. In the same measurement the inline SmallInt helpers cut protoCpp wall time by 58.9% on `call_recursion`. The CPython version and build used for that comparison are not recorded.
 
 ---
 
