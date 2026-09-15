@@ -22,7 +22,6 @@ namespace proto
     class SymbolTable;  // forward declaration for 64-shard interning table
     class TupleInterner;  // forward declaration for the tuple interning table
     struct MutableValueCacheEntry;  // defined in proto_internal.h
-    class ProtoThreadExtension;     // defined in proto_internal.h
 
     // Forward declarations
     class ProtoStringIterator;
@@ -1404,23 +1403,7 @@ namespace proto
             const ProtoSparseList* kwargs);
 
         //- Memory Management & GC
-        /**
-         * @brief Hands a batch of free cells to `ctx`'s allocator.
-         *
-         * The batch is charged to the allocation budget when it is handed
-         * out.  ProtoThreads refill through the overload below instead.
-         */
         Cell* getFreeCells(ProtoContext* ctx);
-        /**
-         * @brief Refill for a ProtoThread's private freelist.
-         *
-         * A thread refills only once its previous batch is exhausted, so the
-         * previous batch (recorded in `ext`) is charged to the allocation
-         * budget now, and the new batch when it runs out in turn or when the
-         * thread exits (settleThreadCells).  With `ext == nullptr` this is
-         * getFreeCells(ctx).
-         */
-        Cell* getFreeCells(ProtoContext* ctx, ProtoThreadExtension* ext);
         void analyzeUsedCells(Cell* cellsChain);
         void triggerGC();
 
@@ -1718,19 +1701,14 @@ namespace proto
         /**
          * @brief Collection pacing when no hard heap limit is configured.
          *
-         * The allocator charges the cells mutators consume against an
-         * allocation budget.  A ProtoThread's refill batch is charged when
-         * the thread exhausts it and refills, and its unused remainder is
-         * returned uncharged when the thread exits (settleThreadCells), so
-         * the count lags real allocation by at most one batch per thread and
-         * does not grow with the number of threads that merely hold a batch.
-         * Batches for contexts without a thread are charged when handed out.
-         * `cellsSinceLastCycle` counts the cells charged since the
-         * stop-the-world snapshot of the most recent cycle; once it reaches
-         * `gcAllocationBudget`, the mutators have submitted garbage
-         * candidates since that snapshot (`dirtySegments` is non-empty) and
-         * no cycle is pending, the allocator requests one through the
-         * ordinary gcStarted / gcCV wake-up.  Without submitted segments a cycle could reclaim
+         * getFreeCells charges every batch of cells it hands to a thread
+         * against an allocation budget.  `cellsSinceLastCycle` counts the
+         * cells handed out since the stop-the-world snapshot of the most
+         * recent cycle; once it reaches `gcAllocationBudget`, the mutators
+         * have submitted garbage candidates since that snapshot
+         * (`dirtySegments` is non-empty) and no cycle is pending,
+         * getFreeCells requests one through the ordinary gcStarted / gcCV
+         * wake-up.  Without submitted segments a cycle could reclaim
          * nothing, so the request waits for the next submission.  At the
          * end of every cycle the budget is recomputed as
          *
@@ -1738,10 +1716,8 @@ namespace proto
          *   retained = heapSize - freeCellsCount - cellsSinceLastCycle
          *
          * i.e. proportional to the cells the cycle found occupied and could
-         * not return to the freelist, excluding the cells charged while the
-         * cycle ran, with a fixed floor so small programs never collect.
-         * Unused parts of thread batches count as retained, an over-estimate
-         * of at most one batch per thread.
+         * not return to the freelist, excluding the cells handed out while
+         * the cycle ran, with a fixed floor so small programs never collect.
          * Collection work stays proportional to allocation, and a workload
          * with a constant live set keeps a bounded heap instead of growing
          * it from the OS forever.

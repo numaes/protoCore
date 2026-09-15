@@ -311,9 +311,7 @@ namespace proto {
             // allocation limit (and identify critical-section / GC-thread
             // callers that bypass it).  No per-context spinlock is held on
             // this path, so a GC-wait inside getFreeCells is deadlock-free.
-            // The extension lets the refill charge the batch this thread
-            // just exhausted rather than the one it is about to receive.
-            this->extension->freeCells = this->space->getFreeCells(context, this->extension);
+            this->extension->freeCells = this->space->getFreeCells(context);
         }
 
         if (!this->extension->freeCells) {

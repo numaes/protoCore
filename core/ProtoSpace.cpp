@@ -218,11 +218,11 @@ namespace proto {
 
         // Collection pacing without a heap limit (see ProtoSpace::gcGrowthPercent).
         //
-        // Charge `cells` consumed by the mutators against the allocation
-        // budget and, once the cells charged since the most recent cycle's
-        // stop-the-world snapshot reach it, request a cycle through the
-        // ordinary gcStarted / gcCV wake-up.  Caller holds globalMutex.  Runs
-        // only on the refill path and at thread exit, once per batch — never
+        // Charge `cells` handed to a thread by getFreeCells against the
+        // allocation budget and, once the cells handed out since the most
+        // recent cycle's stop-the-world snapshot reach it, request a cycle
+        // through the ordinary gcStarted / gcCV wake-up.  Caller holds
+        // globalMutex.  Runs only on the refill path, once per batch — never
         // per allocated cell.
         void chargeAllocationBudget(ProtoSpace* space, unsigned long cells) {
             space->cellsSinceLastCycle += cells;
@@ -245,30 +245,13 @@ namespace proto {
             space->gcCV.notify_all();
         }
 
-        // Charge a refill.  Without a thread extension (a context with no
-        // ProtoThread) the batch handed out is charged at once.  A ProtoThread
-        // refills only when its previous batch is exhausted, so that batch is
-        // exactly the allocation to charge now; the new batch is charged when
-        // it runs out in turn, or at thread exit for the part the thread used
-        // (settleThreadCells).  A thread that holds a batch it barely touches
-        // therefore spends none of the budget.  Caller holds globalMutex.
-        void chargeRefill(ProtoSpace* space, ProtoThreadExtension* ext, unsigned long handedOut) {
-            if (!ext) {
-                chargeAllocationBudget(space, handedOut);
-                return;
-            }
-            const unsigned long consumed = ext->heldBatchCells;
-            ext->heldBatchCells = handedOut;
-            chargeAllocationBudget(space, consumed);
-        }
-
         // Recompute the allocation budget at the end of a cycle.  The pacing
         // period started at this cycle's stop-the-world snapshot, where
-        // cellsSinceLastCycle was reset, so that counter now holds the cells
-        // charged while the cycle ran.
+        // cellsSinceLastCycle was reset, so that counter now holds exactly
+        // the cells handed out while the cycle ran.
         //
         // Retained cells = cells not on the global freelists at the end of
-        // the cycle (heapSize - freeCellsCount) minus the cells charged
+        // the cycle (heapSize - freeCellsCount) minus the cells handed out
         // during the cycle.  What remains is what the cycle found occupied
         // and could not return: live cells, floating garbage, unsubmitted
         // young cells and per-thread batches taken before the cycle.
@@ -644,7 +627,7 @@ namespace proto {
                 DirtySegment* segmentsToProcess = space->dirtySegments.exchange(nullptr, std::memory_order_acquire);
 
                 // Start the next allocation-budget period at the snapshot:
-                // cells charged from here on were not seen by this cycle.
+                // cells handed out from here on were not seen by this cycle.
                 // Still under globalMutex, like every other budget update.
                 space->cellsSinceLastCycle = 0;
 
@@ -1463,33 +1446,22 @@ namespace proto {
         std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
         Cell* head = ext->freeCells;
         ext->freeCells = nullptr;
-        unsigned long remaining = 0;
-        if (head) {
-            // The batch is a nullptr-terminated chain of cells never handed
-            // to an object: splice it onto the flat freelist.
-            Cell* tail = head;
-            remaining = 1;
-            while (Cell* next = tail->getNext()) {
-                tail = next;
-                ++remaining;
-            }
-            tail->internalSetNextRaw(space->freeCells);
-            if (!space->freeCells) space->freeCellsTail = tail;
-            space->freeCells = head;
-            space->freeCellsCount += static_cast<int>(remaining);
+        if (!head) return;
+        // The batch is a nullptr-terminated chain of cells never handed to
+        // an object: splice it onto the flat freelist.
+        Cell* tail = head;
+        unsigned long remaining = 1;
+        while (Cell* next = tail->getNext()) {
+            tail = next;
+            ++remaining;
         }
-        // Charge the part of the batch the thread used; a thread that exits
-        // before exhausting its first batch is otherwise never charged.
-        const unsigned long held = ext->heldBatchCells;
-        ext->heldBatchCells = 0;
-        chargeAllocationBudget(space, held > remaining ? held - remaining : 0);
+        tail->internalSetNextRaw(space->freeCells);
+        if (!space->freeCells) space->freeCellsTail = tail;
+        space->freeCells = head;
+        space->freeCellsCount += static_cast<int>(remaining);
     }
 
     Cell* ProtoSpace::getFreeCells(ProtoContext* ctx) {
-        return this->getFreeCells(ctx, nullptr);
-    }
-
-    Cell* ProtoSpace::getFreeCells(ProtoContext* ctx, ProtoThreadExtension* ext) {
         std::unique_lock<std::recursive_mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
 
@@ -1529,7 +1501,7 @@ namespace proto {
                 const unsigned long handedOut = chunk->count;
                 this->freeCellsCount -= static_cast<int>(handedOut);
                 recycleFreeChunk(this, chunk);
-                chargeRefill(this, ext, handedOut);
+                chargeAllocationBudget(this, handedOut);
                 GC_LOCK_TRACE("getFreeCells REL(chunk)");
                 return batchHead;
             }
@@ -1544,7 +1516,7 @@ namespace proto {
                     this->freeCellsTail = nullptr;
                     this->freeCellsCount = 0;
                     if (handedOut > 0)
-                        chargeRefill(this, ext, static_cast<unsigned long>(handedOut));
+                        chargeAllocationBudget(this, static_cast<unsigned long>(handedOut));
                     GC_LOCK_TRACE("getFreeCells REL(flat-all)");
                     return batchHead;
                 }
@@ -1561,7 +1533,7 @@ namespace proto {
                 current->setNext(nullptr);
                 this->freeCellsCount -= count;
                 if (!this->freeCells) this->freeCellsTail = nullptr;
-                chargeRefill(this, ext, static_cast<unsigned long>(count));
+                chargeAllocationBudget(this, static_cast<unsigned long>(count));
                 GC_LOCK_TRACE("getFreeCells REL(flat-partial)");
                 return batchHead;
             }
@@ -1586,13 +1558,12 @@ namespace proto {
             // Cycles are started by:
             //   * the allocation-budget trigger (chargeAllocationBudget),
             //     evaluated on every batch this function hands out —
-            //     from the freelist or from the OS — and at thread exit,
-            //     when no hard heap limit is configured.  It is paced by
-            //     allocation volume, not by freelist exhaustion: a cycle
-            //     starts once max(gcMinBudgetCells, retained ×
-            //     gcGrowthPercent / 100) cells have been consumed since the
-            //     previous cycle's snapshot (a thread's batch is charged
-            //     when it is exhausted, see chargeRefill), so cycles run back to back only while the
+            //     from the freelist or from the OS — when no hard heap
+            //     limit is configured.  It is paced by allocation volume,
+            //     not by freelist exhaustion: a cycle starts once
+            //     max(gcMinBudgetCells, retained × gcGrowthPercent / 100)
+            //     cells have been handed out since the previous cycle's
+            //     snapshot, so cycles run back to back only while the
             //     mutators out-allocate the collector.  Without this
             //     trigger, a heap with no limit grew without bound unless
             //     the embedder called triggerGC();
@@ -1717,7 +1688,7 @@ namespace proto {
                 remainderStart += chunkSize;
             }
 
-            chargeRefill(this, ext, static_cast<unsigned long>(batchSize));
+            chargeAllocationBudget(this, static_cast<unsigned long>(batchSize));
             GC_LOCK_TRACE("getFreeCells REL(return OS)");
             return batchHead;
         }
