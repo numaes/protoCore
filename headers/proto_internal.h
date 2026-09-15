@@ -1248,8 +1248,10 @@ namespace proto {
      * by any thread (including this one) replaces shard_root and naturally invalidates
      * stale entries on the next lookup.
      *
-     * Both shard_root and current_value are GC roots: ProtoThreadExtension::processReferences
-     * traces them so the GC cannot reclaim a snapshot still referenced by a cached entry.
+     * Both shard_root and current_value are GC roots: the collector scans them during its
+     * stop-the-world phase, while the owning thread is parked (scanThreadCaches in
+     * core/ProtoSpace.cpp), so it cannot reclaim a snapshot still referenced by a cached
+     * entry.  The concurrent mark never reads the cache: the owner rewrites it at any time.
      */
     struct MutableValueCacheEntry {
         unsigned long       mutable_ref;     // 0 = empty entry

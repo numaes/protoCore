@@ -178,6 +178,44 @@ namespace proto {
             workList->push_back(ref);
         }
 
+        // Push the cells held by one thread's attribute cache and mutable-
+        // value cache onto the work list, as roots.  Called from Phase 2 of
+        // gcThreadLoop only, while every running thread is parked.
+        //
+        // The owning thread fills, overwrites and clears these entries
+        // without synchronisation, so they are mutable state outside the
+        // shard table and must be captured with the other stop-the-world
+        // roots, never read by the concurrent mark.  Entries written after
+        // this scan hold cells the thread obtained after the snapshot:
+        // reachable from it (and marked through that path) or young, and in
+        // both cases safe from this cycle's sweep.  A thread inside an
+        // unmanaged region counts as parked while its OS thread runs; its
+        // contract forbids touching ProtoObjects, so it cannot write its
+        // caches either.
+        //
+        // Each field is loaded once: asCellPointer maps null, embedded values
+        // and tagged nulls to nullptr, which are skipped.
+        void scanThreadCaches(const ProtoThreadExtension* ext, std::vector<const Cell*>& workList) {
+            if (!ext) return;
+            const auto push = [&workList](const ProtoObject* value) {
+                if (const Cell* c = ProtoObject::asCellPointer(value)) workList.push_back(c);
+            };
+            if (const AttributeCacheEntry* cache = ext->attributeCache) {
+                for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
+                    push(cache[i].object);
+                    push(cache[i].result);
+                    push(reinterpret_cast<const ProtoObject*>(cache[i].name));
+                }
+            }
+            if (const MutableValueCacheEntry* cache = ext->mutableValueCache) {
+                for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
+                    if (cache[i].mutable_ref == 0) continue;
+                    push(reinterpret_cast<const ProtoObject*>(cache[i].shard_root));
+                    push(cache[i].current_value);
+                }
+            }
+        }
+
         // Collection pacing without a heap limit (see ProtoSpace::gcGrowthPercent).
         //
         // Charge `cells` handed to a thread by getFreeCells against the
@@ -340,11 +378,19 @@ namespace proto {
                     }
                 };
 
-                // 1. Scan Thread Stacks.  The threads list may now be in
+                // Roots of one registered thread: its context chain and its
+                // per-thread caches.
+                auto scanThread = [&](const ProtoThread* thread) {
+                    const auto* impl = toImpl<const ProtoThreadImplementation>(thread);
+                    scanContexts(impl->context);
+                    scanThreadCaches(impl->extension, workList);
+                };
+
+                // 1. Scan Thread Stacks and caches.  The threads list may now be in
                 // either form (Small with ≤ 3 entries — typical for the
                 // common 1-3-thread process; AVL otherwise).  Branch on
                 // pointer tag and walk inline pairs for Small, AVL nodes
-                // otherwise.
+                // otherwise.  The adopted main thread is registered too.
                 if (space->threads) {
                     const ProtoObject* rootObj = reinterpret_cast<const ProtoObject*>(space->threads);
                     if (ProtoObject::isCellPointer(rootObj)) {
@@ -355,7 +401,7 @@ namespace proto {
                                 if (small->keys[i] == 0) continue;
                                 const ProtoObject* v = small->values[i];
                                 if (v && v->asThread(space->rootContext)) {
-                                    scanContexts(toImpl<const ProtoThreadImplementation>(v->asThread(space->rootContext))->context);
+                                    scanThread(v->asThread(space->rootContext));
                                 }
                             }
                         } else {
@@ -365,7 +411,7 @@ namespace proto {
                                 const ProtoSparseListImplementation* node = stack.back();
                                 stack.pop_back();
                                 if (!node->isEmpty && node->value && node->value->asThread(space->rootContext)) {
-                                    scanContexts(toImpl<const ProtoThreadImplementation>(node->value->asThread(space->rootContext))->context);
+                                    scanThread(node->value->asThread(space->rootContext));
                                 }
                                 if (node->previous) stack.push_back(node->previous);
                                 if (node->next) stack.push_back(node->next);
