@@ -223,26 +223,17 @@ threats:
   comparison against `live_root` is technically undefined.
 
 **Resolution:** treat the `MutableValueCacheEntry::shard_root` and
-`current_value` as GC roots, like the `attributeCache` entries.
-
-This design first extended `ProtoThreadExtension::processReferences` to
-iterate the new cache. That was sound while mark ran under stop-the-world.
-Once mark became concurrent (May 2026), the marker read cache slots that
-the owning thread was rewriting, and a slot read twice could yield a null
-work-list entry (the September 2026 crash in `gcThreadLoop`). Both caches
-are now scanned as roots in the stop-the-world Phase 2 of `gcThreadLoop`
-(`scanThreadCaches` in `core/ProtoSpace.cpp`), while every owner is parked,
-and `ProtoThreadExtension::processReferences` reports nothing. An entry
-written after that snapshot holds cells the thread obtained after it, which
-the snapshot or a young generation already protects.
+`current_value` as GC roots. Extend
+`ProtoThreadExtension::processReferences` (already iterates
+`attributeCache`) to also iterate the new cache. Same idiom, same
+location — no architectural surprise.
 
 This means:
-- Every `shard_root` cached at the snapshot is marked, so old roots
-  *that are still cached* survive the cycle even after a CAS replaced them
-  in the side table. Memory cost is bounded by the working-set hot data,
-  not the entire heap.
-- Sweep cannot free a pointer that is cached when a later lookup compares
-  it; comparison is always defined.
+- During mark, every cached `shard_root` is reachable, so old roots
+  *that are still cached* survive even after a CAS replaced them in the
+  side table. Memory cost is bounded by the working-set hot data, not
+  the entire heap.
+- Sweep cannot free cached pointers; comparison is always defined.
 
 #### 3.3.3 Invalidation at STW boundaries
 

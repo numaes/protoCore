@@ -72,11 +72,6 @@ While the world is stopped, the GC:
 
 1. Scans every thread's context chain for roots (automatic locals, closure
    locals, return value, pending root, young-chain outgoing references).
-   For every registered thread (the adopted main thread included) it also
-   pushes the cells held by the thread's attribute cache and mutable-value
-   cache (`ProtoThreadExtension`).  The owning thread rewrites those
-   entries without synchronisation, so they are read only here, while the
-   owner is parked, and never by the concurrent mark.
 2. Adds the per-process global roots (prototypes, root object, resolution
    chain, embedder-registered `ProtoRootSet` instances).
 3. **Captures the mutable-shard snapshot** —
@@ -213,14 +208,7 @@ never reads the live `mutableRoot` table again during this cycle.
 1. The graph reachable through the snapshot is fully **immutable**.  Every
    `ProtoObjectCell::processReferences` (and every other Cell's
    `processReferences`) traverses only `const`-qualified fields.  No
-   worker can mutate the fields the marker reads.  The one mutable
-   structure that holds cell pointers outside the shard table, the
-   per-thread caches, is not traversed by mark at all (see 7).  Each
-   reference field is loaded once and reported only when it is a cell.
-   One traced field is advanced in place: a string iterator's
-   `currentLeaf`.  It is loaded once, and the leaf it names is also
-   reachable from the iterator's immutable `base`, so a concurrent update
-   cannot hide a live cell.
+   worker can mutate the fields the marker reads.
 2. The mark bit is GC-exclusive.  Workers never touch it.
 3. Workers cannot free cells.  Sweep (GC-only) is the only path that
    frees, and sweep runs after mark.
@@ -231,17 +219,8 @@ never reads the live `mutableRoot` table again during this cycle.
    not see them.
 6. Mutable shard CAS by workers is invisible to the marker (snapshot
    discipline).
-7. The per-thread `attributeCache` and `mutableValueCache` are mutated by
-   their owning threads at any time.  The GC reads them only in Phase 2,
-   while every owner is parked, and pushes their cells as roots;
-   `ProtoThreadExtension::processReferences` reports nothing.  An entry
-   written after the snapshot holds cells the thread obtained after it:
-   reachable from the snapshot (and marked through that path) or young,
-   so the concurrent mark never needs to read the caches.  A thread inside
-   an unmanaged region counts as parked while it runs, but it may not touch
-   `ProtoObject`s, so it cannot write its caches either.  (Until September
-   2026 the caches were traced by the concurrent mark; a slot read twice
-   while its owner rewrote it produced a null work-list entry and a crash.)
+7. Per-thread `mutableValueCache` is worker-local; the GC doesn't touch
+   it.
 
 ### Cost
 - **STW pause:** O(threads + 256), independent of heap size or live-
@@ -280,15 +259,6 @@ of mutable state must route it through `mutableRoot[]`**.  Direct
 mutation of a Cell field — outside the shard table — would break the
 snapshot discipline and re-introduce the race the snapshot was designed
 to close.
-
-The same rule covers caches.  A cache that holds cell pointers is mutable
-state, and the concurrent mark must never read it.  protoCore's own
-per-thread caches are captured as roots in the Phase 2 stop-the-world
-scan.  Embedder caches that hold cell pointers must either keep their
-cells alive through a root the Phase 2 scan captures (a `ProtoRootSet`, a
-context slot, the shard table) or treat the pointers as unowned and drop
-them when `ProtoSpace::getGCCycleCount()` changes; they must not assume the
-collector traces them.
 
 See [`STW_ELIMINATION_RESEARCH.md`](./STW_ELIMINATION_RESEARCH.md) § 11
 (the "static root-discipline contract") for the dual rule that extension
@@ -377,7 +347,7 @@ long critical sections when chaining cells under the global lock.
 
 - **Inline Caching**: per-thread attribute caches
   (`ProtoThreadExtension::attributeCache`) speed up prototype chain
-  traversals.  Both per-thread caches are stop-the-world roots (Phase 2).
+  traversals.
 - **Per-thread mutable-value cache**: `MutableValueCacheEntry` short-
   circuits the "load `mutableRoot[shard]` + AVL `implGetAt(mutable_ref)`"
   path on the hot getAttribute path.  Cache invalidation is implicit:
@@ -435,7 +405,6 @@ behaviour can be reasoned about quantitatively.
 |---|---|---|---|
 | Thread quorum wait (slowest mutator to reach a safepoint) | 10–100 μs | safepoint distance in the embedded interpreter | mitigable by instrumenting the interpreter loop |
 | Per-thread context-chain scan (automatic locals + closure locals + young chain refs) | 10–50 μs/thread | call depth × locals per context | bounded by stack depth and typical local count |
-| Per-thread cache scan (attribute cache + mutable-value cache) | tens of μs/thread | thread count | O(threads × 2,048 entries), 5,120 field loads per thread |
 | Global roots (~30 prototypes + literalData symbols) | < 1 μs | constant | O(1) |
 | **`mutableRoot[256]` snapshot** | **< 1 μs** | constant | **O(256) atomic loads, 32 cache lines** |
 | Embedder root sets | < 50 μs typical | number of pinned objects | O(num\_pins) |

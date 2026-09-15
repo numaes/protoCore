@@ -137,17 +137,6 @@ All notable changes to protoCore are documented in this file.
   roots holding a tagged null. In builds with `PROTOCORE_GC_INSTRUMENT` or
   without `NDEBUG`, a `processReferences` that reports `nullptr` aborts with a
   message naming the reporting cell's type.
-- **Per-thread caches are stop-the-world roots** — the concurrent mark no
-  longer reads the per-thread attribute cache and mutable-value cache, which
-  their owning threads rewrite at any time. `gcThreadLoop` pushes the cells
-  of every registered thread's caches during the Phase 2 root scan, while
-  the owners are parked, and `ProtoThreadExtension::processReferences`
-  reports nothing. The mark phase again reads only immutable fields, which
-  restores the documented "Concurrent Mark Without Barriers" invariants.
-  The stop-the-world pause gains a fixed scan of 5,120 field loads per
-  thread. Embedder caches that hold cell pointers must be kept alive through
-  a root captured under stop-the-world or be dropped when
-  `getGCCycleCount()` changes (`docs/GarbageCollector.md`).
 - **A double's hash agrees with equality** — `DoubleImplementation::getHash`
   hashed the bit pattern, so NaNs of different sign or payload (x86
   `0.0/0.0` is a negative NaN, `std::nan("")` a positive one) were different
@@ -265,9 +254,6 @@ All notable changes to protoCore are documented in this file.
 - `ListTest.HasComparesLargeIntegersByValue` checks `has` on inline and AVL
   lists holding 2^70 against an equal distinct object, neighbours and small
   integers (it threw `std::overflow_error` before the fix).
-- `ConcurrentMarkSafety.AttributeCacheChurnWithSmallBudget` writes and reads
-  attributes on fresh objects through the public API for three seconds with
-  a 4096-cell budget, then checks a pinned live set.
 - `GCHeapGrowthTriggerTest` (five cases): with no heap limit, garbage
   allocation with a constant live set starts cycles and keeps the heap bounded
   without collecting live objects. The main case failed before the fix with 0

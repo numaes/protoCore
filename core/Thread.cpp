@@ -104,14 +104,34 @@ namespace proto {
             const Cell* cell
             )
     ) const {
-        // Nothing to report.  The attribute and mutable-value caches hold
-        // cell pointers, but their owning thread rewrites them at any time,
-        // so the concurrent mark must not read them: they are stop-the-world
-        // roots instead.  gcThreadLoop scans the caches of every registered
-        // thread in Phase 2, while the owner is parked (scanThreadCaches in
-        // core/ProtoSpace.cpp).  An entry written after that snapshot holds
-        // cells the thread obtained after it, which the snapshot or a young
-        // generation already protects.
+        // The owning thread rewrites these slots at any time, so every slot
+        // is loaded exactly once: asCellPointer returns nullptr for null and
+        // embedded values, and a slot that changes after the load cannot
+        // turn a tested cell pointer into a reported nullptr.
+        for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
+            if (const Cell* c = ProtoObject::asCellPointer(this->attributeCache[i].object)) {
+                method(context, self, c);
+            }
+            if (const Cell* c = ProtoObject::asCellPointer(this->attributeCache[i].result)) {
+                method(context, self, c);
+            }
+            if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name))) {
+                method(context, self, c);
+            }
+        }
+        // Trace MutableValueCache entries as GC roots: the cached shard_root and current_value
+        // must not be reclaimed while still referenced by a live cache entry.
+        if (this->mutableValueCache) {
+            for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
+                if (this->mutableValueCache[i].mutable_ref == 0) continue;
+                if (const Cell* c = ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(this->mutableValueCache[i].shard_root))) {
+                    method(context, self, c);
+                }
+                if (const Cell* c = ProtoObject::asCellPointer(this->mutableValueCache[i].current_value)) {
+                    method(context, self, c);
+                }
+            }
+        }
     }
 
     const ProtoObject* ProtoThreadExtension::implAsObject(ProtoContext* context) const {

@@ -499,14 +499,13 @@ namespace proto
             }
         }
 
-        // Attribute Cache Setup.  The collector scans every thread's cache
-        // entries (object, result, name) as roots during its stop-the-world
-        // phase, while this thread is parked (scanThreadCaches in
-        // ProtoSpace.cpp), so the pointers in the cache cannot dangle: the
-        // cells they reference stay alive, and the arena cannot recycle
-        // their addresses while the cache holds them.  No GC-cycle
-        // invalidation is needed — entries are naturally retired by
-        // hash-slot eviction on later misses.
+        // Attribute Cache Setup.  ProtoThreadExtension::processReferences
+        // pins every (object, result, name) entry as a GC root, so the
+        // pointers in the cache cannot dangle: the cells they reference
+        // stay alive, and the arena cannot recycle their addresses while
+        // the cache holds them.  No GC-cycle invalidation is needed —
+        // entries are naturally retired by hash-slot eviction on later
+        // misses.
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
@@ -627,10 +626,11 @@ namespace proto
                     // for inherited-attribute lookups (a 10-level
                     // walk would otherwise pay 10 × implGetAt every
                     // time, even when the answer is "not here, walk
-                    // up").  The collector scans all three slots of
-                    // every cache entry as stop-the-world roots, so
-                    // neither object, name, nor result can be
-                    // reclaimed while the entry is live.
+                    // up").  Pinning is via
+                    // ProtoThreadExtension::processReferences, which
+                    // traces all three slots of every cache entry as
+                    // GC roots so neither object, name, nor result
+                    // can be reclaimed while the entry is live.
                     cache[hash_idx] = {currentValue, result, name, nullptr};
                 }
             }
@@ -1407,9 +1407,9 @@ namespace proto
         // AttributeCache lookup on (snapshot, name). Same hash / lookup /
         // populate pattern as getAttribute(): result==nullptr is a
         // legitimate cached fact (confirmed-missing), result!=nullptr
-        // is the cached own-attribute value. GC pinning: the collector
-        // scans all three slots of every cache entry as stop-the-world
-        // roots (scanThreadCaches in ProtoSpace.cpp).
+        // is the cached own-attribute value. GC pinning is handled by
+        // ProtoThreadExtension::processReferences, which traces all
+        // three slots of every cache entry.
         AttributeCacheEntry* cache = nullptr;
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
