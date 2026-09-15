@@ -60,7 +60,50 @@ bool waitForIdleCollector(ProtoSpace& space, ProtoContext* ctx) {
     return true;
 }
 
+// A test cell without references that records every traversal by the
+// collector, and each traversal made while the world was stopped.
+class StwProbeCell final : public Cell {
+public:
+    static std::atomic<unsigned long> traversals;
+    static std::atomic<unsigned long> traversalsWhileStopped;
+
+    explicit StwProbeCell(ProtoContext* context) : Cell(context) {}
+
+    void processReferences(ProtoContext* context, void*,
+                           void (*)(ProtoContext*, void*, const Cell*)) const override {
+        traversals.fetch_add(1, std::memory_order_relaxed);
+        if (context->space->stwFlag.load()) {
+            traversalsWhileStopped.fetch_add(1, std::memory_order_relaxed);
+        }
+    }
+    const ProtoObject* implAsObject(ProtoContext*) const override { return PROTO_NONE; }
+};
+
+std::atomic<unsigned long> StwProbeCell::traversals{0};
+std::atomic<unsigned long> StwProbeCell::traversalsWhileStopped{0};
+
 }  // namespace
+
+// Stop-the-world collects roots only.  A probe cell held only by a live
+// context's young chain must be traversed by the collector, and never while
+// the world is stopped.
+TEST(GCRootScope, YoungChainIsNotTraversedWhileTheWorldIsStopped) {
+    StwProbeCell::traversals = 0;
+    StwProbeCell::traversalsWhileStopped = 0;
+
+    ProtoSpace space;
+    ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
+    (void) new (&live) StwProbeCell(&live);
+
+    const uint64_t cycles = forceCycles(space, &live, 8);
+    ASSERT_TRUE(waitForIdleCollector(space, &live));
+
+    EXPECT_GE(cycles, 8u);
+    EXPECT_GT(StwProbeCell::traversals.load(), 0u)
+        << "the collector never traversed the young probe cell";
+    EXPECT_EQ(StwProbeCell::traversalsWhileStopped.load(), 0u)
+        << "the young chain was traversed while the world was stopped";
+}
 
 // An old object whose only reference is held by a young cell of a live
 // context survives, and so does the young cell, which is held only by a C++

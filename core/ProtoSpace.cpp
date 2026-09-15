@@ -228,6 +228,9 @@ namespace proto {
 
                 // --- PHASE 2: COLLECT ROOTS ---
                 std::vector<const Cell*> workList;
+                // One root handle per context for its young generation: the
+                // chain head.  The chains are walked after the world resumes.
+                std::vector<const Cell*> youngChainHeads;
                 auto addRootObj = [&](const ProtoObject* obj) {
                     if (ProtoObject::isCellPointer(obj)) {
                         workList.push_back(ProtoObject::asCellPointer(obj));
@@ -253,28 +256,19 @@ namespace proto {
                             workList.push_back(currentCtx->pendingRoot);
                         }
                         
-                        // Roots: Young generation (pinned objects allocated in this context)
-                        // These are safe from collection because they are not in captured segments.
-                        // We scan their references to find pointers to older objects, but we don't
-                        // mark the young objects themselves yet. They will be submitted to the GC
-                        // only at the end of the method execution (ProtoContext destructor).
-                        Cell* youngCell = nullptr;
+                        // Roots: the young generation (cells allocated in this
+                        // context and not yet submitted).  They are not
+                        // candidates of this cycle, because they are not in the
+                        // segments captured below, and they are not marked.
+                        // Only the chain head is recorded here, O(1) per
+                        // context; the concurrent mark walks the chain and
+                        // pushes the references of its cells (see the young-
+                        // chain walk after the world resumes).
                         while (currentCtx->lock.test_and_set(std::memory_order_acquire)) {}
-                        youngCell = currentCtx->lastAllocatedCell;
+                        const Cell* youngHead = currentCtx->lastAllocatedCell;
                         currentCtx->lock.clear(std::memory_order_release);
+                        if (youngHead) youngChainHeads.push_back(youngHead);
 
-                        if (youngCell) {
-                            Cell* scanCell = youngCell;
-                            struct GCLambdaState { std::vector<const Cell*>* wl; const Cell* parent; const char* phase; } state = {&workList, scanCell, "Phase2(Young)"};
-                            while (scanCell) {
-                                state.parent = scanCell;
-                                scanCell->processReferences(space->rootContext, &state, [](ProtoContext* ctx, void* self, const Cell* ref) {
-                                    auto* s = static_cast<GCLambdaState*>(self);
-                                    pushReportedReference(s->wl, s->parent, ref, s->phase);
-                                });
-                                scanCell = scanCell->getNext();
-                            }
-                        }
                         currentCtx = currentCtx->previous;
                     }
                 };
@@ -571,6 +565,40 @@ namespace proto {
                     space->tupleInterner->forEachCaptured(&workList, [](void* user, const Cell* tuple) {
                         static_cast<std::vector<const Cell*>*>(user)->push_back(tuple);
                     });
+                }
+
+                // Young chains captured in Phase 2.  Their cells are neither
+                // candidates of this cycle nor marked; the references they
+                // hold are pushed so mark reaches every object a young cell
+                // refers to.  The walk runs while the mutators run, over a
+                // stable view:
+                //   * a chain grows only by prepending (addCell2Context sets
+                //     the new cell's next to the current head, then publishes
+                //     the new cell as head), so cells allocated after the
+                //     capture sit in front of the captured head and no link
+                //     behind it is rewritten;
+                //   * submitting a chain (context destruction, safepoint
+                //     threshold) hands its head to a DirtySegment without
+                //     touching links; a segment pushed after the capture
+                //     belongs to the next cycle, which cannot start before
+                //     this mark ends;
+                //   * the other writers of cell links are the freelist paths,
+                //     which own free cells, and this cycle's sweep, which runs
+                //     after mark on the segments captured in Phase 2 —
+                //     disjoint from live young chains, because a submission
+                //     detaches the chain from its context;
+                //   * a reference field is written once, at construction, so
+                //     a cell still being constructed at the capture is read
+                //     with either its initial null or its final value.
+                for (const Cell* head : youngChainHeads) {
+                    struct YoungWalkState { std::vector<const Cell*>* wl; const Cell* parent; } yst = {&workList, head};
+                    for (const Cell* scanCell = head; scanCell; scanCell = scanCell->getNext()) {
+                        yst.parent = scanCell;
+                        scanCell->processReferences(space->rootContext, &yst, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                            auto* s = static_cast<YoungWalkState*>(self);
+                            pushReportedReference(s->wl, s->parent, ref, "Phase4(young)");
+                        });
+                    }
                 }
 
                 // --- PHASE 4: MARK (concurrent with mutators) ---
