@@ -190,12 +190,44 @@ namespace proto
     }
 
     /**
+     * @brief Constructs the collector's own allocation context.
+     *
+     * No thread, no previous context, no local slots.  The main-thread
+     * auto-detection and the registration as the thread's current context or
+     * as space->mainContext are skipped on purpose: this context belongs to
+     * the GC thread, is never part of a stop-the-world root scan, and must
+     * not replace the main context the scan starts from.  See
+     * ProtoSpace::gcContext.
+     */
+    ProtoContext::ProtoContext(GCOwnedTag, ProtoSpace* space)
+        : automaticLocals(nullptr),
+          automaticLocalsCount(0),
+          ownsSlots_(false),
+          gcOwned_(true),
+          previous(nullptr),
+          space(space),
+          thread(nullptr),
+          currentFileName(nullptr),
+          currentLineNumber(0),
+          closureLocals(nullptr),
+          returnValue(PROTO_NONE),
+          lastAllocatedCell(nullptr),
+          allocatedCellsCount(0),
+          freeCells(nullptr),
+          mutableValueCache_(nullptr),
+          pendingRoot(nullptr)
+    {
+    }
+
+    /**
      * @brief Destructor for the context.
      * Reports allocated cells to the GC and frees automatic local variable storage.
      */
     ProtoContext::~ProtoContext()
     {
-        if (this->thread) {
+        if (this->gcOwned_) {
+            // Never registered anywhere (see the GCOwnedTag constructor).
+        } else if (this->thread) {
             toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this->previous);
         } else if (this->space) {
             this->space->mainContext = this->previous;

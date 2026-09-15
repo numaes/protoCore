@@ -1140,6 +1140,10 @@ namespace proto {
             ProtoThreadImplementation(ProtoThreadImplementation::AdoptMainThreadTag{},
                                        this->rootContext, /*name=*/nullptr, this);
 
+        // The collector's own allocation context.  Built before the GC
+        // thread starts, which is the only thread that allocates through it.
+        this->gcContext = new ProtoContext(ProtoContext::GCOwnedTag{}, this);
+
         this->gcThread = std::make_unique<std::thread>(gcThreadLoop, this);
     }
 
@@ -1161,6 +1165,9 @@ namespace proto {
             for (auto* rs : rootSets_) delete rs;
             rootSets_.clear();
         }
+        // The GC thread has joined, so nothing allocates through its context.
+        delete this->gcContext;
+        this->gcContext = nullptr;
         delete this->rootContext;
         freeStringInternMap(this);
         delete symbolTable;

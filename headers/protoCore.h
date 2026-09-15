@@ -879,6 +879,11 @@ namespace proto
         // False when automaticLocals points to an externally-owned buffer (e.g. stack SBO).
         // The destructor only calls delete[] when this is true.
         bool ownsSlots_;
+        // True only for the collector's own allocation context (see
+        // GCOwnedTag).  Such a context never registers as a thread's
+        // current context or as ProtoSpace::mainContext, so its destructor
+        // must not unregister it either.
+        bool gcOwned_ = false;
 
     public:
         /**
@@ -907,6 +912,25 @@ namespace proto
             size_t totalSlots = 0,
             const ProtoObject** externalSlots = nullptr
         );
+
+        /** @brief Selects the constructor of the collector's own allocation context. */
+        struct GCOwnedTag {};
+
+        /**
+         * @brief Constructs the garbage collector's own allocation context.
+         *
+         * Used once per ProtoSpace, for `ProtoSpace::gcContext`; embedders
+         * never need it.  The context has no thread, no previous context and
+         * no local slots, so it allocates from its own freelist under its
+         * spinlock rather than from any thread's freelist.  Unlike every
+         * other constructor path it does NOT register itself as
+         * `space->mainContext` and it is not part of any thread's context
+         * chain, so the stop-the-world root scan never sees it.  Only the GC
+         * thread allocates through it, during a cycle, and the collector
+         * submits its young generation before the cycle ends.
+         */
+        ProtoContext(GCOwnedTag, ProtoSpace* space);
+
         ~ProtoContext();
 
         //- Execution State
@@ -1743,6 +1767,20 @@ namespace proto
         // --- Embedder root sets (see `createRootSet`) ---
         std::vector<ProtoRootSet*> rootSets_;
         mutable std::mutex rootSetsMutex_;
+
+        /**
+         * @brief The garbage collector's own allocation context.
+         *
+         * Built with ProtoContext::GCOwnedTag: no thread, its own freelist,
+         * never registered as `mainContext` and never scanned as a root.
+         * Only the GC thread allocates through it, and only inside a cycle,
+         * after sweep; no stop-the-world can begin while it holds a
+         * half-built structure, because the GC thread is the only thread
+         * that starts one.  The collector submits its young generation
+         * before the cycle ends, so everything allocated through it is a
+         * candidate of the next cycle.
+         */
+        ProtoContext* gcContext{};
     };
 }
 
