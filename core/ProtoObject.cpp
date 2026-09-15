@@ -10,6 +10,7 @@
 
 #include "../headers/proto_internal.h"
 #include <cmath>
+#include <compare>
 #include <cstdio>
 #include <cstdlib>
 #include <string>
@@ -1622,51 +1623,66 @@ namespace proto
         }
         return Integer::modulo(context, this, other);
     }
+    namespace {
+        // Integer vs double, compared exactly: converting the integer to
+        // double rounds above 2^53 (2**70 + 1 compared equal to 2.0**70) and
+        // threw for integers beyond long long, so the integer is compared
+        // with floor(d) as integers instead.  NaN is unordered; +/-infinity
+        // lies beyond every integer.  Returns the order of `integer` relative
+        // to `d`.
+        std::partial_ordering compareIntegerWithDouble(ProtoContext* context,
+                                                       const ProtoObject* integer, double d) {
+            if (std::isnan(d)) return std::partial_ordering::unordered;
+            if (std::isinf(d)) return d > 0 ? std::partial_ordering::less : std::partial_ordering::greater;
+            const double floored = std::floor(d);
+            const ProtoObject* flooredInt;
+            if (floored >= -9.2e18 && floored <= 9.2e18) {
+                flooredInt = Integer::fromLong(context, static_cast<long long>(floored));
+            } else {
+                char digits[400];
+                std::snprintf(digits, sizeof(digits), "%.0f", floored);
+                flooredInt = Integer::fromString(context, digits, 10);
+            }
+            const int c = Integer::compare(context, integer, flooredInt);
+            if (c == 0 && d > floored) return std::partial_ordering::less;
+            return c <=> 0;
+        }
+    }
+
+    std::partial_ordering ProtoObject::partialCompare(ProtoContext* context, const ProtoObject* other) const {
+        if (this->isString(context) && other->isString(context)) {
+            return this->asString(context)->cmp_to_string(context, other->asString(context)) <=> 0;
+        }
+        const bool thisIsDouble = this->isDouble(context);
+        const bool otherIsDouble = other->isDouble(context);
+        if ((thisIsDouble || this->isInteger(context)) && (otherIsDouble || other->isInteger(context))) {
+            if (thisIsDouble && otherIsDouble) {
+                return this->asDouble(context) <=> other->asDouble(context);
+            }
+            if (thisIsDouble) {
+                return 0 <=> compareIntegerWithDouble(context, other, this->asDouble(context));
+            }
+            if (otherIsDouble) {
+                return compareIntegerWithDouble(context, this, other->asDouble(context));
+            }
+            return Integer::compare(context, this, other) <=> 0;
+        }
+        return this == other ? std::partial_ordering::equivalent : std::partial_ordering::unordered;
+    }
+
     int ProtoObject::compare(ProtoContext* context, const ProtoObject* other) const {
         if (this->isString(context) && other->isString(context)) {
             return this->asString(context)->cmp_to_string(context, other->asString(context));
         }
-        // Only perform double comparison if both are some kind of number
-        bool thisIsNum = this->isDouble(context) || this->isInteger(context);
-        bool otherIsNum = other->isDouble(context) || other->isInteger(context);
+        const bool thisIsNum = this->isDouble(context) || this->isInteger(context);
+        const bool otherIsNum = other->isDouble(context) || other->isInteger(context);
         if (thisIsNum && otherIsNum) {
-            if (this->isDouble(context) && other->isDouble(context)) {
-                double d1 = this->asDouble(context);
-                double d2 = other->asDouble(context);
-                return (d1 < d2) ? -1 : (d1 > d2) ? 1 : 0;
-            }
-            if (this->isDouble(context) || other->isDouble(context)) {
-                // Integer vs double, compared exactly: converting the integer
-                // to double rounds above 2^53 (2**70 + 1 compared equal to
-                // 2.0**70) and threw for integers beyond long long. Compare
-                // the integer with floor(d) as integers instead.
-                const bool thisIsDouble = this->isDouble(context);
-                const double d = thisIsDouble ? this->asDouble(context) : other->asDouble(context);
-                const ProtoObject* integer = thisIsDouble ? other : this;
-                int c;
-                if (std::isnan(d)) {
-                    c = 0;
-                } else if (std::isinf(d)) {
-                    c = d > 0 ? -1 : 1;
-                } else {
-                    const double floored = std::floor(d);
-                    const ProtoObject* flooredInt;
-                    if (floored >= -9.2e18 && floored <= 9.2e18) {
-                        flooredInt = Integer::fromLong(context, static_cast<long long>(floored));
-                    } else {
-                        char digits[400];
-                        std::snprintf(digits, sizeof(digits), "%.0f", floored);
-                        flooredInt = Integer::fromString(context, digits, 10);
-                    }
-                    c = Integer::compare(context, integer, flooredInt);
-                    if (c == 0 && d > floored) c = -1;
-                }
-                return thisIsDouble ? -c : c;
-            }
-            return Integer::compare(context, this, other);
-        }
-        if (this->isString(context) && other->isString(context)) {
-            return this->asString(context)->cmp_to_string(context, other->asString(context));
+            const std::partial_ordering o = this->partialCompare(context, other);
+            if (o < 0) return -1;
+            if (o > 0) return 1;
+            // Equivalent, or unordered because a NaN is involved: a NaN
+            // compares as 0 with every number, as it always has.
+            return 0;
         }
         return (this < other) ? -1 : (this > other) ? 1 : 0;
     }

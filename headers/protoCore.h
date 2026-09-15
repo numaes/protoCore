@@ -9,6 +9,7 @@
 #define PROTO_H_
 
 #include <atomic>
+#include <compare>
 #include <condition_variable>
 #include <memory>
 #include <string>
@@ -308,7 +309,31 @@ namespace proto
         const ProtoObject* asMethodSelf(ProtoContext* context) const;
 
         //- Comparison
+        /**
+         * @brief Three-way comparison for ordering: returns < 0, 0 or > 0.
+         *
+         * Numbers (SmallInteger, LargeInteger, double) compare by exact value
+         * across kinds (-0.0 equals 0.0), strings by content, and any other
+         * pair by address.  A NaN compares as 0 with every number, so this is
+         * not an order for NaN; language comparison operators should use
+         * partialCompare().
+         */
         int compare(ProtoContext* context, const ProtoObject* other) const;
+
+        /**
+         * @brief IEEE partial-order comparison, for comparison operators.
+         *
+         * Numbers compare by exact value across SmallInteger, LargeInteger
+         * and double; -0.0 is equivalent to 0.0 and to SmallInteger 0.  Any
+         * NaN is unordered with everything, itself included: for a result `r`,
+         * `r < 0`, `r <= 0`, `r == 0`, `r >= 0` and `r > 0` are all false and
+         * `r != 0` is true, which is IEEE (and Python / JavaScript) semantics
+         * for `< <= == >= > !=`.  Strings compare by content.  Any other pair
+         * is equivalent when identical and unordered otherwise.
+         * An embedder that wants identity-first equality (a NaN object equal
+         * to itself) tests `a == b` first.
+         */
+        std::partial_ordering partialCompare(ProtoContext* context, const ProtoObject* other) const;
 
         //- Unary Operations
         const ProtoObject* negate(ProtoContext* context) const;

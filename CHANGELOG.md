@@ -4,6 +4,18 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 ### Added
+- **`ProtoObject::partialCompare`** — an IEEE partial-order comparison that
+  returns `std::partial_ordering`. Numbers compare by exact value across
+  SmallInteger, LargeInteger and double (-0.0 is equivalent to 0.0 and to 0);
+  any NaN is unordered with everything, itself included, so `<`, `<=`, `==`,
+  `>=` and `>` against 0 are false and `!=` is true; strings compare by
+  content; other pairs are equivalent when identical and unordered otherwise.
+  `compare` now delegates to it and keeps its behaviour: an unordered numeric
+  pair (a NaN) still compares as 0, and non-numeric pairs still order by
+  address. Embedders that implement comparison operators with `compare`
+  (where `NaN = 1` and `NaN <= 1` are true) can switch to `partialCompare`.
+  The public header now includes `<compare>`; adding a non-virtual member
+  does not change any layout.
 - **Park-only safepoint** — `ProtoContext::parkIfStopRequested()` parks the
   calling thread while a stop-the-world phase is requested and, unlike
   `safepoint()`, never submits the context's young generation, so cells held
@@ -295,6 +307,12 @@ All notable changes to protoCore are documented in this file.
   `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
   instrumented and debug builds name a cell type whose `processReferences`
   reports `nullptr`.
+- `NumericCompareTest` (four cases): every NaN is unordered in both operand
+  orders against NaNs, ±0.0, ±inf, SmallIntegers and ±2^70; for ordered
+  numbers from -inf to +inf (including -2^70, -0.0/0/0.0, 2^53+1 and 2^70)
+  the sign of `partialCompare` matches `compare` and the expected order;
+  strings, objects and mixed pairs; and NaN elements do not alias numbers in
+  `ProtoSet`, `ProtoMultiset`, `ProtoList` and `ProtoTuple`.
 - `NumericTest.DoubleHashAgreesWithEquality` checks that quiet, negative and
   payload NaNs hash alike, that `-0.0` and `0.0` hash alike, and that a set
   treats them as one element (the NaN cases failed before the fix).
