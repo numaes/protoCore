@@ -162,14 +162,6 @@ All notable changes to protoCore are documented in this file.
   threw on a list holding such an element (or when asked for one). Integers
   are now compared by value with `Integer::compare`, as `ProtoTuple::has`
   already did.
-- **Exiting threads return their unused cells** — a `ProtoThread` allocates
-  from a private freelist that is refilled in batches of up to 65,536 cells,
-  and the unused part of its last batch was never returned when the thread
-  exited: those cells were on no freelist and in no young generation, so no
-  cycle could reclaim them. 64 sequential threads that allocated one object
-  each grew the heap by 2,228,224 cells. `thread_main` now splices the
-  remainder onto the global freelist (`settleThreadCells`) after the thread's
-  last allocation.
 - **An exiting `ProtoThread` stays in the stop-the-world quorum until it is
   unregistered** — `thread_main` decremented `runningThreads` before it
   rebuilt `space->threads`. That rebuild allocates, and in builds with
@@ -282,9 +274,6 @@ All notable changes to protoCore are documented in this file.
 - `ListTest.HasComparesLargeIntegersByValue` checks `has` on inline and AVL
   lists holding 2^70 against an equal distinct object, neighbours and small
   integers (it threw `std::overflow_error` before the fix).
-- `ThreadLifecycle.ShortLivedThreadsDoNotGrowTheHeapByABatchEach` runs 64
-  sequential threads that allocate one object each and bounds the heap
-  growth to four batches (2,228,224 cells before the fix).
 - `ThreadLifecycle.ExitingThreadStaysCountedUntilUnregistered` raises the
   stop-the-world flag while a thread exits and checks that the quorum is
   never met while the test thread runs; it failed before the fix in the

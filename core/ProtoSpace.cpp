@@ -1441,26 +1441,6 @@ namespace proto {
         }
     }
 
-    void settleThreadCells(ProtoSpace* space, ProtoThreadExtension* ext) {
-        if (!space || !ext) return;
-        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-        Cell* head = ext->freeCells;
-        ext->freeCells = nullptr;
-        if (!head) return;
-        // The batch is a nullptr-terminated chain of cells never handed to
-        // an object: splice it onto the flat freelist.
-        Cell* tail = head;
-        unsigned long remaining = 1;
-        while (Cell* next = tail->getNext()) {
-            tail = next;
-            ++remaining;
-        }
-        tail->internalSetNextRaw(space->freeCells);
-        if (!space->freeCells) space->freeCellsTail = tail;
-        space->freeCells = head;
-        space->freeCellsCount += static_cast<int>(remaining);
-    }
-
     Cell* ProtoSpace::getFreeCells(ProtoContext* ctx) {
         std::unique_lock<std::recursive_mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");

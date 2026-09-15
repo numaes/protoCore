@@ -1281,16 +1281,6 @@ namespace proto {
         const ProtoObject *implAsObject(ProtoContext *context) const override;
     };
 
-    /**
-     * @brief Returns the unused cells of an exiting thread's refill batch
-     *        (`ext->freeCells`) to the space's global freelist.
-     *
-     * Called once per ProtoThread, from thread_main, after the thread's last
-     * allocation.  Takes globalMutex (recursive, so the caller may hold it)
-     * and walks the remaining batch once, O(remaining cells).
-     */
-    void settleThreadCells(ProtoSpace* space, ProtoThreadExtension* ext);
-
     class ProtoThreadImplementation : public Cell {
     public:
         CellType getType() const override { return CellType::Thread; }
