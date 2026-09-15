@@ -119,6 +119,18 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **Stop-the-world collects only roots** — Phase 2 of the collector walked
+  every context's young chain and called `processReferences` on each young
+  cell while all threads were stopped, so the pause grew with the number of
+  young cells. With `PROTOCORE_GC_REINCLUDE_SURVIVORS` it also scanned every
+  survivor-pen cell on non-fold cycles and relinked a folded pen one segment
+  at a time under the pause. Stop-the-world now records one handle per
+  context, the head of its young chain, and captures the survivor pen in
+  O(1); the chains, the pen cells and the pen fold are handled by the
+  concurrent mark. In a probe with one thread holding 20,000,000 young
+  cells, P1 + P2 per cycle fell from 299–373 ms to 10–70 µs (20,000 young
+  cells: from 244–508 µs to 13–98 µs). With `PROTOCORE_GC_INSTRUMENT`, P2
+  now ends when the world resumes rather than when mark starts.
 - **The collector no longer dereferences a null work-list entry** — the
   concurrent mark crashed with a segmentation fault at address 0x8 (reading
   `Cell::next_and_flags` of a null `Cell*`, `gcThreadLoop+0xdf8`), seen in
@@ -209,6 +221,13 @@ All notable changes to protoCore are documented in this file.
   fewer L1 data-cache misses.
 
 ### Tests
+- `GCRootScope` (five cases, cycles forced with a small heap limit): a probe
+  cell in a live young chain and one in the survivor pen are traversed by the
+  collector but never while `stwFlag` is raised (each failed against the
+  library before the corresponding fix); an object referenced only by a
+  young cell, and one referenced only through the mutables tree, survive
+  cycles; four threads allocate and check young cells over old candidates
+  while cycles run.
 - `ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark` flips the main
   thread's attribute-cache and mutable-value-cache slots between a cell and a
   non-cell from a helper thread while a hard heap limit just above the

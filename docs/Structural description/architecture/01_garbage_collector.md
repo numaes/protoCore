@@ -27,10 +27,10 @@ With no heap limit (the default), allocation does not start collections by itsel
 ## The Stop-the-World Phase
 
 1. The collector sets a stop-the-world flag and waits until every running thread is parked. Threads park at cooperative safepoints: in the allocator (`allocCell`), in `ProtoContext::safepoint()`, or by being inside an unmanaged region (`ProtoContext::UnmanagedScope`) around a blocking system call.
-2. With all threads parked, it collects the roots: each thread's context chain (local variables, closure variables, return values, and the references held by young cells), the global roots (prototypes, the resolution chain, embedder `ProtoRootSet`s), and the snapshot of the 256 mutable-shard roots. It also records the tuple interner's published entry counts and takes the pending `DirtySegment`s for this cycle.
+2. With all threads parked, it collects the roots, and only the roots: each thread's context chain (local variables, closure variables, return values, the pending root, and one handle per context for its young cells, the head of its young chain), the global roots (prototypes, the resolution chain, embedder `ProtoRootSet`s), and the snapshot of the 256 mutable-shard roots. It also records the tuple interner's published entry counts, takes the pending `DirtySegment`s for this cycle and, with the survivor re-chain, captures the survivor pen in O(1).
 3. It clears the flag, and the threads resume.
 
-The work in this phase depends on the number of threads and the depth of their context chains, not on the size of the heap. [GarbageCollector.md](../../GarbageCollector.md) estimates the cost of each component.
+Everything reachable from those roots is immutable, so the traversal, the references of young cells included, runs in the concurrent mark. The work in this phase depends on the number of threads and the depth of their context chains, not on the size of the heap or the number of young cells; this is what makes the collector soft real time. [GarbageCollector.md](../../GarbageCollector.md) estimates the cost of each component.
 
 ## Critical Sections
 
@@ -38,7 +38,7 @@ A thread that has allocated cells but not yet attached them to a root, for examp
 
 ## Concurrent Phases
 
-- **Mark**: a depth-first traversal from the roots that marks reachable cells with a bit in each cell header. Only the collector uses the mark bit.
+- **Mark**: walks the young chains (and, with the survivor re-chain, the survivor pen) captured in the stop-the-world phase, then runs a depth-first traversal from the roots that marks reachable cells with a bit in each cell header. Only the collector uses the mark bit.
 - **Sweep**: walks the cells in the segments taken for this cycle. Unmarked cells are finalized and returned to the free pool; marked cells are kept and examined again in later cycles. Segments submitted after the stop-the-world phase wait for the next cycle.
 - **Bulk unmark**: clears the mark bits of the cells recorded during marking.
 

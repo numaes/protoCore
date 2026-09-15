@@ -14,6 +14,16 @@ shard roots is a complete snapshot of every mutable in the system, and the
 marker traverses only that snapshot.  Workers may CAS-swap shards freely;
 the marker never reads the live table during mark.
 
+Stop-the-world collects roots only: each thread's stack roots (automatic
+locals, closure locals, return value, pending root, and one handle per
+context for its young generation), the root of the mutables tree (the shard
+snapshot) and the roots of the global structures.  Everything reachable
+from those roots is immutable, so the depth traversal, the references of
+young cells included, runs in the concurrent mark.  The pause therefore
+depends on the number of threads and their stack depth, not on the size of
+the heap, the live set or the number of young cells.  This is why protoCore
+is soft real time.
+
 ## Key Components
 
 ### 1. ProtoSpace
@@ -71,7 +81,10 @@ The GC runs in a dedicated background thread (`gcThreadLoop` in
 While the world is stopped, the GC:
 
 1. Scans every thread's context chain for roots (automatic locals, closure
-   locals, return value, pending root, young-chain outgoing references).
+   locals, return value, pending root) and records one root handle per
+   context for its young generation: the head of its young chain
+   (`lastAllocatedCell`), read under the context spinlock.  The chains are
+   walked in Phase 4.
 2. Adds the per-process global roots (prototypes, root object, resolution
    chain, embedder-registered `ProtoRootSet` instances).
 3. **Captures the mutable-shard snapshot** —
@@ -90,6 +103,11 @@ While the world is stopped, the GC:
    `segmentsToProcess` snapshot via atomic exchange.  Segments pushed by
    workers after this exchange are not in this cycle's snapshot and
    survive to the next cycle.
+6. With `PROTOCORE_GC_REINCLUDE_SURVIVORS`, captures the survivor pen in
+   O(1).  On a fold cycle it takes the whole pen (`exchange`); its segments
+   join this cycle's `segmentsToProcess` after the world resumes.  On other
+   cycles (`survivorStagger > 1`) it records the pen head, and Phase 4 walks
+   the references of the pen cells.
 
 **Not scanned during Phase 2:**
 
@@ -106,11 +124,16 @@ While the world is stopped, the GC:
   called from any path (verified by grep).  The field stays for ABI
   stability but is held empty and never iterated by the GC.
 
-**Important.** The cells in each context's young chain are NOT promoted or
-marked themselves during Phase 2 — only the objects they reference are
-added to the worklist.  This "pins" the young objects while keeping them
-unmarked, allowing them to be reclaimed in the first GC cycle after their
-context is destroyed.
+**Important.** The cells of a context's young chain are not candidates of
+the cycle and are never marked for it.  Phase 4 walks each chain captured
+in Phase 2 and adds only the objects its cells reference to the worklist.
+This pins the young objects while keeping them unmarked, so they can be
+reclaimed in the first cycle after their context is destroyed.  The walk
+runs while mutators allocate, over a stable view: a chain grows only by
+prepending, so no link behind the captured head changes; submitting a
+chain hands its head to a segment of the next cycle without touching
+links; and this cycle's sweep, which runs after mark, touches only the
+segments captured in Phase 2.
 
 ### Phase 3 — Resume The World (now *before* Mark)
 - Once the snapshot and roots are safely captured, the `stwFlag` is
@@ -119,12 +142,16 @@ context is destroyed.
   (CAS-swap shards), submit destroyed-context young chains — all
   concurrent with the mark and sweep that follow.
 
-The STW window thus contains **only Phase 1 + Phase 2** — a fixed-cost
-operation whose duration is bounded by the number of running threads and
-the per-shard snapshot capture (256 atomic reads).  Independent of heap
-size or live-object count.
+The STW window thus contains **only Phase 1 + Phase 2** — root collection,
+whose duration is bounded by the number of running threads, their stack
+depth, the embedder root-set pins and the per-shard snapshot capture (256
+atomic reads).  Independent of heap size, live-object count and the number
+of young cells.
 
 ### Phase 4 — Mark (concurrent with mutators)
+- Walks the young chains captured in Phase 2 and, on non-fold cycles, the
+  survivor pen, pushing the references of their cells; on a fold cycle it
+  links the captured pen in front of `segmentsToProcess`.
 - Performs a depth-first traversal starting from the roots collected in
   Phase 2.
 - Uses the `processReferences` virtual method on each `Cell` to discover
@@ -227,8 +254,8 @@ never reads the live `mutableRoot` table again during this cycle.
    work-list entries.
 
 ### Cost
-- **STW pause:** O(threads + 256), independent of heap size or live-
-  object count.  In absolute terms this is microseconds-to-low-
+- **STW pause:** O(threads × stack depth + root-set pins + 256),
+  independent of heap size, live-object count and young cells.  In absolute terms this is microseconds-to-low-
   milliseconds depending on how many threads must reach a safepoint.
 - **Snapshot table:** `MUTABLE_ROOT_SHARDS * sizeof(ptr) = 2 KB`.  One
   allocation done at `ProtoSpace` construction; cleared between cycles,
@@ -363,7 +390,7 @@ behaviour can be reasoned about quantitatively.
 | Component | Typical cost | Worst-case driver | Bound |
 |---|---|---|---|
 | Thread quorum wait (slowest mutator to reach a safepoint) | 10–100 μs | safepoint distance in the embedded interpreter | mitigable by instrumenting the interpreter loop |
-| Per-thread context-chain scan (automatic locals + closure locals + young chain refs) | 10–50 μs/thread | call depth × locals per context | bounded by stack depth and typical local count |
+| Per-thread context-chain scan (automatic locals + closure locals + one young-chain head per context) | 10–50 μs/thread | call depth × locals per context | bounded by stack depth and typical local count |
 | Global roots (~30 prototypes + literalData symbols) | < 1 μs | constant | O(1) |
 | **`mutableRoot[256]` snapshot** | **< 1 μs** | constant | **O(256) atomic loads, 32 cache lines** |
 | Embedder root sets | < 50 μs typical | number of pinned objects | O(num\_pins) |
@@ -377,6 +404,12 @@ pyperformance, protoST with a moderate actor count, protoJS
 interactive): **30–250 μs**, from the per-component estimates above.
 No measured pause distribution is recorded yet; see "Real-time
 positioning" below.
+
+One point measurement (September 2026, instrumented build,
+`PROTOCORE_GC_PROFILE=1`): a thread one context below the root context,
+holding 20,000 or 20,000,000 young cells, paused 10–98 μs per cycle
+(P1 + P2) in both cases.  While Phase 2 still walked the young chains,
+the same probe paused 244–508 μs and 299–373 ms.
 
 The single architectural property that delivers this: **every term in
 the table is either constant or scales with thread/stack quantities
@@ -508,8 +541,9 @@ operates under.
 
 ## Future Research: Further bounding the STW pause
 
-The current STW pause is already O(threads + 256), independent of heap
-size.  The remaining cost is the per-thread root scan.  A separate
+The current STW pause is already O(threads × stack depth + root-set pins
++ 256), independent of heap size.  The remaining cost is the per-thread
+root scan.  A separate
 research note —
 [STW_ELIMINATION_RESEARCH.md](./STW_ELIMINATION_RESEARCH.md) — explores
 whether the residual root-scan pause can also be bounded by parallelizing
