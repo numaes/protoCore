@@ -556,6 +556,15 @@ namespace proto {
                 space->stopTheWorldCV.notify_all();
                 GC_LOCK_TRACE("gcLoop REL(mark)");
                 lock.unlock(); // Mark, sweep, and bulk-unmark all run unlocked.
+#ifdef PROTOCORE_GC_INSTRUMENT
+                // P2 ends here, where the world resumes, so P1 + P2 is the
+                // stop-the-world pause.  Everything below counts as mark (P4).
+                auto t_phase4_start = std::chrono::steady_clock::now();
+                dbg_total_phase2_us.fetch_add(
+                    std::chrono::duration_cast<std::chrono::microseconds>(
+                        t_phase4_start - t_phase2_start).count(),
+                    std::memory_order_relaxed);
+#endif
 
                 // Interned tuples recorded by Phase 2 are roots.
                 if (space->tupleInterner) {
@@ -563,13 +572,6 @@ namespace proto {
                         static_cast<std::vector<const Cell*>*>(user)->push_back(tuple);
                     });
                 }
-#ifdef PROTOCORE_GC_INSTRUMENT
-                auto t_phase4_start = std::chrono::steady_clock::now();
-                dbg_total_phase2_us.fetch_add(
-                    std::chrono::duration_cast<std::chrono::microseconds>(
-                        t_phase4_start - t_phase2_start).count(),
-                    std::memory_order_relaxed);
-#endif
 
                 // --- PHASE 4: MARK (concurrent with mutators) ---
                 //
