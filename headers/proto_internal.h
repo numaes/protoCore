@@ -969,6 +969,14 @@ namespace proto {
         const ProtoObject* lookupByContent(ProtoContext* ctx,
                                             const ProtoObject* strObj) const;
 
+        // Read-only lookup keyed by raw UTF-8 bytes.  Allocates nothing and
+        // builds no ProtoString, so a caller that already holds the bytes (
+        // ProtoString::createSymbol) can find an existing symbol without
+        // creating the perennial cells that a lookup through a ProtoString
+        // would need.  Returns nullptr when the spelling is not interned yet.
+        const ProtoObject* lookupUTF8(ProtoContext* ctx,
+                                       const uint8_t* bytes, size_t len) const;
+
         static bool isSymbol(const ProtoObject* obj);
 
     private:

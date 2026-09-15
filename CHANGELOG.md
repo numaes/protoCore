@@ -154,6 +154,35 @@ All notable changes to protoCore are documented in this file.
   all of them `asLong`, and now has none.
 
   **Tests.** `test/LargeIntegerRangeTests.cpp`.
+- **`ProtoString::createSymbol` of an existing symbol no longer allocates.**
+
+  **Cause.** For a name longer than `INLINE_STRING_MAX_BYTES`, or with
+  non-ASCII bytes, `createSymbol` built a `ProtoStringImplementation` with a
+  null `ProtoContext` and only then called `SymbolTable::intern`, whose
+  `normalizeForSymbol` built a second such copy. Both are perennial: their
+  cells come from `posix_memalign`, belong to no young generation and no
+  freelist, and no cycle ever reclaims them. When the spelling was already
+  interned, both copies were dropped on the re-check inside the shard lock and
+  leaked. Every protoClojure map operation on a string key longer than 6 bytes,
+  and every global access with such a name, paid it.
+
+  **Change.** Both entry points look the spelling up before building anything:
+  - new `SymbolTable::lookupUTF8(ctx, bytes, len)` finds a symbol from raw
+    UTF-8 bytes without allocating, hashing them exactly as
+    `computeContentHash` does, so it lands in the same shard and matches the
+    same bucket as a lookup keyed by a `ProtoString`;
+  - `createSymbol` calls it after the inline-string path;
+  - `intern` calls `lookupByContent` before `normalizeForSymbol`, which also
+    covers the auto-interning of attribute names in `setAttribute`.
+
+  Interning semantics are unchanged: symbols stay unique and perennial.
+
+  **Measured.** 1,000,000 `createSymbol` calls for an existing 20-byte name:
+  resident memory grew by 132 KB instead of 500,132 KB (about 500 bytes per
+  call), and the loop took 644 ms instead of 2,615 ms. The returned pointer was
+  the canonical symbol in every call, before and after.
+
+  **Tests.** `test/SymbolInternTests.cpp`.
 - **The per-thread caches are no longer GC roots.**
 
   **Problem.** `ProtoThreadExtension::processReferences` traced every

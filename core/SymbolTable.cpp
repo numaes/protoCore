@@ -86,6 +86,40 @@ const ProtoStringImplementation* SymbolTable::normalizeForSymbol(
 }
 
 // ---------------------------------------------------------------------------
+// contentHashOfUTF8 — the content hash of a run of UTF-8 bytes.
+//
+// Must stay identical to computeContentHash (core/ProtoString.cpp), which is
+// FNV-1a over the leaf bytes in order and is what ProtoStringImplementation::
+// implGetHash returns: a lookup keyed by bytes has to land in the same shard
+// and match the same bucket as one keyed by a ProtoString.
+// ---------------------------------------------------------------------------
+static uint64_t contentHashOfUTF8(const uint8_t* bytes, size_t len) {
+    uint64_t h = 14695981039346656037ULL;   // FNV offset basis
+    for (size_t i = 0; i < len; ++i)
+        h = (h ^ bytes[i]) * 1099511628211ULL;
+    return h;
+}
+
+// ---------------------------------------------------------------------------
+// lookupUTF8 — read-only lookup keyed by raw UTF-8 bytes; allocates nothing.
+// ---------------------------------------------------------------------------
+const ProtoObject* SymbolTable::lookupUTF8(ProtoContext* ctx,
+                                            const uint8_t* bytes, size_t len) const {
+    const uint64_t hash = contentHashOfUTF8(bytes, len);
+    const Shard& shard = shards[shardIndex(hash)];
+
+    std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(shard.mutex));
+    for (const Bucket* b = shard.head; b; b = b->next) {
+        if (b->content_hash != hash) continue;
+        std::string candidate;
+        reinterpret_cast<const ProtoString*>(b->symbol)->toUTF8String(ctx, candidate);
+        if (candidate.size() == len && std::memcmp(candidate.data(), bytes, len) == 0)
+            return b->symbol;
+    }
+    return nullptr;
+}
+
+// ---------------------------------------------------------------------------
 // intern — return the canonical symbol for strObj, inserting if absent.
 //
 // All potentially-allocating work (normalizeForSymbol / implAsSymbol) is
@@ -105,6 +139,12 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     // Embedded values (inline strings, small integers, etc.) cannot be
     // interned as symbols — return unchanged.
     if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) return strObj;
+
+    // Already interned?  Look it up first: normalizeForSymbol below builds a
+    // perennial copy of the string (Cells from posix_memalign that no cycle
+    // ever reclaims), and for a spelling that is already in the table that
+    // copy is pure leak — it is dropped on the re-check inside the lock.
+    if (const ProtoObject* existing = lookupByContent(ctx, strObj)) return existing;
 
     // Normalize and create the symbol candidate BEFORE acquiring the lock.
     // normalizeForSymbol may allocate Cells; doing so without holding

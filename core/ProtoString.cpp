@@ -1230,6 +1230,18 @@ namespace proto {
             }
         }
 
+        // Already interned?  Look the spelling up from the bytes first.  The
+        // build below allocates perennial cells (posix_memalign, never
+        // reclaimed), and normalizeForSymbol inside intern() allocates a
+        // second perennial copy; for a name that is already interned both are
+        // pure leak.  lookupUTF8 allocates nothing and hashes the bytes the
+        // same way computeContentHash does.
+        if (ctx->space->symbolTable) {
+            const ProtoObject* existing = ctx->space->symbolTable->lookupUTF8(
+                ctx, reinterpret_cast<const uint8_t*>(utf8), len);
+            if (existing) return reinterpret_cast<const ProtoString*>(existing);
+        }
+
         // Build the working ProtoStringImplementation with NULL context so
         // its cells are allocated through `posix_memalign` directly,
         // bypassing the per-thread freelist and the per-context young
