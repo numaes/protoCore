@@ -178,6 +178,19 @@ size or live-object count.
   any stray read observes the absence of a snapshot instead of a stale
   shard root.
 
+### Teardown
+`~ProtoSpace` marks the space ENDING under `globalMutex` and joins the GC
+thread.  A cycle in progress at that moment is abandoned instead of run to
+completion: the GC thread checks for ENDING after resuming the world,
+every 4096 mark pops and every 1024 sweep segments.  An abandoned cycle
+frees nothing it has not swept (sweep never runs after a partial mark),
+returns the unswept segments for the destructor to release, and skips the
+bulk unmark; finalizers of unswept garbage do not run, as for any garbage
+still present at exit.  If ENDING arrives while Phase 1 is still waiting
+for the quorum, the collector lowers `stwFlag` before it leaves, so a
+mutator that is still running does not park forever.  Embedders must still
+join their threads before destroying the space.
+
 ## Concurrent Mark Without Barriers
 
 This is the architectural section that documents *why* protoCore can run

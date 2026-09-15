@@ -136,6 +136,16 @@ All notable changes to protoCore are documented in this file.
   thread. Embedder caches that hold cell pointers must be kept alive through
   a root captured under stop-the-world or be dropped when
   `getGCCycleCount()` changes (`docs/GarbageCollector.md`).
+- **Destroying a space no longer waits for a full collection** — once
+  `~ProtoSpace` marks the space ENDING, the GC thread abandons a cycle in
+  progress (checked after resuming the world, every 4096 mark pops and every
+  1024 sweep segments) instead of marking and sweeping a heap nothing will
+  reuse; unswept segments are returned for the destructor to free. Before, a
+  cycle that started near the end ran to completion and the process waited
+  for it. In addition, when ENDING interrupted the stop-the-world handshake,
+  the collector left `stwFlag` raised, so any mutator still running parked
+  forever at its next safepoint; the flag is now lowered before the GC thread
+  exits.
 - **The allocation budget is charged for cells consumed, not batches handed
   out** — `getFreeCells` charged each refill batch to the GC allocation
   budget when a thread received it. With several threads running a batch is
@@ -260,6 +270,12 @@ All notable changes to protoCore are documented in this file.
   `GCMarkDeathTest.NullReferenceFromProcessReferencesIsReported` checks that
   instrumented and debug builds name a cell type whose `processReferences`
   reports `nullptr`.
+- `GCShutdown.CycleStartedWhileEndingSkipsMarkAndSweep` ends the space during
+  a cycle's root collection and checks that 20,000 garbage external pointers
+  are not finalized (all were before the fix);
+  `GCShutdown.EndingDuringStopTheWorldHandshakeLowersTheFlag` ends the space
+  while the handshake waits and checks that `stwFlag` is lowered and a
+  following safepoint returns (it blocked forever before).
 - `GCHeapGrowthTriggerTest.IdleThreadBatchesDoNotSpendTheBudget` (eight
   threads take a batch each and go idle; no cycle may start; it failed before
   the charge-on-consumption fix), `ManyThreadGarbageStillBoundsHeap` (eight

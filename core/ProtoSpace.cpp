@@ -178,6 +178,32 @@ namespace proto {
             workList->push_back(ref);
         }
 
+        // True once ~ProtoSpace has marked the space ENDING.  Polled by the
+        // GC thread while mark and sweep run without globalMutex.  `state` is
+        // written only under globalMutex, so the read takes it with try_lock:
+        // a contended check simply reports "not yet" and is repeated later.
+        bool spaceEnding(ProtoSpace* space) {
+            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex, std::try_to_lock);
+            return lock.owns_lock() && space->state == SPACE_STATE_ENDING;
+        }
+
+        // Hand segments this cycle did not sweep back to dirtySegments, so
+        // ~ProtoSpace frees their DirtySegment structs.  GC thread only;
+        // mutators may push concurrently, hence the CAS loop.
+        void returnUnsweptSegments(ProtoSpace* space, DirtySegment* seg) {
+            while (seg) {
+                DirtySegment* nextSeg = seg->next;
+                seg->next = space->dirtySegments.load(std::memory_order_relaxed);
+                while (!space->dirtySegments.compare_exchange_weak(
+                        seg->next, seg,
+                        std::memory_order_release,
+                        std::memory_order_relaxed)) {
+                    // seg->next reloaded by compare_exchange_weak on failure
+                }
+                seg = nextSeg;
+            }
+        }
+
         // Push the cells held by one thread's attribute cache and mutable-
         // value cache onto the work list, as roots.  Called from Phase 2 of
         // gcThreadLoop only, while every running thread is parked.
@@ -333,7 +359,15 @@ namespace proto {
                     return space->parkedThreads.load() >= space->runningThreads.load() || space->state == SPACE_STATE_ENDING;
                 });
                 GC_LOCK_TRACE("gcLoop ACQ(parked)");
-                if (space->state == SPACE_STATE_ENDING) break;
+                if (space->state == SPACE_STATE_ENDING) {
+                    // The space is being destroyed while the handshake was
+                    // still waiting.  Lower the flag before leaving: a mutator
+                    // that is still running would otherwise park forever at
+                    // its next safepoint.
+                    space->stwFlag.store(false);
+                    space->stopTheWorldCV.notify_all();
+                    break;
+                }
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase2_start = std::chrono::steady_clock::now();
                 dbg_total_phase1_us.fetch_add(
@@ -686,6 +720,15 @@ namespace proto {
                 GC_LOCK_TRACE("gcLoop REL(mark)");
                 lock.unlock(); // Mark, sweep, and bulk-unmark all run unlocked.
 
+                // Teardown.  Once ~ProtoSpace has marked the space ENDING,
+                // nothing this cycle could reclaim will ever be reused, so the
+                // cycle is abandoned instead of making the destructor wait for
+                // a full mark and sweep: checked here, every 4096 mark pops
+                // and every 1024 sweep segments.  Abandoning frees nothing
+                // (sweep never runs on a partial mark), and finalizers of
+                // unswept garbage do not run, as for any garbage left at exit.
+                bool abandoned = spaceEnding(space);
+
                 // Interned tuples recorded by Phase 2 are roots.
                 if (space->tupleInterner) {
                     space->tupleInterner->forEachCaptured(&workList, [](void* user, const Cell* tuple) {
@@ -737,7 +780,12 @@ namespace proto {
                 // is self-contained — no cross-iteration state
                 // beyond the cell mark bits themselves.
                 std::vector<const Cell*> markedList;
-                while (!workList.empty()) {
+                unsigned long markPops = 0;
+                while (!abandoned && !workList.empty()) {
+                    if ((++markPops & 4095) == 0 && spaceEnding(space)) {
+                        abandoned = true;
+                        break;
+                    }
                     const Cell* cell = workList.back();
                     workList.pop_back();
                     // The single filter for null work-list entries, whatever
@@ -807,7 +855,12 @@ namespace proto {
                 unsigned long reclaimedThisCycle = 0;
 
                 DirtySegment* currentSeg = segmentsToProcess;
-                while (currentSeg) {
+                unsigned long sweptSegments = 0;
+                while (currentSeg && !abandoned) {
+                    if ((++sweptSegments & 1023) == 0 && spaceEnding(space)) {
+                        abandoned = true;
+                        break;
+                    }
                     Cell* cell = currentSeg->cellChain;
 
                     Cell* batchHead = nullptr;
@@ -941,6 +994,9 @@ namespace proto {
                     publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
                     GC_LOCK_TRACE("gcLoop REL(chunk-tail)");
                 }
+                // An abandoned cycle leaves currentSeg at the first segment it
+                // did not sweep (all of them when mark was abandoned).
+                if (abandoned) returnUnsweptSegments(space, currentSeg);
 
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase6_start = std::chrono::steady_clock::now();
@@ -977,6 +1033,7 @@ namespace proto {
                 // a single atomic fetch_and, safe regardless of
                 // contention with mutator threads.
                 for (const Cell* m : markedList) {
+                    if (abandoned) break;  // no later cycle reads the bits
                     if (m && (reinterpret_cast<uintptr_t>(m) & 0x3F) == 0) {
                         const_cast<Cell*>(m)->unmark();
                     }
