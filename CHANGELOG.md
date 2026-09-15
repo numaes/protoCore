@@ -134,6 +134,32 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **Waiting for heap headroom no longer hands the waiting context's young
+  generation to the collector** — under a hard heap limit, a thread that
+  reaches the ceiling waits in `ProtoSpace::waitForHeapHeadroom`, called from
+  the heap checkpoint at the entry of an outermost critical section. After the
+  wait, `reclaimWaitLocked` called `ProtoContext::safepoint()`. With
+  `PROTOCORE_GC_REINCLUDE_SURVIVORS`, once the context had allocated more than
+  `maxAllocatedCellsPerContext` cells (10,000 by default), that call submitted
+  its young chain.
+
+  The wait runs inside native code, where the caller may hold a half-built
+  structure only in C++ locals and in that chain, so the next cycle freed
+  cells still in use. For example, protoClojure's `vector` primitive builds a
+  list and passes it to `newTupleFromList`: the list was freed while the tuple
+  was being built, and protoClojure's `cli/large-program` test crashed with
+  SIGSEGV in about half the runs at `PROTOCORE_HEAP_LIMIT_CELLS=2000000`. This
+  contradicted the rule that a young generation is submitted only when its
+  context is destroyed or at a `safepoint()` the embedder calls.
+
+  The wait now parks through the thread's park-only entry
+  (`ProtoThread::synchToGC`); a context without a thread parks the same way.
+  No public API changes. The only other place protoCore calls `safepoint()`
+  itself is `thread_main`, on a new thread's fresh context before its method
+  runs; that context holds no cells, and the call is unchanged.
+
+  Test: `test/HeapHeadroomWaitTests.cpp`. It fails before the change in 3 of 3
+  runs: a 1,000-element list read back with size 0.
 - **A mutable object's state is released after the object is collected** —
   every update of a mutable object (`newObject(true)`,
   `newChild(context, true)`, `clone(context, true)`) stores its state in

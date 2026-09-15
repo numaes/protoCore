@@ -214,7 +214,14 @@ is bit-for-bit the historical unbounded path.
 *   **GC-safe waiting**: a thread that must wait for the GC first leaves the
     running set (`runningThreads--`) so the Stop-The-World quorum is computed
     without it, then waits on a condition variable with `globalMutex` released.
-    It never pins the quorum. (`ProtoSpace::waitForHeapHeadroom`.)
+    It never pins the quorum. (`ProtoSpace::waitForHeapHeadroom`.) When it
+    rejoins the running set it parks through the park-only path
+    (`ProtoThread::synchToGC`, or the equivalent for a context without a
+    thread) and never through `ProtoContext::safepoint()`, which would hand the
+    context's young generation to the collector: "outermost critical-section
+    boundary" means the thread holds no half-built tree *inside protoCore*, but
+    native code around it may still hold a structure only in C++ locals and in
+    that young chain.
 *   **Enforced at critical-section boundaries**: a thread inside a critical
     section (mid tree-build, holding un-anchored cells) must *not* leave the
     running set — that is what keeps a STW cycle from sweeping its in-flight

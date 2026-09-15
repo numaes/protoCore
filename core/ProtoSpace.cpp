@@ -1419,12 +1419,42 @@ namespace proto {
                     || space->state == SPACE_STATE_ENDING;
             });
         space->runningThreads.fetch_add(1, std::memory_order_acq_rel);
-        // safepoint() re-locks globalMutex and may park on the STW cv.  Running
-        // it while we still hold globalMutex would leave the lock owned across
-        // that park (recursive_mutex drops only one level) and wedge the GC —
-        // release globalMutex around the safepoint.
+        // Rejoin the stop-the-world protocol: park if a stop-the-world began
+        // while this thread was out of the running set.  Park ONLY, never
+        // ProtoContext::safepoint().  This wait runs from the heap checkpoint
+        // of an outermost critical section (or the depth-0 refill path), inside
+        // native code that may hold a half-built structure only in C++ locals
+        // and in the context's young chain — for example a list a primitive is
+        // about to turn into a tuple.  safepoint() hands that chain to the
+        // collector once the context crosses maxAllocatedCellsPerContext, which
+        // makes those cells candidates while nothing references them; the next
+        // cycle frees them.  Young generations are submitted only when a
+        // context is destroyed or at a safepoint() the embedder calls.
+        //
+        // Parking re-locks globalMutex and waits on the stop-the-world cv.
+        // Doing that while we still hold globalMutex would leave the lock owned
+        // across the park (recursive_mutex drops only one level) and wedge the
+        // GC, so globalMutex is released around it.
         lock.unlock();
-        if (ctx) ctx->safepoint();
+        if (ctx && ctx->thread) {
+            // The thread's park-only entry.
+            ctx->thread->synchToGC();
+        } else if (ctx && space->stwFlag.load() &&
+                   !(space->gcThread && std::this_thread::get_id() == space->gcThread->get_id())
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                   && ctx->criticalSectionDepth == 0
+#endif
+                   ) {
+            // A context without a thread parks the same way, keyed on the
+            // context's own critical-section depth.
+            space->parkedThreads++;
+            {
+                std::unique_lock<std::recursive_mutex> parkLock(ProtoSpace::globalMutex);
+                space->gcCV.notify_all();
+                space->stopTheWorldCV.wait(parkLock, [space] { return !space->stwFlag.load(); });
+            }
+            space->parkedThreads--;
+        }
         lock.lock();
     }
 

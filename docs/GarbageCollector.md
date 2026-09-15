@@ -422,6 +422,21 @@ authors must follow at the root side.
 - If no free cells are available, `ProtoSpace` allocates a new chunk of
   memory from the OS using `posix_memalign`, within the heap limit when
   one is set.
+- **Waiting for heap headroom parks without submitting.**  With a hard
+  limit, a thread that reaches the ceiling with an empty freelist waits in
+  `ProtoSpace::waitForHeapHeadroom`, called from the heap checkpoint at the
+  entry of an outermost critical section.  The wait requests a cycle,
+  leaves the stop-the-world running set, and when the cycle has finished
+  rejoins it and parks if another stop-the-world is pending.  That park
+  uses the thread's park-only entry (`ProtoThread::synchToGC`; a context
+  without a thread parks the same way).  It never runs
+  `ProtoContext::safepoint()`, whose per-context threshold hands the
+  context's young generation to the collector.  The wait happens inside
+  native code, where the caller may hold a half-built structure only in
+  C++ locals and in that young chain; submitting the chain there would
+  make those cells candidates while nothing references them, and a later
+  cycle would free them.  Young generations are submitted only when a
+  context is destroyed or at a `safepoint()` the embedder calls.
 
 ### OS allocation cap (16 MiB)
 
