@@ -1248,6 +1248,52 @@ namespace proto {
         this->gcContext = new ProtoContext(ProtoContext::GCOwnedTag{}, this);
 
         this->gcThread = std::make_unique<std::thread>(gcThreadLoop, this);
+
+        // Heap limit from the environment:
+        //   PROTOCORE_HEAP_LIMIT_CELLS=<hard>          hard ceiling only
+        //   PROTOCORE_HEAP_LIMIT_CELLS=<soft>,<hard>   soft watermark and ceiling
+        // in cells.  Without a limit protoCore starts no collection cycle by
+        // itself, so this is how an embedder runs under a low memory limit
+        // (in tests, for example) without calling setHeapLimits.
+        //
+        // A single value sets only the hard ceiling (soft 0): a soft
+        // watermark equal to the ceiling is never consulted, because
+        // getFreeCells enters the soft path only while the heap is below the
+        // ceiling, so soft 0 states the actual behaviour.  With the ceiling
+        // alone the heap grows up to <hard> cells and, from then on, a thread
+        // that needs cells waits for a cycle to reclaim them.
+        //
+        // Applied last, once the space is fully built, so the bootstrap
+        // above never waits on a limit.  Each part must be decimal digits
+        // with a value up to INT_MAX; a hard part of 0 means no limit.  Any
+        // other value is ignored silently, like the other PROTOCORE_*
+        // variables read here.
+        if (const char* envLimit = std::getenv("PROTOCORE_HEAP_LIMIT_CELLS")) {
+            auto parseCells = [](const char* begin, const char* end, int& out) {
+                if (begin == end) return false;
+                long long value = 0;
+                for (const char* p = begin; p != end; ++p) {
+                    if (*p < '0' || *p > '9') return false;
+                    value = value * 10 + (*p - '0');
+                    if (value > INT_MAX) return false;
+                }
+                out = static_cast<int>(value);
+                return true;
+            };
+            const char* end = envLimit;
+            const char* comma = nullptr;
+            for (; *end; ++end) {
+                if (*end == ',' && !comma) comma = end;
+            }
+            int softCells = 0;
+            int hardCells = 0;
+            const bool valid = comma
+                ? parseCells(envLimit, comma, softCells) && parseCells(comma + 1, end, hardCells)
+                : parseCells(envLimit, end, hardCells);
+            if (valid && hardCells > 0) {
+                this->setHeapLimits(softCells, hardCells);
+            }
+        }
     }
 
     ProtoSpace::~ProtoSpace() {

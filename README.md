@@ -17,7 +17,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 |------|-------|
 | Version | 1.2.0 |
 | Status | Open for review; not production ready |
-| Test suite | 234 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-15 |
+| Test suite | 241 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-15 |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
@@ -178,6 +178,27 @@ The benchmark executables are written to the build directory, for example:
 ```
 
 The other benchmark targets are `list_benchmark`, `object_access_benchmark`, `mutable_access_benchmark`, `sparse_list_benchmark`, `string_concat_benchmark`, `cache_timing_benchmark`, `cache_pressure_benchmark` and `hash_quality_benchmark`. Build with `-DCMAKE_BUILD_TYPE=Release` before measuring.
+
+## Runtime Configuration (Environment Variables)
+
+protoCore reads the following environment variables. The `PROTOCORE_HEAP_LIMIT_CELLS`, `PROTOCORE_GC_CONTEXT_THRESHOLD` and `PROTOCORE_GC_SURVIVOR_STAGGER` values are read when a `ProtoSpace` is constructed; invalid values are ignored without a message and the default applies. The other variables are read when the feature they control is first used.
+
+| Variable | Format | Default | Effect |
+|---|---|---|---|
+| `PROTOCORE_HEAP_LIMIT_CELLS` | `<hard>` or `<soft>,<hard>`: cell counts in decimal digits, each at most 2147483647 (one cell is 64 bytes) | unset: no limit | Calls `ProtoSpace::setHeapLimits(soft, hard)` once the space is built. A single value sets only the hard ceiling. `0`, or a hard part of `0`, means no limit. With a ceiling, the heap grows up to `<hard>` cells and a thread that needs more waits for a collection cycle to reclaim cells; if two cycles in a row reclaim nothing, protoCore reports out of memory and aborts. Above `<soft>`, the allocator waits for one cycle before growing the heap. |
+| `PROTOCORE_GC_CONTEXT_THRESHOLD` | positive integer, at most 4294967295 | `10000` | Builds with `PROTOCORE_GC_REINCLUDE_SURVIVORS` only: once a context has allocated more cells than this, `ProtoContext::safepoint()` hands its young cells to the collector. |
+| `PROTOCORE_GC_SURVIVOR_STAGGER` | integer from 1 to 256 | `1` | Builds with `PROTOCORE_GC_REINCLUDE_SURVIVORS` only: number of cycles between re-examinations of cells that survived a sweep. Higher values lower the marking cost of stable data and delay its reclamation. |
+| `PROTOCORE_GC_PROFILE` | any value | unset | Builds with `PROTOCORE_GC_INSTRUMENT` only: prints cumulative per-phase collector timings to standard error after every cycle (`P1`, `P2`, `P4`, `P5`, `REL`, `P6`; see [docs/GarbageCollector.md](docs/GarbageCollector.md)). |
+| `PROTOCORE_TRUST_SYMBOLS` | any value | unset | Experimental. Attribute reads and presence checks treat a name that is a plain string, not a symbol, as absent instead of looking up its symbol. Used to find embedder code that passes non-symbol names. |
+| `PROTO_ENV_DIAG` | any value | unset | Prints a message before exiting when a cell allocation fails. |
+| `PROTO_RESOLVE_DIAG` | any value | unset | Traces module resolution to standard error. |
+| `PROTO_THREAD_DIAG` | any value | unset | Prints uncaught exceptions of `ProtoThread`s to standard error. |
+
+**Collection cycles need a heap limit or an explicit request.** Without a heap limit, protoCore starts no collection cycle by itself: the heap grows by requesting memory from the operating system. Cycles start when a thread reaches a configured heap limit, or when the embedder calls `ProtoSpace::triggerGC()`, which starts one only when fewer than 20% of the heap cells are free. To run an embedder under a low memory limit, for example so that its tests exercise the collector, set the variable without changing code:
+
+```bash
+PROTOCORE_HEAP_LIMIT_CELLS=500000 ctest --test-dir build --output-on-failure   # about 30 MiB of cells
+```
 
 ## Installation and Packaging
 

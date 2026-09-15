@@ -4,6 +4,21 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 ### Added
+- **`PROTOCORE_HEAP_LIMIT_CELLS` environment variable** — a `ProtoSpace` reads
+  it once it is fully constructed and calls `setHeapLimits(soft, hard)`:
+  - `<hard>` sets the hard ceiling only;
+  - `<soft>,<hard>` sets both limits, in cells;
+  - unset, `0` or a hard part of `0` means no limit, which stays the default;
+  - any other value is ignored without a message.
+
+  Without a limit protoCore starts no collection cycle by itself, and
+  embedders do not call `setHeapLimits`. This variable is how an embedder
+  (protopy, protost, protoclj) runs under a low memory limit, for example so
+  that its GC-stress tests exercise collection:
+  `PROTOCORE_HEAP_LIMIT_CELLS=500000`. The README gains a "Runtime
+  Configuration" table of every environment variable protoCore reads.
+
+  Tests: `test/HeapLimitEnvTests.cpp`.
 - **`ProtoObject::partialCompare`** — an IEEE partial-order comparison that
   returns `std::partial_ordering`. Numbers compare by exact value across
   SmallInteger, LargeInteger and double (-0.0 is equivalent to 0.0 and to 0);

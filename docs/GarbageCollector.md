@@ -456,7 +456,14 @@ long critical sections when chaining cells under the global lock.
 
 Collection runs on the GC thread; embedders request cycles with
 `triggerGC()` or configure a heap limit (see "Memory Allocation"
-above).  Threads must be "managed" by
+above).  **Without a heap limit, no cycle starts by itself.**  A limit can
+be set in code with `ProtoSpace::setHeapLimits(soft, hard)`, or without
+changing code through the environment variable
+`PROTOCORE_HEAP_LIMIT_CELLS=<hard>` or `<soft>,<hard>` (cells), read when
+the `ProtoSpace` is constructed; for example
+`PROTOCORE_HEAP_LIMIT_CELLS=500000` runs an embedder's tests under about
+30 MiB of cells.  The README's "Runtime Configuration" table lists every
+environment variable protoCore reads.  Threads must be "managed" by
 `ProtoSpace` to participate in the STW protocol.  Use `ProtoThread` and
 its synchronization methods to ensure proper GC behavior in custom
 threading scenarios.
