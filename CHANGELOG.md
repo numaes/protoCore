@@ -160,6 +160,31 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::clone` now carries the own attributes and parents a MUTABLE
+  receiver holds at the time of the call**, instead of the ones it was created
+  with.
+
+  **Cause.** A mutable object never writes back into its handle cell:
+  `setAttribute` publishes a fresh state cell into the mutable shard table
+  (built with `mutable_ref = 0`) and returns the SAME handle. `clone` read
+  `oc->attributes` and `oc->parent` straight off that handle, skipping the
+  `resolveMutableSnapshot` step that `getAttribute`, `getOwnAttributeDirect`,
+  `getAttributes` and `isInstanceOf` all perform. The copy therefore carried
+  the object's birth-time state — for a freshly created mutable object, an
+  empty attribute table. protoJS's `protoCore.ImmutableObject({a:1})` came
+  back as `{}`; `MutableObject`, `MakeImmutable` and `MakeMutable` share the
+  same call and the same breakage, since all four use `clone` as a
+  freeze / thaw operation.
+
+  The documented contract — "new instances with the same attributes" — was the
+  correct one, so the behaviour was fixed rather than the documentation.
+  `clone` had neither header documentation nor a single test referencing it,
+  which is how the gap survived; it now has both.
+
+  Note: `newChild` carries the same unresolved-snapshot pattern for its parent
+  link and is deliberately NOT changed here.
+
+  Tests: `test/AttributeEnumerationTests.cpp` (4 cases).
 - **`Integer::asLong` no longer returns 0 for values above the second 64-bit
   digit.**
 

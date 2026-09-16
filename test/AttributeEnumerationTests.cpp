@@ -438,3 +438,110 @@ TEST_F(AttributeEnumerationTest, NullArgumentsAreIgnored) {
     obj->processOwnAttributes(nullptr, &sink, collect);
     EXPECT_EQ(sink.calls, 0);
 }
+
+// ---------------------------------------------------------------------------
+// ProtoObject::clone — carries the CURRENT own attributes, not the birth ones.
+//
+// A mutable object never writes back into its handle cell: setAttribute
+// publishes a new state cell into the mutable shard table and returns the same
+// handle.  clone used to copy the handle's own `attributes` pointer, so a
+// clone of a mutable object came back with whatever it was born with — for a
+// freshly created object, nothing at all.
+// ---------------------------------------------------------------------------
+
+class CloneOwnAttributesTest : public ::testing::Test {
+protected:
+    ProtoSpace* space = nullptr;
+    ProtoContext* ctx = nullptr;
+
+    void SetUp() override {
+        space = new ProtoSpace();
+        ctx = space->rootContext;
+    }
+    void TearDown() override { delete space; }
+
+    const ProtoString* sym(const char* s) { return ProtoString::createSymbol(ctx, s); }
+};
+
+// The reported defect: protoCore.ImmutableObject({a:1}) came back as {}.
+// Cloning a MUTABLE object must carry the attributes it holds now.
+TEST_F(CloneOwnAttributesTest, CloneOfMutableCarriesCurrentOwnAttributes) {
+    auto* source = const_cast<ProtoObject*>(ctx->newObject(true));
+    const ProtoString* a = sym("a");
+    const ProtoString* longName = sym("a_longer_attribute_name");
+    source->setAttribute(ctx, a, ctx->fromInteger(1));
+    source->setAttribute(ctx, longName, ctx->fromInteger(2));
+
+    const ProtoObject* copy = source->clone(ctx, false);
+
+    ASSERT_NE(copy, PROTO_NONE);
+    EXPECT_EQ(copy->getAttribute(ctx, a)->asLong(ctx), 1)
+        << "the clone lost an attribute written after the object was created";
+    EXPECT_EQ(copy->getAttribute(ctx, longName)->asLong(ctx), 2);
+
+    // And it answers the same own attributes as its source.
+    Collector fromSource, fromCopy;
+    source->processOwnAttributes(ctx, &fromSource, collect);
+    copy->processOwnAttributes(ctx, &fromCopy, collect);
+    EXPECT_EQ(fromCopy.calls, fromSource.calls);
+    for (size_t i = 0; i < fromSource.names.size(); ++i) {
+        EXPECT_EQ(valueOf(fromCopy, fromSource.names[i]), fromSource.values[i]);
+    }
+}
+
+// The immutable path must keep working: there the handle cell IS the state.
+TEST_F(CloneOwnAttributesTest, CloneOfImmutableCarriesOwnAttributes) {
+    const ProtoString* k = sym("frozen_slot");
+    const ProtoObject* source = ctx->newObject(false)->setAttribute(ctx, k, ctx->fromInteger(42));
+
+    const ProtoObject* copy = source->clone(ctx, false);
+
+    EXPECT_EQ(copy->getAttribute(ctx, k)->asLong(ctx), 42);
+    Collector sink;
+    copy->processOwnAttributes(ctx, &sink, collect);
+    EXPECT_EQ(sink.calls, 1);
+    EXPECT_TRUE(hasName(sink, k));
+}
+
+// Thawing: clone(ctx, true) carries the attributes AND is independent — a
+// write to the copy must not be visible through the source, or vice versa.
+TEST_F(CloneOwnAttributesTest, MutableCloneIsIndependentOfItsSource) {
+    auto* source = const_cast<ProtoObject*>(ctx->newObject(true));
+    const ProtoString* k = sym("slot");
+    source->setAttribute(ctx, k, ctx->fromInteger(1));
+
+    auto* copy = const_cast<ProtoObject*>(source->clone(ctx, true));
+    ASSERT_NE(copy, PROTO_NONE);
+    EXPECT_EQ(copy->getAttribute(ctx, k)->asLong(ctx), 1);
+
+    copy->setAttribute(ctx, k, ctx->fromInteger(99));
+    EXPECT_EQ(copy->getAttribute(ctx, k)->asLong(ctx), 99);
+    EXPECT_EQ(source->getAttribute(ctx, k)->asLong(ctx), 1)
+        << "writing to the clone must not be visible through its source";
+
+    source->setAttribute(ctx, k, ctx->fromInteger(7));
+    EXPECT_EQ(copy->getAttribute(ctx, k)->asLong(ctx), 99)
+        << "writing to the source must not be visible through the clone";
+}
+
+// The clone is a sibling: it keeps the parents of the CURRENT snapshot, and
+// the receiver does not become its parent.
+TEST_F(CloneOwnAttributesTest, CloneKeepsTheParentsOfTheCurrentSnapshot) {
+    const ProtoObject* prototype = ctx->newObject(false);
+    auto* child = const_cast<ProtoObject*>(prototype->newChild(ctx, true));
+    const ProtoString* k = sym("own_slot");
+    child->setAttribute(ctx, k, ctx->fromInteger(5));
+
+    const ProtoObject* copy = child->clone(ctx, false);
+
+    ASSERT_NE(copy, PROTO_NONE);
+    EXPECT_EQ(copy->getAttribute(ctx, k)->asLong(ctx), 5);
+    EXPECT_EQ(copy->isInstanceOf(ctx, prototype), PROTO_TRUE)
+        << "the clone lost the parent chain of its source";
+    EXPECT_EQ(copy->getFirstParent(ctx), child->getFirstParent(ctx));
+    // isInstanceOf answers PROTO_TRUE when the prototype is found in the
+    // chain and PROTO_NONE — not PROTO_FALSE — when it is not, so assert
+    // against the positive answer rather than one particular negative one.
+    EXPECT_NE(copy->isInstanceOf(ctx, child), PROTO_TRUE)
+        << "clone must be a sibling, not a child, of its source";
+}

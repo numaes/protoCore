@@ -370,8 +370,29 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return PROTO_NONE;
         auto* oc = toImpl<const ProtoObjectCell>(this);
+
+        // Resolve the mutable snapshot before copying, exactly as
+        // getAttribute, getOwnAttributes, getAttributes and isInstanceOf do.
+        // A mutable object never writes back into its handle cell:
+        // setAttribute publishes a fresh state cell into the mutable shard
+        // table and returns the SAME handle, so `oc->attributes` and
+        // `oc->parent` still hold what the object was BORN with.  Copying
+        // them directly produced a clone that had lost every attribute
+        // written since it was created — for a freshly built mutable object,
+        // an empty one.
+        const ParentLinkImplementation* parent = oc->parent;
+        const ProtoSparseListImplementation* attributes = oc->attributes;
+        if (oc->mutable_ref > 0) {
+            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+            if (storedState != nullptr) {
+                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                parent = storedOc->parent;
+                attributes = storedOc->attributes;
+            }
+        }
+
         unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
-        return (new(context) ProtoObjectCell(context, oc->parent, oc->attributes, ref))->asObject(context);
+        return (new(context) ProtoObjectCell(context, parent, attributes, ref))->asObject(context);
     }
 
     const ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const

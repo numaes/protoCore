@@ -74,6 +74,29 @@ namespace proto
     public:
         //- Object Model
         const ProtoObject* getPrototype(ProtoContext* context) const;
+        /**
+         * @brief Copy the receiver into a new object carrying the same own
+         *        attributes and the same parents.
+         *
+         * The clone is a SIBLING, not a child: it shares the receiver's
+         * parent chain, and the receiver is NOT one of its parents — use
+         * `newChild` for that.  Own attributes come across by structural
+         * sharing of the immutable attribute tree, so the copy is cheap and
+         * the two objects never see each other's later writes.
+         *
+         * `isMutable` selects the form of the COPY, independently of the
+         * receiver: `false` (the default) yields an immutable object, `true`
+         * an independently mutable one.  This is the supported freeze / thaw
+         * operation.
+         *
+         * A mutable receiver is read through its CURRENT snapshot, so the
+         * clone carries the attributes and parents the object holds now, not
+         * the ones it was created with.
+         *
+         * Returns PROTO_NONE when the receiver is not an object cell:
+         * integers, strings, lists and other tagged primitives have no
+         * attribute table to copy.
+         */
         const ProtoObject* clone(ProtoContext* context, bool isMutable = false) const;
         const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 

@@ -17,7 +17,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 |------|-------|
 | Version | 1.2.0 |
 | Status | Open for review; not production ready |
-| Test suite | 278 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-16 |
+| Test suite | 282 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-16 |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
