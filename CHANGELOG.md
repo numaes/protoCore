@@ -525,21 +525,74 @@ All notable changes to protoCore are documented in this file.
   on ASCII, cells identical at every size: 9.37 to 6.82 ns/char at 467 B,
   11.63 to 5.88 at 4 KiB, 17.25 to 6.14 at 64 KiB and 16.32 to 6.38 at 1 MiB
   (2.6x; 17.1 ms to 6.7 ms for the whole build).
+- **String construction no longer builds a list of code point objects** —
+  `ProtoContext::fromUTF8String`, and therefore `ProtoString::fromUTF8`,
+  `fromUTF8String`, `fromStdString` and `fromCodepointTuple`, built an
+  N-element `ProtoList` of code point objects one `appendLast` at a time,
+  re-encoded that list into a `std::string` and then called the bottom-up rope
+  builder anyway. Every append copied a root-to-leaf path, so construction
+  cost O(N log N) cells of which all but the final rope were dead before the
+  constructor returned: at 1 MiB, 23.1 million cells to produce a 65,536-cell
+  rope, 99.7% garbage. It now decodes the bytes once and builds the rope
+  directly, allocating exactly the cells the rope needs — the theoretical
+  minimum of `2 * ceil(B / 32)`, about 4 bytes of heap per ASCII character,
+  with no garbage at any size. Measured on ASCII:
+
+  | length | before | after | speedup | cells before | cells after |
+  |---|---|---|---|---|---|
+  | 7 B | 194.4 ns/char | 11.8 ns/char | 16x | 32 | 2 |
+  | 467 B | 554.5 ns/char | 7.28 ns/char | 76x | 5,108 | 32 |
+  | 4 KiB | 720.4 ns/char | 6.80 ns/char | 106x | 57,576 | 256 |
+  | 64 KiB | 931.7 ns/char | 6.52 ns/char | 143x | 1,183,712 | 4,096 |
+  | 1 MiB | 1138.3 ns/char | 6.55 ns/char | 174x | 23,134,168 | 65,536 |
+
+  The resulting string is unchanged in every observable way — same bytes, same
+  size, same content hash, same rope (leaves, internal nodes, depth), same
+  inline-versus-heap representation, same symbol behaviour — including for
+  malformed UTF-8, which is still decoded and re-encoded so that a truncated
+  sequence degrades to its lead byte and an overlong sequence collapses to its
+  shortest form.
+
+  The construction also no longer holds a GC critical section across the
+  per-character loop. That section suppressed this thread's stop-the-world
+  parking for the entire build (1.38 s for 1 MiB) while protecting nothing:
+  cells allocated during the build sit on the context's young chain, which the
+  collector records as a root and which can only become a sweep candidate once
+  `ProtoContext::safepoint()` or context destruction submits it — neither of
+  which the builder calls. The heap-ceiling backpressure the section's
+  constructor performed is kept, as an explicit `heapLimitCheckpoint()` before
+  the first allocation. Repeated builds of a 467-character value under a hard
+  ceiling now run collections and stay inside it.
+
+  Elsewhere the two string changes are neutral or better:
+  `immutable_sharing_benchmark`, `list_benchmark` and
+  `object_access_benchmark` move by +0.8%, +0.2% and -0.6% of cycles with
+  instruction counts flat. One microbenchmark is slower:
+  `string_concat_benchmark` (10,000 rope joins through `appendLast`, a path
+  neither change touches) takes 2.8% more wall clock and 3.8% more cycles
+  while executing 0.3% more instructions — a code-layout effect of the new
+  functions in `core/ProtoString.cpp`, not extra work.
 
 ### Tests
-- `StringBuildTests` (seven cases) pins what string construction *produces*,
+- `StringBuildTests` (eleven cases) pins what string construction *produces*,
   so that changes to how it is built cannot change what is built. A 42-entry
   golden corpus — the well-formed ladder from empty to 64 KiB, 2/3/4-byte
   sequences, combining marks, and 18 malformed-UTF-8 cases — was captured from
   the library before the change and is checked for content bytes, codepoint
   size, content hash, inline-versus-rope representation and rope shape (leaf
-  count, internal count, depth). Every leaf's `char_count` is recounted from
-  its own payload and every internal node's
+  count, internal count, depth). The same corpus is compared, node for node,
+  against a reference implementation of the old code-point-list construction
+  kept in the test file. Every leaf's `char_count` is recounted from its own
+  payload and every internal node's
   `total_chars` / `left_chars` / `total_bytes` is checked against its
   children; multi-byte sequences are built at every length around the 32-byte
-  leaf boundary; plus a 1 MiB bulk build, the inline boundary, symbol
-  interning and identity, and `fromStdString` agreeing with `fromUTF8` over
-  the whole corpus.
+  leaf boundary. Further cases bound the cells one build may allocate to the
+  size of the rope it produces (a bound the list construction misses by two
+  orders of magnitude); run a thousand 467-character builds under a hard heap
+  ceiling and check that collection cycles run and that both the heap and the
+  resident set stay bounded; and build 1 MiB through the public and the bulk
+  entry points. Plus the inline boundary, symbol interning and identity, and
+  `fromStdString` agreeing with `fromUTF8` over the whole corpus.
 - `GCRootScope` (five cases, cycles forced with a small heap limit): a probe
   cell in a live young chain and one in the survivor pen are traversed by the
   collector but never while `stwFlag` is raised (each failed against the

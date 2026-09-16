@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <unistd.h>
 
 using namespace proto;
 
@@ -218,6 +219,98 @@ std::vector<Golden> corpus() {
     };
 }
 
+// ---- the pre-change construction, kept here as the reference --------------
+//
+// This is what ProtoContext::fromUTF8String did before the byte-oriented
+// builder replaced it: decode the bytes to code points, append each one to a
+// ProtoList, then hand that list to ProtoString::create (which re-encodes it
+// into a std::string and calls the same bottom-up builder). Everything the
+// current implementation produces must still equal what this produces,
+// including for malformed input.
+const ProtoObject* referenceOldBuild(ProtoContext* c, const char* z) {
+    unsigned int codepoints[6];
+    int count = 0;
+    const unsigned char* s = reinterpret_cast<const unsigned char*>(z);
+    bool allASCII = true;
+
+    // The inline probe, unchanged.
+    while (*s && count <= 6) {
+        unsigned int cp;
+        int len;
+        if (*s < 0x80)              { cp = *s;        len = 1; }
+        else if ((*s & 0xE0) == 0xC0) { cp = *s & 0x1F; len = 2; }
+        else if ((*s & 0xF0) == 0xE0) { cp = *s & 0x0F; len = 3; }
+        else                          { cp = *s & 0x07; len = 4; }
+        for (int i = 1; i < len; ++i) {
+            if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) { cp = *s; len = 1; break; }
+            cp = (cp << 6) | (s[i] & 0x3F);
+        }
+        if (count < 6) codepoints[count] = cp;
+        if (cp >= 128u) allASCII = false;
+        ++count;
+        s += len;
+    }
+    if (count > 0 && count <= 6 && allASCII && !*s)
+        return createInlineString(c, count, codepoints);
+
+    // The old heavy path: an N-element list of code point objects.
+    const ProtoList* list = c->newList();
+    s = reinterpret_cast<const unsigned char*>(z);
+    while (*s) {
+        unsigned int cp;
+        int len;
+        if (*s < 0x80)              { cp = *s;        len = 1; }
+        else if ((*s & 0xE0) == 0xC0) { cp = *s & 0x1F; len = 2; }
+        else if ((*s & 0xF0) == 0xE0) { cp = *s & 0x0F; len = 3; }
+        else                          { cp = *s & 0x07; len = 4; }
+        for (int i = 1; i < len; ++i) {
+            if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) { cp = *s; len = 1; break; }
+            cp = (cp << 6) | (s[i] & 0x3F);
+        }
+        list = list->appendLast(c, c->fromUnicodeChar(cp));
+        s += len;
+    }
+    return ProtoString::create(c, list)->asObject(c);
+}
+
+// Sets PROTOCORE_HEAP_LIMIT_CELLS for the lifetime of the object and restores
+// whatever was there before. The variable must be set before the ProtoSpace is
+// constructed: it is read at the end of construction, and it also caps each
+// refill batch, which is what makes the ceiling bind.
+class ScopedHeapLimit {
+public:
+    explicit ScopedHeapLimit(const char* value) {
+        if (const char* old = std::getenv(kName)) {
+            had_ = true;
+            old_ = old;
+        }
+        ::setenv(kName, value, 1);
+    }
+    ~ScopedHeapLimit() {
+        if (had_) ::setenv(kName, old_.c_str(), 1);
+        else      ::unsetenv(kName);
+    }
+    ScopedHeapLimit(const ScopedHeapLimit&) = delete;
+    ScopedHeapLimit& operator=(const ScopedHeapLimit&) = delete;
+private:
+    static constexpr const char* kName = "PROTOCORE_HEAP_LIMIT_CELLS";
+    bool had_ = false;
+    std::string old_;
+};
+
+// Resident set size in bytes, or 0 when /proc is unavailable.
+size_t residentBytes() {
+    std::FILE* f = std::fopen("/proc/self/statm", "r");
+    if (!f) return 0;
+    unsigned long total = 0;
+    unsigned long resident = 0;
+    const int n = std::fscanf(f, "%lu %lu", &total, &resident);
+    std::fclose(f);
+    if (n != 2) return 0;
+    return static_cast<size_t>(resident) *
+           static_cast<size_t>(::sysconf(_SC_PAGESIZE));
+}
+
 class StringBuildTest : public ::testing::Test {
 protected:
     ProtoSpace* space = nullptr;
@@ -401,4 +494,143 @@ TEST_F(StringBuildTest, FromStdStringAgreesWithFromUTF8) {
         b->toUTF8String(ctx, ob);
         EXPECT_EQ(oa, ob) << g.name;
     }
+}
+
+// The current builder must reproduce, exactly, what the code point list route
+// produced — same bytes, same size, same hash, same representation, same rope.
+// This covers the malformed corpus in particular: the bytes are decoded and
+// re-encoded, so malformed input is normalised, and that normalisation must
+// not drift.
+TEST_F(StringBuildTest, MatchesTheReferenceCodepointListConstruction) {
+    for (const Golden& g : corpus()) {
+        const ProtoObject* refObj = referenceOldBuild(ctx, g.src.c_str());
+        const ProtoString* ref = reinterpret_cast<const ProtoString*>(refObj);
+        const ProtoString* now = ProtoString::fromUTF8(ctx, g.src.c_str());
+        ASSERT_NE(ref, nullptr) << g.name;
+        ASSERT_NE(now, nullptr) << g.name;
+
+        std::string refBytes, nowBytes;
+        ref->toUTF8String(ctx, refBytes);
+        now->toUTF8String(ctx, nowBytes);
+
+        EXPECT_EQ(hexOf(nowBytes), hexOf(refBytes)) << g.name;
+        EXPECT_EQ(now->getSize(ctx), ref->getSize(ctx)) << g.name;
+        EXPECT_EQ(now->getHash(ctx), ref->getHash(ctx)) << g.name;
+        EXPECT_EQ(now->cmp_to_string(ctx, ref), 0) << g.name;
+        EXPECT_EQ(isInlineRep(reinterpret_cast<const ProtoObject*>(now)),
+                  isInlineRep(refObj)) << g.name;
+        EXPECT_EQ(now->isSymbol(), ref->isSymbol()) << g.name;
+
+        const RopeShape a = shapeOf(now, g.name);
+        const RopeShape b = shapeOf(ref, g.name);
+        EXPECT_EQ(a.leaves, b.leaves) << g.name;
+        EXPECT_EQ(a.internals, b.internals) << g.name;
+        EXPECT_EQ(a.depth, b.depth) << g.name;
+        EXPECT_EQ(a.leafBytes, b.leafBytes) << g.name;
+        EXPECT_EQ(a.leafChars, b.leafChars) << g.name;
+    }
+}
+
+// Building a string must cost the cells of the rope it produces — O(N/32) —
+// and not the O(N log N) that one-code-point-at-a-time list construction cost.
+// This bound fails by two orders of magnitude against the list route.
+TEST_F(StringBuildTest, AllocationIsLinearInLength) {
+    for (unsigned long n : {4096UL, 65536UL, 1048576UL}) {
+        const std::string src = asciiN(n);
+        ProtoContext sub(space, ctx, nullptr, nullptr, nullptr, nullptr);
+        const unsigned long before = sub.allocatedCellsCount;
+        const ProtoString* s = ProtoString::fromUTF8(&sub, src.c_str());
+        const unsigned long used = sub.allocatedCellsCount - before;
+
+        ASSERT_NE(s, nullptr) << n;
+        ASSERT_EQ(s->getSize(&sub), n) << n;
+
+        // One 32-byte leaf plus one internal node per 32 bytes, plus the
+        // wrapper: leaves + (leaves-1) + 1 == 2*ceil(B/32).
+        const unsigned long minimum = 2UL * ((n + 31UL) / 32UL);
+        EXPECT_LE(used, minimum + minimum / 2UL + 8UL)
+            << n << " characters allocated " << used
+            << " cells to produce a " << minimum << "-cell rope";
+    }
+}
+
+// Repeated 467-character builds under PROTOCORE_HEAP_LIMIT_CELLS must complete
+// without aborting, let the collector run, and keep both the heap and the
+// resident set bounded.
+//
+// Two details decide the shape of this test. The limit must be set before the
+// ProtoSpace is constructed — it is read at the end of construction and caps
+// each refill batch, and a limit applied afterwards does not bind because the
+// startup pool is already in the freelist. And a fresh space starts with a pool
+// of 262,144 cells while one build of a 467-character string now costs 32, so
+// the workload has to be big enough to consume that pool before the collector
+// is asked for anything at all.
+//
+// That it takes twenty thousand builds to reach the collector is precisely the
+// effect being tested: through the code point list the same build cost 5,108
+// cells, which exhausted the pool in about fifty builds, and the GC critical
+// section held across the per-character loop meant the thread never submitted
+// its young generation, so nothing was ever reclaimable.
+TEST(StringBuildHeapLimitTest, RepeatedBuildsUnderAHeapLimitCollectAndStayBounded) {
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
+    GTEST_SKIP() << "requires PROTOCORE_GC_REINCLUDE_SURVIVORS: with the "
+                    "survivor re-chain compiled out, ProtoContext::safepoint() "
+                    "never submits the young generation, so nothing this loop "
+                    "allocates can become a collection candidate and the "
+                    "workload exhausts the ceiling by design";
+#else
+    ScopedHeapLimit limit("100000");
+
+    ProtoSpace space;
+    ProtoContext* ctx = space.rootContext;
+    // Submit often, the way an embedder does between units of work.
+    space.maxAllocatedCellsPerContext = 500;
+
+    const int startupHeap = space.heapSize;
+    const std::string src = asciiN(467);
+
+    const uint64_t cyclesBefore = space.getGCCycleCount();
+    const size_t rssBefore = residentBytes();
+
+    for (int i = 0; i < 20000; ++i) {
+        const ProtoString* s = ProtoString::fromUTF8(ctx, src.c_str());
+        ASSERT_NE(s, nullptr) << "build " << i;
+        ASSERT_EQ(s->getSize(ctx), 467UL) << "build " << i;
+        ctx->safepoint();
+    }
+    ctx->safepoint();
+
+    EXPECT_GT(space.getGCCycleCount(), cyclesBefore)
+        << "no GC cycle ran: the builds never became collectable";
+    EXPECT_LE(space.heapSize, startupHeap)
+        << "the heap had to grow: " << startupHeap << " -> " << space.heapSize;
+
+    const size_t rssAfter = residentBytes();
+    if (rssBefore && rssAfter) {
+        const size_t growth = rssAfter > rssBefore ? rssAfter - rssBefore : 0;
+        EXPECT_LT(growth, size_t(64) * 1024 * 1024)
+            << "resident set grew by " << (growth / (1024 * 1024)) << " MB";
+    }
+#endif
+}
+
+// 1 MiB through the public constructor: same rope as the bulk entry point,
+// at a size where the build recurses 16 levels deep.
+TEST_F(StringBuildTest, OneMebibytePublicPathShapeAndContent) {
+    const std::string src = asciiN(1048576);
+    const ProtoString* s = ProtoString::fromUTF8(ctx, src.c_str());
+    ASSERT_NE(s, nullptr);
+    EXPECT_EQ(s->getSize(ctx), 1048576UL);
+    EXPECT_EQ(s->getHash(ctx), 7815921241789043789UL);
+
+    const RopeShape sh = shapeOf(s, "ascii1Mi-public");
+    EXPECT_EQ(sh.leaves, 32768);
+    EXPECT_EQ(sh.internals, 32767);
+    EXPECT_EQ(sh.depth, 16);
+    EXPECT_EQ(sh.leafBytes, 1048576);
+    EXPECT_EQ(sh.leafChars, 1048576);
+
+    std::string out;
+    s->toUTF8String(ctx, out);
+    EXPECT_EQ(out, src);
 }

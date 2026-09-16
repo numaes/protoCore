@@ -823,6 +823,116 @@ namespace proto {
         return new(ctx) ProtoStringImplementation(ctx, buildAVL(ctx, bytes, len));
     }
 
+    // =========================================================================
+    // Shared byte-oriented construction (ProtoContext::fromUTF8String,
+    // ProtoString::fromStdString)
+    // =========================================================================
+
+    // Decodes one sequence exactly as ProtoContext::fromUTF8String always has.
+    // *seq receives the number of bytes consumed.  A sequence that is truncated,
+    // or whose continuation bytes are not continuation bytes, degrades to its
+    // lead byte as a one-byte codepoint: that is the historical tolerance of
+    // malformed input, which callers observe in the resulting text.
+    static unsigned int decodeLegacySequence(const uint8_t* s, size_t avail, int* seq) {
+        unsigned int cp;
+        int len;
+        if (s[0] < 0x80u)                 { cp = s[0];         len = 1; }
+        else if ((s[0] & 0xE0u) == 0xC0u) { cp = s[0] & 0x1Fu; len = 2; }
+        else if ((s[0] & 0xF0u) == 0xE0u) { cp = s[0] & 0x0Fu; len = 3; }
+        else                              { cp = s[0] & 0x07u; len = 4; }
+        for (int i = 1; i < len; ++i) {
+            // The original decoder walked a zero-terminated string and stopped
+            // at the NUL; with an explicit length, running out of bytes is the
+            // same condition, and an embedded NUL still fails the continuation
+            // test below, so both agree byte for byte.
+            if (static_cast<size_t>(i) >= avail || (s[i] & 0xC0u) != 0x80u) {
+                cp = s[0];
+                len = 1;
+                break;
+            }
+            cp = (cp << 6) | (s[i] & 0x3Fu);
+        }
+        *seq = len;
+        return cp;
+    }
+
+    // Number of bytes appendUTF8CodePoint would emit for `cp`.
+    static int utf8EncodedLength(unsigned int cp) {
+        if (cp < 0x80u)    return 1;
+        if (cp < 0x800u)   return 2;
+        if (cp < 0x10000u) return 3;
+        return 4;
+    }
+
+    static void encodeUTF8CodePoint(unsigned int cp, uint8_t* out) {
+        if (cp < 0x80u) {
+            out[0] = static_cast<uint8_t>(cp);
+        } else if (cp < 0x800u) {
+            out[0] = static_cast<uint8_t>(0xC0u | (cp >> 6));
+            out[1] = static_cast<uint8_t>(0x80u | (cp & 0x3Fu));
+        } else if (cp < 0x10000u) {
+            out[0] = static_cast<uint8_t>(0xE0u | (cp >> 12));
+            out[1] = static_cast<uint8_t>(0x80u | ((cp >> 6) & 0x3Fu));
+            out[2] = static_cast<uint8_t>(0x80u | (cp & 0x3Fu));
+        } else {
+            out[0] = static_cast<uint8_t>(0xF0u | (cp >> 18));
+            out[1] = static_cast<uint8_t>(0x80u | ((cp >> 12) & 0x3Fu));
+            out[2] = static_cast<uint8_t>(0x80u | ((cp >> 6) & 0x3Fu));
+            out[3] = static_cast<uint8_t>(0x80u | (cp & 0x3Fu));
+        }
+    }
+
+    const ProtoObject* buildStringFromUTF8Bytes(ProtoContext* ctx,
+                                                 const uint8_t* bytes,
+                                                 size_t len) {
+        // Historical contract: these bytes are decoded to codepoints and
+        // re-encoded, so malformed input is normalised rather than passed
+        // through — `C3 41` becomes `C3 83 41`, and the overlong `C0 80`
+        // collapses to `00`.  Keeping the round trip also keeps buildAVL safe:
+        // its split backs off a continuation byte to find a codepoint
+        // boundary, and a run of more than MAX_PAYLOAD continuation bytes would
+        // walk the split point to 0 and recurse forever.  Re-encoded bytes are
+        // always well formed, so that case stays unreachable.
+        //
+        // For every well-formed input the round trip is the identity, so scan
+        // for that first and, when it holds, build straight from the caller's
+        // bytes with no intermediate copy at all.
+        size_t i = 0;
+        uint8_t encoded[4];
+        while (i < len) {
+            int seq = 0;
+            const unsigned int cp = decodeLegacySequence(bytes + i, len - i, &seq);
+            if (utf8EncodedLength(cp) != seq) break;
+            encodeUTF8CodePoint(cp, encoded);
+            if (std::memcmp(encoded, bytes + i, static_cast<size_t>(seq)) != 0) break;
+            i += static_cast<size_t>(seq);
+        }
+
+        if (i == len) {
+            // An empty result is the one inline string the non-inline path can
+            // produce: ProtoString::create returns an inline string for an
+            // empty codepoint list, and that is what callers saw before.
+            if (len == 0) return createInlineStringUTF8(ctx, nullptr, 0);
+            return ProtoStringImplementation::fromUTF8Bytes(ctx, bytes, len)
+                       ->implAsObject(ctx);
+        }
+
+        // Diverged at byte `i`: keep the canonical prefix, re-encode the rest.
+        std::string normalised(reinterpret_cast<const char*>(bytes), i);
+        normalised.reserve(len);
+        while (i < len) {
+            int seq = 0;
+            const unsigned int cp = decodeLegacySequence(bytes + i, len - i, &seq);
+            appendUTF8CodePoint(normalised, cp);
+            i += static_cast<size_t>(seq);
+        }
+        if (normalised.empty()) return createInlineStringUTF8(ctx, nullptr, 0);
+        return ProtoStringImplementation::fromUTF8Bytes(
+                   ctx,
+                   reinterpret_cast<const uint8_t*>(normalised.data()),
+                   normalised.size())->implAsObject(ctx);
+    }
+
     void ProtoStringImplementation::processReferences(
         ProtoContext* context,
         void* self,

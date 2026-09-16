@@ -504,10 +504,36 @@ namespace proto
         static const ProtoString* fromUTF8String(ProtoContext* context,
                                                   const char* zeroTerminatedUtf8String);
 
-        /** Creates a ProtoString from a zero-terminated UTF-8 C string. */
+        /**
+         * Creates a ProtoString from a zero-terminated UTF-8 C string.
+         *
+         * Cost: one pass over the bytes, then one bottom-up build of the rope.
+         * B bytes of text cost exactly `2 * ceil(B / 32)` cells — one 32-byte
+         * leaf plus one internal node per 32 bytes, about 4 bytes of heap per
+         * ASCII character — and leave no garbage behind. Up to 6 bytes of pure
+         * ASCII cost no cell at all: the text lives in the tagged pointer.
+         *
+         * Malformed UTF-8 is tolerated rather than rejected: the bytes are
+         * decoded to code points and re-encoded, so a truncated sequence
+         * degrades to its lead byte and an overlong sequence collapses to its
+         * shortest form. The result therefore does not always hold the
+         * caller's exact bytes.
+         *
+         * Reads up to the first NUL. When the source is a buffer, prefer
+         * fromUTF8Buffer: it takes an explicit length, can carry a NUL, and is
+         * the only constructor that handles a multi-byte sequence split across
+         * two reads.
+         */
         static const ProtoString* fromUTF8(ProtoContext* context, const char* zeroTerminatedUtf8);
 
-        /** Creates a ProtoString from a std::string (UTF-8 encoded). */
+        /**
+         * Creates a ProtoString from a std::string (UTF-8 encoded).
+         *
+         * Same cost and same malformed-input handling as fromUTF8, which it
+         * delegates to. Note that it reads up to the first NUL, so a
+         * std::string carrying an embedded NUL is truncated there; use
+         * fromUTF8Buffer to build from the whole buffer.
+         */
         static const ProtoString* fromStdString(ProtoContext* context, const std::string& s);
 
         /**
@@ -524,6 +550,14 @@ namespace proto
          *                      incomplete sequence from \a buf that was not yet decoded.
          * @param out_remainder_count Number of bytes written to \a out_remainder.
          * @return The decoded ProtoString for the complete codepoints in this chunk.
+         *
+         * This is the entry point to prefer whenever the source is a buffer: it
+         * takes a pointer and a length instead of scanning for a NUL, costs the
+         * same `2 * ceil(B / 32)` cells with no garbage, and is the only
+         * constructor that can carry an incomplete multi-byte sequence across a
+         * buffer boundary. Reading a file in chunks through this and joining
+         * them with appendLast — an O(log n) join that copies neither side — is
+         * the cheapest way to build a large string.
          */
         static const ProtoString* fromUTF8Buffer(ProtoContext* context,
                                                   const uint8_t* buf, size_t len,

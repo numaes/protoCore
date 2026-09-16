@@ -35,7 +35,7 @@ ProtoTuple already has `processReferences` that visits slot references. Concat t
 
 ## Creation
 
-- **fromUTF8String** (this design): if the decoded length is at most 7 and all code points are in 0..127, build the inline representation and return (no cell, no intern). Otherwise build a leaf tuple, then intern and return.
+- **fromUTF8String** (this design): if the text is at most 6 UTF-8 bytes and every code point is in 0..127, build the inline representation and return (no cell). Otherwise build the rope bottom-up in a single pass: `buildAVL` halves the byte range at code-point boundaries down to 32-byte `StringLeafNode` leaves and joins them with `strConcat`, costing exactly `2 * ceil(B / 32)` cells for B bytes and leaving no garbage. Ad-hoc strings are **not** interned — see `wrapRoot` in `core/ProtoString.cpp` for why (content interning walks the whole rope to hash it, which made a loop of N runtime concatenations O(N²)). Symbols keep their own perpetual table via `ProtoString::createSymbol`.
 - **appendLast**: Create concat tuple with left = this, right = other, size = sum; wrap in ProtoStringImplementation and return.
 
 ## Comparison

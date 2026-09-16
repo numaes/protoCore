@@ -584,51 +584,35 @@ namespace proto
             // or go through ProtoString creation which routes via wrapRoot.
             return createInlineString(this, count, codepoints);
         }
-        // GC critical section: the loop below builds a ProtoList of
-        // codepoints incrementally — each implAppendLast returns a new
-        // immutable tree held in `charList` (a C++ local) until the
-        // pendingRoot update on the next line.  Subsequent
-        // ProtoString::create allocations would otherwise be vulnerable
-        // to a sweep landing in the gap between assignment and
-        // pendingRoot store.  pendingRoot still acts as the
-        // single-cell pin for the charList head; the critical section
-        // is the broader guarantee that no STW root scan happens until
-        // the whole construction finishes.
-        ProtoContext::CriticalSection cs(this);
-        const ProtoListImplementation* charList = new(this) ProtoListImplementation(this);
-        this->pendingRoot = const_cast<ProtoListImplementation*>(charList);
-        s = (const unsigned char*)zeroTerminatedUtf8String;
-        while (*s) {
-            unsigned int unicodeChar;
-            int len;
-            if (*s < 0x80) {
-                unicodeChar = *s;
-                len = 1;
-            } else if ((*s & 0xE0) == 0xC0) {
-                unicodeChar = *s & 0x1F;
-                len = 2;
-            } else if ((*s & 0xF0) == 0xE0) {
-                unicodeChar = *s & 0x0F;
-                len = 3;
-            } else {
-                unicodeChar = *s & 0x07;
-                len = 4;
-            }
-            for (int i = 1; i < len; ++i) {
-                if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) {
-                    unicodeChar = *s;
-                    len = 1;
-                    break;
-                }
-                unicodeChar = (unicodeChar << 6) | (s[i] & 0x3F);
-            }
-            charList = charList->implAppendLast(this, fromUnicodeChar(unicodeChar));
-            this->pendingRoot = const_cast<ProtoListImplementation*>(charList);
-            s += len;
-        }
-        const ProtoObject* result = ProtoString::create(this, charList->asProtoList(this))->asObject(this);
-        this->pendingRoot = nullptr;
-        return result;
+        // Not an inline string: build the rope in one bottom-up pass over the
+        // bytes (buildStringFromUTF8Bytes, core/ProtoString.cpp), which
+        // allocates exactly the cells the rope needs and nothing else.
+        //
+        // The previous route built an N-element ProtoList of codepoint objects
+        // one implAppendLast at a time, re-encoded that list into a
+        // std::string, and then called the same bottom-up builder anyway. Each
+        // append copied a root-to-leaf path, so it cost O(N log N) cells — at
+        // 1 MiB, 23.1 million cells to produce a 65,536-cell rope, 99.7% of
+        // them dead before this function returned.
+        //
+        // No CriticalSection around the build, deliberately. A section here
+        // would suppress this thread's stop-the-world parking for the whole
+        // O(N) construction (1.38 s at 1 MiB on the old route) while
+        // protecting nothing that is not already protected: every cell the
+        // builder allocates is on this context's young chain
+        // (ProtoContext::addCell2Context), the collector records that chain as
+        // a root during stop-the-world and traces its outgoing references, and
+        // a young chain can only become a sweep candidate once it is handed to
+        // dirtySegments — which happens in ProtoContext::safepoint() and at
+        // context destruction, neither of which the builder calls. What the
+        // section did contribute is the heap-ceiling backpressure its
+        // constructor takes at depth 0; that is kept, at the same point in the
+        // control flow: before the first allocation, with nothing half-built.
+        this->heapLimitCheckpoint();
+        return buildStringFromUTF8Bytes(
+            this,
+            reinterpret_cast<const unsigned char*>(zeroTerminatedUtf8String),
+            std::strlen(zeroTerminatedUtf8String));
     }
 
     const ProtoList* ProtoContext::newList()
