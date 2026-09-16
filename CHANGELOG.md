@@ -4,6 +4,32 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 ### Added
+- **`ProtoObject::processOwnAttributes`** — walks an object's OWN attributes
+  as `(name, value)` pairs, the enumeration the public API was missing.
+  Attribute keys are stored as the interned symbol pointer reinterpreted as
+  an integer (`getAttribute` computes `reinterpret_cast<uintptr_t>(name)`),
+  so `getOwnAttributes()` returns a sparse list whose keys are opaque
+  numbers: an embedder could read an object's own values but could not
+  recover their names. That is what blocked protoJS from copying or stamping
+  an object's own attributes. The callback receives the canonical symbol for
+  each name, so it compares equal by identity to the symbol the attribute was
+  set with, and `getAttribute` on it returns the value the callback was
+  handed. Casting the stored key back to a symbol is sound because symbols
+  are perennial: interned with a null `ProtoContext`, allocated outside the
+  GC, never marked, swept, moved or evicted.
+
+  The walk resolves the mutable snapshot exactly as `getAttribute` does,
+  visits own attributes only (never the prototype chain), reports a
+  `PROTO_NONE` value like any other and a removed attribute not at all,
+  allocates nothing (`ProtoContext::allocatedCellsCount` is unchanged by it),
+  and runs the callback OUTSIDE any GC critical section — so the callback may
+  allocate, reach a safepoint and run arbitrary embedder code. For the
+  duration of the walk the snapshot is anchored in
+  `ProtoContext::pendingRoot` (saved and restored around the call), which is
+  what keeps the attribute tree reachable while the callback runs. **The
+  order in which attributes are visited is unspecified.**
+
+  Tests: `test/AttributeEnumerationTests.cpp` (12 cases).
 - **`PROTOCORE_HEAP_LIMIT_CELLS` environment variable** — a `ProtoSpace` reads
   it once it is fully constructed and calls `setHeapLimits(soft, hard)`:
   - `<hard>` sets the hard ceiling only;

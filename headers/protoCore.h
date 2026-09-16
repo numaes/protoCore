@@ -146,6 +146,50 @@ namespace proto
          * where the caller guarantees name is a POINTER_TAG_SYMBOL (e.g. co_names entries).
          */
         const ProtoObject* getOwnAttributeDirect(ProtoContext* context, const ProtoString* name) const;
+        /**
+         * @brief Walk the receiver's OWN attributes as (name, value) pairs.
+         *
+         * Attribute keys are stored as the interned symbol pointer
+         * reinterpreted as an integer, so the ProtoSparseList returned by
+         * `getOwnAttributes` has opaque integers for keys: an embedder gets
+         * the values but cannot recover the names.  This walk is the
+         * supported way to enumerate the names.
+         *
+         * `method` is invoked once per own attribute with the canonical
+         * symbol for the name and the value stored under it.  The name is
+         * the very pointer the attribute was set with, so it compares equal
+         * by identity to the symbol the embedder holds, and passing it back
+         * to `getAttribute` / `getOwnAttributeDirect` returns the value the
+         * callback received.  (A name may be either a heap symbol or an
+         * inline string — `ProtoString` handles both — so use the string API
+         * on it and never dereference it as a Cell.)
+         *
+         * Only OWN attributes are visited; the prototype chain is never
+         * traversed — use `getAttributes` for the merged view.  PROTO_NONE
+         * is a value like any other and IS reported; an attribute that was
+         * removed is not.  The mutable snapshot is resolved once, exactly as
+         * `getAttribute` resolves it, so a mutable receiver is walked as it
+         * stood when the call started; mutating the receiver from the
+         * callback is allowed and does not change what the rest of the walk
+         * reports.
+         *
+         * **The order in which attributes are visited is unspecified** and
+         * may change between releases.  Do not rely on it.
+         *
+         * The walk allocates nothing — it creates no Cell, so
+         * `ProtoContext::allocatedCellsCount` is unchanged by it — and runs
+         * `method` OUTSIDE any GC critical section, so the callback may
+         * allocate, call `safepoint()`, park for a collection and run
+         * arbitrary embedder code.  For the duration of the walk the
+         * snapshot is anchored in `ProtoContext::pendingRoot` (saved and
+         * restored around the call), which is what keeps the attribute tree
+         * reachable while the callback runs.
+         *
+         * Non-object receivers (integers, strings, ...) have no own
+         * attributes: the callback is simply never invoked.
+         */
+        void processOwnAttributes(ProtoContext* context, void* self,
+                                  void (*method)(ProtoContext*, void*, const ProtoString*, const ProtoObject*)) const;
 
         //- Inheritance
         const ProtoList* getParents(ProtoContext* context) const;

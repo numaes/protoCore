@@ -40,6 +40,8 @@ protoCore uses prototype delegation instead of classes. An object's parents are 
 
 `getAttribute` looks in the object's own attributes first and then walks the parent chain until it finds the attribute or the chain ends. It returns `PROTO_NONE` when the attribute is missing; because an attribute can also hold `PROTO_NONE`, use `hasAttribute` or `hasOwnAttribute` to test for presence. `getOwnAttributeDirect` reads only the object's own attributes.
 
+Attribute names are stored as the interned symbol pointer reinterpreted as an integer, which is why `getOwnAttributes` returns a sparse list whose keys are opaque numbers: it gives an embedder the values but not the names. To walk an object's own attributes as (name, value) pairs, use `processOwnAttributes(context, self, callback)`. It hands the callback the canonical symbol for each name — the same pointer the attribute was set with, so `getAttribute` on it returns the value the callback received — visits own attributes only, reports an attribute whose value is `PROTO_NONE` like any other, allocates nothing, and runs the callback outside any GC critical section, so the callback may allocate and reach a safepoint. The order in which attributes are visited is unspecified.
+
 `ProtoObject::call` looks up a method by name with `getAttribute` and, if the value is a method, calls its native function with the receiver and the arguments. Native methods are C++ functions of type `ProtoMethod`; `ProtoContext::fromMethod` wraps one, together with its receiver, in a method object.
 
 ## The Per-Thread Attribute Cache

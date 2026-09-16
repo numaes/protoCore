@@ -1893,6 +1893,103 @@ namespace proto
         return attributes ? attributes->asSparseList(context) : context->newSparseList();
     }
     
+    namespace {
+        /**
+         * RAII anchor for one Cell in `ProtoContext::pendingRoot`.
+         *
+         * `pendingRoot` is collected as a GC root by the stop-the-world root
+         * scan (see ProtoSpace's scanContexts), so parking a snapshot there
+         * keeps it — and everything reachable from it, i.e. the whole
+         * attribute tree — marked while a callback runs outside any critical
+         * section.  The previous value is saved and restored so the anchor
+         * nests with any other user of the slot.
+         */
+        class PendingRootAnchor {
+        public:
+            PendingRootAnchor(ProtoContext* context, const ProtoObject* obj)
+                : context_(context), saved_(context ? context->pendingRoot : nullptr) {
+                if (context_) {
+                    if (const Cell* cell = ProtoObject::asCellPointer(obj)) {
+                        context_->pendingRoot = const_cast<Cell*>(cell);
+                    }
+                }
+            }
+            ~PendingRootAnchor() { if (context_) context_->pendingRoot = saved_; }
+            PendingRootAnchor(const PendingRootAnchor&) = delete;
+            PendingRootAnchor& operator=(const PendingRootAnchor&) = delete;
+        private:
+            ProtoContext* context_;
+            Cell* saved_;
+        };
+    }
+
+    void ProtoObject::processOwnAttributes(
+        ProtoContext* context, void* self,
+        void (*method)(ProtoContext*, void*, const ProtoString*, const ProtoObject*)) const
+    {
+        if (!this || !context || !method) return;
+
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return;
+
+        // Resolve the mutable snapshot exactly once, the same way
+        // getAttribute and getOwnAttributes do, so the walk reports one
+        // coherent view even if the receiver is mutated meanwhile.
+        auto oc = toImpl<const ProtoObjectCell>(this);
+        const ProtoObject* snapshot = this;
+        const ProtoSparseListImplementation* attributes = oc->attributes;
+        if (oc->mutable_ref > 0) {
+            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+            if (storedState != nullptr) {
+                snapshot = storedState;
+                attributes = toImpl<const ProtoObjectCell>(storedState)->attributes;
+            }
+        }
+        if (!attributes) return;
+
+        // Keep the snapshot reachable for the whole walk.  Without this a
+        // concurrent write to a mutable receiver would orphan the snapshot,
+        // and a collection triggered from the callback would sweep the very
+        // nodes this loop is standing on.
+        PendingRootAnchor anchor(context, snapshot);
+
+        // Iterative in-order traversal over the attribute AVL.  The explicit
+        // stack lives in C++ automatic storage: no Cell is allocated, and no
+        // critical section is held across `method`.  The sparse list keeps
+        // `size` in 24 bits, so it holds at most 2^24 entries and an AVL of
+        // that size is at most ~35 deep; 64 frames is a safe bound.
+        constexpr int kMaxDepth = 64;
+        const ProtoSparseListImplementation* stack[kMaxDepth];
+        int sp = 0;
+        const ProtoSparseListImplementation* node = attributes;
+
+        while (node != nullptr || sp > 0) {
+            while (node != nullptr && !node->isEmpty && sp < kMaxDepth) {
+                stack[sp++] = node;
+                node = node->previous;
+            }
+            if (sp == 0) break;
+            node = stack[--sp];
+
+            // Read everything out of the cell BEFORE handing control to the
+            // callback, which may run arbitrary embedder code.
+            const unsigned long key = node->key;
+            const ProtoObject* value = node->value;
+            const ProtoSparseListImplementation* right = node->next;
+
+            if (value != nullptr) {
+                // The key IS the canonical symbol pointer the attribute was
+                // set with (see setAttribute / getAttribute, which compute
+                // `reinterpret_cast<uintptr_t>(name)`).  Symbols are
+                // perennial — interned with a null context, never marked,
+                // swept, moved or evicted — so casting back is sound.
+                method(context, self, reinterpret_cast<const ProtoString*>(key), value);
+            }
+            node = right;
+        }
+    }
+
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
         // Look up the canonical symbol for this key without inserting.
         // If the key was never interned, it was never used as an attribute key,
