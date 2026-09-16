@@ -1351,6 +1351,21 @@ namespace proto
     bool ProtoObject::isNone(ProtoContext* context) const { return this == PROTO_NONE; }
     bool ProtoObject::isBoolean(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_BOOLEAN; }
     bool ProtoObject::isInteger(ProtoContext* context) const { return proto::isInteger(this); }
+    bool ProtoObject::isByte(ProtoContext* context) const {
+        // protoCore has no distinct byte type: fromByte(char) is
+        // fromInteger(char), and asByte reads byteValue.byteData, an 8-bit
+        // field sitting after the same 6-bit tag and 4-bit embedded type as
+        // si.smallInteger — i.e. the low byte of a SmallInteger.  So this
+        // answers "is this a SmallInteger whose value fits in one byte",
+        // over the range that survives the byte round trip: every char
+        // fromByte can encode (-128..127) plus the unsigned 0..255 reading.
+        if (!this) return false;
+        ProtoObjectPointer pa{}; pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE) return false;
+        if (pa.op.embedded_type != EMBEDDED_TYPE_SMALLINT) return false;
+        const long value = pa.si.smallInteger;
+        return value >= -128 && value <= 255;
+    }
     bool ProtoObject::isString(ProtoContext* context) const {
         if (!this) return false;
         ProtoObjectPointer pa{}; pa.oid = this;

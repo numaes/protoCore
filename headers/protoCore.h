@@ -275,6 +275,32 @@ namespace proto
         bool isBoolean(ProtoContext* context) const;
         bool isInteger(ProtoContext* context) const;
         bool isFloat(ProtoContext* context) const;
+        /**
+         * @brief Is the receiver a SmallInteger whose value fits in one byte?
+         *
+         * True for an EMBEDDED_VALUE pointer whose embedded type is SMALLINT
+         * and whose value lies in the closed range [-128, 255]. False for
+         * everything else.
+         *
+         * protoCore has no distinct byte type — there is no
+         * POINTER_TAG_BYTE and no EMBEDDED_TYPE_BYTE,
+         * `ProtoContext::fromByte(char)` is `fromInteger(char)`, and
+         * `asByte` reads the low 8 bits of a SmallInteger. This predicate
+         * therefore answers "would this value survive the byte round trip",
+         * and the range is exactly the set that does: every `char` that
+         * `fromByte` can encode (signed, -128..127) plus the unsigned
+         * 0..255 reading that byte buffers and `asByte`'s callers use. So
+         * `isByte(fromByte(c))` is true for every `char c`.
+         *
+         * False for integers outside that range and for LargeIntegers, and
+         * false for every other kind of value: booleans and unicode chars
+         * (each a distinct embedded type, NOT byte-valued integers),
+         * PROTO_NONE, strings and symbols, byte buffers (`isByteBuffer` is
+         * the unrelated buffer predicate), doubles, methods and objects.
+         *
+         * Like its neighbours this is a tag-only test: it allocates nothing,
+         * dispatches nothing, and is safe on a null receiver.
+         */
         bool isByte(ProtoContext* context) const;
         bool isDate(ProtoContext* context) const;
         bool isTimestamp(ProtoContext* context) const;

@@ -545,3 +545,85 @@ TEST_F(CloneOwnAttributesTest, CloneKeepsTheParentsOfTheCurrentSnapshot) {
     EXPECT_NE(copy->isInstanceOf(ctx, child), PROTO_TRUE)
         << "clone must be a sibling, not a child, of its source";
 }
+
+// ---------------------------------------------------------------------------
+// ProtoObject::isByte — declared in the public header but never defined, so
+// any embedder that called it failed to link (nm showed only isByteBuffer).
+// It is defined now as "a SmallInteger whose value fits in one byte", the
+// range that survives the fromByte / asByte round trip.
+// ---------------------------------------------------------------------------
+
+class BytePredicateTest : public ::testing::Test {
+protected:
+    ProtoSpace* space = nullptr;
+    ProtoContext* ctx = nullptr;
+
+    void SetUp() override {
+        space = new ProtoSpace();
+        ctx = space->rootContext;
+    }
+    void TearDown() override { delete space; }
+};
+
+// Every value fromByte can produce is a byte, and it round-trips.
+TEST_F(BytePredicateTest, TrueForEveryValueFromByteProduces) {
+    for (int c = -128; c <= 127; ++c) {
+        const ProtoObject* v = ctx->fromByte(static_cast<char>(c));
+        EXPECT_TRUE(v->isByte(ctx)) << "fromByte(" << c << ") should be a byte";
+        EXPECT_EQ(v->asByte(ctx), static_cast<char>(c)) << "round trip at " << c;
+    }
+    // And the unsigned reading, which is what byte buffers use.
+    for (int n = 0; n <= 255; ++n) {
+        EXPECT_TRUE(ctx->fromInteger(n)->isByte(ctx)) << "integer " << n;
+    }
+    EXPECT_TRUE(ctx->fromInteger(-128)->isByte(ctx));
+    EXPECT_TRUE(ctx->fromInteger(255)->isByte(ctx));
+}
+
+// Integers just outside the range are not bytes.
+TEST_F(BytePredicateTest, FalseForIntegersOutsideByteRange) {
+    EXPECT_FALSE(ctx->fromInteger(256)->isByte(ctx));
+    EXPECT_FALSE(ctx->fromInteger(-129)->isByte(ctx));
+    EXPECT_FALSE(ctx->fromInteger(1000)->isByte(ctx));
+    EXPECT_FALSE(ctx->fromInteger(-1000000)->isByte(ctx));
+    // Beyond the SmallInteger range entirely: a LargeInteger cell, not an
+    // embedded value, so not a byte either.
+    const ProtoObject* big = ctx->fromInteger(9007199254740993LL);
+    EXPECT_TRUE(big->isInteger(ctx));
+    EXPECT_FALSE(big->isByte(ctx));
+}
+
+// Every other kind of value answers false — including the ones most easily
+// confused with a byte.
+TEST_F(BytePredicateTest, FalseForOtherValueKinds) {
+    EXPECT_FALSE(PROTO_TRUE->isByte(ctx));
+    EXPECT_FALSE(PROTO_FALSE->isByte(ctx));
+    EXPECT_FALSE(PROTO_NONE->isByte(ctx));
+    EXPECT_FALSE(ctx->fromBoolean(true)->isByte(ctx)) << "a boolean is not a byte";
+    EXPECT_FALSE(ctx->fromUnicodeChar(65)->isByte(ctx)) << "a unicode char is not a byte";
+    EXPECT_FALSE(ctx->fromDouble(65.0)->isByte(ctx));
+    EXPECT_FALSE(ctx->fromUTF8String("A")->isByte(ctx));
+    EXPECT_FALSE(reinterpret_cast<const ProtoObject*>(
+                     ProtoString::createSymbol(ctx, "a_symbol_name"))->isByte(ctx));
+    EXPECT_FALSE(ctx->newBuffer(8)->isByte(ctx)) << "a byte BUFFER is not a byte";
+    EXPECT_FALSE(ctx->newObject(true)->isByte(ctx));
+    // Load the null through a volatile so the compiler cannot fold the call
+    // and warn (-Wnonnull).  Calling a predicate on a null receiver is
+    // deliberate here: protoCore's predicates guard on `this`, and the
+    // library is built with -fno-delete-null-pointer-checks.
+    const ProtoObject* volatile nullReceiver = nullptr;
+    const ProtoObject* nothing = nullReceiver;
+    EXPECT_FALSE(nothing->isByte(ctx)) << "must be safe on a null receiver";
+}
+
+// The defect was a link failure: calling isByte at all proves the symbol is
+// defined and exported by the shared library.
+TEST_F(BytePredicateTest, IsByteLinksAndSitsBesideItsNeighbours) {
+    const ProtoObject* byte = ctx->fromByte('A');
+    ASSERT_TRUE(byte->isByte(ctx));
+    EXPECT_EQ(byte->asByte(ctx), 'A');
+    EXPECT_TRUE(byte->isInteger(ctx)) << "a byte IS a SmallInteger in this model";
+    EXPECT_FALSE(byte->isByteBuffer(ctx)) << "isByte and isByteBuffer are unrelated";
+    EXPECT_FALSE(byte->isBoolean(ctx));
+    EXPECT_FALSE(byte->isString(ctx));
+}

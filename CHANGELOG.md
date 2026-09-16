@@ -160,6 +160,29 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::isByte` is now defined and exported.** It was declared in
+  the public header but had no definition anywhere, so an embedder that
+  called it failed to link. `nm -D --defined-only` on the shipped library
+  listed 18 `ProtoObject` type predicates and `isByte` in neither the defined
+  nor the undefined table; no commit in the repository ever added a body, and
+  protoJS had already documented the workaround in
+  `ProtoCoreNativeBindings.cpp` ("several others are declared in protoCore.h
+  but not defined in the library").
+
+  It answers **true for a SmallInteger whose value fits in one byte** — an
+  EMBEDDED_VALUE of embedded type SMALLINT whose value is in the closed range
+  `[-128, 255]`. protoCore has no distinct byte type (no `POINTER_TAG_BYTE`,
+  no `EMBEDDED_TYPE_BYTE`; `fromByte(char)` is `fromInteger(char)` and
+  `asByte` reads the low 8 bits of a SmallInteger), so the predicate answers
+  "would this value survive the byte round trip", and that range is exactly
+  the set that does: every `char` `fromByte` can encode plus the unsigned
+  0..255 reading byte buffers use. `isByte(fromByte(c))` holds for every
+  `char c`. It is false for integers outside the range, LargeIntegers,
+  booleans, unicode chars, `PROTO_NONE`, strings, symbols, byte buffers
+  (`isByteBuffer` is unrelated), doubles, methods and objects, and is safe on
+  a null receiver.
+
+  Tests: `test/AttributeEnumerationTests.cpp` (4 cases).
 - **`ProtoObject::clone` now carries the own attributes and parents a MUTABLE
   receiver holds at the time of the call**, instead of the ones it was created
   with.
