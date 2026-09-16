@@ -107,8 +107,8 @@ endif()
 # per-context allocation-threshold submission. See
 # docs/archive/design-specs/2026-05-03-gc-survivor-rechain.md for the design.
 #
-# Default ON since the May 2026 audit: full protoCore (148/148) and
-# protoPython (163/163) test suites pass, and protoPython benchmarks
+# Default ON since the May 2026 audit: full protoCore (255/255) and
+# protoPython (392/392) test suites pass, and protoPython benchmarks
 # show ~14 % geomean improvement vs the OFF baseline plus a ~3.8x RSS
 # reduction on `memory_pressure`.  Configure with
 # -DPROTOCORE_GC_REINCLUDE_SURVIVORS=OFF to bisect against the previous
