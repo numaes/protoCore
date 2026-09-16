@@ -509,8 +509,37 @@ All notable changes to protoCore are documented in this file.
   64-byte cache line and the table is allocated 64-byte aligned, at a cost of
   8 KB per thread. `object_access_benchmark` used 3.6% fewer cycles with 27%
   fewer L1 data-cache misses.
+- **One codepoint pass per byte when building a string** — `buildAVL` counted
+  the codepoints of its whole byte range on entry, then discarded the count
+  whenever the range was larger than a 32-byte leaf and it recursed, so the
+  scan ran once per recursion level: 15 redundant full passes over a 1 MiB
+  buffer. The count is now taken in the leaf branch only, the one place that
+  uses it; `StringInternalNode`'s constructor already derives `total_chars`
+  and `left_chars` from its children in O(1). Every byte is scanned exactly
+  once and the rope is unchanged — same leaves, same internal nodes, same
+  depth, same per-node counts, same content hash. This is the path taken by
+  every bulk constructor (`ProtoString::fromUTF8Buffer`,
+  `ProtoStringImplementation::fromUTF8Bytes`, `ProtoString::create`,
+  `ProtoString::createSymbol`), so it speeds up every file read and every
+  embedder that builds a string from a buffer. Measured with `fromUTF8Bytes`
+  on ASCII, cells identical at every size: 9.37 to 6.82 ns/char at 467 B,
+  11.63 to 5.88 at 4 KiB, 17.25 to 6.14 at 64 KiB and 16.32 to 6.38 at 1 MiB
+  (2.6x; 17.1 ms to 6.7 ms for the whole build).
 
 ### Tests
+- `StringBuildTests` (seven cases) pins what string construction *produces*,
+  so that changes to how it is built cannot change what is built. A 42-entry
+  golden corpus — the well-formed ladder from empty to 64 KiB, 2/3/4-byte
+  sequences, combining marks, and 18 malformed-UTF-8 cases — was captured from
+  the library before the change and is checked for content bytes, codepoint
+  size, content hash, inline-versus-rope representation and rope shape (leaf
+  count, internal count, depth). Every leaf's `char_count` is recounted from
+  its own payload and every internal node's
+  `total_chars` / `left_chars` / `total_bytes` is checked against its
+  children; multi-byte sequences are built at every length around the 32-byte
+  leaf boundary; plus a 1 MiB bulk build, the inline boundary, symbol
+  interning and identity, and `fromStdString` agreeing with `fromUTF8` over
+  the whole corpus.
 - `GCRootScope` (five cases, cycles forced with a small heap limit): a probe
   cell in a live young chain and one in the survivor pen are traversed by the
   collector but never while `stwFlag` is raised (each failed against the
