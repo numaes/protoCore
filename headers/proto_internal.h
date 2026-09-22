@@ -1489,6 +1489,7 @@ namespace proto {
 
     class ProtoSparseListImplementation final : public Cell {
     public:
+        using KeyType = unsigned long;
         const unsigned long key;
         const ProtoObject *value;
         const ProtoSparseListImplementation *previous;
@@ -1553,6 +1554,7 @@ namespace proto {
      */
     class ProtoSparseListSmallImplementation final : public Cell {
     public:
+        using KeyType = unsigned long;
         static constexpr unsigned MAX_INLINE = 3;
 
         unsigned long      keys[MAX_INLINE];
