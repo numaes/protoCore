@@ -836,7 +836,10 @@ namespace proto
      * valid key and is never traced.  nullptr is not a valid key.  getAt
      * returns nullptr for an absent key, so a stored PROTO_NONE stays
      * distinguishable.  Every modifier returns a new version; old versions
-     * remain valid.
+     * remain valid.  As with ProtoSparseList, setAt of a key to its current
+     * value may still allocate a new version (callers must not rely on
+     * receiving the same pointer back), and getIterator returns nullptr for
+     * an empty map.
      */
     class ProtoSparseListObject
     {
@@ -866,7 +869,10 @@ namespace proto
      *
      * isIdentityKey: true when the language's equality for this key is
      * identity.  hash / equals: the language's hash and equality, used only for
-     * value-equality keys (equals only inside a collision bucket).  Callbacks
+     * value-equality keys (equals only inside a collision bucket).
+     * SmallInteger keys always take the value-equality path, so hash and
+     * equals are also called for them regardless of what isIdentityKey would
+     * answer (isIdentityKey is not consulted for SmallInteger keys).  Callbacks
      * run outside any GC critical section and may allocate.
      */
     struct KeySemantics {
@@ -886,6 +892,16 @@ namespace proto
      * SmallInteger keys always take the value-equality path, so the two slot
      * kinds can never collide.  Putting an existing equal key keeps the stored
      * key and replaces its value.
+     *
+     * A nullptr key is ignored silently by every function (D3): hashedPut and
+     * hashedRemove return `map`, hashedGet returns nullptr, and no callback
+     * runs.  A nullptr value in hashedPut removes the key, as
+     * ProtoSparseListObject::setAt does.
+     *
+     * A map used with these functions must be read and modified only through
+     * them (with one KeySemantics): mixing them with raw setAt / removeAt on
+     * the same map is undefined, because a raw SmallInteger key would collide
+     * with a hash slot.
      */
     const ProtoSparseListObject* hashedPut(ProtoContext* context, const ProtoSparseListObject* map,
                                            const KeySemantics& semantics, const ProtoObject* key, const ProtoObject* value);

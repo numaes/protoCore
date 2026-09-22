@@ -2,8 +2,11 @@
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
 
-#include <map>
+#include <atomic>
 #include <set>
+#include <string>
+#include <thread>
+#include <chrono>
 #include <utility>
 
 using namespace proto;
@@ -138,4 +141,165 @@ TEST(HashedCollection, HashesAbove53BitsStayEmbeddedSmallIntegerWords) {
     EXPECT_EQ(p.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_EMBEDDED_VALUE));
     EXPECT_EQ(p.op.embedded_type, static_cast<unsigned long>(EMBEDDED_TYPE_SMALLINT));
     EXPECT_EQ(p.op.value, (1UL << 54) - 1);
+}
+
+namespace {
+    std::atomic<int> gCallbackCalls{0};
+    bool countingIsIdentity(ProtoContext*, const ProtoObject*) { ++gCallbackCalls; return false; }
+    unsigned long countingHash(ProtoContext*, const ProtoObject*) { ++gCallbackCalls; return 1; }
+    bool countingEquals(ProtoContext*, const ProtoObject*, const ProtoObject*) { ++gCallbackCalls; return false; }
+    const KeySemantics kCounting{countingIsIdentity, countingHash, countingEquals};
+
+    void countPairs(ProtoContext*, void* self, const ProtoObject*, const ProtoObject*) { ++*static_cast<int*>(self); }
+}
+
+// D3 (PSLO-SPEC §7): a nullptr key is ignored silently by every entry point,
+// before any language callback runs.
+TEST(HashedCollection, NullKeyIsIgnoredWithoutCallingTheLanguage) {
+    ProtoSpace space;
+    ProtoContext* c = space.rootContext;
+    const ProtoSparseListObject* m = hashedPut(c, c->newSparseListObject(), kTest, c->fromInteger(1), c->fromInteger(10));
+    gCallbackCalls = 0;
+    EXPECT_EQ(hashedPut(c, m, kCounting, nullptr, c->fromInteger(2)), m);
+    EXPECT_EQ(hashedPut(c, m, kCounting, nullptr, nullptr), m);
+    EXPECT_EQ(hashedGet(c, m, kCounting, nullptr), nullptr);
+    EXPECT_EQ(hashedRemove(c, m, kCounting, nullptr), m);
+    EXPECT_EQ(gCallbackCalls.load(), 0);
+    int pairs = 0;
+    hashedForEach(c, m, &pairs, nullptr);                      // no visitor: no-op
+    hashedForEach(c, m, &pairs, countPairs);
+    EXPECT_EQ(pairs, 1);
+    EXPECT_EQ(m->getSize(c), 1u);
+}
+
+// A nullptr value removes the key, as ProtoSparseListObject::setAt does, on
+// both the identity path and the hashed path (single pair and collision bucket).
+TEST(HashedCollection, NullValueRemovesTheKey) {
+    ProtoSpace space;
+    ProtoContext* c = space.rootContext;
+    const ProtoObject* o = c->newObject(false);
+    const ProtoSparseListObject* m = c->newSparseListObject();
+    m = hashedPut(c, m, kTest, o, c->fromInteger(1));
+    m = hashedPut(c, m, kTest, c->fromInteger(5), c->fromInteger(2));
+    m = hashedPut(c, m, kTest, o, nullptr);
+    EXPECT_EQ(hashedGet(c, m, kTest, o), nullptr);
+    m = hashedPut(c, m, kTest, c->fromInteger(5), nullptr);
+    EXPECT_EQ(hashedGet(c, m, kTest, c->fromInteger(5)), nullptr);
+    EXPECT_EQ(m->getSize(c), 0u);
+    EXPECT_EQ(hashedPut(c, m, kTest, c->fromInteger(6), nullptr), m);   // absent: unchanged
+
+    const ProtoSparseListObject* b = c->newSparseListObject();
+    for (long i = 1; i <= 3; ++i) b = hashedPut(c, b, kColliding, c->fromInteger(i), c->fromInteger(i * 2));
+    b = hashedPut(c, b, kColliding, c->fromInteger(2), nullptr);
+    EXPECT_EQ(hashedGet(c, b, kColliding, c->fromInteger(2)), nullptr);
+    EXPECT_EQ(hashedGet(c, b, kColliding, c->fromInteger(1)), c->fromInteger(2));
+    EXPECT_EQ(hashedGet(c, b, kColliding, c->fromInteger(3)), c->fromInteger(6));
+}
+
+namespace {
+    // String keys with value equality, whose callbacks allocate: each call
+    // builds a fresh ProtoString and some garbage before answering.
+    constexpr int kGarbagePerCallback = 64;
+    std::atomic<int> gAllocatingCalls{0};
+
+    std::string contentOf(ProtoContext* c, const ProtoObject* k) {
+        // Allocates: a new string derived from the key, then read back.
+        const ProtoString* copy = k->asString(c)->appendLast(c, c->fromUTF8String("#")->asString(c));
+        for (int i = 0; i < kGarbagePerCallback; ++i) (void) c->newObject(false);
+        std::string s = copy->toStdString(c);
+        s.pop_back();   // drop the '#' suffix
+        return s;
+    }
+    bool allocIsIdentity(ProtoContext* c, const ProtoObject* k) { return !k->isString(c); }
+    unsigned long allocHash(ProtoContext* c, const ProtoObject* k) {
+        ++gAllocatingCalls;
+        const std::string s = contentOf(c, k);
+        unsigned long h = 1469598103934665603UL;
+        for (unsigned char ch : s) { h ^= ch; h *= 1099511628211UL; }
+        return h % 31;  // few slots: most lookups run equals inside a bucket
+    }
+    bool allocEquals(ProtoContext* c, const ProtoObject* a, const ProtoObject* b) {
+        ++gAllocatingCalls;
+        return contentOf(c, a) == contentOf(c, b);
+    }
+    const KeySemantics kAllocating{allocIsIdentity, allocHash, allocEquals};
+
+    const ProtoObject* keyString(ProtoContext* c, int i) {
+        return c->fromUTF8String(("allocating-key-" + std::to_string(i)).c_str());
+    }
+}
+
+// Language callbacks that allocate, under a small hard heap limit and with a
+// thread requesting collections continuously, so that cycles run while the
+// helper is between a callback and the construction of the new version.
+// The map lives only in a root set between operations; every operation runs
+// in a short-lived context whose own allocations become garbage.
+TEST(HashedCollection, AllocatingCallbacksUnderGcPressure) {
+    constexpr int kKeys = 400;
+    ProtoSpace space;
+    ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
+    ProtoRootSet* rs = space.createRootSet("hashed-allocating-callbacks");
+    ASSERT_NE(rs, nullptr);
+    ProtoRootSet::Handle pinned = rs->add(live.newSparseListObject()->asObject(&live));
+
+    auto step = [&](auto&& op) {
+        ProtoContext sub(&space, &live, nullptr, nullptr, nullptr, nullptr);
+        const ProtoSparseListObject* m = rs->resolve(pinned)->asSparseListObject(&sub);
+        const ProtoSparseListObject* next = op(&sub, m);
+        const ProtoRootSet::Handle h = rs->add(next->asObject(&sub));
+        rs->remove(pinned);
+        pinned = h;
+    };
+
+    gAllocatingCalls = 0;
+    const uint64_t startCycles = space.getGCCycleCount();
+    space.setHeapLimits(/*soft=*/0, /*hard=*/space.heapSize + 40000);
+    std::atomic<bool> stopGc{false};
+    std::thread gcKicker([&]() {
+        while (!stopGc.load(std::memory_order_relaxed)) {
+            space.triggerGC();
+            std::this_thread::sleep_for(std::chrono::microseconds(200));
+        }
+    });
+
+    for (int i = 0; i < kKeys; ++i)
+        step([&](ProtoContext* s, const ProtoSparseListObject* m) {
+            return hashedPut(s, m, kAllocating, keyString(s, i), s->fromInteger(i));
+        });
+    for (int i = 0; i < kKeys; i += 2)          // replace through an equal, distinct key
+        step([&](ProtoContext* s, const ProtoSparseListObject* m) {
+            return hashedPut(s, m, kAllocating, keyString(s, i), s->fromInteger(i * 10));
+        });
+    for (int i = 0; i < kKeys; i += 3)
+        step([&](ProtoContext* s, const ProtoSparseListObject* m) {
+            return hashedRemove(s, m, kAllocating, keyString(s, i));
+        });
+
+    // Verify one key per short-lived context: every lookup allocates in the
+    // callbacks, and a live context's young cells cannot be reclaimed.
+    int bad = 0, present = 0;
+    auto check = [&](auto&& probe) {
+        ProtoContext sub(&space, &live, nullptr, nullptr, nullptr, nullptr);
+        probe(&sub, rs->resolve(pinned)->asSparseListObject(&sub));
+    };
+    for (int i = 0; i <= kKeys; ++i)
+        check([&](ProtoContext* s, const ProtoSparseListObject* m) {
+            const ProtoObject* v = hashedGet(s, m, kAllocating, keyString(s, i));
+            if (i == kKeys || i % 3 == 0) { bad += v != nullptr; return; }   // never put / removed
+            ++present;
+            const long expected = (i % 2 == 0) ? i * 10 : i;
+            bad += (v == nullptr || !v->isInteger(s) || v->asLong(s) != expected);
+        });
+    int pairs = 0;
+    check([&](ProtoContext* s, const ProtoSparseListObject* m) { hashedForEach(s, m, &pairs, countPairs); });
+    EXPECT_EQ(pairs, present);
+    stopGc.store(true, std::memory_order_relaxed);
+    gcKicker.join();
+    space.setHeapLimits(0, 0);
+
+    EXPECT_EQ(bad, 0);
+    EXPECT_GT(gAllocatingCalls.load(), kKeys);
+    EXPECT_GE(space.getGCCycleCount() - startCycles, 3u) << "too few collections ran during the test";
+    rs->remove(pinned);
+    space.destroyRootSet(rs);
 }

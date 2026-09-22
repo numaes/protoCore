@@ -4,6 +4,10 @@
  * always run BEFORE any GC critical section is entered: they may allocate,
  * run user code and reach a safepoint.  Only the construction of the new
  * version runs inside the critical section.
+ *
+ * D3 (PSLO-SPEC §7): every entry point ignores a nullptr key silently, before
+ * any language callback runs.  A nullptr value in hashedPut removes the key,
+ * as ProtoSparseListObject::setAt does.
  */
 
 #include "../headers/proto_internal.h"
@@ -46,6 +50,8 @@ namespace proto
 
     const ProtoSparseListObject* hashedPut(ProtoContext* context, const ProtoSparseListObject* map,
                                            const KeySemantics& semantics, const ProtoObject* key, const ProtoObject* value) {
+        if (!key) return map;
+        if (!value) return hashedRemove(context, map, semantics, key);
         if (usesIdentitySlot(context, semantics, key)) return map->setAt(context, key, value);
 
         const ProtoObject* slot = hashSlotKey(semantics.hash(context, key));
@@ -69,6 +75,7 @@ namespace proto
 
     const ProtoObject* hashedGet(ProtoContext* context, const ProtoSparseListObject* map,
                                  const KeySemantics& semantics, const ProtoObject* key) {
+        if (!key) return nullptr;
         if (usesIdentitySlot(context, semantics, key)) return map->getAt(context, key);
         const ProtoObject* existing = map->getAt(context, hashSlotKey(semantics.hash(context, key)));
         if (!existing) return nullptr;
@@ -79,6 +86,7 @@ namespace proto
 
     const ProtoSparseListObject* hashedRemove(ProtoContext* context, const ProtoSparseListObject* map,
                                               const KeySemantics& semantics, const ProtoObject* key) {
+        if (!key) return map;
         if (usesIdentitySlot(context, semantics, key)) return map->removeAt(context, key);
         const ProtoObject* slot = hashSlotKey(semantics.hash(context, key));
         const ProtoObject* existing = map->getAt(context, slot);
@@ -114,6 +122,7 @@ namespace proto
 
     void hashedForEach(ProtoContext* context, const ProtoSparseListObject* map, void* self,
                        void (*fn)(ProtoContext*, void*, const ProtoObject*, const ProtoObject*)) {
+        if (!map || !fn) return;
         ForEachState state{self, fn};
         map->processElements(context, &state, visitSlot);
     }
