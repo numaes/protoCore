@@ -144,3 +144,108 @@ TEST_P(SparseListObjectGC, KeysAndContentsSurviveForcedCollections) {
 
 // 1-3 keys: Small form; 4 is the promotion boundary; 64 and 2000: AVL.
 INSTANTIATE_TEST_SUITE_P(BothForms, SparseListObjectGC, ::testing::Values(1, 3, 4, 64, 2000));
+
+namespace {
+
+constexpr int kConcBase = 32;
+constexpr int kConcThreads = 4;
+constexpr int kConcPerThread = 3000;
+
+std::atomic<unsigned long> gConcErrors{0};
+const ProtoSparseListObject* gConcBase = nullptr;
+std::vector<const ProtoObject*>* gConcBaseKeys = nullptr;
+
+// Each worker derives its own version chain from the shared base. After
+// every write it checks its own key round-trips and, every 64 iterations,
+// that the shared base is still exactly the original kConcBase pairs and
+// that its own version still carries the corresponding base pair.
+//
+// Run through ProtoSpace::newThread (never a raw std::thread) so this
+// context is a real registered ProtoThread: it is added to space->threads,
+// which the stop-the-world root scan walks independently of
+// ProtoSpace::mainContext, protecting the List and ProtoSparseListObject
+// cells this function allocates directly on `ctx` via the same young-chain
+// mechanism proven by allocatingThreadMain in GCRootScopeTests.cpp. A raw
+// std::thread building a bare ProtoContext(&space) here (as
+// ConcurrentMarkSafetyTests.cpp does) would not be registered in
+// space->threads; it would instead race other such threads on
+// ProtoSpace::mainContext, which is safe there only because that test's
+// payload is mutable objects and tagged SmallIntegers -- neither needs
+// context-based rooting. This test allocates real immutable cells, so it
+// needs the real per-thread registration.
+const ProtoObject* concWorkerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                   const ProtoList* args, const ProtoSparseList*) {
+    const long t = args->getAt(ctx, 0)->asLong(ctx);
+    const ProtoSparseListObject* mine = gConcBase;
+    for (int i = 0; i < kConcPerThread; ++i) {
+        const ProtoObject* key = ctx->newList()
+            ->appendLast(ctx, ctx->fromInteger(t * 1000000L + i))->asObject(ctx);
+        mine = mine->setAt(ctx, key, ctx->fromInteger(i));
+        if (mine->getAt(ctx, key) != ctx->fromInteger(i)) gConcErrors.fetch_add(1);
+        if (i % 64 == 0) {
+            const int b = i % kConcBase;
+            const ProtoObject* bv = gConcBase->getAt(ctx, (*gConcBaseKeys)[b]);
+            if (gConcBase->getSize(ctx) != static_cast<unsigned long>(kConcBase) ||
+                !bv || bv->asLong(ctx) != b) {
+                gConcErrors.fetch_add(1);
+            }
+            const ProtoObject* mv = mine->getAt(ctx, (*gConcBaseKeys)[b]);
+            if (!mv || mv->asLong(ctx) != b) gConcErrors.fetch_add(1);
+        }
+    }
+    if (mine->getSize(ctx) != static_cast<unsigned long>(kConcBase + kConcPerThread)) {
+        gConcErrors.fetch_add(1);
+    }
+    return PROTO_NONE;
+}
+
+}  // namespace
+
+// Several threads derive independent versions from one shared base while a
+// kicker thread keeps requesting collections. The base must stay unchanged
+// and every thread's version must hold exactly base + its own keys.
+TEST(SparseListObjectConcurrency, VersionsFromASharedBaseWhileTheGcRuns) {
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+
+    std::vector<const ProtoObject*> baseKeys;
+    const ProtoSparseListObject* base = root->newSparseListObject();
+    for (int i = 0; i < kConcBase; ++i) {
+        const ProtoObject* key = root->newList()->appendLast(root, root->fromInteger(-1 - i))->asObject(root);
+        baseKeys.push_back(key);
+        base = base->setAt(root, key, root->fromInteger(i));
+    }
+
+    gConcErrors = 0;
+    gConcBase = base;
+    gConcBaseKeys = &baseKeys;
+
+    std::atomic<bool> stopGc{false};
+    std::thread gcKicker([&]() {
+        while (!stopGc.load(std::memory_order_relaxed)) {
+            space.triggerGC();
+            std::this_thread::sleep_for(std::chrono::microseconds(200));
+        }
+    });
+
+    std::vector<const ProtoThread*> workers;
+    for (int t = 0; t < kConcThreads; ++t) {
+        const ProtoList* args = root->newList()->appendLast(root, root->fromInteger(t));
+        workers.push_back(space.newThread(root, ProtoString::createSymbol(root, "pslo-concurrency-worker"),
+                                           concWorkerMain, args, nullptr));
+    }
+    {
+        ProtoContext::UnmanagedScope parked(root);
+        for (const ProtoThread* w : workers) const_cast<ProtoThread*>(w)->join(root);
+    }
+
+    stopGc.store(true, std::memory_order_relaxed);
+    gcKicker.join();
+
+    EXPECT_EQ(gConcErrors.load(), 0u);
+    EXPECT_EQ(base->getSize(root), static_cast<unsigned long>(kConcBase));
+    for (int i = 0; i < kConcBase; ++i) EXPECT_EQ(base->getAt(root, baseKeys[i])->asLong(root), i);
+
+    gConcBase = nullptr;
+    gConcBaseKeys = nullptr;
+}
