@@ -201,4 +201,77 @@ namespace proto
     {
         forEachPair(this, [&](const ProtoObject*, const ProtoObject* v) { method(context, self, v); });
     }
+
+    //=========================================================================
+    // ProtoSparseListObjectIteratorImplementation
+    //=========================================================================
+    ProtoSparseListObjectIteratorImplementation::ProtoSparseListObjectIteratorImplementation(
+        ProtoContext* context, int s, const ProtoSparseListObjectImplementation* c,
+        const ProtoSparseListObjectIteratorImplementation* q)
+        : Cell(context), state(s), current(c), queue(q) {}
+
+    int ProtoSparseListObjectIteratorImplementation::implHasNext() const {
+        return state == ITERATOR_NEXT_THIS && current && !current->isEmpty;
+    }
+
+    const ProtoObject* ProtoSparseListObjectIteratorImplementation::implNextKey() const {
+        return (state == ITERATOR_NEXT_THIS && current) ? current->key : nullptr;
+    }
+
+    const ProtoObject* ProtoSparseListObjectIteratorImplementation::implNextValue() const {
+        return (state == ITERATOR_NEXT_THIS && current) ? current->value : nullptr;
+    }
+
+    const ProtoSparseListObjectIteratorImplementation*
+    ProtoSparseListObjectIteratorImplementation::implAdvance(ProtoContext* context) const {
+        if (state != ITERATOR_NEXT_THIS) return nullptr;
+        if (current && current->next && !current->next->isEmpty) {
+            ProtoContext::CriticalSection cs(context);
+            return sparse_avl::iteratorWithQueue(context, current->next, queue);
+        }
+        return queue;
+    }
+
+    void ProtoSparseListObjectIteratorImplementation::processReferences(
+        ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
+    {
+        if (current) method(context, self, current);
+        if (queue) method(context, self, queue);
+    }
+
+    // D1 = (a): the iterator handle is the raw cell address and is never a
+    // ProtoObject word.  This function exists only because Cell requires it;
+    // it is used solely to form the C++ handle above.  No ProtoObject API
+    // (getPrototype, getAttribute, asObject) is offered for this handle, so
+    // no tag-0 non-ProtoObjectCell word can reach the attribute chain
+    // (proto_internal.h, "Pointer tag layout", #92).
+    const ProtoObject* ProtoSparseListObjectIteratorImplementation::implAsObject(ProtoContext*) const {
+        return reinterpret_cast<const ProtoObject*>(this);
+    }
+
+    const ProtoSparseListObjectIterator* ProtoSparseListObject::getIterator(ProtoContext* context) const {
+        ProtoContext::CriticalSection cs(context);
+        const Node* root = isSmall(this)
+            ? sparse_avl::smallPromote<Small, Node>(context, smallOf(this))   // as ProtoSparseList does
+            : avlOf(this);
+        const ProtoSparseListObjectIteratorImplementation* impl =
+            sparse_avl::iteratorWithQueue(context, root,
+                static_cast<const ProtoSparseListObjectIteratorImplementation*>(nullptr));
+        return impl ? reinterpret_cast<const ProtoSparseListObjectIterator*>(impl->implAsObject(context)) : nullptr;
+    }
+
+    namespace {
+        inline const ProtoSparseListObjectIteratorImplementation* iterImpl(const ProtoSparseListObjectIterator* it) {
+            return toImpl<const ProtoSparseListObjectIteratorImplementation>(it);
+        }
+    }
+
+    int ProtoSparseListObjectIterator::hasNext(ProtoContext*) const { if (!this) return 0; return iterImpl(this)->implHasNext(); }
+    const ProtoObject* ProtoSparseListObjectIterator::nextKey(ProtoContext*) const { if (!this) return nullptr; return iterImpl(this)->implNextKey(); }
+    const ProtoObject* ProtoSparseListObjectIterator::nextValue(ProtoContext*) const { if (!this) return nullptr; return iterImpl(this)->implNextValue(); }
+    const ProtoSparseListObjectIterator* ProtoSparseListObjectIterator::advance(ProtoContext* context) const {
+        if (!this) return nullptr;
+        const auto* n = iterImpl(this)->implAdvance(context);
+        return n ? reinterpret_cast<const ProtoSparseListObjectIterator*>(n->implAsObject(context)) : nullptr;
+    }
 }

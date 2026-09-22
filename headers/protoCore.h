@@ -809,6 +809,23 @@ namespace proto
     };
 
     /**
+     * @class ProtoSparseListObjectIterator
+     * @brief Ascending key-word iteration over a ProtoSparseListObject version.
+     *
+     * Maintainer option D1 = (a): this handle is an unboxed C++ pointer, not a
+     * ProtoObject word. It offers no `asObject`/object-model API and is never
+     * given to the attribute chain.
+     */
+    class ProtoSparseListObjectIterator
+    {
+    public:
+        int hasNext(ProtoContext* context) const;
+        const ProtoObject* nextKey(ProtoContext* context) const;
+        const ProtoObject* nextValue(ProtoContext* context) const;
+        const ProtoSparseListObjectIterator* advance(ProtoContext* context) const;
+    };
+
+    /**
      * @class ProtoSparseListObject
      * @brief Persistent map from `const ProtoObject*` keys to values.
      *
