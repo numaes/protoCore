@@ -62,7 +62,13 @@ namespace proto
     //=========================================================================
     ProtoSparseListImplementation::ProtoSparseListImplementation(ProtoContext* context, unsigned long k, const ProtoObject* v, const ProtoSparseListImplementation* p, const ProtoSparseListImplementation* n, bool empty)
         : Cell(context), key(k), value(v), previous(p), next(n),
-          // P8 — `hash` is retained for ABI / cell-layout stability only.
+          // P8 — `hash` was only used to propagate up the tree during
+          // construction; it is never read externally and never queried
+          // for SparseList equality.  Computing it required a virtual
+          // `v->getHash(context)` per node (which inside ProtoObject::getHash
+          // triggers the isString chain probe — 3.78 % of bench CPU
+          // before this change).  Set to 0; the field is retained for
+          // ABI / cell-layout stability but no longer drives a virtual.
           hash(0),
           size(empty ? 0 : (v != nullptr) + sparse_avl::nodeSize(p) + sparse_avl::nodeSize(n)),
           height(empty ? 0 : 1 + std::max(sparse_avl::nodeHeight(p), sparse_avl::nodeHeight(n))),
