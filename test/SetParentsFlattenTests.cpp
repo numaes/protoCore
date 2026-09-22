@@ -34,7 +34,10 @@
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
+#include <atomic>
 #include <stdexcept>
+#include <thread>
+#include <vector>
 
 using namespace proto;
 
@@ -235,8 +238,19 @@ TEST_F(SetParentsFlattenTest, MutualMutableCycleThrows) {
 
 TEST_F(SetParentsFlattenTest, DirectSelfReferenceThrows) {
     auto* a = const_cast<ProtoObject*>(context->newObject(true));
+    const ProtoObject* priorParent = context->newObject(false);
+    a->setParents(context, context->newList()->appendLast(context, priorParent));
+
     const ProtoList* selfList = context->newList()->appendLast(context, a);
     EXPECT_THROW(a->setParents(context, selfList), std::invalid_argument);
+
+    // The receiver is left exactly as it was before the failed call: the
+    // exception is thrown while computing the flattened order, before the
+    // critical section that builds the chain even opens, so nothing was
+    // ever published to a's mutable shard.
+    expectChainOrder(a, {priorParent});
+    EXPECT_EQ(a->hasParent(context, priorParent), 1);
+    EXPECT_EQ(a->hasParent(context, a), 1) << "trivial self-case, unaffected either way";
 }
 
 // An immutable receiver can never become its own ancestor: setParents on
@@ -256,4 +270,176 @@ TEST_F(SetParentsFlattenTest, ImmutableReceiverInItsOwnNewParentsListDoesNotThro
     // reference to the OLD `a` handle, a different, ordinary ancestor of
     // the NEW `a`, not a self-reference.
     expectChainOrder(newA, {b, a});
+}
+
+// --- I3: setParents' ordering differs from addParent's ---------------------
+//
+// setParents appends ALL missing ancestors AFTER ALL listed parents;
+// addParent, called once per parent, interleaves each call's own missing
+// ancestors immediately after that call's parent. Demonstrated here with
+// the exact shape documented in addParent's header doc comment: b has its
+// own ancestor ba, c has its own ancestor ca, neither ba nor ca is listed
+// directly. Both ba and ca define the SAME attribute name with DIFFERENT
+// values, so the ordering difference is directly observable as an
+// attribute-precedence difference, not just a getParents() order
+// difference.
+TEST_F(SetParentsFlattenTest, OrderingDiffersFromAddParentAndAffectsAttributePrecedence) {
+    const ProtoString* sharedAttr = sym("shared");
+
+    const ProtoObject* ba = context->newObject(false);
+    ba = ba->setAttribute(context, sharedAttr, context->fromInteger(1));
+    const ProtoObject* b = ba->newChild(context); // b.chain = [ba]
+
+    const ProtoObject* ca = context->newObject(false);
+    ca = ca->setAttribute(context, sharedAttr, context->fromInteger(2));
+    const ProtoObject* c = ca->newChild(context); // c.chain = [ca]
+
+    // addParent, called once per parent: d.addParent(b); d.addParent(c);
+    // interleaves each call's own ancestor right after that call's parent:
+    // [c, ca, b, ba] — ca (attribute value 2) appears BEFORE b.
+    const ProtoObject* dAdd = context->newObject(false);
+    const ProtoObject* dAddB = dAdd->addParent(context, b);
+    const ProtoObject* dAddFinal = dAddB->addParent(context, c);
+    expectChainOrder(dAddFinal, {c, ca, b, ba});
+    EXPECT_EQ(dAddFinal->getAttribute(context, sharedAttr), context->fromInteger(2))
+        << "addParent: ca (from the LAST-added parent, c) shadows ba";
+
+    // setParents with the SAME listed parents, in the SAME order [c, b]:
+    // appends ALL listed parents first, THEN all missing ancestors, in
+    // listed-parent order: [c, b, ca, ba] — ca now appears AFTER b.
+    const ProtoObject* dSetBase = context->newObject(false);
+    const ProtoList* plist = context->newList()->appendLast(context, c)->appendLast(context, b);
+    const ProtoObject* dSetFinal = dSetBase->setParents(context, plist);
+    expectChainOrder(dSetFinal, {c, b, ca, ba});
+    EXPECT_EQ(dSetFinal->getAttribute(context, sharedAttr), context->fromInteger(2))
+        << "setParents: c (listed first) still wins directly, but via a "
+           "different chain shape than addParent's";
+
+    // A case where the difference actually flips the winning value: c's
+    // own ancestor ca would, under addParent's interleaving, be checked
+    // BEFORE b -- but under setParents it is checked AFTER b, so if b
+    // ALSO defined `shared`, addParent and setParents would disagree on
+    // the result. Demonstrate directly: b itself (not ba) defines shared.
+    const ProtoObject* bWithAttr = ba->newChild(context);
+    const_cast<ProtoObject*>(bWithAttr); // still immutable; rebuild below
+    const ProtoObject* bSelf = ba->newChild(context);
+    bSelf = bSelf->setAttribute(context, sharedAttr, context->fromInteger(3));
+
+    const ProtoObject* dAdd2 = context->newObject(false);
+    dAdd2 = dAdd2->addParent(context, bSelf);
+    dAdd2 = dAdd2->addParent(context, c);
+    // addParent order: [c, ca, bSelf, ba] -- c itself has no OWN
+    // "shared" attribute, so lookup falls through to ca (value 2) before
+    // ever reaching bSelf's own "shared" (value 3).
+    EXPECT_EQ(dAdd2->getAttribute(context, sharedAttr), context->fromInteger(2));
+
+    const ProtoObject* dSet2Base = context->newObject(false);
+    const ProtoList* plist2 = context->newList()->appendLast(context, c)->appendLast(context, bSelf);
+    const ProtoObject* dSet2 = dSet2Base->setParents(context, plist2);
+    // setParents order: [c, bSelf, ca, ba] -- bSelf (listed, position 2)
+    // is checked BEFORE ca (an ancestor, appended after all listed
+    // parents), so bSelf's own "shared" (value 3) wins instead.
+    EXPECT_EQ(dSet2->getAttribute(context, sharedAttr), context->fromInteger(3))
+        << "setParents and addParent disagree on which value wins here -- "
+           "exactly the documented ordering difference";
+}
+
+// --- I6: concurrency -----------------------------------------------------
+//
+// Several threads call setParents on ONE shared mutable object, each with
+// its own, mutually-unrelated single parent candidate (so none of these
+// calls is ever a genuine cycle), while another thread concurrently reads
+// getParents/isInstanceOf/hasParent. Nothing must crash, no read may ever
+// observe a torn/partial chain (more than one entry, or an entry that is
+// not one of the candidates), and no writer may see a spurious
+// std::invalid_argument (a "cycle" false positive) — these candidates
+// share no ancestry with each other or with the receiver.
+TEST_F(SetParentsFlattenTest, ConcurrentSetParentsWithConcurrentReadsIsSafe) {
+    constexpr int kThreads = 4;
+    constexpr int kIterPerThread = 1500;
+
+    auto* m = const_cast<ProtoObject*>(context->newObject(true));
+
+    std::vector<const ProtoObject*> candidates;
+    for (int t = 0; t < kThreads; ++t) {
+        candidates.push_back(context->newObject(false));
+    }
+
+    std::atomic<bool> stop{false};
+    std::atomic<int> unexpectedThrows{0};
+    std::atomic<int> tornReads{0};
+
+    std::thread reader([&]() {
+        // Each check below is a SINGLE call: it observes m's state at one
+        // instant. Two SEPARATE calls (e.g. getParents() then hasParent())
+        // can legitimately observe DIFFERENT states under a concurrent
+        // writer -- that is not tearing, just an ordinary lock-free race,
+        // and comparing them would be a false positive in the TEST, not a
+        // bug in the code. What must never happen, from any SINGLE call,
+        // is a corrupted/partial result: getParents() returning more than
+        // one entry (only ever one candidate is ever set at a time) or an
+        // entry that is not one of the known candidates; isInstanceOf
+        // returning anything other than PROTO_TRUE/PROTO_NONE; or a crash.
+        ProtoContext readerCtx{space};
+        int rotate = 0;
+        while (!stop.load(std::memory_order_relaxed)) {
+            const ProtoList* parents = m->getParents(&readerCtx);
+            long size = parents->getSize(&readerCtx);
+            if (size > 1) {
+                tornReads.fetch_add(1, std::memory_order_relaxed);
+            } else if (size == 1) {
+                const ProtoObject* p = parents->getAt(&readerCtx, 0);
+                bool matches = false;
+                for (const ProtoObject* c : candidates) {
+                    if (c == p) { matches = true; break; }
+                }
+                if (!matches) tornReads.fetch_add(1, std::memory_order_relaxed);
+            }
+
+            const ProtoObject* target = candidates[rotate % candidates.size()];
+            ++rotate;
+            const ProtoObject* result = m->isInstanceOf(&readerCtx, target);
+            if (result != PROTO_TRUE && result != PROTO_NONE) {
+                tornReads.fetch_add(1, std::memory_order_relaxed);
+            }
+            int has = m->hasParent(&readerCtx, target);
+            if (has != 0 && has != 1) {
+                tornReads.fetch_add(1, std::memory_order_relaxed);
+            }
+        }
+    });
+
+    std::vector<std::thread> workers;
+    workers.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        workers.emplace_back([&, t]() {
+            ProtoContext threadCtx{space};
+            const ProtoList* singleParent = threadCtx.newList()->appendLast(&threadCtx, candidates[t]);
+            for (int i = 0; i < kIterPerThread; ++i) {
+                try {
+                    m->setParents(&threadCtx, singleParent);
+                } catch (const std::invalid_argument&) {
+                    unexpectedThrows.fetch_add(1, std::memory_order_relaxed);
+                }
+            }
+        });
+    }
+
+    for (auto& th : workers) th.join();
+    stop.store(true, std::memory_order_relaxed);
+    reader.join();
+
+    EXPECT_EQ(unexpectedThrows.load(), 0)
+        << "none of these candidates share any ancestry; no call here is a real cycle";
+    EXPECT_EQ(tornReads.load(), 0);
+
+    // Final state: exactly one of the candidates, whichever write landed last.
+    const ProtoList* finalParents = m->getParents(context);
+    ASSERT_EQ(finalParents->getSize(context), 1);
+    const ProtoObject* finalParent = finalParents->getAt(context, 0);
+    bool finalMatches = false;
+    for (const ProtoObject* c : candidates) {
+        if (c == finalParent) { finalMatches = true; break; }
+    }
+    EXPECT_TRUE(finalMatches);
 }

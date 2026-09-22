@@ -98,9 +98,66 @@ namespace proto
          * attribute table to copy.
          */
         const ProtoObject* clone(ProtoContext* context, bool isMutable = false) const;
+        /**
+         * @brief Creates a new object whose immediate parent is `this`.
+         *
+         * The new object's own chain is `{this} ∪ this's own chain at the
+         * moment of THIS call` — captured BY VALUE, once, here. `this` is
+         * resolved to its CURRENT snapshot first when it is mutable (the
+         * handle cell's own `parent` field is fixed at `newObject(true)`
+         * time and never updated in place — mutation publishes a fresh
+         * state into the mutable shard instead — so reading it directly
+         * would silently drop every ancestor `this` gained afterwards via
+         * `addParent`/`setParents`).
+         *
+         * A consequence of capturing by value: a LATER re-parenting of
+         * `this` (e.g. `cls->setParents(ctx, [newBase])` after
+         * `inst = cls->newChild(ctx)` already exists) is NOT retroactively
+         * seen by `inst` — only by children created AFTER the
+         * re-parenting. This is the standard "capture at creation time"
+         * semantics protoST's `addBehavior:` documents relying on for ITS
+         * OWN "future instances" contract (protoST/src/primitives/
+         * object_prims.cpp, the D21 "DOCUMENTED LIMITATION" comment) — that
+         * mechanism rebuilds the class as a fresh object and rebinds the
+         * class name to it, so it never depended on `newChild` observing a
+         * mutation of an EXISTING class object, and is unaffected by this
+         * fix either way. What this fix DOES correct is the narrower,
+         * separately-documented "PROTOCORE CONSTRAINT" a few lines above
+         * that comment: mutating an EXISTING mutable class directly via
+         * `addParent`/`setParents` used to be invisible to instances
+         * created after the mutation too (not just ones created before) —
+         * `newChild` always read the class handle's stale, pre-first-
+         * mutation `parent` field, never its current snapshot. That is now
+         * fixed: a direct `addParent`/`setParents` on an existing mutable
+         * class is visible to instances created afterwards, matching the
+         * ordinary "capture at creation time" rule above.
+         */
         const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
         //- Attributes
+        /**
+         * @brief Looks up `name`, in this object's own attributes first,
+         * then along its parent chain (own chain first, head to tail).
+         *
+         * **Caps at 500 chain steps** (core/ProtoObject.cpp, the
+         * `iterationCount > 500` check in the chain-navigation loop) and
+         * returns `PROTO_NONE` ("not found") if exceeded — a hierarchy
+         * with more than 500 direct ancestor entries gives a WRONG answer
+         * (a false negative) rather than the correct one, the same class
+         * of bug `isInstanceOf`'s old 50-step cap had. `isInstanceOf` and
+         * `hasParent` have NO such cap (this round removed it from both);
+         * `getAttribute` still has one, so for a receiver whose own chain
+         * is longer than 500 entries, `isInstanceOf`/`hasParent` can
+         * report an ancestor present that `getAttribute` fails to find an
+         * attribute through — they do NOT unconditionally agree. Whether
+         * this cap can be safely removed too is a separate decision:
+         * nothing about the current chain invariants (every chain is flat
+         * and finite by construction, and `setParents` rejects a self-
+         * referential result — see `setParents` below) makes a longer
+         * chain unsafe to walk, so the cap looks like the same
+         * unnecessary conservatism `isInstanceOf`'s cap was — but that
+         * call is for the maintainer, not made here.
+         */
         const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks = true) const;
         const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
@@ -234,22 +291,61 @@ namespace proto
          * object's own (single-level) parent chain?
          *
          * Allocation-free: walks `oc->parent` directly instead of building
-         * a `ProtoList` via `getParents()`. No step limit (there never was
-         * one for this scan).
+         * a `ProtoList` via `getParents()`. No step limit.
          *
          * This is a single-level scan of the receiver's own chain — but
          * `newChild`, `addParent` and `setParents` all guarantee that an
          * object's own chain already contains every one of its ancestors
-         * as a direct entry, so in practice this already answers the full,
-         * transitive "is-ancestor" question and agrees with `isInstanceOf`
-         * and with what `getAttribute` can see (modulo the `target == this`
-         * case, which `isInstanceOf` does not special-case — an object is
-         * not its own instance).
+         * as a direct entry, so in practice this answers the full,
+         * transitive "is-ancestor" question, including for an object
+         * created (via `newChild`) from a MUTABLE prototype that was
+         * re-parented AFTER that object's creation: `newChild` resolves
+         * the prototype's CURRENT snapshot when capturing the child's
+         * chain, so the child's own chain already carries whatever
+         * ancestors the prototype had as of the child's creation. (An
+         * object created BEFORE a later re-parenting does not
+         * retroactively gain the new ancestor, by design — see
+         * `newChild`.)
+         *
+         * Agrees with `isInstanceOf` (modulo the `target == this` case,
+         * which `isInstanceOf` does not special-case — an object is not
+         * its own instance) and with what `getAttribute` finds, WITH ONE
+         * EXCEPTION: `getAttribute` still caps its walk at 500 chain
+         * steps (see its own doc comment) and `hasParent`/`isInstanceOf`
+         * do not, so for a receiver with more than 500 own-chain entries
+         * they can report an ancestor `getAttribute` fails to reach.
          *
          * A mutable receiver is resolved to its current snapshot first, so
          * the answer reflects the object's current version's chain.
          */
         int hasParent(ProtoContext* context, const ProtoObject* target) const;
+        /**
+         * @brief Adds `newParent` (and, transitively, every one of ITS OWN
+         * ancestors not already present) as a parent of this object,
+         * flattened, prepended in front of the existing chain.
+         *
+         * **Ordering differs from `setParents`.** For a SINGLE call this
+         * inserts, in order: `newParent`, then `newParent`'s own ancestors
+         * (in their own chain order) not already present, all prepended in
+         * front of whatever chain `this` already had. Calling `addParent`
+         * MULTIPLE times therefore INTERLEAVES each call's own ancestors
+         * immediately after that call's parent and before the PREVIOUS
+         * call's block: `d->addParent(ctx, b); d->addParent(ctx, c);`
+         * (with `b`'s own ancestor `ba` and `c`'s own ancestor `ca`, both
+         * not already present) yields `[c, ca, b, ba, ...]` — `ca`
+         * appears BEFORE `b`.
+         *
+         * `setParents(ctx, [c, b])` with the SAME ancestries instead
+         * appends ALL listed parents FIRST, then ALL of their missing
+         * ancestors AFTER, in listed-parent order: `[c, b, ca, ba]` — `ca`
+         * appears AFTER `b`. Since attribute lookup walks the chain head
+         * to tail and the first match wins, this changes attribute
+         * PRECEDENCE whenever `ca` (or `ba`) also defines an attribute `b`
+         * (or `c`) itself defines: `addParent`-built chains let a parent's
+         * OWN ancestor shadow a LATER-added parent for that attribute;
+         * `setParents`-built chains never let any listed parent's ancestor
+         * shadow another LISTED parent — only another ancestor.
+         */
         const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent) const;
         const ProtoObject* addParentInternal(ProtoContext* context, const ProtoObject* newParent) const;
         /**
@@ -268,12 +364,23 @@ namespace proto
          * parents were listed — that is not already present. This gives
          * `setParents` the same invariant `newChild`/`addParent` already
          * guarantee (an object's own chain always contains every one of
-         * its ancestors as a direct entry), so `getAttribute`,
-         * `isInstanceOf` and `hasParent` always agree on what this object
-         * inherits. A list that already contains every ancestor of every
-         * listed parent (e.g. a full linearization) is unaffected by step
-         * 2 and installs exactly as given — a no-op relative to the old
-         * verbatim behaviour.
+         * its ancestors as a direct entry), so `getAttribute` (within its
+         * 500-step cap — see its own doc comment), `isInstanceOf` and
+         * `hasParent` all see the same ancestor set for this object. A
+         * list that already contains every ancestor of every listed parent
+         * (e.g. a full linearization) is unaffected by step 2 and installs
+         * exactly as given, in the exact same order — a no-op relative to
+         * the old verbatim behaviour.
+         *
+         * **Ordering differs from `addParent`'s** whenever a listed
+         * parent's own ancestor is not already present: `setParents`
+         * appends ALL missing ancestors AFTER ALL listed parents (step 2
+         * runs after step 1 completes for every entry), while `addParent`
+         * interleaves each call's own missing ancestors immediately after
+         * that call's parent. See `addParent`'s doc comment for a worked
+         * example — the difference changes attribute lookup precedence
+         * whenever a listed parent and another listed parent's ancestor
+         * both define the same attribute name.
          *
          * - For an immutable object, returns a freshly-built handle
          *   sharing the same attributes but with the rebuilt parent
@@ -309,14 +416,25 @@ namespace proto
          * allocation it required).
          *
          * A pure, allocation-free linear scan of the receiver's own chain —
-         * the same one `getAttribute` walks — with no recursion and no
-         * length limit. This is sufficient and exact because `newChild`,
-         * `addParent` AND `setParents` all guarantee that an object's own
-         * chain already contains every one of its ancestors as a direct
-         * entry (core/ProtoObject.cpp:398-423, 1191-1226 and 208-296 for
-         * `setParents`'s flattening) — there is no longer a construction
-         * path that leaves an ancestor reachable only through a visited
-         * parent's own separate chain, so no recursive probe is needed.
+         * the same one `getAttribute` walks, but with NO 500-step cap (see
+         * `getAttribute`'s own doc comment — this is the one place the two
+         * do not necessarily agree) — with no recursion. This scan alone
+         * is sufficient and exact because `newChild`, `addParent` AND
+         * `setParents` all guarantee that an object's own chain already
+         * contains every one of its ancestors as a direct entry — there is
+         * no construction path that leaves an ancestor reachable only
+         * through a visited parent's own separate chain, so no recursive
+         * probe is needed.
+         *
+         * An object with NO parent chain of its own (never `newChild`'d or
+         * `addParent`'d/`setParents`'d anything) still answers `PROTO_TRUE`
+         * for `space->objectPrototype` — the same universal-root fallback
+         * `getPrototype` applies for a parentless object cell — UNLESS the
+         * receiver IS `objectPrototype` itself (which is not its own
+         * instance). This fallback applies only at this top level: an
+         * object WITH an explicit chain of its own is not implicitly
+         * rooted at `objectPrototype` unless its own construction put it
+         * there (e.g. via `addParent`).
          *
          * A mutable receiver is resolved to its current snapshot first
          * (`getPrototype` does not do this), so the answer reflects the
@@ -325,12 +443,14 @@ namespace proto
          * Non-object receivers (SmallInteger, strings, lists, ...) are
          * answered through their prototype: `x.isInstanceOf(ctx, p)` is
          * `x.getPrototype(ctx) == p || <p is an ancestor of
-         * x.getPrototype(ctx)>`.
+         * x.getPrototype(ctx)>`. (The universal-root fallback above does
+         * NOT additionally apply here beyond what `getPrototype` itself
+         * already resolves to for the receiver's embedded type.)
          *
-         * `hasParent` answers the same question with a narrower interface
-         * (`int`, and `target == this` is also true) — pick whichever
-         * return convention the call site wants; both scan the same,
-         * always-complete chain.
+         * `hasParent` answers a closely related question with a narrower
+         * interface (`int`, and `target == this` is also true, and it has
+         * no universal-root fallback of its own — see its doc comment) —
+         * pick whichever return convention the call site wants.
          */
         const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 

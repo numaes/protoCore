@@ -280,3 +280,105 @@ TEST_F(InstanceOfHasParentTest, StringAnsweredThroughPrototype) {
     EXPECT_EQ(str->isInstanceOf(context, context->space->stringPrototype), PROTO_TRUE);
     EXPECT_EQ(str->isInstanceOf(context, context->space->listPrototype), PROTO_NONE);
 }
+
+// --- C1: newChild from a MUTABLE prototype must see its CURRENT chain -----
+//
+// newChild used to read the prototype handle cell's own `parent` field
+// directly, which for a mutable object is fixed at newObject(true) time and
+// never updated in place (mutation publishes into the mutable shard
+// instead) -- so a child of a mutable class that was reparented AFTER the
+// class was made mutable (but still BEFORE the child was created) silently
+// lost every ancestor. Fixed by resolving the prototype's current snapshot
+// first, matching getAttribute/getParents/hasParent/isInstanceOf.
+
+TEST_F(InstanceOfHasParentTest, NewChildFromMutableClassSeesAncestorsAddedBeforeCreation) {
+    const ProtoString* baseAttr = sym("baseAttr");
+    const ProtoObject* base = context->newObject(false);
+    base = base->setAttribute(context, baseAttr, context->fromInteger(11));
+
+    auto* cls = const_cast<ProtoObject*>(context->newObject(true));
+    cls->setParents(context, context->newList()->appendLast(context, base));
+
+    const ProtoObject* inst = cls->newChild(context);
+
+    EXPECT_EQ(inst->isInstanceOf(context, base), PROTO_TRUE);
+    EXPECT_EQ(inst->hasParent(context, base), 1);
+    EXPECT_EQ(inst->getAttribute(context, baseAttr), context->fromInteger(11));
+}
+
+// protoPython's exact pattern: newObject(true), then addParent (not
+// setParents), then newChild for each instance.
+TEST_F(InstanceOfHasParentTest, NewChildFromMutableClassBuiltWithAddParent) {
+    const ProtoString* baseAttr = sym("baseAttr");
+    const ProtoObject* base = context->newObject(false);
+    base = base->setAttribute(context, baseAttr, context->fromInteger(22));
+
+    auto* cls = const_cast<ProtoObject*>(context->newObject(true));
+    cls->addParent(context, base);
+
+    const ProtoObject* inst1 = cls->newChild(context);
+    const ProtoObject* inst2 = cls->newChild(context, /*isMutable=*/true);
+
+    EXPECT_EQ(inst1->isInstanceOf(context, base), PROTO_TRUE);
+    EXPECT_EQ(inst1->getAttribute(context, baseAttr), context->fromInteger(22));
+    EXPECT_EQ(inst2->isInstanceOf(context, base), PROTO_TRUE);
+    EXPECT_EQ(inst2->getAttribute(context, baseAttr), context->fromInteger(22));
+}
+
+// A mutable class re-parented AFTER an instance already exists: the
+// EXISTING instance's chain was captured by value at its own creation and
+// does NOT retroactively gain the new ancestor; a NEW instance created
+// AFTER the re-parenting DOES see it. This is the "capture at creation
+// time" contract newChild's doc comment states, and the shape protoST's
+// object_prims.cpp (D21) documents relying on for its OWN "future
+// instances" semantics.
+TEST_F(InstanceOfHasParentTest, MutableClassReparentedAfterInstanceExists) {
+    const ProtoObject* oldBase = context->newObject(false);
+    const ProtoObject* newBase = context->newObject(false);
+
+    auto* cls = const_cast<ProtoObject*>(context->newObject(true));
+    cls->setParents(context, context->newList()->appendLast(context, oldBase));
+
+    const ProtoObject* earlyInstance = cls->newChild(context);
+    ASSERT_EQ(earlyInstance->isInstanceOf(context, oldBase), PROTO_TRUE);
+
+    // Re-parent the class.
+    cls->setParents(context, context->newList()->appendLast(context, newBase));
+
+    // The early instance's chain is unaffected.
+    EXPECT_EQ(earlyInstance->isInstanceOf(context, oldBase), PROTO_TRUE);
+    EXPECT_EQ(earlyInstance->isInstanceOf(context, newBase), PROTO_NONE)
+        << "an instance created before a re-parenting does not "
+           "retroactively see the new ancestor";
+
+    // A new instance, created after the re-parenting, sees the new base
+    // and NOT the old one.
+    const ProtoObject* lateInstance = cls->newChild(context);
+    EXPECT_EQ(lateInstance->isInstanceOf(context, newBase), PROTO_TRUE);
+    EXPECT_EQ(lateInstance->isInstanceOf(context, oldBase), PROTO_NONE);
+}
+
+// --- C2: universal-root fallback --------------------------------------
+
+TEST_F(InstanceOfHasParentTest, ParentlessObjectIsInstanceOfObjectPrototype) {
+    const ProtoObject* plain = context->newObject(false);
+    EXPECT_EQ(plain->isInstanceOf(context, context->space->objectPrototype), PROTO_TRUE);
+
+    auto* plainMutable = const_cast<ProtoObject*>(context->newObject(true));
+    EXPECT_EQ(plainMutable->isInstanceOf(context, context->space->objectPrototype), PROTO_TRUE);
+}
+
+TEST_F(InstanceOfHasParentTest, ObjectPrototypeIsNotItsOwnInstance) {
+    EXPECT_EQ(context->space->objectPrototype->isInstanceOf(context, context->space->objectPrototype), PROTO_NONE);
+}
+
+TEST_F(InstanceOfHasParentTest, ObjectWithExplicitChainIsNotImplicitlyRootedAtObjectPrototype) {
+    // An object with an explicit chain of its own is NOT implicitly
+    // considered a descendant of objectPrototype unless its own
+    // construction put objectPrototype there — the universal-root
+    // fallback applies only to a genuinely parentless object.
+    const ProtoObject* base = context->newObject(false);
+    const ProtoObject* child = base->newChild(context);
+
+    EXPECT_EQ(child->isInstanceOf(context, context->space->objectPrototype), PROTO_NONE);
+}

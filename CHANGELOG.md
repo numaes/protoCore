@@ -160,6 +160,137 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::newChild` now captures a MUTABLE prototype's CURRENT
+  chain, not its birth-time chain — fixing instances of a mutable class
+  that was re-parented after the class was made mutable.**
+
+  `newChild` read the prototype handle cell's own `parent` field directly.
+  For a mutable object that field is fixed at `newObject(true)` time and
+  never updated in place (`addParent`/`setParents` publish a fresh state
+  into the mutable shard instead), so `cls = newObject(true);
+  cls->setParents(ctx, [base]); inst = cls->newChild(ctx)` silently built
+  `inst` with NO ancestors at all: `inst->isInstanceOf(ctx, base)` was
+  `PROTO_NONE` and `inst->getAttribute` never found any of `base`'s
+  attributes. `newChild` now resolves the prototype to its current
+  snapshot first (the same resolution `getAttribute`/`getParents`/
+  `hasParent`/`isInstanceOf` already used), matching how every other
+  chain-reading method treats a mutable object.
+
+  The child's chain tail is still captured BY VALUE, once, at the moment
+  of the `newChild` call: an instance created BEFORE a later re-parenting
+  of its class does NOT retroactively gain the new ancestor; only
+  instances created AFTER do. This is ordinary "capture at creation time"
+  semantics, and matches the shape protoST's `addBehavior:` mechanism
+  documents relying on for its own "future instances" contract
+  (`protoST/src/primitives/object_prims.cpp`, the D21 "DOCUMENTED
+  LIMITATION" comment) — that mechanism rebuilds the class as a fresh
+  object rather than mutating an existing one, so it never depended on
+  `newChild` observing a mutation of an EXISTING class object and is
+  unaffected by this fix either way. What this fix DOES retire is the
+  narrower "PROTOCORE CONSTRAINT" documented a few lines above that
+  comment in the same file: mutating an EXISTING mutable class directly
+  via `addParent`/`setParents` used to be invisible to instances created
+  AFTER the mutation too (not only ones created before) — that half of the
+  documented constraint no longer holds.
+
+  Tests: `test/InstanceOfHasParentTests.cpp` — a `setParents`-built mutable
+  class seen by a `newChild` instance, protoPython's own pattern
+  (`newObject(true)` → `addParent` → `newChild`, both immutable and
+  mutable children), and a mutable class re-parented after an instance
+  already exists (the existing instance keeps the old ancestor, a new
+  instance created afterwards gets the new one).
+
+- **`ProtoObject::isInstanceOf` lost the "parentless object is an instance
+  of `objectPrototype`" answer when its DFS-removal rewrite stopped
+  bootstrapping from `getPrototype()` — restored.**
+
+  A plain object with no parent chain of its own (never `newChild`'d,
+  `addParent`'d or `setParents`'d anything) is, by convention, considered
+  a descendant of the universal root `space->objectPrototype` —
+  `getPrototype()` has always returned `objectPrototype` for exactly this
+  case. The linear-walk rewrite searched the receiver's own chain directly
+  and, for a chain-less receiver, found nothing and answered `PROTO_NONE`
+  instead. `isInstanceOf` now applies the same fallback `getPrototype()`
+  does, but ONLY at the top level for the receiver itself (an object WITH
+  an explicit chain of its own is not implicitly rooted at
+  `objectPrototype` unless its own construction put it there), and never
+  for `objectPrototype` asking about itself (an object is not its own
+  instance).
+
+  Test: `test/InstanceOfHasParentTests.cpp` (`ParentlessObjectIsInstanceOf
+  ObjectPrototype`, `ObjectPrototypeIsNotItsOwnInstance`,
+  `ObjectWithExplicitChainIsNotImplicitlyRootedAtObjectPrototype`).
+
+- **`setParents`'s flattening is no longer O(n²) and no longer allocates
+  or re-flattens inside the mutable CAS retry loop.**
+
+  The de-duplication check the flattening algorithm added (an entry
+  equal to one already kept is dropped) was a linear scan of the
+  accumulator built so far — O(n) per candidate, O(n²) total for n
+  candidates that share no ancestry — running inside a GC critical
+  section, and for a mutable receiver, inside its CAS retry loop (so a
+  contested retry redid the whole O(n²) computation from scratch, even
+  though the flattened chain never depends on the receiver's own current
+  state). Measured before this fix: roughly 3 ms for a 4,000-entry list.
+
+  Fixed by: (1) a small open-addressing pointer set for the dedup check —
+  O(1) amortised per candidate instead of O(current-size); (2) an inline-
+  capacity-then-heap-fallback buffer (`SmallVector`/`ObjectPointerSet`,
+  256/512 inline slots) for both the ordered accumulator and the dedup
+  set, so the common case (a parent list of a few dozen to a couple
+  hundred entries) never touches the heap at all; (3) moving the entire
+  flattening computation (both the dedup pass and the ancestor-walk pass)
+  OUTSIDE any GC critical section — it allocates no Cell, so it needs no
+  GC protection — and outside the mutable receiver's CAS retry loop
+  entirely, so a contested retry only rebuilds the cheap wrapping
+  `ProtoObjectCell`, not the flattened chain.
+
+  Re-measured after this fix (average of 3 runs, `newObject(false)`
+  release build, N listed parents sharing no ancestry — the worst case for
+  the dedup check):
+
+  | N (listed parents) | before (reported) | after, immutable | after, mutable |
+  |---:|---:|---:|---:|
+  | 100  | — | ~0.008 ms | ~0.007 ms |
+  | 1000 | — | ~0.12 ms  | ~0.10 ms  |
+  | 4000 | ~3 ms | ~0.6–0.9 ms | ~0.5–0.7 ms |
+
+  Roughly linear scaling (N×10 costs ~15×, N×4 costs ~5–6×), a 4–6×
+  improvement at N=4000 over the reported pre-fix number, consistent with
+  the O(n²)→O(n) dedup fix (the improvement should grow with N).
+
+- **Documented, explicitly, that `setParents` and `addParent` place a
+  listed parent's own missing ancestors in DIFFERENT positions, which can
+  flip attribute lookup precedence.** `setParents` appends ALL missing
+  ancestors AFTER ALL listed parents; `addParent`, called once per parent,
+  interleaves each call's own missing ancestors immediately after that
+  call's parent — so `d.addParent(ctx, b); d.addParent(ctx, c);` and
+  `d.setParents(ctx, [c, b])` (same listed parents, same order) can
+  produce chains that disagree on which of two candidate ancestors'
+  attributes wins. See `addParent`'s and `setParents`'s header doc
+  comments for the worked example, and
+  `test/SetParentsFlattenTests.cpp`'s
+  `OrderingDiffersFromAddParentAndAffectsAttributePrecedence` for a case
+  where the two constructions produce different `getAttribute` results
+  for the exact same set of parents and ancestors.
+
+- **Documented, explicitly, that `getAttribute` still caps its chain walk
+  at 500 steps** (unlike `isInstanceOf`/`hasParent`, which this round's
+  earlier entry made uncapped) **and corrected the "`hasParent` doesn't
+  see a mutable object's children's full ancestry" gap** — that gap was
+  exactly the `newChild` bug fixed above; `hasParent` itself was already
+  correct (it resolves a mutable receiver's current snapshot, and always
+  did), it was just fed an incomplete chain by the old `newChild`. With
+  that fixed, `hasParent` (like `isInstanceOf`) now answers the full,
+  transitive ancestry question for every object, including instances of a
+  mutable class, with no known gap except `getAttribute`'s cap.
+  Whether that cap can also be safely removed is a separate decision, not
+  made in this round: nothing about the current invariants (every chain is
+  flat and finite by construction; `setParents` rejects a self-referential
+  result) makes a longer chain unsafe to walk, so it looks like the same
+  unnecessary conservatism `isInstanceOf`'s old cap was — but that
+  assessment is not a decision to remove it.
+
 - **`ProtoObject::setParents` now flattens the chain it installs, so
   `ProtoObject::isInstanceOf` is a pure linear walk with no recursion, no
   cap and no allocation — for every object, with no exceptions.**
@@ -188,8 +319,11 @@ All notable changes to protoCore are documented in this file.
   because `g` is flattened into `x`'s own chain alongside `p`. This is
   intended: it is the same completeness `newChild`/`addParent` already
   guaranteed, now extended to `setParents`, and it is why
-  `isInstanceOf`/`hasParent`/`getAttribute` now always agree on what an
-  object inherits, regardless of which construction path built its chain.
+  `isInstanceOf`/`hasParent`/`getAttribute` now agree on what an object
+  inherits, regardless of which construction path built its chain — WITH
+  ONE EXCEPTION, corrected in a later entry below: `getAttribute` still
+  caps its walk at 500 steps, so it can still disagree with the other two
+  for a very deep chain.
 
   **Cycle detection**: a mutable object's handle is stable across
   mutation, so it is the only case where `setParents` could be asked to
