@@ -861,6 +861,41 @@ namespace proto
             void (*method)(ProtoContext*, void*, const ProtoObject* value)) const;
     };
 
+    /**
+     * @brief A language's key semantics for the hashed-collection helper.
+     *
+     * isIdentityKey: true when the language's equality for this key is
+     * identity.  hash / equals: the language's hash and equality, used only for
+     * value-equality keys (equals only inside a collision bucket).  Callbacks
+     * run outside any GC critical section and may allocate.
+     */
+    struct KeySemantics {
+        bool (*isIdentityKey)(ProtoContext*, const ProtoObject* key);
+        unsigned long (*hash)(ProtoContext*, const ProtoObject* key);
+        bool (*equals)(ProtoContext*, const ProtoObject* a, const ProtoObject* b);
+    };
+
+    /**
+     * Persistent hashed map operations over a ProtoSparseListObject
+     * (protoScala/docs/platform/PSLO-SPEC.md §4):
+     *  - identity key       -> slot key = the key itself, slot value = v
+     *  - value-equality key -> slot key = SmallInteger word of the hash's low
+     *                          54 bits, slot value = flat ProtoList
+     *                          [k0, v0, k1, v1, ...] (one pair unless the hash
+     *                          collides)
+     * SmallInteger keys always take the value-equality path, so the two slot
+     * kinds can never collide.  Putting an existing equal key keeps the stored
+     * key and replaces its value.
+     */
+    const ProtoSparseListObject* hashedPut(ProtoContext* context, const ProtoSparseListObject* map,
+                                           const KeySemantics& semantics, const ProtoObject* key, const ProtoObject* value);
+    const ProtoObject* hashedGet(ProtoContext* context, const ProtoSparseListObject* map,
+                                 const KeySemantics& semantics, const ProtoObject* key);
+    const ProtoSparseListObject* hashedRemove(ProtoContext* context, const ProtoSparseListObject* map,
+                                              const KeySemantics& semantics, const ProtoObject* key);
+    void hashedForEach(ProtoContext* context, const ProtoSparseListObject* map, void* self,
+                       void (*fn)(ProtoContext*, void*, const ProtoObject* key, const ProtoObject* value));
+
     class ProtoSetIterator
     {
     public:
