@@ -42,7 +42,7 @@ namespace {
     template<class Node>
     inline int balanceOf(const Node* node) {
         if (!node || node->isEmpty) return 0;
-        return nodeHeight(node->previous) - nodeHeight(node->next);
+        return sparse_avl::nodeHeight(node->previous) - sparse_avl::nodeHeight(node->next);
     }
 
     template<class Node>
@@ -68,31 +68,31 @@ namespace {
 
     template<class Node>
     const Node* rebalance(ProtoContext* context, const Node* node) {
-        const int balance = balanceOf(node);
+        const int balance = sparse_avl::balanceOf(node);
         if (balance > 1) {                                   // left heavy
-            if (balanceOf(node->previous) < 0) {             // left-right
-                const Node* newPrev = leftRotate(context, node->previous);
-                return rightRotate(context, new(context) Node(context, node->key, node->value, newPrev, node->next, false));
+            if (sparse_avl::balanceOf(node->previous) < 0) {  // left-right
+                const Node* newPrev = sparse_avl::leftRotate(context, node->previous);
+                return sparse_avl::rightRotate(context, new(context) Node(context, node->key, node->value, newPrev, node->next, false));
             }
-            return rightRotate(context, node);               // left-left
+            return sparse_avl::rightRotate(context, node);  // left-left
         }
         if (balance < -1) {                                  // right heavy
-            if (balanceOf(node->next) > 0) {                 // right-left
-                const Node* newNext = rightRotate(context, node->next);
-                return leftRotate(context, new(context) Node(context, node->key, node->value, node->previous, newNext, false));
+            if (sparse_avl::balanceOf(node->next) > 0) {  // right-left
+                const Node* newNext = sparse_avl::rightRotate(context, node->next);
+                return sparse_avl::leftRotate(context, new(context) Node(context, node->key, node->value, node->previous, newNext, false));
             }
-            return leftRotate(context, node);                // right-right
+            return sparse_avl::leftRotate(context, node);  // right-right
         }
         return node;
     }
 
     template<class Node>
     const ProtoObject* getAt(const Node* root, typename Node::KeyType key) {
-        const uintptr_t w = keyWord(key);
+        const uintptr_t w = sparse_avl::keyWord(key);
         const Node* node = root;
         while (node) {
             if (node->isEmpty) break;
-            const uintptr_t nk = keyWord(node->key);
+            const uintptr_t nk = sparse_avl::keyWord(node->key);
             if (w < nk) node = node->previous;
             else if (w > nk) node = node->next;
             else return node->value;
@@ -105,27 +105,27 @@ namespace {
 
     template<class Node>
     const Node* setAt(ProtoContext* context, const Node* self, typename Node::KeyType key, const ProtoObject* newValue) {
-        if (newValue == nullptr) return removeAt(context, self, key);
+        if (newValue == nullptr) return sparse_avl::removeAt(context, self, key);
         if (self->isEmpty) return new(context) Node(context, key, newValue, nullptr, nullptr, false);
 
-        const uintptr_t w = keyWord(key);
-        const uintptr_t sk = keyWord(self->key);
+        const uintptr_t w = sparse_avl::keyWord(key);
+        const uintptr_t sk = sparse_avl::keyWord(self->key);
         const Node* newNode;
         if (w < sk) {
             const Node* newPrev = self->previous
-                ? setAt(context, self->previous, key, newValue)
+                ? sparse_avl::setAt(context, self->previous, key, newValue)
                 : new(context) Node(context, key, newValue, nullptr, nullptr, false);
             newNode = new(context) Node(context, self->key, self->value, newPrev, self->next, false);
         } else if (w > sk) {
             const Node* newNext = self->next
-                ? setAt(context, self->next, key, newValue)
+                ? sparse_avl::setAt(context, self->next, key, newValue)
                 : new(context) Node(context, key, newValue, nullptr, nullptr, false);
             newNode = new(context) Node(context, self->key, self->value, self->previous, newNext, false);
         } else {
             if (self->value == newValue) return self;
             newNode = new(context) Node(context, self->key, newValue, self->previous, self->next, false);
         }
-        return rebalance(context, newNode);
+        return sparse_avl::rebalance(context, newNode);
     }
 
     template<class Node>
@@ -138,37 +138,37 @@ namespace {
     const Node* removeAt(ProtoContext* context, const Node* self, typename Node::KeyType key) {
         if (self->isEmpty) return self;
 
-        const uintptr_t w = keyWord(key);
-        const uintptr_t sk = keyWord(self->key);
+        const uintptr_t w = sparse_avl::keyWord(key);
+        const uintptr_t sk = sparse_avl::keyWord(self->key);
         const Node* newNode;
         if (w < sk) {
             if (!self->previous) return self;
-            const Node* newPrev = removeAt(context, self->previous, key);
+            const Node* newPrev = sparse_avl::removeAt(context, self->previous, key);
             if (newPrev == self->previous) return self;
             newNode = new(context) Node(context, self->key, self->value, newPrev, self->next, false);
         } else if (w > sk) {
             if (!self->next) return self;
-            const Node* newNext = removeAt(context, self->next, key);
+            const Node* newNext = sparse_avl::removeAt(context, self->next, key);
             if (newNext == self->next) return self;
             newNode = new(context) Node(context, self->key, self->value, self->previous, newNext, false);
         } else {
             if (!self->previous || self->previous->isEmpty) {
-                if (!self->next || self->next->isEmpty) return makeEmpty<Node>(context);
+                if (!self->next || self->next->isEmpty) return sparse_avl::makeEmpty<Node>(context);
                 return self->next;
             }
             if (!self->next || self->next->isEmpty) return self->previous;
-            const Node* successor = findMin(self->next);
-            const Node* newNext = removeAt(context, self->next, successor->key);
+            const Node* successor = sparse_avl::findMin(self->next);
+            const Node* newNext = sparse_avl::removeAt(context, self->next, successor->key);
             newNode = new(context) Node(context, successor->key, successor->value, self->previous, newNext, false);
         }
-        return rebalance(context, newNode);
+        return sparse_avl::rebalance(context, newNode);
     }
 
     // In-order walk; allocates nothing, so it needs no critical section.
     template<class Node, class Fn>
     void inorder(const Node* node, Fn& fn) {
         while (node && !node->isEmpty) {
-            inorder(node->previous, fn);
+            sparse_avl::inorder(node->previous, fn);
             fn(node->key, node->value);
             node = node->next;
         }
@@ -192,25 +192,25 @@ namespace {
     unsigned long smallCount(const Small* s) {
         unsigned long c = 0;
         for (unsigned i = 0; i < Small::MAX_INLINE; ++i)
-            if (keyWord(s->keys[i]) != 0) ++c;
+            if (sparse_avl::keyWord(s->keys[i]) != 0) ++c;
         return c;
     }
 
     template<class Small>
     bool smallHas(const Small* s, typename Small::KeyType key) {
-        const uintptr_t w = keyWord(key);
+        const uintptr_t w = sparse_avl::keyWord(key);
         if (w == 0) return false;
         for (unsigned i = 0; i < Small::MAX_INLINE; ++i)
-            if (keyWord(s->keys[i]) == w) return true;
+            if (sparse_avl::keyWord(s->keys[i]) == w) return true;
         return false;
     }
 
     template<class Small>
     const ProtoObject* smallGetAt(const Small* s, typename Small::KeyType key) {
-        const uintptr_t w = keyWord(key);
+        const uintptr_t w = sparse_avl::keyWord(key);
         if (w == 0) return nullptr;
         for (unsigned i = 0; i < Small::MAX_INLINE; ++i)
-            if (keyWord(s->keys[i]) == w) return s->values[i];
+            if (sparse_avl::keyWord(s->keys[i]) == w) return s->values[i];
         return nullptr;
     }
 
@@ -220,7 +220,7 @@ namespace {
             const auto ki = ks[i];
             const ProtoObject* vi = vs[i];
             unsigned j = i;
-            while (j > 0 && keyWord(ks[j - 1]) > keyWord(ki)) {
+            while (j > 0 && sparse_avl::keyWord(ks[j - 1]) > sparse_avl::keyWord(ki)) {
                 ks[j] = ks[j - 1];
                 vs[j] = vs[j - 1];
                 --j;
@@ -237,13 +237,13 @@ namespace {
         const ProtoObject* vs[Small::MAX_INLINE];
         unsigned n = 0;
         for (unsigned j = 0; j < Small::MAX_INLINE; ++j) {
-            if (keyWord(s->keys[j]) != 0) {
+            if (sparse_avl::keyWord(s->keys[j]) != 0) {
                 ks[n] = s->keys[j];
                 vs[n] = s->values[j];
                 ++n;
             }
         }
-        sortPairs<Small>(ks, vs, n);
+        sparse_avl::sortPairs<Small>(ks, vs, n);
         if (i >= n) return false;
         if (outKey) *outKey = ks[i];
         if (outValue) *outValue = vs[i];
@@ -252,12 +252,12 @@ namespace {
 
     template<class Small, class Node>
     const Node* smallPromote(ProtoContext* context, const Small* s) {
-        const unsigned long n = smallCount(s);
-        const Node* avl = makeEmpty<Node>(context);
+        const unsigned long n = sparse_avl::smallCount(s);
+        const Node* avl = sparse_avl::makeEmpty<Node>(context);
         for (unsigned i = 0; i < n; ++i) {
             typename Small::KeyType k;
             const ProtoObject* v;
-            if (smallPairAt(s, i, &k, &v)) avl = setAt(context, avl, k, v);
+            if (sparse_avl::smallPairAt(s, i, &k, &v)) avl = sparse_avl::setAt(context, avl, k, v);
         }
         return avl;
     }
@@ -270,11 +270,11 @@ namespace {
                                   typename Small::KeyType key, const ProtoObject* value) {
         using Key = typename Small::KeyType;
         constexpr unsigned M = Small::MAX_INLINE;
-        const uintptr_t w = keyWord(key);
+        const uintptr_t w = sparse_avl::keyWord(key);
 
         if (w == 0 && value != nullptr) {
-            const Node* avl = smallPromote<Small, Node>(context, small);
-            return setAt(context, avl, key, value)->implAsObject(context);
+            const Node* avl = sparse_avl::smallPromote<Small, Node>(context, small);
+            return sparse_avl::setAt(context, avl, key, value)->implAsObject(context);
         }
 
         if (value == nullptr) {
@@ -282,14 +282,14 @@ namespace {
             const ProtoObject* vs[M];
             unsigned n = 0;
             for (unsigned i = 0; i < M; ++i) {
-                const uintptr_t kw = keyWord(small->keys[i]);
+                const uintptr_t kw = sparse_avl::keyWord(small->keys[i]);
                 if (kw != 0 && kw != w) {
                     ks[n] = small->keys[i];
                     vs[n] = small->values[i];
                     ++n;
                 }
             }
-            sortPairs<Small>(ks, vs, n);
+            sparse_avl::sortPairs<Small>(ks, vs, n);
             return (new(context) Small(context, n, ks, vs))->implAsObject(context);
         }
 
@@ -298,7 +298,7 @@ namespace {
         unsigned n = 0;
         bool replaced = false;
         for (unsigned i = 0; i < M; ++i) {
-            const uintptr_t kw = keyWord(small->keys[i]);
+            const uintptr_t kw = sparse_avl::keyWord(small->keys[i]);
             if (kw == 0) continue;
             if (kw == w) {
                 ks[n] = key;
@@ -315,11 +315,11 @@ namespace {
             vs[n] = value;
             ++n;
         }
-        sortPairs<Small>(ks, vs, n);
+        sparse_avl::sortPairs<Small>(ks, vs, n);
         if (n <= M) return (new(context) Small(context, n, ks, vs))->implAsObject(context);
 
-        const Node* avl = makeEmpty<Node>(context);
-        for (unsigned i = 0; i < n; ++i) avl = setAt(context, avl, ks[i], vs[i]);
+        const Node* avl = sparse_avl::makeEmpty<Node>(context);
+        for (unsigned i = 0; i < n; ++i) avl = sparse_avl::setAt(context, avl, ks[i], vs[i]);
         return avl->implAsObject(context);
     }
 
