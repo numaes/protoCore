@@ -1,5 +1,5 @@
-// SparseListObjectGCTests.cpp — keys referenced only by a
-// ProtoSparseListObject must survive collection cycles, both forms.
+// ProtoMapGCTests.cpp — keys referenced only by a
+// ProtoMap must survive collection cycles, both forms.
 // Cycles are forced with a small hard heap limit (ProtoSpace::setHeapLimits),
 // the pattern of test/GCRootScopeTests.cpp.
 
@@ -53,7 +53,7 @@ public:
 std::atomic<unsigned long> KeyProbeCell::traversals{0};
 
 struct ContentCheck {
-    const ProtoSparseListObject* map;
+    const ProtoMap* map;
     int n;
     int visited;
     int bad;
@@ -73,21 +73,21 @@ void checkPair(ProtoContext* c, void* self, const ProtoObject* key, const ProtoO
 
 }  // namespace
 
-class SparseListObjectGC : public ::testing::TestWithParam<int> {};
+class MapGC : public ::testing::TestWithParam<int> {};
 
 // The key is referenced only by the collection (the map is pinned by a root
 // set; the probe's allocating context has exited).  The collector must reach
 // the probe through the map's processReferences.
-TEST_P(SparseListObjectGC, KeyReferencedOnlyByTheCollectionIsTraced) {
+TEST_P(MapGC, KeyReferencedOnlyByTheCollectionIsTraced) {
     const int n = GetParam();
     ProtoSpace space;
     ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
-    ProtoRootSet* rs = space.createRootSet("pslo-key-probe");
+    ProtoRootSet* rs = space.createRootSet("map-key-probe");
     ASSERT_NE(rs, nullptr);
     ProtoRootSet::Handle pinned = ProtoRootSet::kNullHandle;
     {
         ProtoContext sub(&space, &live, nullptr, nullptr, nullptr, nullptr);
-        const ProtoSparseListObject* m = sub.newSparseListObject();
+        const ProtoMap* m = sub.newMap();
         for (int i = 0; i < n; ++i) {
             const ProtoObject* probe = reinterpret_cast<const ProtoObject*>(new (&sub) KeyProbeCell(&sub));
             m = m->setAt(&sub, probe, sub.fromInteger(i));
@@ -102,7 +102,7 @@ TEST_P(SparseListObjectGC, KeyReferencedOnlyByTheCollectionIsTraced) {
     EXPECT_GE(KeyProbeCell::traversals.load(), static_cast<unsigned long>(n))
         << "a key referenced only by the collection was not traced";
 
-    const ProtoSparseListObject* m = rs->resolve(pinned)->asSparseListObject(&live);
+    const ProtoMap* m = rs->resolve(pinned)->asMap(&live);
     ASSERT_NE(m, nullptr);
     EXPECT_EQ(m->getSize(&live), static_cast<unsigned long>(n));
     rs->remove(pinned);
@@ -111,16 +111,16 @@ TEST_P(SparseListObjectGC, KeyReferencedOnlyByTheCollectionIsTraced) {
 
 // Real objects as keys, referenced only by the collection: after forced
 // cycles every key is recovered from the map and its contents are intact.
-TEST_P(SparseListObjectGC, KeysAndContentsSurviveForcedCollections) {
+TEST_P(MapGC, KeysAndContentsSurviveForcedCollections) {
     const int n = GetParam();
     ProtoSpace space;
     ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
-    ProtoRootSet* rs = space.createRootSet("pslo-contents");
+    ProtoRootSet* rs = space.createRootSet("map-contents");
     ASSERT_NE(rs, nullptr);
     ProtoRootSet::Handle pinned = ProtoRootSet::kNullHandle;
     {
         ProtoContext sub(&space, &live, nullptr, nullptr, nullptr, nullptr);
-        const ProtoSparseListObject* m = sub.newSparseListObject();
+        const ProtoMap* m = sub.newMap();
         for (int i = 0; i < n; ++i) {
             const ProtoObject* key = sub.newList()->appendLast(&sub, sub.fromInteger(i))->asObject(&sub);
             m = m->setAt(&sub, key, sub.fromInteger(i * 10));
@@ -132,7 +132,7 @@ TEST_P(SparseListObjectGC, KeysAndContentsSurviveForcedCollections) {
     ASSERT_TRUE(waitForIdleCollector(space, &live));
     EXPECT_GE(cycles, 5u);
 
-    const ProtoSparseListObject* m = rs->resolve(pinned)->asSparseListObject(&live);
+    const ProtoMap* m = rs->resolve(pinned)->asMap(&live);
     ASSERT_NE(m, nullptr);
     ContentCheck chk{m, n, 0, 0, std::vector<bool>(n, false)};
     m->processElements(&live, &chk, checkPair);
@@ -143,7 +143,7 @@ TEST_P(SparseListObjectGC, KeysAndContentsSurviveForcedCollections) {
 }
 
 // 1-3 keys: Small form; 4 is the promotion boundary; 64 and 2000: AVL.
-INSTANTIATE_TEST_SUITE_P(BothForms, SparseListObjectGC, ::testing::Values(1, 3, 4, 64, 2000));
+INSTANTIATE_TEST_SUITE_P(BothForms, MapGC, ::testing::Values(1, 3, 4, 64, 2000));
 
 namespace {
 
@@ -152,7 +152,7 @@ constexpr int kConcThreads = 4;
 constexpr int kConcPerThread = 3000;
 
 std::atomic<unsigned long> gConcErrors{0};
-const ProtoSparseListObject* gConcBase = nullptr;
+const ProtoMap* gConcBase = nullptr;
 std::vector<const ProtoObject*>* gConcBaseKeys = nullptr;
 
 // Each worker derives its own version chain from the shared base. After
@@ -163,7 +163,7 @@ std::vector<const ProtoObject*>* gConcBaseKeys = nullptr;
 // Run through ProtoSpace::newThread (never a raw std::thread) so this
 // context is a real registered ProtoThread: it is added to space->threads,
 // which the stop-the-world root scan walks independently of
-// ProtoSpace::mainContext, protecting the List and ProtoSparseListObject
+// ProtoSpace::mainContext, protecting the List and ProtoMap
 // cells this function allocates directly on `ctx` via the same young-chain
 // mechanism proven by allocatingThreadMain in GCRootScopeTests.cpp. A raw
 // std::thread building a bare ProtoContext(&space) here (as
@@ -176,7 +176,7 @@ std::vector<const ProtoObject*>* gConcBaseKeys = nullptr;
 const ProtoObject* concWorkerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
                                    const ProtoList* args, const ProtoSparseList*) {
     const long t = args->getAt(ctx, 0)->asLong(ctx);
-    const ProtoSparseListObject* mine = gConcBase;
+    const ProtoMap* mine = gConcBase;
     for (int i = 0; i < kConcPerThread; ++i) {
         const ProtoObject* key = ctx->newList()
             ->appendLast(ctx, ctx->fromInteger(t * 1000000L + i))->asObject(ctx);
@@ -204,12 +204,12 @@ const ProtoObject* concWorkerMain(ProtoContext* ctx, const ProtoObject*, const P
 // Several threads derive independent versions from one shared base while a
 // kicker thread keeps requesting collections. The base must stay unchanged
 // and every thread's version must hold exactly base + its own keys.
-TEST(SparseListObjectConcurrency, VersionsFromASharedBaseWhileTheGcRuns) {
+TEST(MapConcurrency, VersionsFromASharedBaseWhileTheGcRuns) {
     ProtoSpace space;
     ProtoContext* root = space.rootContext;
 
     std::vector<const ProtoObject*> baseKeys;
-    const ProtoSparseListObject* base = root->newSparseListObject();
+    const ProtoMap* base = root->newMap();
     for (int i = 0; i < kConcBase; ++i) {
         const ProtoObject* key = root->newList()->appendLast(root, root->fromInteger(-1 - i))->asObject(root);
         baseKeys.push_back(key);
@@ -231,7 +231,7 @@ TEST(SparseListObjectConcurrency, VersionsFromASharedBaseWhileTheGcRuns) {
     std::vector<const ProtoThread*> workers;
     for (int t = 0; t < kConcThreads; ++t) {
         const ProtoList* args = root->newList()->appendLast(root, root->fromInteger(t));
-        workers.push_back(space.newThread(root, ProtoString::createSymbol(root, "pslo-concurrency-worker"),
+        workers.push_back(space.newThread(root, ProtoString::createSymbol(root, "map-concurrency-worker"),
                                            concWorkerMain, args, nullptr));
     }
     {

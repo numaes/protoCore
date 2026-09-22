@@ -40,7 +40,7 @@ TEST(HashedCollection, IdentityAndHashedKeysCoexist) {
     const ProtoObject* o = c->newObject(false);
     const ProtoObject* s1 = c->fromUTF8String("a longer string key");
     const ProtoObject* s2 = c->fromUTF8String("a longer string key");   // equal, distinct object
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     m = hashedPut(c, m, kTest, o, c->fromInteger(1));
     m = hashedPut(c, m, kTest, c->fromInteger(5), c->fromInteger(2));
     m = hashedPut(c, m, kTest, s1, c->fromInteger(3));
@@ -54,7 +54,7 @@ TEST(HashedCollection, IdentityAndHashedKeysCoexist) {
 TEST(HashedCollection, ForcedCollisionsKeepEveryEntry) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     for (long i = 1; i <= 10; ++i) m = hashedPut(c, m, kColliding, c->fromInteger(i), c->fromInteger(i * 2));
     EXPECT_EQ(m->getSize(c), 1u);                                    // one bucket
     for (long i = 1; i <= 10; ++i) EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(i)), c->fromInteger(i * 2));
@@ -64,7 +64,7 @@ TEST(HashedCollection, ForcedCollisionsKeepEveryEntry) {
 TEST(HashedCollection, PutWithAnEqualKeyReplacesTheValue) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     m = hashedPut(c, m, kColliding, c->fromInteger(1), c->fromInteger(10));
     m = hashedPut(c, m, kColliding, c->fromInteger(2), c->fromInteger(20));
     m = hashedPut(c, m, kColliding, c->fromInteger(1), c->fromInteger(11));
@@ -77,9 +77,9 @@ TEST(HashedCollection, PutWithAnEqualKeyReplacesTheValue) {
 TEST(HashedCollection, RemoveFromACollisionBucket) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     for (long i = 1; i <= 5; ++i) m = hashedPut(c, m, kColliding, c->fromInteger(i), c->fromInteger(i));
-    const ProtoSparseListObject* before = m;
+    const ProtoMap* before = m;
     m = hashedRemove(c, m, kColliding, c->fromInteger(3));
     EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(3)), nullptr);
     for (long i : {1L, 2L, 4L, 5L}) EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(i)), c->fromInteger(i));
@@ -92,7 +92,7 @@ TEST(HashedCollection, RemoveFromACollisionBucket) {
 TEST(HashedCollection, ForEachYieldsEveryPairExactlyOnce) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     std::multiset<std::pair<long, long>> expected;
     for (long i = 0; i < 20; ++i) {
         m = hashedPut(c, m, kColliding, c->fromInteger(i), c->fromInteger(100 + i));
@@ -112,7 +112,7 @@ TEST(HashedCollection, IntegersAlwaysTakeTheHashedPath) {
     ProtoContext* c = space.rootContext;
     const KeySemantics allIdentity{
         [](ProtoContext*, const ProtoObject*) { return true; }, testHash, testEquals};
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     m = hashedPut(c, m, allIdentity, c->fromInteger(7), c->fromInteger(70));
     EXPECT_EQ(hashedGet(c, m, allIdentity, c->fromInteger(7)), c->fromInteger(70));
     const ProtoObject* slot = m->getAt(c, c->fromInteger(7));   // slot key = SmallInteger(7), value = [7, 70]
@@ -126,7 +126,7 @@ TEST(HashedCollection, HashesAbove53BitsStayEmbeddedSmallIntegerWords) {
     ProtoContext* c = space.rootContext;
     const KeySemantics wideHash{
         testIsIdentity, [](ProtoContext*, const ProtoObject*) { return ~0UL; }, testEquals};
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     m = hashedPut(c, m, wideHash, c->fromInteger(1), c->fromInteger(10));
     m = hashedPut(c, m, wideHash, c->fromInteger(2), c->fromInteger(20));
     EXPECT_EQ(m->getSize(c), 1u);
@@ -153,12 +153,12 @@ namespace {
     void countPairs(ProtoContext*, void* self, const ProtoObject*, const ProtoObject*) { ++*static_cast<int*>(self); }
 }
 
-// D3 (PSLO-SPEC §7): a nullptr key is ignored silently by every entry point,
+// D3 (PROTOMAP-SPEC §7): a nullptr key is ignored silently by every entry point,
 // before any language callback runs.
 TEST(HashedCollection, NullKeyIsIgnoredWithoutCallingTheLanguage) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
-    const ProtoSparseListObject* m = hashedPut(c, c->newSparseListObject(), kTest, c->fromInteger(1), c->fromInteger(10));
+    const ProtoMap* m = hashedPut(c, c->newMap(), kTest, c->fromInteger(1), c->fromInteger(10));
     gCallbackCalls = 0;
     EXPECT_EQ(hashedPut(c, m, kCounting, nullptr, c->fromInteger(2)), m);
     EXPECT_EQ(hashedPut(c, m, kCounting, nullptr, nullptr), m);
@@ -172,13 +172,13 @@ TEST(HashedCollection, NullKeyIsIgnoredWithoutCallingTheLanguage) {
     EXPECT_EQ(m->getSize(c), 1u);
 }
 
-// A nullptr value removes the key, as ProtoSparseListObject::setAt does, on
+// A nullptr value removes the key, as ProtoMap::setAt does, on
 // both the identity path and the hashed path (single pair and collision bucket).
 TEST(HashedCollection, NullValueRemovesTheKey) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
     const ProtoObject* o = c->newObject(false);
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     m = hashedPut(c, m, kTest, o, c->fromInteger(1));
     m = hashedPut(c, m, kTest, c->fromInteger(5), c->fromInteger(2));
     m = hashedPut(c, m, kTest, o, nullptr);
@@ -188,7 +188,7 @@ TEST(HashedCollection, NullValueRemovesTheKey) {
     EXPECT_EQ(m->getSize(c), 0u);
     EXPECT_EQ(hashedPut(c, m, kTest, c->fromInteger(6), nullptr), m);   // absent: unchanged
 
-    const ProtoSparseListObject* b = c->newSparseListObject();
+    const ProtoMap* b = c->newMap();
     for (long i = 1; i <= 3; ++i) b = hashedPut(c, b, kColliding, c->fromInteger(i), c->fromInteger(i * 2));
     b = hashedPut(c, b, kColliding, c->fromInteger(2), nullptr);
     EXPECT_EQ(hashedGet(c, b, kColliding, c->fromInteger(2)), nullptr);
@@ -240,12 +240,12 @@ TEST(HashedCollection, AllocatingCallbacksUnderGcPressure) {
     ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
     ProtoRootSet* rs = space.createRootSet("hashed-allocating-callbacks");
     ASSERT_NE(rs, nullptr);
-    ProtoRootSet::Handle pinned = rs->add(live.newSparseListObject()->asObject(&live));
+    ProtoRootSet::Handle pinned = rs->add(live.newMap()->asObject(&live));
 
     auto step = [&](auto&& op) {
         ProtoContext sub(&space, &live, nullptr, nullptr, nullptr, nullptr);
-        const ProtoSparseListObject* m = rs->resolve(pinned)->asSparseListObject(&sub);
-        const ProtoSparseListObject* next = op(&sub, m);
+        const ProtoMap* m = rs->resolve(pinned)->asMap(&sub);
+        const ProtoMap* next = op(&sub, m);
         const ProtoRootSet::Handle h = rs->add(next->asObject(&sub));
         rs->remove(pinned);
         pinned = h;
@@ -263,15 +263,15 @@ TEST(HashedCollection, AllocatingCallbacksUnderGcPressure) {
     });
 
     for (int i = 0; i < kKeys; ++i)
-        step([&](ProtoContext* s, const ProtoSparseListObject* m) {
+        step([&](ProtoContext* s, const ProtoMap* m) {
             return hashedPut(s, m, kAllocating, keyString(s, i), s->fromInteger(i));
         });
     for (int i = 0; i < kKeys; i += 2)          // replace through an equal, distinct key
-        step([&](ProtoContext* s, const ProtoSparseListObject* m) {
+        step([&](ProtoContext* s, const ProtoMap* m) {
             return hashedPut(s, m, kAllocating, keyString(s, i), s->fromInteger(i * 10));
         });
     for (int i = 0; i < kKeys; i += 3)
-        step([&](ProtoContext* s, const ProtoSparseListObject* m) {
+        step([&](ProtoContext* s, const ProtoMap* m) {
             return hashedRemove(s, m, kAllocating, keyString(s, i));
         });
 
@@ -280,10 +280,10 @@ TEST(HashedCollection, AllocatingCallbacksUnderGcPressure) {
     int bad = 0, present = 0;
     auto check = [&](auto&& probe) {
         ProtoContext sub(&space, &live, nullptr, nullptr, nullptr, nullptr);
-        probe(&sub, rs->resolve(pinned)->asSparseListObject(&sub));
+        probe(&sub, rs->resolve(pinned)->asMap(&sub));
     };
     for (int i = 0; i <= kKeys; ++i)
-        check([&](ProtoContext* s, const ProtoSparseListObject* m) {
+        check([&](ProtoContext* s, const ProtoMap* m) {
             const ProtoObject* v = hashedGet(s, m, kAllocating, keyString(s, i));
             if (i == kKeys || i % 3 == 0) { bad += v != nullptr; return; }   // never put / removed
             ++present;
@@ -291,7 +291,7 @@ TEST(HashedCollection, AllocatingCallbacksUnderGcPressure) {
             bad += (v == nullptr || !v->isInteger(s) || v->asLong(s) != expected);
         });
     int pairs = 0;
-    check([&](ProtoContext* s, const ProtoSparseListObject* m) { hashedForEach(s, m, &pairs, countPairs); });
+    check([&](ProtoContext* s, const ProtoMap* m) { hashedForEach(s, m, &pairs, countPairs); });
     EXPECT_EQ(pairs, present);
     stopGc.store(true, std::memory_order_relaxed);
     gcKicker.join();

@@ -1,13 +1,13 @@
 /*
  * ProtoHashedCollection.cpp — the shared hashed-collection helper over
- * ProtoSparseListObject (PSLO-SPEC §4).  Language callbacks (hash, equals)
+ * ProtoMap (PROTOMAP-SPEC §4).  Language callbacks (hash, equals)
  * always run BEFORE any GC critical section is entered: they may allocate,
  * run user code and reach a safepoint.  Only the construction of the new
  * version runs inside the critical section.
  *
- * D3 (PSLO-SPEC §7): every entry point ignores a nullptr key silently, before
+ * D3 (PROTOMAP-SPEC §7): every entry point ignores a nullptr key silently, before
  * any language callback runs.  A nullptr value in hashedPut removes the key,
- * as ProtoSparseListObject::setAt does.
+ * as ProtoMap::setAt does.
  */
 
 #include "../headers/proto_internal.h"
@@ -48,7 +48,7 @@ namespace proto
         }
     }
 
-    const ProtoSparseListObject* hashedPut(ProtoContext* context, const ProtoSparseListObject* map,
+    const ProtoMap* hashedPut(ProtoContext* context, const ProtoMap* map,
                                            const KeySemantics& semantics, const ProtoObject* key, const ProtoObject* value) {
         if (!key) return map;
         if (!value) return hashedRemove(context, map, semantics, key);
@@ -73,7 +73,7 @@ namespace proto
         return map->setAt(context, slot, newBucket->asObject(context));
     }
 
-    const ProtoObject* hashedGet(ProtoContext* context, const ProtoSparseListObject* map,
+    const ProtoObject* hashedGet(ProtoContext* context, const ProtoMap* map,
                                  const KeySemantics& semantics, const ProtoObject* key) {
         if (!key) return nullptr;
         if (usesIdentitySlot(context, semantics, key)) return map->getAt(context, key);
@@ -84,7 +84,7 @@ namespace proto
         return at >= 0 ? bucket->getAt(context, at + 1) : nullptr;
     }
 
-    const ProtoSparseListObject* hashedRemove(ProtoContext* context, const ProtoSparseListObject* map,
+    const ProtoMap* hashedRemove(ProtoContext* context, const ProtoMap* map,
                                               const KeySemantics& semantics, const ProtoObject* key) {
         if (!key) return map;
         if (usesIdentitySlot(context, semantics, key)) return map->removeAt(context, key);
@@ -120,7 +120,7 @@ namespace proto
         }
     }
 
-    void hashedForEach(ProtoContext* context, const ProtoSparseListObject* map, void* self,
+    void hashedForEach(ProtoContext* context, const ProtoMap* map, void* self,
                        void (*fn)(ProtoContext*, void*, const ProtoObject*, const ProtoObject*)) {
         if (!map || !fn) return;
         ForEachState state{self, fn};

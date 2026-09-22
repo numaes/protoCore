@@ -2,7 +2,7 @@
  * SparseListAlgorithms.h — internal to protoCore (never installed).
  *
  * The persistent AVL and Small-form algorithms shared by ProtoSparseList
- * (key: unsigned long) and ProtoSparseListObject (key: const ProtoObject*).
+ * (key: unsigned long) and ProtoMap (key: const ProtoObject*).
  * Keys are ordered and compared by their machine word, so both types have
  * one algorithmic implementation.
  *

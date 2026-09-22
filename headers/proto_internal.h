@@ -52,9 +52,9 @@ namespace proto {
     class ProtoSparseListImplementation;
     class ProtoSparseListSmallImplementation;
     class ProtoSparseListIteratorImplementation;
-    class ProtoSparseListObjectImplementation;
-    class ProtoSparseListObjectSmallImplementation;
-    class ProtoSparseListObjectIteratorImplementation;
+    class ProtoMapImplementation;
+    class ProtoMapSmallImplementation;
+    class ProtoMapIteratorImplementation;
     class ProtoSetImplementation;
     class ProtoSetIteratorImplementation;
     class ProtoMultisetImplementation;
@@ -107,9 +107,9 @@ namespace proto {
         const ProtoSparseListImplementation *sparseListImplementation;
         const ProtoSparseListSmallImplementation *sparseListSmallImplementation;
         const ProtoSparseListIteratorImplementation *sparseListIteratorImplementation;
-        const ProtoSparseListObject *sparseListObject;
-        const ProtoSparseListObjectImplementation *sparseListObjectImplementation;
-        const ProtoSparseListObjectSmallImplementation *sparseListObjectSmallImplementation;
+        const ProtoMap *map;
+        const ProtoMapImplementation *mapImplementation;
+        const ProtoMapSmallImplementation *mapSmallImplementation;
         const ProtoListImplementation *listImplementation;
         const ProtoListSmallImplementation *listSmallImplementation;
         const ProtoListIteratorImplementation *listIteratorImplementation;
@@ -204,9 +204,9 @@ namespace proto {
 //   - ReturnReference        (internal control-flow marker)
 //   - TupleDictionary        (internal tuple-keyed lookup helper)
 //   - Cell base              (the abstract base; never reached at runtime)
-//   - ProtoSparseListObjectIteratorImplementation (maintainer option D1 = (a):
-//     an unboxed C++ iterator handle, PSLO-SPEC.md §7. It is returned only
-//     as a raw `const ProtoSparseListObjectIterator*`, never as a value fed
+//   - ProtoMapIteratorImplementation (maintainer option D1 = (a):
+//     an unboxed C++ iterator handle, PROTOMAP-SPEC.md §7. It is returned only
+//     as a raw `const ProtoMapIterator*`, never as a value fed
 //     to newChild/addParent/getAttribute, so it can never become reachable
 //     from the attribute chain described below.)
 //
@@ -257,7 +257,7 @@ namespace proto {
 #define POINTER_TAG_STRING_INTERNAL_NODE 24 // StringInternalNode (internal AVL node)
 #define POINTER_TAG_LIST_SMALL          25 // ProtoListSmallImplementation — inline-slot list (size ≤ 5)
 #define POINTER_TAG_SPARSE_LIST_SMALL   26 // ProtoSparseListSmallImplementation — inline (key,value) sparse list (size ≤ 3)
-#define POINTER_TAG_SPARSE_LIST_OBJECT  27 // ProtoSparseListObject handle: AVL node OR Small form, told apart by CellType
+#define POINTER_TAG_MAP  27 // ProtoMap handle: AVL node OR Small form, told apart by CellType
 
 // ---------------------------------------------------------------------
 // Tagged-pointer budget (platform-wide, scarce).
@@ -266,7 +266,7 @@ namespace proto {
 //   Embedded types (4 bits, 16 values): used 0, 2, 3, 4, 5 (5),
 //                                       free 1, 6-15 (11)
 //
-// Rules (protoScala/docs/platform/PSLO-SPEC.md §3):
+// Rules (protoScala/docs/platform/PROTOMAP-SPEC.md §3):
 //   1. A new pointer tag or embedded type requires the protoCore
 //      maintainer's explicit approval.
 //   2. A type takes at most ONE tag, for its public handle.  Internal cells
@@ -275,8 +275,8 @@ namespace proto {
 //   3. Language-level encodings reuse existing encodings (e.g. a
 //      SmallInteger word carrying a hash) and never claim a tag.
 //
-// Tag 27 carries two cell types (ProtoSparseListObjectImplementation and
-// ProtoSparseListObjectSmallImplementation); code that needs the form calls
+// Tag 27 carries two cell types (ProtoMapImplementation and
+// ProtoMapSmallImplementation); code that needs the form calls
 // getType(), exactly as tag 0 does for its several cell types above.
 // ---------------------------------------------------------------------
 
@@ -357,17 +357,17 @@ namespace proto {
     template<> struct ExpectedTag<const ProtoSparseListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_SMALL; };
     template<> struct ExpectedTag<ProtoSparseListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_SMALL; };
 
-    template<> struct ExpectedTag<const ProtoSparseListObjectImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_OBJECT; };
-    template<> struct ExpectedTag<ProtoSparseListObjectImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_OBJECT; };
+    template<> struct ExpectedTag<const ProtoMapImplementation> { static constexpr unsigned long value = POINTER_TAG_MAP; };
+    template<> struct ExpectedTag<ProtoMapImplementation> { static constexpr unsigned long value = POINTER_TAG_MAP; };
 
-    template<> struct ExpectedTag<const ProtoSparseListObjectSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_OBJECT; };
-    template<> struct ExpectedTag<ProtoSparseListObjectSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_OBJECT; };
+    template<> struct ExpectedTag<const ProtoMapSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_MAP; };
+    template<> struct ExpectedTag<ProtoMapSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_MAP; };
 
     // D1 = (a): the iterator handle is the raw cell address (tag 0,
     // POINTER_TAG_OBJECT), never a boxed ProtoObject word offered to the
-    // object model.  See ProtoSparseListObjectIteratorImplementation::implAsObject.
-    template<> struct ExpectedTag<const ProtoSparseListObjectIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
-    template<> struct ExpectedTag<ProtoSparseListObjectIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    // object model.  See ProtoMapIteratorImplementation::implAsObject.
+    template<> struct ExpectedTag<const ProtoMapIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ProtoMapIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
 
     /*
      * Tag-dispatched raw-lookup helper for ProtoSparseList consumers
@@ -616,9 +616,9 @@ namespace proto {
         StringInternalNode,
         ListSmall,
         SparseListSmall,
-        SparseListObject,
-        SparseListObjectSmall,
-        SparseListObjectIterator
+        Map,
+        MapSmall,
+        MapIterator
     };
 
     class Cell {
@@ -1668,38 +1668,38 @@ namespace proto {
     };
 
     /*
-     * ProtoSparseListObject cells.  Identical to the ProtoSparseList cells
+     * ProtoMap cells.  Identical to the ProtoSparseList cells
      * except that the key is a `const ProtoObject*` which processReferences
      * reports to the collector when it carries a cell pointer.  Keys are
      * ordered and compared by their word (sparse_avl::keyWord).  nullptr is
      * not a valid key: the Small form marks empty slots with keys[i] ==
-     * nullptr.  Both forms carry POINTER_TAG_SPARSE_LIST_OBJECT; the public
+     * nullptr.  Both forms carry POINTER_TAG_MAP; the public
      * trampolines tell them apart with getType().
      */
-    class ProtoSparseListObjectImplementation final : public Cell {
+    class ProtoMapImplementation final : public Cell {
     public:
         using KeyType = const ProtoObject*;
 
         const ProtoObject* const key;
         const ProtoObject* value;
-        const ProtoSparseListObjectImplementation* previous;
-        const ProtoSparseListObjectImplementation* next;
+        const ProtoMapImplementation* previous;
+        const ProtoMapImplementation* next;
         unsigned long size: 24;
         unsigned long height: 8;
         unsigned long isEmpty: 1;
 
-        CellType getType() const override { return CellType::SparseListObject; }
+        CellType getType() const override { return CellType::Map; }
 
-        ProtoSparseListObjectImplementation(ProtoContext* context, const ProtoObject* k, const ProtoObject* v,
-                                            const ProtoSparseListObjectImplementation* p,
-                                            const ProtoSparseListObjectImplementation* n, bool empty);
+        ProtoMapImplementation(ProtoContext* context, const ProtoObject* k, const ProtoObject* v,
+                                            const ProtoMapImplementation* p,
+                                            const ProtoMapImplementation* n, bool empty);
 
         const ProtoObject* implAsObject(ProtoContext* context) const override;
         void processReferences(ProtoContext* context, void* self,
                                void (*method)(ProtoContext*, void*, const Cell*)) const override;
     };
 
-    class ProtoSparseListObjectSmallImplementation final : public Cell {
+    class ProtoMapSmallImplementation final : public Cell {
     public:
         using KeyType = const ProtoObject*;
         static constexpr unsigned MAX_INLINE = 3;
@@ -1707,11 +1707,11 @@ namespace proto {
         const ProtoObject* keys[MAX_INLINE];     // nullptr = unused slot
         const ProtoObject* values[MAX_INLINE];
 
-        CellType getType() const override { return CellType::SparseListObjectSmall; }
+        CellType getType() const override { return CellType::MapSmall; }
 
-        explicit ProtoSparseListObjectSmallImplementation(ProtoContext* context);
+        explicit ProtoMapSmallImplementation(ProtoContext* context);
         // n <= MAX_INLINE, no nullptr key in the n-prefix, key-word ascending.
-        ProtoSparseListObjectSmallImplementation(ProtoContext* context, unsigned n,
+        ProtoMapSmallImplementation(ProtoContext* context, unsigned n,
                                                  const ProtoObject* const* keys,
                                                  const ProtoObject* const* values);
 
@@ -1720,22 +1720,22 @@ namespace proto {
                                void (*method)(ProtoContext*, void*, const Cell*)) const override;
     };
 
-    class ProtoSparseListObjectIteratorImplementation final : public Cell {
+    class ProtoMapIteratorImplementation final : public Cell {
     public:
         const int state;
-        const ProtoSparseListObjectImplementation* current;
-        const ProtoSparseListObjectIteratorImplementation* queue;
+        const ProtoMapImplementation* current;
+        const ProtoMapIteratorImplementation* queue;
 
-        CellType getType() const override { return CellType::SparseListObjectIterator; }
+        CellType getType() const override { return CellType::MapIterator; }
 
-        ProtoSparseListObjectIteratorImplementation(ProtoContext* context, int s,
-                                                    const ProtoSparseListObjectImplementation* c,
-                                                    const ProtoSparseListObjectIteratorImplementation* q);
+        ProtoMapIteratorImplementation(ProtoContext* context, int s,
+                                                    const ProtoMapImplementation* c,
+                                                    const ProtoMapIteratorImplementation* q);
 
         int implHasNext() const;
         const ProtoObject* implNextKey() const;
         const ProtoObject* implNextValue() const;
-        const ProtoSparseListObjectIteratorImplementation* implAdvance(ProtoContext* context) const;
+        const ProtoMapIteratorImplementation* implAdvance(ProtoContext* context) const;
 
         const ProtoObject* implAsObject(ProtoContext* context) const override;
         void processReferences(ProtoContext* context, void* self,
@@ -1933,9 +1933,9 @@ namespace proto {
             ProtoSparseListIteratorImplementation sparseListIteratorCell;
             ProtoSparseListImplementation sparseListCell;
             ProtoSparseListSmallImplementation sparseListSmallCell;
-            ProtoSparseListObjectImplementation sparseListObjectCell;
-            ProtoSparseListObjectSmallImplementation sparseListObjectSmallCell;
-            ProtoSparseListObjectIteratorImplementation sparseListObjectIteratorCell;
+            ProtoMapImplementation mapCell;
+            ProtoMapSmallImplementation mapSmallCell;
+            ProtoMapIteratorImplementation mapIteratorCell;
             ProtoTupleIteratorImplementation tupleIteratorCell;
             ProtoTupleImplementation tupleCell;
             ProtoStringIteratorImplementation stringIteratorCell;
@@ -1961,9 +1961,9 @@ namespace proto {
     static_assert(sizeof(ProtoSparseListIteratorImplementation) <= 64, "ProtoSparseListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListImplementation) <= 64, "ProtoSparseListImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListSmallImplementation) <= 64, "ProtoSparseListSmallImplementation exceeds 64 bytes!");
-    static_assert(sizeof(ProtoSparseListObjectImplementation) <= 64, "ProtoSparseListObjectImplementation exceeds 64 bytes!");
-    static_assert(sizeof(ProtoSparseListObjectSmallImplementation) <= 64, "ProtoSparseListObjectSmallImplementation exceeds 64 bytes!");
-    static_assert(sizeof(ProtoSparseListObjectIteratorImplementation) <= 64, "ProtoSparseListObjectIteratorImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMapImplementation) <= 64, "ProtoMapImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMapSmallImplementation) <= 64, "ProtoMapSmallImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMapIteratorImplementation) <= 64, "ProtoMapIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoTupleIteratorImplementation) <= 64, "ProtoTupleIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoTupleImplementation) <= 64, "ProtoTupleImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoStringIteratorImplementation) <= 64, "ProtoStringIteratorImplementation exceeds 64 bytes!");

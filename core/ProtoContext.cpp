@@ -678,11 +678,11 @@ namespace proto
         return (new(this) ProtoSparseListSmallImplementation(this))->asSparseList(this);
     }
 
-    const ProtoSparseListObject* ProtoContext::newSparseListObject()
+    const ProtoMap* ProtoContext::newMap()
     {
         // Every fresh map starts as the inline Small form (all keys nullptr).
-        return reinterpret_cast<const ProtoSparseListObject*>(
-            (new(this) ProtoSparseListObjectSmallImplementation(this))->implAsObject(this));
+        return reinterpret_cast<const ProtoMap*>(
+            (new(this) ProtoMapSmallImplementation(this))->implAsObject(this));
     }
 
     const ProtoSparseListImplementation* ProtoContext::newSparseListImpl()

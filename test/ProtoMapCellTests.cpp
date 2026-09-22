@@ -1,4 +1,4 @@
-// SparseListObjectCellTests.cpp — the PSLO cells: one pointer tag for both
+// ProtoMapCellTests.cpp — the ProtoMap cells: one pointer tag for both
 // forms, their own CellTypes, and processReferences reporting the key only
 // when it is a cell pointer (embedded keys are never reported).
 
@@ -35,30 +35,30 @@ namespace {
     }
 }
 
-TEST(SparseListObjectCells, BothFormsShareOneTagAndHaveTheirOwnCellType) {
+TEST(MapCells, BothFormsShareOneTagAndHaveTheirOwnCellType) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
-    EXPECT_EQ(POINTER_TAG_SPARSE_LIST_OBJECT, 27);
+    EXPECT_EQ(POINTER_TAG_MAP, 27);
 
-    auto* node = new(c) ProtoSparseListObjectImplementation(c, nullptr, nullptr, nullptr, nullptr, true);
-    auto* small = new(c) ProtoSparseListObjectSmallImplementation(c);
+    auto* node = new(c) ProtoMapImplementation(c, nullptr, nullptr, nullptr, nullptr, true);
+    auto* small = new(c) ProtoMapSmallImplementation(c);
     ProtoObjectPointer a{}, b{};
     a.oid = node->implAsObject(c);
     b.oid = small->implAsObject(c);
-    EXPECT_EQ(a.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_SPARSE_LIST_OBJECT));
-    EXPECT_EQ(b.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_SPARSE_LIST_OBJECT));
-    EXPECT_EQ(node->getType(), CellType::SparseListObject);
-    EXPECT_EQ(small->getType(), CellType::SparseListObjectSmall);
-    EXPECT_LE(sizeof(ProtoSparseListObjectImplementation), 64u);
-    EXPECT_LE(sizeof(ProtoSparseListObjectSmallImplementation), 64u);
+    EXPECT_EQ(a.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_MAP));
+    EXPECT_EQ(b.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_MAP));
+    EXPECT_EQ(node->getType(), CellType::Map);
+    EXPECT_EQ(small->getType(), CellType::MapSmall);
+    EXPECT_LE(sizeof(ProtoMapImplementation), 64u);
+    EXPECT_LE(sizeof(ProtoMapSmallImplementation), 64u);
 }
 
-TEST(SparseListObjectCells, NodeReportsCellKeyCellValueAndChildren) {
+TEST(MapCells, NodeReportsCellKeyCellValueAndChildren) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
     const ProtoObject* k1 = cellObject(c, 1);
     const ProtoObject* v1 = cellObject(c, 2);
-    auto* leaf = new(c) ProtoSparseListObjectImplementation(c, k1, v1, nullptr, nullptr, false);
+    auto* leaf = new(c) ProtoMapImplementation(c, k1, v1, nullptr, nullptr, false);
 
     std::vector<const Cell*> seen;
     leaf->processReferences(c, &seen, record);
@@ -67,7 +67,7 @@ TEST(SparseListObjectCells, NodeReportsCellKeyCellValueAndChildren) {
     EXPECT_TRUE(contains(seen, ProtoObject::asCellPointer(v1)));
 
     const ProtoObject* k2 = cellObject(c, 3);
-    auto* parent = new(c) ProtoSparseListObjectImplementation(c, k2, c->fromInteger(5), leaf, nullptr, false);
+    auto* parent = new(c) ProtoMapImplementation(c, k2, c->fromInteger(5), leaf, nullptr, false);
     seen.clear();
     parent->processReferences(c, &seen, record);
     ASSERT_EQ(seen.size(), 2u);                      // embedded value is not reported
@@ -76,7 +76,7 @@ TEST(SparseListObjectCells, NodeReportsCellKeyCellValueAndChildren) {
     for (const Cell* s : seen) EXPECT_EQ(reinterpret_cast<uintptr_t>(s) & 0x3F, 0u);
 }
 
-TEST(SparseListObjectCells, EmbeddedKeysAreNeverReported) {
+TEST(MapCells, EmbeddedKeysAreNeverReported) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
     const ProtoObject* embedded[] = {
@@ -85,7 +85,7 @@ TEST(SparseListObjectCells, EmbeddedKeysAreNeverReported) {
     };
     for (const ProtoObject* k : embedded) {
         ASSERT_EQ(ProtoObject::asCellPointer(k), nullptr);
-        auto* node = new(c) ProtoSparseListObjectImplementation(c, k, c->fromInteger(1), nullptr, nullptr, false);
+        auto* node = new(c) ProtoMapImplementation(c, k, c->fromInteger(1), nullptr, nullptr, false);
         std::vector<const Cell*> seen;
         node->processReferences(c, &seen, record);
         EXPECT_TRUE(seen.empty());
@@ -94,7 +94,7 @@ TEST(SparseListObjectCells, EmbeddedKeysAreNeverReported) {
     const ProtoObject* ks[3] = {embedded[0], embedded[2], embedded[5]};
     const ProtoObject* vsEmbedded[3] = {c->fromInteger(1), c->fromInteger(2), c->fromInteger(3)};
     sortByKeyWord(ks, vsEmbedded, 3);
-    auto* smallEmbedded = new(c) ProtoSparseListObjectSmallImplementation(c, 3, ks, vsEmbedded);
+    auto* smallEmbedded = new(c) ProtoMapSmallImplementation(c, 3, ks, vsEmbedded);
     std::vector<const Cell*> seen;
     smallEmbedded->processReferences(c, &seen, record);
     EXPECT_TRUE(seen.empty());
@@ -104,7 +104,7 @@ TEST(SparseListObjectCells, EmbeddedKeysAreNeverReported) {
     const ProtoObject* ks2[2] = {embedded[0], cellKey};
     const ProtoObject* vs2[2] = {cellValue, c->fromInteger(6)};
     sortByKeyWord(ks2, vs2, 2);
-    auto* smallMixed = new(c) ProtoSparseListObjectSmallImplementation(c, 2, ks2, vs2);
+    auto* smallMixed = new(c) ProtoMapSmallImplementation(c, 2, ks2, vs2);
     seen.clear();
     smallMixed->processReferences(c, &seen, record);
     ASSERT_EQ(seen.size(), 2u);
@@ -112,16 +112,16 @@ TEST(SparseListObjectCells, EmbeddedKeysAreNeverReported) {
     EXPECT_TRUE(contains(seen, ProtoObject::asCellPointer(cellKey)));
 }
 
-TEST(SparseListObjectCells, NodeWithBothChildrenReportsExactlyItsFourReferences) {
+TEST(MapCells, NodeWithBothChildrenReportsExactlyItsFourReferences) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
     const ProtoObject* kl = cellObject(c, 10);
     const ProtoObject* kr = cellObject(c, 11);
-    auto* left = new(c) ProtoSparseListObjectImplementation(c, kl, c->fromInteger(1), nullptr, nullptr, false);
-    auto* right = new(c) ProtoSparseListObjectImplementation(c, kr, c->fromInteger(2), nullptr, nullptr, false);
+    auto* left = new(c) ProtoMapImplementation(c, kl, c->fromInteger(1), nullptr, nullptr, false);
+    auto* right = new(c) ProtoMapImplementation(c, kr, c->fromInteger(2), nullptr, nullptr, false);
     const ProtoObject* key = cellObject(c, 12);
     const ProtoObject* value = cellObject(c, 13);
-    auto* node = new(c) ProtoSparseListObjectImplementation(c, key, value, left, right, false);
+    auto* node = new(c) ProtoMapImplementation(c, key, value, left, right, false);
 
     std::vector<const Cell*> seen;
     node->processReferences(c, &seen, record);

@@ -44,8 +44,8 @@ namespace proto
     class ProtoSparseList;
     class ProtoSparseListImplementation;  // raw AVL impl, internal
     class ProtoSparseListIterator;
-    class ProtoSparseListObject;
-    class ProtoSparseListObjectIterator;
+    class ProtoMap;
+    class ProtoMapIterator;
     class ProtoSet;
     class ProtoSetIterator;
     class ProtoMultiset;
@@ -342,7 +342,7 @@ namespace proto
         bool isMultiset(ProtoContext* context) const;
         bool isByteBuffer(ProtoContext* context) const;
         bool isNativeRangeIterator(ProtoContext* context) const;
-        bool isSparseListObject(ProtoContext* context) const;
+        bool isMap(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
@@ -383,7 +383,7 @@ namespace proto
         const ProtoStringIterator* asStringIterator(ProtoContext* context) const;
         const ProtoSparseList* asSparseList(ProtoContext* context) const;
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
-        const ProtoSparseListObject* asSparseListObject(ProtoContext* context) const;
+        const ProtoMap* asMap(ProtoContext* context) const;
         const ProtoSet* asSet(ProtoContext* context) const;
         const ProtoSetIterator* asSetIterator(ProtoContext* context) const;
         const ProtoMultiset* asMultiset(ProtoContext* context) const;
@@ -809,24 +809,24 @@ namespace proto
     };
 
     /**
-     * @class ProtoSparseListObjectIterator
-     * @brief Ascending key-word iteration over a ProtoSparseListObject version.
+     * @class ProtoMapIterator
+     * @brief Ascending key-word iteration over a ProtoMap version.
      *
      * Maintainer option D1 = (a): this handle is an unboxed C++ pointer, not a
      * ProtoObject word. It offers no `asObject`/object-model API and is never
      * given to the attribute chain.
      */
-    class ProtoSparseListObjectIterator
+    class ProtoMapIterator
     {
     public:
         int hasNext(ProtoContext* context) const;
         const ProtoObject* nextKey(ProtoContext* context) const;
         const ProtoObject* nextValue(ProtoContext* context) const;
-        const ProtoSparseListObjectIterator* advance(ProtoContext* context) const;
+        const ProtoMapIterator* advance(ProtoContext* context) const;
     };
 
     /**
-     * @class ProtoSparseListObject
+     * @class ProtoMap
      * @brief Persistent map from `const ProtoObject*` keys to values.
      *
      * Identical to ProtoSparseList except that the key is an object word the
@@ -841,18 +841,18 @@ namespace proto
      * receiving the same pointer back), and getIterator returns nullptr for
      * an empty map.
      */
-    class ProtoSparseListObject
+    class ProtoMap
     {
     public:
         bool has(ProtoContext* context, const ProtoObject* key) const;
         const ProtoObject* getAt(ProtoContext* context, const ProtoObject* key) const;
-        const ProtoSparseListObject* setAt(ProtoContext* context, const ProtoObject* key, const ProtoObject* value) const;
-        const ProtoSparseListObject* removeAt(ProtoContext* context, const ProtoObject* key) const;
-        bool isEqual(ProtoContext* context, const ProtoSparseListObject* other) const;
+        const ProtoMap* setAt(ProtoContext* context, const ProtoObject* key, const ProtoObject* value) const;
+        const ProtoMap* removeAt(ProtoContext* context, const ProtoObject* key) const;
+        bool isEqual(ProtoContext* context, const ProtoMap* other) const;
         unsigned long getSize(ProtoContext* context) const;
 
         const ProtoObject* asObject(ProtoContext* context) const;
-        const ProtoSparseListObjectIterator* getIterator(ProtoContext* context) const;
+        const ProtoMapIterator* getIterator(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
 
         /** Visits (key, value) in ascending key-word order.  Allocates nothing and
@@ -882,8 +882,8 @@ namespace proto
     };
 
     /**
-     * Persistent hashed map operations over a ProtoSparseListObject
-     * (protoScala/docs/platform/PSLO-SPEC.md §4):
+     * Persistent hashed map operations over a ProtoMap
+     * (protoScala/docs/platform/PROTOMAP-SPEC.md §4):
      *  - identity key       -> slot key = the key itself, slot value = v
      *  - value-equality key -> slot key = SmallInteger word of the hash's low
      *                          54 bits, slot value = flat ProtoList
@@ -896,20 +896,20 @@ namespace proto
      * A nullptr key is ignored silently by every function (D3): hashedPut and
      * hashedRemove return `map`, hashedGet returns nullptr, and no callback
      * runs.  A nullptr value in hashedPut removes the key, as
-     * ProtoSparseListObject::setAt does.
+     * ProtoMap::setAt does.
      *
      * A map used with these functions must be read and modified only through
      * them (with one KeySemantics): mixing them with raw setAt / removeAt on
      * the same map is undefined, because a raw SmallInteger key would collide
      * with a hash slot.
      */
-    const ProtoSparseListObject* hashedPut(ProtoContext* context, const ProtoSparseListObject* map,
+    const ProtoMap* hashedPut(ProtoContext* context, const ProtoMap* map,
                                            const KeySemantics& semantics, const ProtoObject* key, const ProtoObject* value);
-    const ProtoObject* hashedGet(ProtoContext* context, const ProtoSparseListObject* map,
+    const ProtoObject* hashedGet(ProtoContext* context, const ProtoMap* map,
                                  const KeySemantics& semantics, const ProtoObject* key);
-    const ProtoSparseListObject* hashedRemove(ProtoContext* context, const ProtoSparseListObject* map,
+    const ProtoMap* hashedRemove(ProtoContext* context, const ProtoMap* map,
                                               const KeySemantics& semantics, const ProtoObject* key);
-    void hashedForEach(ProtoContext* context, const ProtoSparseListObject* map, void* self,
+    void hashedForEach(ProtoContext* context, const ProtoMap* map, void* self,
                        void (*fn)(ProtoContext*, void*, const ProtoObject* key, const ProtoObject* value));
 
     class ProtoSetIterator
@@ -1284,8 +1284,8 @@ namespace proto
         const ProtoTuple* newTuple(const std::vector<const ProtoObject*>& elements);
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);
         const ProtoSparseList* newSparseList();
-        /** Empty ProtoSparseListObject (inline Small form; promotes past 3 entries). */
-        const ProtoSparseListObject* newSparseListObject();
+        /** Empty ProtoMap (inline Small form; promotes past 3 entries). */
+        const ProtoMap* newMap();
         // Returns an empty AVL-form sparse list implementation as a raw
         // C++ pointer. Used for internal struct fields that should not
         // carry a tag (e.g. ProtoObjectCell::attributes); the public
@@ -1620,7 +1620,7 @@ namespace proto
         ProtoObject* multisetPrototype{};
         ProtoObject* multisetIteratorPrototype{};
         ProtoObject* rangeIteratorPrototype{};
-        ProtoObject* sparseListObjectPrototype{};
+        ProtoObject* mapPrototype{};
 
         // --- Cached Literals ---
         ProtoString* literalData;

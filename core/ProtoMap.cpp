@@ -1,11 +1,11 @@
 /*
- * ProtoSparseListObject.cpp
+ * ProtoMap.cpp
  *
  * Persistent AVL map keyed by a GC-traced `const ProtoObject*` word.
  * Identical to ProtoSparseList (core/ProtoSparseList.cpp) in algorithm and
  * forms; it differs only in the key type and in processReferences, which
  * reports the key to the collector when it is a cell pointer.
- * Specification: protoScala/docs/platform/PSLO-SPEC.md.
+ * Specification: protoScala/docs/platform/PROTOMAP-SPEC.md.
  */
 
 #include "../headers/proto_internal.h"
@@ -14,24 +14,24 @@
 namespace proto
 {
     //=========================================================================
-    // ProtoSparseListObjectImplementation (AVL node)
+    // ProtoMapImplementation (AVL node)
     //=========================================================================
-    ProtoSparseListObjectImplementation::ProtoSparseListObjectImplementation(
+    ProtoMapImplementation::ProtoMapImplementation(
         ProtoContext* context, const ProtoObject* k, const ProtoObject* v,
-        const ProtoSparseListObjectImplementation* p, const ProtoSparseListObjectImplementation* n, bool empty)
+        const ProtoMapImplementation* p, const ProtoMapImplementation* n, bool empty)
         : Cell(context), key(k), value(v), previous(p), next(n),
           size(empty ? 0 : (v != nullptr) + sparse_avl::nodeSize(p) + sparse_avl::nodeSize(n)),
           height(empty ? 0 : 1 + std::max(sparse_avl::nodeHeight(p), sparse_avl::nodeHeight(n))),
           isEmpty(empty) {}
 
-    const ProtoObject* ProtoSparseListObjectImplementation::implAsObject(ProtoContext*) const {
+    const ProtoObject* ProtoMapImplementation::implAsObject(ProtoContext*) const {
         ProtoObjectPointer p{};
-        p.sparseListObjectImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_SPARSE_LIST_OBJECT;
+        p.mapImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_MAP;
         return p.oid;
     }
 
-    void ProtoSparseListObjectImplementation::processReferences(
+    void ProtoMapImplementation::processReferences(
         ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
     {
         // The key is a reference exactly like the value: an object whose only
@@ -44,9 +44,9 @@ namespace proto
     }
 
     //=========================================================================
-    // ProtoSparseListObjectSmallImplementation (inline form, up to 3 pairs)
+    // ProtoMapSmallImplementation (inline form, up to 3 pairs)
     //=========================================================================
-    ProtoSparseListObjectSmallImplementation::ProtoSparseListObjectSmallImplementation(ProtoContext* context)
+    ProtoMapSmallImplementation::ProtoMapSmallImplementation(ProtoContext* context)
         : Cell(context)
     {
         for (unsigned i = 0; i < MAX_INLINE; ++i) {
@@ -55,7 +55,7 @@ namespace proto
         }
     }
 
-    ProtoSparseListObjectSmallImplementation::ProtoSparseListObjectSmallImplementation(
+    ProtoMapSmallImplementation::ProtoMapSmallImplementation(
         ProtoContext* context, unsigned n, const ProtoObject* const* ks, const ProtoObject* const* vs)
         : Cell(context)
     {
@@ -65,14 +65,14 @@ namespace proto
         }
     }
 
-    const ProtoObject* ProtoSparseListObjectSmallImplementation::implAsObject(ProtoContext*) const {
+    const ProtoObject* ProtoMapSmallImplementation::implAsObject(ProtoContext*) const {
         ProtoObjectPointer p{};
-        p.sparseListObjectSmallImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_SPARSE_LIST_OBJECT;
+        p.mapSmallImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_MAP;
         return p.oid;
     }
 
-    void ProtoSparseListObjectSmallImplementation::processReferences(
+    void ProtoMapSmallImplementation::processReferences(
         ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
     {
         for (unsigned i = 0; i < MAX_INLINE; ++i) {
@@ -86,28 +86,28 @@ namespace proto
     // Public trampolines
     //=========================================================================
     namespace {
-        using Node = ProtoSparseListObjectImplementation;
-        using Small = ProtoSparseListObjectSmallImplementation;
+        using Node = ProtoMapImplementation;
+        using Small = ProtoMapSmallImplementation;
 
-        inline const Cell* cellOf(const ProtoSparseListObject* m) {
+        inline const Cell* cellOf(const ProtoMap* m) {
             return reinterpret_cast<const Cell*>(reinterpret_cast<uintptr_t>(m) & ~0x3FUL);
         }
 
-        // One tag serves both forms (PSLO-SPEC §3 rule 2): the form is the
+        // One tag serves both forms (PROTOMAP-SPEC §3 rule 2): the form is the
         // cell's CellType.
-        inline bool isSmall(const ProtoSparseListObject* m) {
-            return cellOf(m)->getType() == CellType::SparseListObjectSmall;
+        inline bool isSmall(const ProtoMap* m) {
+            return cellOf(m)->getType() == CellType::MapSmall;
         }
 
-        inline const Small* smallOf(const ProtoSparseListObject* m) { return toImpl<const Small>(m); }
-        inline const Node* avlOf(const ProtoSparseListObject* m) { return toImpl<const Node>(m); }
+        inline const Small* smallOf(const ProtoMap* m) { return toImpl<const Small>(m); }
+        inline const Node* avlOf(const ProtoMap* m) { return toImpl<const Node>(m); }
 
-        inline const ProtoSparseListObject* handleOf(const ProtoObject* o) {
-            return reinterpret_cast<const ProtoSparseListObject*>(o);
+        inline const ProtoMap* handleOf(const ProtoObject* o) {
+            return reinterpret_cast<const ProtoMap*>(o);
         }
 
         template<class Fn>
-        void forEachPair(const ProtoSparseListObject* m, Fn&& fn) {
+        void forEachPair(const ProtoMap* m, Fn&& fn) {
             if (isSmall(m)) {
                 const Small* s = smallOf(m);
                 const unsigned long n = sparse_avl::smallCount(s);
@@ -132,18 +132,18 @@ namespace proto
         }
     }
 
-    // D3 (PSLO-SPEC §7): a nullptr key is ignored silently.
-    bool ProtoSparseListObject::has(ProtoContext* context, const ProtoObject* key) const {
+    // D3 (PROTOMAP-SPEC §7): a nullptr key is ignored silently.
+    bool ProtoMap::has(ProtoContext* context, const ProtoObject* key) const {
         return getAt(context, key) != nullptr;
     }
 
-    const ProtoObject* ProtoSparseListObject::getAt(ProtoContext*, const ProtoObject* key) const {
+    const ProtoObject* ProtoMap::getAt(ProtoContext*, const ProtoObject* key) const {
         if (!key) return nullptr;
         if (isSmall(this)) return sparse_avl::smallGetAt(smallOf(this), key);
         return sparse_avl::getAt(avlOf(this), key);
     }
 
-    const ProtoSparseListObject* ProtoSparseListObject::setAt(ProtoContext* context, const ProtoObject* key, const ProtoObject* value) const {
+    const ProtoMap* ProtoMap::setAt(ProtoContext* context, const ProtoObject* key, const ProtoObject* value) const {
         if (!key) return this;
         // GC critical section: the new path of cells is reachable only from
         // this C++ frame until the caller publishes the result.
@@ -153,7 +153,7 @@ namespace proto
         return handleOf(sparse_avl::setAt(context, avlOf(this), key, value)->implAsObject(context));
     }
 
-    const ProtoSparseListObject* ProtoSparseListObject::removeAt(ProtoContext* context, const ProtoObject* key) const {
+    const ProtoMap* ProtoMap::removeAt(ProtoContext* context, const ProtoObject* key) const {
         if (!key) return this;
         ProtoContext::CriticalSection cs(context);
         if (isSmall(this))
@@ -161,17 +161,17 @@ namespace proto
         return handleOf(sparse_avl::removeAt(context, avlOf(this), key)->implAsObject(context));
     }
 
-    unsigned long ProtoSparseListObject::getSize(ProtoContext*) const {
+    unsigned long ProtoMap::getSize(ProtoContext*) const {
         if (isSmall(this)) return sparse_avl::smallCount(smallOf(this));
         return avlOf(this)->size;
     }
 
-    const ProtoObject* ProtoSparseListObject::asObject(ProtoContext*) const {
+    const ProtoObject* ProtoMap::asObject(ProtoContext*) const {
         return reinterpret_cast<const ProtoObject*>(this);   // the handle is already tagged
     }
 
-    // D4 (PSLO-SPEC §7): values compared by word identity.
-    bool ProtoSparseListObject::isEqual(ProtoContext* context, const ProtoSparseListObject* other) const {
+    // D4 (PROTOMAP-SPEC §7): values compared by word identity.
+    bool ProtoMap::isEqual(ProtoContext* context, const ProtoMap* other) const {
         if (this == other) return true;
         if (!other || getSize(context) != other->getSize(context)) return false;
         bool equal = true;
@@ -182,7 +182,7 @@ namespace proto
     }
 
     // Order-independent over (key word, value hash) pairs.
-    unsigned long ProtoSparseListObject::getHash(ProtoContext* context) const {
+    unsigned long ProtoMap::getHash(ProtoContext* context) const {
         unsigned long h = mixWord(getSize(context));
         forEachPair(this, [&](const ProtoObject* k, const ProtoObject* v) {
             h += mixWord(sparse_avl::keyWord(k) ^ mixWord(v->getHash(context)));
@@ -190,40 +190,40 @@ namespace proto
         return h;
     }
 
-    void ProtoSparseListObject::processElements(ProtoContext* context, void* self,
+    void ProtoMap::processElements(ProtoContext* context, void* self,
         void (*method)(ProtoContext*, void*, const ProtoObject*, const ProtoObject*)) const
     {
         forEachPair(this, [&](const ProtoObject* k, const ProtoObject* v) { method(context, self, k, v); });
     }
 
-    void ProtoSparseListObject::processValues(ProtoContext* context, void* self,
+    void ProtoMap::processValues(ProtoContext* context, void* self,
         void (*method)(ProtoContext*, void*, const ProtoObject*)) const
     {
         forEachPair(this, [&](const ProtoObject*, const ProtoObject* v) { method(context, self, v); });
     }
 
     //=========================================================================
-    // ProtoSparseListObjectIteratorImplementation
+    // ProtoMapIteratorImplementation
     //=========================================================================
-    ProtoSparseListObjectIteratorImplementation::ProtoSparseListObjectIteratorImplementation(
-        ProtoContext* context, int s, const ProtoSparseListObjectImplementation* c,
-        const ProtoSparseListObjectIteratorImplementation* q)
+    ProtoMapIteratorImplementation::ProtoMapIteratorImplementation(
+        ProtoContext* context, int s, const ProtoMapImplementation* c,
+        const ProtoMapIteratorImplementation* q)
         : Cell(context), state(s), current(c), queue(q) {}
 
-    int ProtoSparseListObjectIteratorImplementation::implHasNext() const {
+    int ProtoMapIteratorImplementation::implHasNext() const {
         return state == ITERATOR_NEXT_THIS && current && !current->isEmpty;
     }
 
-    const ProtoObject* ProtoSparseListObjectIteratorImplementation::implNextKey() const {
+    const ProtoObject* ProtoMapIteratorImplementation::implNextKey() const {
         return (state == ITERATOR_NEXT_THIS && current) ? current->key : nullptr;
     }
 
-    const ProtoObject* ProtoSparseListObjectIteratorImplementation::implNextValue() const {
+    const ProtoObject* ProtoMapIteratorImplementation::implNextValue() const {
         return (state == ITERATOR_NEXT_THIS && current) ? current->value : nullptr;
     }
 
-    const ProtoSparseListObjectIteratorImplementation*
-    ProtoSparseListObjectIteratorImplementation::implAdvance(ProtoContext* context) const {
+    const ProtoMapIteratorImplementation*
+    ProtoMapIteratorImplementation::implAdvance(ProtoContext* context) const {
         if (state != ITERATOR_NEXT_THIS) return nullptr;
         if (current && current->next && !current->next->isEmpty) {
             ProtoContext::CriticalSection cs(context);
@@ -232,7 +232,7 @@ namespace proto
         return queue;
     }
 
-    void ProtoSparseListObjectIteratorImplementation::processReferences(
+    void ProtoMapIteratorImplementation::processReferences(
         ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
     {
         if (current) method(context, self, current);
@@ -245,33 +245,33 @@ namespace proto
     // (getPrototype, getAttribute, asObject) is offered for this handle, so
     // no tag-0 non-ProtoObjectCell word can reach the attribute chain
     // (proto_internal.h, "Pointer tag layout", #92).
-    const ProtoObject* ProtoSparseListObjectIteratorImplementation::implAsObject(ProtoContext*) const {
+    const ProtoObject* ProtoMapIteratorImplementation::implAsObject(ProtoContext*) const {
         return reinterpret_cast<const ProtoObject*>(this);
     }
 
-    const ProtoSparseListObjectIterator* ProtoSparseListObject::getIterator(ProtoContext* context) const {
+    const ProtoMapIterator* ProtoMap::getIterator(ProtoContext* context) const {
         ProtoContext::CriticalSection cs(context);
         const Node* root = isSmall(this)
             ? sparse_avl::smallPromote<Small, Node>(context, smallOf(this))   // as ProtoSparseList does
             : avlOf(this);
-        const ProtoSparseListObjectIteratorImplementation* impl =
+        const ProtoMapIteratorImplementation* impl =
             sparse_avl::iteratorWithQueue(context, root,
-                static_cast<const ProtoSparseListObjectIteratorImplementation*>(nullptr));
-        return impl ? reinterpret_cast<const ProtoSparseListObjectIterator*>(impl->implAsObject(context)) : nullptr;
+                static_cast<const ProtoMapIteratorImplementation*>(nullptr));
+        return impl ? reinterpret_cast<const ProtoMapIterator*>(impl->implAsObject(context)) : nullptr;
     }
 
     namespace {
-        inline const ProtoSparseListObjectIteratorImplementation* iterImpl(const ProtoSparseListObjectIterator* it) {
-            return toImpl<const ProtoSparseListObjectIteratorImplementation>(it);
+        inline const ProtoMapIteratorImplementation* iterImpl(const ProtoMapIterator* it) {
+            return toImpl<const ProtoMapIteratorImplementation>(it);
         }
     }
 
-    int ProtoSparseListObjectIterator::hasNext(ProtoContext*) const { if (!this) return 0; return iterImpl(this)->implHasNext(); }
-    const ProtoObject* ProtoSparseListObjectIterator::nextKey(ProtoContext*) const { if (!this) return nullptr; return iterImpl(this)->implNextKey(); }
-    const ProtoObject* ProtoSparseListObjectIterator::nextValue(ProtoContext*) const { if (!this) return nullptr; return iterImpl(this)->implNextValue(); }
-    const ProtoSparseListObjectIterator* ProtoSparseListObjectIterator::advance(ProtoContext* context) const {
+    int ProtoMapIterator::hasNext(ProtoContext*) const { if (!this) return 0; return iterImpl(this)->implHasNext(); }
+    const ProtoObject* ProtoMapIterator::nextKey(ProtoContext*) const { if (!this) return nullptr; return iterImpl(this)->implNextKey(); }
+    const ProtoObject* ProtoMapIterator::nextValue(ProtoContext*) const { if (!this) return nullptr; return iterImpl(this)->implNextValue(); }
+    const ProtoMapIterator* ProtoMapIterator::advance(ProtoContext* context) const {
         if (!this) return nullptr;
         const auto* n = iterImpl(this)->implAdvance(context);
-        return n ? reinterpret_cast<const ProtoSparseListObjectIterator*>(n->implAsObject(context)) : nullptr;
+        return n ? reinterpret_cast<const ProtoMapIterator*>(n->implAsObject(context)) : nullptr;
     }
 }

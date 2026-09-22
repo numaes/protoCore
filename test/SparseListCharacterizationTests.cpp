@@ -1,6 +1,6 @@
 // SparseListCharacterizationTests.cpp — locks ProtoSparseList's observable
 // behaviour (contents, form, order, iterator output, AVL balance) before its
-// algorithms are shared with ProtoSparseListObject.  Must pass unchanged
+// algorithms are shared with ProtoMap.  Must pass unchanged
 // before and after the refactor.
 
 #include <gtest/gtest.h>

@@ -343,7 +343,7 @@ namespace proto
         case POINTER_TAG_SPARSE_LIST: return context->space->sparseListPrototype;
         case POINTER_TAG_SPARSE_LIST_SMALL: return context->space->sparseListPrototype;
         case POINTER_TAG_SPARSE_LIST_ITERATOR: return context->space->sparseListIteratorPrototype;
-        case POINTER_TAG_SPARSE_LIST_OBJECT: return context->space->sparseListObjectPrototype;
+        case POINTER_TAG_MAP: return context->space->mapPrototype;
         case POINTER_TAG_TUPLE: return context->space->tuplePrototype;
         case POINTER_TAG_TUPLE_ITERATOR: return context->space->tupleIteratorPrototype;
         case POINTER_TAG_STRING: return context->space->stringPrototype;
@@ -1576,27 +1576,27 @@ namespace proto
         }
         return nullptr;
     }
-    bool ProtoObject::isSparseListObject(ProtoContext* context) const {
+    bool ProtoObject::isMap(ProtoContext* context) const {
         if (!this) return false;
         ProtoObjectPointer pa{}; pa.oid = this;
-        if (pa.op.pointer_tag == POINTER_TAG_SPARSE_LIST_OBJECT) return true;
+        if (pa.op.pointer_tag == POINTER_TAG_MAP) return true;
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
             const proto::ProtoString* dataName = context->space->literalData;
             const proto::ProtoObject* data = this->getAttribute(context, dataName, false);
-            if (data && data != this) return data->isSparseListObject(context);
+            if (data && data != this) return data->isMap(context);
         }
         return false;
     }
 
-    const ProtoSparseListObject* ProtoObject::asSparseListObject(ProtoContext* context) const {
+    const ProtoMap* ProtoObject::asMap(ProtoContext* context) const {
         if (!this) return nullptr;
         ProtoObjectPointer pa{}; pa.oid = this;
-        if (pa.op.pointer_tag == POINTER_TAG_SPARSE_LIST_OBJECT)
-            return reinterpret_cast<const ProtoSparseListObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_MAP)
+            return reinterpret_cast<const ProtoMap*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
             const proto::ProtoString* dataName = context->space->literalData;
             const proto::ProtoObject* data = this->getAttribute(context, dataName, false);
-            if (data && data != this) return data->asSparseListObject(context);
+            if (data && data != this) return data->asMap(context);
         }
         return nullptr;
     }

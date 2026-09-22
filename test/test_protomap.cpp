@@ -1,4 +1,4 @@
-// test_sparselistobject.cpp — API parity of ProtoSparseListObject with
+// test_protomap.cpp — API parity of ProtoMap with
 // ProtoSparseList: Small and AVL forms, the promotion boundary, ordering by
 // key word, persistence, isEqual/getHash, processElements/processValues.
 
@@ -14,7 +14,7 @@
 using namespace proto;
 
 namespace {
-    CellType formOf(const ProtoSparseListObject* m) {
+    CellType formOf(const ProtoMap* m) {
         return reinterpret_cast<const Cell*>(reinterpret_cast<uintptr_t>(m) & ~0x3FUL)->getType();
     }
 
@@ -27,7 +27,7 @@ namespace {
     }
 }
 
-class SparseListObjectTest : public ::testing::Test {
+class MapTest : public ::testing::Test {
 protected:
     ProtoSpace* space;
     ProtoContext* c;
@@ -37,54 +37,54 @@ protected:
     const ProtoObject* obj() { return c->newObject(false); }
 };
 
-TEST_F(SparseListObjectTest, NewIsAnEmptySmallWithTheNewTag) {
-    const ProtoSparseListObject* m = c->newSparseListObject();
+TEST_F(MapTest, NewIsAnEmptySmallWithTheNewTag) {
+    const ProtoMap* m = c->newMap();
     ProtoObjectPointer pa{};
     pa.oid = m->asObject(c);
-    EXPECT_EQ(pa.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_SPARSE_LIST_OBJECT));
-    EXPECT_EQ(formOf(m), CellType::SparseListObjectSmall);
+    EXPECT_EQ(pa.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_MAP));
+    EXPECT_EQ(formOf(m), CellType::MapSmall);
     EXPECT_EQ(m->getSize(c), 0u);
     EXPECT_FALSE(m->has(c, obj()));
 }
 
-TEST_F(SparseListObjectTest, SmallHoldsThreeThenPromotesAndNeverDemotes) {
+TEST_F(MapTest, SmallHoldsThreeThenPromotesAndNeverDemotes) {
     const ProtoObject* k[5] = {obj(), obj(), obj(), obj(), obj()};
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     for (int i = 0; i < 3; ++i) {
         m = m->setAt(c, k[i], I(i));
-        EXPECT_EQ(formOf(m), CellType::SparseListObjectSmall) << i;
+        EXPECT_EQ(formOf(m), CellType::MapSmall) << i;
     }
     m = m->setAt(c, k[3], I(3));
-    EXPECT_EQ(formOf(m), CellType::SparseListObject);
+    EXPECT_EQ(formOf(m), CellType::Map);
     EXPECT_EQ(m->getSize(c), 4u);
     for (int i = 0; i < 4; ++i) EXPECT_EQ(m->getAt(c, k[i]), I(i));
     m = m->removeAt(c, k[0]);
-    EXPECT_EQ(formOf(m), CellType::SparseListObject);    // mirrors ProtoSparseList
+    EXPECT_EQ(formOf(m), CellType::Map);    // mirrors ProtoSparseList
     EXPECT_EQ(m->getSize(c), 3u);
     EXPECT_FALSE(m->has(c, k[0]));
 }
 
-TEST_F(SparseListObjectTest, AbsentIsNullptrAndStoredNoneIsDistinguishable) {
+TEST_F(MapTest, AbsentIsNullptrAndStoredNoneIsDistinguishable) {
     const ProtoObject* a = obj();
     const ProtoObject* b = obj();
-    const ProtoSparseListObject* m = c->newSparseListObject()->setAt(c, a, PROTO_NONE);
+    const ProtoMap* m = c->newMap()->setAt(c, a, PROTO_NONE);
     EXPECT_EQ(m->getAt(c, a), PROTO_NONE);
     EXPECT_TRUE(m->has(c, a));
     EXPECT_EQ(m->getAt(c, b), nullptr);
     EXPECT_FALSE(m->has(c, b));
 }
 
-TEST_F(SparseListObjectTest, SetAtNullptrValueRemoves) {
+TEST_F(MapTest, SetAtNullptrValueRemoves) {
     const ProtoObject* a = obj();
-    const ProtoSparseListObject* m = c->newSparseListObject()->setAt(c, a, I(1));
+    const ProtoMap* m = c->newMap()->setAt(c, a, I(1));
     m = m->setAt(c, a, nullptr);
     EXPECT_FALSE(m->has(c, a));
     EXPECT_EQ(m->getSize(c), 0u);
 }
 
-// D3 (PSLO-SPEC §7): a nullptr key is ignored silently.
-TEST_F(SparseListObjectTest, NullKeyIsRejected) {
-    const ProtoSparseListObject* m = c->newSparseListObject()->setAt(c, obj(), I(1));
+// D3 (PROTOMAP-SPEC §7): a nullptr key is ignored silently.
+TEST_F(MapTest, NullKeyIsRejected) {
+    const ProtoMap* m = c->newMap()->setAt(c, obj(), I(1));
     EXPECT_FALSE(m->has(c, nullptr));
     EXPECT_EQ(m->getAt(c, nullptr), nullptr);
     EXPECT_EQ(m->setAt(c, nullptr, I(2)), m);
@@ -92,10 +92,10 @@ TEST_F(SparseListObjectTest, NullKeyIsRejected) {
     EXPECT_EQ(m->getSize(c), 1u);
 }
 
-TEST_F(SparseListObjectTest, EmbeddedKeysAreStored) {
+TEST_F(MapTest, EmbeddedKeysAreStored) {
     const ProtoObject* keys[] = {I(0), I(7), I(-3), PROTO_TRUE, PROTO_FALSE, PROTO_NONE,
                                  c->fromUnicodeChar(0x263A), c->fromUTF8String("ab")};
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     long i = 0;
     for (const ProtoObject* k : keys) m = m->setAt(c, k, I(100 + i++));
     EXPECT_EQ(m->getSize(c), 8u);
@@ -103,8 +103,8 @@ TEST_F(SparseListObjectTest, EmbeddedKeysAreStored) {
     for (const ProtoObject* k : keys) EXPECT_EQ(m->getAt(c, k), I(100 + i++));
 }
 
-TEST_F(SparseListObjectTest, ElementsAreVisitedInAscendingKeyWordOrder) {
-    const ProtoSparseListObject* m = c->newSparseListObject();
+TEST_F(MapTest, ElementsAreVisitedInAscendingKeyWordOrder) {
+    const ProtoMap* m = c->newMap();
     for (int i = 0; i < 50; ++i) m = m->setAt(c, (i % 2) ? obj() : I(i * 13 - 200), I(i));
     PairVec visited;
     m->processElements(c, &visited, collect);
@@ -117,7 +117,7 @@ TEST_F(SparseListObjectTest, ElementsAreVisitedInAscendingKeyWordOrder) {
     for (size_t i = 0; i < values.size(); ++i) EXPECT_EQ(values[i], visited[i].second);
 }
 
-TEST_F(SparseListObjectTest, RandomOperationsMatchAnOrderedModel) {
+TEST_F(MapTest, RandomOperationsMatchAnOrderedModel) {
     std::vector<const ProtoObject*> pool;
     for (int i = 0; i < 40; ++i) pool.push_back(obj());
     for (int i = 0; i < 8; ++i) pool.push_back(I(i * 1000 - 3000));
@@ -128,7 +128,7 @@ TEST_F(SparseListObjectTest, RandomOperationsMatchAnOrderedModel) {
     std::uniform_int_distribution<size_t> pick(0, pool.size() - 1);
     std::uniform_int_distribution<int> op(0, 9);
     std::map<uintptr_t, std::pair<const ProtoObject*, const ProtoObject*>> model;
-    const ProtoSparseListObject* m = c->newSparseListObject();
+    const ProtoMap* m = c->newMap();
     bool promoted = false;
 
     for (int step = 0; step < 3000; ++step) {
@@ -137,12 +137,12 @@ TEST_F(SparseListObjectTest, RandomOperationsMatchAnOrderedModel) {
             const ProtoObject* v = I(step);
             m = m->setAt(c, k, v);
             model[reinterpret_cast<uintptr_t>(k)] = {k, v};
-            if (model.size() > ProtoSparseListObjectSmallImplementation::MAX_INLINE) promoted = true;
+            if (model.size() > ProtoMapSmallImplementation::MAX_INLINE) promoted = true;
         } else {
             m = m->removeAt(c, k);
             model.erase(reinterpret_cast<uintptr_t>(k));
         }
-        ASSERT_EQ(formOf(m), promoted ? CellType::SparseListObject : CellType::SparseListObjectSmall) << step;
+        ASSERT_EQ(formOf(m), promoted ? CellType::Map : CellType::MapSmall) << step;
         ASSERT_EQ(m->getSize(c), model.size()) << step;
         if (step % 25 == 0) {
             for (const ProtoObject* q : pool) {
@@ -159,13 +159,13 @@ TEST_F(SparseListObjectTest, RandomOperationsMatchAnOrderedModel) {
     }
 }
 
-TEST_F(SparseListObjectTest, OldVersionsRemainValidAndUnchanged) {
+TEST_F(MapTest, OldVersionsRemainValidAndUnchanged) {
     const ProtoObject* k[6] = {obj(), obj(), obj(), obj(), obj(), obj()};
-    const ProtoSparseListObject* v0 = c->newSparseListObject();
-    const ProtoSparseListObject* v1 = v0->setAt(c, k[0], I(0))->setAt(c, k[1], I(1));
-    const ProtoSparseListObject* v2 = v1;
+    const ProtoMap* v0 = c->newMap();
+    const ProtoMap* v1 = v0->setAt(c, k[0], I(0))->setAt(c, k[1], I(1));
+    const ProtoMap* v2 = v1;
     for (int i = 2; i < 6; ++i) v2 = v2->setAt(c, k[i], I(i));   // crosses into AVL
-    const ProtoSparseListObject* v3 = v2->setAt(c, k[0], I(99))->removeAt(c, k[5]);
+    const ProtoMap* v3 = v2->setAt(c, k[0], I(99))->removeAt(c, k[5]);
 
     EXPECT_EQ(v0->getSize(c), 0u);
     EXPECT_EQ(v1->getSize(c), 2u);
@@ -179,11 +179,11 @@ TEST_F(SparseListObjectTest, OldVersionsRemainValidAndUnchanged) {
     EXPECT_FALSE(v3->has(c, k[5]));
 }
 
-// D4 (PSLO-SPEC §7): keys compare by identity (their word).
-TEST_F(SparseListObjectTest, IsEqualAndHashIgnoreInsertionOrderAndForm) {
+// D4 (PROTOMAP-SPEC §7): keys compare by identity (their word).
+TEST_F(MapTest, IsEqualAndHashIgnoreInsertionOrderAndForm) {
     const ProtoObject* k[5] = {obj(), obj(), obj(), obj(), obj()};
-    const ProtoSparseListObject* a = c->newSparseListObject();
-    const ProtoSparseListObject* b = c->newSparseListObject();
+    const ProtoMap* a = c->newMap();
+    const ProtoMap* b = c->newMap();
     for (int i = 0; i < 5; ++i) a = a->setAt(c, k[i], I(i));
     for (int i = 4; i >= 0; --i) b = b->setAt(c, k[i], I(i));
     EXPECT_TRUE(a->isEqual(c, b));
@@ -191,58 +191,58 @@ TEST_F(SparseListObjectTest, IsEqualAndHashIgnoreInsertionOrderAndForm) {
     EXPECT_FALSE(a->isEqual(c, b->setAt(c, k[2], I(42))));
     EXPECT_FALSE(a->isEqual(c, b->removeAt(c, k[2])));
 
-    const ProtoSparseListObject* avl3 = a->removeAt(c, k[3])->removeAt(c, k[4]);   // AVL, size 3
-    const ProtoSparseListObject* small3 = c->newSparseListObject()
+    const ProtoMap* avl3 = a->removeAt(c, k[3])->removeAt(c, k[4]);   // AVL, size 3
+    const ProtoMap* small3 = c->newMap()
         ->setAt(c, k[0], I(0))->setAt(c, k[1], I(1))->setAt(c, k[2], I(2));      // Small, size 3
-    ASSERT_EQ(formOf(avl3), CellType::SparseListObject);
-    ASSERT_EQ(formOf(small3), CellType::SparseListObjectSmall);
+    ASSERT_EQ(formOf(avl3), CellType::Map);
+    ASSERT_EQ(formOf(small3), CellType::MapSmall);
     EXPECT_TRUE(avl3->isEqual(c, small3));
     EXPECT_EQ(avl3->getHash(c), small3->getHash(c));
 }
 
-TEST_F(SparseListObjectTest, ObjectIntegration) {
-    const ProtoSparseListObject* m = c->newSparseListObject()->setAt(c, obj(), I(1));
+TEST_F(MapTest, ObjectIntegration) {
+    const ProtoMap* m = c->newMap()->setAt(c, obj(), I(1));
     const ProtoObject* o = m->asObject(c);
-    EXPECT_TRUE(o->isSparseListObject(c));
-    EXPECT_EQ(o->asSparseListObject(c), m);
+    EXPECT_TRUE(o->isMap(c));
+    EXPECT_EQ(o->asMap(c), m);
     EXPECT_EQ(o->asSparseList(c), nullptr);                 // not a ProtoSparseList
-    EXPECT_FALSE(c->newSparseList()->asObject(c)->isSparseListObject(c));
-    EXPECT_EQ(c->newSparseList()->asObject(c)->asSparseListObject(c), nullptr);
-    EXPECT_FALSE(I(5)->isSparseListObject(c));
-    // D5 (PSLO-SPEC §7): ProtoSparseListObject has its own prototype.
-    EXPECT_EQ(o->getPrototype(c), space->sparseListObjectPrototype);
-    EXPECT_NE(space->sparseListObjectPrototype, nullptr);
-    EXPECT_NE(space->sparseListObjectPrototype, space->sparseListPrototype);
+    EXPECT_FALSE(c->newSparseList()->asObject(c)->isMap(c));
+    EXPECT_EQ(c->newSparseList()->asObject(c)->asMap(c), nullptr);
+    EXPECT_FALSE(I(5)->isMap(c));
+    // D5 (PROTOMAP-SPEC §7): ProtoMap has its own prototype.
+    EXPECT_EQ(o->getPrototype(c), space->mapPrototype);
+    EXPECT_NE(space->mapPrototype, nullptr);
+    EXPECT_NE(space->mapPrototype, space->sparseListPrototype);
 }
 
 // Content hash: equal contents hash equal whatever the insertion order and
 // form (Small / AVL); different contents give different hashes in practice.
-TEST_F(SparseListObjectTest, ContentHashFollowsContents) {
+TEST_F(MapTest, ContentHashFollowsContents) {
     const ProtoObject* k[8];
     for (auto& key : k) key = obj();
-    const ProtoSparseListObject* fwd = c->newSparseListObject();
-    const ProtoSparseListObject* rev = c->newSparseListObject();
+    const ProtoMap* fwd = c->newMap();
+    const ProtoMap* rev = c->newMap();
     for (int i = 0; i < 8; ++i) fwd = fwd->setAt(c, k[i], I(i));
     for (int i = 7; i >= 0; --i) rev = rev->setAt(c, k[i], I(i));
     EXPECT_EQ(fwd->getHash(c), rev->getHash(c));
 
     // Built through an AVL detour (grow, then shrink back) vs built directly Small.
-    const ProtoSparseListObject* viaAvl = fwd;
+    const ProtoMap* viaAvl = fwd;
     for (int i = 2; i < 8; ++i) viaAvl = viaAvl->removeAt(c, k[i]);
-    const ProtoSparseListObject* direct = c->newSparseListObject()->setAt(c, k[1], I(1))->setAt(c, k[0], I(0));
+    const ProtoMap* direct = c->newMap()->setAt(c, k[1], I(1))->setAt(c, k[0], I(0));
     EXPECT_EQ(viaAvl->getHash(c), direct->getHash(c));
 
     const unsigned long h = fwd->getHash(c);
     EXPECT_NE(h, fwd->setAt(c, k[3], I(33))->getHash(c));        // one value changed
     EXPECT_NE(h, fwd->removeAt(c, k[3])->getHash(c));           // one pair removed
     EXPECT_NE(h, fwd->setAt(c, obj(), I(8))->getHash(c));       // one pair added
-    EXPECT_NE(h, c->newSparseListObject()->getHash(c));         // empty
+    EXPECT_NE(h, c->newMap()->getHash(c));         // empty
 }
 
-TEST_F(SparseListObjectTest, AvlFormIsAlsoRecognised) {
-    const ProtoSparseListObject* m = c->newSparseListObject();
+TEST_F(MapTest, AvlFormIsAlsoRecognised) {
+    const ProtoMap* m = c->newMap();
     for (int i = 0; i < 10; ++i) m = m->setAt(c, obj(), I(i));
-    ASSERT_EQ(formOf(m), CellType::SparseListObject);
-    EXPECT_TRUE(m->asObject(c)->isSparseListObject(c));
-    EXPECT_EQ(m->asObject(c)->getPrototype(c), space->sparseListObjectPrototype);
+    ASSERT_EQ(formOf(m), CellType::Map);
+    EXPECT_TRUE(m->asObject(c)->isMap(c));
+    EXPECT_EQ(m->asObject(c)->getPrototype(c), space->mapPrototype);
 }
