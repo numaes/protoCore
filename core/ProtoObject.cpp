@@ -2043,7 +2043,7 @@ namespace proto
 
     const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const
     {
-        if (!this) return PROTO_FALSE;
+        if (!this || !name || !context) return PROTO_FALSE;
 
         // Look up the canonical symbol for this key without inserting.
         // If the key was never interned, it was never used as an attribute key,
@@ -2066,71 +2066,57 @@ namespace proto
             // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
-        const ProtoObject* currentObject = this;
+        // Same shape as getAttribute's chain-navigation loop (own
+        // attributes, then the linearised chain, head to tail) — a pure
+        // linear scan, no allocation, no recursion, and (unlike
+        // getAttribute) NO step cap: newChild/addParent/setParents all
+        // guarantee the receiver's own chain already contains every one
+        // of its ancestors as a direct entry, so there is no length this
+        // walk cannot reach. The old fixed-size (64-slot) sibling-stack
+        // DFS with its 50-step cap returned PROTO_FALSE (a false
+        // negative) for any hierarchy deeper than 50 links — the same
+        // class of bug isInstanceOf had before its own fix.
+        const ProtoObject* currentPointer = this;
+        const ParentLinkImplementation* currentLink = nullptr;
         const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
 
-        const ParentLinkImplementation* plStack[64];
-        int plPtr = 0;
-        int iterationCount = 0;
-
-        // A ParentLink pointer is valid when it is non-null,
-        // 64-byte-aligned (cell-aligned, low 6 bits = 0), and its
-        // cell type is actually ParentLink.  Used in a few places
-        // below where the original code repeated all three checks.
-        auto validLink = [](const ParentLinkImplementation* l) -> bool {
-            return l && ((uintptr_t)l & 0x3F) == 0 &&
-                   l->getType() == CellType::ParentLink;
-        };
-
-        while (currentObject) {
-            if (++iterationCount > 50) return PROTO_FALSE;
-
-            // Inline isObjectFast: any other tagged pointer (Integer,
-            // None, etc.) falls through to its prototype.
-            if (!proto::isObjectFast(currentObject)) {
-                currentObject = currentObject->getPrototype(context);
+        while (currentPointer) {
+            // Pure 6-bit tag check, matching getAttribute's own hot-path
+            // check — see its comment for why no virtual getType() probe
+            // is needed for either this or the chain-advance step below.
+            const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & 0x3FUL) == POINTER_TAG_OBJECT;
+            if (!isObj) {
+                const ProtoObject* nextProto = currentPointer->getPrototype(context);
+                if (nextProto == currentPointer) break;
+                currentPointer = nextProto;
                 continue;
             }
-            auto oc = toImpl<const ProtoObjectCell>(currentObject);
-            const ProtoSparseListImplementation* attributes = oc->attributes;
 
-            // Support for Mutable Objects (cache-fast).  resolveMutableSnapshot
-            // never returns a non-Object pointer for a valid mutable_ref, so
-            // the previous tag re-check on the snapshot was redundant.
+            auto oc = toImpl<const ProtoObjectCell>(currentPointer);
+            auto ocValue = oc;
             if (oc->mutable_ref > 0) {
-                 const proto::ProtoObject* storedState =
-                     resolveMutableSnapshot(context, oc->mutable_ref);
-                 if (storedState != nullptr && storedState != currentObject) {
-                     auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                     attributes = storedOc->attributes;
-                     oc = storedOc;
-                 }
+                const proto::ProtoObject* storedState =
+                    resolveMutableSnapshot(context, oc->mutable_ref);
+                if (storedState != nullptr) {
+                    ocValue = toImpl<const ProtoObjectCell>(storedState);
+                }
             }
 
             // Direct IMPL probe. nullptr means absent; anything else
-            // (including PROTO_NONE) means present. Preserves the
-            // distinction so `attr = None` → `hasattr(x, 'attr')` is
-            // True (vs missing).
-            if (attributes && attributes->implGetAt(context, attr_hash) != nullptr) {
+            // (including PROTO_NONE) means present — `attr = None` still
+            // answers True (vs missing).
+            if (ocValue->attributes && ocValue->attributes->implGetAt(context, attr_hash) != nullptr) {
                 return PROTO_TRUE;
             }
 
-            // Multiple inheritance support: walk the linearised chain
-            // through `oc->parent`, while pushing any sibling links on
-            // a small stack so they can be revisited after the main
-            // chain is exhausted.
-            if (validLink(oc->parent)) {
-                const ParentLinkImplementation* sibling = oc->parent->getParent(context);
-                while (validLink(sibling) && plPtr < 64) {
-                    plStack[plPtr++] = sibling;
-                    sibling = sibling->getParent(context);
-                }
-                currentObject = oc->parent->getObject(context);
-            } else if (plPtr > 0) {
-                const ParentLinkImplementation* top = plStack[--plPtr];
-                currentObject = validLink(top) ? top->getObject(context) : nullptr;
+            const ParentLinkImplementation* nextLink =
+                (currentLink == nullptr) ? ocValue->parent : currentLink->parent;
+            if (nextLink && ((uintptr_t)nextLink & 0x3F) == 0) {
+                currentPointer = nextLink->object;
+                currentLink = nextLink;
             } else {
-                currentObject = nullptr;
+                currentPointer = nullptr;
+                currentLink = nullptr;
             }
         }
         return PROTO_FALSE;

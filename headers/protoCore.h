@@ -144,21 +144,48 @@ namespace proto
          * returns `PROTO_NONE` ("not found") if exceeded — a hierarchy
          * with more than 500 direct ancestor entries gives a WRONG answer
          * (a false negative) rather than the correct one, the same class
-         * of bug `isInstanceOf`'s old 50-step cap had. `isInstanceOf` and
-         * `hasParent` have NO such cap (this round removed it from both);
+         * of bug `isInstanceOf`'s and `hasAttribute`'s old caps had.
+         * `isInstanceOf`, `hasParent` and `hasAttribute` have NO such cap;
          * `getAttribute` still has one, so for a receiver whose own chain
-         * is longer than 500 entries, `isInstanceOf`/`hasParent` can
-         * report an ancestor present that `getAttribute` fails to find an
-         * attribute through — they do NOT unconditionally agree. Whether
-         * this cap can be safely removed too is a separate decision:
-         * nothing about the current chain invariants (every chain is flat
-         * and finite by construction, and `setParents` rejects a self-
-         * referential result — see `setParents` below) makes a longer
-         * chain unsafe to walk, so the cap looks like the same
-         * unnecessary conservatism `isInstanceOf`'s cap was — but that
-         * call is for the maintainer, not made here.
+         * is longer than 500 entries, `isInstanceOf`/`hasParent`/
+         * `hasAttribute` can report an ancestor (or its attribute)
+         * present that `getAttribute` fails to find — they do NOT
+         * unconditionally agree; see `hasAttribute`'s own doc comment for
+         * the exact case. Whether this cap can be safely removed too is a
+         * separate decision: nothing about the current chain invariants
+         * (every chain is flat and finite by construction, and
+         * `setParents` rejects a self-referential result — see
+         * `setParents` below) makes a longer chain unsafe to walk, so the
+         * cap looks like the same unnecessary conservatism the others'
+         * caps were — but that call is for the maintainer, not made here.
          */
         const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks = true) const;
+        /**
+         * @brief Is `name` present, own or inherited (`attr = None` still
+         * counts as present, distinct from absent)?
+         *
+         * Same shape as `getAttribute`'s chain-navigation loop — own
+         * attributes first, then the linearised chain, head to tail — a
+         * pure linear scan, allocation-free, no recursion. Resolves a
+         * mutable receiver (and every mutable object visited along the
+         * chain) to its current snapshot, exactly as `getAttribute` does,
+         * so an instance of a mutable class sees whatever ancestors the
+         * class currently has (or had at the instance's own creation, for
+         * `newChild` — see its doc comment).
+         *
+         * Unlike `getAttribute`, this has **no step cap** — earlier
+         * revisions used a fixed-size (64-slot) sibling-stack DFS with an
+         * arbitrary 50-step cap that returned `PROTO_FALSE` (a false
+         * negative) for any hierarchy deeper than 50 links, the same
+         * class of bug `isInstanceOf`'s old cap had. Because
+         * `hasAttribute` has no cap and `getAttribute` still does, they
+         * are NOT guaranteed to agree: for an attribute that lives more
+         * than 500 own-chain entries away from the receiver,
+         * `hasAttribute` finds it (`PROTO_TRUE`) while `getAttribute`
+         * gives up first (`PROTO_NONE`). This is the one documented
+         * exception, not a bug — see `test/HasAttributeChainTests.cpp`'s
+         * `DivergesFromGetAttributeBeyond500Levels`.
+         */
         const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const;

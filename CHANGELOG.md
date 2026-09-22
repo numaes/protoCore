@@ -160,6 +160,48 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::hasAttribute` now walks the flattened chain the way
+  `getAttribute` does, allocation-free and with no step cap — fixing the
+  same class of false-negative bug `isInstanceOf` had.**
+
+  `hasAttribute` used a fixed-size (64-slot) sibling-stack DFS with an
+  arbitrary 50-step cap and returned `PROTO_FALSE` — a false negative —
+  for any hierarchy deeper than 50 links. It is now the same linear
+  chain-navigation loop `getAttribute` uses (own attributes, then the
+  chain head to tail), minus `getAttribute`'s attribute cache and its
+  500-step cap: `hasAttribute` has no cap at all, and resolves a mutable
+  receiver (and every mutable object visited along the chain) to its
+  current snapshot exactly as `getAttribute` and the already-fixed
+  `isInstanceOf`/`hasParent` do.
+
+  Because `hasAttribute` is now uncapped and `getAttribute` still has its
+  (deliberately untouched) 500-step cap, they are NOT guaranteed to agree
+  for very deep hierarchies: an attribute living more than 500 own-chain
+  entries away from the receiver is found by `hasAttribute`
+  (`PROTO_TRUE`) but not by `getAttribute` (`PROTO_NONE`, giving up
+  first). This is documented as the one deliberate exception, in both
+  methods' header doc comments, not a bug.
+
+  Surveyed the other attribute-lookup helpers for the same defect:
+  `hasOwnAttribute`, `getOwnAttributeDirect` and `processOwnAttributes`
+  only ever probe the receiver's OWN attributes — no chain walk, no
+  defect possible. `getAttributes()` (the merged-view snapshot) does walk
+  the chain, but via true recursion into only the FIRST parent link
+  (`pl->getObject(context)->getAttributes(context)`) — for an object with
+  more than one DIRECT parent (e.g. an `addParent`-built diamond) it never
+  visits the second or later ones at all. This is a different bug shape
+  (missing siblings, not a step cap) and is NOT fixed here — flagged for
+  a future round.
+
+  Tests: `test/HasAttributeChainTests.cpp` (13 cases) — the old cap
+  pinned first (a 60- and a 520-level chain both returned `PROTO_FALSE`
+  against the pre-fix code, confirmed before writing the fix), then own/
+  inherited/absent/`None`-valued baselines, an `addParent` diamond, chains
+  past 50 and past 500 levels, agreement with `getAttribute` within its
+  cap, the documented divergence beyond it, a mutable receiver (plain and
+  via `newChild`), and a non-object receiver answered through its
+  prototype.
+
 - **`ProtoObject::newChild` now captures a MUTABLE prototype's CURRENT
   chain, not its birth-time chain — fixing instances of a mutable class
   that was re-parented after the class was made mutable.**
