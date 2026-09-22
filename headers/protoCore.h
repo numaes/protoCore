@@ -113,24 +113,11 @@ namespace proto
          * A consequence of capturing by value: a LATER re-parenting of
          * `this` (e.g. `cls->setParents(ctx, [newBase])` after
          * `inst = cls->newChild(ctx)` already exists) is NOT retroactively
-         * seen by `inst` — only by children created AFTER the
-         * re-parenting. This is the standard "capture at creation time"
-         * semantics protoST's `addBehavior:` documents relying on for ITS
-         * OWN "future instances" contract (protoST/src/primitives/
-         * object_prims.cpp, the D21 "DOCUMENTED LIMITATION" comment) — that
-         * mechanism rebuilds the class as a fresh object and rebinds the
-         * class name to it, so it never depended on `newChild` observing a
-         * mutation of an EXISTING class object, and is unaffected by this
-         * fix either way. What this fix DOES correct is the narrower,
-         * separately-documented "PROTOCORE CONSTRAINT" a few lines above
-         * that comment: mutating an EXISTING mutable class directly via
-         * `addParent`/`setParents` used to be invisible to instances
-         * created after the mutation too (not just ones created before) —
-         * `newChild` always read the class handle's stale, pre-first-
-         * mutation `parent` field, never its current snapshot. That is now
-         * fixed: a direct `addParent`/`setParents` on an existing mutable
-         * class is visible to instances created afterwards, matching the
-         * ordinary "capture at creation time" rule above.
+         * seen by `inst`, at any remove — only by children created AFTER
+         * the re-parenting see it, whether `this` is `inst`'s direct
+         * class or a more distant ancestor re-parented later. See
+         * CHANGELOG.md for the full history, including how this relates
+         * to protoST's `addBehavior:` mechanism.
          */
         const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
@@ -150,15 +137,16 @@ namespace proto
          * with each other, at any depth.
          *
          * Termination without a cap is guaranteed by construction, not by
-         * a limit: every object's own chain is flat and finite —
-         * `newChild`/`addParent` only ever prepend a brand-new immutable
-         * link in front of an already-built chain (so a chain built from
-         * them can never cycle back on itself), and `setParents` — the
-         * only construction path that can point a chain at an arbitrary
-         * pre-existing object — rejects, with `std::invalid_argument`,
-         * any input that would make an object reachable from its own new
-         * chain (see `setParents` below). So this walk is always a single
-         * forward pass over a strictly finite list.
+         * a limit: this walk — like every chain-lookup method — only ever
+         * follows ONE receiver's own, already-built `ParentLinkImplementation`
+         * list (built once, forward only, by `newChild`/`addParent`/
+         * `setParents`, and never mutated afterward), and it never follows
+         * a visited entry into THAT entry's own separate chain — so it is
+         * always a single forward pass over one strictly finite list,
+         * regardless of what any OTHER object's chain happens to
+         * reference (see `setParents` below for the limits of what that
+         * method's own self-reference check catches, and why a case it
+         * does not catch still cannot make this walk loop).
          */
         const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks = true) const;
         /**
@@ -437,16 +425,35 @@ namespace proto
          * Passing an empty or null list clears the parent chain
          * entirely.
          *
-         * @throws std::invalid_argument if flattening would make this
-         * object its own ancestor — a listed parent, or an ancestor
-         * reached while flattening one, is this object itself. This can
-         * only happen for a MUTABLE receiver: its handle is stable across
-         * mutation, so it is the only case where an earlier `setParents`
-         * call on another mutable object could already have captured a
-         * reference back to it (e.g. two mutable objects `setParents`'d at
-         * each other). An immutable call always builds a brand-new handle
-         * nothing could have referenced yet, so it can never become its
-         * own ancestor and never throws.
+         * **Self-reference is a silent no-op**, not an error: an entry
+         * that would make this object its own ancestor — a listed parent,
+         * or an ancestor reached while flattening one, equal to this
+         * object itself — is simply OMITTED, and every other entry is
+         * still applied normally. This can only ever happen for a MUTABLE
+         * receiver: its handle is stable across mutation, so it is the
+         * only case where an earlier `setParents` call on another mutable
+         * object could already have captured a reference back to it (e.g.
+         * two mutable objects `setParents`'d at each other). An immutable
+         * call always builds a brand-new handle nothing could have
+         * referenced yet, so it can never become its own ancestor and
+         * nothing is ever omitted on that account. This matches
+         * `addParent`, which already tolerates `obj->addParent(ctx, obj)`
+         * as a no-op.
+         *
+         * This check catches a DIRECT reference back to the receiver only
+         * — a listed parent, or an ancestor found while walking a LISTED
+         * parent's own (one-level) chain. It does not, and cannot without
+         * doing unbounded work, catch a longer chain of references built
+         * up across several SEPARATE `setParents` calls on different
+         * mutable objects (e.g. `a.setParents(ctx,[b])`, then
+         * `b.setParents(ctx,[c])`, then `c.setParents(ctx,[a])` — none of
+         * these three calls omits anything). This is not a safety gap:
+         * no lookup method (`getAttribute`, `hasAttribute`, `isInstanceOf`,
+         * `hasParent`, `getAttributes`) ever follows a visited chain entry
+         * into THAT entry's own separate chain — every one of them walks
+         * only the single, already-built, immutable list it started on —
+         * so data shaped like the above never causes a hang, a crash, or
+         * an incorrect answer; it just is not detected or rejected here.
          */
         const ProtoObject* setParents(ProtoContext* context, const ProtoList* newParents) const;
         /**

@@ -7,14 +7,17 @@
 // and hasAttribute's old 50-step cap both had (and were fixed for, in
 // earlier rounds). The cap is now gone.
 //
-// Termination without a step cap is safe because every chain is flat and
-// finite by construction: newChild/addParent only ever prepend a brand-new
-// immutable link in front of an already-built chain (so a chain built from
-// them can never cycle), and setParents -- the only construction path that
-// can point a chain at an arbitrary pre-existing object -- rejects, with
-// std::invalid_argument, any input that would make an object reachable
-// from its own new chain (see test/SetParentsFlattenTests.cpp's
-// MutualMutableCycleThrows / DirectSelfReferenceThrows). So the loop always
+// Termination without a step cap is safe because this loop -- like every
+// chain-lookup method -- is a single-level walk of ONE receiver's own,
+// already-built ParentLinkImplementation list: built once, forward only,
+// by newChild/addParent/setParents, and never mutated afterward, so its
+// length is fixed and finite the moment it is built. The walk never
+// follows a visited link's object into THAT object's own separate chain,
+// so it is unaffected by whatever any OTHER object's chain references --
+// including a case where several separate setParents calls end up
+// pointing chains at each other in a way that looks cyclic in the
+// abstract (see test/SetParentsFlattenTests.cpp's
+// ThreeObjectCycleIsNotDetectedButCausesNoHarm). So the loop always
 // terminates: it walks a strictly finite list once, forward only.
 
 #include <gtest/gtest.h>

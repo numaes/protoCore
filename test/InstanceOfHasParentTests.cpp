@@ -382,3 +382,81 @@ TEST_F(InstanceOfHasParentTest, ObjectWithExplicitChainIsNotImplicitlyRootedAtOb
 
     EXPECT_EQ(child->isInstanceOf(context, context->space->objectPrototype), PROTO_NONE);
 }
+
+// A mutable object's universal-root answer FLIPS once it gains an
+// explicit chain of its own: while parentless it is (like any parentless
+// object) PROTO_TRUE for objectPrototype; the moment addParent/setParents
+// gives it a real chain, `hasValidParentLink` becomes true and the
+// fallback no longer applies — unless objectPrototype itself ends up in
+// that chain, it flips to PROTO_NONE.
+TEST_F(InstanceOfHasParentTest, MutableObjectIsInstanceOfObjectPrototypeFlipsOnceItGainsAParent) {
+    auto* m = const_cast<ProtoObject*>(context->newObject(true));
+    ASSERT_EQ(m->isInstanceOf(context, context->space->objectPrototype), PROTO_TRUE)
+        << "parentless mutable object: universal-root fallback applies";
+
+    const ProtoObject* unrelated = context->newObject(false);
+    m->addParent(context, unrelated);
+
+    EXPECT_EQ(m->isInstanceOf(context, context->space->objectPrototype), PROTO_NONE)
+        << "m now has an explicit chain of its own ([unrelated]), which "
+           "does not include objectPrototype -- the fallback no longer "
+           "applies";
+    EXPECT_EQ(m->isInstanceOf(context, unrelated), PROTO_TRUE);
+}
+
+// --- I2: a re-parented INTERMEDIATE ancestor, not just a direct class -----
+//
+// The "capture at creation time" contract (see newChild's doc comment)
+// applies at every level, not only to a direct class-to-instance
+// relationship: if a GRANDPARENT (reached via two newChild hops) is later
+// re-parented, the grandchild's already-captured chain is unaffected --
+// only a NEW grandchild created after the re-parenting sees the change.
+TEST_F(InstanceOfHasParentTest, ReparentedIntermediateAncestorDoesNotRetroactivelyAffectExistingDescendants) {
+    const ProtoObject* oldRoot = context->newObject(false);
+    const ProtoObject* newRoot = context->newObject(false);
+
+    auto* middle = const_cast<ProtoObject*>(context->newObject(true));
+    middle->setParents(context, context->newList()->appendLast(context, oldRoot));
+
+    // grandchild is TWO newChild hops from middle: child, then grandchild.
+    const ProtoObject* child = middle->newChild(context);
+    const ProtoObject* grandchild = child->newChild(context);
+    ASSERT_EQ(grandchild->isInstanceOf(context, oldRoot), PROTO_TRUE);
+
+    // Re-parent the INTERMEDIATE ancestor (middle, a grandparent of
+    // grandchild, not grandchild's direct class).
+    middle->setParents(context, context->newList()->appendLast(context, newRoot));
+
+    // Existing descendants -- captured before the re-parenting, at every
+    // level -- keep seeing oldRoot, not newRoot.
+    EXPECT_EQ(child->isInstanceOf(context, oldRoot), PROTO_TRUE);
+    EXPECT_EQ(child->isInstanceOf(context, newRoot), PROTO_NONE);
+    EXPECT_EQ(grandchild->isInstanceOf(context, oldRoot), PROTO_TRUE);
+    EXPECT_EQ(grandchild->isInstanceOf(context, newRoot), PROTO_NONE);
+
+    // A NEW descendant, created after the re-parenting, sees newRoot.
+    const ProtoObject* lateChild = middle->newChild(context);
+    const ProtoObject* lateGrandchild = lateChild->newChild(context);
+    EXPECT_EQ(lateChild->isInstanceOf(context, newRoot), PROTO_TRUE);
+    EXPECT_EQ(lateChild->isInstanceOf(context, oldRoot), PROTO_NONE);
+    EXPECT_EQ(lateGrandchild->isInstanceOf(context, newRoot), PROTO_TRUE);
+    EXPECT_EQ(lateGrandchild->isInstanceOf(context, oldRoot), PROTO_NONE);
+}
+
+// --- hasParent is allocation-free -----------------------------------------
+
+TEST_F(InstanceOfHasParentTest, HasParentAllocatesNothing) {
+    const ProtoObject* base = context->newObject(false);
+    const ProtoObject* mid = base->newChild(context);
+    const ProtoObject* leaf = mid->newChild(context);
+    const ProtoObject* unrelated = context->newObject(false);
+
+    const unsigned long before = context->allocatedCellsCount;
+    int r1 = leaf->hasParent(context, base);
+    int r2 = leaf->hasParent(context, mid);
+    int r3 = leaf->hasParent(context, unrelated);
+    EXPECT_EQ(context->allocatedCellsCount, before) << "hasParent itself must not allocate";
+    EXPECT_EQ(r1, 1);
+    EXPECT_EQ(r2, 1);
+    EXPECT_EQ(r3, 0);
+}

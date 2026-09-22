@@ -28,14 +28,18 @@
 //   - isInstanceOf/hasParent/getAttribute all agree on what is visible,
 //     now that every chain is flat by construction;
 //   - mutable objects after setParents;
-//   - cycle detection: setParents on a mutable object throws
-//     std::invalid_argument rather than building (or looping while
-//     building) a self-referential chain.
+//   - self-reference handling: setParents on a mutable object SKIPS an
+//     entry that would make it its own ancestor (a silent no-op for that
+//     one entry, matching addParent's own tolerance), rather than
+//     throwing or looping while building a self-referential chain;
+//   - what that check does and does NOT catch (a direct reference back
+//     to the receiver, but not a longer cycle spanning several separate
+//     setParents calls on different mutable objects), and why the latter
+//     is harmless anyway -- see the "true termination argument" section.
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
 #include <atomic>
-#include <stdexcept>
 #include <thread>
 #include <vector>
 
@@ -212,53 +216,83 @@ TEST_F(SetParentsFlattenTest, MutableObjectAfterSetParentsFlattens) {
     EXPECT_EQ(m->getAttribute(context, gAttr), context->fromInteger(5));
 }
 
-// --- Cycle detection --------------------------------------------------
+// --- Self-reference: a silent no-op, not an exception -----------------
+//
+// setParents used to throw std::invalid_argument on a direct self-
+// reference. That was changed: no embedder caught it (it could reach
+// uncaught through, e.g., protoPython's metaclass fallback), and — as the
+// next section demonstrates — the check it backed was never a complete
+// cycle guard in the first place (it only ever caught a DIRECT reference
+// back to the receiver, one hop through a listed parent's own chain).
+// Skipping the offending entry is exactly as complete a guard as
+// throwing was, minus the uncaught-exception risk, and it matches
+// addParent, which already tolerates `obj->addParent(ctx, obj)` as a
+// silent no-op (via hasParent's `target == this` short-circuit).
 
 // A mutable object's handle is stable across mutation, so it is the only
-// case where setParents could be asked to make an object its own ancestor
-// (directly, or through another mutable object's chain). setParents must
-// detect this and throw rather than building a self-referential chain (or
-// looping while trying to).
-TEST_F(SetParentsFlattenTest, MutualMutableCycleThrows) {
+// case setParents could be asked to make an object its own ancestor
+// (directly, or through another mutable object's chain it was JUST given).
+TEST_F(SetParentsFlattenTest, MutualMutableSelfReferenceIsSkipped) {
     auto* a = const_cast<ProtoObject*>(context->newObject(true));
     auto* b = const_cast<ProtoObject*>(context->newObject(true));
 
     const ProtoList* aParents = context->newList()->appendLast(context, b);
-    a->setParents(context, aParents); // a.chain = [b] — fine, no cycle yet.
+    a->setParents(context, aParents); // a.chain = [b].
 
     // b.setParents([a]) would flatten in a's own chain, which contains b
-    // (the object currently being reshaped) — a genuine cycle.
+    // (the object currently being reshaped): "b" is skipped as an
+    // ancestor-of-a-listed-parent, but "a" itself is a perfectly good
+    // parent of b and is kept.
     const ProtoList* bParents = context->newList()->appendLast(context, a);
-    EXPECT_THROW(b->setParents(context, bParents), std::invalid_argument);
+    const ProtoObject* result = nullptr;
+    EXPECT_NO_THROW(result = b->setParents(context, bParents));
+    EXPECT_EQ(result, b) << "mutable setParents returns the same handle";
 
-    // b must be left unchanged (the exception is thrown before any
-    // mutable-shard publish): still has no parents of its own.
-    EXPECT_EQ(b->hasParent(context, a), 0);
+    expectChainOrder(b, {a});
+    EXPECT_EQ(b->hasParent(context, a), 1);
+    EXPECT_EQ(b->hasParent(context, b), 1) << "trivial self-case, always true";
 }
 
-TEST_F(SetParentsFlattenTest, DirectSelfReferenceThrows) {
+TEST_F(SetParentsFlattenTest, DirectSelfReferenceIsSkippedLeavingAnEmptyChain) {
     auto* a = const_cast<ProtoObject*>(context->newObject(true));
     const ProtoObject* priorParent = context->newObject(false);
     a->setParents(context, context->newList()->appendLast(context, priorParent));
+    ASSERT_EQ(a->hasParent(context, priorParent), 1);
 
+    // a is the ONLY listed parent, and it is skipped -- exactly as if an
+    // empty list had been passed, which already documented as clearing
+    // the chain.
     const ProtoList* selfList = context->newList()->appendLast(context, a);
-    EXPECT_THROW(a->setParents(context, selfList), std::invalid_argument);
+    const ProtoObject* result = nullptr;
+    EXPECT_NO_THROW(result = a->setParents(context, selfList));
+    EXPECT_EQ(result, a);
 
-    // The receiver is left exactly as it was before the failed call: the
-    // exception is thrown while computing the flattened order, before the
-    // critical section that builds the chain even opens, so nothing was
-    // ever published to a's mutable shard.
-    expectChainOrder(a, {priorParent});
-    EXPECT_EQ(a->hasParent(context, priorParent), 1);
+    EXPECT_EQ(a->getParents(context)->getSize(context), 0u);
+    EXPECT_EQ(a->hasParent(context, priorParent), 0)
+        << "setParents replaces the chain wholesale, even when the "
+           "replacement ends up empty because its one entry was skipped";
     EXPECT_EQ(a->hasParent(context, a), 1) << "trivial self-case, unaffected either way";
+}
+
+// A self-reference alongside OTHER, unrelated listed parents: only the
+// self-referential entry is omitted; the rest of the list is applied
+// normally.
+TEST_F(SetParentsFlattenTest, SelfReferenceAmongOtherParentsOnlySkipsItself) {
+    auto* a = const_cast<ProtoObject*>(context->newObject(true));
+    const ProtoObject* other = context->newObject(false);
+
+    const ProtoList* plist = context->newList()->appendLast(context, other)->appendLast(context, a);
+    a->setParents(context, plist);
+
+    expectChainOrder(a, {other});
 }
 
 // An immutable receiver can never become its own ancestor: setParents on
 // an immutable object always builds a brand-new handle nothing could have
 // referenced yet, so listing the OLD handle among the new parents is not a
-// cycle (the new object and the old one are different identities) and must
-// not throw.
-TEST_F(SetParentsFlattenTest, ImmutableReceiverInItsOwnNewParentsListDoesNotThrow) {
+// self-reference (the new object and the old one are different identities)
+// and nothing is skipped.
+TEST_F(SetParentsFlattenTest, ImmutableReceiverInItsOwnNewParentsListIsNotSkipped) {
     const ProtoObject* a = context->newObject(false);
     const ProtoObject* b = a->newChild(context); // b.chain = [a]
 
@@ -268,8 +302,49 @@ TEST_F(SetParentsFlattenTest, ImmutableReceiverInItsOwnNewParentsListDoesNotThro
     ASSERT_NE(newA, nullptr);
     // newA's chain is [b, a] (b flattened in its own ancestor a) — a
     // reference to the OLD `a` handle, a different, ordinary ancestor of
-    // the NEW `a`, not a self-reference.
+    // the NEW `a`, not a self-reference, so it is NOT skipped.
     expectChainOrder(newA, {b, a});
+}
+
+// --- I3: the true termination/safety argument, and its actual limit -------
+//
+// The check above catches a DIRECT reference back to the receiver: a
+// listed parent equal to the receiver, or an ancestor found while walking
+// a LISTED parent's own (one-level) chain. It does NOT walk a DISCOVERED
+// ancestor's own further chain, so it cannot catch a longer cycle built
+// up across several SEPARATE setParents calls on different mutable
+// objects. This is not a safety gap: no consumer (isInstanceOf,
+// hasAttribute, getAttribute, getAttributes) ever follows a visited
+// chain entry into THAT entry's own separate chain either -- every walk
+// is a single-level traversal of one already-built, immutable
+// ParentLinkImplementation list, so this data, however it looks in the
+// abstract, cannot make any of them hang, crash, or loop.
+TEST_F(SetParentsFlattenTest, ThreeObjectCycleIsNotDetectedButCausesNoHarm) {
+    auto* a = const_cast<ProtoObject*>(context->newObject(true));
+    auto* b = const_cast<ProtoObject*>(context->newObject(true));
+    auto* c = const_cast<ProtoObject*>(context->newObject(true));
+
+    a->setParents(context, context->newList()->appendLast(context, b)); // a.chain = [b]
+    b->setParents(context, context->newList()->appendLast(context, c)); // b.chain = [c]
+
+    // c.setParents([a]): the only LISTED parent is a, and a's own
+    // (one-level) chain is [b] -- b is not c, so nothing is skipped. The
+    // walk never goes on to explore b's OWN chain ([c]), so it never
+    // discovers that a's ancestry leads back to c. The call succeeds.
+    const ProtoObject* result = nullptr;
+    EXPECT_NO_THROW(result = c->setParents(context, context->newList()->appendLast(context, a)));
+    EXPECT_EQ(result, c);
+    expectChainOrder(c, {a, b});
+
+    // The resulting data looks cyclic in the abstract (c -> {a, b},
+    // b -> {c}), but no consumer ever crosses from one object's own
+    // chain into another's, so nothing hangs, crashes, or reports c as
+    // its own (non-trivial) ancestor.
+    EXPECT_EQ(c->isInstanceOf(context, c), PROTO_NONE);
+    EXPECT_EQ(c->hasParent(context, c), 1) << "the trivial target==this case only";
+    EXPECT_NO_THROW((void)c->getAttributes(context));
+    EXPECT_EQ(c->getAttribute(context, sym("anything")), PROTO_NONE);
+    EXPECT_EQ(c->hasAttribute(context, sym("anything")), PROTO_FALSE);
 }
 
 // --- I3: setParents' ordering differs from addParent's ---------------------
@@ -348,12 +423,11 @@ TEST_F(SetParentsFlattenTest, OrderingDiffersFromAddParentAndAffectsAttributePre
 //
 // Several threads call setParents on ONE shared mutable object, each with
 // its own, mutually-unrelated single parent candidate (so none of these
-// calls is ever a genuine cycle), while another thread concurrently reads
-// getParents/isInstanceOf/hasParent. Nothing must crash, no read may ever
-// observe a torn/partial chain (more than one entry, or an entry that is
-// not one of the candidates), and no writer may see a spurious
-// std::invalid_argument (a "cycle" false positive) — these candidates
-// share no ancestry with each other or with the receiver.
+// calls is ever self-referential), while another thread concurrently
+// reads getParents/isInstanceOf/hasParent. Nothing must crash, and no
+// read may ever observe a torn/partial chain (more than one entry, or an
+// entry that is not one of the candidates) — these candidates share no
+// ancestry with each other or with the receiver.
 TEST_F(SetParentsFlattenTest, ConcurrentSetParentsWithConcurrentReadsIsSafe) {
     constexpr int kThreads = 4;
     constexpr int kIterPerThread = 1500;
@@ -366,7 +440,6 @@ TEST_F(SetParentsFlattenTest, ConcurrentSetParentsWithConcurrentReadsIsSafe) {
     }
 
     std::atomic<bool> stop{false};
-    std::atomic<int> unexpectedThrows{0};
     std::atomic<int> tornReads{0};
 
     std::thread reader([&]() {
@@ -416,11 +489,7 @@ TEST_F(SetParentsFlattenTest, ConcurrentSetParentsWithConcurrentReadsIsSafe) {
             ProtoContext threadCtx{space};
             const ProtoList* singleParent = threadCtx.newList()->appendLast(&threadCtx, candidates[t]);
             for (int i = 0; i < kIterPerThread; ++i) {
-                try {
-                    m->setParents(&threadCtx, singleParent);
-                } catch (const std::invalid_argument&) {
-                    unexpectedThrows.fetch_add(1, std::memory_order_relaxed);
-                }
+                m->setParents(&threadCtx, singleParent);
             }
         });
     }
@@ -429,8 +498,6 @@ TEST_F(SetParentsFlattenTest, ConcurrentSetParentsWithConcurrentReadsIsSafe) {
     stop.store(true, std::memory_order_relaxed);
     reader.join();
 
-    EXPECT_EQ(unexpectedThrows.load(), 0)
-        << "none of these candidates share any ancestry; no call here is a real cycle";
     EXPECT_EQ(tornReads.load(), 0);
 
     // Final state: exactly one of the candidates, whichever write landed last.

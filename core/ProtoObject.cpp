@@ -13,7 +13,6 @@
 #include <compare>
 #include <cstdio>
 #include <cstdlib>
-#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -348,6 +347,14 @@ namespace proto
         // parents) and step 2 (their ancestors) for realistic hierarchies
         // without touching the heap; SmallVector/ObjectPointerSet grow
         // into the heap automatically for anything larger.
+        //
+        // Stack cost of flattenParentsOrder's two locals at this
+        // capacity: FlatParentList's inline_ is 256 * 8 bytes = 2 KiB;
+        // ObjectPointerSet's inlineTable_ is 512 * 8 bytes = 4 KiB (sized
+        // 2x for a <=50% load factor) — ~6 KiB total per call. Not
+        // recursive, so this is a one-time cost per `setParents` call,
+        // not a per-level one; still worth keeping in mind if this
+        // constant is ever raised.
         constexpr size_t SET_PARENTS_INLINE_CAPACITY = 256;
         using FlatParentList = SmallVector<const ProtoObject*, SET_PARENTS_INLINE_CAPACITY>;
 
@@ -370,19 +377,33 @@ namespace proto
          * unaffected by step 2 and installs exactly as given, in the exact
          * same order: a no-op relative to step 1 alone.
          *
-         * Throws `std::invalid_argument` if `rejectIdentity` (non-null) is
-         * encountered as a listed parent or as an ancestor of one — see
-         * `ProtoObject::setParents` for why this can only matter for a
-         * mutable receiver. `rejectIdentity` MUST be the receiver's STABLE
-         * PUBLIC HANDLE (the `this` a caller holds), never a resolved
-         * mutable snapshot pointer: a mutable object's snapshot pointer
-         * changes on every mutation, so comparing against one would never
-         * match a cycle back to the SAME logical object (whose identity,
-         * from every OTHER object's point of view, is the handle, not
-         * whatever snapshot happened to be current when it was last read).
+         * `skipIdentity`, when non-null, is OMITTED wherever it would
+         * otherwise be added — as a listed parent, or as an ancestor of
+         * one — instead of being inserted: a mutable receiver can never
+         * become its own ancestor this way. This is a silent no-op for
+         * that ONE entry, not an error: it matches `addParent`, which
+         * already tolerates `obj->addParent(ctx, obj)` as a no-op (via
+         * `hasParent`'s `target == this` short-circuit — see
+         * `ProtoObject::addParent`), and it means the exception this used
+         * to throw here can no longer reach an embedder through
+         * `setParents` at all. See `ProtoObject::setParents`'s doc
+         * comment for why the comparison is only meaningful for a mutable
+         * receiver, and CHANGELOG.md for why a THROWING version of this
+         * check was replaced (it only ever caught a DIRECT reference back
+         * to the receiver — one hop through a listed parent's own chain —
+         * never a longer cycle built up over several `setParents` calls
+         * on different mutable objects; skipping is exactly as complete a
+         * guard as throwing was, without an exception embedders must
+         * catch). `skipIdentity` MUST be the receiver's STABLE PUBLIC
+         * HANDLE (the `this` a caller holds), never a resolved mutable
+         * snapshot pointer: a mutable object's snapshot pointer changes on
+         * every mutation, so comparing against one would never match a
+         * reference back to the SAME logical object (whose identity, from
+         * every OTHER object's point of view, is the handle, not whatever
+         * snapshot happened to be current when it was last read).
          */
         void flattenParentsOrder(ProtoContext* context, const ProtoList* newParents,
-                                  const ProtoObject* rejectIdentity, FlatParentList& outFlat)
+                                  const ProtoObject* skipIdentity, FlatParentList& outFlat)
         {
             if (!newParents) return;
             unsigned long n = newParents->getSize(context);
@@ -393,10 +414,7 @@ namespace proto
             for (unsigned long i = 0; i < n; ++i) {
                 const ProtoObject* p = newParents->getAt(context, static_cast<int>(i));
                 if (!p) continue;
-                if (rejectIdentity && p == rejectIdentity) {
-                    throw std::invalid_argument(
-                        "ProtoObject::setParents: a listed parent is the object itself (cyclic parent chain)");
-                }
+                if (skipIdentity && p == skipIdentity) continue; // no-op: never its own parent
                 if (seen.insert(p)) outFlat.push_back(p);
             }
 
@@ -406,12 +424,21 @@ namespace proto
             // which grows during this loop) so parents are processed in
             // their original listed order even as their ancestors are
             // appended after them.
+            //
+            // Non-object policy (consistent with step 1, which accepts
+            // any entry regardless of tag — addParent/setParents both
+            // accept a non-object "parent", e.g. a heap ProtoString, and
+            // getAttribute/hasAttribute/getAttributes already answer for
+            // one through its own prototype): a listed parent that is not
+            // a real object cell simply has no OWN chain to walk here, so
+            // it contributes nothing beyond its own step-1 entry — it is
+            // NOT removed from `outFlat`, only skipped as a source of
+            // further ancestors, exactly as it has no attributes chain of
+            // its own to search either.
             const size_t listedCount = outFlat.size();
             for (size_t idx = 0; idx < listedCount; ++idx) {
                 const ProtoObject* p = outFlat[idx];
-                ProtoObjectPointer ppa{};
-                ppa.oid = p;
-                if (ppa.op.pointer_tag != POINTER_TAG_OBJECT) continue; // no chain to walk
+                if (!proto::isObjectFast(p)) continue; // no chain to walk
 
                 const ProtoObjectCell* pOc = resolveOwnCell(context, p);
                 const ParentLinkImplementation* link = pOc->parent;
@@ -420,12 +447,9 @@ namespace proto
                     if (pl->getType() != CellType::ParentLink) break;
 
                     const ProtoObject* anc = pl->getObject(context);
-                    if (rejectIdentity && anc == rejectIdentity) {
-                        throw std::invalid_argument(
-                            "ProtoObject::setParents: an ancestor of a listed parent is the object itself "
-                            "(cyclic parent chain)");
+                    if (anc && !(skipIdentity && anc == skipIdentity) && seen.insert(anc)) {
+                        outFlat.push_back(anc);
                     }
-                    if (seen.insert(anc)) outFlat.push_back(anc);
 
                     link = pl->getParent(context);
                 }
@@ -634,31 +658,31 @@ namespace proto
              const ProtoObject* prototype = getPrototype(context);
              return prototype ? prototype->newChild(context, isMutable) : PROTO_NONE;
         }
+        unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
+
+        // GC critical section opened BEFORE the mutable snapshot is
+        // resolved (matching getParents/getFirstParent/getAttributes —
+        // see getParents' comment for the full rationale): entering the
+        // section can itself park for a GC heap-limit checkpoint at the
+        // outermost depth (CriticalSection's constructor), and a snapshot
+        // resolved beforehand would be held only in the `oc` C++ local,
+        // unprotected, across that park. It also still covers the
+        // three-cell allocation below the same way it always did — none
+        // of the SparseList / ParentLink / ProtoObjectCell triple is
+        // reachable from a root until the outer ProtoObjectCell finishes
+        // linking them together.
+        ProtoContext::CriticalSection cs(context);
+
         // Resolve `this` (the prototype being childed) to its CURRENT
         // snapshot before reading its chain — critical when `this` is
         // mutable: the handle cell's OWN `parent` field is fixed at
-        // `newObject(true)` time and never updated in place (mutation
-        // publishes a fresh state into the mutable shard instead), so
-        // reading it directly would silently drop every ancestor added
-        // since via `addParent`/`setParents`. The child's chain tail is
-        // captured BY VALUE, here, from whatever the class's chain is as
-        // of THIS call — a later re-parenting of `this` is NOT
-        // retroactively seen by children already created, only by
-        // children created afterwards (matches protoST's documented
-        // expectation, object_prims.cpp D21).
+        // `newObject(true)` time and never updated in place, so reading
+        // it directly would silently drop every ancestor added since via
+        // `addParent`/`setParents`. The child's chain tail is captured BY
+        // VALUE, here, from whatever the class's chain is as of THIS
+        // call — see the header doc comment for the "capture at creation
+        // time" contract this gives newChild.
         const ProtoObjectCell* oc = resolveOwnCell(context, this);
-        unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
-        // GC critical section: this expression allocates three cells
-        // (the empty SparseList, the ParentLinkImplementation, and the
-        // outer ProtoObjectCell) in a single statement.  Argument
-        // evaluation order is unspecified and the temporaries live in
-        // the C++ stack between sub-expression results — none of them
-        // are reachable from a GC root until the surrounding
-        // ProtoObjectCell finishes constructing and links the chain
-        // back together.  Without the guard a concurrent STW root scan
-        // would observe a partial chain as candidate-but-unreachable
-        // and sweep would free the SparseList or ParentLink under us.
-        ProtoContext::CriticalSection cs(context);
         auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), context->newSparseListImpl(), ref);
         const ProtoObject* result = newObject->asObject(context);
         return result;
@@ -793,18 +817,25 @@ namespace proto
         const ParentLinkImplementation* currentLink = nullptr;
         const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
 
-        // No step cap: every chain is flat and finite by construction.
-        // newChild/addParent only ever prepend a brand-new immutable link
-        // in front of an already-built chain, so a chain built from them
-        // can never cycle back on itself; setParents -- the only
-        // construction path that can point a chain at an arbitrary
-        // pre-existing object -- rejects (std::invalid_argument) any
-        // input that would make an object reachable from its own new
-        // chain. So this loop always walks a strictly finite list once,
-        // forward only, and always terminates. (An earlier `> 500` cap
-        // here gave a false "not found" for any attribute living further
-        // down the chain than that -- the same class of bug isInstanceOf's
-        // and hasAttribute's old caps had, both since removed.)
+        // No step cap: this loop always terminates, because it is a
+        // single-level walk of ONE receiver's own ParentLinkImplementation
+        // list -- built once, forward only, by newChild/addParent/
+        // setParents (buildParentChainFromFlat) -- and it never follows a
+        // visited link's OBJECT into that object's OWN separate `.parent`
+        // chain; it only ever advances via `currentLink->parent`, the
+        // NEXT link in THIS SAME list. That list's length is fixed at the
+        // moment it was built (bounded by however many links were
+        // allocated then) and nothing mutates it afterward, so this walk
+        // is always over a strictly finite sequence, regardless of
+        // whether some OTHER object's chain happens to reference this
+        // one, or this one's own listed entries reference another
+        // mutable object that (via a LATER, separate setParents call
+        // elsewhere) ends up referencing this receiver back -- that
+        // never matters here, because this walk never leaves the one
+        // list it started on. (An earlier `> 500` cap here gave a false
+        // "not found" for any attribute living further down the chain
+        // than that -- the same class of bug isInstanceOf's and
+        // hasAttribute's old caps had, both since removed.)
         while (currentPointer) {
             // Pure 6-bit tag check — POINTER_TAG_OBJECT is 0, so
             // alignment-clear low bits identifies an object cell.
@@ -1524,19 +1555,20 @@ namespace proto
         // changed concurrently, which the flattened chain never depended
         // on.
         //
-        // `this` is passed as the cycle-reject identity ONLY when `this`
-        // is mutable: its handle is stable across mutation, so it is the
+        // `this` is passed as the skip identity ONLY when `this` is
+        // mutable: its handle is stable across mutation, so it is the
         // only case where the object being reshaped could already be
-        // reachable from one of its own new parents' chains (e.g. two
-        // mutable objects setParents'd at each other). An immutable
-        // rebuild always produces a brand-new handle that NOTHING could
-        // have referenced yet — passing `this` (the OLD handle) as the
-        // reject identity there would be a false positive: an immutable
-        // object is free to list, or transitively reach through a listed
-        // parent's own chain, its own OLD handle (a different identity
-        // from the NEW one this call produces) without that being a
-        // cycle. So no check is passed, and an immutable setParents call
-        // never throws.
+        // listed as (or reachable as an ancestor of) one of its own new
+        // parents (e.g. two mutable objects setParents'd at each other).
+        // An immutable rebuild always produces a brand-new handle that
+        // NOTHING could have referenced yet — passing `this` (the OLD
+        // handle) as the skip identity there would be a false positive:
+        // an immutable object is free to list, or transitively reach
+        // through a listed parent's own chain, its own OLD handle (a
+        // different identity from the NEW one this call produces)
+        // without that being a self-reference. So no identity is passed,
+        // and an immutable setParents call never skips anything on this
+        // account.
         FlatParentList flat;
         flattenParentsOrder(context, newParents, oc->mutable_ref > 0 ? this : nullptr, flat);
 
@@ -2183,25 +2215,37 @@ namespace proto
             auto pl = toImpl<const ParentLinkImplementation>(link);
             if (pl->getType() != CellType::ParentLink) break;
 
+            // Policy for a non-object chain entry (addParent accepts any
+            // cell pointer that is not an embedded value, e.g. a heap
+            // ProtoString; setParents' own flattening accepts literally
+            // anything, including an embedded value like a SmallInteger
+            // -- see flattenParentsOrder's comment on this): mirror
+            // getAttribute's chain-navigation loop exactly. Redirect to
+            // the entry's OWN prototype and merge THAT prototype's OWN
+            // attributes -- a single hop, never the prototype's own
+            // further chain -- then continue this scan's ORIGINAL chain
+            // exactly as before. `toImpl<ProtoObjectCell>` must never be
+            // called on a non-object tagged pointer: it does not address
+            // a ProtoObjectCell-shaped Cell at all.
             const ProtoObject* ancestor = pl->getObject(context);
-            auto ancOc = toImpl<const ProtoObjectCell>(ancestor);
-            if (ancOc->mutable_ref > 0) {
-                const ProtoObject* storedState = resolveMutableSnapshot(context, ancOc->mutable_ref);
-                if (storedState != nullptr) {
-                    ancOc = toImpl<const ProtoObjectCell>(storedState);
-                }
+            const ProtoObject* attrSource = ancestor;
+            if (!proto::isObjectFast(attrSource)) {
+                attrSource = attrSource ? attrSource->getPrototype(context) : nullptr;
             }
 
-            if (ancOc->attributes) {
-                const ProtoSparseListIteratorImplementation* it = ancOc->attributes->implGetIterator(context);
-                while (it && it->implHasNext()) {
-                    unsigned long key = it->implNextKey();
-                    const ProtoObject* value = it->implNextValue();
-                    if (!attrs || attrs->implGetAt(context, key) == nullptr) {
-                        attrs = attrs ? attrs->implSetAt(context, key, value)
-                                      : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
+            if (attrSource && proto::isObjectFast(attrSource)) {
+                const ProtoObjectCell* ancOc = resolveOwnCell(context, attrSource);
+                if (ancOc->attributes) {
+                    const ProtoSparseListIteratorImplementation* it = ancOc->attributes->implGetIterator(context);
+                    while (it && it->implHasNext()) {
+                        unsigned long key = it->implNextKey();
+                        const ProtoObject* value = it->implNextValue();
+                        if (!attrs || attrs->implGetAt(context, key) == nullptr) {
+                            attrs = attrs ? attrs->implSetAt(context, key, value)
+                                          : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
+                        }
+                        it = it->implAdvance(context);
                     }
-                    it = it->implAdvance(context);
                 }
             }
 
