@@ -4,6 +4,33 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 ### Added
+- **`ProtoSparseListObject`** (protoCore 1.3.0) — a persistent AVL map
+  identical to `ProtoSparseList` except that its key is a `const ProtoObject*`
+  the garbage collector traces: an object referenced only as a key stays
+  alive. Keys are ordered and compared by their word (identity, tag included);
+  embedded values (SmallInteger, booleans, chars, None) are valid keys and are
+  never traced; `nullptr` is not a valid key. `getAt` returns `nullptr` for an
+  absent key, so a stored `PROTO_NONE` stays distinguishable. Small inline
+  form up to three entries, AVL beyond, exactly like `ProtoSparseList`, whose
+  algorithms it shares through `core/SparseListAlgorithms.h`
+  (`ProtoSparseList`'s behaviour, API, ABI and performance are unchanged).
+  New API: `ProtoContext::newSparseListObject`,
+  `ProtoObject::isSparseListObject` / `asSparseListObject`,
+  `ProtoSpace::sparseListObjectPrototype`, `ProtoSparseListObjectIterator`.
+  Uses one new pointer tag (27); the tag table now records the platform tag
+  budget and the maintainer-approval rule. ABI change: every embedder must be
+  rebuilt. Specification: protoScala/docs/platform/PSLO-SPEC.md. The
+  performance gate and the ASan run are still pending on a quiet host: the
+  perf gate was parked during verification because a parallel build on the
+  same machine made retired-instruction counts unreliable (the counts
+  themselves were flat, consistent with no regression, but the run was not
+  clean enough to certify), and ASan was not run at all. Both are left for
+  the maintainer's pre-merge check.
+- **Hashed-collection helper** — `KeySemantics`, `hashedPut`, `hashedGet`,
+  `hashedRemove`, `hashedForEach` over `ProtoSparseListObject`: identity keys
+  are stored directly; value-equality keys are stored under a SmallInteger
+  hash word with a flat `[k0, v0, k1, v1, …]` bucket list for collisions.
+  Language callbacks run outside GC critical sections.
 - **`ProtoObject::processOwnAttributes`** — walks an object's OWN attributes
   as `(name, value)` pairs, the enumeration the public API was missing.
   Attribute keys are stored as the interned symbol pointer reinterpreted as
