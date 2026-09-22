@@ -46,6 +46,7 @@ add_library(protoCore SHARED
     core/ProtoSpace.cpp
     core/ProtoRootSet.cpp
     core/ProtoSparseList.cpp
+    core/ProtoSparseListObject.cpp
     core/ProtoString.cpp
     core/SymbolTable.cpp
     core/ProtoTuple.cpp

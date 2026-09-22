@@ -44,6 +44,8 @@ namespace proto
     class ProtoSparseList;
     class ProtoSparseListImplementation;  // raw AVL impl, internal
     class ProtoSparseListIterator;
+    class ProtoSparseListObject;
+    class ProtoSparseListObjectIterator;
     class ProtoSet;
     class ProtoSetIterator;
     class ProtoMultiset;
