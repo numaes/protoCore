@@ -13,8 +13,10 @@
 #include <compare>
 #include <cstdio>
 #include <cstdlib>
+#include <stdexcept>
 #include <string>
 #include <thread>
+#include <vector>
 
 #ifdef PROTO_CACHE_STATS
 #include <atomic>
@@ -192,36 +194,113 @@ namespace proto
     }
 
     /**
-     * @brief Replace the parent chain entirely.
+     * @brief Replace the parent chain entirely, FLATTENED.
      *
-     * Builds a fresh ParentLink chain from `newParents` in reverse order
-     * (the last list entry becomes the chain tail, the first entry the
-     * chain head — matching getParents()'s emit order), then returns a
-     * new ProtoObjectCell that shares this cell's attributes table but
-     * uses the rebuilt chain.  Mutable-vs-immutable shard CAS happens
-     * in the public ProtoObject::setParents trampoline; this helper is
-     * purely the immutable-shape builder.
+     * The new chain is, in order:
+     *   1. The entries of `newParents`, in the given order, de-duplicated
+     *      (an entry equal to one already kept is dropped).
+     *   2. Every ancestor of each of those listed parents — walking each
+     *      parent's own (already-flat, by the newChild/addParent/setParents
+     *      invariant) chain in that parent's own order, in the SAME order
+     *      the parents were listed — that is not already present.
+     *
+     * This makes setParents produce the same invariant newChild and
+     * addParent already guarantee: an object's own chain always contains
+     * every one of its ancestors as a direct entry, so getAttribute,
+     * isInstanceOf and hasParent all see the same, complete ancestor set.
+     * A list that is already complete (e.g. a linearization that already
+     * lists every ancestor) is unaffected by step 2 — every entry it would
+     * add is already present — so it produces exactly the same chain as
+     * step 1 alone: a no-op relative to just installing the list directly.
+     *
+     * `rejectIdentity`, when non-null, is compared (by identity) against
+     * every listed parent and every ancestor encountered while flattening;
+     * a match throws `std::invalid_argument` rather than building a
+     * self-referential chain. See the header declaration and
+     * `ProtoObject::setParents` for why this can only matter for a mutable
+     * receiver.
      *
      * Passing `newParents == nullptr` or an empty list clears the chain
      * (the resulting cell has no prototype).
      */
     const ProtoObjectCell* ProtoObjectCell::setParents(
-        ProtoContext* context, const ProtoList* newParents) const
+        ProtoContext* context, const ProtoList* newParents, const ProtoObject* rejectIdentity) const
     {
-        const ParentLinkImplementation* newChain = nullptr;
+        std::vector<const ProtoObject*> flat;
         if (newParents) {
             unsigned long n = newParents->getSize(context);
-            // Walk right-to-left: getParents() emits in head-first
-            // order, so to reproduce that we attach the LAST entry
-            // first (it becomes the chain tail) and the FIRST entry
-            // last (it becomes the chain head).
-            for (long i = static_cast<long>(n) - 1; i >= 0; --i) {
+            flat.reserve(n);
+
+            // Step 1: listed parents, given order, de-duplicated.
+            for (unsigned long i = 0; i < n; ++i) {
                 const ProtoObject* p = newParents->getAt(context, static_cast<int>(i));
                 if (!p) continue;
-                newChain = new(context) ParentLinkImplementation(
-                    context, newChain, p);
+                if (rejectIdentity && p == rejectIdentity) {
+                    throw std::invalid_argument(
+                        "ProtoObject::setParents: a listed parent is the object itself (cyclic parent chain)");
+                }
+                bool alreadyPresent = false;
+                for (const ProtoObject* e : flat) {
+                    if (e == p) { alreadyPresent = true; break; }
+                }
+                if (!alreadyPresent) flat.push_back(p);
+            }
+
+            // Step 2: each listed parent's own ancestors, in the parent's
+            // own chain order, appended once each, in listed-parent order.
+            // Index over the step-1 count specifically (not flat.size(),
+            // which grows during this loop) so parents are processed in
+            // their original listed order even as their ancestors are
+            // appended after them.
+            const size_t listedCount = flat.size();
+            for (size_t idx = 0; idx < listedCount; ++idx) {
+                const ProtoObject* p = flat[idx];
+                ProtoObjectPointer ppa{};
+                ppa.oid = p;
+                if (ppa.op.pointer_tag != POINTER_TAG_OBJECT) continue; // no chain to walk
+
+                auto* pOc = toImpl<const ProtoObjectCell>(p);
+                if (pOc->mutable_ref > 0) {
+                    const ProtoObject* stored = resolveMutableSnapshot(context, pOc->mutable_ref);
+                    if (stored != nullptr && stored != p) {
+                        ProtoObjectPointer spa{};
+                        spa.oid = stored;
+                        if (spa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                            pOc = toImpl<const ProtoObjectCell>(stored);
+                        }
+                    }
+                }
+
+                const ParentLinkImplementation* link = pOc->parent;
+                while (link && ((uintptr_t)link & 0x3F) == 0) {
+                    auto pl = toImpl<const ParentLinkImplementation>(link);
+                    if (pl->getType() != CellType::ParentLink) break;
+
+                    const ProtoObject* anc = pl->getObject(context);
+                    if (rejectIdentity && anc == rejectIdentity) {
+                        throw std::invalid_argument(
+                            "ProtoObject::setParents: an ancestor of a listed parent is the object itself "
+                            "(cyclic parent chain)");
+                    }
+                    bool alreadyPresent = false;
+                    for (const ProtoObject* e : flat) {
+                        if (e == anc) { alreadyPresent = true; break; }
+                    }
+                    if (!alreadyPresent) flat.push_back(anc);
+
+                    link = pl->getParent(context);
+                }
             }
         }
+
+        // Build the link chain tail-first (flat's LAST entry becomes the
+        // chain tail, flat's FIRST entry the chain head), matching
+        // getParents()'s head-first emit order.
+        const ParentLinkImplementation* newChain = nullptr;
+        for (auto it = flat.rbegin(); it != flat.rend(); ++it) {
+            newChain = new(context) ParentLinkImplementation(context, newChain, *it);
+        }
+
         return new(context) ProtoObjectCell(
             context,
             newChain,
@@ -461,72 +540,27 @@ namespace proto
             return oc;
         }
 
-        // Recursion is needed only when a `setParents` call somewhere in the
-        // ancestry broke the flattened-chain invariant (see chainHasAncestor
-        // below); it bounds ONLY that rare case, never the length of an
-        // ordinary newChild/addParent chain. A budget this size is far
-        // beyond any realistic nesting of `setParents` calls, while still
-        // bounding C++ stack usage if it is ever exhausted.
-        constexpr int IS_INSTANCE_OF_RECURSION_BUDGET = 4096;
-
         /**
-         * @brief Is `ancestor` reachable from the chain starting at `link`?
+         * @brief Is `ancestor` a direct entry of the chain starting at `link`?
          *
-         * Walks the flattened parent chain exactly as `getAttribute` does
-         * (core/ProtoObject.cpp:507-705): a pure linear scan, no allocation,
-         * no length limit. `newChild` and `addParent` both guarantee that an
-         * object's own chain already contains every one of its ancestors —
-         * newChild prepends one link that shares the parent's own chain as
-         * its tail (structural sharing), and addParent explicitly copies in
-         * every one of the new parent's own ancestors that is not already
-         * present (core/ProtoObject.cpp:398-423, 1191-1226) — so the linear
-         * scan alone is complete and correct for any object built purely
-         * from those two.
-         *
-         * `setParents` is the one construction path that does NOT flatten:
-         * it installs exactly the given list, without copying in each
-         * entry's own ancestors. Whenever the next link in THIS scan is not
-         * the very same chain the visited object's own `parent` field
-         * already points to — which is always true for a newChild/addParent
-         * link, by construction, and detected here by a cheap pointer
-         * comparison — that object may hold further ancestors unreachable
-         * from this scan, and its own chain is probed recursively.
-         *
-         * `budget` bounds only that recursive probe. `newChild`/`addParent`
-         * only ever prepend a brand-new immutable link in front of an
-         * already-built chain, so a chain built purely from them can never
-         * cycle back on itself; `setParents` is the only way to point a
-         * chain at an arbitrary pre-existing object, and is therefore the
-         * only way two mutable objects could be made to reference each
-         * other's chains and cycle. The comparison above is a soundness
-         * heuristic only — a false "diverged" verdict just costs a
-         * redundant (but bounded, non-exponential) probe, it never skips a
-         * real ancestor.
+         * A pure linear scan, no allocation, no recursion, no length limit —
+         * exactly the chain-navigation loop `getAttribute` uses
+         * (core/ProtoObject.cpp:507-705). `newChild`, `addParent` AND
+         * `setParents` (core/ProtoObject.cpp:398-423, 1191-1226, 208-296)
+         * all guarantee that an object's own chain already contains every
+         * one of its ancestors as a direct entry, so this single-level scan
+         * is complete and exact for any object — there is no longer a
+         * construction path that leaves an ancestor reachable only through
+         * a visited parent's own separate chain.
          */
         bool chainHasAncestor(ProtoContext* context, const ParentLinkImplementation* link,
-                               const ProtoObject* ancestor, int budget)
+                               const ProtoObject* ancestor)
         {
             while (link && ((uintptr_t)link & 0x3F) == 0) {
                 auto pl = toImpl<const ParentLinkImplementation>(link);
                 if (pl->getType() != CellType::ParentLink) break;
-
-                const ProtoObject* obj = pl->getObject(context);
-                if (obj == ancestor) return true;
-
-                const ParentLinkImplementation* next = pl->getParent(context);
-
-                if (proto::isObjectFast(obj)) {
-                    const ProtoObjectCell* objOc = resolveOwnCell(context, obj);
-                    if (objOc->parent != next) {
-                        // Divergence: `obj`'s own chain is not the tail this
-                        // scan is about to continue into — probe it
-                        // separately (a setParents boundary).
-                        if (budget <= 0) return false; // cycle guard
-                        if (chainHasAncestor(context, objOc->parent, ancestor, budget - 1)) return true;
-                    }
-                }
-
-                link = next;
+                if (pl->getObject(context) == ancestor) return true;
+                link = pl->getParent(context);
             }
             return false;
         }
@@ -544,8 +578,7 @@ namespace proto
             // mutable-resolved — rather than through getPrototype(), which
             // does not resolve a mutable receiver's current snapshot.
             const ProtoObjectCell* oc = resolveOwnCell(context, this);
-            return chainHasAncestor(context, oc->parent, prototype, IS_INSTANCE_OF_RECURSION_BUDGET)
-                ? PROTO_TRUE : PROTO_NONE;
+            return chainHasAncestor(context, oc->parent, prototype) ? PROTO_TRUE : PROTO_NONE;
         }
 
         // Non-object receiver (SmallInteger, string, list, ...): answered
@@ -555,8 +588,7 @@ namespace proto
         if (start == prototype) return PROTO_TRUE;
         if (!proto::isObjectFast(start)) return PROTO_NONE;
         const ProtoObjectCell* startOc = resolveOwnCell(context, start);
-        return chainHasAncestor(context, startOc->parent, prototype, IS_INSTANCE_OF_RECURSION_BUDGET)
-            ? PROTO_TRUE : PROTO_NONE;
+        return chainHasAncestor(context, startOc->parent, prototype) ? PROTO_TRUE : PROTO_NONE;
     }
 
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks) const
@@ -1336,8 +1368,17 @@ namespace proto
                     currentObjState = storedState;
                 }
 
+                // `this` is passed as the cycle-reject identity: a mutable
+                // object's handle is stable across mutation, so it is the
+                // only case where the object being reshaped could already
+                // be reachable from one of its own new parents' chains
+                // (e.g. two mutable objects setParents'd at each other) —
+                // an immutable rebuild always produces a brand-new handle
+                // nothing could have referenced yet, so no such check is
+                // needed or performed there (see the immutable branch
+                // below).
                 auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
-                auto* newState = currentOc->setParents(context, newParents)->asObject(context);
+                auto* newState = currentOc->setParents(context, newParents, this)->asObject(context);
 
                 const ProtoSparseList* oldRootSL =
                     (oldRoot == nullptr) ? context->newSparseList() : oldRoot;

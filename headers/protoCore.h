@@ -235,17 +235,16 @@ namespace proto
          *
          * Allocation-free: walks `oc->parent` directly instead of building
          * a `ProtoList` via `getParents()`. No step limit (there never was
-         * one for this shallow scan).
+         * one for this scan).
          *
-         * This is a SHALLOW check: it does not descend into a visited
-         * parent's own further chain, so it will not find an ancestor that
-         * is only reachable that way (this happens when `setParents` was
-         * used somewhere in the ancestry with a list whose entries were not
-         * pre-flattened — `newChild`/`addParent` always leave every
-         * transitive ancestor as a direct entry in the receiver's own
-         * chain, so for objects built purely from those, this shallow scan
-         * already finds everything). Use `isInstanceOf` for an exact,
-         * transitive "is-ancestor" test.
+         * This is a single-level scan of the receiver's own chain — but
+         * `newChild`, `addParent` and `setParents` all guarantee that an
+         * object's own chain already contains every one of its ancestors
+         * as a direct entry, so in practice this already answers the full,
+         * transitive "is-ancestor" question and agrees with `isInstanceOf`
+         * and with what `getAttribute` can see (modulo the `target == this`
+         * case, which `isInstanceOf` does not special-case — an object is
+         * not its own instance).
          *
          * A mutable receiver is resolved to its current snapshot first, so
          * the answer reflects the object's current version's chain.
@@ -254,12 +253,27 @@ namespace proto
         const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent) const;
         const ProtoObject* addParentInternal(ProtoContext* context, const ProtoObject* newParent) const;
         /**
-         * @brief Replace the entire parent chain with `newParents`.
+         * @brief Replace the entire parent chain with `newParents`, FLATTENED.
          *
          * Use this when an embedder needs to mutate the prototype
          * chain wholesale — e.g. when a user-language `__bases__`
          * reassignment must drop the old bases entirely instead of
          * just appending new ones.
+         *
+         * **Behaviour change**: the resulting chain is no longer exactly
+         * `newParents` installed verbatim. It is, in order: (1) the entries
+         * of `newParents`, in the given order, de-duplicated; (2) every
+         * ancestor of each of those listed parents — walking each parent's
+         * own chain in that parent's own order, in the same order the
+         * parents were listed — that is not already present. This gives
+         * `setParents` the same invariant `newChild`/`addParent` already
+         * guarantee (an object's own chain always contains every one of
+         * its ancestors as a direct entry), so `getAttribute`,
+         * `isInstanceOf` and `hasParent` always agree on what this object
+         * inherits. A list that already contains every ancestor of every
+         * listed parent (e.g. a full linearization) is unaffected by step
+         * 2 and installs exactly as given — a no-op relative to the old
+         * verbatim behaviour.
          *
          * - For an immutable object, returns a freshly-built handle
          *   sharing the same attributes but with the rebuilt parent
@@ -272,6 +286,17 @@ namespace proto
          * (first) parent, matching `getParents()`'s output order.
          * Passing an empty or null list clears the parent chain
          * entirely.
+         *
+         * @throws std::invalid_argument if flattening would make this
+         * object its own ancestor — a listed parent, or an ancestor
+         * reached while flattening one, is this object itself. This can
+         * only happen for a MUTABLE receiver: its handle is stable across
+         * mutation, so it is the only case where an earlier `setParents`
+         * call on another mutable object could already have captured a
+         * reference back to it (e.g. two mutable objects `setParents`'d at
+         * each other). An immutable call always builds a brand-new handle
+         * nothing could have referenced yet, so it can never become its
+         * own ancestor and never throws.
          */
         const ProtoObject* setParents(ProtoContext* context, const ProtoList* newParents) const;
         /**
@@ -281,39 +306,31 @@ namespace proto
          * third value — earlier revisions of this method gave up on a very
          * deep chain and returned `PROTO_FALSE`; that arbitrary 50-step cap
          * is gone, along with the fixed-size sibling stack and the
-         * allocation it required. There is no longer any length limit on
-         * an ordinary `newChild`/`addParent` chain).
+         * allocation it required).
          *
-         * `newChild` and `addParent` both guarantee that an object's own
+         * A pure, allocation-free linear scan of the receiver's own chain —
+         * the same one `getAttribute` walks — with no recursion and no
+         * length limit. This is sufficient and exact because `newChild`,
+         * `addParent` AND `setParents` all guarantee that an object's own
          * chain already contains every one of its ancestors as a direct
-         * entry (core/ProtoObject.cpp:398-423, 1191-1226), so for any
-         * object built purely from those two, this is a single allocation-
-         * free linear scan of that chain — the same one `getAttribute`
-         * walks — with no recursion at all.
+         * entry (core/ProtoObject.cpp:398-423, 1191-1226 and 208-296 for
+         * `setParents`'s flattening) — there is no longer a construction
+         * path that leaves an ancestor reachable only through a visited
+         * parent's own separate chain, so no recursive probe is needed.
          *
-         * `setParents` is the one construction path that does not flatten:
-         * it installs exactly the given list, without copying in each
-         * entry's own ancestors. When the ancestry was ever touched by
-         * `setParents`, an ancestor may only be reachable by separately
-         * probing a visited parent's own chain; this method does that
-         * probe (still allocation-free), bounded only against a
-         * deliberately-cyclic `setParents` graph on mutable objects — the
-         * only construction path that can create a cycle at all — never
-         * against the depth of an ordinary hierarchy.
-         *
-         * A mutable receiver (and every mutable object visited along the
-         * way) is resolved to its current snapshot, so the answer reflects
-         * each object's current version's chain.
+         * A mutable receiver is resolved to its current snapshot first
+         * (`getPrototype` does not do this), so the answer reflects the
+         * object's current version's chain.
          *
          * Non-object receivers (SmallInteger, strings, lists, ...) are
          * answered through their prototype: `x.isInstanceOf(ctx, p)` is
          * `x.getPrototype(ctx) == p || <p is an ancestor of
          * x.getPrototype(ctx)>`.
          *
-         * `hasParent` answers a narrower, allocation-free, single-level
-         * question (`target == this`, or a DIRECT entry in this object's
-         * own chain) — prefer it when a shallow check is all that is
-         * needed.
+         * `hasParent` answers the same question with a narrower interface
+         * (`int`, and `target == this` is also true) — pick whichever
+         * return convention the call site wants; both scan the same,
+         * always-complete chain.
          */
         const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 

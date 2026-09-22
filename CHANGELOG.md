@@ -160,6 +160,58 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::setParents` now flattens the chain it installs, so
+  `ProtoObject::isInstanceOf` is a pure linear walk with no recursion, no
+  cap and no allocation — for every object, with no exceptions.**
+
+  This supersedes the entry below: `setParents` was, until now, the one
+  construction path that did not flatten (it installed exactly the given
+  list, without copying in each listed parent's own ancestors), which is
+  why `isInstanceOf` originally needed a recursive fallback for chains it
+  had touched. It no longer does.
+
+  **`setParents`'s new chain**, in order: (1) the entries of the given
+  list, in the given order, de-duplicated; (2) every ancestor of each of
+  those listed parents — walking each parent's own chain in that parent's
+  own order, in the same order the parents were listed — that is not
+  already present. A list that already contains every ancestor of every
+  listed parent (e.g. a full linearization) is unaffected by step 2 and
+  installs exactly as given, in the exact same order — a no-op relative to
+  the old verbatim behaviour.
+
+  **Behaviour change**: `getAttribute` (and `hasParent`, and
+  `isInstanceOf`) can now see a grand-parent's attribute through a
+  `setParents`-built object that could not see it before — e.g.
+  `x = obj.setParents(ctx, [p])` where `p` has its own ancestor `g` with
+  attribute `a`: `x.getAttribute(ctx, a)` used to return `PROTO_NONE`
+  (only `p`'s own attributes were visible) and now finds `g`'s value,
+  because `g` is flattened into `x`'s own chain alongside `p`. This is
+  intended: it is the same completeness `newChild`/`addParent` already
+  guaranteed, now extended to `setParents`, and it is why
+  `isInstanceOf`/`hasParent`/`getAttribute` now always agree on what an
+  object inherits, regardless of which construction path built its chain.
+
+  **Cycle detection**: a mutable object's handle is stable across
+  mutation, so it is the only case where `setParents` could be asked to
+  make an object its own ancestor — directly (`a.setParents(ctx, [a])`) or
+  through another mutable object's chain (`a.setParents(ctx, [b])` then
+  `b.setParents(ctx, [a])`, where `a`'s chain now contains `b`). `setParents`
+  detects this while flattening and throws `std::invalid_argument` instead
+  of building a self-referential chain; the mutable object being reshaped
+  is left unchanged (the exception is thrown before anything is published
+  to its shard). An immutable `setParents` call can never create a real
+  cycle this way — it always builds a brand-new handle nothing could have
+  referenced yet — so it is never checked and never throws.
+
+  Tests: `test/SetParentsFlattenTests.cpp` (10 cases: the no-op
+  linearization property, a non-flat list being flattened, listed-parent
+  order preservation with overlapping ancestors, de-duplication of a
+  repeated listed parent, the `getAttribute` visibility change, agreement
+  between `isInstanceOf`/`hasParent`/`getAttribute`, a mutable object after
+  `setParents`, a two-mutable-object cycle and a direct self-reference both
+  throwing `std::invalid_argument`, and an immutable receiver listing its
+  own old handle — not a cycle — not throwing).
+
 - **`ProtoObject::isInstanceOf` and `ProtoObject::hasParent` now walk the
   flattened parent chain directly instead of allocating or capping the
   search.**
@@ -171,23 +223,16 @@ All notable changes to protoCore are documented in this file.
   deeper than 50 links. `hasParent` allocated a `ProtoList` via
   `getParents()` on every call just to test membership.
 
-  `newChild` and `addParent` both guarantee that an object's own chain
-  already contains every one of its ancestors as a direct entry
-  (`newChild` prepends one link that shares the parent's own chain as its
-  tail; `addParent` explicitly copies in every one of the new parent's own
-  ancestors not already present) — verified by reading, not assumed — so
-  for any object built purely from those two, `isInstanceOf` is now a
-  single allocation-free linear scan of that chain, the same one
-  `getAttribute` walks, with **no length limit**. `setParents` is the one
-  construction path that does not flatten (it installs exactly the given
-  list, without each entry's own ancestors); when the ancestry was ever
-  touched by it, `isInstanceOf` separately probes a visited parent's own
-  chain (still allocation-free), bounded only against a deliberately-cyclic
-  `setParents` graph on mutable objects — the only construction path that
-  can create a cycle at all — never against the depth of an ordinary
-  hierarchy. `hasParent` keeps its existing shallow, single-level contract
-  (`target == this`, or a direct entry in the receiver's own chain) and is
-  now just that scan without the `ProtoList` allocation.
+  `newChild`, `addParent` and (as of the entry above) `setParents` all
+  guarantee that an object's own chain already contains every one of its
+  ancestors as a direct entry, so `isInstanceOf` is now a single
+  allocation-free linear scan of that chain, the same one `getAttribute`
+  walks, with **no length limit and no recursion**. `hasParent` keeps its
+  existing single-level contract (`target == this`, or a direct entry in
+  the receiver's own chain) and is now just that scan without the
+  `ProtoList` allocation — which, now that every chain is flat by
+  construction, agrees with `isInstanceOf` on every ancestor, not only a
+  direct one.
 
   Fixing this surfaced and corrected two bugs the old implementation had:
   `isInstanceOf` explored a receiver's own chain only through
@@ -202,10 +247,10 @@ All notable changes to protoCore are documented in this file.
 
   Tests: `test/InstanceOfHasParentTests.cpp` (15 cases, covering every
   chain-shaping construction path: `newChild`, `addParent` including the
-  diamond case, `setParents` both flat-equivalent and genuinely non-flat,
-  `clone`, mutable objects after `addParent`/`setParents`, non-object
-  receivers, and a 1,000-level `newChild` chain that used to hit the
-  50-step cap and now correctly returns `PROTO_TRUE`).
+  diamond case, `setParents`, `clone`, mutable objects after
+  `addParent`/`setParents`, non-object receivers, and a 1,000-level
+  `newChild` chain that used to hit the 50-step cap and now correctly
+  returns `PROTO_TRUE`).
 - **`ProtoObject::isByte` is now defined and exported.** It was declared in
   the public header but had no definition anywhere, so an embedder that
   called it failed to link. `nm -D --defined-only` on the shipped library

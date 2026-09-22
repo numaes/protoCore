@@ -7,18 +7,17 @@
 // on every call just to test membership.
 //
 // This file pins down the corrected contract across every construction
-// path that can shape an object's parent chain:
-//   - newChild / addParent always leave every transitive ancestor as a
-//     direct entry in the receiver's own chain ("flat" chains) — verified
-//     by reading core/ProtoObject.cpp before this fix, not assumed.
-//   - setParents does NOT flatten: it installs exactly the given list,
-//     without copying in each entry's own ancestors ("non-flat" chains).
-//     isInstanceOf must still find an ancestor only reachable that way;
-//     hasParent (a shallow, single-level, allocation-free scan) must not.
-//   - mutable objects, after addParent/setParents, must be answered for
-//     their CURRENT snapshot by both methods (getPrototype() does not
-//     resolve one; isInstanceOf must not depend on getPrototype() for
-//     object receivers for this reason).
+// path that can shape an object's parent chain. newChild, addParent AND
+// setParents (see SetParentsFlattenTests.cpp for setParents's own
+// flattening algorithm) all now guarantee that an object's own chain
+// already contains every one of its ancestors as a direct entry, so
+// isInstanceOf is a pure, allocation-free, single-level linear scan for
+// every object, with no recursion and no length limit — the same chain
+// getAttribute and hasParent (also allocation-free, no list built) walk.
+// Mutable objects, after addParent/setParents, must be answered for their
+// CURRENT snapshot by isInstanceOf and hasParent alike (getPrototype()
+// does not resolve one; isInstanceOf must not depend on getPrototype() for
+// object receivers for this reason).
 //
 // Two latent bugs surfaced while characterizing the OLD implementation and
 // are intentionally NOT reproduced here (see the report for detail):
@@ -139,15 +138,16 @@ TEST_F(InstanceOfHasParentTest, MixinAddedWithAddParentToImmutableChild) {
         << "adding a mixin must not drop the existing chain";
 }
 
-// --- setParents: the one construction path that does NOT flatten ----------
+// --- setParents: now flattens too (see SetParentsFlattenTests.cpp for the
+// dedicated coverage of the flattening algorithm itself) -------------------
 
-// C's chain is set to exactly [P] (setParents does not copy P's own
-// ancestors in). G is P's ancestor (P = G.newChild()), so G is reachable
-// from C only by separately probing P's own chain. isInstanceOf must find
-// it (matching the pre-fix DFS's behaviour on this exact input, verified
-// empirically before writing this fix); hasParent — a shallow, single-
-// level scan — correctly does NOT.
-TEST_F(InstanceOfHasParentTest, SetParentsNonFlatChainStillFoundByIsInstanceOf) {
+// C's chain is set from [P] (a single-entry, non-flattened-looking list).
+// setParents now flattens it: C's own chain becomes [P, G] (G copied in
+// from P's own chain). isInstanceOf, hasParent AND getAttribute must all
+// now agree that G is present — this is the behaviour change from
+// SetParents flattening; see SetParentsFlattenTests.cpp for the dedicated
+// "getAttribute now finds a grand-parent's attribute" test.
+TEST_F(InstanceOfHasParentTest, SetParentsFlattensNonFlatInput) {
     const ProtoString* gAttr = sym("gAttr");
     const ProtoObject* g = context->newObject(false);
     g = g->setAttribute(context, gAttr, context->fromInteger(99));
@@ -158,26 +158,21 @@ TEST_F(InstanceOfHasParentTest, SetParentsNonFlatChainStillFoundByIsInstanceOf) 
     c = c->setParents(context, plist);
 
     EXPECT_EQ(c->isInstanceOf(context, p), PROTO_TRUE);
-    EXPECT_EQ(c->isInstanceOf(context, g), PROTO_TRUE)
-        << "G is only reachable through P's own chain (setParents does not "
-           "flatten); isInstanceOf must still find it";
+    EXPECT_EQ(c->isInstanceOf(context, g), PROTO_TRUE);
 
     EXPECT_EQ(c->hasParent(context, p), 1);
-    EXPECT_EQ(c->hasParent(context, g), 0)
-        << "hasParent is a shallow, single-level scan of C's own chain "
-           "([P] only); it must not descend into P's own chain";
+    EXPECT_EQ(c->hasParent(context, g), 1)
+        << "setParents now flattens: G is a direct entry of C's own chain";
 
-    // getAttribute is likewise shallow (unchanged by this fix) — attributes
-    // that live only on G are not visible through C either. Documents the
-    // existing divergence between isInstanceOf and getAttribute/hasParent
-    // on a setParents-touched chain; not something this fix changes.
-    EXPECT_EQ(c->getAttribute(context, gAttr), PROTO_NONE);
+    EXPECT_EQ(c->getAttribute(context, gAttr), context->fromInteger(99))
+        << "setParents flattening makes G's attribute visible through C";
 }
 
 // Two setParents/newChild hops away: leaf = leafBase.setParents([mid]),
-// grandleaf = leaf.newChild(). root is reachable only by probing leaf's
-// own chain (finds mid) and then mid's own chain (finds root) — exercises
-// genuine multi-level recursion, not just one hop.
+// grandleaf = leaf.newChild(). Since setParents now flattens, leaf's own
+// chain already includes root (copied in from mid's chain), and newChild
+// carries that whole flat chain into grandleaf — so root is a DIRECT entry
+// of grandleaf's own chain too, not just isInstanceOf-reachable.
 TEST_F(InstanceOfHasParentTest, SetParentsThenNewChildTwoHopsDeep) {
     const ProtoObject* root = context->newObject(false);
     const ProtoObject* mid = root->newChild(context);
@@ -188,15 +183,13 @@ TEST_F(InstanceOfHasParentTest, SetParentsThenNewChildTwoHopsDeep) {
 
     EXPECT_EQ(grandleaf->isInstanceOf(context, leaf), PROTO_TRUE);
     EXPECT_EQ(grandleaf->isInstanceOf(context, mid), PROTO_TRUE);
-    EXPECT_EQ(grandleaf->isInstanceOf(context, root), PROTO_TRUE)
-        << "root is two setParents/newChild hops away from grandleaf";
+    EXPECT_EQ(grandleaf->isInstanceOf(context, root), PROTO_TRUE);
 
     EXPECT_EQ(grandleaf->hasParent(context, leaf), 1);
-    EXPECT_EQ(grandleaf->hasParent(context, mid), 1)
-        << "mid was copied into grandleaf's own chain by newChild "
-           "(structural sharing of leaf's own chain)";
-    EXPECT_EQ(grandleaf->hasParent(context, root), 0)
-        << "root is not a direct entry of grandleaf's own chain";
+    EXPECT_EQ(grandleaf->hasParent(context, mid), 1);
+    EXPECT_EQ(grandleaf->hasParent(context, root), 1)
+        << "setParents flattening means root is now a direct entry, not "
+           "just transitively reachable";
 }
 
 // --- The intended behaviour change: no more length limit -------------------

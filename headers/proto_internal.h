@@ -785,12 +785,24 @@ namespace proto {
 
         // setParents — replace the entire parent chain with the
         // objects in `newParents` (head of list = first / nearest
-        // parent).  Returns a freshly-built ProtoObjectCell that
-        // shares this cell's attributes but with a brand-new
-        // ParentLink chain.  Mutable-vs-immutable dispatch lives in
-        // the ProtoObject-level trampoline; this helper is the pure
-        // immutable-shape builder.
-        const ProtoObjectCell *setParents(ProtoContext *context, const ProtoList *newParents) const;
+        // parent), FLATTENED: the listed parents in order (de-
+        // duplicated), then every ancestor of each listed parent (in
+        // that parent's own chain order) not already present. Returns
+        // a freshly-built ProtoObjectCell that shares this cell's
+        // attributes but with a brand-new, flat ParentLink chain.
+        // Mutable-vs-immutable dispatch lives in the ProtoObject-level
+        // trampoline; this helper is the pure immutable-shape builder.
+        //
+        // `rejectIdentity`, when non-null, is compared against every
+        // listed parent and every ancestor encountered while
+        // flattening; a match throws std::invalid_argument instead of
+        // building a self-referential chain. The trampoline passes the
+        // receiver's own stable handle here ONLY for a mutable
+        // receiver — the one case where an object's identity survives
+        // across the call, so it is the only case a chain can actually
+        // become self-referential (see ProtoObject::setParents).
+        const ProtoObjectCell *setParents(ProtoContext *context, const ProtoList *newParents,
+                                           const ProtoObject *rejectIdentity = nullptr) const;
 
         const ProtoObject *asObject(ProtoContext *context) const;
 
