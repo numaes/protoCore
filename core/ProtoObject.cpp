@@ -792,13 +792,20 @@ namespace proto
         const ProtoObject* currentPointer = this;
         const ParentLinkImplementation* currentLink = nullptr;
         const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
-        int iterationCount = 0;
 
+        // No step cap: every chain is flat and finite by construction.
+        // newChild/addParent only ever prepend a brand-new immutable link
+        // in front of an already-built chain, so a chain built from them
+        // can never cycle back on itself; setParents -- the only
+        // construction path that can point a chain at an arbitrary
+        // pre-existing object -- rejects (std::invalid_argument) any
+        // input that would make an object reachable from its own new
+        // chain. So this loop always walks a strictly finite list once,
+        // forward only, and always terminates. (An earlier `> 500` cap
+        // here gave a false "not found" for any attribute living further
+        // down the chain than that -- the same class of bug isInstanceOf's
+        // and hasAttribute's old caps had, both since removed.)
         while (currentPointer) {
-            if (++iterationCount > 500) {
-                 return PROTO_NONE;
-            }
-
             // Pure 6-bit tag check — POINTER_TAG_OBJECT is 0, so
             // alignment-clear low bits identifies an object cell.
             // No virtual getCellTypeRaw() probe needed: every cell

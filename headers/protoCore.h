@@ -139,25 +139,26 @@ namespace proto
          * @brief Looks up `name`, in this object's own attributes first,
          * then along its parent chain (own chain first, head to tail).
          *
-         * **Caps at 500 chain steps** (core/ProtoObject.cpp, the
-         * `iterationCount > 500` check in the chain-navigation loop) and
-         * returns `PROTO_NONE` ("not found") if exceeded — a hierarchy
-         * with more than 500 direct ancestor entries gives a WRONG answer
-         * (a false negative) rather than the correct one, the same class
-         * of bug `isInstanceOf`'s and `hasAttribute`'s old caps had.
-         * `isInstanceOf`, `hasParent` and `hasAttribute` have NO such cap;
-         * `getAttribute` still has one, so for a receiver whose own chain
-         * is longer than 500 entries, `isInstanceOf`/`hasParent`/
-         * `hasAttribute` can report an ancestor (or its attribute)
-         * present that `getAttribute` fails to find — they do NOT
-         * unconditionally agree; see `hasAttribute`'s own doc comment for
-         * the exact case. Whether this cap can be safely removed too is a
-         * separate decision: nothing about the current chain invariants
-         * (every chain is flat and finite by construction, and
-         * `setParents` rejects a self-referential result — see
-         * `setParents` below) makes a longer chain unsafe to walk, so the
-         * cap looks like the same unnecessary conservatism the others'
-         * caps were — but that call is for the maintainer, not made here.
+         * **No depth cap** — an earlier revision gave up
+         * (`iterationCount > 500`) and returned `PROTO_NONE` ("not
+         * found") for a receiver whose own chain was longer than 500
+         * entries, a false negative for a perfectly good hierarchy, the
+         * same class of bug `isInstanceOf`'s and `hasAttribute`'s old
+         * caps had. No lookup or traversal method in protoCore has a
+         * depth cap any more (`isInstanceOf`, `hasParent`, `hasAttribute`,
+         * `getAttributes`, and this method): they all now always agree
+         * with each other, at any depth.
+         *
+         * Termination without a cap is guaranteed by construction, not by
+         * a limit: every object's own chain is flat and finite —
+         * `newChild`/`addParent` only ever prepend a brand-new immutable
+         * link in front of an already-built chain (so a chain built from
+         * them can never cycle back on itself), and `setParents` — the
+         * only construction path that can point a chain at an arbitrary
+         * pre-existing object — rejects, with `std::invalid_argument`,
+         * any input that would make an object reachable from its own new
+         * chain (see `setParents` below). So this walk is always a single
+         * forward pass over a strictly finite list.
          */
         const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks = true) const;
         /**
@@ -166,25 +167,16 @@ namespace proto
          *
          * Same shape as `getAttribute`'s chain-navigation loop — own
          * attributes first, then the linearised chain, head to tail — a
-         * pure linear scan, allocation-free, no recursion. Resolves a
-         * mutable receiver (and every mutable object visited along the
-         * chain) to its current snapshot, exactly as `getAttribute` does,
-         * so an instance of a mutable class sees whatever ancestors the
-         * class currently has (or had at the instance's own creation, for
-         * `newChild` — see its doc comment).
+         * pure linear scan, allocation-free, no recursion, no depth cap
+         * (see `getAttribute`'s doc comment for why none is needed).
+         * Resolves a mutable receiver (and every mutable object visited
+         * along the chain) to its current snapshot, exactly as
+         * `getAttribute` does, so an instance of a mutable class sees
+         * whatever ancestors the class currently has (or had at the
+         * instance's own creation, for `newChild` — see its doc comment).
          *
-         * Unlike `getAttribute`, this has **no step cap** — earlier
-         * revisions used a fixed-size (64-slot) sibling-stack DFS with an
-         * arbitrary 50-step cap that returned `PROTO_FALSE` (a false
-         * negative) for any hierarchy deeper than 50 links, the same
-         * class of bug `isInstanceOf`'s old cap had. Because
-         * `hasAttribute` has no cap and `getAttribute` still does, they
-         * are NOT guaranteed to agree: for an attribute that lives more
-         * than 500 own-chain entries away from the receiver,
-         * `hasAttribute` finds it (`PROTO_TRUE`) while `getAttribute`
-         * gives up first (`PROTO_NONE`). This is the one documented
-         * exception, not a bug — see `test/HasAttributeChainTests.cpp`'s
-         * `DivergesFromGetAttributeBeyond500Levels`.
+         * Always agrees with `getAttribute` (neither has a cap any more)
+         * and with `getAttributes`' merged view, at any depth.
          */
         const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
@@ -264,8 +256,8 @@ namespace proto
          * an object with more than one DIRECT parent (an `addParent`-built
          * diamond, or a `setParents` list with more than one entry) has
          * every one of them contribute its attributes, not just the
-         * first. No step cap (unlike `getAttribute`'s 500-step one): the
-         * chain is walked in full.
+         * first. No depth cap (see `getAttribute`'s doc comment for why
+         * none is needed): the chain is walked in full.
          *
          * A mutable receiver — and every mutable object visited along the
          * chain — is resolved to its current snapshot, so the merge
@@ -363,11 +355,8 @@ namespace proto
          *
          * Agrees with `isInstanceOf` (modulo the `target == this` case,
          * which `isInstanceOf` does not special-case — an object is not
-         * its own instance) and with what `getAttribute` finds, WITH ONE
-         * EXCEPTION: `getAttribute` still caps its walk at 500 chain
-         * steps (see its own doc comment) and `hasParent`/`isInstanceOf`
-         * do not, so for a receiver with more than 500 own-chain entries
-         * they can report an ancestor `getAttribute` fails to reach.
+         * its own instance) and with what `getAttribute` finds, at any
+         * depth — neither has a depth cap.
          *
          * A mutable receiver is resolved to its current snapshot first, so
          * the answer reflects the object's current version's chain.
@@ -418,9 +407,9 @@ namespace proto
          * parents were listed — that is not already present. This gives
          * `setParents` the same invariant `newChild`/`addParent` already
          * guarantee (an object's own chain always contains every one of
-         * its ancestors as a direct entry), so `getAttribute` (within its
-         * 500-step cap — see its own doc comment), `isInstanceOf` and
-         * `hasParent` all see the same ancestor set for this object. A
+         * its ancestors as a direct entry), so `getAttribute`,
+         * `isInstanceOf` and `hasParent` all see the same ancestor set for
+         * this object (none of the three has a depth cap). A
          * list that already contains every ancestor of every listed parent
          * (e.g. a full linearization) is unaffected by step 2 and installs
          * exactly as given, in the exact same order — a no-op relative to
@@ -470,10 +459,9 @@ namespace proto
          * allocation it required).
          *
          * A pure, allocation-free linear scan of the receiver's own chain —
-         * the same one `getAttribute` walks, but with NO 500-step cap (see
-         * `getAttribute`'s own doc comment — this is the one place the two
-         * do not necessarily agree) — with no recursion. This scan alone
-         * is sufficient and exact because `newChild`, `addParent` AND
+         * the same one `getAttribute` walks, and, like it, with no depth
+         * cap — with no recursion. This scan alone is sufficient and exact
+         * because `newChild`, `addParent` AND
          * `setParents` all guarantee that an object's own chain already
          * contains every one of its ancestors as a direct entry — there is
          * no construction path that leaves an ancestor reachable only

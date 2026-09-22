@@ -160,6 +160,56 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::getAttribute` no longer caps its chain walk at 500
+  steps — no lookup or traversal method in protoCore has a depth cap any
+  more.**
+
+  `getAttribute` gave up (`iterationCount > 500`) and returned
+  `PROTO_NONE` ("not found") for an attribute living further than 500
+  own-chain entries from the receiver — a false negative for a perfectly
+  good hierarchy, the same class of bug `isInstanceOf`'s old 50-step cap
+  and `hasAttribute`'s old 50-step cap both had (both already fixed in
+  earlier rounds). This was the one depth cap left in any lookup path,
+  and the one remaining place `getAttribute` could disagree with
+  `isInstanceOf`/`hasParent`/`hasAttribute`/`getAttributes` (all already
+  uncapped). It is gone: all five now always agree, at any depth.
+
+  Termination without a cap is guaranteed by construction, not by a
+  limit, and was already true before this fix — removing the cap adds no
+  new risk: every object's own chain is flat and finite —
+  `newChild`/`addParent` only ever prepend a brand-new immutable link in
+  front of an already-built chain (a chain built from them can never
+  cycle back on itself), and `setParents` — the only construction path
+  that can point a chain at an arbitrary pre-existing object — rejects,
+  with `std::invalid_argument`, any input that would make an object
+  reachable from its own new chain. So the walk this cap used to bound
+  was always a single forward pass over a strictly finite list; the cap
+  never protected against a real infinite loop, only produced wrong
+  answers on long-but-finite ones.
+
+  Surveyed every lookup/traversal path in `core/*.cpp` for any other
+  step/depth-limit constant: none remain. The one numeric bound left
+  anywhere near an attribute walk is `processOwnAttributes`'s
+  `kMaxDepth = 64` stack for its OWN in-order AVL traversal — a
+  different kind of bound entirely: it is not a parent-chain depth cap
+  (it never gives up on the SEARCH; it bounds the recursion-free
+  in-order walk of ONE object's own attribute tree), and it is not
+  arbitrary — the sparse list's `size` field is 24 bits, so a balanced
+  tree of that many entries is at most ~35 deep, making 64 a
+  mathematically safe upper bound, never an approximation that could be
+  exceeded by a legitimately larger hierarchy.
+
+  Tests: `test/GetAttributeNoCapTests.cpp` (5 cases) — the old cap pinned
+  first (depths 501 and 2000 both returned `PROTO_NONE` for a root
+  attribute against the pre-fix code, confirmed before removing the
+  cap), then found at depth 501 and depth 2000, agreement with
+  `hasAttribute`/`isInstanceOf`/`getAttributes` on the same 900-level
+  chain, a not-found lookup on a 2,000-level chain still terminating as
+  `PROTO_NONE`, and shallow own/inherited baselines. Also updated
+  `test/HasAttributeChainTests.cpp`'s `DivergesFromGetAttributeBeyond500
+  Levels` (renamed `AgreesWithGetAttributeBeyond500Levels`) now that the
+  divergence it pinned no longer exists.
+
 - **`ProtoObject::getAttributes` (the merged-attribute-view snapshot) now
   walks the receiver's whole flattened chain instead of recursing into
   only the first parent link — a second or later DIRECT parent's
@@ -217,13 +267,10 @@ All notable changes to protoCore are documented in this file.
   current snapshot exactly as `getAttribute` and the already-fixed
   `isInstanceOf`/`hasParent` do.
 
-  Because `hasAttribute` is now uncapped and `getAttribute` still has its
-  (deliberately untouched) 500-step cap, they are NOT guaranteed to agree
-  for very deep hierarchies: an attribute living more than 500 own-chain
-  entries away from the receiver is found by `hasAttribute`
-  (`PROTO_TRUE`) but not by `getAttribute` (`PROTO_NONE`, giving up
-  first). This is documented as the one deliberate exception, in both
-  methods' header doc comments, not a bug.
+  At the time of this fix `getAttribute` still had its own separate
+  500-step cap, so the two were not guaranteed to agree for very deep
+  hierarchies; that cap is gone too now (see the later entry in this
+  file) and they always agree, at any depth.
 
   Surveyed the other attribute-lookup helpers for the same defect:
   `hasOwnAttribute`, `getOwnAttributeDirect` and `processOwnAttributes`
@@ -356,22 +403,16 @@ All notable changes to protoCore are documented in this file.
   where the two constructions produce different `getAttribute` results
   for the exact same set of parents and ancestors.
 
-- **Documented, explicitly, that `getAttribute` still caps its chain walk
-  at 500 steps** (unlike `isInstanceOf`/`hasParent`, which this round's
-  earlier entry made uncapped) **and corrected the "`hasParent` doesn't
-  see a mutable object's children's full ancestry" gap** — that gap was
-  exactly the `newChild` bug fixed above; `hasParent` itself was already
-  correct (it resolves a mutable receiver's current snapshot, and always
-  did), it was just fed an incomplete chain by the old `newChild`. With
-  that fixed, `hasParent` (like `isInstanceOf`) now answers the full,
-  transitive ancestry question for every object, including instances of a
-  mutable class, with no known gap except `getAttribute`'s cap.
-  Whether that cap can also be safely removed is a separate decision, not
-  made in this round: nothing about the current invariants (every chain is
-  flat and finite by construction; `setParents` rejects a self-referential
-  result) makes a longer chain unsafe to walk, so it looks like the same
-  unnecessary conservatism `isInstanceOf`'s old cap was — but that
-  assessment is not a decision to remove it.
+- **Corrected the "`hasParent` doesn't see a mutable object's children's
+  full ancestry" gap** — that gap was exactly the `newChild` bug fixed
+  above; `hasParent` itself was already correct (it resolves a mutable
+  receiver's current snapshot, and always did), it was just fed an
+  incomplete chain by the old `newChild`. With that fixed, `hasParent`
+  (like `isInstanceOf`) now answers the full, transitive ancestry
+  question for every object, including instances of a mutable class. (At
+  the time of this entry `getAttribute` still had a separate 500-step
+  cap that was the one remaining gap; removed in a later entry in this
+  file.)
 
 - **`ProtoObject::setParents` now flattens the chain it installs, so
   `ProtoObject::isInstanceOf` is a pure linear walk with no recursion, no

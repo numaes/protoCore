@@ -8,18 +8,14 @@
 // addParent/setParents invariant) chain, with no cap and no allocation.
 //
 // hasAttribute is now that same linear scan (mirroring getAttribute's own
-// chain-navigation loop exactly, minus getAttribute's attribute cache and
-// its 500-step cap — the cap stays on getAttribute per a separate,
-// deliberate decision; hasAttribute has none), and resolves a mutable
-// receiver's current snapshot at every step, exactly as getAttribute and
-// the fixed isInstanceOf/hasParent do.
+// chain-navigation loop exactly, minus getAttribute's attribute cache),
+// and resolves a mutable receiver's current snapshot at every step,
+// exactly as getAttribute and the fixed isInstanceOf/hasParent do.
 //
-// Because hasAttribute has no cap and getAttribute still does, this file
-// also pins the ONE place they can still disagree: an attribute that
-// lives more than 500 own-chain entries away from the receiver.
-// hasAttribute (uncapped) finds it; getAttribute (capped at 500) does
-// not. This is documented, not a bug — see both methods' header doc
-// comments.
+// getAttribute's own separate 500-step cap (which, when hasAttribute was
+// first fixed, was the one place the two could still disagree) is gone
+// too — see test/GetAttributeNoCapTests.cpp. Neither has a depth cap any
+// more; they always agree, at any depth.
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
@@ -137,7 +133,7 @@ TEST_F(HasAttributeChainTest, ChainDeeperThan500LevelsStillFindsRootAttribute) {
     EXPECT_EQ(result, PROTO_TRUE);
 }
 
-// --- Agreement with getAttribute (within getAttribute's cap) --------------
+// --- Agreement with getAttribute (getAttribute has no cap either) ---------
 
 TEST_F(HasAttributeChainTest, AgreesWithGetAttributeOnAShallowChain) {
     const ProtoString* a = sym("a");
@@ -152,31 +148,28 @@ TEST_F(HasAttributeChainTest, AgreesWithGetAttributeOnAShallowChain) {
 
 TEST_F(HasAttributeChainTest, AgreesWithGetAttributeJustUnderGetAttributesCap) {
     const ProtoString* a = sym("a");
-    // 490 levels: the attribute (on the root) sits at chain position 490,
-    // safely under getAttribute's 500-step cap.
     const ProtoObject* leaf = buildChainWithAttrAtRoot(490, a);
 
     EXPECT_EQ(leaf->hasAttribute(context, a), PROTO_TRUE);
     EXPECT_NE(leaf->getAttribute(context, a), PROTO_NONE);
 }
 
-// --- The one place they can still disagree: past getAttribute's cap ------
+// --- No more divergence: getAttribute's cap is gone too --------------------
 
-// Documents, explicitly, that hasAttribute (uncapped) and getAttribute
-// (capped at 500) MUST diverge for an attribute far enough down the
-// chain: hasAttribute finds it, getAttribute gives up first. This is the
-// one exception to "hasAttribute agrees with getAttribute", stated in
-// both methods' header doc comments.
-TEST_F(HasAttributeChainTest, DivergesFromGetAttributeBeyond500Levels) {
+// getAttribute used to cap its walk at 500 steps and give up
+// (PROTO_NONE) on an attribute living further down the chain than that,
+// even though hasAttribute (already uncapped) found it — the one
+// documented exception to "hasAttribute agrees with getAttribute". That
+// cap is gone (see test/GetAttributeNoCapTests.cpp): both now agree at
+// any depth.
+TEST_F(HasAttributeChainTest, AgreesWithGetAttributeBeyond500Levels) {
     const ProtoString* a = sym("a");
     const ProtoObject* leaf = buildChainWithAttrAtRoot(520, a);
 
-    EXPECT_EQ(leaf->hasAttribute(context, a), PROTO_TRUE)
-        << "hasAttribute has no step cap";
-    EXPECT_EQ(leaf->getAttribute(context, a), PROTO_NONE)
-        << "getAttribute still caps its walk at 500 steps (a separate, "
-           "deliberate decision) and cannot reach an attribute this far "
-           "down the chain";
+    EXPECT_EQ(leaf->hasAttribute(context, a), PROTO_TRUE);
+    EXPECT_EQ(leaf->getAttribute(context, a), context->fromInteger(1))
+        << "getAttribute's 500-step cap is gone; this must now be found, "
+           "agreeing with hasAttribute";
 }
 
 // --- Mutable receiver: current snapshot, not birth state -------------------
