@@ -160,6 +160,52 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::isInstanceOf` and `ProtoObject::hasParent` now walk the
+  flattened parent chain directly instead of allocating or capping the
+  search.**
+
+  `isInstanceOf` used a depth-first walk with a fixed-size (64-slot)
+  sibling stack and gave up after an arbitrary 50-step cap, returning
+  `PROTO_FALSE` (a third, distinct value, never documented as part of the
+  found/not-found contract) instead of the correct answer for any hierarchy
+  deeper than 50 links. `hasParent` allocated a `ProtoList` via
+  `getParents()` on every call just to test membership.
+
+  `newChild` and `addParent` both guarantee that an object's own chain
+  already contains every one of its ancestors as a direct entry
+  (`newChild` prepends one link that shares the parent's own chain as its
+  tail; `addParent` explicitly copies in every one of the new parent's own
+  ancestors not already present) — verified by reading, not assumed — so
+  for any object built purely from those two, `isInstanceOf` is now a
+  single allocation-free linear scan of that chain, the same one
+  `getAttribute` walks, with **no length limit**. `setParents` is the one
+  construction path that does not flatten (it installs exactly the given
+  list, without each entry's own ancestors); when the ancestry was ever
+  touched by it, `isInstanceOf` separately probes a visited parent's own
+  chain (still allocation-free), bounded only against a deliberately-cyclic
+  `setParents` graph on mutable objects — the only construction path that
+  can create a cycle at all — never against the depth of an ordinary
+  hierarchy. `hasParent` keeps its existing shallow, single-level contract
+  (`target == this`, or a direct entry in the receiver's own chain) and is
+  now just that scan without the `ProtoList` allocation.
+
+  Fixing this surfaced and corrected two bugs the old implementation had:
+  `isInstanceOf` explored a receiver's own chain only through
+  `getPrototype()`, which returns just the first entry, so a second or
+  third parent added via `addParent` (e.g. the classic diamond,
+  `chain=[C,B,A]`) was silently unreachable even though `hasParent`
+  correctly reported it present; and `isInstanceOf` never resolved a
+  mutable receiver's current snapshot (`getPrototype()` does not), so it
+  answered false for every parent ever added to a mutable object. Both are
+  an unavoidable consequence of scanning the receiver's own resolved chain
+  directly instead of bootstrapping from `getPrototype()`.
+
+  Tests: `test/InstanceOfHasParentTests.cpp` (15 cases, covering every
+  chain-shaping construction path: `newChild`, `addParent` including the
+  diamond case, `setParents` both flat-equivalent and genuinely non-flat,
+  `clone`, mutable objects after `addParent`/`setParents`, non-object
+  receivers, and a 1,000-level `newChild` chain that used to hit the
+  50-step cap and now correctly returns `PROTO_TRUE`).
 - **`ProtoObject::isByte` is now defined and exported.** It was declared in
   the public header but had no definition anywhere, so an embedder that
   called it failed to link. `nm -D --defined-only` on the shipped library

@@ -229,6 +229,27 @@ namespace proto
          * a ProtoList per attribute access dominates wall time).
          */
         const ProtoObject* getFirstParent(ProtoContext* context) const;
+        /**
+         * @brief Is `target` `this` itself, or a direct entry in this
+         * object's own (single-level) parent chain?
+         *
+         * Allocation-free: walks `oc->parent` directly instead of building
+         * a `ProtoList` via `getParents()`. No step limit (there never was
+         * one for this shallow scan).
+         *
+         * This is a SHALLOW check: it does not descend into a visited
+         * parent's own further chain, so it will not find an ancestor that
+         * is only reachable that way (this happens when `setParents` was
+         * used somewhere in the ancestry with a list whose entries were not
+         * pre-flattened — `newChild`/`addParent` always leave every
+         * transitive ancestor as a direct entry in the receiver's own
+         * chain, so for objects built purely from those, this shallow scan
+         * already finds everything). Use `isInstanceOf` for an exact,
+         * transitive "is-ancestor" test.
+         *
+         * A mutable receiver is resolved to its current snapshot first, so
+         * the answer reflects the object's current version's chain.
+         */
         int hasParent(ProtoContext* context, const ProtoObject* target) const;
         const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent) const;
         const ProtoObject* addParentInternal(ProtoContext* context, const ProtoObject* newParent) const;
@@ -253,6 +274,47 @@ namespace proto
          * entirely.
          */
         const ProtoObject* setParents(ProtoContext* context, const ProtoList* newParents) const;
+        /**
+         * @brief Is `prototype` a transitive ancestor of this object?
+         *
+         * Returns `PROTO_TRUE` when found, `PROTO_NONE` when not (never a
+         * third value — earlier revisions of this method gave up on a very
+         * deep chain and returned `PROTO_FALSE`; that arbitrary 50-step cap
+         * is gone, along with the fixed-size sibling stack and the
+         * allocation it required. There is no longer any length limit on
+         * an ordinary `newChild`/`addParent` chain).
+         *
+         * `newChild` and `addParent` both guarantee that an object's own
+         * chain already contains every one of its ancestors as a direct
+         * entry (core/ProtoObject.cpp:398-423, 1191-1226), so for any
+         * object built purely from those two, this is a single allocation-
+         * free linear scan of that chain — the same one `getAttribute`
+         * walks — with no recursion at all.
+         *
+         * `setParents` is the one construction path that does not flatten:
+         * it installs exactly the given list, without copying in each
+         * entry's own ancestors. When the ancestry was ever touched by
+         * `setParents`, an ancestor may only be reachable by separately
+         * probing a visited parent's own chain; this method does that
+         * probe (still allocation-free), bounded only against a
+         * deliberately-cyclic `setParents` graph on mutable objects — the
+         * only construction path that can create a cycle at all — never
+         * against the depth of an ordinary hierarchy.
+         *
+         * A mutable receiver (and every mutable object visited along the
+         * way) is resolved to its current snapshot, so the answer reflects
+         * each object's current version's chain.
+         *
+         * Non-object receivers (SmallInteger, strings, lists, ...) are
+         * answered through their prototype: `x.isInstanceOf(ctx, p)` is
+         * `x.getPrototype(ctx) == p || <p is an ancestor of
+         * x.getPrototype(ctx)>`.
+         *
+         * `hasParent` answers a narrower, allocation-free, single-level
+         * question (`target == this`, or a DIRECT entry in this object's
+         * own chain) — prefer it when a shallow check is all that is
+         * needed.
+         */
         const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 
         //- Execution

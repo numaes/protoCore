@@ -434,74 +434,129 @@ namespace proto
         return PROTO_NONE;
     }
 
+    namespace {
+        /**
+         * Resolves `node` (assumed to be a real ProtoObjectCell — callers
+         * check `isObjectFast` first) to the ProtoObjectCell whose `parent`
+         * field reflects its CURRENT state: for a mutable object this is
+         * the live mutable snapshot, exactly as getAttribute / getParents /
+         * getFirstParent resolve it. Unlike `getPrototype`, which reads the
+         * handle cell's own (possibly stale, pre-first-mutation) `parent`
+         * field directly, this always answers for the object's current
+         * version — required for `isInstanceOf` to see parents added via
+         * `addParent`/`setParents` on a mutable receiver.
+         */
+        inline const ProtoObjectCell* resolveOwnCell(ProtoContext* context, const ProtoObject* node) {
+            auto* oc = toImpl<const ProtoObjectCell>(node);
+            if (oc->mutable_ref > 0) {
+                const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+                if (storedState != nullptr && storedState != node) {
+                    ProtoObjectPointer psa{};
+                    psa.oid = storedState;
+                    if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                        oc = toImpl<const ProtoObjectCell>(storedState);
+                    }
+                }
+            }
+            return oc;
+        }
+
+        // Recursion is needed only when a `setParents` call somewhere in the
+        // ancestry broke the flattened-chain invariant (see chainHasAncestor
+        // below); it bounds ONLY that rare case, never the length of an
+        // ordinary newChild/addParent chain. A budget this size is far
+        // beyond any realistic nesting of `setParents` calls, while still
+        // bounding C++ stack usage if it is ever exhausted.
+        constexpr int IS_INSTANCE_OF_RECURSION_BUDGET = 4096;
+
+        /**
+         * @brief Is `ancestor` reachable from the chain starting at `link`?
+         *
+         * Walks the flattened parent chain exactly as `getAttribute` does
+         * (core/ProtoObject.cpp:507-705): a pure linear scan, no allocation,
+         * no length limit. `newChild` and `addParent` both guarantee that an
+         * object's own chain already contains every one of its ancestors —
+         * newChild prepends one link that shares the parent's own chain as
+         * its tail (structural sharing), and addParent explicitly copies in
+         * every one of the new parent's own ancestors that is not already
+         * present (core/ProtoObject.cpp:398-423, 1191-1226) — so the linear
+         * scan alone is complete and correct for any object built purely
+         * from those two.
+         *
+         * `setParents` is the one construction path that does NOT flatten:
+         * it installs exactly the given list, without copying in each
+         * entry's own ancestors. Whenever the next link in THIS scan is not
+         * the very same chain the visited object's own `parent` field
+         * already points to — which is always true for a newChild/addParent
+         * link, by construction, and detected here by a cheap pointer
+         * comparison — that object may hold further ancestors unreachable
+         * from this scan, and its own chain is probed recursively.
+         *
+         * `budget` bounds only that recursive probe. `newChild`/`addParent`
+         * only ever prepend a brand-new immutable link in front of an
+         * already-built chain, so a chain built purely from them can never
+         * cycle back on itself; `setParents` is the only way to point a
+         * chain at an arbitrary pre-existing object, and is therefore the
+         * only way two mutable objects could be made to reference each
+         * other's chains and cycle. The comparison above is a soundness
+         * heuristic only — a false "diverged" verdict just costs a
+         * redundant (but bounded, non-exponential) probe, it never skips a
+         * real ancestor.
+         */
+        bool chainHasAncestor(ProtoContext* context, const ParentLinkImplementation* link,
+                               const ProtoObject* ancestor, int budget)
+        {
+            while (link && ((uintptr_t)link & 0x3F) == 0) {
+                auto pl = toImpl<const ParentLinkImplementation>(link);
+                if (pl->getType() != CellType::ParentLink) break;
+
+                const ProtoObject* obj = pl->getObject(context);
+                if (obj == ancestor) return true;
+
+                const ParentLinkImplementation* next = pl->getParent(context);
+
+                if (proto::isObjectFast(obj)) {
+                    const ProtoObjectCell* objOc = resolveOwnCell(context, obj);
+                    if (objOc->parent != next) {
+                        // Divergence: `obj`'s own chain is not the tail this
+                        // scan is about to continue into — probe it
+                        // separately (a setParents boundary).
+                        if (budget <= 0) return false; // cycle guard
+                        if (chainHasAncestor(context, objOc->parent, ancestor, budget - 1)) return true;
+                    }
+                }
+
+                link = next;
+            }
+            return false;
+        }
+    }
+
     const ProtoObject* ProtoObject::isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const
     {
-        const ParentLinkImplementation* plStack[64];
-        int plPtr = 0;
-        const ProtoObject* current = this->getPrototype(context);
-        int iterationCount = 0;
+        if (!prototype || !context) return PROTO_NONE;
 
-        while (current) {
-            if (++iterationCount > 50) {
-                 return PROTO_FALSE;
-            }
-            if (current == prototype) return PROTO_TRUE;
-            ProtoObjectPointer pa{};
-            pa.oid = current;
-            if (pa.op.pointer_tag != POINTER_TAG_OBJECT) {
-                current = current->getPrototype(context);
-                continue;
-            }
-            auto oc = toImpl<const ProtoObjectCell>(current);
-            
-            // Handle Mutable Objects (cache-fast)
-            if (oc->mutable_ref > 0) {
-                 const proto::ProtoObject* storedState =
-                     resolveMutableSnapshot(context, oc->mutable_ref);
-                 if (storedState != nullptr && storedState != current) {
-                      ProtoObjectPointer psa{};
-                      psa.oid = storedState;
-                      if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                          oc = toImpl<const ProtoObjectCell>(storedState);
-                      }
-                 }
-            }
-            
-            if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
-                auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
-                if (pl->getType() == CellType::ParentLink) {
-                    const ParentLinkImplementation* sibling = pl->getParent(context);
-                    int sibCount = 0;
-                    while (sibling && plPtr < 64 && ((uintptr_t)sibling & 0x3F) == 0) {
-                        auto sl = toImpl<const ParentLinkImplementation>(sibling);
-                        if (sl->getType() != CellType::ParentLink) break;
-                        if (++sibCount > 100) break;
-                        plStack[plPtr++] = sibling;
-                        sibling = sl->getParent(context);
-                    }
-                    current = pl->getObject(context);
-                } else {
-                    current = nullptr;
-                }
-            } else {
-                if (plPtr > 0) {
-                    const ParentLinkImplementation* top = plStack[--plPtr];
-                    if (top && ((uintptr_t)top & 0x3F) == 0) {
-                        auto tl = toImpl<const ParentLinkImplementation>(top);
-                        if (tl->getType() == CellType::ParentLink) {
-                            current = tl->getObject(context);
-                        } else {
-                            current = nullptr;
-                        }
-                    } else {
-                        current = nullptr;
-                    }
-                } else {
-                    current = nullptr;
-                }
-            }
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        const ProtoObject* start;
+        if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
+            // Object receiver: search this object's OWN chain directly,
+            // mutable-resolved — rather than through getPrototype(), which
+            // does not resolve a mutable receiver's current snapshot.
+            const ProtoObjectCell* oc = resolveOwnCell(context, this);
+            return chainHasAncestor(context, oc->parent, prototype, IS_INSTANCE_OF_RECURSION_BUDGET)
+                ? PROTO_TRUE : PROTO_NONE;
         }
-        return PROTO_NONE;
+
+        // Non-object receiver (SmallInteger, string, list, ...): answered
+        // through its prototype, same as today.
+        start = this->getPrototype(context);
+        if (!start) return PROTO_NONE;
+        if (start == prototype) return PROTO_TRUE;
+        if (!proto::isObjectFast(start)) return PROTO_NONE;
+        const ProtoObjectCell* startOc = resolveOwnCell(context, start);
+        return chainHasAncestor(context, startOc->parent, prototype, IS_INSTANCE_OF_RECURSION_BUDGET)
+            ? PROTO_TRUE : PROTO_NONE;
     }
 
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks) const
@@ -1113,11 +1168,25 @@ namespace proto
     }
 
     int ProtoObject::hasParent(ProtoContext* context, const ProtoObject* target) const {
-        if (!this || !target) return 0;
+        if (!this || !target || !context) return 0;
         if (target == this) return 1;
-        
-        const ProtoList* pList = getParents(context);
-        return pList && pList->has(context, target) ? 1 : 0;
+
+        if (!proto::isObjectFast(this)) return 0;
+
+        // Same shallow, single-level scan getParents() performs (own chain
+        // only — no descent into a visited parent's own further chain),
+        // just without allocating the ProtoList: walk oc->parent directly,
+        // mutable-resolved so a mutable receiver answers for its current
+        // version's chain.
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
+        const ParentLinkImplementation* link = oc->parent;
+        while (link && ((uintptr_t)link & 0x3F) == 0) {
+            auto pl = toImpl<const ParentLinkImplementation>(link);
+            if (pl->getType() != CellType::ParentLink) break;
+            if (pl->getObject(context) == target) return 1;
+            link = pl->getParent(context);
+        }
+        return 0;
     }
 
     const ProtoObject* ProtoObject::addParentInternal(ProtoContext* context, const ProtoObject* newParent) const {
