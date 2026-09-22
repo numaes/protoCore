@@ -202,3 +202,28 @@ TEST_F(SparseListObjectTest, IsEqualAndHashIgnoreInsertionOrderAndForm) {
     EXPECT_TRUE(avl3->isEqual(c, small3));
     EXPECT_EQ(avl3->getHash(c), small3->getHash(c));
 }
+
+TEST_F(SparseListObjectTest, ObjectIntegration) {
+    const ProtoSparseListObject* m = c->newSparseListObject()->setAt(c, obj(), I(1));
+    const ProtoObject* o = m->asObject(c);
+    EXPECT_TRUE(o->isSparseListObject(c));
+    EXPECT_EQ(o->asSparseListObject(c), m);
+    EXPECT_EQ(o->asSparseList(c), nullptr);                 // not a ProtoSparseList
+    EXPECT_FALSE(c->newSparseList()->asObject(c)->isSparseListObject(c));
+    EXPECT_EQ(c->newSparseList()->asObject(c)->asSparseListObject(c), nullptr);
+    EXPECT_FALSE(I(5)->isSparseListObject(c));
+    // D5 = own prototype (recommended).  If D5 = shared, expect
+    // space->sparseListPrototype instead.
+    EXPECT_EQ(o->getPrototype(c), space->sparseListObjectPrototype);
+    EXPECT_NE(space->sparseListObjectPrototype, nullptr);
+    EXPECT_NE(space->sparseListObjectPrototype, space->sparseListPrototype);
+    EXPECT_EQ(o->getHash(c), o->getHash(c));               // Cell::getHash, as ProtoSparseList
+}
+
+TEST_F(SparseListObjectTest, AvlFormIsAlsoRecognised) {
+    const ProtoSparseListObject* m = c->newSparseListObject();
+    for (int i = 0; i < 10; ++i) m = m->setAt(c, obj(), I(i));
+    ASSERT_EQ(formOf(m), CellType::SparseListObject);
+    EXPECT_TRUE(m->asObject(c)->isSparseListObject(c));
+    EXPECT_EQ(m->asObject(c)->getPrototype(c), space->sparseListObjectPrototype);
+}

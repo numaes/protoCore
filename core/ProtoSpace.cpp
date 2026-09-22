@@ -156,6 +156,9 @@ namespace proto {
                 case CellType::StringInternalNode: return "StringInternalNode";
                 case CellType::ListSmall: return "ListSmall";
                 case CellType::SparseListSmall: return "SparseListSmall";
+                case CellType::SparseListObject: return "SparseListObject";
+                case CellType::SparseListObjectSmall: return "SparseListObjectSmall";
+                case CellType::SparseListObjectIterator: return "SparseListObjectIterator";
             }
             return "unknown";
         }
@@ -417,6 +420,7 @@ namespace proto {
                 addRootObj(space->stringIteratorPrototype);
                 addRootObj(space->sparseListPrototype);
                 addRootObj(space->sparseListIteratorPrototype);
+                addRootObj(space->sparseListObjectPrototype);
                 addRootObj(space->setPrototype);
                 addRootObj(space->setIteratorPrototype);
                 addRootObj(space->multisetPrototype);
@@ -1186,6 +1190,7 @@ namespace proto {
         this->unicodeCharPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->listPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->sparseListPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->sparseListObjectPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         // Mutable so embedders (protoJS Object.prototype, protoPython
         // object.__class__, etc.) can install methods and accept user-
         // level setattr without forking the identity on every write.

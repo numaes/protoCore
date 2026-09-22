@@ -342,6 +342,7 @@ namespace proto
         bool isMultiset(ProtoContext* context) const;
         bool isByteBuffer(ProtoContext* context) const;
         bool isNativeRangeIterator(ProtoContext* context) const;
+        bool isSparseListObject(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
@@ -382,6 +383,7 @@ namespace proto
         const ProtoStringIterator* asStringIterator(ProtoContext* context) const;
         const ProtoSparseList* asSparseList(ProtoContext* context) const;
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
+        const ProtoSparseListObject* asSparseListObject(ProtoContext* context) const;
         const ProtoSet* asSet(ProtoContext* context) const;
         const ProtoSetIterator* asSetIterator(ProtoContext* context) const;
         const ProtoMultiset* asMultiset(ProtoContext* context) const;
@@ -1550,6 +1552,7 @@ namespace proto
         ProtoObject* multisetPrototype{};
         ProtoObject* multisetIteratorPrototype{};
         ProtoObject* rangeIteratorPrototype{};
+        ProtoObject* sparseListObjectPrototype{};
 
         // --- Cached Literals ---
         ProtoString* literalData;
