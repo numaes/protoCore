@@ -2122,6 +2122,26 @@ namespace proto
         return PROTO_FALSE;
     }
     
+    /**
+     * @brief Merges this object's own attributes with those of every
+     * ancestor in its own FLATTENED chain, in the same precedence order
+     * attribute lookup uses: own attributes win over any ancestor's, and
+     * a NEARER ancestor (earlier in the chain) wins over a FARTHER one
+     * for the same key — matching getAttribute's/hasAttribute's "own,
+     * then chain head to tail, first match wins" rule exactly.
+     *
+     * This used to recurse into only the FIRST parent link
+     * (`pl->getObject(context)->getAttributes(context)`), so a second or
+     * later DIRECT parent (an addParent-built diamond, or a setParents
+     * list with more than one entry) never contributed its own
+     * attributes to the merged view at all — even though
+     * getAttribute/hasAttribute/isInstanceOf, which walk the receiver's
+     * own chain directly rather than recursing into just the first
+     * entry, already saw it. It is now the same iterative, allocation-
+     * for-the-merge-only walk of the receiver's own chain those methods
+     * use: no recursion, so no missed sibling and no C++ stack depth
+     * proportional to chain length either.
+     */
     const ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
@@ -2129,56 +2149,58 @@ namespace proto
             const ProtoObject* prototype = getPrototype(context);
             return prototype ? prototype->getAttributes(context) : context->newSparseList();
         }
-        auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseListImplementation* attributes = oc->attributes;
 
-        // GC critical section opened BEFORE the mutable snapshot is resolved
-        // and held until the result is built.  The snapshot's attributes and
-        // parent chain are used across the recursive parent lookup and the
-        // merge allocations, and they are referenced only from this frame: if
-        // another thread publishes a new state, nothing else keeps the old one
-        // alive.  Inside the section no thread parks (the recursion's own
-        // sections are nested), so no stop-the-world runs between the resolve
-        // and the last use; the heap checkpoint runs at this entry, before the
-        // resolve.  The section also covers the merge, whose partial tree is
-        // reachable only via `attrs` until the final return.
+        // GC critical section: covers the whole flattened-chain walk and
+        // the merge build, whose partial tree is reachable only via
+        // `attrs` (a C++ local) until the final return — same rationale
+        // as before, now spanning the whole chain in one section instead
+        // of one recursive hop's worth at a time.
         ProtoContext::CriticalSection cs(context);
 
+        auto oc = toImpl<const ProtoObjectCell>(this);
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
             if (storedState != nullptr) {
-                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                attributes = storedOc->attributes;
-                oc = storedOc;
+                oc = toImpl<const ProtoObjectCell>(storedState);
             }
         }
 
-        const ProtoSparseListImplementation* attrs = attributes;
-        if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
-            auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
-            if (pl->getType() == CellType::ParentLink) {
-                const ProtoObject* parentObj = pl->getObject(context);
-                if (parentObj) {
-                    // Recurse to the public API form (which other callers
-                    // may also receive); convert back to IMPL for the
-                    // merge loop below by walking via the Iterator API
-                    // (which works on either form via tag dispatch).
-                    const ProtoSparseList* parentAttrs = parentObj->getAttributes(context);
-                // Merge parent attributes with own attributes (inside the
-                // critical section opened above).
-                const ProtoSparseListIterator* it = parentAttrs->getIterator(context);
-                while (it && it->hasNext(context)) {
-                    unsigned long key = it->nextKey(context);
-                    const ProtoObject* value = it->nextValue(context);
+        // Seed `attrs` with the receiver's own attribute tree directly —
+        // structural sharing, no allocation — matching the fast path an
+        // object with no ancestors always had. Ancestors (if any) are
+        // merged in below, only adding a key not already present.
+        const ProtoSparseListImplementation* attrs = oc->attributes;
+
+        const ParentLinkImplementation* link = oc->parent;
+        while (link && ((uintptr_t)link & 0x3F) == 0) {
+            auto pl = toImpl<const ParentLinkImplementation>(link);
+            if (pl->getType() != CellType::ParentLink) break;
+
+            const ProtoObject* ancestor = pl->getObject(context);
+            auto ancOc = toImpl<const ProtoObjectCell>(ancestor);
+            if (ancOc->mutable_ref > 0) {
+                const ProtoObject* storedState = resolveMutableSnapshot(context, ancOc->mutable_ref);
+                if (storedState != nullptr) {
+                    ancOc = toImpl<const ProtoObjectCell>(storedState);
+                }
+            }
+
+            if (ancOc->attributes) {
+                const ProtoSparseListIteratorImplementation* it = ancOc->attributes->implGetIterator(context);
+                while (it && it->implHasNext()) {
+                    unsigned long key = it->implNextKey();
+                    const ProtoObject* value = it->implNextValue();
                     if (!attrs || attrs->implGetAt(context, key) == nullptr) {
                         attrs = attrs ? attrs->implSetAt(context, key, value)
                                       : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
                     }
-                    it = const_cast<ProtoSparseListIterator*>(it)->advance(context);
-                }
+                    it = it->implAdvance(context);
                 }
             }
+
+            link = pl->getParent(context);
         }
+
         // Convert the IMPL pointer to the public API tagged handle at
         // the boundary — this is the trampoline that returns to the
         // user/external callers.

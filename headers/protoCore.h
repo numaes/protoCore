@@ -244,6 +244,33 @@ namespace proto
          * defines `x` leaves the class binding intact (CPython semantics).
          */
         const ProtoObject* removeAttribute(ProtoContext* context, const ProtoString* name) const;
+        /**
+         * @brief The merged view: every attribute reachable from this
+         * object, own or inherited.
+         *
+         * **Merge order (shadowing rule)**: own attributes first, then
+         * this object's own FLATTENED chain, head to tail. A key already
+         * set by a nearer entry is never overwritten by a farther one —
+         * own attributes win over every ancestor's, and among ancestors a
+         * NEARER one (earlier in the chain) wins over a FARTHER one. This
+         * is exactly `getAttribute`'s/`hasAttribute`'s own precedence
+         * rule (first match wins, walking own-then-chain in the same
+         * order), so all three always agree on which value a given key
+         * resolves to.
+         *
+         * This walks the receiver's own chain directly (like
+         * `getAttribute`/`hasAttribute`/`isInstanceOf`) rather than
+         * recursing into just the first parent link and stopping there —
+         * an object with more than one DIRECT parent (an `addParent`-built
+         * diamond, or a `setParents` list with more than one entry) has
+         * every one of them contribute its attributes, not just the
+         * first. No step cap (unlike `getAttribute`'s 500-step one): the
+         * chain is walked in full.
+         *
+         * A mutable receiver — and every mutable object visited along the
+         * chain — is resolved to its current snapshot, so the merge
+         * reflects each object's current version.
+         */
         const ProtoSparseList* getAttributes(ProtoContext* context) const;
         const ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
         /**

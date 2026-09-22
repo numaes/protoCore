@@ -160,6 +160,49 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::getAttributes` (the merged-attribute-view snapshot) now
+  walks the receiver's whole flattened chain instead of recursing into
+  only the first parent link — a second or later DIRECT parent's
+  attributes are no longer silently dropped from the merge.**
+
+  `getAttributes()` recursed as `pl->getObject(context)->getAttributes
+  (context)` on `oc->parent` — the FIRST link of the receiver's own
+  chain — and never followed `pl->getParent(context)` (the chain's
+  remaining entries) at all. For an object built via more than one
+  `addParent` call (a diamond) or via `setParents` with more than one
+  listed parent, every attribute that lived only on the second-or-later
+  parent was invisible through `getAttributes()`, even though
+  `getAttribute`/`hasAttribute`/`isInstanceOf` (all fixed in earlier
+  rounds to walk the receiver's own chain directly) already saw it — the
+  three disagreed.
+
+  `getAttributes()` is now the same iterative walk of the receiver's own
+  chain those methods use, with an explicit **merge order (shadowing
+  rule)**, stated in its header doc comment: own attributes first, then
+  the chain head to tail; a key already set by a nearer entry is never
+  overwritten by a farther one. This is exactly `getAttribute`'s/
+  `hasAttribute`'s own "first match wins" precedence, so all three always
+  agree on which value a key resolves to — including the ordering
+  divergence between `addParent` (interleaves a parent's own ancestors
+  right after that parent) and `setParents` (batches all missing
+  ancestors after all listed parents), which now produces the same
+  `getAttributes()` result as `getAttribute` in both cases. No step cap
+  (unlike `getAttribute`'s 500-step one — the chain is walked in full),
+  and no more C++ recursion depth proportional to chain length either
+  (the old recursive-into-first-parent shape, applied to a very deep
+  single-parent-per-level chain, would recurse once per level).
+
+  Tests: `test/GetAttributesMergeTests.cpp` (10 cases) — the old
+  first-parent-only bug pinned first (an `addParent` diamond and a
+  multi-parent `setParents` list both dropped the second parent's
+  attribute against the pre-fix code, confirmed before writing the fix),
+  then own-attributes-only and single-parent-chain baselines, the
+  shadowing precedence (own over any ancestor, nearer over farther), the
+  exact `addParent`-vs-`setParents` ordering-divergence case agreeing
+  with `getAttribute`, a 1,000-level single-parent chain, a mutable
+  receiver, and agreement with `getAttribute`/`hasAttribute` on a
+  diamond.
+
 - **`ProtoObject::hasAttribute` now walks the flattened chain the way
   `getAttribute` does, allocation-free and with no step cap — fixing the
   same class of false-negative bug `isInstanceOf` had.**
@@ -186,12 +229,9 @@ All notable changes to protoCore are documented in this file.
   `hasOwnAttribute`, `getOwnAttributeDirect` and `processOwnAttributes`
   only ever probe the receiver's OWN attributes — no chain walk, no
   defect possible. `getAttributes()` (the merged-view snapshot) does walk
-  the chain, but via true recursion into only the FIRST parent link
-  (`pl->getObject(context)->getAttributes(context)`) — for an object with
-  more than one DIRECT parent (e.g. an `addParent`-built diamond) it never
-  visits the second or later ones at all. This is a different bug shape
-  (missing siblings, not a step cap) and is NOT fixed here — flagged for
-  a future round.
+  the chain, but via true recursion into only the FIRST parent link — a
+  different bug shape (missing siblings, not a step cap), fixed in the
+  entry below.
 
   Tests: `test/HasAttributeChainTests.cpp` (13 cases) — the old cap
   pinned first (a 60- and a 520-level chain both returned `PROTO_FALSE`
