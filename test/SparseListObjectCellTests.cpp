@@ -111,3 +111,23 @@ TEST(SparseListObjectCells, EmbeddedKeysAreNeverReported) {
     EXPECT_TRUE(contains(seen, ProtoObject::asCellPointer(cellValue)));
     EXPECT_TRUE(contains(seen, ProtoObject::asCellPointer(cellKey)));
 }
+
+TEST(SparseListObjectCells, NodeWithBothChildrenReportsExactlyItsFourReferences) {
+    ProtoSpace space;
+    ProtoContext* c = space.rootContext;
+    const ProtoObject* kl = cellObject(c, 10);
+    const ProtoObject* kr = cellObject(c, 11);
+    auto* left = new(c) ProtoSparseListObjectImplementation(c, kl, c->fromInteger(1), nullptr, nullptr, false);
+    auto* right = new(c) ProtoSparseListObjectImplementation(c, kr, c->fromInteger(2), nullptr, nullptr, false);
+    const ProtoObject* key = cellObject(c, 12);
+    const ProtoObject* value = cellObject(c, 13);
+    auto* node = new(c) ProtoSparseListObjectImplementation(c, key, value, left, right, false);
+
+    std::vector<const Cell*> seen;
+    node->processReferences(c, &seen, record);
+    ASSERT_EQ(seen.size(), 4u);
+    EXPECT_TRUE(contains(seen, ProtoObject::asCellPointer(key)));
+    EXPECT_TRUE(contains(seen, ProtoObject::asCellPointer(value)));
+    EXPECT_TRUE(contains(seen, left));
+    EXPECT_TRUE(contains(seen, right));
+}

@@ -678,6 +678,13 @@ namespace proto
         return (new(this) ProtoSparseListSmallImplementation(this))->asSparseList(this);
     }
 
+    const ProtoSparseListObject* ProtoContext::newSparseListObject()
+    {
+        // Every fresh map starts as the inline Small form (all keys nullptr).
+        return reinterpret_cast<const ProtoSparseListObject*>(
+            (new(this) ProtoSparseListObjectSmallImplementation(this))->implAsObject(this));
+    }
+
     const ProtoSparseListImplementation* ProtoContext::newSparseListImpl()
     {
         // Empty AVL-form sparse list as a raw C++ pointer. Used by struct

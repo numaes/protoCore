@@ -806,6 +806,42 @@ namespace proto
         void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const;
     };
 
+    /**
+     * @class ProtoSparseListObject
+     * @brief Persistent map from `const ProtoObject*` keys to values.
+     *
+     * Identical to ProtoSparseList except that the key is an object word the
+     * garbage collector traces: an object whose only reference is a key stays
+     * alive.  Keys are ordered and compared by their word (identity, tag
+     * included); an embedded value (SmallInteger, boolean, char, None) is a
+     * valid key and is never traced.  nullptr is not a valid key.  getAt
+     * returns nullptr for an absent key, so a stored PROTO_NONE stays
+     * distinguishable.  Every modifier returns a new version; old versions
+     * remain valid.
+     */
+    class ProtoSparseListObject
+    {
+    public:
+        bool has(ProtoContext* context, const ProtoObject* key) const;
+        const ProtoObject* getAt(ProtoContext* context, const ProtoObject* key) const;
+        const ProtoSparseListObject* setAt(ProtoContext* context, const ProtoObject* key, const ProtoObject* value) const;
+        const ProtoSparseListObject* removeAt(ProtoContext* context, const ProtoObject* key) const;
+        bool isEqual(ProtoContext* context, const ProtoSparseListObject* other) const;
+        unsigned long getSize(ProtoContext* context) const;
+
+        const ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoSparseListObjectIterator* getIterator(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
+
+        /** Visits (key, value) in ascending key-word order.  Allocates nothing and
+         *  holds no GC critical section, so `method` may allocate and run
+         *  arbitrary code.  The caller keeps the collection reachable. */
+        void processElements(ProtoContext* context, void* self,
+            void (*method)(ProtoContext*, void*, const ProtoObject* key, const ProtoObject* value)) const;
+        void processValues(ProtoContext* context, void* self,
+            void (*method)(ProtoContext*, void*, const ProtoObject* value)) const;
+    };
+
     class ProtoSetIterator
     {
     public:
@@ -1178,6 +1214,8 @@ namespace proto
         const ProtoTuple* newTuple(const std::vector<const ProtoObject*>& elements);
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);
         const ProtoSparseList* newSparseList();
+        /** Empty ProtoSparseListObject (inline Small form; promotes past 3 entries). */
+        const ProtoSparseListObject* newSparseListObject();
         // Returns an empty AVL-form sparse list implementation as a raw
         // C++ pointer. Used for internal struct fields that should not
         // carry a tag (e.g. ProtoObjectCell::attributes); the public

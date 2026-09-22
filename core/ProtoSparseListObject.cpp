@@ -81,4 +81,124 @@ namespace proto
             if (const Cell* c = ProtoObject::asCellPointer(values[i])) method(context, self, c);
         }
     }
+
+    //=========================================================================
+    // Public trampolines
+    //=========================================================================
+    namespace {
+        using Node = ProtoSparseListObjectImplementation;
+        using Small = ProtoSparseListObjectSmallImplementation;
+
+        inline const Cell* cellOf(const ProtoSparseListObject* m) {
+            return reinterpret_cast<const Cell*>(reinterpret_cast<uintptr_t>(m) & ~0x3FUL);
+        }
+
+        // One tag serves both forms (PSLO-SPEC §3 rule 2): the form is the
+        // cell's CellType.
+        inline bool isSmall(const ProtoSparseListObject* m) {
+            return cellOf(m)->getType() == CellType::SparseListObjectSmall;
+        }
+
+        inline const Small* smallOf(const ProtoSparseListObject* m) { return toImpl<const Small>(m); }
+        inline const Node* avlOf(const ProtoSparseListObject* m) { return toImpl<const Node>(m); }
+
+        inline const ProtoSparseListObject* handleOf(const ProtoObject* o) {
+            return reinterpret_cast<const ProtoSparseListObject*>(o);
+        }
+
+        template<class Fn>
+        void forEachPair(const ProtoSparseListObject* m, Fn&& fn) {
+            if (isSmall(m)) {
+                const Small* s = smallOf(m);
+                const unsigned long n = sparse_avl::smallCount(s);
+                for (unsigned i = 0; i < n; ++i) {
+                    const ProtoObject* k;
+                    const ProtoObject* v;
+                    if (sparse_avl::smallPairAt(s, i, &k, &v)) fn(k, v);
+                }
+                return;
+            }
+            sparse_avl::inorder(avlOf(m), fn);
+        }
+
+        // 64-bit finalizer (MurmurHash3 fmix64).
+        inline unsigned long mixWord(unsigned long x) {
+            x ^= x >> 33;
+            x *= 0xff51afd7ed558ccdUL;
+            x ^= x >> 33;
+            x *= 0xc4ceb9fe1a85ec53UL;
+            x ^= x >> 33;
+            return x;
+        }
+    }
+
+    // D3 (PSLO-SPEC §7): a nullptr key is ignored silently.
+    bool ProtoSparseListObject::has(ProtoContext* context, const ProtoObject* key) const {
+        return getAt(context, key) != nullptr;
+    }
+
+    const ProtoObject* ProtoSparseListObject::getAt(ProtoContext*, const ProtoObject* key) const {
+        if (!key) return nullptr;
+        if (isSmall(this)) return sparse_avl::smallGetAt(smallOf(this), key);
+        return sparse_avl::getAt(avlOf(this), key);
+    }
+
+    const ProtoSparseListObject* ProtoSparseListObject::setAt(ProtoContext* context, const ProtoObject* key, const ProtoObject* value) const {
+        if (!key) return this;
+        // GC critical section: the new path of cells is reachable only from
+        // this C++ frame until the caller publishes the result.
+        ProtoContext::CriticalSection cs(context);
+        if (isSmall(this))
+            return handleOf(sparse_avl::smallSetAt<Small, Node>(context, smallOf(this), key, value));
+        return handleOf(sparse_avl::setAt(context, avlOf(this), key, value)->implAsObject(context));
+    }
+
+    const ProtoSparseListObject* ProtoSparseListObject::removeAt(ProtoContext* context, const ProtoObject* key) const {
+        if (!key) return this;
+        ProtoContext::CriticalSection cs(context);
+        if (isSmall(this))
+            return handleOf(sparse_avl::smallSetAt<Small, Node>(context, smallOf(this), key, nullptr));
+        return handleOf(sparse_avl::removeAt(context, avlOf(this), key)->implAsObject(context));
+    }
+
+    unsigned long ProtoSparseListObject::getSize(ProtoContext*) const {
+        if (isSmall(this)) return sparse_avl::smallCount(smallOf(this));
+        return avlOf(this)->size;
+    }
+
+    const ProtoObject* ProtoSparseListObject::asObject(ProtoContext*) const {
+        return reinterpret_cast<const ProtoObject*>(this);   // the handle is already tagged
+    }
+
+    // D4 (PSLO-SPEC §7): values compared by word identity.
+    bool ProtoSparseListObject::isEqual(ProtoContext* context, const ProtoSparseListObject* other) const {
+        if (this == other) return true;
+        if (!other || getSize(context) != other->getSize(context)) return false;
+        bool equal = true;
+        forEachPair(this, [&](const ProtoObject* k, const ProtoObject* v) {
+            if (equal && other->getAt(context, k) != v) equal = false;
+        });
+        return equal;
+    }
+
+    // Order-independent over (key word, value hash) pairs.
+    unsigned long ProtoSparseListObject::getHash(ProtoContext* context) const {
+        unsigned long h = mixWord(getSize(context));
+        forEachPair(this, [&](const ProtoObject* k, const ProtoObject* v) {
+            h += mixWord(sparse_avl::keyWord(k) ^ mixWord(v->getHash(context)));
+        });
+        return h;
+    }
+
+    void ProtoSparseListObject::processElements(ProtoContext* context, void* self,
+        void (*method)(ProtoContext*, void*, const ProtoObject*, const ProtoObject*)) const
+    {
+        forEachPair(this, [&](const ProtoObject* k, const ProtoObject* v) { method(context, self, k, v); });
+    }
+
+    void ProtoSparseListObject::processValues(ProtoContext* context, void* self,
+        void (*method)(ProtoContext*, void*, const ProtoObject*)) const
+    {
+        forEachPair(this, [&](const ProtoObject*, const ProtoObject* v) { method(context, self, v); });
+    }
 }
