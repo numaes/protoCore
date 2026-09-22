@@ -82,9 +82,7 @@ TEST_F(SparseListObjectTest, SetAtNullptrValueRemoves) {
     EXPECT_EQ(m->getSize(c), 0u);
 }
 
-// D3 = silent (recommended).  If the maintainer chose "throw", replace the
-// body with EXPECT_THROW(... , std::invalid_argument) for setAt/removeAt/
-// getAt/has on a nullptr key.
+// D3 (PSLO-SPEC §7): a nullptr key is ignored silently.
 TEST_F(SparseListObjectTest, NullKeyIsRejected) {
     const ProtoSparseListObject* m = c->newSparseListObject()->setAt(c, obj(), I(1));
     EXPECT_FALSE(m->has(c, nullptr));
@@ -181,8 +179,7 @@ TEST_F(SparseListObjectTest, OldVersionsRemainValidAndUnchanged) {
     EXPECT_FALSE(v3->has(c, k[5]));
 }
 
-// D4 = identity (recommended).  If the maintainer chose compare()==0, add a
-// case with two distinct LargeInteger values of equal magnitude.
+// D4 (PSLO-SPEC §7): keys compare by identity (their word).
 TEST_F(SparseListObjectTest, IsEqualAndHashIgnoreInsertionOrderAndForm) {
     const ProtoObject* k[5] = {obj(), obj(), obj(), obj(), obj()};
     const ProtoSparseListObject* a = c->newSparseListObject();
@@ -212,12 +209,34 @@ TEST_F(SparseListObjectTest, ObjectIntegration) {
     EXPECT_FALSE(c->newSparseList()->asObject(c)->isSparseListObject(c));
     EXPECT_EQ(c->newSparseList()->asObject(c)->asSparseListObject(c), nullptr);
     EXPECT_FALSE(I(5)->isSparseListObject(c));
-    // D5 = own prototype (recommended).  If D5 = shared, expect
-    // space->sparseListPrototype instead.
+    // D5 (PSLO-SPEC §7): ProtoSparseListObject has its own prototype.
     EXPECT_EQ(o->getPrototype(c), space->sparseListObjectPrototype);
     EXPECT_NE(space->sparseListObjectPrototype, nullptr);
     EXPECT_NE(space->sparseListObjectPrototype, space->sparseListPrototype);
-    EXPECT_EQ(o->getHash(c), o->getHash(c));               // Cell::getHash, as ProtoSparseList
+}
+
+// Content hash: equal contents hash equal whatever the insertion order and
+// form (Small / AVL); different contents give different hashes in practice.
+TEST_F(SparseListObjectTest, ContentHashFollowsContents) {
+    const ProtoObject* k[8];
+    for (auto& key : k) key = obj();
+    const ProtoSparseListObject* fwd = c->newSparseListObject();
+    const ProtoSparseListObject* rev = c->newSparseListObject();
+    for (int i = 0; i < 8; ++i) fwd = fwd->setAt(c, k[i], I(i));
+    for (int i = 7; i >= 0; --i) rev = rev->setAt(c, k[i], I(i));
+    EXPECT_EQ(fwd->getHash(c), rev->getHash(c));
+
+    // Built through an AVL detour (grow, then shrink back) vs built directly Small.
+    const ProtoSparseListObject* viaAvl = fwd;
+    for (int i = 2; i < 8; ++i) viaAvl = viaAvl->removeAt(c, k[i]);
+    const ProtoSparseListObject* direct = c->newSparseListObject()->setAt(c, k[1], I(1))->setAt(c, k[0], I(0));
+    EXPECT_EQ(viaAvl->getHash(c), direct->getHash(c));
+
+    const unsigned long h = fwd->getHash(c);
+    EXPECT_NE(h, fwd->setAt(c, k[3], I(33))->getHash(c));        // one value changed
+    EXPECT_NE(h, fwd->removeAt(c, k[3])->getHash(c));           // one pair removed
+    EXPECT_NE(h, fwd->setAt(c, obj(), I(8))->getHash(c));       // one pair added
+    EXPECT_NE(h, c->newSparseListObject()->getHash(c));         // empty
 }
 
 TEST_F(SparseListObjectTest, AvlFormIsAlsoRecognised) {

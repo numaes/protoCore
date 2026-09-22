@@ -1,7 +1,7 @@
 // SparseListObjectIteratorTests.cpp — ascending key-word iteration over a
 // ProtoSparseListObject version, both in Small form (promoted internally)
-// and AVL form.  Maintainer option D1 = (a): the iterator handle is an
-// unboxed C++ pointer, never a ProtoObject word (no PSLO_ITERATOR_BOXED).
+// and AVL form.  D1 = (a) (PSLO-SPEC §7): the iterator handle is an
+// unboxed C++ pointer, never a ProtoObject word.
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
@@ -42,17 +42,3 @@ TEST(SparseListObjectIterator, MatchesProcessElementsInBothForms) {
         ASSERT_EQ(drain(c, m), expected) << "size " << n;   // n <= 3: Small, n >= 4: AVL
     }
 }
-
-#ifdef PSLO_ITERATOR_BOXED   // D1 = b: defined by this file when the maintainer chose (b)
-TEST(SparseListObjectIterator, BoxedIteratorIsNotAProtoSparseListIterator) {
-    ProtoSpace space;
-    ProtoContext* c = space.rootContext;
-    const ProtoSparseListObject* m = c->newSparseListObject()->setAt(c, c->newObject(false), c->fromInteger(1));
-    const ProtoObject* o = m->getIterator(c)->asObject(c);
-    EXPECT_NE(o->asSparseListObjectIterator(c), nullptr);
-    EXPECT_EQ(o->asSparseListIterator(c), nullptr);
-    const ProtoObject* plain = c->newSparseList()->setAt(c, 1, c->fromInteger(1))->getIterator(c)->asObject(c);
-    EXPECT_NE(plain->asSparseListIterator(c), nullptr);
-    EXPECT_EQ(plain->asSparseListObjectIterator(c), nullptr);
-}
-#endif
