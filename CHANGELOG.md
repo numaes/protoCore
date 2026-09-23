@@ -155,7 +155,24 @@ All notable changes to protoCore are documented in this file.
   `ProtoContext`, exactly as every other protoCore allocation does — a
   context owns its young generation until it is destroyed.
 
-  **Known limitation (re-measured 2026-09-23, not yet fixed).** With the
+  > **SUPERSEDED — both open items below were closed in the same merge
+  > (`f60baf11`).** The two blocks that follow are kept as the record of what
+  > was true when `ProtoMPSCQueue` first landed, but neither still holds:
+  > `takeAll`'s pause is no longer proportional to the batch (see "`takeAll` no
+  > longer holds the world stopped for the length of the batch it drains" under
+  > *Unreleased → Fixed*; PMQ-SPEC §3 constraint 1 is now **met**), and the two
+  > stress tests no longer abort on the OOM guard (see "The two
+  > `ProtoMPSCQueue` stress tests now apply backpressure" under *Unreleased →
+  > Changed*; the fault was in the tests, not the queue). Read both blocks
+  > below as history, not as current status.
+  >
+  > Note for the maintainer: the entries currently under `[Unreleased]` are all
+  > ancestors of `f60baf11` and so shipped *as part of* 2.1.0. Whether to fold
+  > them into this section or cut a 2.1.1 is a release-numbering decision left
+  > to you; nothing in the code depends on it.
+
+  **Known limitation (recorded when the queue first landed; now fixed — see the
+  note above).** With the
   bulk-builder fix above in place, the stop-the-world pause during a
   200 000-item drain falls from a median of 88 ms (min 82 ms, max 330 ms
   over 9 samples) to about 2 ms (min 22 us, max 5.3 ms) —
@@ -165,10 +182,13 @@ All notable changes to protoCore are documented in this file.
   never polls the stop-the-world flag and the pause is still linear in the
   batch (340 us at 50 000 items, 3.67 ms at 400 000, a flat ~0.7% of the
   drain, against a flat 27-34 us for a plain bulk build of the same sizes).
-  PMQ-SPEC §3 constraint 1 is therefore **not met yet**. `push` is
-  unaffected, and a consumer that drains often keeps its batches small.
+  PMQ-SPEC §3 constraint 1 was therefore **not met yet at this point**. `push`
+  is unaffected, and a consumer that drains often keeps its batches small.
+  (Closed later in the same merge: the two loops now poll every 64 nodes and
+  the pause is flat at 20-36 us from 50,000 to 400,000 items.)
 
-  **Also open.** On top of the new builder,
+  **Also open at this point (since closed — see the note above).** On top of
+  the new builder,
   `MPSCQueueConcurrency.EightProducersOneConsumerLoseNothingAndDuplicate-
   Nothing` and `MPSCQueueGC.PushAndTakeAllDuringConcurrentMarking` abort
   with protoCore's out-of-memory guard. The consumer stops draining (the
@@ -189,6 +209,35 @@ All notable changes to protoCore are documented in this file.
   `libprotoCore.so.2`, so **every embedder must still be rebuilt from
   clean**: a stale binary would use the old layout.
 - Pointer-tag budget: used 0-28 (29), free 29-63 (35).
+
+### Verified
+
+- **The mandatory clean rebuild of every embedder was carried out against this
+  merge (`f60baf11`) on 2026-09-23** (PMQ-SPEC §6 step 2), each one confirmed by
+  `ldd` to resolve `libprotoCore.so.2` from the workspace build and not the
+  stale 1.0.0 in `/usr/local/lib`:
+
+  | Project | Result | Baseline |
+  |---|---|---|
+  | protoCore | 438/438 | 438/438 |
+  | protoPython | 582/583 | 560/561 (count has since grown) |
+  | protoJS | ctest 34/34, conformity 5/5, test262 `built-ins/{Object,Reflect,Proxy}` 3619 passed | 33/33, 5/5, 3619 |
+  | protoST | 833/833 | 833/833 |
+  | protoClojure | 383/383 | 383/383 |
+  | protoScala | 694/694 | 694/694 |
+
+  No regressions. protoPython's single failure is the pre-existing
+  `protopy_import_site`, which a `.pth` in a sibling `venv/` triggers. The
+  test262 subset matches its baseline exactly with **no newly failing test**;
+  two tests newly pass, from protoJS's own integrity-levels fix.
+
+- **protoScala's mailbox seam now selects the queue.** With `newMPSCQueue`
+  present in `headers/protoCore.h`, protoScala's configure reports "actor
+  mailboxes on protoCore ProtoMPSCQueue", `protoscala --version` reports
+  `(actor mailboxes: ProtoMPSCQueue)`, and `nm -uC` shows the binary
+  referencing `ProtoMPSCQueue::push`, `takeAll`, `isEmpty`, `asObject`,
+  `ProtoContext::newMPSCQueue` and `ProtoObject::asMPSCQueue`. The CAS-list
+  fallback is no longer compiled in. PMQ-SPEC §6 step 3 is unblocked.
 
 ## [2.0.0] - 2026-09-23
 
