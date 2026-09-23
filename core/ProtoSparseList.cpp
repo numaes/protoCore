@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include "SparseListAlgorithms.h"
 #include <algorithm> // For std::max
 
 namespace proto
@@ -59,59 +60,6 @@ namespace proto
     //=========================================================================
     // ProtoSparseListImplementation
     //=========================================================================
-    namespace { // Anonymous namespace for file-local helpers
-
-        inline unsigned long get_node_size(const ProtoSparseListImplementation* node) {
-            if (!node || (reinterpret_cast<uintptr_t>(node) & 0x3F) != 0) return 0;
-            return node->size;
-        }
-
-        inline int get_node_height(const ProtoSparseListImplementation* node) {
-            if (!node || (reinterpret_cast<uintptr_t>(node) & 0x3F) != 0) return 0;
-            return node->height;
-        }
-
-        int getBalance(const ProtoSparseListImplementation* node) {
-            if (!node || node->isEmpty) return 0;
-            return get_node_height(node->previous) - get_node_height(node->next);
-        }
-
-        const ProtoSparseListImplementation* rightRotate(ProtoContext* context, const ProtoSparseListImplementation* y) {
-            const ProtoSparseListImplementation* x = y->previous;
-            const ProtoSparseListImplementation* T2 = x->next;
-            auto* new_y = new(context) ProtoSparseListImplementation(context, y->key, y->value, T2, y->next, false);
-            return new(context) ProtoSparseListImplementation(context, x->key, x->value, x->previous, new_y, false);
-        }
-
-        const ProtoSparseListImplementation* leftRotate(ProtoContext* context, const ProtoSparseListImplementation* x) {
-            const ProtoSparseListImplementation* y = x->next;
-            const ProtoSparseListImplementation* T2 = y->previous;
-            auto* new_x = new(context) ProtoSparseListImplementation(context, x->key, x->value, x->previous, T2, false);
-            return new(context) ProtoSparseListImplementation(context, y->key, y->value, new_x, y->next, false);
-        }
-
-        const ProtoSparseListImplementation* rebalance(ProtoContext* context, const ProtoSparseListImplementation* node) {
-            int balance = getBalance(node);
-            if (balance > 1) { // Left heavy
-                if (getBalance(node->previous) < 0) { // Left-Right case
-                    auto* new_prev = leftRotate(context, node->previous);
-                    return rightRotate(context, new(context) ProtoSparseListImplementation(context, node->key, node->value, new_prev, node->next, false));
-                }
-                // Left-Left case
-                return rightRotate(context, node);
-            }
-            if (balance < -1) { // Right heavy
-                if (getBalance(node->next) > 0) { // Right-Left case
-                    auto* new_next = rightRotate(context, node->next);
-                    return leftRotate(context, new(context) ProtoSparseListImplementation(context, node->key, node->value, node->previous, new_next, false));
-                }
-                // Right-Right case
-                return leftRotate(context, node);
-            }
-            return node;
-        }
-    } // end anonymous namespace
-
     ProtoSparseListImplementation::ProtoSparseListImplementation(ProtoContext* context, unsigned long k, const ProtoObject* v, const ProtoSparseListImplementation* p, const ProtoSparseListImplementation* n, bool empty)
         : Cell(context), key(k), value(v), previous(p), next(n),
           // P8 — `hash` was only used to propagate up the tree during
@@ -122,97 +70,30 @@ namespace proto
           // before this change).  Set to 0; the field is retained for
           // ABI / cell-layout stability but no longer drives a virtual.
           hash(0),
-          size(empty ? 0 : (v != nullptr) + get_node_size(p) + get_node_size(n)),
-          height(empty ? 0 : 1 + std::max(get_node_height(p), get_node_height(n))),
+          size(empty ? 0 : (v != nullptr) + sparse_avl::nodeSize(p) + sparse_avl::nodeSize(n)),
+          height(empty ? 0 : 1 + std::max(sparse_avl::nodeHeight(p), sparse_avl::nodeHeight(n))),
           isEmpty(empty) {}
 
     bool ProtoSparseListImplementation::implHas(ProtoContext* context, unsigned long offset) const {
         return implGetAt(context, offset) != nullptr;
     }
 
-    const ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext* context, unsigned long offset) const {
-        const auto* node = this;
-        while (node) {
-            if (node->isEmpty) break;
-            if (offset < node->key) node = node->previous;
-            else if (offset > node->key) node = node->next;
-            else return node->value;
-        }
-        return nullptr;
+    const ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext*, unsigned long offset) const {
+        return sparse_avl::getAt(this, offset);
     }
 
     const ProtoSparseListImplementation* ProtoSparseListImplementation::implSetAt(ProtoContext* context, unsigned long offset, const ProtoObject* newValue) const {
-        if (newValue == nullptr) {
-            return implRemoveAt(context, offset);
-        }
-
-        if (isEmpty) {
-            return new(context) ProtoSparseListImplementation(context, offset, newValue, nullptr, nullptr, false);
-        }
-
-        const ProtoSparseListImplementation* newNode;
-        if (offset < key) {
-            const auto* new_prev = previous ? previous->implSetAt(context, offset, newValue) : new(context) ProtoSparseListImplementation(context, offset, newValue, nullptr, nullptr, false);
-            newNode = new(context) ProtoSparseListImplementation(context, key, value, new_prev, next, false);
-        } else if (offset > key) {
-            const auto* new_next = next ? next->implSetAt(context, offset, newValue) : new(context) ProtoSparseListImplementation(context, offset, newValue, nullptr, nullptr, false);
-            newNode = new(context) ProtoSparseListImplementation(context, key, value, previous, new_next, false);
-        } else {
-            if (value == newValue) return this;
-            newNode = new(context) ProtoSparseListImplementation(context, key, newValue, previous, next, false);
-        }
-        return rebalance(context, newNode);
+        return sparse_avl::setAt(context, this, offset, newValue);
     }
 
+    // Kept as an out-of-line function: it has external linkage today and
+    // removing the symbol is not part of this change.
     const ProtoSparseListImplementation* findMin(const ProtoSparseListImplementation* node) {
-        while (node && node->previous && !node->previous->isEmpty) {
-            node = node->previous;
-        }
-        return node;
+        return sparse_avl::findMin(node);
     }
 
     const ProtoSparseListImplementation* ProtoSparseListImplementation::implRemoveAt(ProtoContext* context, unsigned long offset) const {
-        if (isEmpty) {
-            return this;
-        }
-
-        const ProtoSparseListImplementation* newNode;
-        if (offset < key) {
-            if (!previous) return this; // Not found, return unchanged
-            auto* new_prev = previous->implRemoveAt(context, offset);
-            if (new_prev == previous) return this; // No change was made
-            newNode = new(context) ProtoSparseListImplementation(context, key, value, new_prev, next, false);
-        } else if (offset > key) {
-            if (!next) return this; // Not found, return unchanged
-            auto* new_next = next->implRemoveAt(context, offset);
-            if (new_next == next) return this; // No change was made
-            newNode = new(context) ProtoSparseListImplementation(context, key, value, previous, new_next, false);
-        } else {
-            // Node to delete found
-            if (!previous || previous->isEmpty) {
-                if (!next || next->isEmpty) {
-                    return new(context) ProtoSparseListImplementation(context, 0, nullptr, nullptr, nullptr, true);
-                }
-                return next; // No left child, promote right child
-            }
-            if (!next || next->isEmpty) {
-                return previous; // No right child, promote left child
-            }
-
-            // Node with two children: Get the inorder successor (smallest in the right subtree)
-            const ProtoSparseListImplementation* successor = findMin(next);
-            // The successor's key and value replace this node's
-            // Then, we recursively delete the successor from the right subtree
-            auto* new_next = next->implRemoveAt(context, successor->key);
-            newNode = new(context) ProtoSparseListImplementation(context, successor->key, successor->value, previous, new_next, false);
-        }
-
-        if (!newNode) {
-            // This can happen if the last node is removed. Return an empty list.
-            return new(context) ProtoSparseListImplementation(context, 0, nullptr, nullptr, nullptr, true);
-        }
-
-        return rebalance(context, newNode);
+        return sparse_avl::removeAt(context, this, offset);
     }
 
 
@@ -221,14 +102,7 @@ namespace proto
     }
 
     const ProtoSparseListIteratorImplementation* ProtoSparseListImplementation::implGetIteratorWithQueue(ProtoContext* context, const ProtoSparseListIteratorImplementation* queue) const {
-        if (isEmpty) return queue;
-        const ProtoSparseListImplementation* node = this;
-        const ProtoSparseListIteratorImplementation* stack = queue;
-        while (node && !node->isEmpty) {
-            stack = new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_THIS, node, stack);
-            node = node->previous;
-        }
-        return stack;
+        return sparse_avl::iteratorWithQueue(context, this, queue);
     }
 
     void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
@@ -306,76 +180,24 @@ namespace proto
     }
 
     unsigned long ProtoSparseListSmallImplementation::implCount() const {
-        unsigned long c = 0;
-        for (unsigned i = 0; i < MAX_INLINE; ++i)
-            if (keys[i] != 0) ++c;
-        return c;
+        return sparse_avl::smallCount(this);
     }
 
     bool ProtoSparseListSmallImplementation::implHas(ProtoContext*, unsigned long offset) const {
-        if (offset == 0) return false;   // 0 cannot be stored in Small form
-        for (unsigned i = 0; i < MAX_INLINE; ++i)
-            if (keys[i] == offset) return true;
-        return false;
+        return sparse_avl::smallHas(this, offset);
     }
 
     const ProtoObject* ProtoSparseListSmallImplementation::implGetAt(ProtoContext*, unsigned long offset) const {
-        if (offset == 0) return nullptr;
-        for (unsigned i = 0; i < MAX_INLINE; ++i)
-            if (keys[i] == offset) return values[i];
-        return nullptr;
+        return sparse_avl::smallGetAt(this, offset);
     }
 
     bool ProtoSparseListSmallImplementation::implPairAt(unsigned i, unsigned long* outKey, const ProtoObject** outValue) const {
-        // Returns the i-th used pair in key-ascending order.  Caller
-        // iterates i = 0 .. implCount()-1.  Used slots are detected by
-        // keys[j] != 0 (the empty-slot sentinel).
-        if (i >= MAX_INLINE) return false;
-        unsigned long  ks[MAX_INLINE];
-        const ProtoObject* vs[MAX_INLINE];
-        unsigned n = 0;
-        for (unsigned j = 0; j < MAX_INLINE; ++j) {
-            if (keys[j] != 0) {
-                // Insertion sort by key; n stays ≤ MAX_INLINE so the cost is
-                // bounded (≤ 3 comparisons per insertion).
-                unsigned k = n;
-                while (k > 0 && ks[k - 1] > keys[j]) {
-                    ks[k] = ks[k - 1];
-                    vs[k] = vs[k - 1];
-                    --k;
-                }
-                ks[k] = keys[j];
-                vs[k] = values[j];
-                ++n;
-            }
-        }
-        if (i >= n) return false;
-        if (outKey)   *outKey   = ks[i];
-        if (outValue) *outValue = vs[i];
-        return true;
+        return sparse_avl::smallPairAt(this, i, outKey, outValue);
     }
 
     const ProtoSparseListImplementation*
     ProtoSparseListSmallImplementation::promoteToAVL(ProtoContext* context) const {
-        // Build an AVL whose in-order traversal reproduces this Small's
-        // key-asc order.  Used on overflow promotion (setAt that would push
-        // size > MAX_INLINE) and on getIterator to reuse the AVL iterator.
-        unsigned long n = implCount();
-        if (n == 0) {
-            return new(context) ProtoSparseListImplementation(context, 0, nullptr, nullptr, nullptr, true);
-        }
-        // Build a node-by-node insertion sequence.  For n ≤ 3 the rebalance
-        // overhead is trivial and bounded.
-        const ProtoSparseListImplementation* avl =
-            new(context) ProtoSparseListImplementation(context, 0, nullptr, nullptr, nullptr, true);
-        for (unsigned i = 0; i < n; ++i) {
-            unsigned long k;
-            const ProtoObject* v;
-            if (implPairAt(i, &k, &v)) {
-                avl = avl->implSetAt(context, k, v);
-            }
-        }
-        return avl;
+        return sparse_avl::smallPromote<ProtoSparseListSmallImplementation, ProtoSparseListImplementation>(context, this);
     }
 
     const ProtoObject* ProtoSparseListSmallImplementation::implAsObject(ProtoContext*) const {
@@ -413,21 +235,9 @@ namespace proto
             return pa.op.pointer_tag == POINTER_TAG_SPARSE_LIST_SMALL;
         }
 
-        // Build a Small from up to MAX_INLINE (key, value) pairs already in
-        // key-asc order.  Caller guarantees n ≤ MAX_INLINE.
-        const ProtoSparseList* makeSmallSparseList(
-            ProtoContext* context, unsigned n,
-            const unsigned long* ks, const ProtoObject* const* vs)
-        {
-            return (new(context) ProtoSparseListSmallImplementation(context, n, ks, vs))
-                ->asSparseList(context);
-        }
-
-        // setAt on a Small.  Returns a fresh Small (size ≤ MAX_INLINE) or
-        // promotes to the AVL form when:
-        //   (a) the resulting size would exceed MAX_INLINE, or
-        //   (b) the caller passed offset == 0 — the Small uses key 0 as
-        //       its empty-slot sentinel and cannot represent that key.
+        // setAt on a Small.  Returns a fresh Small (size <= MAX_INLINE) or
+        // promotes to the AVL form when the resulting size would exceed
+        // MAX_INLINE or offset == 0 (the Small's empty-slot sentinel).
         // Caller wraps in CriticalSection.
         const ProtoSparseList* setAtSmall(
             ProtoContext* context,
@@ -435,89 +245,9 @@ namespace proto
             unsigned long offset,
             const ProtoObject* value)
         {
-            if (offset == 0 && value != nullptr) {
-                // Key 0 is the empty-slot sentinel in the Small form.  We
-                // cannot represent it inline.  Promote the existing
-                // contents to AVL, then add the (0, value) pair there.
-                const ProtoSparseListImplementation* avl =
-                    small->promoteToAVL(context);
-                avl = avl->implSetAt(context, 0, value);
-                return avl->asSparseList(context);
-            }
-
-            if (value == nullptr) {
-                // Spec: setAt(k, nullptr) ≡ removeAt(k).  Mirror the AVL
-                // contract via a fresh Small with the slot cleared.  If
-                // offset == 0 the call is also a no-op (key 0 is never
-                // stored in the Small form).
-                unsigned long  ks[ProtoSparseListSmallImplementation::MAX_INLINE];
-                const ProtoObject* vs[ProtoSparseListSmallImplementation::MAX_INLINE];
-                unsigned n = 0;
-                for (unsigned i = 0; i < ProtoSparseListSmallImplementation::MAX_INLINE; ++i) {
-                    if (small->keys[i] != 0 && small->keys[i] != offset) {
-                        ks[n] = small->keys[i];
-                        vs[n] = small->values[i];
-                        ++n;
-                    }
-                }
-                // Sort n-prefix by key (insertion sort; bounded).
-                for (unsigned i = 1; i < n; ++i) {
-                    unsigned long ki = ks[i];
-                    const ProtoObject* vi = vs[i];
-                    unsigned j = i;
-                    while (j > 0 && ks[j - 1] > ki) {
-                        ks[j] = ks[j - 1]; vs[j] = vs[j - 1]; --j;
-                    }
-                    ks[j] = ki; vs[j] = vi;
-                }
-                return makeSmallSparseList(context, n, ks, vs);
-            }
-
-            // value != nullptr, offset != 0: insert / update.  Collect
-            // pairs, replacing the entry at `offset` if present, else
-            // appending if there is room.  Promote to AVL on overflow.
-            unsigned long  ks[ProtoSparseListSmallImplementation::MAX_INLINE + 1];
-            const ProtoObject* vs[ProtoSparseListSmallImplementation::MAX_INLINE + 1];
-            unsigned n = 0;
-            bool replaced = false;
-            for (unsigned i = 0; i < ProtoSparseListSmallImplementation::MAX_INLINE; ++i) {
-                if (small->keys[i] == 0) continue;          // empty slot
-                if (small->keys[i] == offset) {
-                    ks[n] = offset;
-                    vs[n] = value;
-                    ++n;
-                    replaced = true;
-                } else {
-                    ks[n] = small->keys[i];
-                    vs[n] = small->values[i];
-                    ++n;
-                }
-            }
-            if (!replaced) {
-                ks[n] = offset;
-                vs[n] = value;
-                ++n;
-            }
-            // Sort by key (insertion sort, bounded).
-            for (unsigned i = 1; i < n; ++i) {
-                unsigned long ki = ks[i];
-                const ProtoObject* vi = vs[i];
-                unsigned j = i;
-                while (j > 0 && ks[j - 1] > ki) {
-                    ks[j] = ks[j - 1]; vs[j] = vs[j - 1]; --j;
-                }
-                ks[j] = ki; vs[j] = vi;
-            }
-            if (n <= ProtoSparseListSmallImplementation::MAX_INLINE) {
-                return makeSmallSparseList(context, n, ks, vs);
-            }
-            // Overflow: promote.  Build AVL via implSetAt for each pair.
-            const ProtoSparseListImplementation* avl =
-                new(context) ProtoSparseListImplementation(context, 0, nullptr, nullptr, nullptr, true);
-            for (unsigned i = 0; i < n; ++i) {
-                avl = avl->implSetAt(context, ks[i], vs[i]);
-            }
-            return avl->asSparseList(context);
+            return reinterpret_cast<const ProtoSparseList*>(
+                sparse_avl::smallSetAt<ProtoSparseListSmallImplementation, ProtoSparseListImplementation>(
+                    context, small, offset, value));
         }
 
         // removeAt on a Small.  Stays Small (size only shrinks).  Caller

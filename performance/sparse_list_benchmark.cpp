@@ -1,73 +1,99 @@
 /*
  * sparse_list_benchmark.cpp
  *
- *  Created on: 2024-01-15
- *      Author: gamarino
+ * Deterministic ProtoSparseList benchmark.  Every phase is checked against
+ * a std::map model; the program prints VERIFIED and exits 0 only when all
+ * phases match, so a silent failure can never be mistaken for a fast run.
  */
 
-#include <iostream>
 #include <chrono>
-#include <vector>
+#include <iostream>
+#include <map>
 #include <random>
+#include <vector>
 #include "../headers/protoCore.h"
 
 using namespace proto;
 
-// Corrected: Function signature syntax
-const ProtoObject* benchmarks(
-    ProtoContext* c,
-    const ProtoObject* self,
-    const ParentLink* parentLink,
-    const ProtoList* args,
-    const ProtoSparseList* kwargs
-) {
-    const int num_iterations = 100000;
-    const int list_size = 1000;
-    std::cout << "--- Sparse List Benchmark ---" << std::endl;
-    std::cout << "Iterations: " << num_iterations << ", List size: " << list_size << std::endl;
+namespace {
+    struct IterationSum {
+        long long sum;
+        unsigned long count;
+    };
 
-    // --- Setup ---
-    std::vector<unsigned long> keys(num_iterations);
-    std::vector<const ProtoObject*> values(num_iterations);
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<unsigned long> distrib(0, list_size * 10);
-
-    for (int i = 0; i < num_iterations; ++i) {
-        keys[i] = distrib(gen);
-        values[i] = c->fromInteger(i);
+    void accumulate(ProtoContext* c, void* self, unsigned long key, const ProtoObject* value) {
+        auto* s = static_cast<IterationSum*>(self);
+        s->sum += static_cast<long long>(key) + value->asLong(c);
+        s->count++;
     }
 
-    // --- Proto Sparse List ---
-    auto start_proto = std::chrono::high_resolution_clock::now();
-    const ProtoSparseList* proto_list = c->newSparseList();
-    for (int i = 0; i < num_iterations; ++i) {
-        proto_list = proto_list->setAt(c, keys[i], values[i]);
+    double seconds(std::chrono::high_resolution_clock::time_point a,
+                   std::chrono::high_resolution_clock::time_point b) {
+        return std::chrono::duration<double>(b - a).count();
     }
-    auto end_proto = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff_proto = end_proto - start_proto;
-    std::cout << "Proto sparse list insertion time: " << diff_proto.count() << " s" << std::endl;
-
-    // --- Access ---
-    auto start_access = std::chrono::high_resolution_clock::now();
-    long long checksum = 0;
-    for (int i = 0; i < num_iterations; ++i) {
-        const ProtoObject* val = proto_list->getAt(c, keys[i]);
-        if (val != PROTO_NONE) {
-            checksum += val->asLong(c);
-        }
-    }
-    auto end_access = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff_access = end_access - start_access;
-    std::cout << "Proto sparse list access time: " << diff_access.count() << " s" << std::endl;
-
-    std::cout << "--------------------------" << std::endl;
-    return PROTO_NONE;
 }
 
-int main(int argc, char* argv[]) {
-    // Corrected: ProtoSpace constructor takes no arguments
-    proto::ProtoSpace space;
-    benchmarks(space.rootContext, nullptr, nullptr, nullptr, nullptr);
-    return 0;
+int main() {
+    ProtoSpace space;
+    ProtoContext* c = space.rootContext;
+
+    const int numIterations = 100000;
+    const unsigned long keyRange = 10000;
+    std::mt19937 gen(12345);
+    std::uniform_int_distribution<unsigned long> distrib(0, keyRange);
+
+    std::vector<unsigned long> keys(numIterations);
+    std::vector<const ProtoObject*> values(numIterations);
+    std::map<unsigned long, long long> model;
+    for (int i = 0; i < numIterations; ++i) {
+        keys[i] = distrib(gen);
+        values[i] = c->fromInteger(i);
+        model[keys[i]] = i;
+    }
+
+    std::cout << "--- Sparse List Benchmark ---" << std::endl;
+    std::cout << "Iterations: " << numIterations << ", key range: " << keyRange << std::endl;
+
+    auto t0 = std::chrono::high_resolution_clock::now();
+    const ProtoSparseList* list = c->newSparseList();
+    for (int i = 0; i < numIterations; ++i) list = list->setAt(c, keys[i], values[i]);
+    auto t1 = std::chrono::high_resolution_clock::now();
+
+    long long checksum = 0;
+    for (int i = 0; i < numIterations; ++i) {
+        const ProtoObject* v = list->getAt(c, keys[i]);
+        if (v != PROTO_NONE) checksum += v->asLong(c);
+    }
+    auto t2 = std::chrono::high_resolution_clock::now();
+
+    long long expectedChecksum = 0;
+    for (int i = 0; i < numIterations; ++i) expectedChecksum += model[keys[i]];
+
+    IterationSum iter{0, 0};
+    list->processElements(c, &iter, accumulate);
+    auto t3 = std::chrono::high_resolution_clock::now();
+    long long expectedIter = 0;
+    for (const auto& [k, v] : model) expectedIter += static_cast<long long>(k) + v;
+    const unsigned long pairsBeforeRemoval = model.size();
+
+    for (int i = 0; i < numIterations; i += 2) {
+        list = list->removeAt(c, keys[i]);
+        model.erase(keys[i]);
+    }
+    auto t4 = std::chrono::high_resolution_clock::now();
+
+    const bool okAccess = checksum == expectedChecksum;
+    const bool okIter = iter.sum == expectedIter && iter.count == pairsBeforeRemoval;
+    const bool okRemove = list->getSize(c) == model.size();
+
+    std::cout << "Insertion time: " << seconds(t0, t1) << " s" << std::endl;
+    std::cout << "Access time: " << seconds(t1, t2) << " s" << std::endl;
+    std::cout << "Iteration time: " << seconds(t2, t3) << " s" << std::endl;
+    std::cout << "Removal time: " << seconds(t3, t4) << " s" << std::endl;
+    std::cout << "Access checksum: " << checksum << " (expected " << expectedChecksum << ")" << std::endl;
+    std::cout << "Iteration sum: " << iter.sum << " over " << iter.count << " pairs (expected " << expectedIter << ")" << std::endl;
+    std::cout << "Size after removal: " << list->getSize(c) << " (expected " << model.size() << ")" << std::endl;
+    const bool ok = okAccess && okIter && okRemove;
+    std::cout << (ok ? "VERIFIED" : "MISMATCH") << std::endl;
+    return ok ? 0 : 1;
 }
