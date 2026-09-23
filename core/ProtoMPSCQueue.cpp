@@ -267,10 +267,20 @@ namespace proto
             // --- end of the publish window ---
         }
 
-        // Outside the critical section on purpose: this is O(batch) and a
+        // Outside OUR critical section on purpose: this is O(batch) and a
         // critical section here would delay a stop-the-world for the length
         // of the batch.  The items stay reachable through the retained chain
         // while the list is built.
+        //
+        // CAVEAT, measured and not yet fixed: ProtoContext::newList(n, items)
+        // opens a critical section of its OWN and holds it across the whole
+        // O(n log n) build, so for a large batch the pause is delayed anyway
+        // - P1 (time to reach the stop-the-world quorum) rises from ~20-40 us
+        // per cycle to tens of milliseconds with a 200,000-item batch.  The
+        // fix is a bounded-critical-section bulk list builder in protoCore;
+        // chunking here and joining with ProtoList::extend is worse (extend
+        // is n appendLast calls inside a critical section, plus an iterator
+        // cell per element).  See the class comment in headers/protoCore.h.
         std::vector<const ProtoObject*> items;
         for (const NodeCell* n = chain; n; n = n->next.load(std::memory_order_acquire))
             items.push_back(n->item);

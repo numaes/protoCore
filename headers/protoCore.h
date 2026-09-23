@@ -1150,6 +1150,23 @@ namespace proto
      * and through nothing else.  Hold it in an attribute, a root set or a
      * live context, exactly as for every other protoCore handle.
      *
+     * KNOWN LIMITATION (measured, 2026-09-23, PROTOCORE_GC_INSTRUMENT):
+     * takeAll turns its batch into a ProtoList with
+     * ProtoContext::newList(n, items), which holds ONE
+     * ProtoContext::CriticalSection across its whole O(n log n) build.  A
+     * thread inside a critical section never parks at a stop-the-world poll,
+     * so a large batch keeps the consumer unparkable for the length of the
+     * build and delays the stop-the-world quorum: the instrumented collector
+     * reports P1 (time to reach the quorum) of tens of milliseconds per
+     * cycle with a 200,000-item batch, against 20-40 microseconds for the
+     * same workload with that long-held section removed.  push is
+     * unaffected.  A consumer that drains often keeps its batches small and
+     * does not hit this.  The fix belongs in protoCore's bulk list builder
+     * (a bottom-up O(n) build whose critical section is bounded), not here:
+     * building the list in chunks and joining them with ProtoList::extend
+     * was tried and is worse, because extend is itself n appendLast calls
+     * inside a critical section plus an iterator cell per element.
+     *
      * Caller contract worth stating explicitly, because a mailbox is the
      * kind of thing a runtime pushes to from a long-running loop: a
      * ProtoContext owns its young generation until it is destroyed, and a

@@ -217,7 +217,13 @@ TEST(MPSCQueueGC, PushAndTakeAllDuringConcurrentMarking) {
     const ProtoRootSet::Handle pinned = rs->add(q->asObject(&main));
     ASSERT_NE(pinned, ProtoRootSet::kNullHandle);
 
-    MarkRaceJob job{q, 200000, 200, {0}, {0}, {0}};
+    // 400,000 messages rather than 200,000: the EXPECT_GE(cycles, 5) guard
+    // below is what stops this test from passing vacuously, and at 200,000
+    // the traffic was short enough that a slower process (the
+    // PROTOCORE_GC_INSTRUMENT build, or this filter run after the 8 x 1M
+    // stress in the same process) sometimes ended with only four cycles.
+    // Longer traffic gives the guard margin; it does not weaken it.
+    MarkRaceJob job{q, 400000, 200, {0}, {0}, {0}};
 
     const ProtoString* pname = ProtoString::createSymbol(&main, "mpsc-mark-producer");
     const ProtoString* cname = ProtoString::createSymbol(&main, "mpsc-mark-consumer");

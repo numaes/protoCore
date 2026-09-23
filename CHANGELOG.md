@@ -31,6 +31,16 @@ All notable changes to protoCore are documented in this file.
   `ProtoContext`, exactly as every other protoCore allocation does — a
   context owns its young generation until it is destroyed.
 
+  **Known limitation (measured, not yet fixed).** `takeAll` builds its
+  result with `ProtoContext::newList(n, items)`, which holds one
+  `ProtoContext::CriticalSection` across its whole O(n log n) build. A
+  thread inside a critical section never parks at a stop-the-world poll, so
+  a large batch delays the stop-the-world quorum: with a 200 000-item batch
+  the instrumented collector reports P1 of tens of milliseconds per cycle,
+  against 20-40 us for the same workload without that long-held section.
+  `push` is unaffected and a consumer that drains often is unaffected. The
+  fix belongs in protoCore's bulk list builder, not in the queue.
+
 ### Changed
 
 - `ProtoSpace` gains one field (`mpscQueuePrototype`). The soname stays
