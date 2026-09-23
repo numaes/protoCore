@@ -2,6 +2,42 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [2.1.0] - 2026-09-23
+
+### Added
+
+- **`ProtoMPSCQueue`** — a mutable, lock-free, multi-producer /
+  single-consumer FIFO of `ProtoObject*` items whose contents the collector
+  traces (spec `protoScala/docs/platform/PMQ-SPEC.md`). `push` is lock-free,
+  O(1) and allocates one cell; `takeAll` returns every queued item in push
+  order as an immutable `ProtoList`; `isEmpty` is a snapshot. One pointer
+  tag (28) for the handle, three `CellType`s, a dedicated prototype, and
+  `ProtoContext::newMPSCQueue` / `ProtoObject::isMPSCQueue` /
+  `ProtoObject::asMPSCQueue`.
+
+  It is the shared actor mailbox of protoScala Phase 5, protoClojure and
+  protoST, and it closes protoClojure's unrooted-payload defect: a queued
+  message, its arguments and its reply future become GC roots.
+
+  **It adds nothing to the stop-the-world pause** beyond one O(1) global
+  prototype root, needs no write barrier and changes no collector phase.
+  Correctness under concurrent marking rests on two orderings, proved and
+  documented in `core/ProtoMPSCQueue.cpp` and `docs/GarbageCollector.md`:
+  `processReferences` loads `head` before `retained`, and `takeAll`
+  publishes its retain cell before it detaches a chain.
+
+  Caller contract worth repeating: the queue must stay reachable for the
+  duration of a call, and each producer turn should use its own
+  `ProtoContext`, exactly as every other protoCore allocation does — a
+  context owns its young generation until it is destroyed.
+
+### Changed
+
+- `ProtoSpace` gains one field (`mpscQueuePrototype`). The soname stays
+  `libprotoCore.so.2`, so **every embedder must still be rebuilt from
+  clean**: a stale binary would use the old layout.
+- Pointer-tag budget: used 0-28 (29), free 29-63 (35).
+
 ## [2.0.0] - 2026-09-23
 
 A major release that merges two independent lines of work:
