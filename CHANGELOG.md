@@ -2,6 +2,47 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- **`ProtoContext::newList(n, items)` no longer holds the world stopped for the
+  length of the list it builds.** The bulk builder wrapped its whole O(n) AVL
+  construction in a `ProtoContext::CriticalSection`. A thread inside a critical
+  section never parks, so the collector could not begin its stop-the-world
+  phase until the last element was in: the pause grew with the size of the
+  list. Measured on a 100,000-element build with a collection requested against
+  it, the stop-the-world pause (phases P1 + P2) falls from a median of **39 ms**
+  to **31 us**; the collector's own instrumented P1 total over a run falls from
+  about 48 ms per cycle to under 0.25 ms per cycle. No embedder API changes and
+  no ABI change.
+
+  The section is replaced by an anchor: every intermediate of the build is
+  parked in `ProtoContext::pendingRoot`, which the stop-the-world root scan
+  reads, so a collection landing mid-build traces the spine the loop is
+  standing on from a real root. The slot's previous occupant is saved and
+  restored, the same discipline `ProtoObject::processOwnAttributes` uses. The
+  heap-ceiling backpressure the section's constructor took at depth 0 is kept,
+  at the same point in the control flow — before the first allocation, with
+  nothing half-built — exactly as `newStringFromUTF8` keeps it.
+
+  Callers are unaffected in what they may pass, with one contract made
+  explicit: a collection can now run while `newList` is executing, so elements
+  the caller supplies must be reachable from a GC root, as they must be around
+  any other allocation. Elements freshly built in a live context are on that
+  context's young chain and therefore already safe.
+
+  Cost: within 1% at 10,000 and 100,000 elements; about 6% on a 1,000-element
+  build (least-contended sample of 144), for the anchor store per element and a
+  stop-the-world poll every sixteen.
+
+  New tests in `test/BulkListBuildTests.cpp` cover both halves: elements
+  survive collections forced during the build (single-threaded under a hard
+  heap limit, and with three concurrent builders), a value named by
+  `pendingRoot` survives once its context's young generation has been
+  submitted, and the stop-the-world pause during a large build is bounded well
+  below the duration of the build.
+
 ## [2.1.0] - 2026-09-23
 
 ### Added
