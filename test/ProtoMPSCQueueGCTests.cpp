@@ -22,6 +22,9 @@
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
 
+#include <algorithm>
+#include <cstdio>
+#include <cstdlib>
 #include <atomic>
 #include <chrono>
 #include <iostream>
@@ -308,4 +311,192 @@ TEST(MPSCQueueGC, ParkedProducerAndConsumerDoNotDelayAPause) {
               << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count()
               << std::endl;
     rs->remove(pinned);
+}
+
+// ---------------------------------------------------------------------------
+// Pause — PMQ-SPEC section 3 constraint 1
+// ---------------------------------------------------------------------------
+
+// A consumer draining a large mailbox must not hold the world stopped.
+//
+// This is the measurement that condemned `takeAll` when the branch was first
+// reviewed: `takeAll` builds its result with `ProtoContext::newList(n, items)`,
+// and that builder used to wrap its whole O(n) construction in a
+// `ProtoContext::CriticalSection`.  A thread inside a critical section never
+// parks at the stop-the-world poll, so phase P1 could not complete until the
+// batch was fully built — stop-the-world work proportional to queue length,
+// which PMQ-SPEC section 3 constraint 1 forbids.
+//
+// What is measured is the pause itself: `stwFlag` is raised at the start of
+// P1 and cleared at the end of P2, so the interval over which this thread
+// observes the flag raised is P1 + P2.  The method, the bound relative to a
+// measured reference drain, and the one-drain-per-sample discipline are those
+// of `BulkListBuild.LargeBuildDoesNotBlockStopTheWorld`, so the two numbers
+// are directly comparable.
+//
+// The bound is relative to the measured drain time, so the test is
+// independent of machine speed and of the load on it.
+TEST(MPSCQueueGC, LargeDrainDoesNotBlockStopTheWorld) {
+    // Batch size is overridable so the pause can be checked for
+    // proportionality to queue length, which is what PMQ-SPEC section 3
+    // constraint 1 actually forbids.
+    long kBatch = 200000;
+    if (const char* e = std::getenv("PMQ_PAUSE_BATCH")) { long v = std::atol(e); if (v > 0) kBatch = v; }
+    constexpr int kSamples = 9;
+
+    using Clock = std::chrono::steady_clock;
+
+    struct Shared {
+        const ProtoMPSCQueue* queue{nullptr};
+        long batch{0};
+        std::atomic<bool> stop{false};
+        std::atomic<bool> ready{false};
+        std::atomic<int> requested{0};
+        std::atomic<int> completed{0};
+        std::atomic<bool> inDrain{false};
+        std::atomic<unsigned> bad{0};
+    };
+    static Shared* shared = nullptr;
+    Shared state;
+    shared = &state;
+
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    ProtoRootSet* rs = space.createRootSet("mpsc-pause");
+    ASSERT_NE(rs, nullptr);
+    const ProtoMPSCQueue* q = root->newMPSCQueue();
+    const ProtoRootSet::Handle pinned = rs->add(q->asObject(root));
+    ASSERT_NE(pinned, ProtoRootSet::kNullHandle);
+    state.queue = q;
+
+    // Reference: fill the mailbox and drain it once on this thread, with no
+    // collector activity, to get the cost of one drain on this machine.
+    long long drainMs = 0;
+    {
+        ProtoContext fill(&space, root, nullptr, nullptr, nullptr, nullptr);
+        for (long i = 0; i < kBatch; ++i) q->push(&fill, fill.fromInteger(i));
+        const auto t0 = Clock::now();
+        const ProtoList* batch = q->takeAll(&fill);
+        drainMs = std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - t0).count();
+        ASSERT_EQ(batch->getSize(&fill), static_cast<unsigned long>(kBatch));
+    }
+    ASSERT_GT(drainMs, 20) << "the reference drain is too short to measure a pause against";
+
+    // One fill-and-drain per request, then back to an unmanaged wait so the
+    // collector can reclaim the batch before the next sample starts.
+    state.batch = kBatch;
+    auto consumerMain = [](ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                           const ProtoList*, const ProtoSparseList*) -> const ProtoObject* {
+        const long kBatch = shared->batch;
+        for (;;) {
+            {
+                ProtoContext::UnmanagedScope parked(ctx);
+                while (!shared->stop.load(std::memory_order_relaxed) &&
+                       shared->requested.load(std::memory_order_relaxed) ==
+                           shared->completed.load(std::memory_order_relaxed))
+                    std::this_thread::sleep_for(std::chrono::microseconds(200));
+            }
+            if (shared->stop.load(std::memory_order_relaxed)) break;
+            {
+                ProtoContext turn(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
+                for (long i = 0; i < kBatch; ++i)
+                    shared->queue->push(&turn, turn.fromInteger(i));
+                shared->ready.store(true, std::memory_order_relaxed);
+                shared->inDrain.store(true, std::memory_order_relaxed);
+                const ProtoList* batch = shared->queue->takeAll(&turn);
+                shared->inDrain.store(false, std::memory_order_relaxed);
+                if (!batch || batch->getSize(&turn) != static_cast<unsigned long>(kBatch))
+                    shared->bad.fetch_add(1, std::memory_order_relaxed);
+            }
+            shared->completed.fetch_add(1, std::memory_order_relaxed);
+        }
+        return PROTO_NONE;
+    };
+
+    const ProtoThread* worker = space.newThread(
+        root, ProtoString::createSymbol(root, "mpsc-drainer"), consumerMain, nullptr, nullptr);
+    ASSERT_NE(worker, nullptr);
+
+    std::vector<long long> pausesUs;
+    int sampledInDrain = 0;
+    {
+        ProtoContext::UnmanagedScope parked(root);
+        for (int s = 0; s < kSamples; ++s) {
+            const auto idleDeadline = Clock::now() + std::chrono::seconds(60);
+            while (space.gcStarted.load() && Clock::now() < idleDeadline)
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+            state.requested.fetch_add(1, std::memory_order_relaxed);
+            // Wait until the worker is inside takeAll, so the cycle is
+            // requested against a drain that is really in flight.
+            const auto armDeadline = Clock::now() + std::chrono::seconds(60);
+            while (!state.inDrain.load(std::memory_order_relaxed) &&
+                   state.completed.load(std::memory_order_relaxed) < s + 1 &&
+                   Clock::now() < armDeadline)
+                std::this_thread::sleep_for(std::chrono::microseconds(50));
+            if (state.inDrain.load(std::memory_order_relaxed)) ++sampledInDrain;
+
+            {
+                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                space.gcStarted = true;
+                space.gcCV.notify_all();
+            }
+            const auto cap = std::chrono::milliseconds(std::max<long long>(2000, drainMs * 20));
+            // Spin, not sleep: after the fix the pause is well under a
+            // millisecond and a sleeping poll would miss the whole window.
+            const auto flagUpDeadline = Clock::now() + cap;
+            while (!space.stwFlag.load() && Clock::now() < flagUpDeadline)
+                std::this_thread::yield();
+            const auto t0 = Clock::now();
+            const auto flagDownDeadline = t0 + cap;
+            while (space.stwFlag.load() && Clock::now() < flagDownDeadline)
+                std::this_thread::yield();
+            pausesUs.push_back(
+                std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - t0).count());
+
+            const auto finishDeadline =
+                Clock::now() + std::chrono::milliseconds(std::max<long long>(5000, drainMs * 50));
+            while (state.completed.load(std::memory_order_relaxed) < s + 1 &&
+                   Clock::now() < finishDeadline) {
+                {
+                    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                    space.gcStarted = true;
+                    space.gcCV.notify_all();
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+        }
+        state.stop.store(true, std::memory_order_relaxed);
+    }
+    {
+        ProtoContext::UnmanagedScope parked(root);
+        const_cast<ProtoThread*>(worker)->join(root);
+    }
+    shared = nullptr;
+    rs->remove(pinned);
+
+    ASSERT_EQ(pausesUs.size(), static_cast<size_t>(kSamples));
+    std::vector<long long> sorted = pausesUs;
+    std::sort(sorted.begin(), sorted.end());
+    const long long medianUs = sorted[sorted.size() / 2];
+
+    // Reported on every run, pass or fail: this is the number the merge of
+    // this branch is justified by.
+    std::printf("[ PAUSE    ] stop-the-world (P1+P2) while a consumer drains %ld items: "
+                "median %lld us, min %lld us, max %lld us over %d samples; "
+                "one drain = %lld ms\n",
+                kBatch, medianUs, sorted.front(), sorted.back(), kSamples, drainMs);
+    std::fflush(stdout);
+
+    EXPECT_EQ(state.bad.load(), 0u) << "the consumer produced a malformed batch";
+    EXPECT_EQ(state.completed.load(), kSamples) << "the consumer did not complete every drain";
+    EXPECT_GE(sampledInDrain, kSamples - 1)
+        << "the cycles were not observed against a drain in flight";
+
+    // The pause must not be a function of the length of the batch being
+    // returned: PMQ-SPEC section 3 constraint 1.
+    EXPECT_LT(medianUs, drainMs * 1000 / 4)
+        << "the world stayed stopped for " << medianUs << " us (median of " << kSamples
+        << ", max " << sorted.back() << ") while a consumer was draining " << kBatch
+        << " items, against " << drainMs << " ms for one drain";
 }

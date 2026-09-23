@@ -1150,22 +1150,25 @@ namespace proto
      * and through nothing else.  Hold it in an attribute, a root set or a
      * live context, exactly as for every other protoCore handle.
      *
-     * KNOWN LIMITATION (measured, 2026-09-23, PROTOCORE_GC_INSTRUMENT):
-     * takeAll turns its batch into a ProtoList with
-     * ProtoContext::newList(n, items), which holds ONE
-     * ProtoContext::CriticalSection across its whole O(n log n) build.  A
-     * thread inside a critical section never parks at a stop-the-world poll,
-     * so a large batch keeps the consumer unparkable for the length of the
-     * build and delays the stop-the-world quorum: the instrumented collector
-     * reports P1 (time to reach the quorum) of tens of milliseconds per
-     * cycle with a 200,000-item batch, against 20-40 microseconds for the
-     * same workload with that long-held section removed.  push is
-     * unaffected.  A consumer that drains often keeps its batches small and
-     * does not hit this.  The fix belongs in protoCore's bulk list builder
-     * (a bottom-up O(n) build whose critical section is bounded), not here:
-     * building the list in chunks and joining them with ProtoList::extend
-     * was tried and is worse, because extend is itself n appendLast calls
-     * inside a critical section plus an iterator cell per element.
+     * KNOWN LIMITATION (re-measured 2026-09-23 against master a1a8297f, which
+     * removed the CriticalSection from ProtoContext::newList).  The large
+     * part of this limitation is gone: MPSCQueueGC.LargeDrainDoesNotBlock-
+     * StopTheWorld measures the stop-the-world pause (stwFlag up = P1 + P2)
+     * while a consumer drains 200,000 items, and its median falls from 88 ms
+     * (min 82 ms, max 330 ms over 9 samples, 3 runs) to about 2 ms (min 22
+     * us, max 5.3 ms).
+     *
+     * What remains is smaller and lives HERE, not in the builder: takeAll
+     * walks the detached node chain into a std::vector and reverses it, and
+     * that loop makes no protoCore call at all, so it never polls the
+     * stop-the-world flag.  The pause is therefore still linear in the
+     * length of the batch -- median 340 us at 50,000 items, 798 us at
+     * 100,000, 2.15 ms at 200,000, 3.67 ms at 400,000, a flat ~0.7% of the
+     * drain -- while the plain bulk builder over the same sizes is flat at
+     * 27-34 us.  PMQ-SPEC section 3 constraint 1 forbids stop-the-world work
+     * proportional to queue length, so the constraint is not yet met; the
+     * remaining fix is to poll for a stop-the-world every N nodes of that
+     * walk, at criticalSectionDepth 0.
      *
      * Caller contract worth stating explicitly, because a mailbox is the
      * kind of thing a runtime pushes to from a long-running loop: a

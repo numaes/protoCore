@@ -72,15 +72,33 @@ All notable changes to protoCore are documented in this file.
   `ProtoContext`, exactly as every other protoCore allocation does — a
   context owns its young generation until it is destroyed.
 
-  **Known limitation (measured, not yet fixed).** `takeAll` builds its
-  result with `ProtoContext::newList(n, items)`, which holds one
-  `ProtoContext::CriticalSection` across its whole O(n log n) build. A
-  thread inside a critical section never parks at a stop-the-world poll, so
-  a large batch delays the stop-the-world quorum: with a 200 000-item batch
-  the instrumented collector reports P1 of tens of milliseconds per cycle,
-  against 20-40 us for the same workload without that long-held section.
-  `push` is unaffected and a consumer that drains often is unaffected. The
-  fix belongs in protoCore's bulk list builder, not in the queue.
+  **Known limitation (re-measured 2026-09-23, not yet fixed).** With the
+  bulk-builder fix above in place, the stop-the-world pause during a
+  200 000-item drain falls from a median of 88 ms (min 82 ms, max 330 ms
+  over 9 samples) to about 2 ms (min 22 us, max 5.3 ms) —
+  `MPSCQueueGC.LargeDrainDoesNotBlockStopTheWorld`. What remains is in the
+  queue, not in the builder: `takeAll` walks the detached node chain into a
+  vector and reverses it without making any protoCore call, so that loop
+  never polls the stop-the-world flag and the pause is still linear in the
+  batch (340 us at 50 000 items, 3.67 ms at 400 000, a flat ~0.7% of the
+  drain, against a flat 27-34 us for a plain bulk build of the same sizes).
+  PMQ-SPEC §3 constraint 1 is therefore **not met yet**. `push` is
+  unaffected, and a consumer that drains often keeps its batches small.
+
+  **Also open.** On top of the new builder,
+  `MPSCQueueConcurrency.EightProducersOneConsumerLoseNothingAndDuplicate-
+  Nothing` and `MPSCQueueGC.PushAndTakeAllDuringConcurrentMarking` abort
+  with protoCore's out-of-memory guard. The consumer stops draining (the
+  probe in `.agent_scratch` shows `consumed` frozen at 5 732 while
+  `produced` runs to 54 600) and the backlog fills whatever heap it is
+  given: the live set at the abort tracks the ceiling (320 k cells at a
+  302 k ceiling, 1.25 M at a 1.26 M ceiling). Before the builder fix these
+  tests passed, but they were not testing what they claimed — with the old
+  builder the collector completed **zero** cycles at 10 000 and 50 000
+  pushes per producer and the heap ran to 2.5 M cells against a declared
+  302 k ceiling, so the ceiling was never enforced. Whether the fix belongs
+  in the queue, in the tests' unbounded mailbox under a hard cap, or in the
+  heap-headroom back-pressure is a maintainer decision.
 
 ### Changed
 

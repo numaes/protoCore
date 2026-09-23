@@ -272,15 +272,18 @@ namespace proto
         // of the batch.  The items stay reachable through the retained chain
         // while the list is built.
         //
-        // CAVEAT, measured and not yet fixed: ProtoContext::newList(n, items)
-        // opens a critical section of its OWN and holds it across the whole
-        // O(n log n) build, so for a large batch the pause is delayed anyway
-        // - P1 (time to reach the stop-the-world quorum) rises from ~20-40 us
-        // per cycle to tens of milliseconds with a 200,000-item batch.  The
-        // fix is a bounded-critical-section bulk list builder in protoCore;
-        // chunking here and joining with ProtoList::extend is worse (extend
-        // is n appendLast calls inside a critical section, plus an iterator
-        // cell per element).  See the class comment in headers/protoCore.h.
+        // CAVEAT, re-measured against master a1a8297f.  newList(n, items) no
+        // longer holds a critical section across its build, and the large
+        // part of this caveat went with it: the pause during a 200,000-item
+        // drain fell from a median of 88 ms to about 2 ms.  What is left is
+        // the walk below.  It makes no protoCore call, so it never polls the
+        // stop-the-world flag, and the pause is still linear in the batch
+        // (340 us at 50,000 items rising to 3.67 ms at 400,000, against a
+        // flat 27-34 us for a plain bulk build of the same sizes).  PMQ-SPEC
+        // section 3 constraint 1 is therefore not met yet; the fix is to
+        // park for a stop-the-world every N nodes here, at
+        // criticalSectionDepth 0, exactly as newList now does every 16
+        // elements.  See MPSCQueueGC.LargeDrainDoesNotBlockStopTheWorld.
         std::vector<const ProtoObject*> items;
         for (const NodeCell* n = chain; n; n = n->next.load(std::memory_order_acquire))
             items.push_back(n->item);
