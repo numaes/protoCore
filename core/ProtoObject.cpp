@@ -598,6 +598,7 @@ namespace proto
         case POINTER_TAG_SPARSE_LIST_SMALL: return context->space->sparseListPrototype;
         case POINTER_TAG_SPARSE_LIST_ITERATOR: return context->space->sparseListIteratorPrototype;
         case POINTER_TAG_MAP: return context->space->mapPrototype;
+        case POINTER_TAG_MPSC_QUEUE: return context->space->mpscQueuePrototype;
         case POINTER_TAG_TUPLE: return context->space->tuplePrototype;
         case POINTER_TAG_TUPLE_ITERATOR: return context->space->tupleIteratorPrototype;
         case POINTER_TAG_STRING: return context->space->stringPrototype;
@@ -1928,6 +1929,31 @@ namespace proto
         }
         return nullptr;
     }
+    bool ProtoObject::isMPSCQueue(ProtoContext* context) const {
+        if (!this) return false;
+        ProtoObjectPointer pa{}; pa.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_MPSC_QUEUE) return true;
+        if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
+            const proto::ProtoString* dataName = context->space->literalData;
+            const proto::ProtoObject* data = this->getAttribute(context, dataName, false);
+            if (data && data != this) return data->isMPSCQueue(context);
+        }
+        return false;
+    }
+
+    const ProtoMPSCQueue* ProtoObject::asMPSCQueue(ProtoContext* context) const {
+        if (!this) return nullptr;
+        ProtoObjectPointer pa{}; pa.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_MPSC_QUEUE)
+            return reinterpret_cast<const ProtoMPSCQueue*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
+            const proto::ProtoString* dataName = context->space->literalData;
+            const proto::ProtoObject* data = this->getAttribute(context, dataName, false);
+            if (data && data != this) return data->asMPSCQueue(context);
+        }
+        return nullptr;
+    }
+
     const ProtoExternalPointer* ProtoObject::asExternalPointer(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EXTERNAL_POINTER ? reinterpret_cast<const ProtoExternalPointer*>(this) : nullptr; }
     const ProtoExternalBuffer* ProtoObject::asExternalBuffer(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EXTERNAL_BUFFER ? reinterpret_cast<const ProtoExternalBuffer*>(this) : nullptr; }
     void* ProtoObject::getRawPointerIfExternalBuffer(ProtoContext* context) const {

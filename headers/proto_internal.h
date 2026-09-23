@@ -55,6 +55,9 @@ namespace proto {
     class ProtoMapImplementation;
     class ProtoMapSmallImplementation;
     class ProtoMapIteratorImplementation;
+    class ProtoMPSCQueueImplementation;
+    class ProtoMPSCQueueNodeImplementation;
+    class ProtoMPSCQueueRetainImplementation;
     class ProtoSetImplementation;
     class ProtoSetIteratorImplementation;
     class ProtoMultisetImplementation;
@@ -110,6 +113,8 @@ namespace proto {
         const ProtoMap *map;
         const ProtoMapImplementation *mapImplementation;
         const ProtoMapSmallImplementation *mapSmallImplementation;
+        const ProtoMPSCQueue *mpscQueue;
+        const ProtoMPSCQueueImplementation *mpscQueueImplementation;
         const ProtoListImplementation *listImplementation;
         const ProtoListSmallImplementation *listSmallImplementation;
         const ProtoListIteratorImplementation *listIteratorImplementation;
@@ -258,11 +263,12 @@ namespace proto {
 #define POINTER_TAG_LIST_SMALL          25 // ProtoListSmallImplementation — inline-slot list (size ≤ 5)
 #define POINTER_TAG_SPARSE_LIST_SMALL   26 // ProtoSparseListSmallImplementation — inline (key,value) sparse list (size ≤ 3)
 #define POINTER_TAG_MAP  27 // ProtoMap handle: AVL node OR Small form, told apart by CellType
+#define POINTER_TAG_MPSC_QUEUE 28 // ProtoMPSCQueueImplementation - the lock-free MPSC queue handle
 
 // ---------------------------------------------------------------------
 // Tagged-pointer budget (platform-wide, scarce).
 //
-//   Pointer tags (6 bits, 64 values):   used 0-27 (28), free 28-63 (36)
+//   Pointer tags (6 bits, 64 values):   used 0-28 (29), free 29-63 (35)
 //   Embedded types (4 bits, 16 values): used 0, 2, 3, 4, 5 (5),
 //                                       free 1, 6-15 (11)
 //
@@ -278,6 +284,11 @@ namespace proto {
 // Tag 27 carries two cell types (ProtoMapImplementation and
 // ProtoMapSmallImplementation); code that needs the form calls
 // getType(), exactly as tag 0 does for its several cell types above.
+//
+// Tag 28 carries exactly one cell type (ProtoMPSCQueueImplementation).
+// Its node and retain cells are internal: they are told apart by
+// CellType, are never handed out as ProtoObject* words, and therefore
+// take no tag (protoScala/docs/platform/PMQ-SPEC.md, section 4).
 // ---------------------------------------------------------------------
 
 #define EMBEDDED_TYPE_SMALLINT 0
@@ -368,6 +379,18 @@ namespace proto {
     // object model.  See ProtoMapIteratorImplementation::implAsObject.
     template<> struct ExpectedTag<const ProtoMapIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
     template<> struct ExpectedTag<ProtoMapIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+
+    template<> struct ExpectedTag<const ProtoMPSCQueueImplementation> { static constexpr unsigned long value = POINTER_TAG_MPSC_QUEUE; };
+    template<> struct ExpectedTag<ProtoMPSCQueueImplementation> { static constexpr unsigned long value = POINTER_TAG_MPSC_QUEUE; };
+
+    // Internal cells of ProtoMPSCQueue (PMQ-SPEC section 4, decision D6): the
+    // handle is the raw cell address (tag 0, POINTER_TAG_OBJECT), never a
+    // boxed ProtoObject word offered to the object model.  Same discipline
+    // as ProtoMapIteratorImplementation above.
+    template<> struct ExpectedTag<const ProtoMPSCQueueNodeImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ProtoMPSCQueueNodeImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<const ProtoMPSCQueueRetainImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ProtoMPSCQueueRetainImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
 
     /*
      * Tag-dispatched raw-lookup helper for ProtoSparseList consumers
@@ -618,7 +641,10 @@ namespace proto {
         SparseListSmall,
         Map,
         MapSmall,
-        MapIterator
+        MapIterator,
+        MPSCQueue,
+        MPSCQueueNode,
+        MPSCQueueRetain
     };
 
     class Cell {
@@ -1742,6 +1768,94 @@ namespace proto {
                                void (*method)(ProtoContext*, void*, const Cell*)) const override;
     };
 
+    /**
+     * @brief Lock-free multi-producer / single-consumer queue cell.
+     *
+     * Specification: protoScala/docs/platform/PMQ-SPEC.md.  The GC
+     * correctness argument lives in core/ProtoMPSCQueue.cpp; read it
+     * before touching any of the three fields below.
+     *
+     * This is the first protoCore cell with state that changes after
+     * publication, which is why every such field is a std::atomic:
+     *
+     *   head          the LIFO chain of pushed nodes.  Producers
+     *                 CAS-prepend; the chain is fully linked at every
+     *                 instant, so the collector can always walk it.
+     *   retained      chains that takeAll has detached but that the
+     *                 running collector may still need.  A takeAll
+     *                 publishes here BEFORE it detaches; a marker reads
+     *                 `head` BEFORE this.  Both orderings are required
+     *                 for correctness.
+     *   retainedEpoch the GC cycle number `retained` belongs to.  The
+     *                 single consumer releases `retained` when it sees
+     *                 a different ProtoSpace::getGCCycleCount().
+     *
+     * The queue adds nothing to the stop-the-world pause and needs no
+     * write barrier (PMQ-SPEC section 3).
+     */
+    class ProtoMPSCQueueImplementation final : public Cell {
+    public:
+        mutable std::atomic<const ProtoMPSCQueueNodeImplementation*> head;
+        mutable std::atomic<const ProtoMPSCQueueRetainImplementation*> retained;
+        mutable std::atomic<uint64_t> retainedEpoch;
+
+        CellType getType() const override { return CellType::MPSCQueue; }
+
+        explicit ProtoMPSCQueueImplementation(ProtoContext* context);
+
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override;
+    };
+
+    /**
+     * @brief One queued item.  Internal: never exposed as a ProtoObject word.
+     *
+     * `item` is written in the constructor.  `next` is written only while
+     * the node is still private to the pushing thread - the publishing CAS
+     * on ProtoMPSCQueueImplementation::head is what makes it visible, and
+     * after that CAS succeeds the field is never written again.  It is a
+     * std::atomic because the collector's young-chain walk may read it
+     * while a losing CAS retry rewrites it.
+     */
+    class ProtoMPSCQueueNodeImplementation final : public Cell {
+    public:
+        const ProtoObject* const item;
+        mutable std::atomic<const ProtoMPSCQueueNodeImplementation*> next;
+
+        CellType getType() const override { return CellType::MPSCQueueNode; }
+
+        ProtoMPSCQueueNodeImplementation(ProtoContext* context, const ProtoObject* item);
+
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override;
+    };
+
+    /**
+     * @brief One chain detached by takeAll, kept reachable for the
+     *        collector that was running when it was detached.
+     *
+     * Internal: never exposed as a ProtoObject word.  A FRESH cell is
+     * allocated for every takeAll; the stack link must not be folded into
+     * the detached chain's own head node, because that node may already
+     * have been marked, and the marker never revisits a marked cell - the
+     * link would then be invisible and the older chains would be lost.
+     */
+    class ProtoMPSCQueueRetainImplementation final : public Cell {
+    public:
+        mutable std::atomic<const ProtoMPSCQueueNodeImplementation*> chain;
+        mutable std::atomic<const ProtoMPSCQueueRetainImplementation*> next;
+
+        CellType getType() const override { return CellType::MPSCQueueRetain; }
+
+        explicit ProtoMPSCQueueRetainImplementation(ProtoContext* context);
+
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override;
+    };
+
     class Integer {
     public:
         static const ProtoObject *fromLong(ProtoContext *context, long long value);
@@ -1936,6 +2050,9 @@ namespace proto {
             ProtoMapImplementation mapCell;
             ProtoMapSmallImplementation mapSmallCell;
             ProtoMapIteratorImplementation mapIteratorCell;
+            ProtoMPSCQueueImplementation mpscQueueCell;
+            ProtoMPSCQueueNodeImplementation mpscQueueNodeCell;
+            ProtoMPSCQueueRetainImplementation mpscQueueRetainCell;
             ProtoTupleIteratorImplementation tupleIteratorCell;
             ProtoTupleImplementation tupleCell;
             ProtoStringIteratorImplementation stringIteratorCell;
@@ -1964,6 +2081,9 @@ namespace proto {
     static_assert(sizeof(ProtoMapImplementation) <= 64, "ProtoMapImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMapSmallImplementation) <= 64, "ProtoMapSmallImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMapIteratorImplementation) <= 64, "ProtoMapIteratorImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMPSCQueueImplementation) <= 64, "ProtoMPSCQueueImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMPSCQueueNodeImplementation) <= 64, "ProtoMPSCQueueNodeImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMPSCQueueRetainImplementation) <= 64, "ProtoMPSCQueueRetainImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoTupleIteratorImplementation) <= 64, "ProtoTupleIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoTupleImplementation) <= 64, "ProtoTupleImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoStringIteratorImplementation) <= 64, "ProtoStringIteratorImplementation exceeds 64 bytes!");
@@ -1991,6 +2111,23 @@ namespace proto {
         Cell* cellChain;
         DirtySegment* next;
     };
+
+    /**
+     * @brief Park for a stop-the-world, and nothing else (core/ProtoContext.cpp).
+     *
+     * The parking half of ProtoContext::safepoint(), without the young-
+     * generation submission.  Internal to protoCore: it is the poll a native
+     * O(n) loop uses to stay interruptible when every cell it still needs is
+     * already anchored from a real GC root, so that handing the young chain
+     * over would buy nothing and could orphan an in-flight cell.
+     *
+     * Fast path is one relaxed load of `stwFlag`.  It never parks while
+     * `criticalSectionDepth > 0`, so it is inert - and must never be relied
+     * on - inside a critical section.
+     *
+     * Callers: ProtoContext::newList(n, items) and ProtoMPSCQueue::takeAll.
+     */
+    void parkForStopTheWorld(ProtoContext* context);
 
     // Definition of the tag-dispatched raw-lookup helper declared above.
     // Placed here so both impl classes are fully visible; fully inlinable

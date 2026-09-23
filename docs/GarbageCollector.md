@@ -402,6 +402,71 @@ See [`STW_ELIMINATION_RESEARCH.md`](./STW_ELIMINATION_RESEARCH.md) § 11
 (the "static root-discipline contract") for the dual rule that extension
 authors must follow at the root side.
 
+There is exactly one sanctioned alternative, and it is not an exemption
+from the discipline but a different way of earning the same property: see
+"Lock-free queues without barriers" below.
+
+### Lock-free queues without barriers
+
+`ProtoMPSCQueue` (protoCore 2.1.0, `core/ProtoMPSCQueue.cpp`, spec
+`protoScala/docs/platform/PMQ-SPEC.md`) is the first protoCore type whose
+cell holds state that changes after publication without going through
+`mutableRoot[]`.  It is allowed to, because it does not ask the collector
+to trust a lazily-read mutable word: it makes that read provably a
+**superset** of what the pause saw.
+
+**Why a lazily-read mutable word is normally unsound here.**  Suppose the
+queue cell simply reported `head.load()` from `processReferences`.  The
+mark loop runs *after* the world resumes (Phase 3 precedes Phase 4).  A
+`takeAll` that runs before the marker reaches the queue cell moves the
+items into a fresh `ProtoList` `L`.  `L` was allocated after the pause, so
+it sits in front of the young-chain head captured in Phase 2 and **its
+references are not walked in this cycle**.  `L` itself is not a candidate
+and survives — but the items are older cells inside the segments captured
+at the pause, now unmarked and unreachable from any root the marker will
+read.  Sweep frees them under a live `ProtoList`.
+
+**The two orderings that close it.**
+
+1. `takeAll` publishes a *retain cell* carrying the chain onto the queue's
+   `retained` stack **before** it detaches that chain from `head`.
+2. `processReferences` loads `head` **before** it loads `retained`.
+
+Let `S` be the instant the world resumed and `H_S` the chain at `head` at
+`S`.  Producers only ever CAS-*prepend*, so the chain is fully linked at
+every instant and every node of `H_S` stays in `chain(h)` for the `h` any
+later `takeAll` loads.  A node therefore either is still under `head` when
+the marker reads it, or was removed by a `takeAll` that had already put it
+under `retained` — and `retained` only grows during a cycle.  The union of
+the two reads, taken in that order, covers `H_S`.  Swap either ordering
+and an item pushed before the pause and consumed during the mark is freed
+under a live `ProtoList`.
+
+Nodes pushed *after* `S` need no protection at all: they are young cells of
+the pushing context, and a young cell is not a candidate of the running
+cycle.
+
+**What this costs the collector: nothing.**  No write barrier, no card
+marking, no new phase, no registry, no capture.  The only addition to the
+stop-the-world window is one `addRootObj` for the queue prototype — O(1),
+a global-structure root, the same addition `ProtoMap` made.  The queue's
+`push` is one cell and one CAS; `takeAll` adds one retain cell per *batch*
+and one relaxed read of `gcCycleCount`.
+
+**Reclamation of the retain chain.**  The single consumer releases
+`retained` at its first `takeAll` in a new GC cycle, inside a
+`CriticalSection` window that contains no allocation and no safepoint —
+so the cycle number it read cannot go stale before the publish.
+`gcCycleCount` is bumped under the pause at the *start* of a cycle and the
+collector is one sequential thread, so observing `C` proves the mark and
+sweep of cycle `C - 1` finished.  The price is that a consumed chain's
+nodes stay reachable for at most one extra cycle.
+
+This release is deliberately **not** done by `processReferences`: the
+Phase 4 young-chain walk calls `processReferences` as well, so a
+destructive read there would be a second, silent consumer — and any future
+heap dumper or diagnostic that called it would drop untraced chains.
+
 ## Synchronization Mechanisms
 
 - `globalMutex`: protects access to shared structures like `freeCells`,

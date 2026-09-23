@@ -159,6 +159,9 @@ namespace proto {
                 case CellType::Map: return "Map";
                 case CellType::MapSmall: return "MapSmall";
                 case CellType::MapIterator: return "MapIterator";
+                case CellType::MPSCQueue: return "MPSCQueue";
+                case CellType::MPSCQueueNode: return "MPSCQueueNode";
+                case CellType::MPSCQueueRetain: return "MPSCQueueRetain";
             }
             return "unknown";
         }
@@ -421,6 +424,9 @@ namespace proto {
                 addRootObj(space->sparseListPrototype);
                 addRootObj(space->sparseListIteratorPrototype);
                 addRootObj(space->mapPrototype);
+                // O(1), a global-structure root: the only addition this type
+                // makes to the stop-the-world window (PMQ-SPEC section 3.1).
+                addRootObj(space->mpscQueuePrototype);
                 addRootObj(space->setPrototype);
                 addRootObj(space->setIteratorPrototype);
                 addRootObj(space->multisetPrototype);
@@ -1191,6 +1197,7 @@ namespace proto {
         this->listPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->sparseListPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->mapPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->mpscQueuePrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         // Mutable so embedders (protoJS Object.prototype, protoPython
         // object.__class__, etc.) can install methods and accept user-
         // level setattr without forking the identity on every write.

@@ -4,7 +4,90 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- **The two `ProtoMPSCQueue` stress tests now apply backpressure.** Both aborted
+  on protoCore's OOM guard, and the diagnosis is that the tests, not the queue,
+  were at fault: they pushed 8 x 1,000,000 (and 400,000) messages with no flow
+  control at all, so the backlog — which is live, and which only the consumer
+  can release — grew past whatever heap ceiling it was given.
+
+  The evidence that decides it:
+
+  * **The wall is not the queue's.** A control program with no queue anywhere,
+    doing nothing but `ProtoContext::newList(n, items)` under the same
+    412,144-cell ceiling, completes at n = 20,000 and runs out of memory at
+    n = 30,000 — the same boundary, and the same reported live set (348,469
+    cells), as the queue stress with the same in-flight bound. One `takeAll` of
+    N items transiently allocates about `N*log2(N)` cells, because the bulk
+    builder appends element by element and the whole path-copy trail stays in
+    the consumer's young generation until the build ends.
+  * **The failure tracks the ceiling, not the producer count.** Given 1.76 M
+    cells the live set stops at 2.00 M; given 6.26 M it stops at 5.89 M. With
+    the in-flight set bounded at 30,000, one producer fails exactly as eight do.
+  * **Rate-limiting the producers removes it entirely.** The full 8 x 1,000,000
+    run completes under the *same* 412,144-cell ceiling in 11.6 s with 398 GC
+    cycles, 8,000,000 items consumed, none lost, none duplicated, per-producer
+    FIFO intact.
+
+  Recorded for the record, because it is real and shapes how an embedder must
+  size a mailbox: once the backlog has filled the heap the system is in a
+  genuine circular wait, and the OOM abort is the only exit. At the abort
+  (gdb, `thread apply all bt`) all eight producers were parked in
+  `ProtoSpace::waitForHeapHeadroom` inside `push`, the consumer was parked in
+  the same wait inside `newList` inside `takeAll` — unable to allocate the list
+  whose completion was the only thing that could have released the backlog —
+  and the GC thread was idle with nothing to reclaim. **The heap-ceiling
+  protocol is unchanged; sizing is the caller's job.** The rule the numbers
+  give is that a mailbox's in-flight set must stay well under the point where
+  `N*log2(N)` approaches the heap ceiling.
+
+  Both tests now bound the in-flight set (10,000 items for the 8 x 1M stress,
+  250 for the heavier mark-race probes), wait inside an `UnmanagedScope` so a
+  throttled producer never delays a pause, and carry an abort flag so a
+  consumer that gives up can never leave a producer blocked and hang the join.
+  The in-loop `ASSERT`s that could return from the test body with producers
+  still running are replaced by counters checked after the join. Two new guards
+  keep the result honest: the collector must complete at least ten cycles, and
+  the in-flight bound must actually have bound at least once — a bound raised
+  until it stops binding would silently restore the unbounded test.
+
 ### Fixed
+
+- **`ProtoMPSCQueue::takeAll` no longer holds the world stopped for the length
+  of the batch it drains.** With `newList(n, items)` fixed (below), what was
+  left of the pause was `takeAll`'s own chain walk and reversal: two O(batch)
+  loops that make no protoCore call, and therefore never reach a
+  stop-the-world poll, however far outside a critical section they run. The
+  pause was still linear in the batch — measured medians of **338 us** at
+  50,000 items and **3,731 us** at 400,000, against a flat 27-34 us for a
+  plain bulk build of the same sizes. PMQ-SPEC section 3 constraint 1 (no
+  stop-the-world work proportional to queue length) was not met.
+
+  Both loops now call `parkForStopTheWorld` every 64 nodes — the park-only
+  half of `safepoint()` that the `newList` fix factored out, matching
+  `allocCell`'s every-64-allocations cadence. After the fix the same medians
+  are **32 us** at 50,000, 32 us at 100,000, 31 us at 200,000 and **27 us** at
+  400,000: flat, and level with the plain bulk builder. Constraint 1 is met.
+
+  The poll is placed strictly *after* the publish window (read epoch → maybe
+  release → load `head` → fill and publish the retain cell → detach) and after
+  its `CriticalSection` has been destroyed. Nothing was added inside that
+  window, which is what keeps ABA impossible by construction (PMQ-SPEC section
+  7): reusing the address loaded from `head` would still require a sweep
+  between that load and the CAS, hence a pause, hence this thread parking
+  between them — which it still cannot do. Parking in the walk is safe because
+  nothing the walk needs lives only in a C++ local: the nodes hang off the
+  retain cell this `takeAll` already published onto `retained`, and the items
+  hang off the nodes.
+
+  `MPSCQueueGC.LargeDrainDoesNotBlockStopTheWorld` now measures two batch
+  sizes a factor of four apart in one run and asserts the pause does not grow
+  with the batch, which is what constraint 1 actually forbids; the previous
+  single-size bound is kept as a sanity check. `parkForStopTheWorld` moved
+  from an anonymous namespace in `core/ProtoContext.cpp` to a protoCore-
+  internal declaration in `headers/proto_internal.h`. No public API or ABI
+  change.
 
 - **`ProtoContext::newList(n, items)` no longer holds the world stopped for the
   length of the list it builds.** The bulk builder wrapped its whole O(n) AVL
@@ -42,6 +125,70 @@ All notable changes to protoCore are documented in this file.
   `pendingRoot` survives once its context's young generation has been
   submitted, and the stop-the-world pause during a large build is bounded well
   below the duration of the build.
+
+## [2.1.0] - 2026-09-23
+
+### Added
+
+- **`ProtoMPSCQueue`** — a mutable, lock-free, multi-producer /
+  single-consumer FIFO of `ProtoObject*` items whose contents the collector
+  traces (spec `protoScala/docs/platform/PMQ-SPEC.md`). `push` is lock-free,
+  O(1) and allocates one cell; `takeAll` returns every queued item in push
+  order as an immutable `ProtoList`; `isEmpty` is a snapshot. One pointer
+  tag (28) for the handle, three `CellType`s, a dedicated prototype, and
+  `ProtoContext::newMPSCQueue` / `ProtoObject::isMPSCQueue` /
+  `ProtoObject::asMPSCQueue`.
+
+  It is the shared actor mailbox of protoScala Phase 5, protoClojure and
+  protoST, and it closes protoClojure's unrooted-payload defect: a queued
+  message, its arguments and its reply future become GC roots.
+
+  **It adds nothing to the stop-the-world pause** beyond one O(1) global
+  prototype root, needs no write barrier and changes no collector phase.
+  Correctness under concurrent marking rests on two orderings, proved and
+  documented in `core/ProtoMPSCQueue.cpp` and `docs/GarbageCollector.md`:
+  `processReferences` loads `head` before `retained`, and `takeAll`
+  publishes its retain cell before it detaches a chain.
+
+  Caller contract worth repeating: the queue must stay reachable for the
+  duration of a call, and each producer turn should use its own
+  `ProtoContext`, exactly as every other protoCore allocation does — a
+  context owns its young generation until it is destroyed.
+
+  **Known limitation (re-measured 2026-09-23, not yet fixed).** With the
+  bulk-builder fix above in place, the stop-the-world pause during a
+  200 000-item drain falls from a median of 88 ms (min 82 ms, max 330 ms
+  over 9 samples) to about 2 ms (min 22 us, max 5.3 ms) —
+  `MPSCQueueGC.LargeDrainDoesNotBlockStopTheWorld`. What remains is in the
+  queue, not in the builder: `takeAll` walks the detached node chain into a
+  vector and reverses it without making any protoCore call, so that loop
+  never polls the stop-the-world flag and the pause is still linear in the
+  batch (340 us at 50 000 items, 3.67 ms at 400 000, a flat ~0.7% of the
+  drain, against a flat 27-34 us for a plain bulk build of the same sizes).
+  PMQ-SPEC §3 constraint 1 is therefore **not met yet**. `push` is
+  unaffected, and a consumer that drains often keeps its batches small.
+
+  **Also open.** On top of the new builder,
+  `MPSCQueueConcurrency.EightProducersOneConsumerLoseNothingAndDuplicate-
+  Nothing` and `MPSCQueueGC.PushAndTakeAllDuringConcurrentMarking` abort
+  with protoCore's out-of-memory guard. The consumer stops draining (the
+  probe in `.agent_scratch` shows `consumed` frozen at 5 732 while
+  `produced` runs to 54 600) and the backlog fills whatever heap it is
+  given: the live set at the abort tracks the ceiling (320 k cells at a
+  302 k ceiling, 1.25 M at a 1.26 M ceiling). Before the builder fix these
+  tests passed, but they were not testing what they claimed — with the old
+  builder the collector completed **zero** cycles at 10 000 and 50 000
+  pushes per producer and the heap ran to 2.5 M cells against a declared
+  302 k ceiling, so the ceiling was never enforced. Whether the fix belongs
+  in the queue, in the tests' unbounded mailbox under a hard cap, or in the
+  heap-headroom back-pressure is a maintainer decision.
+
+### Changed
+
+- `ProtoSpace` gains one field (`mpscQueuePrototype`). The soname stays
+  `libprotoCore.so.2`, so **every embedder must still be rebuilt from
+  clean**: a stale binary would use the old layout.
+- Pointer-tag budget: used 0-28 (29), free 29-63 (35).
 
 ## [2.0.0] - 2026-09-23
 
