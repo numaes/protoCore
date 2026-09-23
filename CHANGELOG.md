@@ -4,6 +4,54 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- **The two `ProtoMPSCQueue` stress tests now apply backpressure.** Both aborted
+  on protoCore's OOM guard, and the diagnosis is that the tests, not the queue,
+  were at fault: they pushed 8 x 1,000,000 (and 400,000) messages with no flow
+  control at all, so the backlog — which is live, and which only the consumer
+  can release — grew past whatever heap ceiling it was given.
+
+  The evidence that decides it:
+
+  * **The wall is not the queue's.** A control program with no queue anywhere,
+    doing nothing but `ProtoContext::newList(n, items)` under the same
+    412,144-cell ceiling, completes at n = 20,000 and runs out of memory at
+    n = 30,000 — the same boundary, and the same reported live set (348,469
+    cells), as the queue stress with the same in-flight bound. One `takeAll` of
+    N items transiently allocates about `N*log2(N)` cells, because the bulk
+    builder appends element by element and the whole path-copy trail stays in
+    the consumer's young generation until the build ends.
+  * **The failure tracks the ceiling, not the producer count.** Given 1.76 M
+    cells the live set stops at 2.00 M; given 6.26 M it stops at 5.89 M. With
+    the in-flight set bounded at 30,000, one producer fails exactly as eight do.
+  * **Rate-limiting the producers removes it entirely.** The full 8 x 1,000,000
+    run completes under the *same* 412,144-cell ceiling in 11.6 s with 398 GC
+    cycles, 8,000,000 items consumed, none lost, none duplicated, per-producer
+    FIFO intact.
+
+  Recorded for the record, because it is real and shapes how an embedder must
+  size a mailbox: once the backlog has filled the heap the system is in a
+  genuine circular wait, and the OOM abort is the only exit. At the abort
+  (gdb, `thread apply all bt`) all eight producers were parked in
+  `ProtoSpace::waitForHeapHeadroom` inside `push`, the consumer was parked in
+  the same wait inside `newList` inside `takeAll` — unable to allocate the list
+  whose completion was the only thing that could have released the backlog —
+  and the GC thread was idle with nothing to reclaim. **The heap-ceiling
+  protocol is unchanged; sizing is the caller's job.** The rule the numbers
+  give is that a mailbox's in-flight set must stay well under the point where
+  `N*log2(N)` approaches the heap ceiling.
+
+  Both tests now bound the in-flight set (10,000 items for the 8 x 1M stress,
+  250 for the heavier mark-race probes), wait inside an `UnmanagedScope` so a
+  throttled producer never delays a pause, and carry an abort flag so a
+  consumer that gives up can never leave a producer blocked and hang the join.
+  The in-loop `ASSERT`s that could return from the test body with producers
+  still running are replaced by counters checked after the join. Two new guards
+  keep the result honest: the collector must complete at least ten cycles, and
+  the in-flight bound must actually have bound at least once — a bound raised
+  until it stops binding would silently restore the unbounded test.
+
 ### Fixed
 
 - **`ProtoMPSCQueue::takeAll` no longer holds the world stopped for the length

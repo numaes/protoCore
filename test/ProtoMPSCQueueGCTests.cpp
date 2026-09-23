@@ -65,6 +65,23 @@ bool probeIntact(ProtoContext* c, const ProtoObject* o, long i) {
 //--------------------------------------------------------------------------
 // Shared state for the mark-race test.
 //--------------------------------------------------------------------------
+// Backpressure for the mark race, for the same reason as in
+// ProtoMPSCQueueConcurrencyTests.cpp: a producer running flat out against one
+// consumer fills any bounded heap by construction, and this test's heap is
+// deliberately tiny (kHeadroomCells).  Without a bound the run ended on
+// protoCore's OOM guard, which proved nothing about marking.
+//
+// The bound is smaller here than in the concurrency stress because the items
+// are heavier.  Each `probe` is a two-element ProtoList, so an in-flight item
+// costs its queue node plus the probe's own cells, and one takeAll of N items
+// additionally allocates about N*log2(N) cells in the consumer's young
+// generation while ProtoContext::newList builds the batch (measured: with a
+// 412,144-cell ceiling and plain integer items, N = 20,000 completes and
+// N = 30,000 does not; a no-queue control calling only newList hits the same
+// wall at the same N).  Against kHeadroomCells = 40,000 that leaves room for
+// a few hundred heavy items in flight.
+constexpr long kMarkRaceMaxInFlight = 250;
+
 struct MarkRaceJob {
     const ProtoMPSCQueue* queue;
     long total;
@@ -72,6 +89,9 @@ struct MarkRaceJob {
     std::atomic<long> produced;
     std::atomic<long> consumed;
     std::atomic<long> corrupt;
+    // Set when the consumer stops, so a producer parked on backpressure can
+    // never outlive it and hang the join.
+    std::atomic<bool> abort;
 };
 
 const ProtoObject* markRaceProducer(ProtoContext* ctx,
@@ -85,6 +105,19 @@ const ProtoObject* markRaceProducer(ProtoContext* ctx,
         ProtoContext t(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
         const long end = (i + job->turn < job->total) ? i + job->turn : job->total;
         for (; i < end; ++i) {
+            if (job->produced.load(std::memory_order_relaxed) -
+                    job->consumed.load(std::memory_order_relaxed) >= kMarkRaceMaxInFlight) {
+                // Inside an UnmanagedScope: a producer waiting here in the
+                // running set would delay every pause, and the pauses are
+                // what this test is about.
+                ProtoContext::UnmanagedScope parked(&t);
+                while (job->produced.load(std::memory_order_relaxed) -
+                           job->consumed.load(std::memory_order_relaxed) >=
+                               kMarkRaceMaxInFlight &&
+                       !job->abort.load(std::memory_order_relaxed))
+                    std::this_thread::sleep_for(std::chrono::microseconds(50));
+            }
+            if (job->abort.load(std::memory_order_relaxed)) return PROTO_NONE;
             job->queue->push(&t, probe(&t, i));
             job->produced.fetch_add(1, std::memory_order_relaxed);
         }
@@ -113,7 +146,12 @@ const ProtoObject* markRaceConsumer(ProtoContext* ctx,
         job->consumed.store(next, std::memory_order_relaxed);
         if (n == 0) {
             std::this_thread::yield();
-            if (std::chrono::steady_clock::now() > deadline) break;
+            if (std::chrono::steady_clock::now() > deadline) {
+                // Release the producer before leaving, or it waits on
+                // backpressure that will never arrive and the join hangs.
+                job->abort.store(true, std::memory_order_relaxed);
+                break;
+            }
         }
     }
     return PROTO_NONE;
@@ -226,7 +264,7 @@ TEST(MPSCQueueGC, PushAndTakeAllDuringConcurrentMarking) {
     // PROTOCORE_GC_INSTRUMENT build, or this filter run after the 8 x 1M
     // stress in the same process) sometimes ended with only four cycles.
     // Longer traffic gives the guard margin; it does not weaken it.
-    MarkRaceJob job{q, 400000, 200, {0}, {0}, {0}};
+    MarkRaceJob job{q, 400000, 200, {0}, {0}, {0}, {false}};
 
     const ProtoString* pname = ProtoString::createSymbol(&main, "mpsc-mark-producer");
     const ProtoString* cname = ProtoString::createSymbol(&main, "mpsc-mark-consumer");
@@ -247,6 +285,9 @@ TEST(MPSCQueueGC, PushAndTakeAllDuringConcurrentMarking) {
         ProtoContext garbage(&space, &main, nullptr, nullptr, nullptr, nullptr);
         for (int i = 0; i < 2000; ++i) (void) garbage.newObject(false);
     }
+    // Whether the loop above finished or hit its deadline, release anyone
+    // parked on backpressure before joining.
+    job.abort.store(true, std::memory_order_relaxed);
     const_cast<ProtoThread*>(producer)->join(&main);
     const_cast<ProtoThread*>(consumer)->join(&main);
     space.setHeapLimits(0, 0);
