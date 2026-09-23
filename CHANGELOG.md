@@ -4,7 +4,38 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- **CMake package configuration.** `install(EXPORT protoCoreTargets)` with the
+  namespace `protoCore::`, a `protoCoreConfig.cmake` generated from
+  `cmake/protoCoreConfig.cmake.in`, and a `SameMajorVersion`
+  `protoCoreConfigVersion.cmake`. Consumers now use
+  `find_package(protoCore 2.0 REQUIRED CONFIG)` and link
+  `protoCore::protoCore`; the configuration also asserts that the library
+  matching `SOVERSION` is present in the prefix, so a prefix whose CMake files
+  outlived its library fails with a message instead of a link error. Before
+  this, `install(TARGETS ... EXPORT protoCoreTargets ...)` named an export set
+  that was never written out, so no consumer could tell 1.x from 2.x.
+- **`lib/pkgconfig/protoCore.pc`**, generated from `cmake/protoCore.pc.in`,
+  including a `soversion` pkg-config variable for consumers that are not CMake
+  projects.
+- **The NSIS installer records `Version`, `Soversion` and `InstallDir` under
+  `HKLM\SOFTWARE\protoCore`**, so dependent Windows installers have something
+  to test — a DLL carries no soname. Configured but unverified: no Windows host.
+
 ### Changed
+
+- **`SOVERSION` is derived from the new `PROTOCORE_ABI_SOVERSION` variable**,
+  which is also what the package configuration and `protoCore.pc` report, so a
+  consumer's check and the file on disk cannot disagree.
+- **The exported interface include directory uses `CMAKE_INSTALL_INCLUDEDIR`**
+  instead of the hardcoded `include`, matching the install destination.
+- **`CPACK_DEBIAN_PACKAGE_NAME` (`protocore`) and `CPACK_RPM_PACKAGE_NAME`
+  (`protoCore`) are set explicitly** instead of relying on each generator's
+  default casing. The resulting package names are unchanged.
+- The Linux CPack branch now also prints a `STATUS` line when the DEB or RPM
+  generator is *disabled*, so a packaging run that produced fewer artefacts
+  than expected says why.
 
 - **The two `ProtoMPSCQueue` stress tests now apply backpressure.** Both aborted
   on protoCore's OOM guard, and the diagnosis is that the tests, not the queue,

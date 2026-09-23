@@ -1,0 +1,59 @@
+# protoCoreConfig.cmake - generated from cmake/protoCoreConfig.cmake.in.
+#
+# Consumed by:  find_package(protoCore 2.0 REQUIRED CONFIG)
+#
+# Provides:
+#   protoCore::protoCore    imported SHARED library (include dirs + Threads)
+#   protoCore_VERSION       full version, for example 2.1.0
+#   protoCore_SOVERSION     ABI version of the shared library, for example 2
+#   protoCore_INCLUDE_DIR   directory holding protoCore.h
+#   protoCore_LIB_DIR       directory holding the shared library
+#
+# Version compatibility is SameMajorVersion (protoCoreConfigVersion.cmake):
+# a request for 2.0 is satisfied by any 2.x and rejected by 1.x and 3.x,
+# because protoCore's major version and its soname are bumped together. A
+# consumer that needs a feature added in a minor release asks for that minor
+# version (for example find_package(protoCore 2.1 CONFIG) for ProtoMPSCQueue).
+
+@PACKAGE_INIT@
+
+set(protoCore_VERSION   "@PROJECT_VERSION@")
+set(protoCore_SOVERSION "@PROTOCORE_ABI_SOVERSION@")
+
+set_and_check(protoCore_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@")
+set_and_check(protoCore_LIB_DIR     "@PACKAGE_CMAKE_INSTALL_LIBDIR@")
+
+include(CMakeFindDependencyMacro)
+find_dependency(Threads)
+
+# ABI assertion. The version file above compares numbers written into a text
+# file; this compares them against the library that is actually on disk. It
+# catches a prefix whose CMake package files survived an uninstall, a partial
+# reinstall, or a manual copy of headers without the matching library.
+if(APPLE)
+    set(_protoCore_abi_file "${protoCore_LIB_DIR}/libprotoCore.${protoCore_SOVERSION}.dylib")
+elseif(WIN32)
+    # Windows shared libraries carry no soname; the import library pins the ABI.
+    set(_protoCore_abi_file "")
+else()
+    set(_protoCore_abi_file "${protoCore_LIB_DIR}/libprotoCore.so.${protoCore_SOVERSION}")
+endif()
+
+if(_protoCore_abi_file AND NOT EXISTS "${_protoCore_abi_file}")
+    set(protoCore_FOUND FALSE)
+    # string(CONCAT), not set(): set() with several arguments builds a list and
+    # CMake would print it with ";" separators.
+    string(CONCAT protoCore_NOT_FOUND_MESSAGE
+        "protoCore ${protoCore_VERSION} package configuration was found in "
+        "${CMAKE_CURRENT_LIST_DIR}, but the ABI library it declares "
+        "(${_protoCore_abi_file}) does not exist. That prefix holds a "
+        "mismatched or partially removed protoCore: reinstall protoCore "
+        "${protoCore_VERSION} (SOVERSION ${protoCore_SOVERSION}) into it.")
+    unset(_protoCore_abi_file)
+    return()
+endif()
+unset(_protoCore_abi_file)
+
+include("${CMAKE_CURRENT_LIST_DIR}/protoCoreTargets.cmake")
+
+check_required_components(protoCore)
