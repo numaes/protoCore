@@ -1149,6 +1149,17 @@ namespace proto
      * items of a batch being built into a list are reachable through it,
      * and through nothing else.  Hold it in an attribute, a root set or a
      * live context, exactly as for every other protoCore handle.
+     *
+     * Caller contract worth stating explicitly, because a mailbox is the
+     * kind of thing a runtime pushes to from a long-running loop: a
+     * ProtoContext owns its young generation until it is destroyed, and a
+     * cell in a young chain is never a candidate of the running cycle.  A
+     * producer that pushes a million messages through ONE context therefore
+     * keeps every node out of the collector's reach and will exhaust the
+     * heap.  Use one context per turn (the ordinary protoCore model), or
+     * call ProtoContext::safepoint() between turns.  This is a property of
+     * the context model, not of the queue - but this type makes it easy to
+     * trip over, so it is documented here.
      */
     class ProtoMPSCQueue
     {
