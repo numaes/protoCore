@@ -60,10 +60,16 @@ add_library(protoCore SHARED
     core/Integer.cpp
 )
 
+# The ABI version of libprotoCore. It is the single source of truth for the
+# soname, for the generated CMake package config and for protoCore.pc, so a
+# consumer's check and the file on disk can never disagree. Bump it only for a
+# breaking ABI change, as 1 -> 2 was (see CHANGELOG.md).
+set(PROTOCORE_ABI_SOVERSION 2)
+
 # Shared library versioning (version for linker, soversion for ABI)
 set_target_properties(protoCore PROPERTIES
     VERSION ${PROJECT_VERSION}
-    SOVERSION 2
+    SOVERSION ${PROTOCORE_ABI_SOVERSION}
     OUTPUT_NAME protoCore
     PUBLIC_HEADER "headers/protoCore.h"
 )
@@ -72,7 +78,7 @@ set_target_properties(protoCore PROPERTIES
 # 'protoCore' will automatically have access to the necessary headers.
 target_include_directories(protoCore PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/headers>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 # Find and link the platform-native Threads library.
@@ -220,8 +226,65 @@ install(TARGETS protoCore
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
+# --- CMake package configuration -------------------------------------------
+# Without these rules the EXPORT keyword above names an export set that is
+# never written out, so no protoCoreConfig.cmake exists and no consumer can
+# check protoCore's version or ABI before linking against it.
+include(CMakePackageConfigHelpers)
+
+set(PROTOCORE_CMAKE_CONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/protoCore")
+
+install(EXPORT protoCoreTargets
+    FILE protoCoreTargets.cmake
+    NAMESPACE protoCore::
+    DESTINATION "${PROTOCORE_CMAKE_CONFIG_INSTALL_DIR}"
+    COMPONENT ${PROTOCORE_INSTALL_COMPONENT}
+)
+
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/protoCoreConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/protoCoreConfig.cmake"
+    INSTALL_DESTINATION "${PROTOCORE_CMAKE_CONFIG_INSTALL_DIR}"
+    PATH_VARS CMAKE_INSTALL_INCLUDEDIR CMAKE_INSTALL_LIBDIR
+)
+
+# SameMajorVersion: find_package(protoCore 2.0) accepts any 2.x and rejects
+# 1.x and 3.x, matching the rule that protoCore's major version and its
+# soname move together. A consumer that needs a feature added in a minor
+# release asks for that minor version instead (protoScala asks for 2.1,
+# because its actor mailbox needs ProtoMPSCQueue).
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/protoCoreConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/protoCoreConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/protoCoreConfigVersion.cmake"
+    DESTINATION "${PROTOCORE_CMAKE_CONFIG_INSTALL_DIR}"
+    COMPONENT ${PROTOCORE_INSTALL_COMPONENT}
+)
+
+# pkg-config metadata, for consumers that are not CMake projects.
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/protoCore.pc.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/protoCore.pc"
+    @ONLY
+)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/protoCore.pc"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
+    COMPONENT ${PROTOCORE_INSTALL_COMPONENT}
+)
+
 # 7. Packaging configuration (CPack)
 set(CPACK_PACKAGE_NAME "protoCore")
+# Pinned explicitly rather than left to each generator's default casing. The
+# DEB generator lower-cases CPACK_PACKAGE_NAME and the RPM generator does not;
+# four downstream repositories and protoJS's preinst script depend on the
+# resulting names, so they are stated here instead of being inferred.
+set(CPACK_DEBIAN_PACKAGE_NAME "protocore")
+set(CPACK_RPM_PACKAGE_NAME    "protoCore")
 set(CPACK_PACKAGE_VENDOR "numaes")
 set(CPACK_PACKAGE_CONTACT "gamarino@gmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "protoCore - High-Performance Embeddable Dynamic Object System for C++")
@@ -235,7 +298,25 @@ set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 # when tools for other formats (e.g. rpmbuild) are not installed.
 if(WIN32)
     set(CPACK_GENERATOR "ZIP;NSIS")
+    # A Windows DLL carries no soname, so a dependent installer has nothing on
+    # disk to inspect. Record the version and the ABI in the registry instead:
+    # protoJS's WiX template reads exactly these two values
+    # (protoJS/packaging/templates/windows/protoJS.wxs.template).
+    # UNVERIFIED: configured and reviewed, never run - no Windows host (D-I6).
+    set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+        WriteRegStr HKLM 'SOFTWARE\\protoCore' 'Version' '${PROJECT_VERSION}'
+        WriteRegStr HKLM 'SOFTWARE\\protoCore' 'Soversion' '${PROTOCORE_ABI_SOVERSION}'
+        WriteRegStr HKLM 'SOFTWARE\\protoCore' 'InstallDir' '$INSTDIR'
+    ")
+    set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
+        DeleteRegValue HKLM 'SOFTWARE\\protoCore' 'Version'
+        DeleteRegValue HKLM 'SOFTWARE\\protoCore' 'Soversion'
+        DeleteRegValue HKLM 'SOFTWARE\\protoCore' 'InstallDir'
+        DeleteRegKey /ifempty HKLM 'SOFTWARE\\protoCore'
+    ")
 elseif(APPLE)
+    # macOS TGZ + drag-and-drop .dmg.
+    # UNVERIFIED: configured and reviewed, never built - no macOS host (D-I6).
     set(CPACK_GENERATOR "TGZ;DragNDrop")
 else()
     set(CPACK_GENERATOR "TGZ")
@@ -244,10 +325,14 @@ else()
     if(DPKG_EXECUTABLE)
         list(APPEND CPACK_GENERATOR "DEB")
         message(STATUS "CPack: DEB generator enabled (dpkg found)")
+    else()
+        message(STATUS "CPack: DEB generator disabled (dpkg not found)")
     endif()
     if(RPMBUILD_EXECUTABLE)
         list(APPEND CPACK_GENERATOR "RPM")
         message(STATUS "CPack: RPM generator enabled (rpmbuild found)")
+    else()
+        message(STATUS "CPack: RPM generator disabled (rpmbuild not found)")
     endif()
 endif()
 

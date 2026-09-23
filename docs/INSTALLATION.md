@@ -77,12 +77,65 @@ sudo ldconfig
 
 | File | Path |
 |------|------|
-| Shared library | `lib/libprotoCore.so.2.0.0`, with the links `lib/libprotoCore.so.2` and `lib/libprotoCore.so` |
+| Shared library | `lib/libprotoCore.so.<version>` (currently `2.1.0`), with the links `lib/libprotoCore.so.2` and `lib/libprotoCore.so` |
 | Public header | `include/protoCore.h` |
+| CMake package configuration | `lib/cmake/protoCore/protoCoreConfig.cmake`, `protoCoreConfigVersion.cmake`, `protoCoreTargets.cmake` and one per-configuration targets file |
+| pkg-config metadata | `lib/pkgconfig/protoCore.pc` |
 
 The library and header directories come from `GNUInstallDirs`. With the default `/usr/local` prefix they are `lib` and `include`; with other prefixes or distributions the library directory may be `lib64` or a multiarch directory. On Windows the install rules place the DLL in `bin/` and the import library in `lib/`.
 
-The install rules export no CMake package configuration file, so consumers locate protoCore with `find_library` and `find_path` (or `-I<prefix>/include -L<prefix>/lib -lprotoCore`).
+## Consuming protoCore from CMake
+
+The install rules export a CMake package configuration, so a consumer asks for
+protoCore by name and version rather than searching for files:
+
+```cmake
+find_package(protoCore 2.0 REQUIRED CONFIG)
+target_link_libraries(my_target PRIVATE protoCore::protoCore)
+```
+
+`find_package` uses `CMAKE_PREFIX_PATH` to find a non-default prefix:
+
+```bash
+cmake -B build -S . -DCMAKE_PREFIX_PATH=$HOME/.local
+```
+
+The package provides:
+
+| Name | Meaning |
+|------|---------|
+| `protoCore::protoCore` | The imported shared library, carrying the include directory and `Threads::Threads` |
+| `protoCore_VERSION` | Full version, for example `2.1.0` |
+| `protoCore_SOVERSION` | ABI version of the shared library, for example `2` |
+| `protoCore_INCLUDE_DIR` | Directory holding `protoCore.h` |
+| `protoCore_LIB_DIR` | Directory holding the shared library |
+
+Version compatibility is `SameMajorVersion`: a request for `2.0` is satisfied by
+any `2.x` and refused for `1.x` and `3.x`, because protoCore's major version and
+its soname are bumped together. The requested minor version is still a floor, so
+a consumer that needs a feature added in a minor release asks for that release —
+protoScala asks for `2.1`, because its actor mailbox needs `ProtoMPSCQueue`,
+which protoCore gained in `2.1.0`.
+
+The configuration additionally checks that `libprotoCore.so.2`
+(`libprotoCore.2.dylib` on macOS) exists beside it, so a prefix whose CMake
+files outlived its library fails with a message rather than a link error.
+
+For consumers that are not CMake projects, `lib/pkgconfig/protoCore.pc` is
+installed:
+
+```bash
+pkg-config --cflags --libs protoCore
+pkg-config --variable=soversion protoCore   # 2
+```
+
+## Platform verification status
+
+| Platform | Packaging | Status |
+|----------|-----------|--------|
+| Linux | TGZ, DEB (needs `dpkg`), RPM (needs `rpmbuild`) | Built, installed to a scratch prefix and smoke-tested |
+| macOS | TGZ, DragNDrop | Configured and reviewed, **never built** — no macOS host |
+| Windows | ZIP, NSIS (writes `HKLM\SOFTWARE\protoCore` `Version`, `Soversion`, `InstallDir`) | Configured and reviewed, **never built** — no Windows host |
 
 ---
 
@@ -166,12 +219,12 @@ The target copies only the versioned library file (`$<TARGET_FILE:protoCore>`), 
 
 ## Using protoCore in Another Project
 
-- **Compile and link:** add the installed (or build) include directory and library directory to your build, and link with `protoCore`.
+- **Compile and link:** call `find_package(protoCore 2.0 REQUIRED CONFIG)` and link `protoCore::protoCore` (see "Consuming protoCore from CMake" above). Non-CMake builds use `pkg-config protoCore`.
 - **Runtime:** make the shared library visible to the loader:
-  - **Linux:** install to a directory known to `ldconfig`, or set `LD_LIBRARY_PATH`.
-  - **macOS:** install to a standard location (for example `/usr/local/lib`), or set `DYLD_LIBRARY_PATH`.
+  - **Linux:** install to a directory known to `ldconfig`, or set `LD_LIBRARY_PATH`. A runtime installed into the same prefix as protoCore needs neither: all five runtimes set `INSTALL_RPATH` to `$ORIGIN/../lib`.
+  - **macOS:** install to a standard location (for example `/usr/local/lib`), or set `DYLD_LIBRARY_PATH`. The runtimes set `@executable_path/../lib`.
 
-protoJS's `CMakeLists.txt`, when no installed protoCore is configured, looks for the library in the sibling directories `../protoCore/build` and `../protoCore/build_check`.
+The five runtimes (protoPython, protoJS, protoST, protoClojure, protoScala) prefer the installed CMake package. When no package is found and no prefix was named, they fall back to a sibling developer build, searching `../protoCore/build_release`, then `../protoCore/build`, then `../protoCore/build_check`; the fallback warns that it performs no version check, and `-DPROTOCORE_REQUIRE_PACKAGE=ON` turns it into an error for packaging builds.
 
 ---
 
