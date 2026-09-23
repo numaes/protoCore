@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 1.3.0
+    VERSION 2.0.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -62,7 +62,7 @@ add_library(protoCore SHARED
 # Shared library versioning (version for linker, soversion for ABI)
 set_target_properties(protoCore PROPERTIES
     VERSION ${PROJECT_VERSION}
-    SOVERSION 1
+    SOVERSION 2
     OUTPUT_NAME protoCore
     PUBLIC_HEADER "headers/protoCore.h"
 )

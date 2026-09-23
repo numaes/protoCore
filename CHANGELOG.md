@@ -2,9 +2,79 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased]
+## [2.0.0] - 2026-09-23
+
+A major release that merges two independent lines of work:
+
+- **`ProtoMap`** and the shared hashed-collection helper — the persistent map
+  from language objects to values every runtime on the platform was building
+  for itself (`feature/pslo-p1`, spec
+  `protoScala/docs/platform/PROTOMAP-SPEC.md`).
+- **The parent-chain lookup fixes** — `isInstanceOf`, `hasParent`,
+  `hasAttribute`, `getAttributes`, `getAttribute`, `newChild` and `setParents`
+  (`feature/descendant-of`, spec
+  `protoScala/docs/platform/ISINSTANCEOF-FIX.md`).
+
+### Upgrading from 1.2.0 — read this first
+
+**The ABI version goes from `SOVERSION 1` to `SOVERSION 2`** (library
+`libprotoCore.so.2.0.0`, soname `libprotoCore.so.2`). The `ProtoSpace` layout
+changed (a new `mapPrototype` root and the concurrent-mark tables) and the
+lookup and `setParents` semantics changed, so **every embedder must be rebuilt
+from clean**. The soname bump is deliberate: a stale embedder binary now fails
+to load with a missing-soname error instead of linking against an
+incompatible layout and crashing at some later, unrelated point.
+
+Four behaviour changes are visible to embedder code that was correct against
+1.2.0. None of them is a bug being reintroduced; each is a previously wrong
+answer becoming right, and each can change what an embedder observes:
+
+1. **`setParents` flattens the chain.** The installed chain is now the listed
+   parents, de-duplicated and in the given order, followed by every ancestor
+   of each listed parent that is not already present (each parent's own chain
+   order, in listed-parent order). Previously the chain held only what the
+   caller listed. Consequences: `getParents()` on the result returns MORE
+   entries than were passed (a caller that compares its list against
+   `getParents()` for equality will now see a longer list); attribute
+   precedence between two ancestors that were previously only reachable
+   through different intermediate parents is now decided by this flattened
+   order; and an object's ancestors are all directly visible to
+   `hasParent`/`isInstanceOf` without a recursive walk. A list that already
+   contains every ancestor of every listed parent (a full linearization)
+   installs exactly as given — for those callers the change is a no-op.
+2. **`setParents` with the receiver among the new parents is a silent no-op
+   for that entry** instead of throwing `std::invalid_argument`. Nothing in
+   the embedders catches that exception, and the check it replaced only ever
+   caught a direct one-hop self-reference, never a longer cycle — skipping is
+   exactly as complete a guard, without an exception embedders must catch.
+3. **`isInstanceOf` and `hasParent` see all parents, with no step cap, and
+   resolve a mutable receiver's current snapshot.** The old `isInstanceOf`
+   gave up after 50 steps and answered `PROTO_FALSE`, and both read a mutable
+   object's birth-state chain, so parents added later through
+   `addParent`/`setParents` were invisible. Deep hierarchies and mutable
+   receivers now answer correctly; code that relied on the old `false` (for
+   example as a depth guard) will see `true`. The same cap removal applies to
+   `getAttribute`, `hasAttribute` and `getAttributes`, which now merge the
+   whole flattened chain.
+4. **`newChild` captures the prototype's CURRENT chain.** A child of a mutable
+   prototype used to inherit the prototype's birth-state ancestors; it now
+   captures whatever the prototype's chain is at the moment `newChild` is
+   called.
+
+**Known embedder breakage, to be fixed in those repositories, not here:**
+
+- **protoJS** — its parent-chain integrity markers assume `setParents`
+  installs exactly the list it was given, so the flattened chain trips them.
+- **protoPython** — its metaclass isolation relies on `newChild` capturing the
+  prototype's birth-state chain and on `setParents` not flattening; with the
+  corrected semantics a metaclass's ancestors become visible on instances that
+  previously did not see them.
+
+Both are consequences of protoCore answering correctly where it used to answer
+wrongly; the fixes belong in protoJS and protoPython.
+
 ### Added
-- **`ProtoMap`** (protoCore 1.3.0) — a persistent AVL map
+- **`ProtoMap`** — a persistent AVL map
   identical to `ProtoSparseList` except that its key is a `const ProtoObject*`
   the garbage collector traces: an object referenced only as a key stays
   alive. Keys are ordered and compared by their word (identity, tag included);
@@ -20,12 +90,9 @@ All notable changes to protoCore are documented in this file.
   Uses one new pointer tag (27); the tag table now records the platform tag
   budget and the maintainer-approval rule. ABI change: every embedder must be
   rebuilt. Specification: protoScala/docs/platform/PROTOMAP-SPEC.md. The
-  performance gate and the ASan run are still pending on a quiet host: the
-  perf gate was parked during verification because a parallel build on the
-  same machine made retired-instruction counts unreliable (the counts
-  themselves were flat, consistent with no regression, but the run was not
-  clean enough to certify), and ASan was not run at all. Both are left for
-  the maintainer's pre-merge check.
+  performance gate and the ASan run, left pending on the branch, were both
+  run at merge time — see "Performance gate and sanitizer run (2026-09-23)"
+  under Performance below.
 - **Hashed-collection helper** — `KeySemantics`, `hashedPut`, `hashedGet`,
   `hashedRemove`, `hashedForEach` over `ProtoMap`: identity keys
   are stored directly; value-equality keys are stored under a SmallInteger
@@ -1088,6 +1155,45 @@ All notable changes to protoCore are documented in this file.
   from 8397 to 8451 of 9823.
 
 ### Performance
+- **Performance gate and sanitizer run (2026-09-23)** — measured at merge
+  time on the release host with `perf stat -e cycles,instructions -r 3`,
+  baseline `e43fa2e4` versus this release, with the SAME benchmark sources on
+  both sides (the branch's rewritten, self-verifying `sparse_list_benchmark`
+  was compiled against the baseline library too, so the two columns run the
+  same program). The host was loaded throughout (1-minute load average 6.5 to
+  7.9 on 12 cores), so the three interleaved rounds below are reported in
+  full and the conclusion rests on retired instructions, which are
+  load-independent; cycles are given for completeness and their spread across
+  rounds is larger than the difference between the two columns.
+
+  | Benchmark | Round | Instructions, baseline | Instructions, 2.0.0 | Delta |
+  |---|---|---|---|---|
+  | `sparse_list_benchmark` | 1 | 561,955,175 | 558,644,067 | −0.59% |
+  | `sparse_list_benchmark` | 2 | 559,208,979 | 559,064,235 | −0.03% |
+  | `sparse_list_benchmark` | 3 | 562,104,844 | 558,678,437 | −0.61% |
+  | `object_access_benchmark` | 1 | 60,374,194,360 | 60,332,010,971 | −0.07% |
+  | `object_access_benchmark` | 2 | 60,370,335,560 | 60,333,693,343 | −0.06% |
+  | `object_access_benchmark` | 3 | 60,373,632,245 | 60,322,191,846 | −0.09% |
+
+  Cycles, same runs: `sparse_list_benchmark` 535.8M / 537.2M / 545.1M
+  (baseline) against 530.6M / 531.6M / 545.8M; `object_access_benchmark`
+  24.99G / 24.78G / 25.25G against 25.97G / 25.10G / 25.09G. The one outlier
+  (round 1, +3.9% cycles) carried a ±3.29% run-to-run spread of its own and
+  did not reproduce in rounds 2 and 3, whose instruction counts are flat.
+  **Conclusion: no measurable regression on either benchmark.** Both
+  benchmarks self-verify (`VERIFIED` / `Checksum verified.`), so a crash
+  could not be counted as a fast run.
+
+  AddressSanitizer (`-fsanitize=address`, RelWithDebInfo): the full 412-case
+  suite ran with **zero AddressSanitizer reports**. Three cases fail under
+  ASan and all three fail identically at the `e43fa2e4` baseline, so they are
+  pre-existing and not caused by this release:
+  `ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark` (asserts that at
+  least 100 GC cycles run inside a fixed 4-second budget — throughput
+  sensitive, it also fails in a plain Debug build at the baseline, 31 cycles
+  there and here) and the two `SymbolIntern` cases that cap resident-set
+  growth at 4 MiB (ASan's shadow memory and redzones exceed that cap by
+  construction).
 - **Tuple interning uses a sharded hash table** — the interner was a binary
   search tree under `ProtoSpace::globalMutex` that never rebalanced and, keyed
   by allocation-ordered pointers, degenerated into a linked list walked twice
@@ -1173,6 +1279,24 @@ All notable changes to protoCore are documented in this file.
   functions in `core/ProtoString.cpp`, not extra work.
 
 ### Tests
+- `test/MapParentChainTests.cpp` (nine cases) — the one place where this
+  release's two halves meet. A `ProtoMap` handle is a NON-OBJECT cell
+  pointer, so every rule the parent-chain rewrite states for a non-object
+  receiver or a non-object chain entry has to hold for it through
+  `ProtoSpace::mapPrototype`. The cases pin: `getPrototype` answers
+  `mapPrototype` for tag 27; `isInstanceOf` on a map answers through that
+  prototype and walks the prototype's own flattened chain;
+  `getAttribute`/`hasAttribute`/`getAttributes` on a map receiver reach
+  `mapPrototype`'s attributes and a missing key still terminates; `newChild`
+  on a map childs its prototype; a map stored as a parent is kept by
+  `addParent` and by `setParents`' flattening, contributes no ancestors of
+  its own, preserves the listed order around it, and is found by
+  `hasParent`/`isInstanceOf`; a mutable receiver sees a map parent added
+  after creation; and a map reachable ONLY through a parent-link chain (the
+  child pinned in a root set, single-root pinning) survives forced collection
+  cycles with its 64 entries intact. Neither half needed a code change to
+  satisfy them — the file exists so a later change to either half cannot
+  quietly drop the map case.
 - `StringBuildTests` (eleven cases) pins what string construction *produces*,
   so that changes to how it is built cannot change what is built. A 42-entry
   golden corpus — the well-formed ladder from empty to 64 KiB, 2/3/4-byte

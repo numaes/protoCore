@@ -15,9 +15,9 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 | Item | Value |
 |------|-------|
-| Version | 1.3.0 |
+| Version | 2.0.0 |
 | Status | Open for review; not production ready |
-| Test suite | 286 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-16 |
+| Test suite | 412 CTest cases (GoogleTest), counted with `ctest -N` on 2026-09-23 |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
@@ -136,7 +136,7 @@ cmake --build build
 
 `cmake --build build` builds the shared library, the test executable (`build/test/proto_tests`) and the benchmark executables. To build only the library, add `--target protoCore`.
 
-On Linux the library is `build/libprotoCore.so.1.3.0`, with the links `libprotoCore.so.1` (soname) and `libprotoCore.so`. On macOS CMake names it `libprotoCore.1.3.0.dylib`. Platform support for macOS and Windows is described in [docs/INSTALLATION.md](docs/INSTALLATION.md).
+On Linux the library is `build/libprotoCore.so.2.0.0`, with the links `libprotoCore.so.2` (soname) and `libprotoCore.so`. On macOS CMake names it `libprotoCore.2.0.0.dylib`. Platform support for macOS and Windows is described in [docs/INSTALLATION.md](docs/INSTALLATION.md).
 
 ## Running Tests and Benchmarks
 
