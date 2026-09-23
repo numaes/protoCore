@@ -272,22 +272,68 @@ namespace proto
         // of the batch.  The items stay reachable through the retained chain
         // while the list is built.
         //
-        // CAVEAT, re-measured against master a1a8297f.  newList(n, items) no
-        // longer holds a critical section across its build, and the large
-        // part of this caveat went with it: the pause during a 200,000-item
-        // drain fell from a median of 88 ms to about 2 ms.  What is left is
-        // the walk below.  It makes no protoCore call, so it never polls the
-        // stop-the-world flag, and the pause is still linear in the batch
-        // (340 us at 50,000 items rising to 3.67 ms at 400,000, against a
-        // flat 27-34 us for a plain bulk build of the same sizes).  PMQ-SPEC
-        // section 3 constraint 1 is therefore not met yet; the fix is to
-        // park for a stop-the-world every N nodes here, at
-        // criticalSectionDepth 0, exactly as newList now does every 16
-        // elements.  See MPSCQueueGC.LargeDrainDoesNotBlockStopTheWorld.
+        // Being outside the section is necessary but was not sufficient.  A
+        // loop that makes no protoCore call never reaches a stop-the-world
+        // poll either, so until this walk polled explicitly the pause was
+        // still linear in the batch: 340 us at 50,000 items rising to 3.67 ms
+        // at 400,000, against a flat 27-34 us for a plain bulk build of the
+        // same sizes (PMQ-SPEC section 3 constraint 1).  Both O(batch) loops
+        // below therefore park every kPollInterval nodes, the same remedy
+        // newList(n, items) applies to its own build loop.
+        //
+        // WHERE THE POLL SITS, AND WHY IT IS NOT IN THE PUBLISH WINDOW.
+        // Everything below runs after `chain` has already been detached, i.e.
+        // strictly after the window (read epoch -> maybe release -> load head
+        // -> fill and publish the retain cell -> detach) has closed and its
+        // CriticalSection has been destroyed.  Nothing was moved into that
+        // window and nothing inside it can park: the window's last statement
+        // is the detaching exchange, and the first poll is reached only once
+        // the enclosing scope has ended.  The ABA argument of PMQ-SPEC
+        // section 7 is therefore untouched - reusing the address loaded from
+        // `head` would still require a sweep to complete between that load
+        // and the CAS, which still requires this thread to park between them,
+        // which it still cannot do: there is no allocation and no protoCore
+        // call in that span, and parkForStopTheWorld is a no-op at
+        // criticalSectionDepth > 0 in any case.  NEVER move a poll, an
+        // allocation or any protoCore call above the end of that scope.
+        //
+        // Parking here is safe for the opposite reason to newList's: nothing
+        // this loop still needs lives only in a C++ local.  The nodes hang
+        // off the retain cell this takeAll published onto `retained`, the
+        // items hang off the nodes, and `retained` is only released by a
+        // later takeAll on this same single consumer thread - which cannot
+        // run while this one is in progress.  A collection that lands on one
+        // of these polls traces the whole batch from the queue cell, which
+        // the caller holds live for the duration of the call (the same
+        // precondition the design already has: `retained` protects nothing if
+        // the queue itself is unreachable).
+        //
+        // Every 64 nodes, matching allocCell's every-64-allocations poll: at
+        // roughly 9 ns per node the worst case a collector can wait behind
+        // this loop is under a microsecond, and the cost is one relaxed
+        // atomic load per 64 nodes.
+        constexpr unsigned kPollInterval = 64;
+
         std::vector<const ProtoObject*> items;
-        for (const NodeCell* n = chain; n; n = n->next.load(std::memory_order_acquire))
+        unsigned sincePoll = 0;
+        for (const NodeCell* n = chain; n; n = n->next.load(std::memory_order_acquire)) {
             items.push_back(n->item);
-        std::reverse(items.begin(), items.end());   // the chain is LIFO; FIFO out
+            if (++sincePoll == kPollInterval) { sincePoll = 0; parkForStopTheWorld(context); }
+        }
+
+        // The chain is LIFO; FIFO out.  Hand-rolled rather than std::reverse
+        // so that this second O(batch) pass polls too: at 400,000 items an
+        // unpolled reverse is a six-figure-nanosecond hole in which the
+        // collector cannot stop this thread, and constraint 1 is about the
+        // shape of the curve, not about which of the two loops dominates.
+        if (!items.empty()) {
+            size_t lo = 0, hi = items.size() - 1;
+            sincePoll = 0;
+            while (lo < hi) {
+                std::swap(items[lo++], items[hi--]);
+                if (++sincePoll == kPollInterval) { sincePoll = 0; parkForStopTheWorld(context); }
+            }
+        }
 
         return context->newList(static_cast<unsigned>(items.size()), items.data());
     }

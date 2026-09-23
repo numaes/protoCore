@@ -2112,6 +2112,23 @@ namespace proto {
         DirtySegment* next;
     };
 
+    /**
+     * @brief Park for a stop-the-world, and nothing else (core/ProtoContext.cpp).
+     *
+     * The parking half of ProtoContext::safepoint(), without the young-
+     * generation submission.  Internal to protoCore: it is the poll a native
+     * O(n) loop uses to stay interruptible when every cell it still needs is
+     * already anchored from a real GC root, so that handing the young chain
+     * over would buy nothing and could orphan an in-flight cell.
+     *
+     * Fast path is one relaxed load of `stwFlag`.  It never parks while
+     * `criticalSectionDepth > 0`, so it is inert - and must never be relied
+     * on - inside a critical section.
+     *
+     * Callers: ProtoContext::newList(n, items) and ProtoMPSCQueue::takeAll.
+     */
+    void parkForStopTheWorld(ProtoContext* context);
+
     // Definition of the tag-dispatched raw-lookup helper declared above.
     // Placed here so both impl classes are fully visible; fully inlinable
     // since this header is internal to protoCore.

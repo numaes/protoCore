@@ -336,12 +336,19 @@ TEST(MPSCQueueGC, ParkedProducerAndConsumerDoNotDelayAPause) {
 //
 // The bound is relative to the measured drain time, so the test is
 // independent of machine speed and of the load on it.
-TEST(MPSCQueueGC, LargeDrainDoesNotBlockStopTheWorld) {
-    // Batch size is overridable so the pause can be checked for
-    // proportionality to queue length, which is what PMQ-SPEC section 3
-    // constraint 1 actually forbids.
-    long kBatch = 200000;
-    if (const char* e = std::getenv("PMQ_PAUSE_BATCH")) { long v = std::atol(e); if (v > 0) kBatch = v; }
+//
+// One probe measures one batch size; the test below runs two sizes a factor
+// of four apart and compares them, because what constraint 1 forbids is not a
+// large pause but a pause that is a function of the batch.
+struct DrainPauseProbe {
+    long batch{0};
+    long long medianUs{0};
+    long long minUs{0};
+    long long maxUs{0};
+    long long drainMs{0};
+};
+
+static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
     constexpr int kSamples = 9;
 
     using Clock = std::chrono::steady_clock;
@@ -493,10 +500,52 @@ TEST(MPSCQueueGC, LargeDrainDoesNotBlockStopTheWorld) {
     EXPECT_GE(sampledInDrain, kSamples - 1)
         << "the cycles were not observed against a drain in flight";
 
-    // The pause must not be a function of the length of the batch being
-    // returned: PMQ-SPEC section 3 constraint 1.
+    // Sanity bound, kept from the first version of this test: whatever else
+    // is true, the world must not stay stopped for a quarter of a drain.
     EXPECT_LT(medianUs, drainMs * 1000 / 4)
         << "the world stayed stopped for " << medianUs << " us (median of " << kSamples
         << ", max " << sorted.back() << ") while a consumer was draining " << kBatch
         << " items, against " << drainMs << " ms for one drain";
+
+    out->batch = kBatch;
+    out->medianUs = medianUs;
+    out->minUs = sorted.front();
+    out->maxUs = sorted.back();
+    out->drainMs = drainMs;
+}
+
+// PMQ-SPEC section 3 constraint 1: no stop-the-world work proportional to
+// queue length.  A single measurement cannot show that; two, a factor of four
+// apart, can.  Before the poll was added to `takeAll`'s reversal loop this
+// probe measured 338 us at 50,000 and 3,731 us at 400,000 on this machine -
+// an 11x rise for an 8x batch, i.e. linear.  After it: 32 us and 27 us.
+//
+// The bound is deliberately generous (a full factor of four of growth plus a
+// fixed 200 us of scheduler noise) because the quantity being falsified is
+// the SHAPE of the curve, not its height.  Linear growth blows through it;
+// noise on a loaded machine does not.
+TEST(MPSCQueueGC, LargeDrainDoesNotBlockStopTheWorld) {
+    // Overridable so the same probe can be swept over other sizes by hand.
+    long kBatch = 200000;
+    if (const char* e = std::getenv("PMQ_PAUSE_BATCH")) { long v = std::atol(e); if (v > 0) kBatch = v; }
+
+    DrainPauseProbe small{};
+    runDrainPauseProbe(kBatch / 4, &small);
+    if (::testing::Test::HasFatalFailure()) return;
+
+    DrainPauseProbe large{};
+    runDrainPauseProbe(kBatch, &large);
+    if (::testing::Test::HasFatalFailure()) return;
+
+    const long long bound = small.medianUs * 4 + 200;
+    std::printf("[ PAUSE    ] proportionality: %ld items -> %lld us, %ld items -> %lld us "
+                "(bound %lld us)\n",
+                small.batch, small.medianUs, large.batch, large.medianUs, bound);
+    std::fflush(stdout);
+
+    EXPECT_LT(large.medianUs, bound)
+        << "the pause grows with the batch: " << small.medianUs << " us at " << small.batch
+        << " items against " << large.medianUs << " us at " << large.batch
+        << " items.  PMQ-SPEC section 3 constraint 1 forbids stop-the-world work "
+           "proportional to queue length";
 }

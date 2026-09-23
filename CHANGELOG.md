@@ -6,6 +6,41 @@ All notable changes to protoCore are documented in this file.
 
 ### Fixed
 
+- **`ProtoMPSCQueue::takeAll` no longer holds the world stopped for the length
+  of the batch it drains.** With `newList(n, items)` fixed (below), what was
+  left of the pause was `takeAll`'s own chain walk and reversal: two O(batch)
+  loops that make no protoCore call, and therefore never reach a
+  stop-the-world poll, however far outside a critical section they run. The
+  pause was still linear in the batch — measured medians of **338 us** at
+  50,000 items and **3,731 us** at 400,000, against a flat 27-34 us for a
+  plain bulk build of the same sizes. PMQ-SPEC section 3 constraint 1 (no
+  stop-the-world work proportional to queue length) was not met.
+
+  Both loops now call `parkForStopTheWorld` every 64 nodes — the park-only
+  half of `safepoint()` that the `newList` fix factored out, matching
+  `allocCell`'s every-64-allocations cadence. After the fix the same medians
+  are **32 us** at 50,000, 32 us at 100,000, 31 us at 200,000 and **27 us** at
+  400,000: flat, and level with the plain bulk builder. Constraint 1 is met.
+
+  The poll is placed strictly *after* the publish window (read epoch → maybe
+  release → load `head` → fill and publish the retain cell → detach) and after
+  its `CriticalSection` has been destroyed. Nothing was added inside that
+  window, which is what keeps ABA impossible by construction (PMQ-SPEC section
+  7): reusing the address loaded from `head` would still require a sweep
+  between that load and the CAS, hence a pause, hence this thread parking
+  between them — which it still cannot do. Parking in the walk is safe because
+  nothing the walk needs lives only in a C++ local: the nodes hang off the
+  retain cell this `takeAll` already published onto `retained`, and the items
+  hang off the nodes.
+
+  `MPSCQueueGC.LargeDrainDoesNotBlockStopTheWorld` now measures two batch
+  sizes a factor of four apart in one run and asserts the pause does not grow
+  with the batch, which is what constraint 1 actually forbids; the previous
+  single-size bound is kept as a sanity check. `parkForStopTheWorld` moved
+  from an anonymous namespace in `core/ProtoContext.cpp` to a protoCore-
+  internal declaration in `headers/proto_internal.h`. No public API or ABI
+  change.
+
 - **`ProtoContext::newList(n, items)` no longer holds the world stopped for the
   length of the list it builds.** The bulk builder wrapped its whole O(n) AVL
   construction in a `ProtoContext::CriticalSection`. A thread inside a critical

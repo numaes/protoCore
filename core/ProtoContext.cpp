@@ -296,51 +296,49 @@ namespace proto
         ownsSlots_ = true;
     }
 
-    namespace {
-        /**
-         * @brief Park for a stop-the-world, and nothing else.
-         *
-         * The parking half of ProtoContext::safepoint(): relaxed load of
-         * `stwFlag` on the fast path; on the slow path count into the quorum,
-         * notify the collector and wait until the flag clears.
-         *
-         * It deliberately does NOT submit the context's young generation.
-         * That submission is the other half of safepoint(), and it is safe
-         * only where every reachable Cell is already anchored from a real GC
-         * root.  A native bulk builder is not such a place: the elements it
-         * has not consumed yet are reachable only from the caller's C++ array
-         * and from the young chain the submission would hand over.  A builder
-         * that wants to be interruptible parks; it does not safepoint.
-         */
-        void parkForStopTheWorld(ProtoContext* context)
+    /**
+     * @brief Park for a stop-the-world, and nothing else.
+     *
+     * The parking half of ProtoContext::safepoint(): relaxed load of
+     * `stwFlag` on the fast path; on the slow path count into the quorum,
+     * notify the collector and wait until the flag clears.
+     *
+     * It deliberately does NOT submit the context's young generation.
+     * That submission is the other half of safepoint(), and it is safe
+     * only where every reachable Cell is already anchored from a real GC
+     * root.  A native bulk builder is not such a place: the elements it
+     * has not consumed yet are reachable only from the caller's C++ array
+     * and from the young chain the submission would hand over.  A builder
+     * that wants to be interruptible parks; it does not safepoint.
+     */
+    void parkForStopTheWorld(ProtoContext* context)
+    {
+        ProtoSpace* space = context ? context->space : nullptr;
+        if (!space) return;
+        if (!space->stwFlag.load(std::memory_order_relaxed)) return;
+        // The GC thread never parks against its own stop-the-world.
+        if (space->gcThread &&
+            std::this_thread::get_id() == space->gcThread->get_id()) return;
+        // Same critical-section discipline as allocCell and synchToGC, in
+        // every configuration: a thread inside a critical section must NOT
+        // park.  It may be mid-construction (a half-built tree unreachable
+        // from any root) or hold cells read from the mutables tree only in
+        // C++ locals.
+        if (context->criticalSectionDepth > 0) return;
+        space->parkedThreads++;
         {
-            ProtoSpace* space = context ? context->space : nullptr;
-            if (!space) return;
-            if (!space->stwFlag.load(std::memory_order_relaxed)) return;
-            // The GC thread never parks against its own stop-the-world.
-            if (space->gcThread &&
-                std::this_thread::get_id() == space->gcThread->get_id()) return;
-            // Same critical-section discipline as allocCell and synchToGC, in
-            // every configuration: a thread inside a critical section must NOT
-            // park.  It may be mid-construction (a half-built tree unreachable
-            // from any root) or hold cells read from the mutables tree only in
-            // C++ locals.
-            if (context->criticalSectionDepth > 0) return;
-            space->parkedThreads++;
-            {
-                GC_LOCK_TRACE("safepoint STW ACQ");
-                std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-                space->gcCV.notify_all();
-                space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
-                GC_LOCK_TRACE("safepoint STW REL");
-            }
-            space->parkedThreads--;
-            // Resumed after a stop-the-world: drop this thread's cache entries
-            // before the next lookup (the caches are not GC roots).
-            if (context->thread) {
-                if (auto* ext = toImpl<ProtoThreadImplementation>(context->thread)->extension) {
-                    ext->clearCachesAfterStopTheWorld(space);
-                }
+            GC_LOCK_TRACE("safepoint STW ACQ");
+            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            space->gcCV.notify_all();
+            space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
+            GC_LOCK_TRACE("safepoint STW REL");
+        }
+        space->parkedThreads--;
+        // Resumed after a stop-the-world: drop this thread's cache entries
+        // before the next lookup (the caches are not GC roots).
+        if (context->thread) {
+            if (auto* ext = toImpl<ProtoThreadImplementation>(context->thread)->extension) {
+                ext->clearCachesAfterStopTheWorld(space);
             }
         }
     }
