@@ -187,6 +187,504 @@ All notable changes to protoCore are documented in this file.
   described APIs and tools that do not exist were removed as well.
 
 ### Fixed
+- **`ProtoObject::setParents` self-reference is now a silent no-op
+  (the offending entry is skipped) instead of throwing
+  `std::invalid_argument`; the true termination argument was corrected
+  in every place it was documented.**
+
+  Two separate problems, one fix. First: nothing in the embedders this
+  branch was validated against catches `std::invalid_argument` from
+  `setParents`, and it is reachable from ordinary code — e.g.
+  protoPython's metaclass-resolution fallback does not re-check
+  `metacls != targetClass` before a `setParents`-based rebuild, so a
+  pattern that ends up there can raise uncaught. Second: the check this
+  replaces was never a complete cycle guard to begin with — it only ever
+  caught a DIRECT reference back to the receiver (a listed parent equal
+  to it, or an ancestor found while walking a LISTED parent's own
+  one-level chain). It does not, and structurally cannot without
+  unbounded work, catch a longer chain of references built up across
+  several SEPARATE `setParents` calls on different mutable objects:
+  `a.setParents(ctx,[b])`, then `b.setParents(ctx,[c])`, then
+  `c.setParents(ctx,[a])` — none of these three individual calls sees
+  enough to reject the third. Continuing to throw for only the narrower,
+  directly-detectable case was therefore incomplete protection with all
+  of the uncaught-exception downside.
+
+  Skipping the offending entry — omitting it from the flattened list,
+  while every OTHER listed parent/ancestor is still applied normally —
+  is exactly as complete a guard as throwing was (it prevents THE SAME
+  set of direct cases; the longer, cross-call case was never caught
+  either way), without the exception. It also matches `addParent`, which
+  already tolerates `obj->addParent(ctx, obj)` as a silent no-op (via
+  `hasParent`'s `target == this` short-circuit). A single-entry list
+  whose one entry is the receiver itself ends up empty, same as passing
+  an empty list directly — already-documented `setParents` behaviour, not
+  a new case.
+
+  **The true termination/safety argument** (corrected everywhere the old,
+  false one was written down — the header doc comments for
+  `getAttribute`/`setParents` and this file): every chain-lookup method
+  (`getAttribute`, `hasAttribute`, `isInstanceOf`, `hasParent`,
+  `getAttributes`) is a single-level walk of ONE receiver's own,
+  already-built `ParentLinkImplementation` list — built once, forward
+  only, by `newChild`/`addParent`/`setParents`, never mutated afterward —
+  and none of them ever follows a visited entry into THAT entry's own
+  separate chain. Termination therefore never depended on "no
+  self-reference of any shape can exist" (false, as the three-object
+  example above demonstrates); it depends only on each individual list
+  being finite, which is guaranteed by how it was built, regardless of
+  what any OTHER object's chain happens to reference.
+
+  Tests: `test/SetParentsFlattenTests.cpp` — the direct and
+  two-mutable-object self-reference cases now assert a skip, not a
+  throw (`MutualMutableSelfReferenceIsSkipped`,
+  `DirectSelfReferenceIsSkippedLeavingAnEmptyChain`,
+  `SelfReferenceAmongOtherParentsOnlySkipsItself`,
+  `ImmutableReceiverInItsOwnNewParentsListIsNotSkipped`), plus a new
+  `ThreeObjectCycleIsNotDetectedButCausesNoHarm` reproducing the
+  three-`setParents`-call case above and confirming it does not crash,
+  hang, or make any of the four lookup methods report a false ancestor.
+
+- **`ProtoObject::getAttributes` aborted the process on a non-object
+  parent — e.g. a heap `ProtoString` added via `addParent`, or a
+  SmallInteger installed via `setParents` (neither is rejected at
+  construction time: `addParent` only rejects an EMBEDDED value, and
+  `setParents`'s own flattening has no tag filter at all). Its rewrite
+  (an earlier round in this branch) called
+  `toImpl<const ProtoObjectCell>(ancestor)` on every chain entry with no
+  tag check first; a non-object tagged pointer does not address a
+  `ProtoObjectCell`-shaped `Cell`, so dereferencing it through that cast
+  aborted the process (a debug-build `toImpl` type assertion, `SIGABRT`;
+  a release build would corrupt memory instead).**
+
+  Fixed by mirroring `getAttribute`'s own, already-correct policy for
+  this case (its chain-navigation loop already redirects a non-object
+  `currentPointer` to `currentPointer->getPrototype(context)`, one hop,
+  rather than dereferencing it as an object): a non-object chain entry in
+  `getAttributes()` now contributes its OWN prototype's OWN attributes —
+  one hop, not the prototype's further chain — instead of crashing.
+  `isInstanceOf`/`hasParent` were never at risk (they only ever compare
+  chain-entry pointers, never dereference one as a `ProtoObjectCell`);
+  `hasAttribute` already had the same non-object handling `getAttribute`
+  has, being a direct port of its chain-navigation loop.
+
+  `flattenParentsOrder`'s own policy is stated explicitly where the
+  asymmetry lives: step 1 (the listed parents) accepts any entry
+  regardless of tag, matching `addParent`/`setParents`; step 2 (walking
+  each listed parent's OWN chain) cannot walk a non-object entry's chain
+  (it does not have one), so it is skipped as a source of further
+  ancestors there — but is NOT removed from the flattened list step 1
+  already added it to.
+
+  Tests: `test/NonObjectParentTests.cpp` (8 cases) — a heap-string
+  parent via `addParent` and a SmallInteger parent via `setParents`, then
+  `getAttributes`/`getAttribute`/`hasAttribute`/`isInstanceOf` against
+  both, confirmed not to crash and to answer through the entry's own
+  prototype, plus a not-found lookup past a non-object entry still
+  terminating cleanly.
+
+- **`ProtoObject::newChild` resolved a mutable prototype's snapshot
+  BEFORE opening its `ProtoContext::CriticalSection`, leaving the
+  resolved snapshot unprotected across a GC park.**
+
+  `CriticalSection`'s constructor calls `heapLimitCheckpoint()` at the
+  outermost nesting depth, which can block waiting for a GC cycle when
+  the heap is over its configured limit (`PROTOCORE_HEAP_LIMIT_CELLS`).
+  `newChild` called `resolveOwnCell(context, this)` — which can itself
+  resolve a mutable snapshot — and held the result in a C++ local (`oc`)
+  across that constructor call. If a GC cycle ran during that park and
+  nothing else kept the resolved snapshot reachable, `oc` could be left
+  dangling by the time the critical section's body dereferences
+  `oc->parent`. `getParents`/`getFirstParent`/`getAttributes` already
+  open their `CriticalSection` before resolving anything, precisely to
+  avoid this; `newChild` now does too — the same three-cell allocation
+  it always protected is still covered, just with the mutable-snapshot
+  resolve moved inside the section as well.
+
+  This needs `PROTOCORE_HEAP_LIMIT_CELLS` set low enough to actually
+  trigger a checkpoint park during the window between resolve and use to
+  manifest, which made it impractical to turn into a deterministic
+  regression test in the time available for this round; flagging this
+  here rather than shipping a flaky or non-reproducing one.
+
+- **`ProtoObject::getAttribute` no longer caps its chain walk at 500
+  steps — no lookup or traversal method in protoCore has a depth cap any
+  more.**
+
+  `getAttribute` gave up (`iterationCount > 500`) and returned
+  `PROTO_NONE` ("not found") for an attribute living further than 500
+  own-chain entries from the receiver — a false negative for a perfectly
+  good hierarchy, the same class of bug `isInstanceOf`'s old 50-step cap
+  and `hasAttribute`'s old 50-step cap both had (both already fixed in
+  earlier rounds). This was the one depth cap left in any lookup path,
+  and the one remaining place `getAttribute` could disagree with
+  `isInstanceOf`/`hasParent`/`hasAttribute`/`getAttributes` (all already
+  uncapped). It is gone: all five now always agree, at any depth.
+
+  Termination without a cap is guaranteed by construction, not by a
+  limit, and was already true before this fix — removing the cap adds no
+  new risk: every one of these walks only ever follows ONE receiver's
+  own, already-built `ParentLinkImplementation` list (built once, forward
+  only, by `newChild`/`addParent`/`setParents`, never mutated afterward),
+  and never follows a visited entry into THAT entry's own separate
+  chain — so it is always a single forward pass over one strictly finite
+  list, regardless of what any OTHER object's chain references. (This
+  replaces an earlier, incorrect version of this paragraph that claimed
+  `setParents` rejects any input that could create a cycle at all — it
+  does not; see the self-reference entry above for what it actually
+  catches. The argument this paragraph needs never depended on that
+  claim: it only needs that a single walk never crosses from one chain
+  into another, which was true throughout.)
+
+  Surveyed every lookup/traversal path in `core/*.cpp` for any other
+  step/depth-limit constant: none remain. The one numeric bound left
+  anywhere near an attribute walk is `processOwnAttributes`'s
+  `kMaxDepth = 64` stack for its OWN in-order AVL traversal — a
+  different kind of bound entirely: it is not a parent-chain depth cap
+  (it never gives up on the SEARCH; it bounds the recursion-free
+  in-order walk of ONE object's own attribute tree), and it is not
+  arbitrary — the sparse list's `size` field is 24 bits, so a balanced
+  tree of that many entries is at most ~35 deep, making 64 a
+  mathematically safe upper bound, never an approximation that could be
+  exceeded by a legitimately larger hierarchy.
+
+  Tests: `test/GetAttributeNoCapTests.cpp` (5 cases) — the old cap pinned
+  first (depths 501 and 2000 both returned `PROTO_NONE` for a root
+  attribute against the pre-fix code, confirmed before removing the
+  cap), then found at depth 501 and depth 2000, agreement with
+  `hasAttribute`/`isInstanceOf`/`getAttributes` on the same 900-level
+  chain, a not-found lookup on a 2,000-level chain still terminating as
+  `PROTO_NONE`, and shallow own/inherited baselines. Also updated
+  `test/HasAttributeChainTests.cpp`'s `DivergesFromGetAttributeBeyond500
+  Levels` (renamed `AgreesWithGetAttributeBeyond500Levels`) now that the
+  divergence it pinned no longer exists.
+
+- **`ProtoObject::getAttributes` (the merged-attribute-view snapshot) now
+  walks the receiver's whole flattened chain instead of recursing into
+  only the first parent link — a second or later DIRECT parent's
+  attributes are no longer silently dropped from the merge.**
+
+  `getAttributes()` recursed as `pl->getObject(context)->getAttributes
+  (context)` on `oc->parent` — the FIRST link of the receiver's own
+  chain — and never followed `pl->getParent(context)` (the chain's
+  remaining entries) at all. For an object built via more than one
+  `addParent` call (a diamond) or via `setParents` with more than one
+  listed parent, every attribute that lived only on the second-or-later
+  parent was invisible through `getAttributes()`, even though
+  `getAttribute`/`hasAttribute`/`isInstanceOf` (all fixed in earlier
+  rounds to walk the receiver's own chain directly) already saw it — the
+  three disagreed.
+
+  `getAttributes()` is now the same iterative walk of the receiver's own
+  chain those methods use, with an explicit **merge order (shadowing
+  rule)**, stated in its header doc comment: own attributes first, then
+  the chain head to tail; a key already set by a nearer entry is never
+  overwritten by a farther one. This is exactly `getAttribute`'s/
+  `hasAttribute`'s own "first match wins" precedence, so all three always
+  agree on which value a key resolves to — including the ordering
+  divergence between `addParent` (interleaves a parent's own ancestors
+  right after that parent) and `setParents` (batches all missing
+  ancestors after all listed parents), which now produces the same
+  `getAttributes()` result as `getAttribute` in both cases. No step cap
+  (unlike `getAttribute`'s 500-step one — the chain is walked in full),
+  and no more C++ recursion depth proportional to chain length either
+  (the old recursive-into-first-parent shape, applied to a very deep
+  single-parent-per-level chain, would recurse once per level).
+
+  Tests: `test/GetAttributesMergeTests.cpp` (10 cases) — the old
+  first-parent-only bug pinned first (an `addParent` diamond and a
+  multi-parent `setParents` list both dropped the second parent's
+  attribute against the pre-fix code, confirmed before writing the fix),
+  then own-attributes-only and single-parent-chain baselines, the
+  shadowing precedence (own over any ancestor, nearer over farther), the
+  exact `addParent`-vs-`setParents` ordering-divergence case agreeing
+  with `getAttribute`, a 1,000-level single-parent chain, a mutable
+  receiver, and agreement with `getAttribute`/`hasAttribute` on a
+  diamond.
+
+- **`ProtoObject::hasAttribute` now walks the flattened chain the way
+  `getAttribute` does, allocation-free and with no step cap — fixing the
+  same class of false-negative bug `isInstanceOf` had.**
+
+  `hasAttribute` used a fixed-size (64-slot) sibling-stack DFS with an
+  arbitrary 50-step cap and returned `PROTO_FALSE` — a false negative —
+  for any hierarchy deeper than 50 links. It is now the same linear
+  chain-navigation loop `getAttribute` uses (own attributes, then the
+  chain head to tail), minus `getAttribute`'s attribute cache and its
+  500-step cap: `hasAttribute` has no cap at all, and resolves a mutable
+  receiver (and every mutable object visited along the chain) to its
+  current snapshot exactly as `getAttribute` and the already-fixed
+  `isInstanceOf`/`hasParent` do.
+
+  At the time of this fix `getAttribute` still had its own separate
+  500-step cap, so the two were not guaranteed to agree for very deep
+  hierarchies; that cap is gone too now (see the later entry in this
+  file) and they always agree, at any depth.
+
+  Surveyed the other attribute-lookup helpers for the same defect:
+  `hasOwnAttribute`, `getOwnAttributeDirect` and `processOwnAttributes`
+  only ever probe the receiver's OWN attributes — no chain walk, no
+  defect possible. `getAttributes()` (the merged-view snapshot) does walk
+  the chain, but via true recursion into only the FIRST parent link — a
+  different bug shape (missing siblings, not a step cap), fixed in a
+  later round (see the entry near the top of this section, which also
+  covers a separate crash the same rewrite introduced).
+
+  Tests: `test/HasAttributeChainTests.cpp` (13 cases) — the old cap
+  pinned first (a 60- and a 520-level chain both returned `PROTO_FALSE`
+  against the pre-fix code, confirmed before writing the fix), then own/
+  inherited/absent/`None`-valued baselines, an `addParent` diamond, chains
+  past 50 and past 500 levels, agreement with `getAttribute` within its
+  cap, the documented divergence beyond it, a mutable receiver (plain and
+  via `newChild`), and a non-object receiver answered through its
+  prototype.
+
+- **`ProtoObject::newChild` now captures a MUTABLE prototype's CURRENT
+  chain, not its birth-time chain — fixing instances of a mutable class
+  that was re-parented after the class was made mutable.**
+
+  `newChild` read the prototype handle cell's own `parent` field directly.
+  For a mutable object that field is fixed at `newObject(true)` time and
+  never updated in place (`addParent`/`setParents` publish a fresh state
+  into the mutable shard instead), so `cls = newObject(true);
+  cls->setParents(ctx, [base]); inst = cls->newChild(ctx)` silently built
+  `inst` with NO ancestors at all: `inst->isInstanceOf(ctx, base)` was
+  `PROTO_NONE` and `inst->getAttribute` never found any of `base`'s
+  attributes. `newChild` now resolves the prototype to its current
+  snapshot first (the same resolution `getAttribute`/`getParents`/
+  `hasParent`/`isInstanceOf` already used), matching how every other
+  chain-reading method treats a mutable object.
+
+  The child's chain tail is still captured BY VALUE, once, at the moment
+  of the `newChild` call: an instance created BEFORE a later re-parenting
+  of its class does NOT retroactively gain the new ancestor; only
+  instances created AFTER do. This is ordinary "capture at creation time"
+  semantics, and matches the shape protoST's `addBehavior:` mechanism
+  documents relying on for its own "future instances" contract
+  (`protoST/src/primitives/object_prims.cpp`, the D21 "DOCUMENTED
+  LIMITATION" comment) — that mechanism rebuilds the class as a fresh
+  object rather than mutating an existing one, so it never depended on
+  `newChild` observing a mutation of an EXISTING class object and is
+  unaffected by this fix either way. What this fix DOES retire is the
+  narrower "PROTOCORE CONSTRAINT" documented a few lines above that
+  comment in the same file: mutating an EXISTING mutable class directly
+  via `addParent`/`setParents` used to be invisible to instances created
+  AFTER the mutation too (not only ones created before) — that half of the
+  documented constraint no longer holds.
+
+  Tests: `test/InstanceOfHasParentTests.cpp` — a `setParents`-built mutable
+  class seen by a `newChild` instance, protoPython's own pattern
+  (`newObject(true)` → `addParent` → `newChild`, both immutable and
+  mutable children), and a mutable class re-parented after an instance
+  already exists (the existing instance keeps the old ancestor, a new
+  instance created afterwards gets the new one).
+
+- **`ProtoObject::isInstanceOf` lost the "parentless object is an instance
+  of `objectPrototype`" answer when its DFS-removal rewrite stopped
+  bootstrapping from `getPrototype()` — restored.**
+
+  A plain object with no parent chain of its own (never `newChild`'d,
+  `addParent`'d or `setParents`'d anything) is, by convention, considered
+  a descendant of the universal root `space->objectPrototype` —
+  `getPrototype()` has always returned `objectPrototype` for exactly this
+  case. The linear-walk rewrite searched the receiver's own chain directly
+  and, for a chain-less receiver, found nothing and answered `PROTO_NONE`
+  instead. `isInstanceOf` now applies the same fallback `getPrototype()`
+  does, but ONLY at the top level for the receiver itself (an object WITH
+  an explicit chain of its own is not implicitly rooted at
+  `objectPrototype` unless its own construction put it there), and never
+  for `objectPrototype` asking about itself (an object is not its own
+  instance).
+
+  Test: `test/InstanceOfHasParentTests.cpp` (`ParentlessObjectIsInstanceOf
+  ObjectPrototype`, `ObjectPrototypeIsNotItsOwnInstance`,
+  `ObjectWithExplicitChainIsNotImplicitlyRootedAtObjectPrototype`).
+
+- **`setParents`'s DEDUPLICATION check is no longer O(n²), and flattening
+  no longer allocates or re-runs inside the mutable CAS retry loop.**
+  **Correction: this is narrower than an earlier version of this entry
+  claimed** — see the numbers below; a `setParents` call whose listed
+  parents each carry substantial ancestry of their own is still
+  quadratic overall, just with a far smaller constant factor.
+
+  The de-duplication check the flattening algorithm added (an entry
+  equal to one already kept is dropped) was a linear scan of the
+  accumulator built so far — O(n) per candidate, O(n²) total for n
+  candidates that share no ancestry — running inside a GC critical
+  section, and for a mutable receiver, inside its CAS retry loop (so a
+  contested retry redid the whole O(n²) computation from scratch, even
+  though the flattened chain never depends on the receiver's own current
+  state). Measured before this fix: roughly 3 ms for a 4,000-entry list
+  of independent (no shared ancestry) candidates.
+
+  Fixed by: (1) a small open-addressing pointer set for the dedup check —
+  O(1) amortised per candidate instead of O(current-size); (2) an inline-
+  capacity-then-heap-fallback buffer (`SmallVector`/`ObjectPointerSet`,
+  256/512 inline slots) for both the ordered accumulator and the dedup
+  set, so the common case (a parent list of a few dozen to a couple
+  hundred entries) never touches the heap at all; (3) moving the entire
+  flattening computation (both the dedup pass and the ancestor-walk pass)
+  OUTSIDE any GC critical section — it allocates no Cell, so it needs no
+  GC protection — and outside the mutable receiver's CAS retry loop
+  entirely, so a contested retry only rebuilds the cheap wrapping
+  `ProtoObjectCell`, not the flattened chain.
+
+  **What this fixes, and what it does not.** For N listed parents that
+  share NO ancestry (step 2 does ~no work; the old cost was almost
+  entirely the dedup scan in step 1), re-measured after this fix
+  (average of 3 runs, `newObject(false)` release build):
+
+  | N (listed parents) | before (reported) | after, immutable | after, mutable |
+  |---:|---:|---:|---:|
+  | 100  | — | ~0.008 ms | ~0.007 ms |
+  | 1000 | — | ~0.12 ms  | ~0.10 ms  |
+  | 4000 | ~3 ms | ~0.6–0.9 ms | ~0.5–0.7 ms |
+
+  This shape is now roughly linear (a 4–6× improvement at N=4000). But
+  step 2 itself — walking every LISTED parent's own chain to collect its
+  ancestors — is inherent work: it must visit every (parent, own-chain-
+  entry) pair at least once, and each check is now O(1) instead of O(n),
+  but the NUMBER of pairs is not reduced. For N listed parents that
+  together already form a complete linearization (e.g. N objects
+  P₁..P_N with Pᵢ = Pᵢ₋₁.newChild(), listed in full as
+  [P_N, ..., P₁] — every entry's own ancestors already listed elsewhere,
+  the realistic "pass an existing MRO to setParents" shape), the total
+  work is Σᵢ (i-1) = Θ(N²) checks regardless of the dedup fix. Measured
+  (average of 3 runs, same build):
+
+  | N (full linearization) | setParents time |
+  |---:|---:|
+  | 250  | ~0.56 ms |
+  | 500  | ~2.1 ms  |
+  | 1000 | ~8.5 ms  |
+  | 2000 | ~43.5 ms |
+
+  Each doubling of N costs roughly 4×: quadratic, as expected — the dedup
+  fix made each of the Θ(N²) checks O(1) instead of O(current-size), a
+  large constant-factor win (illustrated by the independent-parents
+  table above), but it did not, and could not, change the Σᵢ shape this
+  input pattern inherently requires.
+
+- **Documented, explicitly, that `setParents` and `addParent` place a
+  listed parent's own missing ancestors in DIFFERENT positions, which can
+  flip attribute lookup precedence.** `setParents` appends ALL missing
+  ancestors AFTER ALL listed parents; `addParent`, called once per parent,
+  interleaves each call's own missing ancestors immediately after that
+  call's parent — so `d.addParent(ctx, b); d.addParent(ctx, c);` and
+  `d.setParents(ctx, [c, b])` (same listed parents, same order) can
+  produce chains that disagree on which of two candidate ancestors'
+  attributes wins. See `addParent`'s and `setParents`'s header doc
+  comments for the worked example, and
+  `test/SetParentsFlattenTests.cpp`'s
+  `OrderingDiffersFromAddParentAndAffectsAttributePrecedence` for a case
+  where the two constructions produce different `getAttribute` results
+  for the exact same set of parents and ancestors.
+
+- **Corrected the "`hasParent` doesn't see a mutable object's children's
+  full ancestry" gap** — that gap was exactly the `newChild` bug fixed
+  above; `hasParent` itself was already correct (it resolves a mutable
+  receiver's current snapshot, and always did), it was just fed an
+  incomplete chain by the old `newChild`. With that fixed, `hasParent`
+  (like `isInstanceOf`) now answers the full, transitive ancestry
+  question for every object, including instances of a mutable class. (At
+  the time of this entry `getAttribute` still had a separate 500-step
+  cap that was the one remaining gap; removed in a later round (see
+  the entry near the top of this section).)
+
+- **`ProtoObject::setParents` now flattens the chain it installs, so
+  `ProtoObject::isInstanceOf` is a pure linear walk with no recursion, no
+  cap and no allocation — for every object, with no exceptions.**
+
+  This supersedes the entry below: `setParents` was, until now, the one
+  construction path that did not flatten (it installed exactly the given
+  list, without copying in each listed parent's own ancestors), which is
+  why `isInstanceOf` originally needed a recursive fallback for chains it
+  had touched. It no longer does.
+
+  **`setParents`'s new chain**, in order: (1) the entries of the given
+  list, in the given order, de-duplicated; (2) every ancestor of each of
+  those listed parents — walking each parent's own chain in that parent's
+  own order, in the same order the parents were listed — that is not
+  already present. A list that already contains every ancestor of every
+  listed parent (e.g. a full linearization) is unaffected by step 2 and
+  installs exactly as given, in the exact same order — a no-op relative to
+  the old verbatim behaviour.
+
+  **Behaviour change**: `getAttribute` (and `hasParent`, and
+  `isInstanceOf`) can now see a grand-parent's attribute through a
+  `setParents`-built object that could not see it before — e.g.
+  `x = obj.setParents(ctx, [p])` where `p` has its own ancestor `g` with
+  attribute `a`: `x.getAttribute(ctx, a)` used to return `PROTO_NONE`
+  (only `p`'s own attributes were visible) and now finds `g`'s value,
+  because `g` is flattened into `x`'s own chain alongside `p`. This is
+  intended: it is the same completeness `newChild`/`addParent` already
+  guaranteed, now extended to `setParents`, and it is why
+  `isInstanceOf`/`hasParent`/`getAttribute` now agree on what an object
+  inherits, regardless of which construction path built its chain — WITH
+  ONE EXCEPTION, corrected in a later round (see the entry near the top
+  of this section): `getAttribute` used to still cap its walk at 500
+  steps, so it could still disagree with the other two for a very deep
+  chain.
+
+  **Self-reference handling** (this originally threw
+  `std::invalid_argument`; corrected to a silent skip in a later round —
+  see the entry near the top of this section for why): a mutable object's handle is stable
+  across mutation, so it is the only case where `setParents` could be
+  asked to make an object its own ancestor — directly
+  (`a.setParents(ctx, [a])`) or through another mutable object's chain
+  (`a.setParents(ctx, [b])` then `b.setParents(ctx, [a])`, where `a`'s
+  chain now contains `b`). An immutable `setParents` call can never
+  create a real self-reference this way — it always builds a brand-new
+  handle nothing could have referenced yet.
+
+  Tests: `test/SetParentsFlattenTests.cpp` (10 cases: the no-op
+  linearization property, a non-flat list being flattened, listed-parent
+  order preservation with overlapping ancestors, de-duplication of a
+  repeated listed parent, the `getAttribute` visibility change, agreement
+  between `isInstanceOf`/`hasParent`/`getAttribute`, a mutable object
+  after `setParents`, self-reference handling (a two-mutable-object case
+  and a direct case), and an immutable receiver listing its own old
+  handle — not a self-reference).
+
+- **`ProtoObject::isInstanceOf` and `ProtoObject::hasParent` now walk the
+  flattened parent chain directly instead of allocating or capping the
+  search.**
+
+  `isInstanceOf` used a depth-first walk with a fixed-size (64-slot)
+  sibling stack and gave up after an arbitrary 50-step cap, returning
+  `PROTO_FALSE` (a third, distinct value, never documented as part of the
+  found/not-found contract) instead of the correct answer for any hierarchy
+  deeper than 50 links. `hasParent` allocated a `ProtoList` via
+  `getParents()` on every call just to test membership.
+
+  `newChild`, `addParent` and (as of the entry above) `setParents` all
+  guarantee that an object's own chain already contains every one of its
+  ancestors as a direct entry, so `isInstanceOf` is now a single
+  allocation-free linear scan of that chain, the same one `getAttribute`
+  walks, with **no length limit and no recursion**. `hasParent` keeps its
+  existing single-level contract (`target == this`, or a direct entry in
+  the receiver's own chain) and is now just that scan without the
+  `ProtoList` allocation — which, now that every chain is flat by
+  construction, agrees with `isInstanceOf` on every ancestor, not only a
+  direct one.
+
+  Fixing this surfaced and corrected two bugs the old implementation had:
+  `isInstanceOf` explored a receiver's own chain only through
+  `getPrototype()`, which returns just the first entry, so a second or
+  third parent added via `addParent` (e.g. the classic diamond,
+  `chain=[C,B,A]`) was silently unreachable even though `hasParent`
+  correctly reported it present; and `isInstanceOf` never resolved a
+  mutable receiver's current snapshot (`getPrototype()` does not), so it
+  answered false for every parent ever added to a mutable object. Both are
+  an unavoidable consequence of scanning the receiver's own resolved chain
+  directly instead of bootstrapping from `getPrototype()`.
+
+  Tests: `test/InstanceOfHasParentTests.cpp` (15 cases, covering every
+  chain-shaping construction path: `newChild`, `addParent` including the
+  diamond case, `setParents`, `clone`, mutable objects after
+  `addParent`/`setParents`, non-object receivers, and a 1,000-level
+  `newChild` chain that used to hit the 50-step cap and now correctly
+  returns `PROTO_TRUE`).
 - **`ProtoObject::isByte` is now defined and exported.** It was declared in
   the public header but had no definition anywhere, so an embedder that
   called it failed to link. `nm -D --defined-only` on the shipped library

@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <string>
 #include <thread>
+#include <vector>
 
 #ifdef PROTO_CACHE_STATS
 #include <atomic>
@@ -137,6 +138,47 @@ namespace proto
             unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
             context->mutableValueCache_[idx] = {mutable_ref, new_root, new_value};
         }
+
+        /**
+         * Resolves `node` (assumed to be a real ProtoObjectCell — callers
+         * check `isObjectFast` first) to the ProtoObjectCell whose `parent`
+         * field reflects its CURRENT state: for a mutable object this is
+         * the live mutable snapshot, exactly as getAttribute / getParents /
+         * getFirstParent resolve it. Unlike `getPrototype`, which reads the
+         * handle cell's own (possibly stale, pre-first-mutation) `parent`
+         * field directly, this always answers for the object's current
+         * version — required for `newChild` (a mutable prototype's child
+         * must capture the class's CURRENT ancestors, not its birth state)
+         * and for `isInstanceOf`/`hasParent` (to see parents added via
+         * `addParent`/`setParents` on a mutable receiver).
+         */
+        inline const ProtoObjectCell* resolveOwnCell(ProtoContext* context, const ProtoObject* node) {
+            auto* oc = toImpl<const ProtoObjectCell>(node);
+            if (oc->mutable_ref > 0) {
+                const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+                if (storedState != nullptr && storedState != node) {
+                    ProtoObjectPointer psa{};
+                    psa.oid = storedState;
+                    if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
+                        oc = toImpl<const ProtoObjectCell>(storedState);
+                    }
+                }
+            }
+            return oc;
+        }
+
+        /**
+         * Is `oc->parent` a genuine, well-formed ParentLink cell (as opposed
+         * to absent, misaligned, or — impossible in practice, but checked
+         * anyway — some other cell type)? The same alignment-plus-getType()
+         * probe the chain-navigation loops use (chainHasAncestor above,
+         * getAttribute's walk) rather than a bare truthy check on the raw
+         * pointer.
+         */
+        inline bool hasValidParentLink(const ProtoObjectCell* oc) {
+            if (!oc->parent || ((uintptr_t)oc->parent & 0x3F) != 0) return false;
+            return toImpl<const ParentLinkImplementation>(oc->parent)->getType() == CellType::ParentLink;
+        }
     }
 
     /**
@@ -191,43 +233,255 @@ namespace proto
         );
     }
 
-    /**
-     * @brief Replace the parent chain entirely.
-     *
-     * Builds a fresh ParentLink chain from `newParents` in reverse order
-     * (the last list entry becomes the chain tail, the first entry the
-     * chain head — matching getParents()'s emit order), then returns a
-     * new ProtoObjectCell that shares this cell's attributes table but
-     * uses the rebuilt chain.  Mutable-vs-immutable shard CAS happens
-     * in the public ProtoObject::setParents trampoline; this helper is
-     * purely the immutable-shape builder.
-     *
-     * Passing `newParents == nullptr` or an empty list clears the chain
-     * (the resulting cell has no prototype).
-     */
-    const ProtoObjectCell* ProtoObjectCell::setParents(
-        ProtoContext* context, const ProtoList* newParents) const
-    {
-        const ParentLinkImplementation* newChain = nullptr;
-        if (newParents) {
+    namespace {
+        /**
+         * Fixed-capacity inline buffer with heap fallback: the common case
+         * (a parent list of a few dozen to a couple hundred entries) never
+         * touches the heap; an arbitrarily large one grows into it (like
+         * `std::vector`, but `std::vector` always heap-allocates once it
+         * holds anything, even one element — the whole point here is to
+         * avoid that for the overwhelmingly common, small case). `T` must
+         * be trivially copyable; only ever instantiated with
+         * `const ProtoObject*`.
+         */
+        template <typename T, size_t InlineCapacity>
+        class SmallVector {
+        public:
+            SmallVector() : data_(inline_), capacity_(InlineCapacity) {}
+            ~SmallVector() { if (data_ != inline_) delete[] data_; }
+            SmallVector(const SmallVector&) = delete;
+            SmallVector& operator=(const SmallVector&) = delete;
+
+            void reserve(size_t n) { if (n > capacity_) growTo(n); }
+            void push_back(T v) {
+                if (size_ == capacity_) growTo(capacity_ * 2);
+                data_[size_++] = v;
+            }
+            size_t size() const { return size_; }
+            T& operator[](size_t i) { return data_[i]; }
+            const T& operator[](size_t i) const { return data_[i]; }
+
+        private:
+            void growTo(size_t newCapacity) {
+                if (newCapacity < capacity_ * 2) newCapacity = capacity_ * 2;
+                T* newData = new T[newCapacity];
+                for (size_t i = 0; i < size_; ++i) newData[i] = data_[i];
+                if (data_ != inline_) delete[] data_;
+                data_ = newData;
+                capacity_ = newCapacity;
+            }
+
+            T inline_[InlineCapacity];
+            T* data_;
+            size_t capacity_;
+            size_t size_ = 0;
+        };
+
+        /**
+         * Small open-addressing pointer set with the same inline-capacity-
+         * then-heap-fallback shape as SmallVector above, used to make
+         * setParents's flattening dedup O(1) amortised per lookup instead
+         * of an O(current-size) linear scan of the accumulator per
+         * candidate — the linear scan made a single setParents call
+         * O(total-ancestor-count^2) (3ms for a 4,000-parent list; see the
+         * CHANGELOG for the re-measured numbers after this fix). Linear
+         * probing, power-of-two sizing, grows (rehashes into a larger
+         * `new[]`-allocated table) once the load factor would exceed 1/2.
+         */
+        class ObjectPointerSet {
+        public:
+            ObjectPointerSet() : table_(inlineTable_), capacity_(kInlineCapacity) {
+                for (size_t i = 0; i < capacity_; ++i) table_[i] = nullptr;
+            }
+            ~ObjectPointerSet() { if (table_ != inlineTable_) delete[] table_; }
+            ObjectPointerSet(const ObjectPointerSet&) = delete;
+            ObjectPointerSet& operator=(const ObjectPointerSet&) = delete;
+
+            // Inserts `key`. Returns true iff it was NOT already present
+            // (i.e. it was newly inserted).
+            bool insert(const ProtoObject* key) {
+                if ((count_ + 1) * 2 > capacity_) grow();
+                size_t idx = slotFor(key, table_, capacity_);
+                if (table_[idx] == key) return false;
+                table_[idx] = key;
+                ++count_;
+                return true;
+            }
+
+        private:
+            static size_t hashOf(const ProtoObject* key) {
+                // ProtoObjectCell pointers are 64-byte aligned; shift away
+                // the always-zero low bits to spread the hash.
+                return static_cast<size_t>(reinterpret_cast<uintptr_t>(key) >> 6);
+            }
+            static size_t slotFor(const ProtoObject* key, const ProtoObject* const* table, size_t capacity) {
+                size_t idx = hashOf(key) & (capacity - 1);
+                while (table[idx] != nullptr && table[idx] != key) {
+                    idx = (idx + 1) & (capacity - 1);
+                }
+                return idx;
+            }
+            void grow() {
+                size_t newCapacity = capacity_ * 2;
+                auto* newTable = new const ProtoObject*[newCapacity];
+                for (size_t i = 0; i < newCapacity; ++i) newTable[i] = nullptr;
+                for (size_t i = 0; i < capacity_; ++i) {
+                    if (table_[i] != nullptr) {
+                        newTable[slotFor(table_[i], newTable, newCapacity)] = table_[i];
+                    }
+                }
+                if (table_ != inlineTable_) delete[] table_;
+                table_ = newTable;
+                capacity_ = newCapacity;
+            }
+
+            static constexpr size_t kInlineCapacity = 512; // power of two
+            const ProtoObject* inlineTable_[kInlineCapacity];
+            const ProtoObject** table_;
+            size_t capacity_;
+            size_t count_ = 0;
+        };
+
+        // Inline capacity shared by the flattening accumulator and its
+        // dedup set: sized to comfortably cover BOTH step 1 (the listed
+        // parents) and step 2 (their ancestors) for realistic hierarchies
+        // without touching the heap; SmallVector/ObjectPointerSet grow
+        // into the heap automatically for anything larger.
+        //
+        // Stack cost of flattenParentsOrder's two locals at this
+        // capacity: FlatParentList's inline_ is 256 * 8 bytes = 2 KiB;
+        // ObjectPointerSet's inlineTable_ is 512 * 8 bytes = 4 KiB (sized
+        // 2x for a <=50% load factor) — ~6 KiB total per call. Not
+        // recursive, so this is a one-time cost per `setParents` call,
+        // not a per-level one; still worth keeping in mind if this
+        // constant is ever raised.
+        constexpr size_t SET_PARENTS_INLINE_CAPACITY = 256;
+        using FlatParentList = SmallVector<const ProtoObject*, SET_PARENTS_INLINE_CAPACITY>;
+
+        /**
+         * @brief Computes setParents's flattened, de-duplicated ancestor
+         * ORDER — no Cell allocation at all, so this is safe (and, for
+         * performance, deliberately called) OUTSIDE any GC critical
+         * section and OUTSIDE a mutable receiver's CAS retry loop: it
+         * depends only on `newParents` and each listed parent's own
+         * already-published chain, never on the receiver's own current
+         * state, so recomputing it on every CAS retry bought nothing but
+         * cost.
+         *
+         * Fills `outFlat`, in order: (1) the entries of `newParents`, in
+         * the given order, de-duplicated; (2) every ancestor of each of
+         * those listed parents — walking each parent's own chain in that
+         * parent's own order, in the SAME order the parents were listed —
+         * that is not already present. A list that already contains every
+         * ancestor of every listed parent (e.g. a full linearization) is
+         * unaffected by step 2 and installs exactly as given, in the exact
+         * same order: a no-op relative to step 1 alone.
+         *
+         * `skipIdentity`, when non-null, is OMITTED wherever it would
+         * otherwise be added — as a listed parent, or as an ancestor of
+         * one — instead of being inserted: a mutable receiver can never
+         * become its own ancestor this way. This is a silent no-op for
+         * that ONE entry, not an error: it matches `addParent`, which
+         * already tolerates `obj->addParent(ctx, obj)` as a no-op (via
+         * `hasParent`'s `target == this` short-circuit — see
+         * `ProtoObject::addParent`), and it means the exception this used
+         * to throw here can no longer reach an embedder through
+         * `setParents` at all. See `ProtoObject::setParents`'s doc
+         * comment for why the comparison is only meaningful for a mutable
+         * receiver, and CHANGELOG.md for why a THROWING version of this
+         * check was replaced (it only ever caught a DIRECT reference back
+         * to the receiver — one hop through a listed parent's own chain —
+         * never a longer cycle built up over several `setParents` calls
+         * on different mutable objects; skipping is exactly as complete a
+         * guard as throwing was, without an exception embedders must
+         * catch). `skipIdentity` MUST be the receiver's STABLE PUBLIC
+         * HANDLE (the `this` a caller holds), never a resolved mutable
+         * snapshot pointer: a mutable object's snapshot pointer changes on
+         * every mutation, so comparing against one would never match a
+         * reference back to the SAME logical object (whose identity, from
+         * every OTHER object's point of view, is the handle, not whatever
+         * snapshot happened to be current when it was last read).
+         */
+        void flattenParentsOrder(ProtoContext* context, const ProtoList* newParents,
+                                  const ProtoObject* skipIdentity, FlatParentList& outFlat)
+        {
+            if (!newParents) return;
             unsigned long n = newParents->getSize(context);
-            // Walk right-to-left: getParents() emits in head-first
-            // order, so to reproduce that we attach the LAST entry
-            // first (it becomes the chain tail) and the FIRST entry
-            // last (it becomes the chain head).
-            for (long i = static_cast<long>(n) - 1; i >= 0; --i) {
+            outFlat.reserve(n);
+            ObjectPointerSet seen;
+
+            // Step 1: listed parents, given order, de-duplicated.
+            for (unsigned long i = 0; i < n; ++i) {
                 const ProtoObject* p = newParents->getAt(context, static_cast<int>(i));
                 if (!p) continue;
-                newChain = new(context) ParentLinkImplementation(
-                    context, newChain, p);
+                if (skipIdentity && p == skipIdentity) continue; // no-op: never its own parent
+                if (seen.insert(p)) outFlat.push_back(p);
+            }
+
+            // Step 2: each listed parent's own ancestors, in the parent's
+            // own chain order, appended once each, in listed-parent order.
+            // Index over the step-1 count specifically (not outFlat.size(),
+            // which grows during this loop) so parents are processed in
+            // their original listed order even as their ancestors are
+            // appended after them.
+            //
+            // Non-object policy (consistent with step 1, which accepts
+            // any entry regardless of tag — addParent/setParents both
+            // accept a non-object "parent", e.g. a heap ProtoString, and
+            // getAttribute/hasAttribute/getAttributes already answer for
+            // one through its own prototype): a listed parent that is not
+            // a real object cell simply has no OWN chain to walk here, so
+            // it contributes nothing beyond its own step-1 entry — it is
+            // NOT removed from `outFlat`, only skipped as a source of
+            // further ancestors, exactly as it has no attributes chain of
+            // its own to search either.
+            const size_t listedCount = outFlat.size();
+            for (size_t idx = 0; idx < listedCount; ++idx) {
+                const ProtoObject* p = outFlat[idx];
+                if (!proto::isObjectFast(p)) continue; // no chain to walk
+
+                const ProtoObjectCell* pOc = resolveOwnCell(context, p);
+                const ParentLinkImplementation* link = pOc->parent;
+                while (link && ((uintptr_t)link & 0x3F) == 0) {
+                    auto pl = toImpl<const ParentLinkImplementation>(link);
+                    if (pl->getType() != CellType::ParentLink) break;
+
+                    const ProtoObject* anc = pl->getObject(context);
+                    if (anc && !(skipIdentity && anc == skipIdentity) && seen.insert(anc)) {
+                        outFlat.push_back(anc);
+                    }
+
+                    link = pl->getParent(context);
+                }
             }
         }
-        return new(context) ProtoObjectCell(
-            context,
-            newChain,
-            this->attributes,
-            0
-        );
+
+        /**
+         * @brief Builds the ParentLinkImplementation chain from an
+         * already-flattened, ordered list (flattenParentsOrder above).
+         * Allocates one Cell per entry — the caller MUST hold a GC
+         * critical section for the duration: the intermediate links are
+         * not reachable from any root until the final head this returns
+         * is itself linked into a ProtoObjectCell.
+         *
+         * Called ONCE per `setParents` call (not once per CAS retry on a
+         * mutable receiver, unlike the flattening step's old, folded-
+         * together implementation): the chain is the same regardless of
+         * how many times the CAS is retried, so the retry loop just
+         * re-wraps this SAME precomputed chain in a fresh ProtoObjectCell
+         * each attempt (see ProtoObject::setParents).
+         */
+        const ParentLinkImplementation* buildParentChainFromFlat(ProtoContext* context, const FlatParentList& flat)
+        {
+            // Tail-first: flat's LAST entry becomes the chain tail, flat's
+            // FIRST entry the chain head, matching getParents()'s
+            // head-first emit order.
+            const ParentLinkImplementation* newChain = nullptr;
+            for (size_t i = flat.size(); i > 0; --i) {
+                newChain = new(context) ParentLinkImplementation(context, newChain, flat[i - 1]);
+            }
+            return newChain;
+        }
     }
 
     /**
@@ -405,19 +659,31 @@ namespace proto
              const ProtoObject* prototype = getPrototype(context);
              return prototype ? prototype->newChild(context, isMutable) : PROTO_NONE;
         }
-        auto* oc = toImpl<const ProtoObjectCell>(this);
         unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
-        // GC critical section: this expression allocates three cells
-        // (the empty SparseList, the ParentLinkImplementation, and the
-        // outer ProtoObjectCell) in a single statement.  Argument
-        // evaluation order is unspecified and the temporaries live in
-        // the C++ stack between sub-expression results — none of them
-        // are reachable from a GC root until the surrounding
-        // ProtoObjectCell finishes constructing and links the chain
-        // back together.  Without the guard a concurrent STW root scan
-        // would observe a partial chain as candidate-but-unreachable
-        // and sweep would free the SparseList or ParentLink under us.
+
+        // GC critical section opened BEFORE the mutable snapshot is
+        // resolved (matching getParents/getFirstParent/getAttributes —
+        // see getParents' comment for the full rationale): entering the
+        // section can itself park for a GC heap-limit checkpoint at the
+        // outermost depth (CriticalSection's constructor), and a snapshot
+        // resolved beforehand would be held only in the `oc` C++ local,
+        // unprotected, across that park. It also still covers the
+        // three-cell allocation below the same way it always did — none
+        // of the SparseList / ParentLink / ProtoObjectCell triple is
+        // reachable from a root until the outer ProtoObjectCell finishes
+        // linking them together.
         ProtoContext::CriticalSection cs(context);
+
+        // Resolve `this` (the prototype being childed) to its CURRENT
+        // snapshot before reading its chain — critical when `this` is
+        // mutable: the handle cell's OWN `parent` field is fixed at
+        // `newObject(true)` time and never updated in place, so reading
+        // it directly would silently drop every ancestor added since via
+        // `addParent`/`setParents`. The child's chain tail is captured BY
+        // VALUE, here, from whatever the class's chain is as of THIS
+        // call — see the header doc comment for the "capture at creation
+        // time" contract this gives newChild.
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
         auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), context->newSparseListImpl(), ref);
         const ProtoObject* result = newObject->asObject(context);
         return result;
@@ -435,74 +701,72 @@ namespace proto
         return PROTO_NONE;
     }
 
+    namespace {
+        /**
+         * @brief Is `ancestor` a direct entry of the chain starting at `link`?
+         *
+         * A pure linear scan, no allocation, no recursion, no length limit —
+         * exactly the chain-navigation loop `ProtoObject::getAttribute`
+         * uses. `ProtoObject::newChild`, `ProtoObjectCell::addParent` (via
+         * the public `ProtoObject::addParent` trampoline) AND the
+         * `flattenParentsOrder`/`buildParentChainFromFlat` pair `setParents`
+         * uses all guarantee that an object's own chain already contains
+         * every one of its ancestors as a direct entry, so this single-level
+         * scan is complete and exact for any object — there is no
+         * construction path that leaves an ancestor reachable only through
+         * a visited parent's own separate chain. (Function names, not line
+         * numbers: this file changes shape often enough that line citations
+         * go stale quickly — grep for the name instead.)
+         */
+        bool chainHasAncestor(ProtoContext* context, const ParentLinkImplementation* link,
+                               const ProtoObject* ancestor)
+        {
+            while (link && ((uintptr_t)link & 0x3F) == 0) {
+                auto pl = toImpl<const ParentLinkImplementation>(link);
+                if (pl->getType() != CellType::ParentLink) break;
+                if (pl->getObject(context) == ancestor) return true;
+                link = pl->getParent(context);
+            }
+            return false;
+        }
+    }
+
     const ProtoObject* ProtoObject::isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const
     {
-        const ParentLinkImplementation* plStack[64];
-        int plPtr = 0;
-        const ProtoObject* current = this->getPrototype(context);
-        int iterationCount = 0;
+        if (!this || !prototype || !context) return PROTO_NONE;
 
-        while (current) {
-            if (++iterationCount > 50) {
-                 return PROTO_FALSE;
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
+            // Object receiver: search this object's OWN chain directly,
+            // mutable-resolved — rather than through getPrototype(), which
+            // does not resolve a mutable receiver's current snapshot.
+            const ProtoObjectCell* oc = resolveOwnCell(context, this);
+            if (chainHasAncestor(context, oc->parent, prototype)) return PROTO_TRUE;
+
+            // Universal-root fallback: an object with NO parent chain of
+            // its own conventionally descends from objectPrototype — the
+            // same fallback getPrototype() applies for a parentless object
+            // cell (core/ProtoObject.cpp getPrototype, POINTER_TAG_OBJECT
+            // case). This only applies here, at the top level, matching
+            // getPrototype()'s own scope: an object WITH an explicit chain
+            // is not implicitly rooted at objectPrototype unless its own
+            // construction put it there (e.g. via addParent).
+            if (!hasValidParentLink(oc) && this != context->space->objectPrototype
+                    && prototype == context->space->objectPrototype) {
+                return PROTO_TRUE;
             }
-            if (current == prototype) return PROTO_TRUE;
-            ProtoObjectPointer pa{};
-            pa.oid = current;
-            if (pa.op.pointer_tag != POINTER_TAG_OBJECT) {
-                current = current->getPrototype(context);
-                continue;
-            }
-            auto oc = toImpl<const ProtoObjectCell>(current);
-            
-            // Handle Mutable Objects (cache-fast)
-            if (oc->mutable_ref > 0) {
-                 const proto::ProtoObject* storedState =
-                     resolveMutableSnapshot(context, oc->mutable_ref);
-                 if (storedState != nullptr && storedState != current) {
-                      ProtoObjectPointer psa{};
-                      psa.oid = storedState;
-                      if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                          oc = toImpl<const ProtoObjectCell>(storedState);
-                      }
-                 }
-            }
-            
-            if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
-                auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
-                if (pl->getType() == CellType::ParentLink) {
-                    const ParentLinkImplementation* sibling = pl->getParent(context);
-                    int sibCount = 0;
-                    while (sibling && plPtr < 64 && ((uintptr_t)sibling & 0x3F) == 0) {
-                        auto sl = toImpl<const ParentLinkImplementation>(sibling);
-                        if (sl->getType() != CellType::ParentLink) break;
-                        if (++sibCount > 100) break;
-                        plStack[plPtr++] = sibling;
-                        sibling = sl->getParent(context);
-                    }
-                    current = pl->getObject(context);
-                } else {
-                    current = nullptr;
-                }
-            } else {
-                if (plPtr > 0) {
-                    const ParentLinkImplementation* top = plStack[--plPtr];
-                    if (top && ((uintptr_t)top & 0x3F) == 0) {
-                        auto tl = toImpl<const ParentLinkImplementation>(top);
-                        if (tl->getType() == CellType::ParentLink) {
-                            current = tl->getObject(context);
-                        } else {
-                            current = nullptr;
-                        }
-                    } else {
-                        current = nullptr;
-                    }
-                } else {
-                    current = nullptr;
-                }
-            }
+            return PROTO_NONE;
         }
-        return PROTO_NONE;
+
+        // Non-object receiver (SmallInteger, string, list, ...): answered
+        // through its prototype, same as today.
+        const ProtoObject* start = this->getPrototype(context);
+        if (!start) return PROTO_NONE;
+        if (start == prototype) return PROTO_TRUE;
+        if (!proto::isObjectFast(start)) return PROTO_NONE;
+        const ProtoObjectCell* startOc = resolveOwnCell(context, start);
+        return chainHasAncestor(context, startOc->parent, prototype) ? PROTO_TRUE : PROTO_NONE;
     }
 
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name, bool callbacks) const
@@ -553,13 +817,27 @@ namespace proto
         const ProtoObject* currentPointer = this;
         const ParentLinkImplementation* currentLink = nullptr;
         const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
-        int iterationCount = 0;
 
+        // No step cap: this loop always terminates, because it is a
+        // single-level walk of ONE receiver's own ParentLinkImplementation
+        // list -- built once, forward only, by newChild/addParent/
+        // setParents (buildParentChainFromFlat) -- and it never follows a
+        // visited link's OBJECT into that object's OWN separate `.parent`
+        // chain; it only ever advances via `currentLink->parent`, the
+        // NEXT link in THIS SAME list. That list's length is fixed at the
+        // moment it was built (bounded by however many links were
+        // allocated then) and nothing mutates it afterward, so this walk
+        // is always over a strictly finite sequence, regardless of
+        // whether some OTHER object's chain happens to reference this
+        // one, or this one's own listed entries reference another
+        // mutable object that (via a LATER, separate setParents call
+        // elsewhere) ends up referencing this receiver back -- that
+        // never matters here, because this walk never leaves the one
+        // list it started on. (An earlier `> 500` cap here gave a false
+        // "not found" for any attribute living further down the chain
+        // than that -- the same class of bug isInstanceOf's and
+        // hasAttribute's old caps had, both since removed.)
         while (currentPointer) {
-            if (++iterationCount > 500) {
-                 return PROTO_NONE;
-            }
-
             // Pure 6-bit tag check — POINTER_TAG_OBJECT is 0, so
             // alignment-clear low bits identifies an object cell.
             // No virtual getCellTypeRaw() probe needed: every cell
@@ -1114,11 +1392,25 @@ namespace proto
     }
 
     int ProtoObject::hasParent(ProtoContext* context, const ProtoObject* target) const {
-        if (!this || !target) return 0;
+        if (!this || !target || !context) return 0;
         if (target == this) return 1;
-        
-        const ProtoList* pList = getParents(context);
-        return pList && pList->has(context, target) ? 1 : 0;
+
+        if (!proto::isObjectFast(this)) return 0;
+
+        // Same shallow, single-level scan getParents() performs (own chain
+        // only — no descent into a visited parent's own further chain),
+        // just without allocating the ProtoList: walk oc->parent directly,
+        // mutable-resolved so a mutable receiver answers for its current
+        // version's chain.
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
+        const ParentLinkImplementation* link = oc->parent;
+        while (link && ((uintptr_t)link & 0x3F) == 0) {
+            auto pl = toImpl<const ParentLinkImplementation>(link);
+            if (pl->getType() != CellType::ParentLink) break;
+            if (pl->getObject(context) == target) return 1;
+            link = pl->getParent(context);
+        }
+        return 0;
     }
 
     const ProtoObject* ProtoObject::addParentInternal(ProtoContext* context, const ProtoObject* newParent) const {
@@ -1253,9 +1545,45 @@ namespace proto
 
         const auto* oc = toImpl<const ProtoObjectCell>(this);
 
+        // Flattening (steps 1+2: the given list, de-duplicated, then each
+        // listed parent's own ancestors) is pure scratch computation — no
+        // Cell allocation — and does not depend on `this`'s own current
+        // state, only on `newParents` and each listed parent's own already
+        // -published chain. Done ONCE, here, OUTSIDE any critical section
+        // and OUTSIDE the mutable CAS retry loop below: the old code
+        // recomputed it (an O(n^2) dedup, at that) on every retry, for no
+        // benefit — a retry only means THIS object's own shard state
+        // changed concurrently, which the flattened chain never depended
+        // on.
+        //
+        // `this` is passed as the skip identity ONLY when `this` is
+        // mutable: its handle is stable across mutation, so it is the
+        // only case where the object being reshaped could already be
+        // listed as (or reachable as an ancestor of) one of its own new
+        // parents (e.g. two mutable objects setParents'd at each other).
+        // An immutable rebuild always produces a brand-new handle that
+        // NOTHING could have referenced yet — passing `this` (the OLD
+        // handle) as the skip identity there would be a false positive:
+        // an immutable object is free to list, or transitively reach
+        // through a listed parent's own chain, its own OLD handle (a
+        // different identity from the NEW one this call produces)
+        // without that being a self-reference. So no identity is passed,
+        // and an immutable setParents call never skips anything on this
+        // account.
+        FlatParentList flat;
+        flattenParentsOrder(context, newParents, oc->mutable_ref > 0 ? this : nullptr, flat);
+
+        // GC critical section: building the link chain allocates one Cell
+        // per flattened entry; the intermediate links are not reachable
+        // from any root until the final head is itself linked into a
+        // ProtoObjectCell. Also built ONCE here (not once per CAS retry
+        // below) — the chain is identical regardless of how many times
+        // the CAS is retried.
+        ProtoContext::CriticalSection cs(context);
+        const ParentLinkImplementation* newChain = buildParentChainFromFlat(context, flat);
+
         if (oc->mutable_ref > 0) {
             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-            ProtoContext::CriticalSection cs(context);
             int casIteration = 0;
             while (true) {
                 ++casIteration;
@@ -1268,8 +1596,14 @@ namespace proto
                     currentObjState = storedState;
                 }
 
+                // Only the wrapping ProtoObjectCell is built per retry —
+                // reusing the precomputed `newChain` — to pick up whatever
+                // `attributes` the CURRENT state holds (which may have
+                // changed concurrently via setAttribute); the parent chain
+                // itself does not need to be, and is not, rebuilt.
                 auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
-                auto* newState = currentOc->setParents(context, newParents)->asObject(context);
+                auto* newState =
+                    (new(context) ProtoObjectCell(context, newChain, currentOc->attributes, 0))->asObject(context);
 
                 const ProtoSparseList* oldRootSL =
                     (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
@@ -1288,15 +1622,9 @@ namespace proto
             return this; // mutable: same handle
         }
 
-        // Immutable branch: build a new ProtoObjectCell with the
-        // rebuilt parent chain.  The chain construction inside
-        // ProtoObjectCell::setParents allocates one
-        // ParentLinkImplementation per entry, then the wrapping
-        // ProtoObjectCell — all reachable through the C++ stack only
-        // until asObject() returns.  Critical section forbids STW
-        // root scan during the build.
-        ProtoContext::CriticalSection cs(context);
-        return oc->setParents(context, newParents)->asObject(context);
+        // Immutable branch: wrap the precomputed chain in a new
+        // ProtoObjectCell sharing this cell's attributes table.
+        return (new(context) ProtoObjectCell(context, newChain, oc->attributes, 0))->asObject(context);
     }
 
     int ProtoObject::isCell(ProtoContext* context) const {
@@ -1779,7 +2107,7 @@ namespace proto
 
     const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const
     {
-        if (!this) return PROTO_FALSE;
+        if (!this || !name || !context) return PROTO_FALSE;
 
         // Look up the canonical symbol for this key without inserting.
         // If the key was never interned, it was never used as an attribute key,
@@ -1802,76 +2130,82 @@ namespace proto
             // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
-        const ProtoObject* currentObject = this;
+        // Same shape as getAttribute's chain-navigation loop (own
+        // attributes, then the linearised chain, head to tail) — a pure
+        // linear scan, no allocation, no recursion, and (unlike
+        // getAttribute) NO step cap: newChild/addParent/setParents all
+        // guarantee the receiver's own chain already contains every one
+        // of its ancestors as a direct entry, so there is no length this
+        // walk cannot reach. The old fixed-size (64-slot) sibling-stack
+        // DFS with its 50-step cap returned PROTO_FALSE (a false
+        // negative) for any hierarchy deeper than 50 links — the same
+        // class of bug isInstanceOf had before its own fix.
+        const ProtoObject* currentPointer = this;
+        const ParentLinkImplementation* currentLink = nullptr;
         const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
 
-        const ParentLinkImplementation* plStack[64];
-        int plPtr = 0;
-        int iterationCount = 0;
-
-        // A ParentLink pointer is valid when it is non-null,
-        // 64-byte-aligned (cell-aligned, low 6 bits = 0), and its
-        // cell type is actually ParentLink.  Used in a few places
-        // below where the original code repeated all three checks.
-        auto validLink = [](const ParentLinkImplementation* l) -> bool {
-            return l && ((uintptr_t)l & 0x3F) == 0 &&
-                   l->getType() == CellType::ParentLink;
-        };
-
-        while (currentObject) {
-            if (++iterationCount > 50) return PROTO_FALSE;
-
-            // Inline isObjectFast: any other tagged pointer (Integer,
-            // None, etc.) falls through to its prototype.
-            if (!proto::isObjectFast(currentObject)) {
-                currentObject = currentObject->getPrototype(context);
+        while (currentPointer) {
+            // Pure 6-bit tag check, matching getAttribute's own hot-path
+            // check — see its comment for why no virtual getType() probe
+            // is needed for either this or the chain-advance step below.
+            const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & 0x3FUL) == POINTER_TAG_OBJECT;
+            if (!isObj) {
+                const ProtoObject* nextProto = currentPointer->getPrototype(context);
+                if (nextProto == currentPointer) break;
+                currentPointer = nextProto;
                 continue;
             }
-            auto oc = toImpl<const ProtoObjectCell>(currentObject);
-            const ProtoSparseListImplementation* attributes = oc->attributes;
 
-            // Support for Mutable Objects (cache-fast).  resolveMutableSnapshot
-            // never returns a non-Object pointer for a valid mutable_ref, so
-            // the previous tag re-check on the snapshot was redundant.
+            auto oc = toImpl<const ProtoObjectCell>(currentPointer);
+            auto ocValue = oc;
             if (oc->mutable_ref > 0) {
-                 const proto::ProtoObject* storedState =
-                     resolveMutableSnapshot(context, oc->mutable_ref);
-                 if (storedState != nullptr && storedState != currentObject) {
-                     auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                     attributes = storedOc->attributes;
-                     oc = storedOc;
-                 }
+                const proto::ProtoObject* storedState =
+                    resolveMutableSnapshot(context, oc->mutable_ref);
+                if (storedState != nullptr) {
+                    ocValue = toImpl<const ProtoObjectCell>(storedState);
+                }
             }
 
             // Direct IMPL probe. nullptr means absent; anything else
-            // (including PROTO_NONE) means present. Preserves the
-            // distinction so `attr = None` → `hasattr(x, 'attr')` is
-            // True (vs missing).
-            if (attributes && attributes->implGetAt(context, attr_hash) != nullptr) {
+            // (including PROTO_NONE) means present — `attr = None` still
+            // answers True (vs missing).
+            if (ocValue->attributes && ocValue->attributes->implGetAt(context, attr_hash) != nullptr) {
                 return PROTO_TRUE;
             }
 
-            // Multiple inheritance support: walk the linearised chain
-            // through `oc->parent`, while pushing any sibling links on
-            // a small stack so they can be revisited after the main
-            // chain is exhausted.
-            if (validLink(oc->parent)) {
-                const ParentLinkImplementation* sibling = oc->parent->getParent(context);
-                while (validLink(sibling) && plPtr < 64) {
-                    plStack[plPtr++] = sibling;
-                    sibling = sibling->getParent(context);
-                }
-                currentObject = oc->parent->getObject(context);
-            } else if (plPtr > 0) {
-                const ParentLinkImplementation* top = plStack[--plPtr];
-                currentObject = validLink(top) ? top->getObject(context) : nullptr;
+            const ParentLinkImplementation* nextLink =
+                (currentLink == nullptr) ? ocValue->parent : currentLink->parent;
+            if (nextLink && ((uintptr_t)nextLink & 0x3F) == 0) {
+                currentPointer = nextLink->object;
+                currentLink = nextLink;
             } else {
-                currentObject = nullptr;
+                currentPointer = nullptr;
+                currentLink = nullptr;
             }
         }
         return PROTO_FALSE;
     }
     
+    /**
+     * @brief Merges this object's own attributes with those of every
+     * ancestor in its own FLATTENED chain, in the same precedence order
+     * attribute lookup uses: own attributes win over any ancestor's, and
+     * a NEARER ancestor (earlier in the chain) wins over a FARTHER one
+     * for the same key — matching getAttribute's/hasAttribute's "own,
+     * then chain head to tail, first match wins" rule exactly.
+     *
+     * This used to recurse into only the FIRST parent link
+     * (`pl->getObject(context)->getAttributes(context)`), so a second or
+     * later DIRECT parent (an addParent-built diamond, or a setParents
+     * list with more than one entry) never contributed its own
+     * attributes to the merged view at all — even though
+     * getAttribute/hasAttribute/isInstanceOf, which walk the receiver's
+     * own chain directly rather than recursing into just the first
+     * entry, already saw it. It is now the same iterative, allocation-
+     * for-the-merge-only walk of the receiver's own chain those methods
+     * use: no recursion, so no missed sibling and no C++ stack depth
+     * proportional to chain length either.
+     */
     const ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
@@ -1879,56 +2213,70 @@ namespace proto
             const ProtoObject* prototype = getPrototype(context);
             return prototype ? prototype->getAttributes(context) : context->newSparseList();
         }
-        auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseListImplementation* attributes = oc->attributes;
 
-        // GC critical section opened BEFORE the mutable snapshot is resolved
-        // and held until the result is built.  The snapshot's attributes and
-        // parent chain are used across the recursive parent lookup and the
-        // merge allocations, and they are referenced only from this frame: if
-        // another thread publishes a new state, nothing else keeps the old one
-        // alive.  Inside the section no thread parks (the recursion's own
-        // sections are nested), so no stop-the-world runs between the resolve
-        // and the last use; the heap checkpoint runs at this entry, before the
-        // resolve.  The section also covers the merge, whose partial tree is
-        // reachable only via `attrs` until the final return.
+        // GC critical section: covers the whole flattened-chain walk and
+        // the merge build, whose partial tree is reachable only via
+        // `attrs` (a C++ local) until the final return — same rationale
+        // as before, now spanning the whole chain in one section instead
+        // of one recursive hop's worth at a time.
         ProtoContext::CriticalSection cs(context);
 
+        auto oc = toImpl<const ProtoObjectCell>(this);
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
             if (storedState != nullptr) {
-                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                attributes = storedOc->attributes;
-                oc = storedOc;
+                oc = toImpl<const ProtoObjectCell>(storedState);
             }
         }
 
-        const ProtoSparseListImplementation* attrs = attributes;
-        if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
-            auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
-            if (pl->getType() == CellType::ParentLink) {
-                const ProtoObject* parentObj = pl->getObject(context);
-                if (parentObj) {
-                    // Recurse to the public API form (which other callers
-                    // may also receive); convert back to IMPL for the
-                    // merge loop below by walking via the Iterator API
-                    // (which works on either form via tag dispatch).
-                    const ProtoSparseList* parentAttrs = parentObj->getAttributes(context);
-                // Merge parent attributes with own attributes (inside the
-                // critical section opened above).
-                const ProtoSparseListIterator* it = parentAttrs->getIterator(context);
-                while (it && it->hasNext(context)) {
-                    unsigned long key = it->nextKey(context);
-                    const ProtoObject* value = it->nextValue(context);
-                    if (!attrs || attrs->implGetAt(context, key) == nullptr) {
-                        attrs = attrs ? attrs->implSetAt(context, key, value)
-                                      : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
+        // Seed `attrs` with the receiver's own attribute tree directly —
+        // structural sharing, no allocation — matching the fast path an
+        // object with no ancestors always had. Ancestors (if any) are
+        // merged in below, only adding a key not already present.
+        const ProtoSparseListImplementation* attrs = oc->attributes;
+
+        const ParentLinkImplementation* link = oc->parent;
+        while (link && ((uintptr_t)link & 0x3F) == 0) {
+            auto pl = toImpl<const ParentLinkImplementation>(link);
+            if (pl->getType() != CellType::ParentLink) break;
+
+            // Policy for a non-object chain entry (addParent accepts any
+            // cell pointer that is not an embedded value, e.g. a heap
+            // ProtoString; setParents' own flattening accepts literally
+            // anything, including an embedded value like a SmallInteger
+            // -- see flattenParentsOrder's comment on this): mirror
+            // getAttribute's chain-navigation loop exactly. Redirect to
+            // the entry's OWN prototype and merge THAT prototype's OWN
+            // attributes -- a single hop, never the prototype's own
+            // further chain -- then continue this scan's ORIGINAL chain
+            // exactly as before. `toImpl<ProtoObjectCell>` must never be
+            // called on a non-object tagged pointer: it does not address
+            // a ProtoObjectCell-shaped Cell at all.
+            const ProtoObject* ancestor = pl->getObject(context);
+            const ProtoObject* attrSource = ancestor;
+            if (!proto::isObjectFast(attrSource)) {
+                attrSource = attrSource ? attrSource->getPrototype(context) : nullptr;
+            }
+
+            if (attrSource && proto::isObjectFast(attrSource)) {
+                const ProtoObjectCell* ancOc = resolveOwnCell(context, attrSource);
+                if (ancOc->attributes) {
+                    const ProtoSparseListIteratorImplementation* it = ancOc->attributes->implGetIterator(context);
+                    while (it && it->implHasNext()) {
+                        unsigned long key = it->implNextKey();
+                        const ProtoObject* value = it->implNextValue();
+                        if (!attrs || attrs->implGetAt(context, key) == nullptr) {
+                            attrs = attrs ? attrs->implSetAt(context, key, value)
+                                          : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
+                        }
+                        it = it->implAdvance(context);
                     }
-                    it = const_cast<ProtoSparseListIterator*>(it)->advance(context);
-                }
                 }
             }
+
+            link = pl->getParent(context);
         }
+
         // Convert the IMPL pointer to the public API tagged handle at
         // the boundary — this is the trampoline that returns to the
         // user/external callers.

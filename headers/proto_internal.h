@@ -831,14 +831,14 @@ namespace proto {
 
         const ProtoObjectCell *addParent(ProtoContext *context, const ProtoObject *newParentToAdd) const;
 
-        // setParents — replace the entire parent chain with the
-        // objects in `newParents` (head of list = first / nearest
-        // parent).  Returns a freshly-built ProtoObjectCell that
-        // shares this cell's attributes but with a brand-new
-        // ParentLink chain.  Mutable-vs-immutable dispatch lives in
-        // the ProtoObject-level trampoline; this helper is the pure
-        // immutable-shape builder.
-        const ProtoObjectCell *setParents(ProtoContext *context, const ProtoList *newParents) const;
+        // setParents has no ProtoObjectCell-level method: the flattening
+        // (order computation) and the chain-building (Cell allocation)
+        // are free functions local to core/ProtoObject.cpp
+        // (flattenParentsOrder, buildParentChainFromFlat) called directly
+        // by the ProtoObject::setParents trampoline — split out so the
+        // (potentially large) flattening work can run once, outside any
+        // GC critical section and outside a mutable receiver's CAS retry
+        // loop, instead of being redone on every retry.
 
         const ProtoObject *asObject(ProtoContext *context) const;
 
