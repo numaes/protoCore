@@ -296,6 +296,55 @@ namespace proto
         ownsSlots_ = true;
     }
 
+    namespace {
+        /**
+         * @brief Park for a stop-the-world, and nothing else.
+         *
+         * The parking half of ProtoContext::safepoint(): relaxed load of
+         * `stwFlag` on the fast path; on the slow path count into the quorum,
+         * notify the collector and wait until the flag clears.
+         *
+         * It deliberately does NOT submit the context's young generation.
+         * That submission is the other half of safepoint(), and it is safe
+         * only where every reachable Cell is already anchored from a real GC
+         * root.  A native bulk builder is not such a place: the elements it
+         * has not consumed yet are reachable only from the caller's C++ array
+         * and from the young chain the submission would hand over.  A builder
+         * that wants to be interruptible parks; it does not safepoint.
+         */
+        void parkForStopTheWorld(ProtoContext* context)
+        {
+            ProtoSpace* space = context ? context->space : nullptr;
+            if (!space) return;
+            if (!space->stwFlag.load(std::memory_order_relaxed)) return;
+            // The GC thread never parks against its own stop-the-world.
+            if (space->gcThread &&
+                std::this_thread::get_id() == space->gcThread->get_id()) return;
+            // Same critical-section discipline as allocCell and synchToGC, in
+            // every configuration: a thread inside a critical section must NOT
+            // park.  It may be mid-construction (a half-built tree unreachable
+            // from any root) or hold cells read from the mutables tree only in
+            // C++ locals.
+            if (context->criticalSectionDepth > 0) return;
+            space->parkedThreads++;
+            {
+                GC_LOCK_TRACE("safepoint STW ACQ");
+                std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                space->gcCV.notify_all();
+                space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
+                GC_LOCK_TRACE("safepoint STW REL");
+            }
+            space->parkedThreads--;
+            // Resumed after a stop-the-world: drop this thread's cache entries
+            // before the next lookup (the caches are not GC roots).
+            if (context->thread) {
+                if (auto* ext = toImpl<ProtoThreadImplementation>(context->thread)->extension) {
+                    ext->clearCachesAfterStopTheWorld(space);
+                }
+            }
+        }
+    }
+
     /**
      * @brief Cooperative GC safepoint.
      *
@@ -342,31 +391,7 @@ namespace proto
         }
 #endif
 
-        if (!this->space->stwFlag.load(std::memory_order_relaxed)) return;
-        // GC thread itself never parks against its own STW.
-        if (this->space->gcThread &&
-            std::this_thread::get_id() == this->space->gcThread->get_id()) return;
-        // Same critical-section discipline, in every configuration: a thread
-        // inside a critical section must NOT park.  It may be mid-construction
-        // (a half-built tree in dirtySegments, unreachable from any root) or
-        // hold cells read from the mutables tree only in C++ locals.
-        if (this->criticalSectionDepth > 0) return;
-        this->space->parkedThreads++;
-        {
-            GC_LOCK_TRACE("safepoint STW ACQ");
-            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-            this->space->gcCV.notify_all();
-            this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
-            GC_LOCK_TRACE("safepoint STW REL");
-        }
-        this->space->parkedThreads--;
-        // Resumed after a stop-the-world: drop this thread's cache entries
-        // before the next lookup (the caches are not GC roots).
-        if (this->thread) {
-            if (auto* ext = toImpl<ProtoThreadImplementation>(this->thread)->extension) {
-                ext->clearCachesAfterStopTheWorld(this->space);
-            }
-        }
+        parkForStopTheWorld(this);
     }
 
     // 2026-05-25: thin wrappers around the thread-level unmanaged-region
@@ -624,21 +649,103 @@ namespace proto
         return (new(this) ProtoListSmallImplementation(this, 0, nullptr))->asProtoList(this);
     }
 
+    namespace {
+        /**
+         * @brief RAII anchor for a running intermediate in
+         *        `ProtoContext::pendingRoot`.
+         *
+         * `pendingRoot` is collected as a GC root by the stop-the-world root
+         * scan (ProtoSpace's scanContexts), so a value parked there — and
+         * everything reachable from it — stays reachable while the thread
+         * runs outside any critical section.  Same mechanism, and the same
+         * save/restore discipline, as the anchor
+         * `ProtoObject::processOwnAttributes` uses to run its callback
+         * outside a critical section (core/ProtoObject.cpp).
+         *
+         * `reseat` moves the anchor to the next intermediate.  It must be
+         * called before the next allocation, so that no allocation ever runs
+         * with the anchor pointing at a superseded intermediate.
+         *
+         * The slot holds one value, so a nested anchor displaces its
+         * caller's for as long as it is open — exactly as the
+         * processOwnAttributes anchor does.  That is why the previous value
+         * is saved and restored here instead of simply cleared.
+         */
+        class PendingRootAnchor {
+        public:
+            explicit PendingRootAnchor(ProtoContext* context)
+                : context_(context), saved_(context ? context->pendingRoot : nullptr) {}
+            ~PendingRootAnchor() { if (context_) context_->pendingRoot = saved_; }
+
+            void reseat(const ProtoObject* obj) {
+                if (!context_) return;
+                context_->pendingRoot = const_cast<Cell*>(ProtoObject::asCellPointer(obj));
+            }
+
+            PendingRootAnchor(const PendingRootAnchor&) = delete;
+            PendingRootAnchor& operator=(const PendingRootAnchor&) = delete;
+        private:
+            ProtoContext* context_;
+            Cell* saved_;
+        };
+    }
+
     const ProtoList* ProtoContext::newList(unsigned n, const ProtoObject* const* items)
     {
         if (n <= ProtoListSmallImplementation::MAX_INLINE) {
             return (new(this) ProtoListSmallImplementation(this, n, items))->asProtoList(this);
         }
-        // n > 5: produce the AVL form.  Build it in a single critical
-        // section via repeated appendLast over an empty AVL list — every
-        // intermediate is held in a C++ local, no half-built tree leaks
-        // to the GC's view between allocations.
-        ProtoContext::CriticalSection cs(this);
+        // n > 5: produce the AVL form via repeated appendLast over an empty
+        // AVL list.
+        //
+        // No CriticalSection around the loop, deliberately.  A section here
+        // would suppress this thread's stop-the-world parking for the whole
+        // O(n) construction — the collector cannot start its pause until the
+        // last element is in, so phase P1 grows with the length of the list
+        // being built, which is exactly the cost no collection is allowed to
+        // carry.  What the section bought was reachability: the running
+        // intermediate is a fresh tree that no caller holds yet, and between
+        // two allocations it lived only in a C++ local, invisible to the root
+        // scan.
+        //
+        // The anchor below buys the same reachability without suppressing
+        // anything.  Every intermediate is parked in `pendingRoot`, which the
+        // stop-the-world root scan reads (ProtoSpace's scanContexts), before
+        // the allocation that could park this thread; a collection that lands
+        // mid-build therefore traces the spine the loop is standing on from a
+        // real root, and appendLast's own short critical section still covers
+        // the path copy it performs internally.  The previous occupant of the
+        // slot is saved and restored, so a nested or re-entrant use cannot
+        // lose a caller's anchor.
+        //
+        // What the section also contributed is the heap-ceiling backpressure
+        // its constructor takes at depth 0; that is kept, at the same point in
+        // the control flow: before the first allocation, with nothing
+        // half-built.  (See newStringFromUTF8 above for the same reasoning on
+        // the string builder.)
+        this->heapLimitCheckpoint();
+
+        PendingRootAnchor anchor(this);
         const ProtoList* result =
             (new(this) ProtoListImplementation(this, PROTO_NONE, true, nullptr, nullptr))
                 ->asProtoList(this);
+        anchor.reseat(reinterpret_cast<const ProtoObject*>(result));
         for (unsigned i = 0; i < n; ++i) {
             result = result->appendLast(this, items[i]);
+            // Re-seated before the next iteration allocates anything: no
+            // allocation, and therefore no stop-the-world poll, runs between
+            // appendLast returning and the anchor naming its result.
+            anchor.reseat(reinterpret_cast<const ProtoObject*>(result));
+            // The only point in this loop where the thread is outside a
+            // critical section: appendLast takes one of its own for the path
+            // copy it performs, so allocCell's every-64-allocations poll is
+            // always suppressed while it runs, and the loop would otherwise
+            // offer the collector no chance to stop this thread at all.  Here
+            // the depth is 0, the anchor names the whole result, and the young
+            // chain still carries the elements not yet appended, so a
+            // collection that starts now traces everything this build needs.
+            // Fast path is one relaxed atomic load.
+            parkForStopTheWorld(this);
         }
         return result;
     }
