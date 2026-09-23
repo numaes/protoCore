@@ -46,6 +46,7 @@ namespace proto
     class ProtoSparseListIterator;
     class ProtoMap;
     class ProtoMapIterator;
+    class ProtoMPSCQueue;
     class ProtoSet;
     class ProtoSetIterator;
     class ProtoMultiset;
@@ -591,6 +592,7 @@ namespace proto
         bool isByteBuffer(ProtoContext* context) const;
         bool isNativeRangeIterator(ProtoContext* context) const;
         bool isMap(ProtoContext* context) const;
+        bool isMPSCQueue(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
@@ -632,6 +634,7 @@ namespace proto
         const ProtoSparseList* asSparseList(ProtoContext* context) const;
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
         const ProtoMap* asMap(ProtoContext* context) const;
+        const ProtoMPSCQueue* asMPSCQueue(ProtoContext* context) const;
         const ProtoSet* asSet(ProtoContext* context) const;
         const ProtoSetIterator* asSetIterator(ProtoContext* context) const;
         const ProtoMultiset* asMultiset(ProtoContext* context) const;
@@ -1113,6 +1116,61 @@ namespace proto
     };
 
     /**
+     * @class ProtoMPSCQueue
+     * @brief Mutable, lock-free, multi-producer / single-consumer FIFO of
+     *        items the garbage collector traces.
+     *
+     * Specification: protoScala/docs/platform/PMQ-SPEC.md.  One queue per
+     * actor and priority band is the intended use (protoScala DESIGN section 8,
+     * protoClojure, protoST).
+     *
+     * `push` may be called concurrently from any number of threads; it is
+     * lock-free, allocates exactly one cell and does no work proportional
+     * to the queue's length.  `takeAll` removes every item pushed so far
+     * and returns them in push order as an immutable ProtoList; **only one
+     * consumer may call it at a time**, which the caller guarantees (an
+     * actor runtime already does, through its claimed flag).  Violating
+     * that is a caller bug, not undefined memory behaviour: the
+     * implementation stays memory-safe and only the partition of items
+     * between the racing consumers is unspecified.
+     *
+     * `takeAll` removes every item pushed so far.  Items pushed *after* the
+     * call started may or may not be included: the detach is a single
+     * exchange, so a node another producer prepends between the retain
+     * publish and the detach is taken by this batch.  An actor runtime must
+     * therefore not assume a hard cut-off at the call's entry, only the
+     * never-lost / never-duplicated guarantee below.
+     *
+     * Items are never copied - the queue stores the pointer.  An item
+     * pushed before a takeAll begins is returned by that call or a later
+     * one: never lost, never duplicated.
+     *
+     * The queue itself must stay reachable for the duration of a call: the
+     * items of a batch being built into a list are reachable through it,
+     * and through nothing else.  Hold it in an attribute, a root set or a
+     * live context, exactly as for every other protoCore handle.
+     */
+    class ProtoMPSCQueue
+    {
+    public:
+        /** Any thread.  Lock-free, O(1), one cell. */
+        void push(ProtoContext* context, const ProtoObject* item) const;
+
+        /** Single consumer.  Every queued item in FIFO order; an empty list
+         *  when nothing is queued. */
+        const ProtoList* takeAll(ProtoContext* context) const;
+
+        /** Any thread; a snapshot that may be stale by the time it is used. */
+        bool isEmpty(ProtoContext* context) const;
+
+        const ProtoObject* asObject(ProtoContext* context) const;
+
+        /** Identity hash: the queue is mutable, so its contents cannot
+         *  contribute to it. */
+        unsigned long getHash(ProtoContext* context) const;
+    };
+
+    /**
      * @brief A language's key semantics for the hashed-collection helper.
      *
      * isIdentityKey: true when the language's equality for this key is
@@ -1534,6 +1592,8 @@ namespace proto
         const ProtoSparseList* newSparseList();
         /** Empty ProtoMap (inline Small form; promotes past 3 entries). */
         const ProtoMap* newMap();
+        /** Empty lock-free MPSC queue (PMQ-SPEC section 2.1). */
+        const ProtoMPSCQueue* newMPSCQueue();
         // Returns an empty AVL-form sparse list implementation as a raw
         // C++ pointer. Used for internal struct fields that should not
         // carry a tag (e.g. ProtoObjectCell::attributes); the public
@@ -1869,6 +1929,7 @@ namespace proto
         ProtoObject* multisetIteratorPrototype{};
         ProtoObject* rangeIteratorPrototype{};
         ProtoObject* mapPrototype{};
+        ProtoObject* mpscQueuePrototype{};
 
         // --- Cached Literals ---
         ProtoString* literalData;

@@ -685,6 +685,12 @@ namespace proto
             (new(this) ProtoMapSmallImplementation(this))->implAsObject(this));
     }
 
+    const ProtoMPSCQueue* ProtoContext::newMPSCQueue()
+    {
+        return reinterpret_cast<const ProtoMPSCQueue*>(
+            (new(this) ProtoMPSCQueueImplementation(this))->implAsObject(this));
+    }
+
     const ProtoSparseListImplementation* ProtoContext::newSparseListImpl()
     {
         // Empty AVL-form sparse list as a raw C++ pointer. Used by struct
