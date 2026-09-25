@@ -13,6 +13,105 @@
 namespace proto {
 
     namespace {
+        /**
+         * Release everything a managed thread owns, on that thread, as the last
+         * thing it does.
+         *
+         * WHY NOT `finalize`.  The obvious home for this is
+         * ProtoThreadImplementation::finalize, and it is the wrong one, for
+         * three independent reasons.
+         *
+         *  1. The finalizer contract forbids it.  docs/GarbageCollector.md
+         *     section 7: a finalizer runs on the single GC thread inside the
+         *     sweep, concurrently with the mutators; it never allocates, never
+         *     publishes to a shared structure with compare-and-swap, never
+         *     loops over protoCore data, and must not BLOCK, because a wait
+         *     there stalls collection for the whole space.  Returning the
+         *     batch takes ProtoSpace::globalMutex (blocks), destroying the root
+         *     context submits a young generation (publishes) and joining the
+         *     std::thread blocks outright.
+         *  2. It would free memory a live thread is still using.  Sweep runs
+         *     with the world going; a thread cell becoming garbage is not by
+         *     itself proof that the OS thread has stopped touching its caches.
+         *  3. It would never run.  The ProtoThreadImplementation and
+         *     ProtoThreadExtension cells are allocated on the scratch context
+         *     ProtoSpace::newThread creates and never destroys, so their young
+         *     chain is never submitted, so they are never sweep candidates and
+         *     `finalize` is never reached on them at all.
+         *
+         * WHY HERE.  The exiting thread is the only party that knows the OS
+         * thread is finished with its own cells and caches, and it can block
+         * freely: it has already left `runningThreads`, so a collector waiting
+         * for the stop-the-world quorum is not waiting for it, and `join` on
+         * this thread cannot return until this function has.  Every step below
+         * is therefore an ordinary mutator operation on the owning thread, not
+         * collector work.
+         *
+         * ORDER IS LOAD-BEARING.  The root context is destroyed FIRST, because
+         * ~ProtoContext is what hands this thread's young generation to the
+         * space (the cells `removeAt` just allocated for the new threads list
+         * among them - they are reachable from `space->threads`, which is a
+         * root, so submitting them is what lets a later cycle account for them
+         * instead of losing them).  The batch goes back LAST, because until the
+         * context is gone this thread could still allocate from it.
+         */
+        void releaseExitingThread(ProtoContext* context)
+        {
+            ProtoSpace* space = context->space;
+            auto* impl = context->thread
+                ? const_cast<ProtoThreadImplementation*>(
+                      toImpl<const ProtoThreadImplementation>(context->thread))
+                : nullptr;
+            ProtoThreadExtension* ext = impl ? impl->extension : nullptr;
+
+            // Never release the adopted main thread: its "root context" is
+            // ProtoSpace::rootContext, which ~ProtoSpace owns, and it has no
+            // osThread.  The main thread never runs thread_main, so this is a
+            // guard against a future caller, not against today's one.
+            if (impl && impl->context == space->rootContext) return;
+
+            // 1. The root ProtoContext.  ~ProtoContext submits the young
+            //    generation, returns its own per-context freelist, frees the
+            //    automaticLocals array, and sets impl->context to nullptr
+            //    (implSetCurrentContext(previous), and previous is null for a
+            //    thread root).  Safe here and nowhere else: this thread is out
+            //    of `space->threads` already, so no stop-the-world root scan
+            //    can be walking this context - the removal above published
+            //    under globalMutex, and Phase 2 reads the list under the same
+            //    mutex, so the two are serialised.
+            delete context;
+
+            if (!ext) return;
+
+            // 2. The two per-thread caches: 32 KiB aligned_alloc plus 24 KiB
+            //    malloc, neither of them cells and neither visible to
+            //    heapSize.  They are NOT GC roots and the marker never reads
+            //    them (ProtoThreadExtension::processReferences reports
+            //    nothing), and the only readers are the attribute / mutable
+            //    lookup paths reached through a ProtoContext of THIS thread -
+            //    all of which are gone by now, the root one at step 1.
+            std::free(ext->attributeCache);
+            ext->attributeCache = nullptr;
+            std::free(ext->mutableValueCache);
+            ext->mutableValueCache = nullptr;
+
+            // 3. The unused tail of this thread's allocation batch.  This is
+            //    the measured leak: up to one batch per exiting thread,
+            //    belonging to no freelist and to no young generation, so no
+            //    cycle could ever reclaim it (docs/GarbageCollector.md, known
+            //    issues).  Detach it before publishing, so that nothing can
+            //    hand out a cell that is already on the space's freelist.
+            Cell* batch = ext->freeCells;
+            ext->freeCells = nullptr;
+            (void) returnUnusedCellBatch(space, batch);
+
+            // `ext->osThread` is deliberately left alone.  The std::thread
+            // object must outlive this function - an embedder may still be
+            // blocked in ProtoThread::join on it - and it cannot be joined
+            // from inside the thread it represents.  ProtoThread::join deletes
+            // it once the join has proved the OS thread is gone.
+        }
+
         void thread_main(
             ProtoContext* context,
             ProtoMethod method,
@@ -55,7 +154,13 @@ namespace proto {
                     break;
                 }
             }
-            context->space->gcCV.notify_all(); // Notify GC that a thread finished
+            // Everything this thread owns goes back now, on this thread.  After
+            // this call `context` is a dangling pointer, so nothing below may
+            // touch it - hence the saved `space`.
+            ProtoSpace* space = context->space;
+            releaseExitingThread(context);
+
+            space->gcCV.notify_all(); // Notify GC that a thread finished
         }
     }
 
@@ -98,6 +203,11 @@ namespace proto {
         // since the last clear and any entry may name a cell that the cycle's
         // sweep frees and reuses.  An all-zero entry never matches a lookup
         // (object == nullptr, mutable_ref == 0).
+        // A thread that has exited has already freed both caches
+        // (releaseExitingThread).  Nothing on that thread can reach this
+        // function afterwards, but another thread holding the ProtoThread can,
+        // so the null check is the cheap way to make that harmless.
+        if (!this->attributeCache || !this->mutableValueCache) return;
         const uint64_t epoch = space->gcCycleCount.load(std::memory_order_relaxed);
         if (epoch == this->lastClearedEpoch) return;
         std::memset(static_cast<void*>(this->attributeCache), 0,
@@ -166,12 +276,39 @@ namespace proto {
         const ProtoSparseList* kwargs
     ) : Cell(context), name(name), space(space), args(args), kwargs(kwargs) {
         this->extension = new (context) ProtoThreadExtension(context);
+
+        // Building the NEW thread's root context must not leave the CREATING
+        // thread registered against it.
+        //
+        // ProtoContext's constructor registers every context it builds as the
+        // current context of the thread it belongs to, or - when it belongs to
+        // no thread - as ProtoSpace::mainContext (core/ProtoContext.cpp, step
+        // 3).  `previous == nullptr` makes the new thread's root context look
+        // like a thread root to that code, so on the main thread it silently
+        // becomes the main thread's current context, and on a worker it
+        // silently becomes space->mainContext.  Both of those slots are GC root
+        // sources for a thread that does not own this context.
+        //
+        // That was merely wrong until now (one thread's roots scanned from
+        // another thread's context, healed by the creator's next context
+        // construction).  It becomes a dangling pointer the moment the exiting
+        // thread destroys its own root context, which releaseExitingThread
+        // above now does.  So snapshot both slots and put them back.
+        auto* callerImpl = (context && context->thread)
+            ? toImpl<ProtoThreadImplementation>(context->thread)
+            : nullptr;
+        ProtoContext* const callerCurrent = callerImpl ? callerImpl->context : nullptr;
+        ProtoContext* const savedMainContext = space ? space->mainContext : nullptr;
+
         this->context = new ProtoContext(space, nullptr, nullptr, nullptr, args, kwargs);
         this->context->thread = (ProtoThread*)this->asThread(context);
         // Stash the per-thread mutable-value cache pointer in the
         // freshly-created context so resolveMutableState's hot path
         // can reach it with one load (see ProtoObject.cpp).
         this->context->mutableValueCache_ = this->extension->mutableValueCache;
+
+        if (callerImpl) callerImpl->implSetCurrentContext(callerCurrent);
+        if (space) space->mainContext = savedMainContext;
         // Build the new `space->threads` list OUTSIDE the global mutex.
         //
         // Why: `implSetAt` walks the SparseList and allocates new node
@@ -487,6 +624,18 @@ namespace proto {
     // inside a critical section is itself a contract violation
     // (docs/EMBEDDER-CONFORMANCE.md rule 12); the diagnostic names it rather
     // than hiding it behind either a hang or an abort.
+    namespace {
+        // Release the std::thread object of a thread that has just been joined.
+        // Non-blocking by construction: the join above already returned, so the
+        // object is no longer joinable and ~std::thread is a no-op.
+        void releaseJoinedOsThread(ProtoThreadExtension* ext) {
+            if (!ext) return;
+            std::thread* osThread = ext->osThread;
+            ext->osThread = nullptr;
+            delete osThread;
+        }
+    }
+
     void ProtoThread::join(ProtoContext* context) {
         auto* impl = toImpl<ProtoThreadImplementation>(this);
         if (!impl->extension || !impl->extension->osThread ||
@@ -510,14 +659,26 @@ namespace proto {
                     context->criticalSectionDepth);
             }
             osThread->join();
+            releaseJoinedOsThread(impl->extension);
             return;
         }
 
         // The normal path: out of the running set, block, back in.  The
         // returning half re-parks properly if a stop-the-world phase is in
         // progress when the join completes (implReturnFromUnmanaged).
-        ProtoContext::UnmanagedScope parked(context);
-        osThread->join();
+        {
+            ProtoContext::UnmanagedScope parked(context);
+            osThread->join();
+        }
+        // A completed join is the only proof protoCore ever gets that the OS
+        // thread is gone, so it is the only place the std::thread object can be
+        // released.  It cannot be done by the thread itself (a thread cannot
+        // join itself) nor by a finalizer (join blocks, and the sweep may not).
+        // A second join on the same ProtoThread now returns at the osThread
+        // null check above instead of touching a freed object; a thread that is
+        // never joined still leaks its std::thread, which is the embedder's
+        // side of the contract, not the kernel's.
+        releaseJoinedOsThread(impl->extension);
     }
 
     const ProtoObject* ProtoThread::getName(ProtoContext* context) const {

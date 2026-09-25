@@ -1909,6 +1909,22 @@ namespace proto {
         this->maxHeapSize   = hardCells;
     }
 
+    unsigned long returnUnusedCellBatch(ProtoSpace* space, Cell* head) {
+        if (!space || !head) return 0;
+
+        // Walk to the tail to get a count and a terminator.  O(batch) once per
+        // exiting thread, on that thread, off every hot path: the alternative
+        // is to keep a running count on ProtoThreadExtension, and that cell has
+        // no spare byte left inside its 64-byte budget.
+        Cell* tail = head;
+        unsigned long count = 1;
+        while (Cell* next = tail->getNext()) { tail = next; ++count; }
+
+        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        publishFreeChunk(space, head, tail, count);
+        return count;
+    }
+
     void ProtoSpace::submitYoungGeneration(const Cell* cell) {
         if (!cell) return;
 

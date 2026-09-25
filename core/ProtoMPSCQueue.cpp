@@ -62,11 +62,59 @@
  * Swap either and an item pushed before the pause and consumed during
  * the mark is freed under a live ProtoList.
  *
- * Nodes that a takeAll drops without retaining (pushed by another
- * producer between this consumer's `head` load and its detach) were
- * allocated after S, so they are young cells of the pushing context and
- * are not candidates of the running cycle: sweep cannot see them.  The
- * publish window is a ProtoContext::CriticalSection containing no
+ * ---------------------------------------------------------------------
+ * The nodes prepended INSIDE the publish window, and why the retain cell
+ * is widened after the detach
+ * ---------------------------------------------------------------------
+ *
+ * A producer may prepend at any instant between this consumer's `head`
+ * load (h) and its detaching exchange.  The chain the exchange returns
+ * is therefore a SUPERSET of chain(h): call the extra nodes W.  Until
+ * 2.3.1 the retain cell published only h, and the argument for W was
+ * that its nodes "were allocated after S, so they are young cells of the
+ * pushing context and are not candidates of the running cycle".
+ *
+ * That argument is true and insufficient.  It covers only the cycle that
+ * was running when the window closed.  `takeAll` then walks the detached
+ * chain and parks for stop-the-world every kPollInterval nodes (below),
+ * so the call routinely spans a cycle BOUNDARY.  For the next cycle the
+ * nodes of W are ordinary candidates - the pushing context submitted its
+ * young chain when it ended its turn - and between the detach and the
+ * end of the walk they hang off nothing but a C++ local.  The collector
+ * has no view of C++ locals, so it frees them and the items they are the
+ * only reference to: a batch of 182 lost its LAST element, which is
+ * exactly the one node a producer had prepended inside the window (the
+ * chain is LIFO, so the newest node is the last item out).
+ *
+ * The fix is one store: after the exchange, publish the chain that was
+ * actually detached into the same retain cell.
+ *
+ *   * It cannot narrow anything.  Only prepends happen, so chain(h) is a
+ *     suffix of chain(detached); the store replaces a set by a superset
+ *     of itself and the proof above still reads `retained` for h.
+ *   * The ordering the proof needs is untouched: the retain cell is
+ *     still PUBLISHED onto `retained` before the detach.  Only its
+ *     contents are widened afterwards, and a marker that loads either
+ *     value is correct.
+ *   * It is inside the window, hence before the first park.  A pause can
+ *     only complete once this thread parks, and it cannot park at
+ *     criticalSectionDepth > 0; so every cycle for which W is a
+ *     candidate set starts strictly after the widening store is visible.
+ *   * A marker that already processed this retain cell in the CURRENT
+ *     cycle will not revisit it (marked cells are never re-pushed), so
+ *     the widening may be invisible to that cycle - which is precisely
+ *     the cycle for which the original young-cell argument holds.  The
+ *     two arguments are complementary and together cover every cycle.
+ *   * The retain cell itself outlives the walk: `retained` is released
+ *     only by a later takeAll on the same single consumer thread, and
+ *     that thread is inside this one.
+ *
+ * So after the widening every node of the detached chain, and every item
+ * hanging off it, is reachable from a GC root at every instant from the
+ * detach to the return - which is what the O(batch) walk below needs in
+ * order to be allowed to park at all.
+ *
+ * The publish window is a ProtoContext::CriticalSection containing no
  * allocation and no safepoint, so no pause can complete inside it and
  * that window cannot span a cycle boundary.
  *
@@ -87,6 +135,39 @@
  * lose an object.  It is also not done by processReferences: the young-
  * chain walk calls processReferences too (core/ProtoSpace.cpp Phase 4),
  * so a destructive read there would be a second, silent consumer.
+ *
+ * ---------------------------------------------------------------------
+ * OPEN, NOT FIXED: the release gate is one cycle too eager
+ * ---------------------------------------------------------------------
+ *
+ * Found while checking whether the widening above is SUFFICIENT.  It is,
+ * for the loss it addresses; this is a different and much narrower
+ * hazard in the RELEASE half, it predates the widening, and the widening
+ * neither causes nor worsens it (the widening only ever adds coverage;
+ * the release timing is untouched).  It is written down rather than
+ * changed because changing it alters a proof this file rests on, and no
+ * test in the suite exhibits it.
+ *
+ * The gate releases when the cycle counter differs from `retainedEpoch`.
+ * The counter is bumped under the pause at the START of a cycle, so
+ * observing C+1 proves the mark and sweep of cycle C finished - but says
+ * nothing about the mark of C+1, which may still be running.  Now
+ * suppose takeAll #1 published its retain cell in cycle C and its walk
+ * spanned into C+1 (which is exactly the situation the widening exists
+ * for).  The nodes it detached are candidates of C+1 as well: they
+ * survived C, and sweep re-chains survivors into dirtySegments.  If
+ * takeAll #2 runs while C+1 is still marking and releases that retain
+ * cell before the marker has reached this queue cell, those nodes and
+ * their items are reachable from nothing the marker can see - the
+ * ProtoList that takeAll #1 returned was built AFTER C+1's pause, so it
+ * is not reachable from the young-chain head that pause captured.
+ *
+ * The window is narrow: the queue is normally an early entry in the mark
+ * work list, and takeAll #1 still has a whole newList to build after the
+ * detach.  A candidate remedy is to require the counter to have advanced
+ * by two rather than one, which costs at most one extra cycle of
+ * retention and can only retain memory.  Neither the hazard nor the
+ * remedy has a test; do not change the gate without one.
  */
 
 #include "../headers/proto_internal.h"
@@ -96,6 +177,32 @@
 
 namespace proto
 {
+    //=========================================================================
+    // Test-only intervention point
+    //=========================================================================
+    // The bug this hook exists to reproduce lives in a window that a producer
+    // can only enter by racing, and a flaky reproduction is not a test: the
+    // strongest statistical case the race gave was 4 failures in 40 runs
+    // against 0 in 40, i.e. p ~ 0.12, which does not distinguish a fix from
+    // luck.  The hook makes the interleaving a decision instead of a race, so
+    // that `test/ProtoMPSCQueueWindowTests.cpp` fails deterministically when
+    // the widening store below is removed.
+    //
+    // It is null in every build and the library never installs it; the cost on
+    // the live path is one relaxed atomic load per takeAll, on a path that
+    // already does an exchange and a CAS.  It is declared in proto_internal.h,
+    // never in the public header: an embedder cannot reach it.
+    std::atomic<PmqTakeAllWindowHook> pmqTakeAllWindowHook{nullptr};
+
+    namespace {
+        inline void runWindowHook(ProtoContext* context, const ProtoMPSCQueue* queue,
+                                  PmqWindowPhase phase) {
+            if (const PmqTakeAllWindowHook hook =
+                    pmqTakeAllWindowHook.load(std::memory_order_relaxed))
+                hook(context, queue, phase);
+        }
+    }
+
     //=========================================================================
     // ProtoMPSCQueueImplementation
     //=========================================================================
@@ -251,6 +358,10 @@ namespace proto
                 return context->newList();
             }
 
+            // A test may prepend here, where a producer that ran between the
+            // load of `h` and the retain publish would have.
+            runWindowHook(context, this, PmqWindowPhase::AfterHeadLoad);
+
             retain->chain.store(h, std::memory_order_relaxed);
             const RetainCell* rh = q->retained.load(std::memory_order_relaxed);
             do {
@@ -263,7 +374,32 @@ namespace proto
             // are not covered by `retain` - they were allocated inside this
             // window, hence after the pause, hence young cells of the pushing
             // context that this cycle's sweep cannot see.
+            //
+            // A test may prepend here, where a producer that ran between the
+            // retain publish and the detach would have.
+            runWindowHook(context, this, PmqWindowPhase::BeforeDetach);
+
             chain = q->head.exchange(nullptr, std::memory_order_acq_rel);
+
+            // Widen the retain cell to the chain that was ACTUALLY detached.
+            //
+            // This is the fix for the loss described at the top of this file:
+            // the young-cell argument for the nodes prepended inside this
+            // window covers only the cycle that is running now, and the
+            // O(batch) walk below parks, so the call outlives that cycle.  The
+            // store cannot narrow anything - only prepends happen, so
+            // chain(h) is a suffix of chain(chain) - and it leaves the
+            // publish-before-detach ordering the proof depends on untouched,
+            // because the cell was already published above.  It is still
+            // inside the window, so it is visible before this thread can park,
+            // hence before any cycle for which these nodes are candidates can
+            // begin.
+            //
+            // It is a store and not an allocation or a protoCore call, so the
+            // window's ABA argument is intact: there is still nothing here
+            // that can complete a sweep between the `head` load and the push
+            // CAS that races it.
+            retain->chain.store(chain, std::memory_order_release);
             // --- end of the publish window ---
         }
 

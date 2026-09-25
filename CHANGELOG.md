@@ -2,6 +2,143 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [2.4.0] - 2026-09-25
+
+Two kernel defects, on the maintainer's instruction to *"fix both without fail
+even though they touch the kernel"*. Both were found by the P4 embedder
+conformance work; neither was reachable from the embedders' own test suites.
+
+**`PROTOCORE_ABI_SOVERSION` stays 3.** No class gained or lost a member, no
+virtual was added or removed, no signature and no return convention changed.
+The two new symbols (`proto::returnUnusedCellBatch` and
+`proto::pmqTakeAllWindowHook`) are additive and declared only in
+`headers/proto_internal.h`, so no embedder's compiled layout or call sites
+move, and `SameMajorVersion` consumers keep working.
+
+**Why 2.4.0 and not 2.3.1.** A patch release would say "nothing here you need
+to know about", and that is not true of the second fix. It removes a
+documented Known Issue from `docs/GarbageCollector.md` -- an exiting thread now
+gives its allocation batch back -- which is a new guarantee an embedder may
+rely on, and it gives `ProtoThread` new post-conditions after a completed
+`join`: `getCurrentContext()` now returns `nullptr` instead of a stale pointer
+to a context nobody owned, and the `std::thread` object is gone. Reading a
+finished thread's context was never defined, but it used to return something;
+that is a behaviour change, so it gets a minor bump.
+
+### Fixed
+
+- **`ProtoMPSCQueue::takeAll` could lose the last message of a batch**
+  (`core/ProtoMPSCQueue.cpp`). Silent data loss, shipped. `takeAll` published
+  its retain cell with the chain it had **loaded**, then detached a possibly
+  **longer** chain -- every node a producer prepended in between was in the
+  detached chain and in no retain cell. The file's own argument for those nodes
+  was that they "were allocated after S, so they are young cells of the pushing
+  context and are not candidates of the running cycle", which is true and
+  insufficient: it covers only the cycle running when the window closed, and
+  the walk that follows parks for stop-the-world every 64 nodes, so the call
+  routinely spans a cycle **boundary**. For the next cycle those nodes are
+  ordinary candidates, hanging off nothing but a C++ local, and the collector
+  has no view of C++ locals. Observed signature, in the field: of a 182-message
+  batch exactly one element lost every own attribute, and always the **last** --
+  the chain is LIFO, so the node prepended inside the window is the last item
+  out.
+
+  The fix is one store: after the detaching exchange, publish the chain that
+  was actually detached into the same retain cell. It cannot narrow anything
+  (only prepends happen, so the loaded chain is a suffix of the detached one),
+  it leaves the publish-before-detach ordering the GC-safety proof depends on
+  untouched, and it is still inside the window, so it is visible before this
+  thread can park and therefore before any cycle for which those nodes are
+  candidates can begin. The window's ABA argument is also intact: a store is
+  neither an allocation nor a protoCore call, so nothing there can complete a
+  sweep between the `head` load and the CAS that races it.
+
+  **Reproduced deterministically before being fixed.** Racing a producer
+  against a consumer gave 4 failures in 40 runs against 0 in 40 -- p ~ 0.12,
+  which cannot distinguish a fix from luck, and this project does not ship on
+  that. `test/ProtoMPSCQueueWindowTests.cpp` instead **enters** the window
+  through a test-only hook (`proto::pmqTakeAllWindowHook`, null in every build,
+  one relaxed load per `takeAll`) and asserts two things: that every node the
+  detach took is reachable from `retained`, and -- with a pause armed from
+  inside the window, so the candidate set is always fixed with the walk in
+  flight -- that a canary `Cell` reachable only through the window node is
+  traced and never finalized. Removing the widening store fails both, 10 runs
+  out of 10, with identical numbers.
+
+- **An exiting thread no longer leaks its allocation batch**
+  (`core/Thread.cpp`, `core/ProtoSpace.cpp`). Measured in a bare `ProtoSpace`
+  with no runtime at all: `freeCellsCount` fell by **4,096 cells per
+  empty-bodied thread** and **8,192 per allocating one**, while `heapSize` and
+  `liveCellsLastCycle` stayed constant -- the signature of memory that is
+  neither live nor free. The thread's root `ProtoContext` (and with it its
+  entire un-submitted young generation, and its `automaticLocals` array), the
+  two per-thread caches (32 KiB `aligned_alloc` + 24 KiB `malloc`, invisible to
+  `heapSize`) and the `std::thread` object leaked with it. After the fix,
+  200 threads through a bare space leave `heapSize` unchanged and `inUse`
+  **lower** than the baseline.
+
+  **The release is not in `finalize`, and that is the point.** Sweep calls only
+  `finalize()`, and `ProtoThreadImplementation::finalize` is empty, so the
+  obvious fix is to fill it in. It is illegal three times over.
+  `docs/GarbageCollector.md` section 7 forbids a finalizer from blocking,
+  allocating or publishing with compare-and-swap -- and returning the batch
+  blocks on `globalMutex`, destroying the context publishes a young generation,
+  and joining the `std::thread` blocks outright. A finalizer is also no proof
+  that the OS thread has stopped, since sweep runs with the world going, so it
+  could free caches a live thread is still reading. And it would never run at
+  all: the thread cells live in the young chain of the scratch `ProtoContext`
+  that `ProtoSpace::newThread` never destroys, so they are never sweep
+  candidates.
+
+  So the release happens where the owner gives the resource up. On the exiting
+  thread, in `thread_main`'s tail (`releaseExitingThread`), after it has left
+  `runningThreads` and the threads list -- so it can block freely without
+  holding the stop-the-world quorum, and no root scan can be walking its
+  context. Order is load-bearing: the root context is destroyed **first**,
+  because `~ProtoContext` is what submits the young generation (including the
+  cells `removeAt` just allocated for the new threads list, which are reachable
+  from `space->threads` and so were never garbage, merely unaccounted); the
+  batch goes back **last**, via the new `returnUnusedCellBatch`, because until
+  the context is gone the thread could still allocate from it. The
+  `std::thread` object is released by `ProtoThread::join` -- the only place
+  that can, since a thread cannot join itself and a completed join is the only
+  proof protoCore ever gets that the OS thread is gone. A thread that is never
+  joined still leaks its `std::thread`; that is the embedder's side of the
+  contract.
+
+  This also closes a latent GC hazard that the fix would otherwise have turned
+  into a use-after-free. `ProtoContext`'s constructor registers every context
+  it builds as the current context of its thread, or as `ProtoSpace::mainContext`
+  when it has none; a new thread's root context has `previous == nullptr`, so it
+  looked like a thread root and silently took over one of the **creating**
+  thread's root slots. That was merely wrong while nothing deleted the context.
+  `ProtoThreadImplementation`'s constructor now snapshots both slots and puts
+  them back.
+
+  Regression cover: `test/ThreadExitReleaseTests.cpp`, asserting the
+  per-thread cell delta against a denominator and, one by one, that a joined
+  thread holds no context, no batch, neither cache and no `std::thread`.
+
+### Changed
+
+- `ProtoThread::join` releases the `std::thread` object once the join has
+  completed, and nulls it, so a second `join` on the same `ProtoThread` returns
+  at the existing null check instead of touching a freed object.
+- `ProtoThreadExtension::clearCachesAfterStopTheWorld` returns immediately when
+  either cache is null, which is the state of a thread that has exited.
+
+### Documentation
+
+- `docs/GarbageCollector.md` section 7 gains a worked example of what the
+  finalizer contract rules out, using the thread release as the case, and
+  names the Phase 5b record-then-drain pattern as the escape hatch for release
+  work that must publish.
+- `docs/GarbageCollector.md` Known issues: the exiting-thread batch leak is
+  struck out and its fix described; the `newThread` scratch-context leak, which
+  remains, is written down for the first time -- it is a handful of cells per
+  thread rather than a batch, and it is the reason a thread's release cannot be
+  driven from a finalizer.
+
 ## [2.3.0] - 2026-09-25
 
 Phase P4. Maintainer's instruction of 2026-09-25: *"add an audit phase for all
