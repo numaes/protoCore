@@ -229,3 +229,54 @@ ctest --test-dir build -R 'PrimitivesTest' -j$(nproc) --output-on-failure
 | Full CI run          | `./scripts/ci_run_tests.sh` (optionally with `--coverage`) |
 
 For a short, copy-paste oriented guide, see [Testing User Guide](Structural%20description/guides/04_testing_user_guide.md).
+
+
+## Conformance — the embedder suite
+
+`docs/EMBEDDER-CONFORMANCE.md` is the normative rule table; this section is how
+it runs.
+
+protoCore's participation obligations are executable. Twelve cases live in
+`libprotoCoreConformance` and are driven through a `proto::conformance::Host`
+adaptor that each embedder implements itself, so protoCore states each obligation
+once and every runtime executes the same statement. The library is framework-free
+— cases return results as data and the embedder's own framework asserts — and it
+never names a runtime; both properties are asserted by
+`test/ConformanceSelfCheckTests.cpp` rather than intended.
+
+```bash
+# protoCore's own reference run, against its SelfHost
+ctest --test-dir build_release -R 'ConformanceSelfCheck|conformance.isolate' < /dev/null
+
+# one case, in its own process
+build_release/conformance/protocore-conformance-isolate --list
+build_release/conformance/protocore-conformance-isolate --case=gc.young_submitted
+
+# the static half, over any embedder tree
+python3 scripts/conformance/check_static.py --repo ../protoPython
+python3 scripts/conformance/check_static.py --self-test
+```
+
+Three things to know before reading a result.
+
+**`NotApplicable` is never `Pass`.** It means a capability the case needs is not
+implemented, so **the rule is unverified for that runtime**. A green board with
+`NotApplicable` rows is not a clean board.
+
+**Three cases must run in their own process**, because their failure destroys the
+run instead of reporting: `heap.ceiling_progress` fails by `std::abort()` inside
+`waitForHeapHeadroom`, and `join.parks` and `stw.quorum_completes` fail by
+deadlocking the whole space — a thread that cooperates with stop-the-world parks
+inside `safepoint()` waiting for a flag that a never-starting collection will
+never clear, so no bound inside the case can rescue it. They are ctest entries
+with a `TIMEOUT`, and **for the two deadlocking cases the timeout is the
+verdict**.
+
+**Every `ctest` invocation takes `< /dev/null`.** A runner that hangs is
+indistinguishable from a conformance failure that hangs, and those are exactly
+the rules whose failure mode is a hang.
+
+Writing a new GC test in protoCore itself: do not assert `reclaimed > 0` or
+`freeAfter > freeBefore` over a bulk workload. Use
+`conformance/CycleDriver.h::checkProportionalReclaim`, which takes the
+denominator as an argument and offers no way to ask the vacuous question.

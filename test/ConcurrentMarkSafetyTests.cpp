@@ -74,6 +74,17 @@ TEST(ConcurrentMarkSafety, MutationDuringMarkPreservesValues) {
     workers.reserve(kThreads);
     for (int t = 0; t < kThreads; ++t) {
         workers.emplace_back([&, t]() {
+            // NOTE (P4, rule 11): a ProtoContext on a raw std::thread is NOT a
+            // registered protoCore thread.  runningThreads moves only in
+            // thread_main (core/Thread.cpp), which runs only for a thread created
+            // through ProtoSpace::newThread.  GC Phase 2 walks space->threads to
+            // find root-scanning candidates (core/ProtoSpace.cpp), so this
+            // thread's automaticLocals, returnValue, pendingRoot and young chain
+            // are NOT scanned.  That is safe HERE because everything this test
+            // holds is pinned explicitly -- and it is a trap to copy into an
+            // embedder, where the result is a use-after-free at a distance rather
+            // than a hang.  See docs/EMBEDDER-CONFORMANCE.md rule 11 and the case
+            // `thread.registered`.
             ProtoContext threadCtx{&space};
             for (int i = 0; i < kIterPerThread; ++i) {
                 ProtoObject* obj = pool[(i + t * 17) % kPoolSize];

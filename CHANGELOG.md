@@ -2,6 +2,92 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [2.3.0] - 2026-09-25
+
+Phase P4. Maintainer's instruction of 2026-09-25: *"add an audit phase for all
+embedders that checks protoCore's rules"*, delivered as an executable suite
+rather than a review; plus the maintainer's ruling, given during the phase, to
+fix `ProtoThread::join` in the kernel instead of auditing every embedder for it.
+
+**`PROTOCORE_ABI_SOVERSION` stays 3.** No class gained a member, no signature
+changed, no return convention changed. The version moves 2.2.0 -> 2.3.0 for one
+behaviour change and one new artefact, and `SameMajorVersion` consumers keep
+working. But read the behaviour change below before linking an old embedder
+binary against this library and assuming nothing moved.
+
+### Fixed
+
+- **`ProtoThread::join` now leaves protoCore's running set while it blocks**
+  (`core/Thread.cpp`). This closes a **deadlock**, not slow shutdown.
+  `runningThreads` starts at 1 -- the main thread is counted from `ProtoSpace`
+  construction -- and every managed thread adds one, while a stop-the-world
+  phase cannot begin until `parkedThreads >= runningThreads`. A bare
+  `std::thread::join` reaches no safepoint, so a registered thread blocked there
+  still counted as running: the quorum could never be met, no cycle could start,
+  and every thread that then needed memory waited for a cycle that could not
+  begin -- usually including the thread being joined, which is why the join never
+  returned either. Measured in protoClojure: four blocking joins each hung to a
+  90-second timeout and each completed in about three seconds once bracketed.
+
+  No protoCore documentation stated the obligation, and `join` is protoCore's own
+  blocking call, so an embedder had no way to know it had to bracket a kernel API
+  against the kernel's own quorum. Wrapping the call in an `UnmanagedScope` as
+  well remains harmless and idempotent (`unmanagedDepth` is a counter; only the
+  outermost pair moves `parkedThreads`), so existing embedder guards need not be
+  removed -- and four runtimes in this family have them.
+
+  **The one exception, and it is the caller's bug:** inside a
+  `ProtoContext::CriticalSection` (`criticalSectionDepth > 0`) `join` does NOT
+  leave the running set, because the caller holds cells reachable only from C++
+  locals and a root scan would miss them. Leaving would trade a deadlock for
+  memory corruption, which is the worse trade. The join still happens, the quorum
+  is still held for its duration, and a one-time diagnostic names
+  `docs/EMBEDDER-CONFORMANCE.md` rule 12. Pinned by
+  `ConformanceSelfCheck.JoinInsideCriticalSectionStillJoinsAndDoesNotPark`.
+
+  This covers `ProtoThread::join` only. A runtime that calls `std::thread::join`
+  or `pthread_join` directly on a thread it registered is still broken, and the
+  kernel cannot see it -- which is why that stayed a conformance rule.
+
+### Added
+
+- **`libprotoCoreConformance` and `protoCore::conformance`** -- the embedder
+  conformance suite: twelve executable cases driven through a
+  `proto::conformance::Host` adaptor each runtime implements itself. Framework-free
+  (cases return results as data), and protoCore never names a runtime -- both
+  asserted by tests rather than intended.
+- **`headers/protoCoreConformance.h`**, plus three-line GoogleTest and Catch2
+  adapters and `PROTOCORE_CONFORMANCE_ISOLATE_MAIN`, all installed.
+- **`scripts/conformance/check_static.py`** and `rules.json` -- the static half,
+  as a per-repository ratchet with written justifications and a hash of each
+  allowlisted line. The script tests itself: seven positive fixtures must fire
+  and four negative fixtures must stay quiet.
+- **`docs/EMBEDDER-CONFORMANCE.md`** -- the twelve rules as normative text, the
+  per-function absent-value sentinel table, the three conforming shapes of rule
+  11, and the three judgement items with what IS mechanised beside what is not.
+- **`test/ConformanceSelfCheckTests.cpp`** -- rule 10 applied to the suite
+  itself. Six deliberately non-conforming hosts each break exactly one rule and
+  each must turn its case red; four more tests police the harness.
+
+### Documented
+
+- **`ProtoContext::safepoint()` is the only place a context's young generation is
+  submitted.** The header documented it as the stop-the-world handshake hook and
+  said nothing about submission, yet under `PROTOCORE_GC_REINCLUDE_SURVIVORS` it
+  is the sole submission point. An embedder reading only that paragraph would
+  conclude that a CPU-bound loop needs a safepoint and an allocating loop does
+  not, which is the opposite of the truth for reclamation. That omission is a
+  plausible contributing cause of two measured bugs: one runtime reclaimed 0
+  cells of 2,748,398 across its whole history with 833 tests green, and another's
+  apparent live set was 110x its real one.
+
+### Known, and reported rather than fixed
+
+- **`ProtoThread::getCurrentThread` and `ProtoSpace::getCurrentThread` are
+  declared in `headers/protoCore.h` and defined nowhere.** An embedder that calls
+  either gets an undefined reference at link time. Found while writing the
+  rule-11 case, which now reads `space->threads` directly.
+
 ## [2.2.0] - 2026-09-25
 
 Phase P3. Maintainer's ruling of 2026-09-24: *"hacer la internación global y la
