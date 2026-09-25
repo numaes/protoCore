@@ -99,6 +99,20 @@ the most protoCore can offer for memory it does not manage, and
 buffer or wrapped pointer costs, why protoCore cannot account it, and what the
 embedder does instead.
 
+**What this rules out, by worked example.**  Releasing an exiting
+`ProtoThread` needs to give back an allocation batch, destroy a
+`ProtoContext` and join a `std::thread`.  Every one of those is forbidden
+here: returning the batch takes `ProtoSpace::globalMutex` (blocks), destroying
+the context submits a young generation (publishes to a shared structure), and
+joining blocks outright.  A finalizer is also not proof that the OS thread has
+stopped, since sweep runs with the world going.  So a resource whose release
+blocks, publishes, or depends on another thread having finished does **not**
+belong in `finalize`: it belongs at the point where the owner itself gives it
+up — for a thread, its own exit path and its `join` (see Known issues).  The
+one escape hatch for release work that must publish is the Phase 5b pattern:
+the finalizer records a number, and a post-sweep phase with the collector's
+own context does the work (`gcFinalizedMutableRefs`).
+
 ## The GC Cycle
 
 The GC runs in a dedicated background thread (`gcThreadLoop` in
@@ -835,13 +849,39 @@ operates under.
 
 ## Known issues
 
-- **An exiting thread's unused cell batch is not returned.**  A
-  `ProtoThread` allocates from a private freelist
-  (`ProtoThreadExtension::freeCells`) that `getFreeCells` refills in
-  batches of up to 65,536 cells when several threads run.  When the thread
-  exits, the unused part of its last batch is returned to no freelist and
-  belongs to no young generation, so no cycle reclaims it: each thread
-  that exits can leave up to one batch of cells unusable.
+- **`ProtoSpace::newThread`'s scratch context is never destroyed.**  The two
+  cells of a `ProtoThread` (`ProtoThreadImplementation` and
+  `ProtoThreadExtension`) are allocated on a `ProtoContext` that `newThread`
+  creates with `new` and nobody deletes, so that context's young chain is
+  never submitted: those cells are never sweep candidates, `finalize` is never
+  reached on them, and the context object plus its `automaticLocals` array
+  leak.  The cost is a handful of cells and one small allocation per thread —
+  not a batch (see below) — but it is the reason a thread's release cannot be
+  driven from a finalizer.
+
+  Fixed in 2.4.0, and recorded here because the shape of the fix follows from
+  the constraint above:
+
+- ~~**An exiting thread's unused cell batch is not returned.**~~  Fixed in
+  2.4.0.  A `ProtoThread` allocates from a private freelist
+  (`ProtoThreadExtension::freeCells`) that `getFreeCells` refills in batches of
+  up to 65,536 cells when several threads run.  Until 2.4.0 the unused part of
+  that batch was returned to no freelist and belonged to no young generation on
+  thread exit, so no cycle could reclaim it: 4,096 cells per empty-bodied
+  thread and 8,192 per allocating one, measured in a bare `ProtoSpace` with
+  `heapSize` and `liveCellsLastCycle` both flat.  The thread's root
+  `ProtoContext` (and with it its whole un-submitted young generation), the two
+  per-thread caches and the `std::thread` object went the same way.
+
+  The release now happens in `thread_main`'s tail on the exiting thread itself
+  (`releaseExitingThread`, `core/Thread.cpp`), in this order: destroy the root
+  `ProtoContext` — which is what submits the young generation — then free the
+  two caches, then hand the unused batch back with `returnUnusedCellBatch`.
+  The `std::thread` object is released by `ProtoThread::join`, the only place
+  that can: a completed join is protoCore's only proof that the OS thread has
+  stopped, and a thread cannot join itself.  A thread that is never joined
+  still leaks its `std::thread`; that is the embedder's side of the contract.
+  Regression cover: `test/ThreadExitReleaseTests.cpp`.
 
 ## Future Research: Further bounding the STW pause
 
