@@ -35,9 +35,9 @@
         const char* id = GENERATE(                                            \
             from_range(::proto::conformance::caseIds()));                      \
         CAPTURE(id);                                                           \
-        if (::proto::conformance::isAbortingCase(id)) {                        \
-            SKIP("failure mode is std::abort(); run through the isolate "       \
-                 "binary with --case=" << id);                                 \
+        if (::proto::conformance::needsOwnProcess(id)) {                       \
+            SKIP("must run in its own process under an external timeout "        \
+                 "(abort or space-wide deadlock on failure): --case=" << id);    \
         }                                                                      \
         HostType host;                                                         \
         const ::proto::conformance::CaseResult r =                             \

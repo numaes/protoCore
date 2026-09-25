@@ -154,17 +154,20 @@ TEST(ConformanceSelfCheck, EveryResultCarriesItsNumbers)
     }
 }
 
-TEST(ConformanceSelfCheck, AbortingCaseIsSkippedInProcessWithInstructions)
+TEST(ConformanceSelfCheck, CasesThatDestroyTheRunAreSkippedWithInstructions)
 {
     proto::conformance::SelfHost host;
-    bool seen = false;
+    unsigned seen = 0;
     for (const CaseResult& r : runAll(host)) {
-        if (std::string(r.id) != "heap.ceiling_progress") continue;
-        seen = true;
-        EXPECT_EQ(r.status, Status::Skipped) << r.detail;
-        expectDiagnostic(r, "--case=heap.ceiling_progress");
+        if (!proto::conformance::needsOwnProcess(r.id)) continue;
+        ++seen;
+        EXPECT_EQ(r.status, Status::Skipped) << r.id << ": " << r.detail;
+        expectDiagnostic(r, "--case=");
+        expectDiagnostic(r, "own process");
     }
-    EXPECT_TRUE(seen) << "the aborting case is not in the default run at all";
+    // Three today: one aborts, two deadlock the space.  A drop to zero would
+    // mean a case that cannot report its own failure is running in-process.
+    EXPECT_EQ(seen, 3u) << "the set of cases needing their own process changed";
 }
 
 // protoCore names capabilities, never runtimes.  Executed rather than intended:
@@ -214,6 +217,9 @@ TEST(ConformanceSelfCheck, ReferenceHostPassesEveryNonAbortingCase)
 // for a cycle that cannot begin -- usually the thread being joined.
 TEST(ConformanceSelfCheck, ProtoThreadJoinLeavesTheRunningSetWhileBlocked)
 {
+    // Run directly rather than through runAll: this case is skipped there
+    // because its FAILURE deadlocks, but against a conforming kernel it returns
+    // in well under a second, and that is exactly what is being pinned.
     proto::conformance::SelfHost host;
     const CaseResult r = runOne(host, "join.parks");
     EXPECT_EQ(r.status, Status::Pass) << r.detail;

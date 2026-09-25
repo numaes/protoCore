@@ -54,3 +54,15 @@ include(GoogleTest)
 gtest_discover_tests(proto_tests)
 
 message(STATUS "Configured test suite: proto_tests")
+
+# The three conformance cases that cannot report their own failure in-process:
+# one aborts, two deadlock the whole space.  They run one-per-process against
+# protoCore's reference host, under an external TIMEOUT, and for the two
+# deadlocking cases THE TIMEOUT IS THE VERDICT -- which is why they are ctest
+# entries with a bound and not GoogleTest cases.
+foreach(_case heap.ceiling_progress join.parks stw.quorum_completes)
+    add_test(NAME conformance.isolate.${_case}
+             COMMAND protocore-conformance-isolate --case=${_case})
+    set_tests_properties(conformance.isolate.${_case}
+                         PROPERTIES TIMEOUT 240 RUN_SERIAL TRUE)
+endforeach()

@@ -36,9 +36,10 @@
     class HostType##Conformance                                                \
         : public ::testing::TestWithParam<const char*> {};                     \
     TEST_P(HostType##Conformance, ObeysRule) {                                 \
-        if (::proto::conformance::isAbortingCase(GetParam()))                  \
-            GTEST_SKIP() << "failure mode is std::abort(); run through the "    \
-                            "isolate binary: --case=" << GetParam();           \
+        if (::proto::conformance::needsOwnProcess(GetParam()))                 \
+            GTEST_SKIP() << "must run in its own process under an external "     \
+                            "timeout (abort or space-wide deadlock on failure): "\
+                            "--case=" << GetParam();                            \
         HostType host;                                                         \
         const ::proto::conformance::CaseResult r =                             \
             ::proto::conformance::runOne(host, GetParam());                    \

@@ -16,12 +16,16 @@ namespace {
 // MailboxCursor::adopt bug was UNREACHABLE for 848 passing tests purely because
 // S15 was still present.  thread.registered runs before stw.quorum_completes
 // because rule 11's failure corrupts while rule 2's only hangs.
-//                                  rule  abort  kernel-only  fn
+//                                  rule  ownProc  kernel-only  fn
 const CaseEntry kCases[] = {
     { "gc.young_submitted",              1, false, false, &caseYoungSubmitted },
     { "thread.registered",              11, false, false, &caseThreadRegistered },
-    { "stw.quorum_completes",            2, false, false, &caseQuorumCompletes },
-    { "join.parks",                      2, false, false, &caseJoinParks },
+    // These two fail by deadlocking the space: the thread they wait on parks
+    // inside safepoint() for a collection that can never start, so no bound
+    // inside the case can rescue it.  They run one-per-process and the external
+    // timeout is the verdict.
+    { "stw.quorum_completes",            2, true,  false, &caseQuorumCompletes },
+    { "join.parks",                      2, true,  false, &caseJoinParks },
     { "gc.transient_reclaimed",          5, false, false, &caseTransientReclaimed },
     { "symbol.fast_path_key_hits",       4, false, false, &caseFastPathKeyHits },
     { "gc.host_stress",                  3, false, false, &caseHostStress },
@@ -93,10 +97,10 @@ unsigned ruleOf(const char* id)
     return e ? e->rule : 0u;
 }
 
-bool isAbortingCase(const char* id)
+bool needsOwnProcess(const char* id)
 {
     const CaseEntry* e = find(id);
-    return e ? e->aborting : false;
+    return e ? e->ownProcess : false;
 }
 
 bool isKernelCase(const char* id)
@@ -136,11 +140,14 @@ std::vector<CaseResult> runAll(Host& host, const Selector& sel)
     for (unsigned i = 0; i < kCaseCount; ++i) {
         const CaseEntry& e = kCases[i];
         if (!sel.ids.empty() && !contains(sel.ids, e.id)) continue;
-        if (sel.skipAbortingCases && e.aborting) {
+        if (sel.skipAbortingCases && e.ownProcess) {
             out.push_back({e.id, e.rule, Status::Skipped,
-                std::string("this case's failure mode is std::abort(), which "
-                            "would take the whole test binary with it.  Run it "
-                            "in its own process: <isolate-binary> --case=")
+                std::string("this case's failure mode destroys the run rather "
+                            "than reporting -- a process abort, or a deadlock of "
+                            "the whole space that no in-process bound can escape. "
+                            "Run it in its own process, under an external "
+                            "timeout, where the timeout is the verdict: "
+                            "<isolate-binary> --case=")
                 + e.id});
             continue;
         }

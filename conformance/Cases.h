@@ -18,7 +18,7 @@ struct CaseEntry
 {
     const char* id;
     unsigned    rule;
-    bool        aborting;   ///< failure mode is std::abort(); needs its own process
+    bool        ownProcess; ///< failure destroys the run (abort OR deadlock)
     bool        kernelOnly; ///< audits protoCore, not the embedder (see isKernelCase)
     CaseFn      fn;
 };

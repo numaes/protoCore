@@ -87,10 +87,18 @@ CaseResult caseCeilingProgress(Host& host)
     if (g_oomFired.load() > 0)
         return {kId, 8, Status::Fail,
                 "the workload reached the heap ceiling with zero reclamation and "
-                "only the outOfMemoryCallback prevented std::abort().  Every "
-                "producer and the consumer were parked in waitForHeapHeadroom "
-                "with the collector idle -- the P2 topology.  A conforming "
-                "runtime keeps at least one thread able to free.  " + common};
+                "the outOfMemoryCallback fired.  Note what this does and does "
+                "not establish.  It establishes that the ceiling was reached "
+                "with two consecutive zero-reclaim cycles.  It does NOT by "
+                "itself establish the P2 topology (every producer and the "
+                "consumer parked in waitForHeapHeadroom with the collector "
+                "idle): the same abort is reached when the workload's GENUINE "
+                "live set simply does not fit under the ceiling, which is a real "
+                "finding of a different kind -- something the runtime anchors "
+                "for the whole session and never releases.  Read "
+                "liveCellsLastCycle below against the ceiling to tell them "
+                "apart: a live set near the ceiling is the second, a small live "
+                "set with no progress is the first.  " + common};
 
     // A workload that completed without ever reaching the ceiling proves
     // nothing about the ceiling.  Say so rather than pass.

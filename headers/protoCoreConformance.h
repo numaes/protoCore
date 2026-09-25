@@ -141,8 +141,14 @@ public:
      * stop-the-world quorum therefore cannot return, and the case times out
      * instead of hanging the runner.
      *
-     * @param releaseFlag a flag the case raises from another thread; the
-     *        spawned thread must poll it and then exit.
+     * @param releaseFlag a flag the case raises from another thread.  The
+     *        spawned thread may poll it and exit, OR it may simply do a few
+     *        seconds of its own work and finish -- what the case needs is that
+     *        the join is genuinely blocked for long enough to demand a
+     *        collection, and that it terminates within the case's own bound
+     *        whatever happens.  A runtime with no way to observe a C++ flag from
+     *        its own language should take the second option and say so in its
+     *        docs/CONFORMANCE.md.
      * @return true when the runtime supplied a thread and joined it.
      */
     virtual bool joinBlockingThread(volatile bool* releaseFlag)
@@ -191,8 +197,32 @@ std::vector<const char*> caseIds();
 /** The rule number a case belongs to, or 0 for an unknown id. */
 unsigned ruleOf(const char* id);
 
-/** True when this case's failure mode is a process abort (rule 8). */
-bool isAbortingCase(const char* id);
+/**
+ * True when this case MUST run in a process of its own, because its failure
+ * mode destroys the run rather than reporting.
+ *
+ * Two distinct failure modes need this, and both were found by running the
+ * cases against deliberately broken kernels rather than by reasoning:
+ *
+ *  * `heap.ceiling_progress` fails by std::abort() inside
+ *    ProtoSpace::waitForHeapHeadroom, which takes the whole test binary with it.
+ *  * `join.parks` and `stw.quorum_completes` fail by DEADLOCKING THE SPACE, and
+ *    no in-process bound can escape that: a thread that cooperates with
+ *    stop-the-world parks inside safepoint() waiting for a flag that a
+ *    never-starting collection will never clear, so it cannot notice a release
+ *    signal, and the joining thread therefore never returns.  A bounded wait in
+ *    the CASE does not help, because the thread the case is waiting for is the
+ *    one that is stuck.
+ *
+ * `runAll` skips these in-process with the isolate command in `detail` -- a
+ * Skipped that says how to run it, never a silent pass.  The embedder registers
+ * each as a ctest test against its own isolate binary with a TIMEOUT, and for
+ * the deadlocking cases **the timeout is the verdict**.
+ */
+bool needsOwnProcess(const char* id);
+
+/** Deprecated spelling of needsOwnProcess, kept for callers. */
+inline bool isAbortingCase(const char* id) { return needsOwnProcess(id); }
 
 /**
  * True when this case audits the KERNEL rather than the embedder: it needs no

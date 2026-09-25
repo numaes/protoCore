@@ -235,6 +235,15 @@ CaseResult caseQuorumCompletes(Host& host)
         supplied.store(host.joinBlockingThread(&release));
         finished.store(true);
     });
+    // A pure timer, touching nothing protoCore-related, so the runtime's thread
+    // is released and this case returns a verdict even when the collection it
+    // demands cannot start.  See the longer note in join.parks: the code that
+    // releases must never sit behind the mutex the deadlock is holding.
+    std::thread releaser([&release]() {
+        std::this_thread::sleep_for(std::chrono::seconds(25));
+        release = true;
+    });
+    releaser.detach();
 
     // Wait for the runtime's thread to appear in the running set.
     const auto upDeadline =
@@ -326,17 +335,29 @@ CaseResult caseJoinParks(Host& host)
     ProtoSpace& space = *ctx->space;
 
     volatile bool release = false;
-    std::atomic<bool> joinReturned{false};
     std::atomic<unsigned long long> cyclesDuringJoin{0};
     std::atomic<bool> cycleCompleted{false};
 
     const unsigned long long cyclesBefore = space.getGCCycleCount();
 
-    // The helper is a raw std::thread that never touches a ProtoObject*, so it
-    // is not a thread protoCore has to know about (rule 11's HoldsNothing
-    // shape).  It requests a collection WHILE the main thread is inside the
-    // runtime's join, then releases the joined thread whatever the outcome.
-    std::thread helper([&]() {
+    // TWO helpers, and the split is load-bearing.
+    //
+    // The first requests a collection.  Requesting one means taking
+    // ProtoSpace::globalMutex, and the collector holds that mutex while it waits
+    // for the quorum -- so on a NON-conforming runtime this helper blocks
+    // indefinitely, exactly like every other thread.  The first draft of this
+    // case used that same helper to release the joined thread afterwards, and
+    // against a kernel built without the join fix the case HUNG instead of
+    // reporting: the releasing code sat behind the very mutex the deadlock was
+    // holding.  A case that hangs is indistinguishable from the failure it is
+    // diagnosing, and rules 2, 2b, 8 and 11 are precisely the rules whose
+    // failure mode IS a hang.
+    //
+    // The second helper is therefore a pure timer that touches NOTHING
+    // protoCore-related: no mutex, no field of the space, no ProtoObject*.  It
+    // sleeps and sets the flag, so the joined thread is always released and this
+    // case always returns a verdict.
+    std::thread requester([&space, &cyclesDuringJoin, &cycleCompleted, cyclesBefore]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
         {
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
@@ -353,13 +374,17 @@ CaseResult caseJoinParks(Host& host)
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         cyclesDuringJoin.store(space.getGCCycleCount() - cyclesBefore);
-        // Always release, so the case reports rather than hangs.
+    });
+    requester.detach();   // it may be stuck on globalMutex; we must never join it
+
+    std::thread timer([&release]() {
+        std::this_thread::sleep_for(std::chrono::seconds(10));
         release = true;
     });
 
     const bool supplied = host.joinBlockingThread(&release);
-    joinReturned.store(true);
-    helper.join();
+    release = true;
+    timer.join();
 
     if (!supplied)
         return unavailable(kId, 2, "joinBlockingThread",

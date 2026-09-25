@@ -22,11 +22,27 @@ std::string num(unsigned long long v) { return std::to_string(v); }
 /// like a runtime that cannot reclaim.
 bool requestOneCycle(ProtoSpace& space, ProtoContext* ctx, unsigned deadlineMs)
 {
-    {
-        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-        space.gcStarted = true;
-        space.gcCV.notify_all();
+    // Bounded, not blocking.  Requesting a cycle means taking globalMutex, and
+    // the collector holds that mutex while it waits for the stop-the-world
+    // quorum -- so on a non-conforming runtime an unbounded lock_guard here
+    // blocks forever and the CASE hangs instead of reporting.  That is not
+    // hypothetical: it is what the first draft did when it was run against a
+    // kernel built without the ProtoThread::join fix.  Every wait in this
+    // library is bounded, including the ones that look like bookkeeping.
+    const auto lockDeadline =
+        std::chrono::steady_clock::now() + std::chrono::milliseconds(deadlineMs);
+    bool requested = false;
+    while (std::chrono::steady_clock::now() < lockDeadline) {
+        if (ProtoSpace::globalMutex.try_lock()) {
+            space.gcStarted = true;
+            space.gcCV.notify_all();
+            ProtoSpace::globalMutex.unlock();
+            requested = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(2));
     }
+    if (!requested) return false;   // could not even ask: report, do not hang
     const auto deadline =
         std::chrono::steady_clock::now() + std::chrono::milliseconds(deadlineMs);
     {
