@@ -185,7 +185,18 @@ CaseResult caseHostStress(Host& host)
         return {kId, 3, Status::Fail,
                 "the runtime's own producer/consumer path stopped after "
                 + std::to_string(completed) + " of " + std::to_string(kRounds)
-                + " rounds under memory pressure.  " + detail};
+                + " rounds under memory pressure.  Read this before concluding "
+                  "rule 3: a stall or an out-of-memory abort here has TWO "
+                  "possible causes and they need different fixes.  One is rule "
+                  "3's subject -- a ProtoObject* held across an allocation in a "
+                  "bare C++ local, freed under the runtime, which typically "
+                  "shows as a crash or a wrong value.  The other is RETENTION: "
+                  "the workload's own structures keeping every item they ever "
+                  "handled, which shows as a live set that grows in proportion "
+                  "to units processed while reclamation reports zero.  Divide "
+                  "liveCellsLastCycle by the units delivered: a small constant "
+                  "number of cells per unit is the second, not the first.  "
+                + detail};
 
     // The pressure must have produced cycles, or the case measured nothing.
     if (cyclesRun == 0)
