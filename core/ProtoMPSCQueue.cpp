@@ -135,6 +135,39 @@
  * lose an object.  It is also not done by processReferences: the young-
  * chain walk calls processReferences too (core/ProtoSpace.cpp Phase 4),
  * so a destructive read there would be a second, silent consumer.
+ *
+ * ---------------------------------------------------------------------
+ * OPEN, NOT FIXED: the release gate is one cycle too eager
+ * ---------------------------------------------------------------------
+ *
+ * Found while checking whether the widening above is SUFFICIENT.  It is,
+ * for the loss it addresses; this is a different and much narrower
+ * hazard in the RELEASE half, it predates the widening, and the widening
+ * neither causes nor worsens it (the widening only ever adds coverage;
+ * the release timing is untouched).  It is written down rather than
+ * changed because changing it alters a proof this file rests on, and no
+ * test in the suite exhibits it.
+ *
+ * The gate releases when the cycle counter differs from `retainedEpoch`.
+ * The counter is bumped under the pause at the START of a cycle, so
+ * observing C+1 proves the mark and sweep of cycle C finished - but says
+ * nothing about the mark of C+1, which may still be running.  Now
+ * suppose takeAll #1 published its retain cell in cycle C and its walk
+ * spanned into C+1 (which is exactly the situation the widening exists
+ * for).  The nodes it detached are candidates of C+1 as well: they
+ * survived C, and sweep re-chains survivors into dirtySegments.  If
+ * takeAll #2 runs while C+1 is still marking and releases that retain
+ * cell before the marker has reached this queue cell, those nodes and
+ * their items are reachable from nothing the marker can see - the
+ * ProtoList that takeAll #1 returned was built AFTER C+1's pause, so it
+ * is not reachable from the young-chain head that pause captured.
+ *
+ * The window is narrow: the queue is normally an early entry in the mark
+ * work list, and takeAll #1 still has a whole newList to build after the
+ * detach.  A candidate remedy is to require the counter to have advanced
+ * by two rather than one, which costs at most one extra cycle of
+ * retention and can only retain memory.  Neither the hazard nor the
+ * remedy has a test; do not change the gate without one.
  */
 
 #include "../headers/proto_internal.h"
