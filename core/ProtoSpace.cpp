@@ -450,12 +450,22 @@ namespace proto {
                 // literalData is a strong Symbol — covered by the SymbolTable sweep below
                 if (space->resolutionChain_) addRootObj(space->resolutionChain_->asObject(space->rootContext));
 
-                {
-                    std::lock_guard<std::mutex> modLock(space->moduleRootsMutex);
-                    for (const ProtoObject* mod : space->moduleRoots) {
-                        addRootObj(mod);
-                    }
-                }
+                // Module roots (P3).  The module list is process-global and is a
+                // root: a module's contents are ordinary collectable objects, so
+                // an unfreed list would not keep them alive.
+                //
+                // Record only each shard's published entry count here —
+                // O(SHARD_COUNT) under stop-the-world, no entry dereferenced —
+                // exactly as the tuple interner does below.  Phase 4 pushes the
+                // captured entries after the world resumes.
+                //
+                // This REPLACED a `for (mod : space->moduleRoots) addRootObj(mod)`
+                // loop that ran HERE, inside the pause, holding moduleRootsMutex,
+                // and was O(modules).  It was the one term in the documented pause
+                // profile that scaled with the program, and it was missing from
+                // the cost table.  Do not put a per-module loop back into this
+                // window.
+                globalModuleRootTable().captureForGC();
 
                 // Tuple interner.  Interned tuples are perennial and the
                 // table is a root.  Record only each shard's published
@@ -645,6 +655,17 @@ namespace proto {
                         t_phase4_start - t_phase2_start).count(),
                     std::memory_order_relaxed);
 #endif
+
+                // Module roots recorded by Phase 2 are roots (P3).  Only this
+                // space's own entries: the table is global, the tracing is not.
+                // The conversion is addRootObj's own, from the Phase-2 root block
+                // above: isCellPointer + asCellPointer, no hand-written cast.
+                globalModuleRootTable().forEachCaptured(
+                    space, &workList, [](void* user, const ProtoObject* module) {
+                        if (ProtoObject::isCellPointer(module))
+                            static_cast<std::vector<const Cell*>*>(user)
+                                ->push_back(ProtoObject::asCellPointer(module));
+                    });
 
                 // Interned tuples recorded by Phase 2 are roots.
                 if (space->tupleInterner) {

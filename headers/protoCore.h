@@ -2440,6 +2440,19 @@ namespace proto
         ProtoContext* mainContext;
 
         const ProtoList* resolutionChain_;
+
+        // P3: RETIRED.  The module list is the process-global ModuleRootTable
+        // (core/ModuleRoots.cpp); removable embedder pins belong in a
+        // ProtoRootSet (see createRootSet above).  These two fields are retained
+        // so the ProtoSpace layout does not change — the same treatment
+        // `tupleRoot` and `stringInternMap` already get — and are held empty and
+        // never iterated.  Do not add to them: call addModuleRoot() for a module,
+        // or createRootSet() for anything that must be unpinned.
+        //
+        // Until 2.2.0 GC Phase 2 iterated `moduleRoots` INSIDE the stop-the-world
+        // window, holding `moduleRootsMutex` there, O(modules).  That was the one
+        // term in the documented pause profile that scaled with the program, and
+        // it was missing from the cost table in docs/GarbageCollector.md.
         std::vector<const ProtoObject*> moduleRoots;
         std::mutex moduleRootsMutex;
 

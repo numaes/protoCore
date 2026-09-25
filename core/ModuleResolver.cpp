@@ -7,7 +7,6 @@
 #include "ModuleProvider.h"
 #include "../headers/proto_internal.h"
 #include <memory>
-#include <mutex>
 #include <string>
 
 namespace proto {
@@ -114,16 +113,13 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
         return PROTO_NONE;
     }
 
-    {
-        std::lock_guard<std::mutex> lock(space->moduleRootsMutex);
-        // Ensure the module is rooted in this space.  A module found in the
-        // cache may have been loaded by another space; rooting it here is what
-        // the pre-P3 cache-hit branch did and what keeps a cross-space import
-        // alive.
-        if (std::find(space->moduleRoots.begin(), space->moduleRoots.end(), module) == space->moduleRoots.end()) {
-            space->moduleRoots.push_back(module);
-        }
-    }
+    // P3: the module list is process-global and is a GC root.  A module found
+    // in the cache may have been loaded by another space; it is rooted in
+    // THIS space as well, which is what the pre-P3 code did through
+    // space->moduleRoots and what keeps a cross-space import alive.
+    // ModuleRootTable::add de-duplicates per (module, owner), so re-importing
+    // the same identity does not grow the table.
+    space->addModuleRoot(module);
 
     // GC critical section: `wrapper` and `attrName` are held in C++ locals
     // across newObject + addParent + fromUTF8String + setAttribute, each of
