@@ -1,0 +1,37 @@
+{
+  "_comment": [
+    "Data for scripts/conformance/check_static.py.  The per-function sentinel",
+    "table is DATA, not a heuristic, because the conventions genuinely differ",
+    "per function and a checker that flagged correct code would train every",
+    "reader to ignore it.  Verified against protoCore/core/ProtoObject.cpp and",
+    "headers/protoCore.h."
+  ],
+  "attr_sentinel": {
+    "getAttribute":          { "absent": "PROTO_NONE", "invalid": "nullptr",
+                               "cite": "core/ProtoObject.cpp:773-781 -- 'nullptr is reserved for invalid input, not missing'" },
+    "getAttributeOrDefault": { "absent": "PROTO_NONE", "invalid": "nullptr" },
+    "getOwnAttribute":       { "absent": "PROTO_NONE", "invalid": "nullptr" },
+    "getOwnAttributeDirect": { "absent": "nullptr",    "invalid": "nullptr",
+                               "cite": "headers/protoCore.h -- returns nullptr BOTH for absent and for a non-object receiver, and cannot distinguish them" },
+    "hasAttribute":          { "absent": "PROTO_FALSE",
+                               "note": "returns a boolean OBJECT, never a C++ bool: PROTO_TRUE is 1217UL and PROTO_FALSE is 193UL, so both are non-null and a raw if() is ALWAYS true" },
+    "hasOwnAttribute":       { "absent": "PROTO_FALSE",
+                               "note": "same: a boolean OBJECT, never a C++ bool" }
+  },
+  "key_destinations": {
+    "error": ["getOwnAttributeDirect"],
+    "warn":  ["setAttribute", "setAttributeIfEqual", "getAttribute",
+              "getOwnAttribute", "hasAttribute", "hasOwnAttribute",
+              "removeAttribute"]
+  },
+  "uninterned_string_factories": ["fromUTF8String", "fromUTF8", "fromStdString"],
+  "forbidden_in_finalizer": {
+    "block": ["join(", "wait(", "acquire(", "lock()", "sleep_for", "sleep(", "get()"],
+    "protocore": ["setAttribute", "getAttribute", "newList", "newString",
+                  "newObject", "newTuple", "newSparseList", "createSymbol",
+                  "fromUTF8String", "appendLast", "compare_exchange",
+                  "->remove(", "createRootSet", "destroyRootSet", "getRootSet"]
+  },
+  "blocking_calls": ["wait(", "wait_for(", "acquire(", "join(", "sleep_for",
+                     "usleep(", "recv(", "accept(", "read(", "poll(", "get()"]
+}
