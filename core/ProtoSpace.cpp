@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include "ModuleCache.h"
 #include <algorithm>
 #include <iostream>
 #include <cstdlib>
@@ -1417,6 +1418,41 @@ namespace proto {
             fprintf(stderr, "TRACE: getImportModule(%s)\n", logicalPath);
         }
         return getImportModuleImpl(this, context, logicalPath, attrName2create);
+    }
+
+    // --- P3: the process-global module list, and a GC root -------------------
+    //
+    // The table is global — a module is loaded once for the process and found
+    // once under its ModuleIdentity — while the TRACING stays where the cells
+    // are: each entry records the owning space and the Phase-4 walk visits only
+    // the collecting space's own entries.  See ModuleRootTable in
+    // headers/proto_internal.h.
+
+    void ProtoSpace::addModuleRoot(const ProtoObject* module) {
+        globalModuleRootTable().add(module, this);
+    }
+
+    unsigned long ProtoSpace::moduleRootCount() {
+        return static_cast<unsigned long>(globalModuleRootTable().size());
+    }
+
+    const ProtoObject* ProtoSpace::registerModule(const ModuleIdentity& id,
+                                                   const ProtoObject* module) {
+        if (!module || module == PROTO_NONE) return PROTO_NONE;
+        // Publish-or-adopt: if this identity is already served, root and return
+        // the existing module so two importers share one module, which is what
+        // "a module is loaded once for the process" means.
+        if (const ProtoObject* existing = sharedModuleCacheGet(id)) {
+            addModuleRoot(existing);
+            return existing;
+        }
+        sharedModuleCacheInsert(id, module);
+        addModuleRoot(module);
+        return module;
+    }
+
+    const ProtoObject* ProtoSpace::findModule(const ModuleIdentity& id) {
+        return sharedModuleCacheGet(id);
     }
 
     const ProtoThread* ProtoSpace::newThread(

@@ -2156,6 +2156,39 @@ namespace proto
         const ProtoObject* getImportModule(ProtoContext* context, const char* logicalPath, const char* attrName2create);
 
         /**
+         * @brief Register `module` as a process-global module root owned by this
+         *        space.
+         *
+         * P3: the module list is global and is a GC root.  The entry records this
+         * space as the owner of the module's cells, so this space's collector —
+         * and only this space's — traces it.  Entries are never removed: a loaded
+         * module is perennial, for the process.  Anything that must be UNPINNED
+         * belongs in a ProtoRootSet (see `createRootSet`), not here.
+         *
+         * Thread-safe.  Allocates no Cell.
+         */
+        void addModuleRoot(const ProtoObject* module);
+
+        /** @brief Module roots this process holds.  Diagnostics and tests. */
+        static unsigned long moduleRootCount();
+
+        /**
+         * @brief Publish a module this embedder loaded itself, under the ruled
+         *        identity, and root it in this space.  Returns the published
+         *        module — which is the one already published under `id` if there
+         *        is one, so two importers of the same identity share a module.
+         *
+         * For an embedder that calls a ModuleProvider directly instead of going
+         * through getImportModule.  Before P3 such a load reached neither
+         * SharedModuleCache nor any moduleRoots, and its only anchor was inside
+         * the providing runtime — so destroying that runtime dropped it.
+         */
+        const ProtoObject* registerModule(const ModuleIdentity& id, const ProtoObject* module);
+
+        /** @brief The module published under `id`, or nullptr. */
+        static const ProtoObject* findModule(const ModuleIdentity& id);
+
+        /**
          * @brief Creates and starts a new managed thread within this ProtoSpace.
          * @param context The current ProtoContext from which the thread is being created.
          * @param threadName A ProtoString representing the name of the new thread.
