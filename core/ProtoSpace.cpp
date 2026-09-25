@@ -1248,7 +1248,15 @@ namespace proto {
             this->gcMutableSnapshot[s] = nullptr;
         }
         
-        symbolTable = new SymbolTable();
+        // P3: interning is process-global.  This is a BORROWED pointer to the one
+        // table of this process; the destructor must not free it.  Keeping the
+        // field (rather than calling globalSymbolTable() at each use) leaves all
+        // eleven existing `ctx->space->symbolTable` call sites untouched, keeps
+        // the ProtoSpace layout unchanged, and preserves the mid-construction
+        // sentinel that the six null checks in core/ProtoObject.cpp rely on: the
+        // field is null before this line runs and non-null after, per space,
+        // regardless of what other spaces have done.
+        symbolTable = &globalSymbolTable();
         initStringInternMap(this);
         this->literalData         = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "__data__"));
         this->literalSetAttribute = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "setAttribute"));
@@ -1345,8 +1353,15 @@ namespace proto {
         this->gcContext = nullptr;
         delete this->rootContext;
         freeStringInternMap(this);
-        delete symbolTable;
-        symbolTable = nullptr;
+        // P3: `symbolTable` is a BORROWED pointer to the process-global table
+        // (globalSymbolTable()).  It must NOT be deleted: the first space to die
+        // would free the table every other space of this process is still using,
+        // and a single-space test suite cannot reach that use-after-free.
+        //
+        // `tupleInterner` below IS owned by this space and is still deleted —
+        // tuple interning stays per-space (P3 D5), because a tuple's key is its
+        // element ADDRESSES, which are per-space, while a symbol's key is its
+        // BYTES, which are not.
         delete tupleInterner;
         tupleInterner = nullptr;
 

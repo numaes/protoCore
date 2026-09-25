@@ -1,9 +1,18 @@
 /*
- * SymbolTable.cpp — 64-shard concurrent string interning table.
+ * SymbolTable.cpp — the process-wide 64-shard concurrent string interning table.
+ *
+ * P3 (2026-09-24): ONE table per PROCESS, reached through globalSymbolTable().
+ * ProtoSpace::symbolTable is a BORROWED pointer to it and ~ProtoSpace must NOT
+ * free it.  Note that ~SymbolTable frees only the Bucket nodes, never the symbol
+ * cells (they are perennial) — so before P3 every destroyed space leaked its
+ * whole symbol set.  One table leaks one set.
  *
  * Each shard holds an independent linked-list bucket chain protected by its
  * own mutex, eliminating the single-mutex bottleneck of TupleDictionary for
- * string lookups.
+ * string lookups.  A shard mutex is a STRICT LEAF LOCK: it is never ordered
+ * against ProtoSpace::globalMutex, and no Cell is allocated while it is held.
+ * With one table serving several spaces, breaking that invariant would deadlock
+ * two collectors rather than one.
  *
  * Every interned string (symbol) is PERENNIAL. `intern` builds the canonical
  * ProtoStringImplementation with a NULL ProtoContext, which routes every Cell
@@ -20,6 +29,29 @@
 #include <cstring>
 
 namespace proto {
+
+// ---------------------------------------------------------------------------
+// globalSymbolTable — the one table of this process.
+//
+// Function-local static: initialisation is thread-safe since C++11, and the
+// pointer is leaked on purpose so the table is never destroyed (see the
+// declaration in proto_internal.h).
+// ---------------------------------------------------------------------------
+SymbolTable& globalSymbolTable() {
+    static SymbolTable* table = new SymbolTable();
+    return *table;
+}
+
+unsigned long SymbolTable::entryCount() const {
+    unsigned long total = 0;
+    for (int i = 0; i < SHARD_COUNT; ++i) {
+        std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(shards[i].mutex));
+        for (const Bucket* b = shards[i].head; b; b = b->next) ++total;
+    }
+    return total;
+}
+
+unsigned long globalSymbolCount() { return globalSymbolTable().entryCount(); }
 
 // ---------------------------------------------------------------------------
 // Destructor — free all bucket chains

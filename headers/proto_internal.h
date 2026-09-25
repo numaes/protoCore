@@ -1075,7 +1075,37 @@ namespace proto {
         // SymbolTable.cpp for the rationale.
         static const ProtoStringImplementation* normalizeForSymbol(
             ProtoContext* readCtx, const ProtoObject* strObj);
+
+        friend unsigned long globalSymbolCount();
+        unsigned long entryCount() const;
     };
+
+    // The process-wide symbol table.
+    //
+    // P3 (2026-09-24, maintainer's ruling): all interning is GLOBAL.  An
+    // attribute key is the address of an interned symbol, so a per-space table
+    // made two spaces of one process disagree about the key for the same name —
+    // except for names within INLINE_STRING_MAX_BYTES, which are embedded in the
+    // pointer word and matched by accident.  Half-global identity with silent
+    // partial failure was the worst available state; one table makes it uniform.
+    //
+    // Interned objects are perennial, so a global table has no lifecycle
+    // problem: there is nothing to hand back when a space dies.  The instance is
+    // created on first use and DELIBERATELY NEVER DESTROYED — its cells outlive
+    // every space, and a static destructor would race the exit-time teardown of
+    // SharedModuleCache and ProviderRegistry.
+    //
+    // Thread-safety: 64 shards, each an independent bucket chain behind its own
+    // std::mutex.  A shard mutex is a STRICT LEAF LOCK and is never ordered
+    // against ProtoSpace::globalMutex; no Cell is allocated while one is held.
+    // With one table serving several spaces, breaking that invariant would
+    // deadlock two collectors, not one.
+    SymbolTable& globalSymbolTable();
+
+    // Number of symbols this process has interned.  Diagnostics and tests only
+    // (P3 D8: a second ProtoSpace must intern nothing its predecessor already
+    // did).  Walks every bucket chain; not for a hot path.
+    unsigned long globalSymbolCount();
 
     // ---- TupleInterner --------------------------------------------------------
     // Canonicalizes tuples: tuples built from the same element pointers are the
