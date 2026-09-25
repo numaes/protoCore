@@ -1116,6 +1116,27 @@ namespace proto {
     // 64 shards, each with its own hash index behind its own mutex. The mutex
     // is a leaf lock: no Cell is allocated while it is held.
     //
+    // P3 (2026-09-24): tuple interning stays PER SPACE, deliberately.  Intern
+    // globally what is keyed by CONTENT; keep per-space what is keyed by
+    // ADDRESS.  A symbol's key is its bytes, which are space-independent, so a
+    // global symbol table produces cross-space identity.  THIS table's key is
+    // the SLOT POINTERS (hashSlots / find), and addresses are not
+    // space-independent, so a global tuple table would produce no cross-space
+    // identity for the ordinary case at all.
+    //
+    // The one case where it WOULD alias is the hazard, and it is new since P3:
+    // symbols are now the same pointers in every space, so a tuple of symbols
+    // built in two spaces has identical slots.  A global table would return one
+    // node, whose cells live in whichever space created it first — one collector
+    // tracing another's heap, and elements kept alive by a foreign collector,
+    // for no benefit.  See docs/platform/GLOBAL-INTERNING-SPEC.md in protoScala,
+    // section 2.4 and D5, for what going global would additionally require (an
+    // owner per entry, owner-filtered marking, and a purgeSpace at teardown —
+    // the last of which the module root table did turn out to need).
+    //
+    // test/GlobalInterningTests.cpp :: GlobalInterning.TupleInternerStaysPerSpace
+    // fails if this table is made a singleton.
+    //
     // Interned tuples are PERENNIAL, like symbols: entries are never removed.
     // Unlike a symbol, a tuple references heap objects, so the table is a GC
     // root. Entries live in append-only chunks that never move; GC Phase 2
@@ -1243,7 +1264,13 @@ namespace proto {
 
         struct Entry {
             const ProtoObject* module;   // written before publication
-            const ProtoSpace*  owner;    // the space whose heap holds it
+            // The space whose heap holds the module.  ATOMIC because
+            // purgeSpace() tombstones it (stores nullptr) from the dying space's
+            // thread while another space's concurrent mark may be reading it to
+            // compare against its own address.  The comparison is unaffected by
+            // which of the two values the walker sees — neither equals the
+            // collecting space — but the read must not be a data race.
+            std::atomic<const ProtoSpace*> owner{nullptr};
         };
         struct Chunk {
             Entry               entries[CHUNK_SIZE];
@@ -1264,6 +1291,26 @@ namespace proto {
         ModuleRootTable& operator=(const ModuleRootTable&) = delete;
 
         void   add(const ProtoObject* module, const ProtoSpace* owner);
+
+        // Tombstone every entry owned by `space`.  Called from ~ProtoSpace,
+        // AFTER its GC thread has been joined.
+        //
+        // WHY THIS IS NECESSARY, and it was found by a test rather than argued:
+        // entries are never removed, so an entry outlives the ProtoSpace it
+        // names — and the allocator can hand a LATER ProtoSpace the same
+        // address.  That later space's collector would then match the dead
+        // space's entries by owner and trace cells in a heap that no longer has
+        // an owner.  It does not crash today only because ~ProtoSpace never
+        // frees its cell blocks, so the walk reads leaked-but-mapped memory; a
+        // design that is safe because of a leak is not a design.
+        // ModuleRootGC.ACollectorTracesOnlyItsOwnSpacesModules fails without
+        // this as soon as a test process has destroyed a space before it.
+        //
+        // O(entries) at teardown, NEVER at a pause.  Tombstoned slots are not
+        // reclaimed: the chunks are append-only and never move, which is what
+        // makes the concurrent walk sound, so a slot is retired in place.
+        void   purgeSpace(const ProtoSpace* space);
+
         void   captureForGC();
         void   forEachCaptured(const ProtoSpace* space, void* user,
                                void (*visit)(void* user, const ProtoObject* module)) const;

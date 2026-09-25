@@ -1370,6 +1370,15 @@ namespace proto {
             for (auto* rs : rootSets_) delete rs;
             rootSets_.clear();
         }
+        // P3: retire this space's entries in the process-global module root
+        // table.  The table is append-only, so an entry would otherwise outlive
+        // the space it names — and the allocator can hand a LATER ProtoSpace the
+        // same address, whose collector would then match these entries by owner
+        // and trace cells in a heap with no owner.  O(entries), at teardown only,
+        // never inside a pause.  Runs after the GC thread has been joined, so no
+        // walk of this space's entries can be in flight.
+        globalModuleRootTable().purgeSpace(this);
+
         // The GC thread has joined, so nothing allocates through its context.
         delete this->gcContext;
         this->gcContext = nullptr;

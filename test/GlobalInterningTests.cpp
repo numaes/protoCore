@@ -14,8 +14,10 @@
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
 
+#include <atomic>
 #include <cstdio>
 #include <string>
+#include <vector>
 
 using namespace proto;
 
@@ -41,12 +43,13 @@ struct CycleReport {
 // Two traps, both found in this family inside two days:
 //
 //  * FORCING A CYCLE IS NOT THE SAME AS SUBMITTING THE YOUNG GENERATION.  A
-//    helper that allocates in a child context and drops it WITHOUT calling
+//    helper that allocates in a LONG-LIVED context and never calls
 //    ProtoContext::safepoint() leaves the young chain unsubmitted: the cycle
-//    reclaims single-digit cells instead of the ~205,000 the helper created, and
-//    any `reclaimed > 0` assertion passes near-vacuously.  Measured by Track Y
-//    on 2026-09-24 — the third instance of this pattern after protoST's S15 and
-//    the newList critical section.  Hence the safepoint() calls below.
+//    reclaims ZERO cells out of the 425,000 the helper created, and any
+//    `reclaimed > 0` assertion passes vacuously.  Measured by Track Y on
+//    2026-09-24 — the third instance of this pattern after protoST's S15 and the
+//    newList critical section.  Hence the CHILD context AND the safepoint()
+//    calls below: measured for this phase, either one alone is not enough.
 //
 //  * A RECLAMATION ASSERTION MUST BE CONSISTENT WITH THE GARBAGE CREATED, not
 //    merely positive.  Hence `created` is returned and every caller asserts
@@ -84,11 +87,18 @@ std::string readBack(ProtoContext* c, const ProtoString* s) {
 // It also SELF-REPORTS its three numbers, so a run that measured nothing is
 // visible in the log rather than reported as a pass.
 //
-// The `/ 10` threshold is calibrated: the measured reclaimed/created ratio of
-// this helper is ~0.9 (see .agent_scratch/p3/gc-helper-calibration.txt), while
-// the same helper with both safepoint() calls removed reclaims single-digit
-// cells out of >200,000 — a ratio of ~3e-5.  0.1 sits two orders of magnitude
-// above the failure mode and an order of magnitude below the real one.
+// The `/ 10` threshold is CALIBRATED, not chosen
+// (.agent_scratch/p3/gc-helper-calibration.txt):
+//   * as written                       280,000 / 425,000 = 0.66
+//   * safepoint() removed, child kept  280,000 / 425,000 = 0.66  (UNCHANGED —
+//     the child context's destructor already submits the chain, so deleting the
+//     safepoints alone proves nothing.  Recorded rather than papered over.)
+//   * the real Track Y shape: allocate into the long-lived PARENT context and
+//     never safepoint                        0 / 425,000 = 0.0, and protoCore
+//     reports `last cycle reclaimed 0` and exits.
+// 0.1 therefore sits well below the real ratio and infinitely above the failure
+// mode.  A `reclaimed > 0` assertion could not have failed in Track Y's case;
+// this one cannot pass in it.
 #define ASSERT_CYCLES_DID_REAL_WORK(rep, minCycles)                              \
     do {                                                                         \
         std::fprintf(stderr, "[gc] cycles=%lu reclaimed=%lu created=%ld\n",      \
@@ -280,4 +290,150 @@ TEST(GlobalInterning, ASecondSpaceInternsNothingItsPredecessorAlreadyDid) {
 
     EXPECT_EQ(globalSymbolCount(), afterA)
         << "the second space re-interned names the first had already interned";
+}
+
+// P3 D5: the tuple interner is PER SPACE.  Two spaces building a tuple of the
+// same two globally-interned symbols get two distinct tuple nodes, each in its
+// own heap, each internally consistent.
+//
+// This test exists to stop a future reader from "completing" the ruling "all
+// interning should be global".  The deviation and its safety argument are in
+// protoScala/docs/platform/GLOBAL-INTERNING-SPEC.md section 2.4 and D5.
+//
+// MUTATION THAT MUST TURN THIS RED: replace `context->space->tupleInterner` in
+// ProtoTupleImplementation's interning path (core/ProtoTuple.cpp) with a
+// process-global singleton.  The two addresses then coincide, which is exactly
+// the cross-space coupling D5 declines.
+TEST(GlobalInterning, TupleInternerStaysPerSpace) {
+    ProtoSpace a, b;
+    ProtoContext ca(&a, a.rootContext, nullptr, nullptr, nullptr, nullptr);
+    ProtoContext cb(&b, b.rootContext, nullptr, nullptr, nullptr, nullptr);
+
+    // Two names past INLINE_STRING_MAX_BYTES, so they are real interned cells
+    // and — after P3 — the same pointers in both spaces.
+    const ProtoString* n1a = ProtoString::createSymbol(&ca, "TupleElementOne");
+    const ProtoString* n2a = ProtoString::createSymbol(&ca, "TupleElementTwo");
+    const ProtoString* n1b = ProtoString::createSymbol(&cb, "TupleElementOne");
+    const ProtoString* n2b = ProtoString::createSymbol(&cb, "TupleElementTwo");
+    ASSERT_EQ(n1a, n1b);
+    ASSERT_EQ(n2a, n2b);   // the premise: identical slot pointers
+
+    // test/test_tuple.cpp's own two-element builder: a ProtoList through
+    // newTupleFromList.  Not an invented one.
+    auto buildPair = [](ProtoContext* c, const ProtoString* x, const ProtoString* y) {
+        return c->newTupleFromList(
+            c->newList()->appendLast(c, reinterpret_cast<const ProtoObject*>(x))
+                        ->appendLast(c, reinterpret_cast<const ProtoObject*>(y)));
+    };
+    const ProtoTuple* ta  = buildPair(&ca, n1a, n2a);
+    const ProtoTuple* tb  = buildPair(&cb, n1b, n2b);
+    const ProtoTuple* ta2 = buildPair(&ca, n1a, n2a);
+    ASSERT_NE(ta, nullptr);
+    ASSERT_NE(tb, nullptr);
+    ASSERT_NE(ta2, nullptr);
+
+    EXPECT_NE(ta, tb)  << "the tuple interner has been made global; see P3 D5";
+    // Load-bearing: a mutation that broke per-space interning entirely would
+    // otherwise pass the assertion above.
+    EXPECT_EQ(ta, ta2) << "per-space tuple interning stopped working";
+}
+
+// --- Concurrency: the global table is now contended ACROSS spaces -------------
+
+namespace {
+
+constexpr int kP3Spellings = 200;
+constexpr int kP3Threads   = 4;      // two per space
+
+// All 200 spellings, built once, every one past INLINE_STRING_MAX_BYTES so every
+// one is a real interned cell rather than an inline string.
+std::vector<std::string>            gP3Spellings;
+std::vector<const ProtoString*>     gP3Seen[kP3Threads];
+std::atomic<unsigned long>          gP3Nulls{0};
+
+// Runs on a REGISTERED protoCore thread (ProtoSpace::newThread), not a raw
+// std::thread: an unregistered thread is not counted in runningThreads, never
+// parks at a stop-the-world, and would make this test weaker rather than
+// stronger (P2 D10).
+const ProtoObject* p3InternWorkerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                       const ProtoList* args, const ProtoSparseList*) {
+    const long slot = args->getAt(ctx, 0)->asLong(ctx);
+    // A rotated order per thread, so the threads race on the same shard from
+    // different directions rather than marching in lockstep.
+    for (int k = 0; k < kP3Spellings; ++k) {
+        const int i = (k + static_cast<int>(slot) * 37) % kP3Spellings;
+        const ProtoString* s = ProtoString::createSymbol(ctx, gP3Spellings[i].c_str());
+        if (!s) gP3Nulls.fetch_add(1, std::memory_order_relaxed);
+        gP3Seen[slot][i] = s;
+    }
+    return PROTO_NONE;
+}
+
+}  // namespace
+
+// Four registered protoCore threads — two per space — intern 200 overlapping
+// spellings concurrently; every thread must agree on the canonical pointer for
+// every name, and so must the main thread.
+//
+// MUTATION THAT MUST TURN THIS RED: drop the double-checked re-check inside the
+// shard lock in SymbolTable::intern, so two threads that normalise the same
+// spelling concurrently both insert.  Two canonical pointers for one name.
+// Repeated, because the failure mode is a race: a single round let the mutation
+// through in one of three observed runs.  Five rounds with fresh spellings each
+// time makes detection near-certain while keeping the case under 150 ms.
+TEST(GlobalInterning, ConcurrentInterningAcrossSpacesAgreesOnOnePointer) {
+  int totalDisagreements = 0;
+  for (int round = 0; round < 5; ++round) {
+    // Spellings carry this test's own name so the case is independent of
+    // execution order and of --gtest_repeat (P3 D8).
+    gP3Spellings.clear();
+    static std::atomic<unsigned long> run{0};
+    const std::string stem =
+        "P3ConcurrentInterningProbe_" + std::to_string(run.fetch_add(1)) + "_";
+    for (int i = 0; i < kP3Spellings; ++i)
+        gP3Spellings.push_back(stem + std::to_string(i));
+    for (int t = 0; t < kP3Threads; ++t)
+        gP3Seen[t].assign(kP3Spellings, nullptr);
+    gP3Nulls.store(0);
+
+    ProtoSpace a, b;
+    ProtoContext* rootA = a.rootContext;
+    ProtoContext* rootB = b.rootContext;
+
+    std::vector<const ProtoThread*> workers;
+    for (int t = 0; t < kP3Threads; ++t) {
+        ProtoContext* root = (t % 2 == 0) ? rootA : rootB;
+        const ProtoList* args = root->newList()->appendLast(root, root->fromInteger(t));
+        workers.push_back(root->space->newThread(
+            root, ProtoString::createSymbol(root, "p3-intern-worker"),
+            p3InternWorkerMain, args, nullptr));
+        ASSERT_NE(workers.back(), nullptr);
+    }
+    {
+        ProtoContext::UnmanagedScope parked(rootA);
+        for (const ProtoThread* w : workers) const_cast<ProtoThread*>(w)->join(rootA);
+    }
+
+    EXPECT_EQ(gP3Nulls.load(), 0ul) << "createSymbol returned null under contention";
+
+    // A fifth set, interned on the main thread through a third context.
+    ProtoContext main(&a, rootA, nullptr, nullptr, nullptr, nullptr);
+    int disagreements = 0;
+    for (int i = 0; i < kP3Spellings; ++i) {
+        const ProtoString* canonical = ProtoString::createSymbol(&main, gP3Spellings[i].c_str());
+        ASSERT_NE(canonical, nullptr);
+        for (int t = 0; t < kP3Threads; ++t) {
+            if (gP3Seen[t][i] != canonical) {
+                if (++disagreements <= 5)
+                    std::fprintf(stderr,
+                                 "[intern] spelling %d: thread %d saw %p, main saw %p\n",
+                                 i, t, (const void*)gP3Seen[t][i], (const void*)canonical);
+            }
+        }
+    }
+    totalDisagreements += disagreements;
+  }
+  EXPECT_EQ(totalDisagreements, 0)
+      << totalDisagreements << " of " << (5 * kP3Spellings * kP3Threads)
+      << " (spelling, thread) pairs disagreed about the canonical pointer";
 }

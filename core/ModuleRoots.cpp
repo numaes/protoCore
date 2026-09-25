@@ -49,7 +49,8 @@ void ModuleRootTable::add(const ProtoObject* module, const ProtoSpace* owner) {
          c = c->next.load(std::memory_order_relaxed)) {
         const size_t n = std::min(remaining, CHUNK_SIZE);
         for (size_t i = 0; i < n; ++i)
-            if (c->entries[i].module == module && c->entries[i].owner == owner) return;
+            if (c->entries[i].module == module &&
+                c->entries[i].owner.load(std::memory_order_relaxed) == owner) return;
         remaining -= n;
     }
 
@@ -63,10 +64,36 @@ void ModuleRootTable::add(const ProtoObject* module, const ProtoSpace* owner) {
     }
     Entry& entry = shard.last->entries[index];
     entry.module = module;
-    entry.owner  = owner;
+    entry.owner.store(owner, std::memory_order_relaxed);
     // Publish last: the GC walks only published entries, so both words above
     // must be visible before the count is.
     shard.published.store(count + 1, std::memory_order_release);
+}
+
+// ~ProtoSpace, after its GC thread has been joined. See the declaration in
+// proto_internal.h for why an entry must not outlive the space it names.
+void ModuleRootTable::purgeSpace(const ProtoSpace* space) {
+    if (!space) return;
+    for (Shard& shard : shards) {
+        std::lock_guard<std::mutex> lock(shard.mutex);
+        size_t remaining = shard.published.load(std::memory_order_relaxed);
+        for (Chunk* c = shard.first.load(std::memory_order_relaxed); c && remaining;
+             c = c->next.load(std::memory_order_relaxed)) {
+            const size_t n = std::min(remaining, CHUNK_SIZE);
+            for (size_t i = 0; i < n; ++i) {
+                if (c->entries[i].owner.load(std::memory_order_relaxed) != space) continue;
+                // Retire the slot in place. The owner is cleared with release
+                // ordering so a concurrent walker of ANOTHER space either reads
+                // this space's address or nullptr — neither equals its own — and
+                // never reads a half-written word. `module` is cleared after,
+                // because the walker only dereferences it when the owner
+                // matched, which a tombstone can no longer do.
+                c->entries[i].owner.store(nullptr, std::memory_order_release);
+                c->entries[i].module = nullptr;
+            }
+            remaining -= n;
+        }
+    }
 }
 
 // GC Phase 2, under stop-the-world. O(SHARD_COUNT) counter reads; no entry is
@@ -96,7 +123,8 @@ void ModuleRootTable::forEachCaptured(
              c = c->next.load(std::memory_order_acquire)) {
             const size_t n = std::min(remaining, CHUNK_SIZE);
             for (size_t i = 0; i < n; ++i)
-                if (c->entries[i].owner == space) visit(user, c->entries[i].module);
+                if (c->entries[i].owner.load(std::memory_order_acquire) == space)
+                    visit(user, c->entries[i].module);
             remaining -= n;
         }
     }
