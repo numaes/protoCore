@@ -112,6 +112,35 @@ The GC runs in a dedicated background thread (`gcThreadLoop` in
 - Application threads check this flag in their allocation path and park
   on `stopTheWorldCV`.
 
+**A thread that blocks reaches none of those three, and the consequence is a
+deadlock rather than a delay.** `runningThreads` starts at 1 — the main thread is
+counted from `ProtoSpace` construction — and every managed thread adds one. The
+quorum is `parkedThreads >= runningThreads`, so a registered thread blocked in a
+condition variable, a socket read or a thread join still counts as running: the
+quorum can never be met, no cycle can start, and every thread that then needs
+memory waits in `waitForHeapHeadroom` for a cycle that cannot begin. One of those
+threads is usually the one being waited for.
+
+So **every blocking call on a registered thread must be bracketed in
+`ProtoContext::UnmanagedScope`**, which announces the thread as parked for quorum
+purposes without it reaching a safepoint. Two clarifications that have each cost
+this project real debugging time:
+
+- **`ProtoThread::join` brackets itself** as of protoCore 2.3, so an embedder
+  joining through protoCore's own API needs no guard. Adding one anyway is
+  harmless and idempotent. A direct `std::thread::join` or `pthread_join` is NOT
+  covered — the kernel cannot see it.
+- **Never enter an `UnmanagedScope` while holding a
+  `ProtoContext::CriticalSection`.** The section exists to protect cells that are
+  reachable only from C++ locals; the scope tells the collector to stop waiting
+  for this thread. Together they let a root scan proceed without those cells, and
+  the sweep frees them. `ProtoThread::join` refuses to leave the running set at
+  `criticalSectionDepth > 0` for exactly this reason, and says so on `stderr`.
+
+`docs/EMBEDDER-CONFORMANCE.md` states these as rules 2, 2b and 12, with runnable
+checks: the cases `stw.quorum_completes` and `join.parks`, and the static check
+`blocking_join_unbracketed`.
+
 ### Phase 2 — Root collection + mutable-shard snapshot
 While the world is stopped, the GC:
 

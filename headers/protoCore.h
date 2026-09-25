@@ -1440,6 +1440,44 @@ namespace proto
         static const ProtoThread* getCurrentThread(ProtoContext* context);
 
         void detach(ProtoContext* context);
+
+        /**
+         * @brief Wait for this thread to finish.
+         *
+         * **The caller does NOT need to wrap this in an `UnmanagedScope`:
+         * `join` leaves the running set itself for the duration of the
+         * block.**  That is load-bearing rather than a convenience.  The main
+         * thread is counted in `runningThreads` from `ProtoSpace`
+         * construction and every managed thread adds one, while a
+         * stop-the-world phase cannot begin until
+         * `parkedThreads >= runningThreads`.  A registered thread blocked in a
+         * bare `std::thread::join` reaches no safepoint, so it still counts as
+         * running: the quorum can never be met, no cycle can start, and every
+         * thread that then needs memory waits for a cycle that cannot begin —
+         * usually including the thread being joined.  That is a deadlock, not
+         * slow shutdown.
+         *
+         * Wrapping the call in an `UnmanagedScope` as well is harmless and
+         * idempotent (`unmanagedDepth` is a counter; only the outermost pair
+         * moves `parkedThreads`), so existing embedder guards need not be
+         * removed.
+         *
+         * **The one exception, and it is the caller's bug:** when the calling
+         * context is inside a `ProtoContext::CriticalSection`
+         * (`criticalSectionDepth > 0`), `join` does NOT leave the running set,
+         * because a thread in a critical section holds cells reachable only
+         * from C++ locals and a stop-the-world root scan would miss them.
+         * Leaving the running set there would trade a deadlock for memory
+         * corruption.  The join still happens, the quorum is still held for
+         * its duration, and a one-time diagnostic is written to `stderr`.
+         * Do not block inside a critical section: see
+         * `docs/EMBEDDER-CONFORMANCE.md` rule 12.
+         *
+         * Note that this covers `ProtoThread::join` only.  A runtime that
+         * calls `std::thread::join` directly on a thread it registered with
+         * protoCore still has to bracket that call itself — the kernel cannot
+         * see it (rule 2, case `stw.quorum_completes`).
+         */
         void join(ProtoContext* context);
         void exit(ProtoContext* context);
 
@@ -1727,6 +1765,28 @@ namespace proto
          *
          * Cheap on the fast path: a single relaxed atomic load of
          * `stwFlag`.  Only takes the global mutex if the flag is set.
+         *
+         * **IT IS ALSO THE ONLY PLACE A CONTEXT'S YOUNG GENERATION IS
+         * SUBMITTED** to `dirtySegments` (under
+         * `PROTOCORE_GC_REINCLUDE_SURVIVORS`, once the per-context allocation
+         * threshold `ProtoSpace::maxAllocatedCellsPerContext` has been
+         * crossed, and only at `criticalSectionDepth == 0`).  A context's young
+         * chain is recorded by GC Phase 2 as a ROOT, not as a candidate, so a
+         * chain that is never submitted is live by construction and no cycle
+         * can ever reclaim it — however many cycles run.  An interpreter that
+         * never calls `safepoint()` therefore reclaims NOTHING, silently,
+         * while `gcCycleCount` keeps advancing and the heap keeps growing.
+         *
+         * This half of the contract was undocumented until 2026-09-25, and its
+         * absence is a plausible contributing cause of two measured bugs:
+         * protoST reclaimed 0 cells of 2,748,398 across its entire history
+         * with 833 tests green, and protoClojure's apparent live set was 110×
+         * its real one.  An embedder reading only the paragraph above would
+         * conclude that a CPU-bound loop needs a safepoint and an allocating
+         * loop does not, which is the opposite of the truth for reclamation.
+         *
+         * See `docs/EMBEDDER-CONFORMANCE.md` rule 1 and conformance case
+         * `gc.young_submitted`.
          */
         void safepoint();
 

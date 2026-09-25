@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <cstdio>
 #include <cstring>
 #include <iostream>
 
@@ -447,10 +448,76 @@ namespace proto {
     // ProtoThread API
     //=========================================================================
 
-    void ProtoThread::join(ProtoContext* /*context*/) {
+    // 2026-09-25 (P4): joining leaves the running set for the duration of the
+    // block, and the KERNEL does it — not each embedder.
+    //
+    // The bug this closes is a deadlock, not slow shutdown.  `runningThreads`
+    // starts at 1 (the main thread is counted from ProtoSpace construction,
+    // core/ProtoSpace.cpp:1123) and every managed thread adds one in
+    // thread_main.  A stop-the-world phase cannot begin until
+    // `parkedThreads >= runningThreads` (core/ProtoSpace.cpp:322).  A bare
+    // std::thread::join reaches no safepoint, so a registered thread blocked
+    // there still counts as running: the quorum can never be met, no cycle can
+    // start, and every thread that then needs memory waits in
+    // waitForHeapHeadroom for a cycle that cannot begin — usually including
+    // the very thread being joined, which is why the join never returns
+    // either.  Read off a live protoClojure backtrace: four blocking joins
+    // (future deref, pmap, shutdownFutures, ActorScheduler::shutdown) each hung
+    // to a 90-second timeout and each completed in about three seconds once
+    // bracketed.
+    //
+    // No protoCore documentation stated the obligation, and `join` is
+    // protoCore's OWN blocking call, so an embedder had no way to know it had
+    // to bracket a kernel API against the kernel's own quorum.  The guard
+    // therefore belongs here: every embedder gets the correct behaviour
+    // without knowing the rule exists.  Nesting is safe and idempotent — an
+    // embedder that ALSO wraps its join in UnmanagedScope only bumps
+    // `unmanagedDepth`, and only the outermost pair moves `parkedThreads`
+    // (implGoUnmanaged / implReturnFromUnmanaged above).
+    //
+    // criticalSectionDepth > 0 is the one case where we must NOT leave the
+    // running set.  A critical section means the caller is holding cells that
+    // are reachable only from C++ locals — a half-built tree before its CAS
+    // into a root, or a snapshot read out of the mutables tree.  Announcing
+    // ourselves as parked there would let a stop-the-world root scan proceed
+    // while those cells are invisible to it, and the sweep would free them
+    // under us.  That trades a deadlock for memory corruption, which is the
+    // worse trade, so we refuse: we join WITHOUT leaving the running set,
+    // exactly as before this change, and say so once on stderr.  Blocking
+    // inside a critical section is itself a contract violation
+    // (docs/EMBEDDER-CONFORMANCE.md rule 12); the diagnostic names it rather
+    // than hiding it behind either a hang or an abort.
+    void ProtoThread::join(ProtoContext* context) {
         auto* impl = toImpl<ProtoThreadImplementation>(this);
-        if (impl->extension && impl->extension->osThread && impl->extension->osThread->joinable())
-            impl->extension->osThread->join();
+        if (!impl->extension || !impl->extension->osThread ||
+            !impl->extension->osThread->joinable())
+            return;
+
+        std::thread* osThread = impl->extension->osThread;
+
+        if (context && context->criticalSectionDepth > 0) {
+            static std::atomic<bool> warned{false};
+            if (!warned.exchange(true, std::memory_order_relaxed)) {
+                std::fprintf(stderr,
+                    "protoCore: ProtoThread::join called inside a GC critical "
+                    "section (criticalSectionDepth=%u).  The calling thread "
+                    "cannot leave the running set there without exposing "
+                    "cells held only in C++ locals to the sweep, so the "
+                    "stop-the-world quorum is held for the duration of this "
+                    "join and a collection cannot start.  Move the join "
+                    "outside the critical section: see "
+                    "docs/EMBEDDER-CONFORMANCE.md rule 12.\n",
+                    context->criticalSectionDepth);
+            }
+            osThread->join();
+            return;
+        }
+
+        // The normal path: out of the running set, block, back in.  The
+        // returning half re-parks properly if a stop-the-world phase is in
+        // progress when the join completes (implReturnFromUnmanaged).
+        ProtoContext::UnmanagedScope parked(context);
+        osThread->join();
     }
 
     const ProtoObject* ProtoThread::getName(ProtoContext* context) const {

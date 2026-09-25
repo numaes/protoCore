@@ -260,6 +260,16 @@ reclamation instead of growing the heap.
 
 ## 5. Term 3 — memory not managed by protoCore
 
+> **Conformance.** The obligations this section places on an embedder are rule 7
+> of `docs/EMBEDDER-CONFORMANCE.md`, and they are partly executable: the case
+> `external.finalizer_runs` asserts that a dropped wrapper's finalizer runs
+> exactly once, and the static check `external_finalizer` reports a finalizer that
+> blocks, that calls back into protoCore, or that is absent altogether. What this
+> document says cannot be decided by the kernel — whether a declared byte total is
+> accurate, and whether a null finalizer is correct because the embedder frees the
+> memory elsewhere — stays a judgement item (checklist C7), for the same reason
+> given below: the kernel has no way to detect the drift.
+
 This section is a **design boundary, not an open question.**
 
 ### What protoCore holds, and what it does not

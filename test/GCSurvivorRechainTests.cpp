@@ -142,6 +142,14 @@ TEST(GCSurvivorTest, LongLivedSurvivorFreedWhenReferenceDropped) {
 
     const unsigned long freeAfter = space.freeCellsCount;
 
+    // NOTE (P4): this assertion is sound for what T2 tests -- one cell, one
+    // reference dropped -- but it is the SHAPE to avoid in a GC test that creates
+    // bulk garbage.  `freeAfter > freeBefore` is satisfied by a single cell, and
+    // this project has now measured a forced cycle reclaiming 4-7 cells where the
+    // workload created 205,120 with a `> 0` assertion passing.  For a bulk
+    // workload use conformance/CycleDriver.h::checkProportionalReclaim, which
+    // takes the denominator as an argument and offers no way to ask the vacuous
+    // question.  See docs/EMBEDDER-CONFORMANCE.md, "Reclamation assertions".
     EXPECT_GT(freeAfter, freeBefore)
         << "no cells returned to free pool after dropping the only reference; "
            "survivor re-chain may not be feeding the candidate set";
