@@ -53,12 +53,31 @@ CaseResult caseCeilingProgress(Host& host)
 
     g_oomFired.store(0);
     space.outOfMemoryCallback = &recordOomAndReturnNone;
-        // The ceiling must be near the heap the space ALREADY holds, or the
-    // workload finishes below it and the case observes nothing.  protoCore only
-    // starts a cycle when a thread needs cells the heap cannot supply below the
-    // ceiling, so a ceiling above the current heap is not a ceiling at all.
-    const int ceiling = space.heapSize + 32768;
-    space.setHeapLimits(/*softCells=*/space.heapSize, /*hardCells=*/ceiling);
+        // Calibrating the ceiling is the whole difficulty of this case, and getting
+    // it wrong in either direction makes the result meaningless.
+    //
+    // Too high and the workload finishes below it, so the case observes nothing:
+    // protoCore starts a cycle only when a thread needs cells the heap cannot
+    // supply under the ceiling, so a ceiling above the peak is not a ceiling.
+    //
+    // Too low and the abort says nothing about the runtime.  The first draft used
+    // `heapSize + 32768`, and both runtimes measured aborted with live sets of
+    // 230,977 and 280,922 cells -- against a ceiling that left only 32,768 cells
+    // of headroom above what the interpreter ALREADY held before the workload
+    // started.  That does not discriminate between "this runtime cannot make
+    // progress under a ceiling" and "the ceiling is below this runtime's working
+    // set", and reporting the first when the evidence supports either would be
+    // the kind of overclaim that gets a suite switched off.
+    //
+    // So: settle the space first, measure the live set the RUNTIME itself needs,
+    // and set the ceiling well above it while still far below what the workload
+    // would reach unreclaimed.  A conforming runtime then has room for its live
+    // set and not for its garbage, which is precisely rule 8's question.
+    driveCycles(space, ctx, /*maxCycles=*/4, /*deadlineMs=*/10000);
+    const long settledInUse = sample(space).inUse;
+    const int ceiling = (int) (settledInUse + 200000);
+    space.setHeapLimits(/*softCells=*/(int) (settledInUse + 100000),
+                        /*hardCells=*/ceiling);
 
     const HeapSample before = sample(space);
     const bool completed = host.runProducerConsumer(200000);
@@ -70,7 +89,8 @@ CaseResult caseCeilingProgress(Host& host)
     const std::string common =
         "heapSize " + std::to_string(before.heapSize) + "->"
         + std::to_string(after.heapSize)
-        + " (hard ceiling " + std::to_string(ceiling) + ") inUse " + std::to_string(before.inUse) + "->"
+        + " (hard ceiling " + std::to_string(ceiling)
+        + ", settled live set " + std::to_string(settledInUse) + ") inUse " + std::to_string(before.inUse) + "->"
         + std::to_string(after.inUse)
         + " gcCycleCount " + std::to_string(before.cycles) + "->"
         + std::to_string(after.cycles)

@@ -125,6 +125,17 @@ public:
     /**
      * Run the runtime's own producer/consumer or actor workload for `units`
      * of work.  Rules 3 and 8's probe.
+     *
+     * **The backlog must be BOUNDED: the units must flow through, with only a
+     * small number in flight at once.**  This is not a style preference, it is
+     * what makes rule 8 measurable.  A workload that enqueues all `units` before
+     * draining any has a live set that grows with `units`, so it legitimately
+     * exceeds any fixed ceiling and the resulting out-of-memory abort says
+     * nothing about the runtime -- the case cannot tell "this runtime cannot make
+     * progress under a ceiling" from "this workload is unboundedly live".  Both
+     * of the first two adaptors written against this suite got that wrong and
+     * both produced a confident-looking rule-8 failure that meant nothing.
+     *
      * @return true when the workload completed.
      */
     virtual bool runProducerConsumer(unsigned long units)

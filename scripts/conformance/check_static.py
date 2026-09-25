@@ -183,10 +183,39 @@ def explain_dest(dest):
 # ---------------------------------------------------------------------------
 # Rule 6 -- attr_sentinel
 # ---------------------------------------------------------------------------
+def logical_lines(lines):
+    """Yield (first_line_number, joined_text) where a call split across physical
+    lines is joined into one.
+
+    Without this the sentinel check reads only the first physical line of
+    `if (cls->hasOwnAttribute(context,\n        key) == PROTO_TRUE)` and reports
+    CORRECT code as an always-true condition.  That happened, on three real sites
+    in one runtime, and it is the exact failure this script must not have: a
+    checker that flags correct code is ignored within a day, and then it protects
+    nothing.  Joining continues while parentheses are unbalanced, up to a small
+    bound so a stray paren cannot swallow a whole file."""
+    out = []
+    i = 0
+    while i < len(lines):
+        text = strip_comment(lines[i])
+        depth = text.count("(") - text.count(")")
+        start = i
+        joined = 0
+        while depth > 0 and i + 1 < len(lines) and joined < 6:
+            i += 1
+            joined += 1
+            nxt = strip_comment(lines[i])
+            text += " " + nxt.strip()
+            depth += nxt.count("(") - nxt.count(")")
+        out.append((start + 1, text))
+        i += 1
+    return out
+
+
 def check_attr_sentinel(rel, lines, rules, findings):
     table = rules["attr_sentinel"]
-    for i, raw in enumerate(lines, start=1):
-        line = strip_comment(raw)
+    for i, line in logical_lines(lines):
+        raw = lines[i - 1]
         if not line.strip():
             continue
         for fn, spec in table.items():
@@ -208,12 +237,73 @@ def check_attr_sentinel(rel, lines, rules, findings):
                 continue
             wrong = "PROTO_NONE" if absent == "nullptr" else "nullptr"
             if re.search(r"%s\s*\([^;]*\)\s*(==|!=)\s*%s\b" % (re.escape(fn), re.escape(wrong)), line):
-                findings.append(Finding(
-                    "attr_sentinel", rel, i, raw, "error",
-                    "%s() reports 'not found' as %s, and this compares its "
-                    "result against %s, which is the WRONG sentinel: the branch "
-                    "can never be taken (or is taken for every object).  %s"
-                    % (fn, absent, wrong, spec.get("cite", ""))))
+                # If the CORRECT sentinel is also tested in the same condition,
+                # the code is right and the wrong-sentinel test is merely a dead
+                # conjunct.  Reporting that as an error would flag correct code,
+                # which is how a checker gets ignored -- so it is `info`.
+                if re.search(r"(==|!=)\s*%s\b" % re.escape(absent), line):
+                    findings.append(Finding(
+                        "attr_sentinel", rel, i, raw, "info",
+                        "%s() is compared against BOTH %s (correct) and %s "
+                        "(dead): the condition is right, the second test can "
+                        "never change it.  Harmless, and worth removing so the "
+                        "next reader does not copy it." % (fn, absent, wrong)))
+                else:
+                    findings.append(Finding(
+                        "attr_sentinel", rel, i, raw, "error",
+                        "%s() reports 'not found' as %s, and this compares its "
+                        "result against %s, which is the WRONG sentinel: the "
+                        "branch can never be taken (or is taken for every "
+                        "object).  %s"
+                        % (fn, absent, wrong, spec.get("cite", ""))))
+
+            # The same bug written as a boolean test rather than a comparison.
+            # `v = o->getAttribute(...)` then `if (!v)` is the nullptr test in
+            # disguise, and it is DEAD for a function whose absent value is
+            # PROTO_NONE -- PROTO_NONE is 321UL, which is truthy.  This is how a
+            # live "absent key" check was found to be unreachable in one runtime,
+            # and the explicit-comparison check above does not see it.
+            if absent == "PROTO_NONE":
+                m = re.search(r"(?:const\s+)?(?:proto::)?ProtoObject\s*\*\s*(\w+)\s*=\s*[^;]*%s\s*\(" % re.escape(fn), line)
+                if not m:
+                    m = re.search(r"\b(\w+)\s*=\s*[\w\->.:]*%s\s*\(" % re.escape(fn), line)
+                if m:
+                    var = m.group(1)
+                    for j in range(i, min(i + 10, len(lines))):
+                        later = strip_comment(lines[j])
+                        if re.search(r"(?:if|while)\s*\(\s*[^)]*!\s*%s\b" % re.escape(var), later) \
+                                or re.search(r"&&\s*!\s*%s\b" % re.escape(var), later):
+                            # The overwhelmingly common CORRECT shape is
+                            # `if (!v || v == PROTO_NONE)`: a cheap null pre-guard
+                            # followed by the real test.  Flagging that as a dead
+                            # branch would have produced 121 findings in one
+                            # runtime, almost all of them correct code -- which is
+                            # exactly how a checker stops being read.  Only a
+                            # boolean test with NO PROTO_NONE test for the same
+                            # variable nearby is a finding.
+                            nearby = " ".join(strip_comment(x)
+                                              for x in lines[j:min(j + 4, len(lines))])
+                            if re.search(r"%s\s*(==|!=)\s*PROTO_NONE" % re.escape(var), nearby):
+                                break
+                            findings.append(Finding(
+                                "attr_sentinel", rel, j + 1, lines[j], "warn",
+                                "'%s' holds a %s() result, and this tests it as a "
+                                "C++ boolean.  %s() reports 'not found' as "
+                                "PROTO_NONE, which is 321UL and therefore TRUTHY, "
+                                "so `!%s` is true only for invalid input and this "
+                                "branch is DEAD for a missing attribute.  Compare "
+                                "against PROTO_NONE.  SEVERITY warn, NOT error, "
+                                "and deliberately: deciding this needs dataflow. "
+                                "The correct idiom `if (!v || v == PROTO_NONE)` is "
+                                "already excluded, but a PROTO_NONE test inside a "
+                                "helper, or further away than four lines, is not "
+                                "-- so this check has a false-positive rate that "
+                                "cannot be bounded from the text, and a check "
+                                "with an unbounded false-positive rate must not "
+                                "gate.  It found one real dead TDZ branch in this "
+                                "family; triage each hit by reading it."
+                                % (var, fn, fn, var)))
+                            break
 
 
 # ---------------------------------------------------------------------------
@@ -549,11 +639,27 @@ def main():
         print("# Every JUSTIFY ME below must be replaced by a human before this")
         print("# file means anything.  An entry whose line CHANGES goes stale and")
         print("# re-opens the finding, which is the point.")
+        # Errors get one line each, because each one must be read.  Warnings are
+        # collapsed to one file-level entry per check, because 200 individual
+        # "JUSTIFY ME" lines is a ritual and not a review -- and the ratchet still
+        # works: a NEW file re-opens the finding even though a new line in an
+        # already-covered file does not.  That trade is stated here so nobody
+        # mistakes a covered warning for a reviewed one.
+        seen_files = set()
         for f in sorted(findings, key=lambda f: (SEVERITY_ORDER[f.severity],
                                                  f.path, f.line)):
             if f.severity == "info":
                 continue
-            print(f.allow_line())
+            if f.severity == "error":
+                print(f.allow_line())
+                continue
+            key = (f.check, f.path)
+            if key in seen_files:
+                continue
+            seen_files.add(key)
+            print("%s %s:* * :: JUSTIFY ME -- file-level entry covering every "
+                  "%s warning in this file. %s"
+                  % (f.check, f.path, f.check, f.message.split(".")[0]))
         return 0
 
     covered, uncovered = [], []
@@ -561,8 +667,14 @@ def main():
         if f.severity == "info":
             continue
         key = (f.check, f.site)
-        file_key = (f.check, f.path + ":*")
-        entry = allow.get(key) or allow.get(file_key)
+        # A file-level `<path>:*` entry covers WARNINGS ONLY.  An error must be
+        # justified site by site, or it stays uncovered and the check keeps
+        # failing.  Without this rule a blanket entry added to silence 200
+        # heuristic warnings in a large file would also silence the two real
+        # defects in it -- which is exactly what happened when this was written,
+        # and it is the one thing a ratchet must never be used for.
+        file_key = (f.check, f.path + ":*") if f.severity != "error" else None
+        entry = allow.get(key) or (allow.get(file_key) if file_key else None)
         if entry is None:
             uncovered.append(f)
             continue
@@ -646,6 +758,13 @@ void f(proto::ProtoContext* ctx, const proto::ProtoObject* o,
 void g(proto::ProtoContext* ctx, const proto::ProtoObject* o,
        const proto::ProtoString* k) {
     if (o->hasAttribute(ctx, k)) { use(); }
+}
+"""),
+    ("attr_sentinel", "warn", """
+void tdz(proto::ProtoContext* ctx, const proto::ProtoObject* o,
+         const proto::ProtoString* k, bool isLexical) {
+    const proto::ProtoObject* rawVal = o->getAttribute(ctx, k, false);
+    if (isLexical && !rawVal) { raiseReferenceError(); }
 }
 """),
     ("symbol_key_source", "error", """
