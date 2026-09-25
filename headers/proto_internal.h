@@ -1312,8 +1312,20 @@ namespace proto {
         void   purgeSpace(const ProtoSpace* space);
 
         void   captureForGC();
+
+        // The collecting space MUST BE LIVE: this reads `space->stwFlag` for the
+        // pause-cost diagnostic (P3 D6).  To ask how many entries name an
+        // address without dereferencing it — which is what a test that has just
+        // destroyed a space needs — use countOwnedBy().
         void   forEachCaptured(const ProtoSpace* space, void* user,
                                void (*visit)(void* user, const ProtoObject* module)) const;
+
+        // Entries whose owner is `space`, over the WHOLE table rather than the
+        // last capture.  Compares the pointer and never dereferences it, so it
+        // is safe to ask about a space that has already been destroyed — which is
+        // exactly what the teardown test does.  Diagnostics and tests only.
+        size_t countOwnedBy(const ProtoSpace* space) const;
+
         size_t size() const;
 
         // Pause-cost diagnostics (P3 D6).  Process-wide, read only by tests.

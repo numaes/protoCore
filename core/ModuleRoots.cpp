@@ -130,6 +130,23 @@ void ModuleRootTable::forEachCaptured(
     }
 }
 
+// Compares the pointer, never dereferences it: safe for an address whose
+// ProtoSpace has already been destroyed.
+size_t ModuleRootTable::countOwnedBy(const ProtoSpace* space) const {
+    size_t total = 0;
+    for (const Shard& shard : shards) {
+        size_t remaining = shard.published.load(std::memory_order_acquire);
+        for (const Chunk* c = shard.first.load(std::memory_order_acquire); c && remaining;
+             c = c->next.load(std::memory_order_acquire)) {
+            const size_t n = std::min(remaining, CHUNK_SIZE);
+            for (size_t i = 0; i < n; ++i)
+                if (c->entries[i].owner.load(std::memory_order_acquire) == space) ++total;
+            remaining -= n;
+        }
+    }
+    return total;
+}
+
 size_t ModuleRootTable::size() const {
     size_t total = 0;
     for (const Shard& shard : shards)

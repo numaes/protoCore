@@ -293,39 +293,39 @@ TEST(ModuleRootGC, ADeadSpacesEntriesAreRetiredAtTeardown) {
     {
         auto* dying = new ProtoSpace();
         deadKey = dying;
-        ProtoContext c(dying, dying->rootContext, nullptr, nullptr, nullptr, nullptr);
-        for (long i = 0; i < 64; ++i) dying->addModuleRoot(buildModuleLike(&c, 1000 + i));
+        // The context must be destroyed BEFORE the space: ~ProtoContext submits
+        // its young generation through the space's dirtySegments list, so a
+        // context that outlives its space reads freed memory.  ASan catches
+        // exactly that if this inner scope is removed.
+        {
+            ProtoContext c(dying, dying->rootContext, nullptr, nullptr, nullptr, nullptr);
+            for (long i = 0; i < 64; ++i) dying->addModuleRoot(buildModuleLike(&c, 1000 + i));
 
-        globalModuleRootTable().captureForGC();
-        long visitedAlive = 0;
-        auto count = [](void* user, const ProtoObject*) { ++*static_cast<long*>(user); };
-        globalModuleRootTable().forEachCaptured(dying, &visitedAlive, count);
-        ASSERT_GE(visitedAlive, 64)
-            << "the 64 module roots were never published, so the assertion after "
-               "the delete would pass whatever ~ProtoSpace does";
+            ASSERT_GE(globalModuleRootTable().countOwnedBy(dying), 64u)
+                << "the 64 module roots were never published, so the assertion "
+                   "after the delete would pass whatever ~ProtoSpace does";
+        }
         delete dying;
     }
 
-    // Nothing owned by that address remains.  `deadKey` is compared, not read.
-    globalModuleRootTable().captureForGC();
-    long visitedDead = 0;
-    auto count = [](void* user, const ProtoObject*) { ++*static_cast<long*>(user); };
-    globalModuleRootTable().forEachCaptured(deadKey, &visitedDead, count);
-    std::fprintf(stderr, "[purge] entries still owned by the dead space: %ld\n", visitedDead);
-    EXPECT_EQ(visitedDead, 0)
-        << visitedDead << " entries still name a destroyed ProtoSpace. The "
+    // Nothing owned by that address remains.  countOwnedBy COMPARES the pointer
+    // and never dereferences it, which is what makes this safe to ask about a
+    // space that no longer exists — forEachCaptured reads space->stwFlag and
+    // would be a use-after-free here.
+    const size_t stillOwned = globalModuleRootTable().countOwnedBy(deadKey);
+    std::fprintf(stderr, "[purge] entries still owned by the dead space: %zu\n", stillOwned);
+    EXPECT_EQ(stillOwned, 0u)
+        << stillOwned << " entries still name a destroyed ProtoSpace. The "
            "allocator may hand that address to a later space, whose collector "
            "would then trace cells in a heap with no owner";
 
     // And a fresh space starts with nothing of its own from this table.
     auto* fresh = new ProtoSpace();
-    globalModuleRootTable().captureForGC();
-    long visitedFresh = 0;
-    globalModuleRootTable().forEachCaptured(fresh, &visitedFresh, count);
+    const size_t freshOwned = globalModuleRootTable().countOwnedBy(fresh);
     std::fprintf(stderr, "[purge] dead=%p fresh=%p reused=%s\n",
                  static_cast<const void*>(deadKey), static_cast<const void*>(fresh),
                  (static_cast<const void*>(fresh) == static_cast<const void*>(deadKey))
                      ? "YES" : "no");
-    EXPECT_EQ(visitedFresh, 0) << "a fresh ProtoSpace inherited module roots";
+    EXPECT_EQ(freshOwned, 0u) << "a fresh ProtoSpace inherited module roots";
     delete fresh;
 }
