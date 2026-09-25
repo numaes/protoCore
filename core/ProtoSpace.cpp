@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include "ModuleCache.h"
 #include <algorithm>
 #include <iostream>
 #include <cstdlib>
@@ -449,12 +450,22 @@ namespace proto {
                 // literalData is a strong Symbol — covered by the SymbolTable sweep below
                 if (space->resolutionChain_) addRootObj(space->resolutionChain_->asObject(space->rootContext));
 
-                {
-                    std::lock_guard<std::mutex> modLock(space->moduleRootsMutex);
-                    for (const ProtoObject* mod : space->moduleRoots) {
-                        addRootObj(mod);
-                    }
-                }
+                // Module roots (P3).  The module list is process-global and is a
+                // root: a module's contents are ordinary collectable objects, so
+                // an unfreed list would not keep them alive.
+                //
+                // Record only each shard's published entry count here —
+                // O(SHARD_COUNT) under stop-the-world, no entry dereferenced —
+                // exactly as the tuple interner does below.  Phase 4 pushes the
+                // captured entries after the world resumes.
+                //
+                // This REPLACED a `for (mod : space->moduleRoots) addRootObj(mod)`
+                // loop that ran HERE, inside the pause, holding moduleRootsMutex,
+                // and was O(modules).  It was the one term in the documented pause
+                // profile that scaled with the program, and it was missing from
+                // the cost table.  Do not put a per-module loop back into this
+                // window.
+                globalModuleRootTable().captureForGC();
 
                 // Tuple interner.  Interned tuples are perennial and the
                 // table is a root.  Record only each shard's published
@@ -644,6 +655,17 @@ namespace proto {
                         t_phase4_start - t_phase2_start).count(),
                     std::memory_order_relaxed);
 #endif
+
+                // Module roots recorded by Phase 2 are roots (P3).  Only this
+                // space's own entries: the table is global, the tracing is not.
+                // The conversion is addRootObj's own, from the Phase-2 root block
+                // above: isCellPointer + asCellPointer, no hand-written cast.
+                globalModuleRootTable().forEachCaptured(
+                    space, &workList, [](void* user, const ProtoObject* module) {
+                        if (ProtoObject::isCellPointer(module))
+                            static_cast<std::vector<const Cell*>*>(user)
+                                ->push_back(ProtoObject::asCellPointer(module));
+                    });
 
                 // Interned tuples recorded by Phase 2 are roots.
                 if (space->tupleInterner) {
@@ -1248,7 +1270,15 @@ namespace proto {
             this->gcMutableSnapshot[s] = nullptr;
         }
         
-        symbolTable = new SymbolTable();
+        // P3: interning is process-global.  This is a BORROWED pointer to the one
+        // table of this process; the destructor must not free it.  Keeping the
+        // field (rather than calling globalSymbolTable() at each use) leaves all
+        // eleven existing `ctx->space->symbolTable` call sites untouched, keeps
+        // the ProtoSpace layout unchanged, and preserves the mid-construction
+        // sentinel that the six null checks in core/ProtoObject.cpp rely on: the
+        // field is null before this line runs and non-null after, per space,
+        // regardless of what other spaces have done.
+        symbolTable = &globalSymbolTable();
         initStringInternMap(this);
         this->literalData         = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "__data__"));
         this->literalSetAttribute = const_cast<ProtoString*>(ProtoString::createSymbol(this->rootContext, "setAttribute"));
@@ -1340,13 +1370,29 @@ namespace proto {
             for (auto* rs : rootSets_) delete rs;
             rootSets_.clear();
         }
+        // P3: retire this space's entries in the process-global module root
+        // table.  The table is append-only, so an entry would otherwise outlive
+        // the space it names — and the allocator can hand a LATER ProtoSpace the
+        // same address, whose collector would then match these entries by owner
+        // and trace cells in a heap with no owner.  O(entries), at teardown only,
+        // never inside a pause.  Runs after the GC thread has been joined, so no
+        // walk of this space's entries can be in flight.
+        globalModuleRootTable().purgeSpace(this);
+
         // The GC thread has joined, so nothing allocates through its context.
         delete this->gcContext;
         this->gcContext = nullptr;
         delete this->rootContext;
         freeStringInternMap(this);
-        delete symbolTable;
-        symbolTable = nullptr;
+        // P3: `symbolTable` is a BORROWED pointer to the process-global table
+        // (globalSymbolTable()).  It must NOT be deleted: the first space to die
+        // would free the table every other space of this process is still using,
+        // and a single-space test suite cannot reach that use-after-free.
+        //
+        // `tupleInterner` below IS owned by this space and is still deleted —
+        // tuple interning stays per-space (P3 D5), because a tuple's key is its
+        // element ADDRESSES, which are per-space, while a symbol's key is its
+        // BYTES, which are not.
         delete tupleInterner;
         tupleInterner = nullptr;
 
@@ -1402,6 +1448,41 @@ namespace proto {
             fprintf(stderr, "TRACE: getImportModule(%s)\n", logicalPath);
         }
         return getImportModuleImpl(this, context, logicalPath, attrName2create);
+    }
+
+    // --- P3: the process-global module list, and a GC root -------------------
+    //
+    // The table is global — a module is loaded once for the process and found
+    // once under its ModuleIdentity — while the TRACING stays where the cells
+    // are: each entry records the owning space and the Phase-4 walk visits only
+    // the collecting space's own entries.  See ModuleRootTable in
+    // headers/proto_internal.h.
+
+    void ProtoSpace::addModuleRoot(const ProtoObject* module) {
+        globalModuleRootTable().add(module, this);
+    }
+
+    unsigned long ProtoSpace::moduleRootCount() {
+        return static_cast<unsigned long>(globalModuleRootTable().size());
+    }
+
+    const ProtoObject* ProtoSpace::registerModule(const ModuleIdentity& id,
+                                                   const ProtoObject* module) {
+        if (!module || module == PROTO_NONE) return PROTO_NONE;
+        // Publish-or-adopt: if this identity is already served, root and return
+        // the existing module so two importers share one module, which is what
+        // "a module is loaded once for the process" means.
+        if (const ProtoObject* existing = sharedModuleCacheGet(id)) {
+            addModuleRoot(existing);
+            return existing;
+        }
+        sharedModuleCacheInsert(id, module);
+        addModuleRoot(module);
+        return module;
+    }
+
+    const ProtoObject* ProtoSpace::findModule(const ModuleIdentity& id) {
+        return sharedModuleCacheGet(id);
     }
 
     const ProtoThread* ProtoSpace::newThread(

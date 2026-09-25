@@ -2,6 +2,123 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [2.2.0] - 2026-09-25
+
+Phase P3. Maintainer's ruling of 2026-09-24: *"hacer la internación global y la
+lista de módulos como raíz"*, and, separately, that a module's identity in that
+list is provider + path + version.
+
+### Added
+
+- **`globalSymbolTable()` and `globalSymbolCount()`** (`headers/proto_internal.h`,
+  `core/SymbolTable.cpp`). One `SymbolTable` for the lifetime of the process,
+  created on first use and deliberately never destroyed.
+- **`ModuleIdentity`** (`headers/protoCore.h`, `core/ModuleIdentity.cpp`): a
+  module's identity as provider GUID + logical path + version, rendered as one
+  canonical string with `\x1F` between the components. `unversioned()`,
+  `getProviderGUID()`, `getLogicalPath()`, `getVersion()`, `asKey()`,
+  `operator==`.
+- **`ModuleRootTable`** (`headers/proto_internal.h`, `core/ModuleRoots.cpp`) and
+  `globalModuleRootTable()`: the process-global module list, and a GC root. 8
+  shards, append-only chunks that never move, a per-shard published count, the
+  `TupleInterner` capture/walk split, and `purgeSpace()` for teardown.
+- **Four additive `ProtoSpace` methods**: `addModuleRoot`, `moduleRootCount`,
+  `registerModule`, `findModule`. Non-virtual; no vtable and no layout change.
+
+### Changed
+
+- **All string interning is process-global.** `ProtoString::createSymbol` returns
+  the same address for the same bytes in every `ProtoSpace` of the process.
+  `ProtoSpace::symbolTable` keeps its type and slot and is now a **borrowed**
+  pointer to the one global table, so all eleven existing
+  `ctx->space->symbolTable` call sites are untouched and the mid-construction
+  sentinel that six null checks in `core/ProtoObject.cpp` rely on still fires
+  exactly when it used to.
+- **`~ProtoSpace` no longer frees the symbol table.** The first space to die
+  would otherwise free the table every other space of the process is still
+  using. This fixes a leak rather than creating one: `~SymbolTable` frees only
+  the `Bucket` nodes, never the symbol cells, so every destroyed space already
+  leaked its whole symbol set. `delete tupleInterner` stays.
+- **`SharedModuleCache` is keyed by `ModuleIdentity::asKey()`**, not by the bare
+  logical path.
+- **The cache probe moved INSIDE the resolution-chain loop**, one probe per
+  entry, because the provider is not known until an entry is selected. Chain
+  order is therefore now respected: a module already loaded from a later chain
+  entry no longer shadows an earlier entry that can serve the same path.
+- **The O(modules) stop-the-world module loop is gone.** GC Phase 2 calls
+  `ModuleRootTable::captureForGC()` — 8 counter reads, no entry dereferenced —
+  and GC Phase 4 pushes the captured entries after the world resumes, filtered to
+  the collecting space's own entries. Measured on the same test with 2000 module
+  roots: cumulative Phase 2 over three cycles 329 μs before, 138 μs after.
+- **`ProtoSpace::moduleRoots` and `moduleRootsMutex` are retired** — held empty,
+  never iterated, retained only so the layout does not change. Use
+  `addModuleRoot()` for a module, or `createRootSet()` for anything that must be
+  unpinned.
+- **`getImportModuleImpl` builds its wrapper once**, for both the cache hit and
+  the fresh load, and parents it to `space->objectPrototype` in both. The two old
+  branches differed on that, so the same call returned a wrapper with a different
+  prototype chain depending on whether the module happened to be cached already.
+- **The `"Absolute fall back (rare or error)"` comment in
+  `ProtoContext::allocCell` is corrected.** That branch is the perennial
+  allocation path that `SymbolTable::intern` and `ProtoString::createSymbol`
+  depend on by contract; describing it as an error path invited a future reader
+  to delete it. The comment now also states the distinction the phase rests on: a
+  perennial cell is never swept but also never **scanned**.
+
+### Fixed
+
+- **The same attribute name had a different address in each `ProtoSpace` unless
+  it fitted in the pointer word.** An attribute key is the address of an interned
+  symbol, and protoCore embeds a short ASCII string in the pointer word
+  (`INLINE_STRING_MAX_BYTES == 6`), so a 5-byte name matched across spaces by
+  accident while a 7-byte one missed with **no error at all** — `getAttribute`
+  returned `PROTO_NONE`, which is also a legitimate value. Half-global identity
+  with silent partial failure.
+- **A module loaded through a provider called directly was rooted only inside the
+  providing runtime.** It reached neither `SharedModuleCache` nor any
+  `moduleRoots`, so destroying that runtime while an importer still held its
+  values dropped the only anchor. `ProtoSpace::registerModule` closes it.
+- **`provider:st/counter_lib` and a local `counter_lib` were one module**, because
+  the cache key was the path with the provider prefix stripped, with the first
+  load winning for both.
+- **A `ModuleRootTable` entry could outlive the `ProtoSpace` it names**, and the
+  allocator can hand a later `ProtoSpace` the same address, whose collector would
+  then match the dead space's entries by owner and trace cells in a heap with no
+  owner. `~ProtoSpace` calls `purgeSpace()` after its GC thread has been joined.
+  Found by a test, not by argument.
+
+### Unchanged, on purpose
+
+- **Tuple interning stays per space**, with a test that keeps it that way
+  (`GlobalInterning.TupleInternerStaysPerSpace`) and the reasoning in
+  `TupleInterner`'s doc block. Intern globally what is keyed by **content**; keep
+  per-space what is keyed by **address**. A symbol's key is its bytes, which are
+  space-independent; a tuple's key is its element **addresses**, which are not, so
+  a global tuple table would deliver no cross-space identity for the ordinary
+  case at all — and the one case where it would alias (a tuple of
+  now-globally-interned symbols built in two spaces) would put one collector into
+  another's heap for no benefit.
+- **Global interning does not make objects portable across spaces.** It fixes
+  attribute *keys*. Prototypes, `PROTO_NONE`, the mutables tree and every
+  per-space callback remain per space.
+
+### ABI
+
+`PROTOCORE_ABI_SOVERSION` **2 → 3**.
+
+The `ProtoSpace` layout is **byte-for-byte identical** — no field added, removed
+or reordered, and the public additions are one class and four non-virtual
+methods. An `offsetof` program compiled against this tree's headers and against
+the base commit's produces an empty diff.
+
+The soname nevertheless moves, and that is the point: unlike every previous
+protoCore change, **a stale embedder binary here links successfully and runs, and
+is simply wrong about symbol identity in a multi-space process.** There is no
+load-time error, no crash and no diagnostic — just a `getAttribute` that returns
+`PROTO_NONE`. A soname bump converts that into a load-time error.
+
+**A clean rebuild of every embedder is mandatory.** A stale binary links.
+
 ## [Unreleased]
 
 ### Added

@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 2.1.0
+    VERSION 2.2.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -40,6 +40,8 @@ add_library(protoCore SHARED
     core/ModuleCache.cpp
     core/ModuleProvider.cpp
     core/ModuleResolver.cpp
+    core/ModuleIdentity.cpp
+    core/ModuleRoots.cpp
     core/ProtoMethodCell.cpp
     core/ProtoObject.cpp
     core/ProviderRegistry.cpp
@@ -64,7 +66,16 @@ add_library(protoCore SHARED
 # soname, for the generated CMake package config and for protoCore.pc, so a
 # consumer's check and the file on disk can never disagree. Bump it only for a
 # breaking ABI change, as 1 -> 2 was (see CHANGELOG.md).
-set(PROTOCORE_ABI_SOVERSION 2)
+#
+# 2 -> 3 in 2.2.0 (P3, global interning).  The ProtoSpace layout is byte-for-byte
+# identical — no field added, removed or reordered, and the additions are one
+# class and four non-virtual methods — so a stale embedder binary LINKS AND RUNS
+# and is simply wrong about symbol identity in a multi-space process.  That is
+# the one failure mode this project cannot catch at run time: there is no crash,
+# no diagnostic, just a getAttribute that returns PROTO_NONE, which is also a
+# legitimate value.  A soname bump converts it into a load-time error.  It costs
+# a one-line change in each of the five runtimes today, and a great deal later.
+set(PROTOCORE_ABI_SOVERSION 3)
 
 # Shared library versioning (version for linker, soversion for ABI)
 set_target_properties(protoCore PROPERTIES

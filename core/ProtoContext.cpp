@@ -500,7 +500,27 @@ namespace proto
                 }
             }
         } else {
-             // Absolute fall back (rare or error)
+             // Perennial allocation.  A null `this` is not an error path: it is
+             // how protoCore allocates a Cell that lives for the lifetime of the
+             // PROCESS.  The Cell comes straight from posix_memalign, is never
+             // enrolled in a thread freelist, and addCell2Context chains it to no
+             // young generation because its chaining is guarded by `if (this)`.
+             // The collector therefore never sees it as a sweep candidate and
+             // never frees it.
+             //
+             // Two callers depend on this BY CONTRACT and would break if this
+             // branch were removed:
+             //   * SymbolTable::intern / normalizeForSymbol — every interned
+             //     symbol is perennial, so a name's canonical pointer is stable
+             //     for the life of the process (core/SymbolTable.cpp);
+             //   * ProtoString::createSymbol, which builds the candidate string
+             //     the same way (core/ProtoString.cpp).
+             //
+             // A perennial Cell is NOT a GC root.  It is never swept, but it is
+             // also never SCANNED, so references it holds do not keep their
+             // targets alive.  That is sufficient for a symbol, whose nodes are
+             // all perennial too, and INSUFFICIENT for anything that points at
+             // ordinary heap objects — see ModuleRootTable, which is a real root.
              int result = posix_memalign(reinterpret_cast<void**>(&newCell), 64, sizeof(BigCell));
              if (result != 0) return nullptr;
         }

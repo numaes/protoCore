@@ -6,7 +6,7 @@
 #include "ModuleCache.h"
 #include "ModuleProvider.h"
 #include "../headers/proto_internal.h"
-#include <mutex>
+#include <memory>
 #include <string>
 
 namespace proto {
@@ -16,32 +16,6 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
 
     const std::string key(logicalPath);
     ProtoContext* ctx = context;
-
-    const ProtoObject* cached = sharedModuleCacheGet(key);
-    if (cached) {
-        {
-            std::lock_guard<std::mutex> lock(space->moduleRootsMutex);
-            // Ensure the cached module is rooted in this space
-            if (std::find(space->moduleRoots.begin(), space->moduleRoots.end(), cached) == space->moduleRoots.end()) {
-                space->moduleRoots.push_back(cached);
-            }
-        }
-        
-        // GC critical section: `wrapper` and `attrName` are held in C++
-        // locals across newObject + addParent + fromUTF8String +
-        // setAttribute, each of which allocates.  Without the guard, a
-        // sweep landing between any two could orphan one of them.
-        ProtoContext::CriticalSection cs(ctx);
-        const ProtoObject* wrapper = ctx->newObject(false);
-        if (space->objectPrototype) {
-            wrapper = wrapper->addParent(ctx, space->objectPrototype);
-        }
-        if (!wrapper) return PROTO_NONE;
-        const ProtoString* attrName = ProtoString::fromUTF8(ctx, attrName2create);
-        if (!attrName) return PROTO_NONE;
-        wrapper = wrapper->setAttribute(ctx, attrName, cached);
-        return wrapper;
-    }
 
     const bool diag = std::getenv("PROTO_RESOLVE_DIAG");
     if (diag) {
@@ -80,28 +54,56 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
             fprintf(stderr, "DEBUG: [UMD]  Attempting entry[%lu]: %s\n", i, entryStr.c_str());
         }
 
+        // Select this entry's provider FIRST: under a provider-qualified
+        // identity the cache cannot be probed before a provider is known.
+        ModuleProvider* provider = nullptr;
+        std::unique_ptr<FileSystemProvider> owned;   // a filesystem entry's provider
         if (entryStr.size() >= 9 && entryStr.compare(0, 9, "provider:") == 0) {
-            ModuleProvider* provider = ProviderRegistry::instance().getProviderForSpec(entryStr);
-            if (provider) {
-                if (diag) {
-                    fprintf(stderr, "DEBUG: [UMD]   Using provider: %s (GUID=%s)\n", provider->getAlias().c_str(), provider->getGUID().c_str());
-                }
-                module = provider->tryLoad(key, ctx);
-            } else {
+            provider = ProviderRegistry::instance().getProviderForSpec(entryStr);
+            if (!provider) {
                 if (diag) {
                     fprintf(stderr, "DEBUG: [UMD]   Provider NOT FOUND for spec: %s\n", entryStr.c_str());
                 }
+                continue;
+            }
+            if (diag) {
+                fprintf(stderr, "DEBUG: [UMD]   Using provider: %s (GUID=%s)\n",
+                        provider->getAlias().c_str(), provider->getGUID().c_str());
             }
         } else {
-            FileSystemProvider fsProvider(entryStr);
-            module = fsProvider.tryLoad(key, ctx);
+            owned = std::make_unique<FileSystemProvider>(entryStr);
+            provider = owned.get();
         }
+
+        // P3 D11: a module's identity is provider + path + version, so the cache
+        // cannot be probed before an entry has selected a provider.  Moving the
+        // probe here also fixes a real ordering bug: a module already loaded from
+        // a LATER chain entry no longer shadows an EARLIER entry that can serve
+        // it.  Chain order is the user's stated precedence.
+        //
+        // The version is empty: there is no module manifest yet, and "" is the
+        // reserved, permanent identity of a module that declares none, so this
+        // key is byte-identical once versions exist (P3 D11).
+        const ModuleIdentity id =
+            ModuleIdentity::unversioned(provider->getGUID(), key);
+
+        if (const ProtoObject* cached = sharedModuleCacheGet(id)) {
+            if (diag) {
+                fprintf(stderr, "DEBUG: [UMD]   CACHE HIT at entry[%lu]\n", i);
+            }
+            module = cached;
+            break;
+        }
+
+        module = provider->tryLoad(key, ctx);
         if (module != nullptr && module != PROTO_NONE) {
             if (diag) {
                 fprintf(stderr, "DEBUG: [UMD]   SUCCESS: Module loaded from entry[%lu]\n", i);
             }
+            sharedModuleCacheInsert(id, module);
             break;
         }
+        module = nullptr;
     }
 
     if (!module || module == PROTO_NONE) {
@@ -111,18 +113,33 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
         return PROTO_NONE;
     }
 
-    sharedModuleCacheInsert(key, module);
+    // P3: the module list is process-global and is a GC root.  A module found
+    // in the cache may have been loaded by another space; it is rooted in
+    // THIS space as well, which is what the pre-P3 code did through
+    // space->moduleRoots and what keeps a cross-space import alive.
+    // ModuleRootTable::add de-duplicates per (module, owner), so re-importing
+    // the same identity does not grow the table.
+    space->addModuleRoot(module);
 
-    {
-        std::lock_guard<std::mutex> lock(space->moduleRootsMutex);
-        space->moduleRoots.push_back(module);
-    }
-
-    // GC critical section: same construct + attach pattern as the
-    // cache-hit branch above.
-    ProtoContext::CriticalSection cs2(ctx);
+    // GC critical section: `wrapper` and `attrName` are held in C++ locals
+    // across newObject + addParent + fromUTF8String + setAttribute, each of
+    // which allocates.  Without the guard, a sweep landing between any two
+    // could orphan one of them.
+    //
+    // The wrapper is built ONCE, for both the cache hit and the fresh load.
+    // Before P3 these were two branches that differed: the cache-hit branch
+    // re-parented the wrapper to space->objectPrototype and the fresh-load
+    // branch did not, so the same call returned a wrapper with a different
+    // prototype chain depending on whether the module happened to be cached.
+    // The addParent form is kept, because a wrapper without it is the odd one
+    // out, and the nondeterminism goes away.
+    ProtoContext::CriticalSection cs(ctx);
     const ProtoObject* wrapper = ctx->newObject(false);
     if (!wrapper) return PROTO_NONE;
+    if (space->objectPrototype) {
+        wrapper = wrapper->addParent(ctx, space->objectPrototype);
+        if (!wrapper) return PROTO_NONE;
+    }
     const ProtoString* attrName = ProtoString::fromUTF8(ctx, attrName2create);
     if (!attrName) return PROTO_NONE;
     wrapper = wrapper->setAttribute(ctx, attrName, module);

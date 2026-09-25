@@ -1075,7 +1075,37 @@ namespace proto {
         // SymbolTable.cpp for the rationale.
         static const ProtoStringImplementation* normalizeForSymbol(
             ProtoContext* readCtx, const ProtoObject* strObj);
+
+        friend unsigned long globalSymbolCount();
+        unsigned long entryCount() const;
     };
+
+    // The process-wide symbol table.
+    //
+    // P3 (2026-09-24, maintainer's ruling): all interning is GLOBAL.  An
+    // attribute key is the address of an interned symbol, so a per-space table
+    // made two spaces of one process disagree about the key for the same name —
+    // except for names within INLINE_STRING_MAX_BYTES, which are embedded in the
+    // pointer word and matched by accident.  Half-global identity with silent
+    // partial failure was the worst available state; one table makes it uniform.
+    //
+    // Interned objects are perennial, so a global table has no lifecycle
+    // problem: there is nothing to hand back when a space dies.  The instance is
+    // created on first use and DELIBERATELY NEVER DESTROYED — its cells outlive
+    // every space, and a static destructor would race the exit-time teardown of
+    // SharedModuleCache and ProviderRegistry.
+    //
+    // Thread-safety: 64 shards, each an independent bucket chain behind its own
+    // std::mutex.  A shard mutex is a STRICT LEAF LOCK and is never ordered
+    // against ProtoSpace::globalMutex; no Cell is allocated while one is held.
+    // With one table serving several spaces, breaking that invariant would
+    // deadlock two collectors, not one.
+    SymbolTable& globalSymbolTable();
+
+    // Number of symbols this process has interned.  Diagnostics and tests only
+    // (P3 D8: a second ProtoSpace must intern nothing its predecessor already
+    // did).  Walks every bucket chain; not for a hot path.
+    unsigned long globalSymbolCount();
 
     // ---- TupleInterner --------------------------------------------------------
     // Canonicalizes tuples: tuples built from the same element pointers are the
@@ -1085,6 +1115,27 @@ namespace proto {
     //
     // 64 shards, each with its own hash index behind its own mutex. The mutex
     // is a leaf lock: no Cell is allocated while it is held.
+    //
+    // P3 (2026-09-24): tuple interning stays PER SPACE, deliberately.  Intern
+    // globally what is keyed by CONTENT; keep per-space what is keyed by
+    // ADDRESS.  A symbol's key is its bytes, which are space-independent, so a
+    // global symbol table produces cross-space identity.  THIS table's key is
+    // the SLOT POINTERS (hashSlots / find), and addresses are not
+    // space-independent, so a global tuple table would produce no cross-space
+    // identity for the ordinary case at all.
+    //
+    // The one case where it WOULD alias is the hazard, and it is new since P3:
+    // symbols are now the same pointers in every space, so a tuple of symbols
+    // built in two spaces has identical slots.  A global table would return one
+    // node, whose cells live in whichever space created it first — one collector
+    // tracing another's heap, and elements kept alive by a foreign collector,
+    // for no benefit.  See docs/platform/GLOBAL-INTERNING-SPEC.md in protoScala,
+    // section 2.4 and D5, for what going global would additionally require (an
+    // owner per entry, owner-filtered marking, and a purgeSpace at teardown —
+    // the last of which the module root table did turn out to need).
+    //
+    // test/GlobalInterningTests.cpp :: GlobalInterning.TupleInternerStaysPerSpace
+    // fails if this table is made a singleton.
     //
     // Interned tuples are PERENNIAL, like symbols: entries are never removed.
     // Unlike a symbol, a tuple references heap objects, so the table is a GC
@@ -1149,6 +1200,142 @@ namespace proto {
         static void insertLocked(Shard& shard, uint64_t hash,
                                  const ProtoTupleImplementation* tuple);
     };
+
+    // ---- ModuleRootTable ------------------------------------------------------
+    // The process-global list of loaded modules, and a GC root.
+    //
+    // P3 (2026-09-24, maintainer's ruling): "la lista de modulos como raiz".
+    // Loading a module is for the PROCESS, not for a space or a runtime, so the
+    // list is global and therefore perennial; a module anchors its contents
+    // through its variables.  A module's identity is provider + path + version —
+    // see ModuleIdentity in protoCore.h — and that identity is held by
+    // SharedModuleCache; this table holds only the reachability.
+    //
+    // What this FIXES, measured before the change: SharedModuleCache is already
+    // process-global and is NOT a root (core/ModuleCache.cpp), so retention came
+    // from getImportModuleImpl pushing the module into the CALLING space's
+    // moduleRoots — once per importing space, not globally — and a prefixed
+    // cross-runtime import that calls a provider directly reached neither
+    // mechanism at all.
+    //
+    // Why this is a ROOT and not merely perennial memory.  A perennial cell is
+    // never swept, but it is also never SCANNED: the references it holds do not
+    // keep their targets alive.  A symbol gets away with perennial allocation
+    // alone because its nodes are all perennial too.  A module object's contents
+    // are ORDINARY COLLECTABLE OBJECTS in a space's heap, so an unfreed list of
+    // modules would keep the list alive and let the collector free everything it
+    // points at.  The mark must ENTER through this table.
+    //
+    // Pause cost.  Structure and protocol are copied from TupleInterner, for the
+    // reason PMQ-SPEC section 3 states: the only work allowed inside the pause is
+    // thread stack roots, the mutables-tree root and the roots of global
+    // structures, and none of it may be proportional to a collection's size.
+    //   * Phase 2 (stop-the-world) calls captureForGC(), which reads each of the
+    //     SHARD_COUNT published counters and DEREFERENCES NO ENTRY: O(8).
+    //   * Phase 4 (after the world resumes) calls forEachCaptured(), which pushes
+    //     exactly the captured entries onto the mark worklist while mutators keep
+    //     appending.
+    // This REPLACES the `for (mod : space->moduleRoots) addRootObj(mod)` loop
+    // that ran inside the pause and was O(modules).  The pause gets cheaper.
+    //
+    // Why the concurrent walk is sound: entries live in append-only chunks that
+    // never move; an entry's `module` and `owner` are written BEFORE `published`
+    // is stored with release ordering, so a walker that sees the count sees the
+    // entry; and a module added after the capture is a young cell of the loading
+    // context, protected by it until the next cycle's capture.
+    //
+    // Per-owner filtering.  Each entry records the ProtoSpace whose heap holds
+    // the module, and forEachCaptured visits only the collecting space's own
+    // entries.  The table is global — a module is found once for the process —
+    // while the TRACING stays where the cells are, so a collector never traverses
+    // another space's heap on account of this table.
+    //
+    // APPEND-ONLY BY DESIGN.  Entries are never removed, because a loaded module
+    // never unloads.  This table is therefore NOT a general-purpose embedder root
+    // set: anything that must be unpinned belongs in a ProtoRootSet
+    // (protoCore.h), which supports add/remove/resolve.  See P3 D12.
+    //
+    // Thread-safety: per-shard mutex for append only, a strict leaf lock; no Cell
+    // is allocated while it is held.
+    class ModuleRootTable {
+    public:
+        static constexpr int    SHARD_COUNT = 8;
+        static constexpr size_t CHUNK_SIZE  = 64;
+
+        struct Entry {
+            const ProtoObject* module;   // written before publication
+            // The space whose heap holds the module.  ATOMIC because
+            // purgeSpace() tombstones it (stores nullptr) from the dying space's
+            // thread while another space's concurrent mark may be reading it to
+            // compare against its own address.  The comparison is unaffected by
+            // which of the two values the walker sees — neither equals the
+            // collecting space — but the read must not be a data race.
+            std::atomic<const ProtoSpace*> owner{nullptr};
+        };
+        struct Chunk {
+            Entry               entries[CHUNK_SIZE];
+            std::atomic<Chunk*> next{nullptr};
+        };
+        struct Shard {
+            std::mutex          mutex;
+            std::atomic<Chunk*> first{nullptr};
+            Chunk*              last = nullptr;    // shard mutex
+            std::atomic<size_t> published{0};
+            size_t              gcCaptured = 0;    // GC thread only
+        };
+        Shard shards[SHARD_COUNT];
+
+        ModuleRootTable() = default;
+        ~ModuleRootTable();
+        ModuleRootTable(const ModuleRootTable&) = delete;
+        ModuleRootTable& operator=(const ModuleRootTable&) = delete;
+
+        void   add(const ProtoObject* module, const ProtoSpace* owner);
+
+        // Tombstone every entry owned by `space`.  Called from ~ProtoSpace,
+        // AFTER its GC thread has been joined.
+        //
+        // WHY THIS IS NECESSARY, and it was found by a test rather than argued:
+        // entries are never removed, so an entry outlives the ProtoSpace it
+        // names — and the allocator can hand a LATER ProtoSpace the same
+        // address.  That later space's collector would then match the dead
+        // space's entries by owner and trace cells in a heap that no longer has
+        // an owner.  It does not crash today only because ~ProtoSpace never
+        // frees its cell blocks, so the walk reads leaked-but-mapped memory; a
+        // design that is safe because of a leak is not a design.
+        // ModuleRootGC.ACollectorTracesOnlyItsOwnSpacesModules fails without
+        // this as soon as a test process has destroyed a space before it.
+        //
+        // O(entries) at teardown, NEVER at a pause.  Tombstoned slots are not
+        // reclaimed: the chunks are append-only and never move, which is what
+        // makes the concurrent walk sound, so a slot is retired in place.
+        void   purgeSpace(const ProtoSpace* space);
+
+        void   captureForGC();
+
+        // The collecting space MUST BE LIVE: this reads `space->stwFlag` for the
+        // pause-cost diagnostic (P3 D6).  To ask how many entries name an
+        // address without dereferencing it — which is what a test that has just
+        // destroyed a space needs — use countOwnedBy().
+        void   forEachCaptured(const ProtoSpace* space, void* user,
+                               void (*visit)(void* user, const ProtoObject* module)) const;
+
+        // Entries whose owner is `space`, over the WHOLE table rather than the
+        // last capture.  Compares the pointer and never dereferences it, so it
+        // is safe to ask about a space that has already been destroyed — which is
+        // exactly what the teardown test does.  Diagnostics and tests only.
+        size_t countOwnedBy(const ProtoSpace* space) const;
+
+        size_t size() const;
+
+        // Pause-cost diagnostics (P3 D6).  Process-wide, read only by tests.
+        static unsigned long lastCaptureShardReads();
+        static unsigned long stwVisitViolations();
+        static void          resetDiagnostics();
+    };
+
+    // The one module root table of this process.
+    ModuleRootTable& globalModuleRootTable();
 
     // ---- StringLeafNode -------------------------------------------------------
     // 64-byte Cell. Stores up to 32 bytes of UTF-8 content in one contiguous chunk.

@@ -134,11 +134,36 @@ While the world is stopped, the GC:
    that never move, so mark walks exactly the captured entries while
    mutators keep interning.  A tuple interned after the snapshot is a
    young cell of its creating context and protected by it.
-5. Drains the lock-free `dirtySegments` stack into a local
+5. Records the **module-root snapshot**: `ModuleRootTable::captureForGC`
+   stores each of its 8 shards' published entry count (O(shards)).  The
+   module list is process-global and is a root — a module's contents are
+   ordinary collectable objects, so an unfreed list would not keep them
+   alive — but the entries are pushed in Phase 4 mark, NOT here.  Each
+   entry records the `ProtoSpace` whose heap holds the module, and the
+   Phase-4 walk visits only the collecting space's own entries: the table
+   is global, the tracing is not.
+
+   Until protoCore 2.2.0 this was a `for (mod : space->moduleRoots)
+   addRootObj(mod)` loop **inside the pause**, holding `moduleRootsMutex`,
+   O(modules) — and it was missing from the cost table below.  It was also
+   only half of retention: `SharedModuleCache` was already process-global
+   and was never scanned, so a module survived only because some space had
+   pushed it into its own `moduleRoots`, and a cross-runtime import that
+   called a provider directly reached neither mechanism.
+
+   `~ProtoSpace` calls `ModuleRootTable::purgeSpace(this)`, after its GC
+   thread has been joined, to retire its entries.  The table is
+   append-only, so without that an entry would outlive the space it names —
+   and the allocator can hand a LATER `ProtoSpace` the same address, whose
+   collector would then match the dead space's entries by owner and trace
+   cells in a heap with no owner.  O(entries) at teardown, never at a
+   pause.
+
+6. Drains the lock-free `dirtySegments` stack into a local
    `segmentsToProcess` snapshot via atomic exchange.  Segments pushed by
    workers after this exchange are not in this cycle's snapshot and
    survive to the next cycle.
-6. With `PROTOCORE_GC_REINCLUDE_SURVIVORS`, captures the survivor pen in
+7. With `PROTOCORE_GC_REINCLUDE_SURVIVORS`, captures the survivor pen in
    O(1).  On a fold cycle it takes the whole pen (`exchange`); its segments
    join this cycle's `segmentsToProcess` after the world resumes.  On other
    cycles (`survivorStagger > 1`) it records the pen head, and Phase 4 walks
@@ -153,6 +178,20 @@ While the world is stopped, the GC:
   GC's mark/sweep machinery never sees a symbol Cell as a candidate,
   there is nothing to protect, and iterating every shard on every cycle
   would be pure overhead.  See `SymbolTable` in `headers/proto_internal.h`.
+
+  **Since protoCore 2.2.0 there is ONE table for the whole PROCESS**,
+  reached through `globalSymbolTable()`.  `ProtoSpace::symbolTable` is a
+  **borrowed** pointer to it and `~ProtoSpace` does **not** free it: the
+  first space to die would otherwise free the table every other space of
+  the process is still using.  Going global changes the table's
+  *residency*, not whether the collector reads it, so the Phase-2 cost
+  stays exactly **0**.
+
+  A perennial cell is never swept, but it is also never **scanned**, so the
+  references it holds do not keep their targets alive.  That is sufficient
+  for a symbol, whose nodes are all perennial too, and **insufficient** for
+  anything pointing at ordinary heap objects — which is why the module list
+  is a real root and not merely unfreed memory.
 - **`stringInternMap` (legacy, dead).**  Existed for content-keyed string
   dedup; abandoned because `computeContentHash` walks the entire rope
   O(N), making `s += 'x'` loops O(N²).  `internString()` is no longer
@@ -184,6 +223,13 @@ atomic reads).  Independent of heap size, live-object count and the number
 of young cells.
 
 ### Phase 4 — Mark (concurrent with mutators)
+- **Module roots recorded by Phase 2** are pushed onto the worklist here,
+  filtered to this space's own entries.  The walk is sound for the same four
+  reasons the tuple interner's is: entries live in append-only chunks that
+  never move; an entry's words are written before its count is published with
+  release ordering; a module added after the capture is a young cell of the
+  loading context and protected by it; and appending only ever extends past
+  the captured count.
 - Walks the young chains captured in Phase 2 and, on non-fold cycles, the
   survivor pen, pushing the references of their cells; on a fold cycle it
   links the captured pen in front of `segmentsToProcess`.
@@ -618,6 +664,7 @@ behaviour can be reasoned about quantitatively.
 | **`mutableRoot[256]` snapshot** | **< 1 μs** | constant | **O(256) atomic loads, 32 cache lines** |
 | Embedder root sets | < 50 μs typical | number of pinned objects | O(num\_pins) |
 | **Tuple interner** | **< 1 μs** | constant | **O(64) published-count reads; entries walked in mark, not STW** |
+| **Module roots** | **< 1 μs** | constant | **O(8) published-count reads; entries walked in mark, not STW** |
 | **`SymbolTable`** (canonical interned strings) | **0** | n/a | **perennial — never scanned** |
 | **`stringInternMap`** (legacy, dead) | **0** | n/a | **not iterated; field retained for ABI** |
 | `dirtySegments.exchange()` | < 1 μs | constant | O(1) atomic |
@@ -639,6 +686,23 @@ the table is either constant or scales with thread/stack quantities
 that the application controls**, not with the size of the live heap or
 the rate of mutation.  This is what "pause time decoupled from heap
 size" means concretely.
+
+**That sentence BECAME true in protoCore 2.2.0, and was not true before
+it.** Until then GC Phase 2 also ran a `for (mod : space->moduleRoots)
+addRootObj(mod)` loop inside the pause, holding `moduleRootsMutex`,
+O(modules) — a term that scaled with the program and was absent from the
+table above.  protoPython in particular used that vector as a
+general-purpose embedder root set for some 150 objects, most of them not
+modules, so the loop was doing real work on every pause.  2.2.0 moved
+protoPython's pins to a `ProtoRootSet`, replaced the loop with
+`ModuleRootTable::captureForGC` (8 counter reads) and moved the per-entry
+walk into Phase 4.  Measured on the same test with 2000 module roots
+(instrumented build, `PROTOCORE_GC_PROFILE=1`), cumulative Phase 2 over
+three cycles: **329 μs with the old loop, 138 μs with the capture**, with
+identical `marked=` and `swept_segs=` in both arms.  The property is
+*gated* by two deterministic counter tests rather than by that timing —
+`ModuleRootGC.CaptureUnderStopTheWorldIsConstant` and
+`ModuleRootGC.TheWalkNeverRunsInsideThePause`.
 
 ### Comparison with other production GCs
 

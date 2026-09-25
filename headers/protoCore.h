@@ -999,6 +999,66 @@ namespace proto
         unsigned long getHash(ProtoContext* context) const;
     };
 
+    /**
+     * @brief A module's identity in the process-global module list:
+     *        provider + logical path + version.
+     *
+     * Ruled by the maintainer on 2026-09-24.  Path alone aliases silently: with
+     * the provider prefix stripped, `provider:st/counter_lib` and a local
+     * `counter_lib` collapsed into one module with the first load winning for
+     * both — the same wrong-answer-no-error class as the 6-versus-7-byte
+     * interning bug.
+     *
+     * Modules are process-level and perennial: they never unload, so two
+     * coexisting versions of one module are two modules for the life of the
+     * process and identity must tell them apart.  Diamond dependencies will
+     * produce exactly that once modules have dependencies.
+     *
+     * The provider component is the provider's GUID (ModuleProvider::getGUID()),
+     * never its alias: an alias is a user-facing nickname that can be re-pointed
+     * at a different provider, a GUID is stable.
+     *
+     * A module that declares NO version has the EMPTY version, and that is a
+     * permanent, first-class identity value meaning "declares no version".  It
+     * is NOT a wildcard and NOT a synonym for any declared version.  There is no
+     * module manifest yet; fixing the key's shape now is what guarantees that
+     * introducing one later cannot re-alias any module that exists today, since
+     * an unversioned module's key is byte-identical before and after.  A future
+     * resolver MUST reject an empty declared version, because "" is reserved.
+     */
+    class ModuleIdentity
+    {
+    public:
+        ModuleIdentity(std::string providerGUID, std::string logicalPath, std::string version);
+
+        /** provider + path with the empty version: a module that declares none. */
+        static ModuleIdentity unversioned(std::string providerGUID, std::string logicalPath);
+
+        const std::string& getProviderGUID() const;
+        const std::string& getLogicalPath()  const;
+        /** "" means "this module declares no version". */
+        const std::string& getVersion()      const;
+
+        /**
+         * @brief The canonical single-string key, stable across releases:
+         *        providerGUID + '\x1F' + logicalPath + '\x1F' + version.
+         *
+         * '\x1F' (ASCII unit separator) is the separator because it cannot occur
+         * in a GUID, in a POSIX or Windows path, or in any version syntax —
+         * unlike '/', which is in every path, and ':', which is in the
+         * `provider:` spec and in Windows drive letters.
+         */
+        const std::string& asKey() const;
+
+        bool operator==(const ModuleIdentity& other) const;
+
+    private:
+        std::string providerGUID_;
+        std::string logicalPath_;
+        std::string version_;
+        std::string key_;
+    };
+
     /** Abstract base for module providers. Resolution chain entries "provider:alias" or "provider:GUID" delegate to a registered provider. */
     class ModuleProvider
     {
@@ -2096,6 +2156,39 @@ namespace proto
         const ProtoObject* getImportModule(ProtoContext* context, const char* logicalPath, const char* attrName2create);
 
         /**
+         * @brief Register `module` as a process-global module root owned by this
+         *        space.
+         *
+         * P3: the module list is global and is a GC root.  The entry records this
+         * space as the owner of the module's cells, so this space's collector —
+         * and only this space's — traces it.  Entries are never removed: a loaded
+         * module is perennial, for the process.  Anything that must be UNPINNED
+         * belongs in a ProtoRootSet (see `createRootSet`), not here.
+         *
+         * Thread-safe.  Allocates no Cell.
+         */
+        void addModuleRoot(const ProtoObject* module);
+
+        /** @brief Module roots this process holds.  Diagnostics and tests. */
+        static unsigned long moduleRootCount();
+
+        /**
+         * @brief Publish a module this embedder loaded itself, under the ruled
+         *        identity, and root it in this space.  Returns the published
+         *        module — which is the one already published under `id` if there
+         *        is one, so two importers of the same identity share a module.
+         *
+         * For an embedder that calls a ModuleProvider directly instead of going
+         * through getImportModule.  Before P3 such a load reached neither
+         * SharedModuleCache nor any moduleRoots, and its only anchor was inside
+         * the providing runtime — so destroying that runtime dropped it.
+         */
+        const ProtoObject* registerModule(const ModuleIdentity& id, const ProtoObject* module);
+
+        /** @brief The module published under `id`, or nullptr. */
+        static const ProtoObject* findModule(const ModuleIdentity& id);
+
+        /**
          * @brief Creates and starts a new managed thread within this ProtoSpace.
          * @param context The current ProtoContext from which the thread is being created.
          * @param threadName A ProtoString representing the name of the new thread.
@@ -2347,6 +2440,19 @@ namespace proto
         ProtoContext* mainContext;
 
         const ProtoList* resolutionChain_;
+
+        // P3: RETIRED.  The module list is the process-global ModuleRootTable
+        // (core/ModuleRoots.cpp); removable embedder pins belong in a
+        // ProtoRootSet (see createRootSet above).  These two fields are retained
+        // so the ProtoSpace layout does not change — the same treatment
+        // `tupleRoot` and `stringInternMap` already get — and are held empty and
+        // never iterated.  Do not add to them: call addModuleRoot() for a module,
+        // or createRootSet() for anything that must be unpinned.
+        //
+        // Until 2.2.0 GC Phase 2 iterated `moduleRoots` INSIDE the stop-the-world
+        // window, holding `moduleRootsMutex` there, O(modules).  That was the one
+        // term in the documented pause profile that scaled with the program, and
+        // it was missing from the cost table in docs/GarbageCollector.md.
         std::vector<const ProtoObject*> moduleRoots;
         std::mutex moduleRootsMutex;
 

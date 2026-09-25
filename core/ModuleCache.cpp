@@ -3,6 +3,9 @@
  */
 
 #include "../headers/protoCore.h"
+#include "ModuleCache.h"
+#include <cstdio>
+#include <cstdlib>
 #include <map>
 #include <shared_mutex>
 #include <string>
@@ -35,15 +38,18 @@ SharedModuleCache& getCache() {
 
 } // anonymous namespace
 
-const ProtoObject* sharedModuleCacheGet(const std::string& logicalPath) {
-    return getCache().get(logicalPath);
+const ProtoObject* sharedModuleCacheGet(const ModuleIdentity& id) {
+    return getCache().get(id.asKey());
 }
 
-void sharedModuleCacheInsert(const std::string& logicalPath, const ProtoObject* module) {
+void sharedModuleCacheInsert(const ModuleIdentity& id, const ProtoObject* module) {
     if (std::getenv("PROTO_RESOLVE_DIAG")) {
-        fprintf(stderr, "DEBUG: sharedModuleCacheInsert(%s, %p)\n", logicalPath.c_str(), (void*)module);
+        // Render the '\x1F' separators as '|' so the log stays readable.
+        std::string shown = id.asKey();
+        for (char& ch : shown) if (ch == '\x1F') ch = '|';
+        fprintf(stderr, "DEBUG: sharedModuleCacheInsert(%s, %p)\n", shown.c_str(), (void*)module);
     }
-    getCache().insert(logicalPath, module);
+    getCache().insert(id.asKey(), module);
 }
 
 } // namespace proto
