@@ -32,6 +32,7 @@ Index of the documentation in this repository. Documents marked **dated** record
 |----------|----------|
 | [DESIGN.md](DESIGN.md) | Architectural design and implementation rules: public API versus internal classes, memory model, garbage collector, unmanaged regions, heap allocation limit, data model, object model, two-tier cache, execution model. |
 | [CHANGELOG.md](CHANGELOG.md) | Release notes. |
+| [docs/MemoryModel.md](docs/MemoryModel.md) | Memory model and the process sizing rule: perennials, the sum of every `ProtoSpace`'s peak, memory not managed by protoCore, and the finalizer as the limit of what protoCore can offer for it. |
 | [docs/GarbageCollector.md](docs/GarbageCollector.md) | Garbage collector implementation: `ProtoSpace`, `ProtoContext`, `DirtySegment`, the mutable-shard snapshot, and each phase of a collection cycle. |
 | [docs/STW_ELIMINATION_RESEARCH.md](docs/STW_ELIMINATION_RESEARCH.md) | Research note on bounding the stop-the-world pause. Its concurrent-mark step is implemented (2026-05-30); the other directions are research only. |
 | [docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) | **Dated** (April 2026): design and measured results of the 256-shard mutable root and the per-thread mutable value cache. |

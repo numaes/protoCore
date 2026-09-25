@@ -227,6 +227,7 @@ See [docs/README.md](docs/README.md) for the output location and for generating 
 
 Main documents:
 - **[DESIGN.md](DESIGN.md)**: architectural design and implementation rules
+- **[docs/MemoryModel.md](docs/MemoryModel.md)**: memory model and how to size a process (perennials, per-space peaks, memory not managed by protoCore)
 - **[docs/GarbageCollector.md](docs/GarbageCollector.md)**: garbage collector implementation
 - **[docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md)**: generating a module for Unified Module Discovery
 - **[docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md)**: module system (resolution chain, providers, `ProtoSpace::getImportModule`)

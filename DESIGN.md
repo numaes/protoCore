@@ -78,6 +78,12 @@ At a high level, the system is composed of a few key entities:
 
 The memory management system is a cornerstone of protoCore's performance.
 
+> **Sizing a process.** This section describes the mechanisms. How much memory
+> a process needs — the size of the perennials, plus the sum of every
+> `ProtoSpace`'s *peak* working set, plus all memory not managed by protoCore —
+> and where protoCore's responsibility for memory ends, are stated in
+> [docs/MemoryModel.md](docs/MemoryModel.md).
+
 ### The `ProtoObject*` Handle: Pointer or Immediate Value?
 
 To avoid the overhead of heap allocation for simple values, protoCore uses **tagged pointers**. A 64-bit `ProtoObject*` is not just a pointer; it's a "handle" that can represent either a heap object or an immediate value. The lowest 6 bits of the address, which are always zero for 64-byte-aligned cells, are used as a tag:
@@ -211,6 +217,10 @@ is bit-for-bit the historical unbounded path.
     does not shrink `heapSize`.
 *   **Soft watermark**: above `softHeapLimit` the allocator does one bounded
     reclaim-wait before growing, biasing steady state toward reclamation.
+*   **What a limit does not bound**: perennial (null-context) allocations, the
+    other `ProtoSpace`s in the process, and memory not managed by protoCore are
+    all outside `heapSize` and therefore outside the ceiling. See
+    [docs/MemoryModel.md](docs/MemoryModel.md) § 1.
 *   **GC-safe waiting**: a thread that must wait for the GC first leaves the
     running set (`runningThreads--`) so the Stop-The-World quorum is computed
     without it, then waits on a condition variable with `globalMutex` released.

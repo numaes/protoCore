@@ -92,6 +92,13 @@ The `ProtoExternalPointer` callbacks passed to
 contract.  Work that needs allocation runs in a collector phase with its own
 context instead (see Phase 5b).
 
+A finalizer must also not **block**: it runs on the single GC thread inside the
+sweep, so a wait there stalls collection for the whole space.  The finalizer is
+the most protoCore can offer for memory it does not manage, and
+[MemoryModel.md](MemoryModel.md) § 5 states that boundary — what an external
+buffer or wrapped pointer costs, why protoCore cannot account it, and what the
+embedder does instead.
+
 ## The GC Cycle
 
 The GC runs in a dedicated background thread (`gcThreadLoop` in
@@ -482,6 +489,11 @@ heap dumper or diagnostic that called it would drop untraced chains.
 
 ## Memory Allocation
 
+- The heap never shrinks: reclamation moves cells from live to free *within*
+  the heap, and no memory is returned to the OS.  Resident size therefore
+  converges to the process's high-water mark, which is what makes it
+  computable; [MemoryModel.md](MemoryModel.md) states the sizing rule and its
+  terms.
 - Threads request batches of cells from `ProtoSpace` (`getFreeCells`).
 - Allocation alone does not start a collection unless a heap limit is
   configured with `ProtoSpace::setHeapLimits`.  Without a limit (the

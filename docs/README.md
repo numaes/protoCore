@@ -8,6 +8,7 @@ This directory holds protoCore's documentation. The index of all documentation, 
 - [TESTING.md](TESTING.md) — Running the GoogleTest/CTest suite, re-running failures, parallel runs, coverage, and CI scripts.
 - [MODULE_DISCOVERY.md](MODULE_DISCOVERY.md) — Specification of Unified Module Discovery (resolution chain, providers, module cache).
 - [USER_GUIDE_UMD_MODULES.md](USER_GUIDE_UMD_MODULES.md) — Short guide to creating and registering a module for Unified Module Discovery.
+- [MemoryModel.md](MemoryModel.md) — Memory model and the process sizing rule: perennials, the sum of every `ProtoSpace`'s peak working set, and memory not managed by protoCore.
 - [GarbageCollector.md](GarbageCollector.md) — Garbage collector implementation and the phases of a collection cycle.
 - [STW_ELIMINATION_RESEARCH.md](STW_ELIMINATION_RESEARCH.md) — Research note on bounding the stop-the-world pause.
 - [MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) — Dated design and results of the sharded mutable root and per-thread value cache (April 2026).
