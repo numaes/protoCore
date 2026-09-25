@@ -197,6 +197,13 @@ add_executable(microbenchmark_final performance/microbenchmark_final.cpp)
 target_link_libraries(microbenchmark_final PRIVATE protoCore)
 message(STATUS "Configured benchmark: microbenchmark_final")
 
+# P4: the embedder conformance suite.  Always built -- it is how protoCore's own
+# test suite runs the self-check matrix, and three of the five runtimes reach
+# protoCore through a developer fallback that finds libraries in this build tree
+# rather than through an installed package.  Installed only at top level (see
+# conformance/CMakeLists.txt).
+add_subdirectory(conformance)
+
 # 5. Configure the test suite
 # The 'enable_testing()' command allows the use of ctest.
 enable_testing()
