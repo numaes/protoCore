@@ -40,6 +40,7 @@ add_library(protoCore SHARED
     core/ModuleCache.cpp
     core/ModuleProvider.cpp
     core/ModuleResolver.cpp
+    core/ModuleIdentity.cpp
     core/ModuleRoots.cpp
     core/ProtoMethodCell.cpp
     core/ProtoObject.cpp

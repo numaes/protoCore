@@ -151,3 +151,75 @@ TEST_F(ModuleDiscoveryTest, ProtoString_ToUTF8String) {
     s->toUTF8String(ctx, out);
     ASSERT_EQ(out, "hello");
 }
+
+// P3 D11: the cache probe moved INSIDE the resolution-chain loop, because a
+// module's identity is provider + path + version and the provider is not known
+// until an entry is selected.  That changes resolution in one observable way,
+// and this is the test of it: a module already loaded from a LATER chain entry
+// no longer shadows an EARLIER entry that can serve the same path.  Chain order
+// is the user's stated precedence.
+//
+// Before P3, `sharedModuleCacheGet(path)` ran before the loop, so the first load
+// won for every later resolution whatever the chain said.
+//
+// MUTATION THAT MUST TURN THIS RED: move the cache probe back above the chain
+// loop and key it by the bare path.  The second import then returns the module
+// the LATE provider loaded.
+TEST_F(ModuleDiscoveryTest, AnEarlierChainEntryIsNotShadowedByAnEarlierLoad) {
+    auto early = std::make_unique<TestProvider>("guid-p3-early", "p3_early", "p3_shadowed_mod");
+    auto late  = std::make_unique<TestProvider>("guid-p3-late",  "p3_late",  "p3_shadowed_mod");
+    ProviderRegistry::instance().registerProvider(std::move(early));
+    ProviderRegistry::instance().registerProvider(std::move(late));
+
+    const ProtoString* key = ProtoString::fromUTF8(ctx, "exports");
+    ASSERT_NE(key, nullptr);
+
+    // 1. Resolve with ONLY the late provider in the chain, so the late
+    //    provider's module is the one in the cache.
+    {
+        const ProtoList* chain = ctx->newList();
+        chain = chain->appendLast(ctx, ctx->fromUTF8String("provider:p3_late"));
+        space.setResolutionChain(chain->asObject(ctx));
+        const ProtoObject* wrapper = space.getImportModule(ctx, "p3_shadowed_mod", "exports");
+        ASSERT_NE(wrapper, PROTO_NONE);
+        ASSERT_NE(wrapper, nullptr);
+    }
+    const ProtoObject* fromLate = nullptr;
+    {
+        const ProtoList* chain = ctx->newList();
+        chain = chain->appendLast(ctx, ctx->fromUTF8String("provider:p3_late"));
+        space.setResolutionChain(chain->asObject(ctx));
+        const ProtoObject* wrapper = space.getImportModule(ctx, "p3_shadowed_mod", "exports");
+        fromLate = wrapper->getAttribute(ctx, key);
+        ASSERT_NE(fromLate, PROTO_NONE);
+    }
+
+    // 2. Now put the early provider FIRST.  Under a provider-qualified identity
+    //    the early entry is probed with ITS OWN key, misses, and loads.
+    {
+        const ProtoList* chain = ctx->newList();
+        chain = chain->appendLast(ctx, ctx->fromUTF8String("provider:p3_early"));
+        chain = chain->appendLast(ctx, ctx->fromUTF8String("provider:p3_late"));
+        space.setResolutionChain(chain->asObject(ctx));
+        const ProtoObject* wrapper = space.getImportModule(ctx, "p3_shadowed_mod", "exports");
+        ASSERT_NE(wrapper, PROTO_NONE);
+        ASSERT_NE(wrapper, nullptr);
+        const ProtoObject* fromEarly = wrapper->getAttribute(ctx, key);
+        ASSERT_NE(fromEarly, PROTO_NONE);
+        EXPECT_NE(fromEarly, fromLate)
+            << "the module the later chain entry loaded first shadowed the earlier "
+               "entry: the cache is still keyed by path alone";
+    }
+
+    // 3. And the early entry's module is itself cached under its own identity.
+    {
+        const ProtoList* chain = ctx->newList();
+        chain = chain->appendLast(ctx, ctx->fromUTF8String("provider:p3_early"));
+        space.setResolutionChain(chain->asObject(ctx));
+        const ProtoObject* a = space.getImportModule(ctx, "p3_shadowed_mod", "exports")
+                                   ->getAttribute(ctx, key);
+        const ProtoObject* b = space.getImportModule(ctx, "p3_shadowed_mod", "exports")
+                                   ->getAttribute(ctx, key);
+        EXPECT_EQ(a, b) << "the provider-qualified key does not cache at all";
+    }
+}

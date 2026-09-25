@@ -999,6 +999,66 @@ namespace proto
         unsigned long getHash(ProtoContext* context) const;
     };
 
+    /**
+     * @brief A module's identity in the process-global module list:
+     *        provider + logical path + version.
+     *
+     * Ruled by the maintainer on 2026-09-24.  Path alone aliases silently: with
+     * the provider prefix stripped, `provider:st/counter_lib` and a local
+     * `counter_lib` collapsed into one module with the first load winning for
+     * both — the same wrong-answer-no-error class as the 6-versus-7-byte
+     * interning bug.
+     *
+     * Modules are process-level and perennial: they never unload, so two
+     * coexisting versions of one module are two modules for the life of the
+     * process and identity must tell them apart.  Diamond dependencies will
+     * produce exactly that once modules have dependencies.
+     *
+     * The provider component is the provider's GUID (ModuleProvider::getGUID()),
+     * never its alias: an alias is a user-facing nickname that can be re-pointed
+     * at a different provider, a GUID is stable.
+     *
+     * A module that declares NO version has the EMPTY version, and that is a
+     * permanent, first-class identity value meaning "declares no version".  It
+     * is NOT a wildcard and NOT a synonym for any declared version.  There is no
+     * module manifest yet; fixing the key's shape now is what guarantees that
+     * introducing one later cannot re-alias any module that exists today, since
+     * an unversioned module's key is byte-identical before and after.  A future
+     * resolver MUST reject an empty declared version, because "" is reserved.
+     */
+    class ModuleIdentity
+    {
+    public:
+        ModuleIdentity(std::string providerGUID, std::string logicalPath, std::string version);
+
+        /** provider + path with the empty version: a module that declares none. */
+        static ModuleIdentity unversioned(std::string providerGUID, std::string logicalPath);
+
+        const std::string& getProviderGUID() const;
+        const std::string& getLogicalPath()  const;
+        /** "" means "this module declares no version". */
+        const std::string& getVersion()      const;
+
+        /**
+         * @brief The canonical single-string key, stable across releases:
+         *        providerGUID + '\x1F' + logicalPath + '\x1F' + version.
+         *
+         * '\x1F' (ASCII unit separator) is the separator because it cannot occur
+         * in a GUID, in a POSIX or Windows path, or in any version syntax —
+         * unlike '/', which is in every path, and ':', which is in the
+         * `provider:` spec and in Windows drive letters.
+         */
+        const std::string& asKey() const;
+
+        bool operator==(const ModuleIdentity& other) const;
+
+    private:
+        std::string providerGUID_;
+        std::string logicalPath_;
+        std::string version_;
+        std::string key_;
+    };
+
     /** Abstract base for module providers. Resolution chain entries "provider:alias" or "provider:GUID" delegate to a registered provider. */
     class ModuleProvider
     {
