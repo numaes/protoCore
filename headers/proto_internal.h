@@ -2316,6 +2316,60 @@ namespace proto {
      */
     void parkForStopTheWorld(ProtoContext* context);
 
+    /**
+     * @brief Give an unused allocation batch back to the space, and credit
+     *        `freeCellsCount` for it.  Returns the number of cells returned.
+     *
+     * The cells must be untouched free cells that no thread can still hand
+     * out - i.e. the caller has already detached the batch from whatever
+     * freelist head owned it.  Takes ProtoSpace::globalMutex, so it must not
+     * be called from a finalizer, from inside a stop-the-world phase, or at
+     * criticalSectionDepth > 0.
+     *
+     * The only caller is the exiting-thread release path in core/Thread.cpp;
+     * it lives here rather than in that file so that the freelist internals
+     * (FreeChunk, publishFreeChunk) stay inside core/ProtoSpace.cpp.
+     */
+    unsigned long returnUnusedCellBatch(ProtoSpace* space, Cell* head);
+
+    /**
+     * @brief The two points inside ProtoMPSCQueue::takeAll's publish window
+     *        at which a producer's prepend is invisible to the retain cell
+     *        that is about to be published.
+     */
+    enum class PmqWindowPhase {
+        AfterHeadLoad,   ///< after `head` was loaded, before the retain publish
+        BeforeDetach     ///< after the retain publish, before the detaching exchange
+    };
+
+    using PmqTakeAllWindowHook =
+        void (*)(ProtoContext* context, const ProtoMPSCQueue* queue, PmqWindowPhase phase);
+
+    /**
+     * @brief TEST ONLY.  Called inside ProtoMPSCQueue::takeAll's publish
+     *        window, where only a racing producer can otherwise reach.
+     *
+     * protoCore never installs it and it is null in every build; it exists
+     * because the loss it reproduces (a node prepended inside the window is
+     * reachable only from a C++ local across the walk's stop-the-world polls)
+     * happens in a window a few instructions wide.  Reproducing it by racing
+     * gave 4 failures in 40 runs — p ~ 0.12, which cannot distinguish a fix
+     * from luck.  Installing a hook turns the interleaving into a decision, so
+     * test/ProtoMPSCQueueWindowTests.cpp fails every time the widening store
+     * in takeAll is removed.
+     *
+     * A hook body stands in for a producer, so it may push (push allocates
+     * inside its OWN critical section, exactly as a real producer's would) but
+     * it must not do anything a producer could not: no join, no wait on
+     * another protoCore thread, and nothing that acquires
+     * ProtoSpace::globalMutex — the consumer is at criticalSectionDepth > 0
+     * there and cannot park, so a collector waiting for the stop-the-world
+     * quorum while holding that mutex would deadlock against it.
+     *
+     * Declared in the internal header only: an embedder cannot reach it.
+     */
+    extern std::atomic<PmqTakeAllWindowHook> pmqTakeAllWindowHook;
+
     // Definition of the tag-dispatched raw-lookup helper declared above.
     // Placed here so both impl classes are fully visible; fully inlinable
     // since this header is internal to protoCore.
