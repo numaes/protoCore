@@ -1180,6 +1180,104 @@ namespace proto {
                                  const ProtoTupleImplementation* tuple);
     };
 
+    // ---- ModuleRootTable ------------------------------------------------------
+    // The process-global list of loaded modules, and a GC root.
+    //
+    // P3 (2026-09-24, maintainer's ruling): "la lista de modulos como raiz".
+    // Loading a module is for the PROCESS, not for a space or a runtime, so the
+    // list is global and therefore perennial; a module anchors its contents
+    // through its variables.  A module's identity is provider + path + version —
+    // see ModuleIdentity in protoCore.h — and that identity is held by
+    // SharedModuleCache; this table holds only the reachability.
+    //
+    // What this FIXES, measured before the change: SharedModuleCache is already
+    // process-global and is NOT a root (core/ModuleCache.cpp), so retention came
+    // from getImportModuleImpl pushing the module into the CALLING space's
+    // moduleRoots — once per importing space, not globally — and a prefixed
+    // cross-runtime import that calls a provider directly reached neither
+    // mechanism at all.
+    //
+    // Why this is a ROOT and not merely perennial memory.  A perennial cell is
+    // never swept, but it is also never SCANNED: the references it holds do not
+    // keep their targets alive.  A symbol gets away with perennial allocation
+    // alone because its nodes are all perennial too.  A module object's contents
+    // are ORDINARY COLLECTABLE OBJECTS in a space's heap, so an unfreed list of
+    // modules would keep the list alive and let the collector free everything it
+    // points at.  The mark must ENTER through this table.
+    //
+    // Pause cost.  Structure and protocol are copied from TupleInterner, for the
+    // reason PMQ-SPEC section 3 states: the only work allowed inside the pause is
+    // thread stack roots, the mutables-tree root and the roots of global
+    // structures, and none of it may be proportional to a collection's size.
+    //   * Phase 2 (stop-the-world) calls captureForGC(), which reads each of the
+    //     SHARD_COUNT published counters and DEREFERENCES NO ENTRY: O(8).
+    //   * Phase 4 (after the world resumes) calls forEachCaptured(), which pushes
+    //     exactly the captured entries onto the mark worklist while mutators keep
+    //     appending.
+    // This REPLACES the `for (mod : space->moduleRoots) addRootObj(mod)` loop
+    // that ran inside the pause and was O(modules).  The pause gets cheaper.
+    //
+    // Why the concurrent walk is sound: entries live in append-only chunks that
+    // never move; an entry's `module` and `owner` are written BEFORE `published`
+    // is stored with release ordering, so a walker that sees the count sees the
+    // entry; and a module added after the capture is a young cell of the loading
+    // context, protected by it until the next cycle's capture.
+    //
+    // Per-owner filtering.  Each entry records the ProtoSpace whose heap holds
+    // the module, and forEachCaptured visits only the collecting space's own
+    // entries.  The table is global — a module is found once for the process —
+    // while the TRACING stays where the cells are, so a collector never traverses
+    // another space's heap on account of this table.
+    //
+    // APPEND-ONLY BY DESIGN.  Entries are never removed, because a loaded module
+    // never unloads.  This table is therefore NOT a general-purpose embedder root
+    // set: anything that must be unpinned belongs in a ProtoRootSet
+    // (protoCore.h), which supports add/remove/resolve.  See P3 D12.
+    //
+    // Thread-safety: per-shard mutex for append only, a strict leaf lock; no Cell
+    // is allocated while it is held.
+    class ModuleRootTable {
+    public:
+        static constexpr int    SHARD_COUNT = 8;
+        static constexpr size_t CHUNK_SIZE  = 64;
+
+        struct Entry {
+            const ProtoObject* module;   // written before publication
+            const ProtoSpace*  owner;    // the space whose heap holds it
+        };
+        struct Chunk {
+            Entry               entries[CHUNK_SIZE];
+            std::atomic<Chunk*> next{nullptr};
+        };
+        struct Shard {
+            std::mutex          mutex;
+            std::atomic<Chunk*> first{nullptr};
+            Chunk*              last = nullptr;    // shard mutex
+            std::atomic<size_t> published{0};
+            size_t              gcCaptured = 0;    // GC thread only
+        };
+        Shard shards[SHARD_COUNT];
+
+        ModuleRootTable() = default;
+        ~ModuleRootTable();
+        ModuleRootTable(const ModuleRootTable&) = delete;
+        ModuleRootTable& operator=(const ModuleRootTable&) = delete;
+
+        void   add(const ProtoObject* module, const ProtoSpace* owner);
+        void   captureForGC();
+        void   forEachCaptured(const ProtoSpace* space, void* user,
+                               void (*visit)(void* user, const ProtoObject* module)) const;
+        size_t size() const;
+
+        // Pause-cost diagnostics (P3 D6).  Process-wide, read only by tests.
+        static unsigned long lastCaptureShardReads();
+        static unsigned long stwVisitViolations();
+        static void          resetDiagnostics();
+    };
+
+    // The one module root table of this process.
+    ModuleRootTable& globalModuleRootTable();
+
     // ---- StringLeafNode -------------------------------------------------------
     // 64-byte Cell. Stores up to 32 bytes of UTF-8 content in one contiguous chunk.
     // Layout (64 bytes total):
