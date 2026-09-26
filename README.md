@@ -229,6 +229,8 @@ Main documents:
 - **[DESIGN.md](DESIGN.md)**: architectural design and implementation rules
 - **[docs/MemoryModel.md](docs/MemoryModel.md)**: memory model and how to size a process (perennials, per-space peaks, memory not managed by protoCore)
 - **[docs/GarbageCollector.md](docs/GarbageCollector.md)**: garbage collector implementation
+- **[docs/EMBEDDER-CONFORMANCE.md](docs/EMBEDDER-CONFORMANCE.md)**: normative — the participation obligations an embedder must meet, each one executable
+- **[docs/FIELD-NOTES.md](docs/FIELD-NOTES.md)**: the fourteen defects of 2026-09-23 to 2026-09-25, how each was found, and a command to reproduce it; the teaching material for the ITBA course, and the evidence behind the conformance rules
 - **[docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md)**: generating a module for Unified Module Discovery
 - **[docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md)**: module system (resolution chain, providers, `ProtoSpace::getImportModule`)
 - **[docs/Structural description/](docs/Structural%20description/README.md)**: guides (testing, creating modules) and architecture overviews (garbage collector, mutability model, object model)
