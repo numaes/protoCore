@@ -1682,6 +1682,28 @@ namespace proto
         const ProtoObject* fromDouble(double value);
         const ProtoObject* fromUnicodeChar(unsigned int unicodeChar);
         const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
+        /**
+         * @brief Wraps a C function pointer, optionally bound to a receiver.
+         *
+         * `self` is a **strong, traced** reference: `ProtoMethodCell` reports
+         * it unconditionally from `processReferences`, so the cell keeps
+         * `self` alive for as long as the cell itself is reachable.
+         *
+         * @warning Installing the returned cell as an attribute OF `self`
+         * creates a reference cycle that protoCore never collects, because a
+         * cycle through a mutable object is permanent: the mutables table
+         * originates marking and an entry is released only once its handle
+         * has been finalized.  See docs/MemoryModel.md section 7.  Three
+         * runtimes in this family have done it by accident, and in two of
+         * them the binding was never read.
+         *
+         * Pass `nullptr` for `self` unless the callee actually needs the
+         * receiver — protoCore itself never invokes a method cell, so
+         * whether `self` is ever read is entirely the embedder's choice, and
+         * an unread binding is pure retention.  Where the receiver IS needed,
+         * declare the resulting cycle through the conformance rule rather
+         * than leaving it undeclared (docs/EMBEDDER-CONFORMANCE.md, rule 13).
+         */
         const ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
         /**
          * @brief Wraps an opaque C++ pointer in a collectable object.
