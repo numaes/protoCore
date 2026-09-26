@@ -1362,6 +1362,32 @@ namespace proto {
         if (gcThread && gcThread->joinable()) {
             gcThread->join();
         }
+
+        // PROTOCORE_MUTABLE_CYCLE_CHECK -- the zero-code way to ask rule 13's
+        // question of a whole program.
+        //
+        // Why here and nowhere else.  A cycle among mutable objects is never
+        // collected (docs/MemoryModel.md section 7), and the table at teardown is
+        // the most informative view there is: every entry still in it either
+        // belongs to something still live or is in a cycle.  The GC thread has
+        // joined, so nothing can free a cell under the walk and no critical
+        // section is needed; `rootContext` is still alive, so attribute names
+        // still render; and it costs exactly one `getenv` when the variable is
+        // unset.
+        //
+        // Deliberately NOT hooked into the end of a GC cycle.  The walk is
+        // O(live mutable graph), and a per-cycle hook would need a frequency
+        // policy, would stall the collector on a schedule nobody chose, and would
+        // have to be tuned per runtime.  A long-running process that never exits
+        // should call findMutableCycles itself at a quiescent point -- it is three
+        // lines, which is why it is public.
+        if (std::getenv("PROTOCORE_MUTABLE_CYCLE_CHECK") != nullptr) {
+            const MutableGraphReport rep = this->findMutableCycles(nullptr);
+            std::fprintf(stderr, "protoCore PROTOCORE_MUTABLE_CYCLE_CHECK: %s",
+                         rep.summary().c_str());
+            std::fflush(stderr);
+        }
+
         // Free any embedder root sets that the embedder didn't
         // explicitly destroy.  Doing this after the GC thread has
         // joined means no concurrent forEachRootSet can fire.

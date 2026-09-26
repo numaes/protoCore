@@ -14,6 +14,10 @@ Related documents: [GarbageCollector.md](GarbageCollector.md) (the collection
 cycle), [../DESIGN.md](../DESIGN.md) § 1 (the memory model as architecture,
 including perennial allocation and `ProtoRootSet`).
 
+§7 is the one section that is not about sizing: it states the single structural
+reason a peak can contain a term that never comes back down — **a cycle among
+mutable objects is never collected** — and the exact diagnostic that finds one.
+
 ---
 
 ## 1. The sizing rule
@@ -419,6 +423,203 @@ To size a process:
 If the total does not fit, the workload must be made smaller or the machine
 made bigger.  There is no third option, and protoCore does not pretend to offer
 one.
+
+---
+
+## 7. Retention: the one thing the collector does not resolve
+
+§1–§6 size a process from its **peak**.  This section states the one structural
+reason a peak can contain a term that never comes back down, and it is not a
+bug: it is a consequence of the mechanism that lets protoCore mark concurrently
+without write barriers.
+
+> **A cycle among mutable objects is never collected.**
+
+The retention is **bounded** — it is the cycle's own cells, once, not growth —
+and it is **permanent**: there is no monotone progress, so a later collection
+does not fix it.  Some cycles are an oversight and can be removed; others are
+what the program means, and for those the retention simply stands.  Both cases
+are below, and `ProtoSpace::findMutableCycles` (§7.5) exists to make the
+difference visible and countable rather than to imply that every cycle is a
+defect.
+
+### 7.1 Why — the two sites that combine
+
+A mutable object is a pair.  The **handle** is a `ProtoObjectCell` carrying a
+non-zero `mutable_ref` (`headers/proto_internal.h:849`); the **state** is an
+ordinary immutable `ProtoObjectCell` with `mutable_ref == 0`, published into
+`ProtoSpace::mutableRoot[mutable_ref % 256]` by a compare-and-swap
+(`core/ProtoObject.cpp:1099-1101`).  The table entry is `(mutable_ref → V)` in a
+sparse list **keyed by an integer**, so the table does not reference the handle
+`H`; it references `V`.
+
+Two places in the collector then combine:
+
+* **Phase 2** (`core/ProtoSpace.cpp:519-524`) adds each shard's whole
+  `ProtoSparseList` to the work list as a root, **unconditionally**.  So every
+  mutable's current value is marked whether or not anything still references its
+  handle.  The table **originates** marking; it does not merely preserve values.
+* **Phase 5b** (`core/ProtoSpace.cpp:992-1000`, implementation
+  `core/ProtoSpace.cpp:232-283`) removes an entry only once the sweep has
+  **finalized** its handle — that is, only for a handle found unreachable.  The
+  finalizer that records it is `ProtoObjectCell::finalize`
+  (`core/ProtoObject.cpp:515-521`), and it fires only on an unmarked candidate.
+
+So if `V` reaches `H`, then `H` is marked, so it is never swept, so it never
+finalizes, so its entry is never removed — and the next cycle is bit-identical.
+
+### 7.2 The acyclic case works, and this is what it relies on
+
+The ordinary case is correct and must not be confused with the one above:
+table → `V`, `V` does not reach `H`, nobody else holds `H`.  Then `H` is
+unreachable, it is swept, it is finalized, Phase 5b releases its entry, and `V`
+dies in the following cycle.
+
+That holds for an acyclic **chain** of mutables too, one level per cycle.  If
+`H1 → H2` and there is no cycle, `H2`'s liveness merely follows `H1`'s: when
+`H1` dies its entry goes, `V1` dies next cycle, and `H2`'s entry goes on the
+cycle after that.  **An acyclic handle-to-handle edge is therefore not a
+violation**, which is why the detector does not report one.  The commonest shape
+in this family is exactly that: a mutable instance whose birth prototype chain
+points at a mutable class (`newChild(ctx, true)`), thousands of times over.
+
+Measured, in `test/MutableCycleDetectorTests.cpp`: 400 acyclic mutables created
+in a child context and dropped were released from the table down to **≤ 10% of
+what the workload created** after 8 cycles; 200 two-handle cycles created the
+same way retained **all 400 entries**, and the retained count was **identical**
+after a second round of 8 cycles.
+
+### 7.3 Two refinements the code contradicted a first reading of
+
+Both were found by writing the detector and then running it.
+
+* **An entry exists only after the first write, not at creation.**
+  `ProtoContext::newObject(true)` (`core/ProtoContext.cpp:863-875`) allocates a
+  handle with a fresh `mutable_ref` and publishes nothing; the first
+  `setAttribute` is what CASes an entry into the shard.  A never-written mutable
+  therefore originates no marking and cannot be in a cycle.  This is why a bare
+  `ProtoSpace` reports **zero** handles even though `objectPrototype` is created
+  mutable (`core/ProtoSpace.cpp:1228`): protoCore's own bootstrap never writes
+  to it.  The embedder's first `setAttribute` on it is what puts it in the table.
+* **A handle references other handles through the fields it was born with.**  A
+  handle's `parent` chain and `attributes` are fixed at construction and are
+  never written back to — `setAttribute` publishes a new state and returns the
+  same handle — but they are still traced: `ProtoObjectCell::processReferences`
+  (`core/ProtoObject.cpp:528-556`) reports both to the collector.  So an edge
+  between two handles can exist that passes through no state at all, and a
+  cycle can be closed by one.  A detector that stopped at a handle cell would
+  miss those; this one traverses through them.
+
+### 7.4 The rule, and where it does not apply
+
+**Where a back-reference is incidental, store the current value — an immutable
+snapshot — instead of the mutable, and make taking that snapshot an explicit
+operation at the use site.**  This is the Clojure distinction between a
+reference and `@ref`, which protoClojure already ships: the reader says, at the
+point of reading, that it wants a value and not a cell.  An incidental
+back-reference is one whose purpose is identification or diagnosis rather than
+observation of later writes — protoPython's `co_name → fn` was a diagnostic
+pointer, and removing it removed the cycle.
+
+**Where the back-reference is the point of the program, the rule does not
+apply and the retention stands.**  Three shapes where a snapshot would be the
+opposite of what the code asked for:
+
+* **A captured `var` that refers to itself.**  protoScala compiles a local
+  captured by a closure to `MAKE_CELL`, a protoCore mutable
+  (`protoScala/src/runtime/ExecutionEngine.cpp:962-964`) — it has to be, because
+  sharing a `var` between closures is exactly what it is for.  So
+  `var f: () => Unit = null; f = () => f()` — an ordinary recursive lambda
+  defined through a `var` — is a two-handle cycle: the cell's current value is
+  the closure, and the closure captured the cell.  A snapshot would freeze the
+  cell at `null` and the program would be wrong.  This is the shortest and
+  probably the most frequent instance in the family.
+* **A genuinely cyclic object graph**: a doubly-linked list of mutable nodes, a
+  graph with back-edges.
+* **Two actors that reference each other**, which is how they talk.
+
+For all three the honest statement is: the cycle's cells are retained for the
+life of the space, the amount is bounded by the cycle, and the way to bound it
+further is to bound how many such cycles the program creates — not to pretend
+the collector will take them back.
+
+#### Two fixes that were considered and rejected
+
+Recording them, because a reader who does not see them will propose one of them.
+
+* **An ephemeron pass in mark** — treat the table as weak in the key and iterate
+  to a fixpoint, so an entry whose handle is unreachable stops marking its
+  value.  Rejected.  It adds a **fixpoint to a concurrent mark phase**, and the
+  failure mode on this side of the collector is not a leak, it is a
+  **use-after-free**: marking runs with the world going
+  ([GarbageCollector.md](GarbageCollector.md) § "Concurrent Mark Without
+  Barriers"), and a pass that can decide *not* to mark something, iteratively,
+  against a graph mutators are still reading, trades a bounded leak for a
+  corruption risk.  That is the wrong direction for this kernel.
+* **Splitting assignment by destination** — a field inside mutable state stores
+  a snapshot, while a local variable stores the handle.  Rejected, twice over.
+  It makes assignment **referentially non-uniform**: `x = y` would alias or
+  freeze depending on what `x` is, which is not a property a reader of the code
+  can see.  And it would **silently freeze legitimate cyclic structures** — the
+  doubly-linked list, the graph with back-edges, the two actors — turning a
+  bounded, measurable retention into **stale reads**.  A wrong answer is worse
+  than retention.
+
+### 7.5 The detector
+
+`ProtoSpace::findMutableCycles(ProtoContext*, unsigned long cellBudget = 0)`
+(`headers/protoCore.h:2245`, implementation `core/MutableCycles.cpp`) is a public
+diagnostic, so a runtime does not need a conformance Host adaptor to ask the
+question:
+
+```cpp
+const proto::MutableGraphReport r = space.findMutableCycles(ctx);
+if (!r.cycles.empty()) std::cerr << r.summary();
+```
+
+**It is exact, not heuristic.**  The mutables table enumerates every written
+handle in the space — there is nowhere for a mutable to hide — and every cell
+field is `const` after construction, so the only edge in the whole heap that can
+close a loop is the handle → state indirection the table implements.  The scan
+therefore builds the **augmented cell graph** (each cell's ordinary references,
+plus one synthetic edge `H_r → V_r` per handle with an entry) and runs one
+Tarjan pass: a cycle in that graph is a cycle among mutables, and conversely.
+O(cells + references), and the strongly connected component itself names the
+participating handles.
+
+It reports **cycles only** — a self-edge, or a component of two or more — and
+names the path, because a cycle with no path is not actionable:
+
+```
+mutable-cycle scan: 10 handles in the mutables table, 12 references to a mutable handle, 38 cells walked, complete; 3 cycle(s)
+  CYCLE refs {2,3}: #2 -[.cellValue]-> #3 -[.capturedCell]-> #2
+  CYCLE refs {4}: #4 -[.f_locals]-> #4
+  CYCLE refs {5,6,7}: #5 -[.__bases__]-> #6 -[.__subclasses_list__ > ListSmall]-> #7 -[.owner]-> #5
+```
+
+It allocates no `Cell`, so it cannot add a handle or trigger a collection while
+it walks, and it holds a `ProtoContext::CriticalSection` for the duration — a
+thread inside one does not park, so no new stop-the-world can begin and no new
+sweep can free a cell under the scan.  The corollary is that it **stalls the
+collector**, so it belongs at a quiescent point in a test or a diagnostic build,
+not in a hot path.  `MutableGraphReport::truncated` says the cell budget ran out:
+a cycle reported by a truncated scan is still real, but the **absence** of
+cycles is not established, and `acyclicAndComplete()` is the only reading that
+means "clean".
+
+Conformance rule 13 in [EMBEDDER-CONFORMANCE.md](EMBEDDER-CONFORMANCE.md) makes
+this normative for every embedder, and it turns on a **declaration verified
+against a measurement** rather than on "no cycles": a runtime declares how many
+structural cycles it has, and the case fails on the ones it did not declare.
+
+### 7.6 Recorded history
+
+protoPython's run-time function objects were once all immortal through
+`fn → __closure_frames__ → frame → co_name → fn` — a cycle between two
+mutables, of the *incidental* kind, since `co_name` was a diagnostic pointer.
+The cost is recorded by protoPython's own work as roughly 62 marked cells per
+function object; that figure is quoted here, not re-measured.  protoPython broke
+the cycle on its side.
 
 ---
 

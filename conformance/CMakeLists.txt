@@ -18,7 +18,8 @@ add_library(protoCoreConformance STATIC
     CaseHeap.cpp
     CaseExternal.cpp
     CaseSymbols.cpp
-    CaseModules.cpp)
+    CaseModules.cpp
+    CaseMutables.cpp)
 
 target_include_directories(protoCoreConformance
     PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../headers>

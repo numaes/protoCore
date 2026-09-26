@@ -47,6 +47,9 @@ CaseResult caseFastPathKeyHits(Host& host);
 CaseResult caseModuleRootSurvivesCycle(Host& host);
 CaseResult caseModuleAliasRejected(Host& host);
 
+/// CaseMutables.cpp
+CaseResult caseMutableGraphCycles(Host& host);
+
 /// Shared helper: a NotApplicable result naming the capability that was missing.
 CaseResult unavailable(const char* id, unsigned rule, const char* capability,
                        const char* why);
