@@ -87,9 +87,15 @@ CaseResult measuredReclaim(Host& host, const char* id, unsigned rule,
 // (docs/GarbageCollector.md, Phase 2).  So an unsubmitted chain is live BY
 // CONSTRUCTION -- no cycle can consider it.
 //
-// protoST ran cycles for its entire history, reclaimed 0 of 2,748,398 cells and
-// passed 833 tests.  protoClojure's apparent live set was 110x its real one.
-// This case is the one that says so.
+// protoST ran cycles for its entire history, reclaimed 0 of 2,748,398 cells with
+// its whole suite green: 848/848, the suite size when S15 was measured
+// (protoST/docs/STATUS.md, "Test suite"; the 833 this comment used to quote was
+// the earlier S13 state).  protoClojure's apparent live set was 90.8x its real
+// one -- 196,519 cells with the young chain unsubmitted against 2,164 with it, at
+// a 400,000-cell ceiling, the pair recorded in
+// protoClojure/tests/cli/loop-garbage-is-reclaimed.sh:31 and :62-63.  (The "110x"
+// this comment used to quote had no operand pair behind it anywhere; see
+// docs/FIELD-NOTES.md, case 2.)  This case is the one that says so.
 CaseResult caseYoungSubmitted(Host& host)
 {
     return measuredReclaim(host, "gc.young_submitted", 1, &Host::makeGarbage,

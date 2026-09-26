@@ -4,8 +4,13 @@
 // Track Y measured a forced cycle reclaiming 4-7 cells where the workload had
 // created 205,120, and the test asserted `reclaimed > 0` and passed.
 // protoCore's own GCSurvivorRechainTests.cpp still asserts only
-// EXPECT_GT(freeAfter, freeBefore), which a single cell satisfies.  The same
-// vacuity has now been found five times in this project.
+// EXPECT_GT(freeAfter, freeBefore), which a single cell satisfies.  Counted
+// strictly over 2026-09-20 to 25, this same vacuity appears THIRTEEN times in
+// this project -- ten of them real tests observed passing under a named mutation
+// or removal, two assertions structurally incapable of failing, and one static
+// checker that reported clean where real defects were.  Each is enumerated with
+// the mutation it survived in docs/FIELD-NOTES.md, case 4.  (The "five times"
+// this header used to claim was never enumerated anywhere.)
 //
 // So this header offers NO "did it reclaim anything" call.  The only
 // reclamation question it can answer takes the denominator as an argument.

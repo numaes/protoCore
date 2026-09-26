@@ -21,12 +21,20 @@ loudly**.
 
 | Bug | The obligation that was omitted | How it announced itself |
 |---|---|---|
-| protoST S15 | the young generation must be submitted | it did not — 833 tests green, 0 of 2,748,398 cells reclaimed |
+| protoST S15 | the young generation must be submitted | it did not — 848 tests green, 0 of 2,748,398 cells reclaimed |
 | protoClojure idle actor worker | a registered thread that blocks does so inside `UnmanagedScope` | a hang, no message, only under load |
 | protoClojure `ActorMessage` payloads | no `ProtoObject*` across an allocation in a bare C++ local | intermittent wrong values |
 | protoScala `Mailbox::push` | the same rule — a CAS snapshot held across `appendLast` | nothing, until GC pressure |
 | protoST `MailboxCursor::adopt` | the same rule — `unique_ptr::reset` releases a live pin | **unreachable until S15 was fixed**; 848 passing tests could not reach it |
-| protoClojure's four blocking joins | a blocking join must not hold the stop-the-world quorum | a 90-second hang; the apparent live set was 110× the real one |
+| protoClojure's four blocking joins | a blocking join must not hold the stop-the-world quorum | a 90-second hang; the apparent live set was 90.8× the real one |
+
+Two of those entries are a count and a ratio, so this is where each comes from.
+protoST's suite was **848/848** when S15 was measured (`protoST/docs/STATUS.md`,
+"Test suite"; a widely quoted 833 was the earlier S13 state), and protoClojure's
+**90.8×** is 196,519 cells against 2,164 at a 400,000-cell ceiling, the pair
+recorded in `protoClojure/tests/cli/loop-garbage-is-reclaimed.sh`. A "110×" that
+circulated for both of these had no operand pair behind it; see
+`docs/FIELD-NOTES.md`, case 2.
 
 That fifth row is the argument for a suite rather than a review, in one line:
 **the third bug of the class was invisible because the first bug of the class

@@ -234,8 +234,8 @@ So a 100,000-element list touches about **1.87 million cells against 100,000
 resting — 19:1**.  The observed ratio grows like `log₂(n)` with a constant near
 1.13–1.20 above it, which is the rebalancing allocations on top of the path
 copy.  The analytic `n·log₂(n)` figure for n = 100,000 is 1.66 million; the
-measurement is 13% above it, and `n·log₂(n)` should be read as the shape of the
-curve rather than as the number to provision.
+measurement is 12.5% above it (1,868,896 against 1,660,964), and `n·log₂(n)`
+should be read as the shape of the curve rather than as the number to provision.
 
 Two consequences for sizing:
 

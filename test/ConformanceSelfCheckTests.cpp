@@ -5,7 +5,10 @@
 // Why it is not optional.  protoST's suite looked green for its entire history
 // while the collector reclaimed exactly 0 cells of 2,748,398.  protoScala
 // shipped six map fixtures that could not detect a broken key classification.
-// protoClojure passed 391 tests with an apparent live set 110x its real one.
+// protoClojure's suite was green with an apparent live set 90.8x its real one
+// (196,519 cells against 2,164 at a 400,000-cell ceiling -- the pair recorded in
+// protoClojure/tests/cli/loop-garbage-is-reclaimed.sh:31, :62-63; the "110x" once
+// quoted here had no operand pair, see docs/FIELD-NOTES.md case 2).
 // A GC or concurrency test that cannot fail is worse than no test, because it
 // converts absence of evidence into evidence of absence.
 //

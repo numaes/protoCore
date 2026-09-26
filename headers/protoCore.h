@@ -1780,8 +1780,13 @@ namespace proto
          * This half of the contract was undocumented until 2026-09-25, and its
          * absence is a plausible contributing cause of two measured bugs:
          * protoST reclaimed 0 cells of 2,748,398 across its entire history
-         * with 833 tests green, and protoClojure's apparent live set was 110×
-         * its real one.  An embedder reading only the paragraph above would
+         * with its whole suite green (848/848 when S15 was measured; the 833
+         * once quoted here was the earlier S13 state), and protoClojure's
+         * apparent live set was 90.8× its real one — 196,519 cells against
+         * 2,164 at a 400,000-cell ceiling, the pair recorded in
+         * `protoClojure/tests/cli/loop-garbage-is-reclaimed.sh`.  (An earlier
+         * "110×" had no operand pair; see `docs/FIELD-NOTES.md`, case 2.)
+         * An embedder reading only the paragraph above would
          * conclude that a CPU-bound loop needs a safepoint and an allocating
          * loop does not, which is the opposite of the truth for reclamation.
          *

@@ -272,7 +272,14 @@ binary against this library and assuming nothing moved.
   returned either. Measured in protoClojure: four blocking joins each hung to a
   90-second timeout and each completed in about three seconds once bracketed.
 
-  No protoCore documentation stated the obligation, and `join` is protoCore's own
+  No documentation stated the obligation **for a join**: `ProtoThread::join`
+  carried no doc comment at all before this fix. The general rule was written
+  down -- `DESIGN.md`, "Unmanaged regions" (pre-fix `:126-202`), documents
+  `UnmanagedScope` and the quorum formula with a "when to use it" table -- but
+  that table's rows are `read`/`write`, `sleep`, `poll`, `accept` and
+  "third-party C library that may block", and **there was no row for a thread
+  join**. (This entry first said no documentation stated the obligation at all;
+  corrected 2026-09-25, `docs/FIELD-NOTES.md` case 3.) `join` is protoCore's own
   blocking call, so an embedder had no way to know it had to bracket a kernel API
   against the kernel's own quorum. Wrapping the call in an `UnmanagedScope` as
   well remains harmless and idempotent (`unmanagedDepth` is a counter; only the
@@ -303,8 +310,11 @@ binary against this library and assuming nothing moved.
   adapters and `PROTOCORE_CONFORMANCE_ISOLATE_MAIN`, all installed.
 - **`scripts/conformance/check_static.py`** and `rules.json` -- the static half,
   as a per-repository ratchet with written justifications and a hash of each
-  allowlisted line. The script tests itself: seven positive fixtures must fire
-  and four negative fixtures must stay quiet.
+  allowlisted line. The script tests itself: eight positive fixtures must fire
+  and four negative fixtures must stay quiet -- run
+  `python3 scripts/conformance/check_static.py --self-test` and count, rather
+  than trusting this line. (It said seven until 2026-09-25, when running the
+  self-test printed eight positive and four negative.)
 - **`docs/EMBEDDER-CONFORMANCE.md`** -- the twelve rules as normative text, the
   per-function absent-value sentinel table, the three conforming shapes of rule
   11, and the three judgement items with what IS mechanised beside what is not.
@@ -321,8 +331,12 @@ binary against this library and assuming nothing moved.
   conclude that a CPU-bound loop needs a safepoint and an allocating loop does
   not, which is the opposite of the truth for reclamation. That omission is a
   plausible contributing cause of two measured bugs: one runtime reclaimed 0
-  cells of 2,748,398 across its whole history with 833 tests green, and another's
-  apparent live set was 110x its real one.
+  cells of 2,748,398 across its whole history with 848 tests green, and another's
+  apparent live set was 90.8x its real one -- 196,519 cells against 2,164 at a
+  400,000-cell ceiling (`protoClojure/tests/cli/loop-garbage-is-reclaimed.sh`).
+  Corrected on 2026-09-25: this entry first said 833 tests, which was that
+  suite's size at an earlier fix, and 110x, for which no operand pair was ever
+  recorded (`docs/FIELD-NOTES.md`, cases 1 and 2).
 
 ### Known, and reported rather than fixed
 

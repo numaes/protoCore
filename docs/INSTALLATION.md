@@ -38,15 +38,15 @@ This builds the shared library, the test executable `build/test/proto_tests` and
 cmake --build build --target protoCore
 ```
 
-The library version is `2.0.0` (`project(... VERSION 2.0.0)`) and its ABI version is `2` (`SOVERSION 2`). On Linux the build directory contains:
+The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `2.5.0` as of 2026-09-25 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `3`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `3` for the second. On Linux the build directory contains:
 
 | File | Role |
 |------|------|
-| `build/libprotoCore.so.2.0.0` | The shared library |
-| `build/libprotoCore.so.2` | Link used by the dynamic loader (soname) |
+| `build/libprotoCore.so.<version>` | The shared library |
+| `build/libprotoCore.so.3` | Link used by the dynamic loader (soname) |
 | `build/libprotoCore.so` | Link used at link time (`-lprotoCore`) |
 
-On macOS CMake uses the names `libprotoCore.2.0.0.dylib`, `libprotoCore.2.dylib` and `libprotoCore.dylib`.
+On macOS CMake uses the names `libprotoCore.<version>.dylib`, `libprotoCore.3.dylib` and `libprotoCore.dylib`.
 
 To run the tests after a full build:
 
@@ -77,7 +77,7 @@ sudo ldconfig
 
 | File | Path |
 |------|------|
-| Shared library | `lib/libprotoCore.so.<version>` (currently `2.1.0`), with the links `lib/libprotoCore.so.2` and `lib/libprotoCore.so` |
+| Shared library | `lib/libprotoCore.so.<version>` (`2.5.0` as of 2026-09-25), with the links `lib/libprotoCore.so.3` (the soname) and `lib/libprotoCore.so` |
 | Public header | `include/protoCore.h` |
 | CMake package configuration | `lib/cmake/protoCore/protoCoreConfig.cmake`, `protoCoreConfigVersion.cmake`, `protoCoreTargets.cmake` and one per-configuration targets file |
 | pkg-config metadata | `lib/pkgconfig/protoCore.pc` |
@@ -105,20 +105,22 @@ The package provides:
 | Name | Meaning |
 |------|---------|
 | `protoCore::protoCore` | The imported shared library, carrying the include directory and `Threads::Threads` |
-| `protoCore_VERSION` | Full version, for example `2.1.0` |
-| `protoCore_SOVERSION` | ABI version of the shared library, for example `2` |
+| `protoCore_VERSION` | Full version, for example `2.5.0` |
+| `protoCore_SOVERSION` | ABI version of the shared library — `PROTOCORE_ABI_SOVERSION`, `3` as of 2026-09-25 |
 | `protoCore_INCLUDE_DIR` | Directory holding `protoCore.h` |
 | `protoCore_LIB_DIR` | Directory holding the shared library |
 
 Version compatibility is `SameMajorVersion`: a request for `2.0` is satisfied by
-any `2.x` and refused for `1.x` and `3.x`, because protoCore's major version and
-its soname are bumped together. The requested minor version is still a floor, so
+any `2.x` and refused for `1.x` and `3.x`. The soname is a separate number —
+`PROTOCORE_ABI_SOVERSION`, bumped only when the ABI breaks, and `3` while the
+project version is `2.5.0` — so do not infer one from the other. The requested
+minor version is still a floor, so
 a consumer that needs a feature added in a minor release asks for that release —
 protoScala asks for `2.1`, because its actor mailbox needs `ProtoMPSCQueue`,
 which protoCore gained in `2.1.0`.
 
-The configuration additionally checks that `libprotoCore.so.2`
-(`libprotoCore.2.dylib` on macOS) exists beside it, so a prefix whose CMake
+The configuration additionally checks that `libprotoCore.so.3`
+(`libprotoCore.3.dylib` on macOS) exists beside it, so a prefix whose CMake
 files outlived its library fails with a message rather than a link error.
 
 For consumers that are not CMake projects, `lib/pkgconfig/protoCore.pc` is
@@ -126,7 +128,7 @@ installed:
 
 ```bash
 pkg-config --cflags --libs protoCore
-pkg-config --variable=soversion protoCore   # 2
+pkg-config --variable=soversion protoCore   # 3
 ```
 
 ## Platform verification status
@@ -165,15 +167,15 @@ cpack -G DEB     # a single generator
 
 Packages are written to the directory where `cpack` runs. The only install rules in a top-level build are those for the library and `protoCore.h` (`test/CMakeLists.txt` forces `INSTALL_GTEST` off, and the test and benchmark executables have no install rules), so the packages contain only the library files and the public header.
 
-### Package file names (version 2.0.0)
+### Package file names
 
-The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-2.0.0-<system>`:
+The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`2.5.0` as of 2026-09-25):
 
 | Platform | Files |
 |----------|-------|
-| Linux | `protoCore-2.0.0-Linux.tar.gz`, `protoCore-2.0.0-Linux.deb`, `protoCore-2.0.0-Linux.rpm` |
-| macOS | `protoCore-2.0.0-Darwin.tar.gz`, `protoCore-2.0.0-Darwin.dmg` |
-| Windows | `protoCore-2.0.0-win64.zip` and an NSIS `.exe` (`win32` on 32-bit builds) |
+| Linux | `protoCore-<version>-Linux.tar.gz`, `protoCore-<version>-Linux.deb`, `protoCore-<version>-Linux.rpm` |
+| macOS | `protoCore-<version>-Darwin.tar.gz`, `protoCore-<version>-Darwin.dmg` |
+| Windows | `protoCore-<version>-win64.zip` and an NSIS `.exe` (`win32` on 32-bit builds) |
 
 ### Installing and removing the Linux packages
 
@@ -182,8 +184,8 @@ The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-2.0.0-<syst
 **.deb (Debian/Ubuntu):**
 
 ```bash
-dpkg -c protoCore-2.0.0-Linux.deb      # list the package contents
-sudo dpkg -i protoCore-2.0.0-Linux.deb
+dpkg -c protoCore-<version>-Linux.deb      # list the package contents
+sudo dpkg -i protoCore-<version>-Linux.deb
 dpkg -L protocore                      # list the installed files
 sudo dpkg -r protocore                 # or: sudo apt remove protocore
 ```
@@ -191,13 +193,13 @@ sudo dpkg -r protocore                 # or: sudo apt remove protocore
 **.rpm (Fedora/RHEL/openSUSE):**
 
 ```bash
-rpm -qlp protoCore-2.0.0-Linux.rpm     # list the package contents
-sudo rpm -ivh protoCore-2.0.0-Linux.rpm
+rpm -qlp protoCore-<version>-Linux.rpm     # list the package contents
+sudo rpm -ivh protoCore-<version>-Linux.rpm
 rpm -ql protocore                      # list the installed files
 sudo rpm -e protocore
 ```
 
-After installing, run `sudo ldconfig` if dependent programs cannot find `libprotoCore.so.2`.
+After installing, run `sudo ldconfig` if dependent programs cannot find `libprotoCore.so.3`.
 
 ### Minimal archive: `package_protocore_only`
 
@@ -208,12 +210,12 @@ cmake --build build --target protoCore
 cmake --build build --target package_protocore_only
 ```
 
-It writes `build/protoCore-2.0.0-Linux.tar.gz` with this layout:
+It writes `build/protoCore-<version>-Linux.tar.gz` with this layout:
 
-- `protoCore-2.0.0-Linux/include/protoCore.h`
-- `protoCore-2.0.0-Linux/lib/libprotoCore.so.2.0.0`
+- `protoCore-<version>-Linux/include/protoCore.h`
+- `protoCore-<version>-Linux/lib/libprotoCore.so.<version>`
 
-The target copies only the versioned library file (`$<TARGET_FILE:protoCore>`), not the `libprotoCore.so.2` and `libprotoCore.so` links; create them when installing the archive by hand (`ln -s libprotoCore.so.2.0.0 libprotoCore.so.2` and `ln -s libprotoCore.so.2 libprotoCore.so`). The target uses `tar`, names the directory `-Linux` on every platform, and writes to the same file name as the CPack TGZ generator, so running both in the same build directory overwrites one archive with the other.
+The target copies only the versioned library file (`$<TARGET_FILE:protoCore>`), not the `libprotoCore.so.3` and `libprotoCore.so` links; create them when installing the archive by hand (`ln -s libprotoCore.so.<version> libprotoCore.so.3` and `ln -s libprotoCore.so.3 libprotoCore.so`). The target uses `tar`, names the directory `-Linux` on every platform, and writes to the same file name as the CPack TGZ generator, so running both in the same build directory overwrites one archive with the other.
 
 ---
 

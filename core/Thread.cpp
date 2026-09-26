@@ -603,9 +603,18 @@ namespace proto {
     // to a 90-second timeout and each completed in about three seconds once
     // bracketed.
     //
-    // No protoCore documentation stated the obligation, and `join` is
-    // protoCore's OWN blocking call, so an embedder had no way to know it had
-    // to bracket a kernel API against the kernel's own quorum.  The guard
+    // No documentation stated the obligation FOR A JOIN: this function carried
+    // no doc comment at all before the fix.  The general rule was written down
+    // -- DESIGN.md, "Unmanaged regions" (pre-fix :126-202), documents
+    // UnmanagedScope and the quorum formula with a "when to use it" table --
+    // but that table's rows are read/write, sleep, poll, accept and
+    // "third-party C library that may block", and there was NO ROW for a thread
+    // join.  The principle was documented; the instance was not, and the
+    // instance was the kernel's own API.  (This comment first claimed no
+    // documentation stated it at all; corrected 2026-09-25, see
+    // docs/FIELD-NOTES.md case 3.)  `join` is protoCore's OWN blocking call, so
+    // an embedder had no way to know it had to bracket a kernel API against the
+    // kernel's own quorum.  The guard
     // therefore belongs here: every embedder gets the correct behaviour
     // without knowing the rule exists.  Nesting is safe and idempotent — an
     // embedder that ALSO wraps its join in UnmanagedScope only bumps
