@@ -1,0 +1,177 @@
+name: CI
+
+# protoCore had no continuous integration until this file existed: every green
+# number this repository ever published was produced by one person running one
+# command once.  docs/FIELD-NOTES.md records what that cost -- six tests that
+# passed while proving nothing, and a use-after-free no suite could reach.
+#
+# THE RULE THAT SHAPES THIS FILE: nothing whose verdict is a clock may fail a
+# build.  A GitHub runner is a shared, variable machine, and this project has
+# twice had a measurement changed by machine load (docs/FIELD-NOTES.md, opening
+# section).  The cases that assert wall-clock time, and the three whose failure
+# mode is a hang caught by a ctest TIMEOUT, run in the `timing` job below: it
+# reports, and it never blocks.  A flaky gate gets disabled, and a disabled
+# suite is how this class of bug survived in the first place.
+#
+# Every ctest invocation takes stdin from /dev/null.  A case whose failure mode
+# is a hang must not be able to block on std::cin instead of reaching its
+# timeout -- see docs/TESTING.md and protoST bug S18 for what that costs.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+# The workflow reads source and runs tests; it needs nothing else.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # The eight ctest cases whose verdict IS a measurement.  The line drawn here:
+  # a case is excluded when a slow machine alone can fail it -- a throughput
+  # figure, a pause time, an elapsed-time budget, or a timeout used as the
+  # pass/fail signal.  A bounded wait whose threshold sits orders of magnitude
+  # above the expected value is NOT excluded: that is a hang detector, not a
+  # measurement, and it is worth gating on.
+  #
+  #   SwarmTest.OneMillionConcats                  EXPECT_LT(ms, 120000)
+  #                                                (test/SwarmTests.cpp:49)
+  #   ConcurrentMarkSafety.ThreadCacheSlotFlips...  EXPECT_GE(cycles, 100) after
+  #                                                two 2-second windows -- a
+  #                                                throughput floor.  MEASURED:
+  #                                                this case fails under ASan on
+  #                                                an idle 12-core machine (31
+  #                                                cycles, not 100), with no
+  #                                                defect involved
+  #                                                (test/ConcurrentMarkSafetyTests.cpp:286)
+  #   BulkListBuild.LargeBuildDoesNotBlock...      EXPECT_LT(medianUs, buildMs*250)
+  #                                                -- a stop-the-world PAUSE time
+  #                                                (test/BulkListBuildTests.cpp:466)
+  #   MPSCQueueGC.LargeDrainDoesNotBlock...        EXPECT_LT(medianUs, drainMs*250)
+  #                                                plus ASSERT_GT(drainMs, 20),
+  #                                                which a fast machine can fail
+  #                                                (test/ProtoMPSCQueueGCTests.cpp:531,546,587)
+  #   MPSCQueueConcurrency.EightProducers...       EXPECT_FALSE(timedOut) against
+  #                                                a 15-minute deadline
+  #                                                (test/ProtoMPSCQueueConcurrencyTests.cpp:174)
+  #   conformance.isolate.*                        three cases whose violation
+  #                                                shows up as a deadlock, so the
+  #                                                TIMEOUT 240 *is* the verdict.
+  #                                                Two of them sat at 278 s
+  #                                                against a 300 s budget until
+  #                                                they were rebounded by a clock
+  #                                                instead of an iteration count,
+  #                                                and heap.ceiling_progress is
+  #                                                recorded as intermittent in a
+  #                                                sibling runtime
+  #                                                (test/CMakeLists.txt:59-68)
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|ConcurrentMarkSafety\.ThreadCacheSlotFlipsDuringMark|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|conformance\.isolate\..*)$'
+
+jobs:
+  test:
+    name: Release build and test suite
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record the toolchain
+        run: |
+          cmake --version | head -1
+          g++ --version | head -1
+          echo "cores: $(nproc)"
+          free -h
+
+      - name: Configure
+        # The test suite pulls GoogleTest v1.14.0 in with FetchContent, so this
+        # step needs network access.
+        run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --parallel "$(nproc)"
+
+      - name: Report the registered test count
+        # Printed, never asserted.  This count moved four times in three days;
+        # a hard-coded total would turn every legitimate new test into a red
+        # build.  The gate below is "no test failed".
+        run: |
+          COUNT=$(ctest --test-dir build -N | tail -1)
+          echo "$COUNT"
+          echo "protoCore ctest: $COUNT" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Test suite
+        # -j2 rather than -j$(nproc): this suite's concurrency, GC-pressure and
+        # heap-ceiling cases spawn their own threads, and saturating a 4-vCPU
+        # runner with ctest workers is exactly the self-inflicted load that has
+        # already changed what a run reported here.
+        run: ctest --test-dir build -j2 --output-on-failure -E "$CLOCK_DEPENDENT_TESTS" < /dev/null
+
+      - name: Static conformance checker self-test
+        # The checker's own fixtures (positive and negative).  Cheap, and it is
+        # the tool five embedder repositories run their ratchet with.
+        run: python3 scripts/conformance/check_static.py --self-test
+
+  asan:
+    name: AddressSanitizer
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure with AddressSanitizer
+        # protoCore has no ASAN CMake option; sanitizers are applied through raw
+        # flags (docs/FIELD-NOTES.md).  These are the flags the local build_asan
+        # tree was configured with.
+        run: >
+          cmake -B build_asan -S .
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          -DCMAKE_CXX_FLAGS="-fsanitize=address -fno-omit-frame-pointer -g"
+          -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address"
+
+      - name: Build
+        run: cmake --build build_asan --parallel "$(nproc)"
+
+      - name: Test suite under ASan
+        # The clock-dependent cases are excluded here for a second reason on top
+        # of the first: ASan multiplies every runtime, so a wall-clock budget
+        # measured in an optimised build means nothing in this one.
+        env:
+          ASAN_OPTIONS: detect_leaks=0:abort_on_error=0
+        run: ctest --test-dir build_asan -j2 --output-on-failure -E "$CLOCK_DEPENDENT_TESTS" < /dev/null
+
+  timing:
+    name: Clock-dependent cases (informational, never gates)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    # A failure here does not fail the run.  These cases are kept RUNNING rather
+    # than deleted precisely because a disabled suite proves nothing -- but on a
+    # shared runner their verdict is partly the machine's, not the code's.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --parallel "$(nproc)"
+
+      - name: Clock-dependent cases, serially
+        # Serial on purpose: these are the cases load hurts most, so they get
+        # the machine to themselves.
+        run: |
+          set +e
+          ctest --test-dir build --output-on-failure -R "$CLOCK_DEPENDENT_TESTS" < /dev/null
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -eq 0 ]; then
+            echo "Clock-dependent cases: all passed" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Clock-dependent cases: FAILED (informational -- may be runner load, not a regression)" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$STATUS"
