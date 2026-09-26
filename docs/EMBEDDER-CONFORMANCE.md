@@ -137,11 +137,20 @@ to, which is what makes the recipe that matters work —
 
 ```bash
 PROTOCORE_MUTABLE_CYCLE_CHECK=/tmp/scan.txt ctest --test-dir <build> < /dev/null
-grep -c 'CYCLE refs' /tmp/scan.txt
+grep -c '  CYCLE ' /tmp/scan.txt
 ```
 
 — one sweep over every program the suite runs, without disturbing a single test
-that diffs stderr.  It is one `getenv` when unset.  It is deliberately
+that diffs stderr.  It is one `getenv` when unset.
+
+The hook has one honest limitation, found by using it: it fires from
+`~ProtoSpace`, so **a process that never destroys its space produces no report.**
+That is not rare — a test binary that keeps its space in a static or simply lets
+the process exit with it alive is a perfectly ordinary design, and one of the five
+runtimes' unit-test binaries behaves exactly that way while its interpreter
+executable reports normally.  When the file stays empty, the answer is that no
+space was destroyed, not that the graph is clean; call the API directly from that
+binary instead.  It is deliberately
 not hooked into the end of a GC cycle: the walk is O(live mutable graph), and a
 per-cycle hook would need a frequency policy and would stall the collector on a
 schedule nobody chose.  A process that never exits calls the API itself.

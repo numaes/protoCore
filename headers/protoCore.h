@@ -2055,9 +2055,14 @@ namespace proto
      * reaches it back, neither handle is ever unreachable and neither entry is
      * ever released.
      *
-     * `refs` is the set of `mutable_ref`s in the cycle.  `path` is a closed
-     * walk through them, because a cycle with no path is not actionable: it
-     * names the attribute at every hop it can name.
+     * `refs` is the complete set of `mutable_ref`s in the cycle.  `path` is a
+     * SHORTEST closed walk through the lowest-numbered one, because a cycle with
+     * no path is not actionable: it names the attribute at every hop it can
+     * name.  For a large component the walk is therefore the tightest loop
+     * inside it and not a tour of every member -- `refs` is what says how big it
+     * is.  (A type system whose every class holds its own `__mro__` and is held
+     * by its base's subclass list is one component of hundreds of handles, and a
+     * path through all of them would be unreadable.)
      */
     struct MutableCycle
     {

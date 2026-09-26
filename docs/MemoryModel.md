@@ -592,9 +592,9 @@ names the path, because a cycle with no path is not actionable:
 
 ```
 mutable-cycle scan: 10 handles in the mutables table, 12 references to a mutable handle, 38 cells walked, complete; 3 cycle(s)
-  CYCLE refs {2,3}: #2 -[.cellValue]-> #3 -[.capturedCell]-> #2
-  CYCLE refs {4}: #4 -[.f_locals]-> #4
-  CYCLE refs {5,6,7}: #5 -[.__bases__]-> #6 -[.__subclasses_list__ > ListSmall]-> #7 -[.owner]-> #5
+  CYCLE 2 handle(s) {2,3}: #2 -[.cellValue]-> #3 -[.capturedCell]-> #2
+  CYCLE 1 handle(s) {4}: #4 -[.f_locals]-> #4
+  CYCLE 3 handle(s) {5,6,7}: #5 -[.__bases__]-> #6 -[.__subclasses_list__ > ListSmall]-> #7 -[.owner]-> #5
 ```
 
 For a runtime with no conformance Host adaptor and no wish to add code, the
@@ -607,12 +607,20 @@ recipe possible — sweeping a whole test suite in one run:
 
 ```bash
 PROTOCORE_MUTABLE_CYCLE_CHECK=/tmp/scan.txt ctest --test-dir build_release < /dev/null
-grep -c 'CYCLE refs' /tmp/scan.txt
+grep -c '  CYCLE ' /tmp/scan.txt
 ```
 
 A suite that diffs a script's stderr would fail the moment a diagnostic appeared
 there, which is exactly the suite a maintainer wants to sweep, so stderr is the
-opt-in and not the default for that use.  The hook is one `getenv` when the
+opt-in and not the default for that use.
+The hook has one honest limitation, found by using it: it fires from
+`~ProtoSpace`, so **a process that never destroys its space produces no report.**
+That is not rare — a test binary that keeps its space in a static or simply lets
+the process exit with it alive is a perfectly ordinary design, and one of the five
+runtimes' unit-test binaries behaves exactly that way while its interpreter
+executable reports normally.  When the file stays empty, the answer is that no
+space was destroyed, not that the graph is clean; call the API directly from that
+binary instead.  The hook is one `getenv` when the
 variable is unset, and it is at teardown rather than at the end of a GC cycle
 because the walk is O(live mutable graph) and a per-cycle hook would need a
 frequency policy and would stall the collector on a schedule nobody chose.  A

@@ -533,11 +533,16 @@ std::string MutableGraphReport::summary() const
                                : "complete")
                   + "; " + std::to_string(cycles.size()) + " cycle(s)\n";
     for (const MutableCycle& c : cycles) {
-        s += "  CYCLE refs {";
-        for (std::size_t i = 0; i < c.refs.size(); ++i) {
+        // A component of hundreds of handles would print an unreadable line, so
+        // the list is capped and the total is stated.  The total is the number
+        // that matters: it is how many table entries the cycle holds for ever.
+        constexpr std::size_t kMaxRefsShown = 12;
+        s += "  CYCLE " + std::to_string(c.refs.size()) + " handle(s) {";
+        for (std::size_t i = 0; i < c.refs.size() && i < kMaxRefsShown; ++i) {
             if (i) s += ",";
             s += std::to_string(c.refs[i]);
         }
+        if (c.refs.size() > kMaxRefsShown) s += ",...";
         s += "}: " + c.path + "\n";
     }
     return s;
