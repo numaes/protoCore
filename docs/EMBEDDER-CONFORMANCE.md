@@ -51,6 +51,7 @@ they would have been reading a program in which the collector never ran.
 | 10 | **A GC or concurrency test that cannot fail is worse than no test.** | R, applied to the suite itself | protoST's suite looked green for its whole history. | `ConformanceSelfCheck.*` |
 | 11 | **Every OS thread that holds a `ProtoObject*` must be registered**, or everything it holds must be pinned in a `ProtoRootSet`. | R | GC Phase 2 scans roots by walking `space->threads`. A thread absent from that list is **never root-scanned**: its `automaticLocals`, `returnValue`, `pendingRoot` and young chain are invisible to the marker, so its live objects are swept under it. This is *worse* than rule 2 — rule 2 hangs, this corrupts. | `thread.registered` |
 | 12 | **A `CriticalSection` must not be held across a blocking wait, an `UnmanagedScope`, or a `safepoint()` expected to submit.** | S | `parkForStopTheWorld` skips parking while `criticalSectionDepth > 0`, and `safepoint()` skips submission at depth > 0. So a critical section held across a wait reproduces rule 2's hang *and* rule 1's non-submission, in code that looks correct. | `critsec_across_block` |
+| 13 | **Every cycle in the mutable graph is permanent retention, and must be declared.** A cycle among mutable objects is never collected. | R (exact, not heuristic) + **J** for which cycles are structural | The table is a GC root unconditionally and an entry is released only once its handle has been finalized, so a value that reaches its own handle keeps it marked for ever. Nothing errors, nothing grows without bound, and no reclamation metric moves: it looks like a program with a slightly larger live set, for ever. | `mutable.graph_cycles`, checklist C13 (J) |
 
 ### Rule 11 accepts three conforming shapes
 
@@ -69,6 +70,96 @@ it**:
 
 A kind that declares `HoldsNothing` and then allocates is a **Fail**, and that
 is the finding worth having: a declaration the code contradicts.
+
+### Rule 13 — why the verdict is a declaration and not "no cycles"
+
+**A cycle among mutable objects is never collected.**  The property, its proof
+against the two collector sites that produce it, and the fixes that were
+considered and rejected are in [MemoryModel.md](MemoryModel.md) § 7.  The rule
+here is the part an embedder owes.
+
+The retention is real in every case, and **bounded**: the cycle's own cells,
+once, not growth.  What differs is whether the cycle is a defect, and protoCore
+cannot tell:
+
+| Cycle | Verdict |
+|---|---|
+| protoPython's `fn → __closure_frames__ → frame → co_name → fn` | **incidental.** `co_name` was a diagnostic pointer. Removable, and removed |
+| protoScala's captured `var` — `var f = null; f = () => f()` | **structural.** The cell is a mutable because sharing a `var` between closures is what it is for; a snapshot would freeze it at `null` and the program would be wrong |
+| a doubly-linked list of mutable nodes; two actors referencing each other | **structural.** The back-edge is the data structure |
+
+So the rule is **not** "the mutable graph must be acyclic", which is false.  It
+is: *where a back-reference is incidental, store the current value — an
+immutable snapshot — instead of the mutable, and make taking that snapshot an
+explicit operation at the use site* (the Clojure distinction between a reference
+and `@ref`, which protoClojure already ships); *and where it is structural,
+declare it.*
+
+The case therefore verifies a **declaration against a measurement**, the same
+shape as rule 11's `ThreadVerdict`:
+
+| `Host::declaredMutableCycles()` | Scan result | Status |
+|---|---|---|
+| `0` | none found | **Pass** |
+| `0` | any found | **Fail** — undeclared permanent retention |
+| `n > 0` | at most `n` found | **Pass**, with each path in `detail` |
+| `n > 0` | more than `n` found | **Fail** |
+| `-1` (not declared) | any found | **NeedsReview**, with the paths |
+| any | table did not grow across `makeMutableGraph()` | **NotApplicable** — the scan covered nothing this runtime built |
+
+**The detector is exact, not heuristic**, and this is the one rule where that
+can be said.  The mutables table enumerates every written handle in the space,
+and every cell field is `const` after construction, so the only edge in the heap
+that can close a loop is the handle → state indirection the table implements.
+`ProtoSpace::findMutableCycles` builds the augmented cell graph and runs one
+Tarjan pass over it: O(cells + references), no sampling, no threshold.
+
+**Only cycles are reported.**  An acyclic handle-to-handle edge is not a
+violation — `H2`'s liveness follows `H1`'s and Phase 5b releases it a cycle
+later — and reporting those would mean one line per object in the program.  The
+commonest shape in this family is exactly that: every mutable instance of a
+mutable class prototype.
+
+**Two ways to ask the question.**  The rule applies to all five runtimes, and
+only two have a Host adaptor, so the detector is a **public protoCore API** and
+not only a conformance case:
+
+```cpp
+const proto::MutableGraphReport r = space.findMutableCycles(ctx);
+if (!r.cycles.empty()) std::cerr << r.summary();
+```
+
+and, for a runtime with no adaptor and no wish to add code, the environment
+variable **`PROTOCORE_MUTABLE_CYCLE_CHECK`**: every `ProtoSpace` prints one
+report as it is destroyed, from any binary that links `libprotoCore`.  `1` or
+`stderr` writes to stderr; anything else is a file path the reports are appended
+to, which is what makes the recipe that matters work —
+
+```bash
+PROTOCORE_MUTABLE_CYCLE_CHECK=/tmp/scan.txt ctest --test-dir <build> < /dev/null
+grep -c '  CYCLE ' /tmp/scan.txt
+```
+
+— one sweep over every program the suite runs, without disturbing a single test
+that diffs stderr.  It is one `getenv` when unset.
+
+The hook has one honest limitation, found by using it: it fires from
+`~ProtoSpace`, so **a process that never destroys its space produces no report.**
+That is not rare — a test binary that keeps its space in a static or simply lets
+the process exit with it alive is a perfectly ordinary design, and one of the five
+runtimes' unit-test binaries behaves exactly that way while its interpreter
+executable reports normally.  When the file stays empty, the answer is that no
+space was destroyed, not that the graph is clean; call the API directly from that
+binary instead.  It is deliberately
+not hooked into the end of a GC cycle: the walk is O(live mutable graph), and a
+per-cycle hook would need a frequency policy and would stall the collector on a
+schedule nobody chose.  A process that never exits calls the API itself.
+
+**`truncated` is not `clean`.**  A scan that exhausts its cell budget still
+reports every cycle it found — an edge it found is an edge that exists — but the
+absence of others is not established.  `acyclicAndComplete()` is the only
+reading that means clean, and the case Fails on a truncated scan rather than
+passing it.
 
 ### Rule 6 — the per-function sentinel table
 
@@ -149,6 +240,25 @@ sequence a user gets from a literal" is a reading of the runtime. The Host
 answers it by implementing `makeSequenceGarbage`, and the checklist records which
 type was chosen **and why**. Choosing the type whose representation is known to
 be safe, when the runtime has two, is choosing the workload to get the answer.
+
+### C13 — Which cycles in the mutable graph are structural?
+
+**Mechanised:** finding them.  `ProtoSpace::findMutableCycles` is exact and
+reports every one with its path, and `mutable.graph_cycles` fails on any cycle
+beyond the declared count.
+
+**Not mechanised:** deciding which ones *should* be there.  A cycle between a
+closure and the cell it captured is what a recursive `var` means; a cycle
+through a diagnostic back-pointer is an oversight.  Distinguishing them requires
+knowing what the language guarantees its users, which protoCore does not and
+must not know — and a checker that guessed would call a correct runtime broken,
+which is how a tool gets switched off.
+
+**Answer by:** listing every cycle the scan reports, with its path, and for each
+saying whether it is *incidental* (and then removing it, by storing the current
+value instead of the mutable) or *structural* (and then what bounds how many of
+them the program creates).  Set `Host::declaredMutableCycles()` to the count of
+the structural ones, so a new one cannot appear silently.
 
 ### C7 — Is external memory correctly accounted and correctly released?
 

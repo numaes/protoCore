@@ -236,7 +236,7 @@ For a short, copy-paste oriented guide, see [Testing User Guide](Structural%20de
 `docs/EMBEDDER-CONFORMANCE.md` is the normative rule table; this section is how
 it runs.
 
-protoCore's participation obligations are executable. Twelve cases live in
+protoCore's participation obligations are executable. Thirteen cases live in
 `libprotoCoreConformance` and are driven through a `proto::conformance::Host`
 adaptor that each embedder implements itself, so protoCore states each obligation
 once and every runtime executes the same statement. The library is framework-free
@@ -256,6 +256,22 @@ build_release/conformance/protocore-conformance-isolate --case=gc.young_submitte
 python3 scripts/conformance/check_static.py --repo ../protoPython
 python3 scripts/conformance/check_static.py --self-test
 ```
+
+One sweep worth knowing about, because it needs no adaptor at all. Rule 13 — *a
+cycle among mutable objects is never collected* — is asked of a whole program by
+an environment variable, and the file form of it does not disturb a single test
+that diffs stderr:
+
+```bash
+PROTOCORE_MUTABLE_CYCLE_CHECK=/tmp/scan.txt ctest --test-dir build_release < /dev/null
+grep -c '  CYCLE ' /tmp/scan.txt        # empty file = no space was destroyed, NOT a clean graph
+```
+
+The property itself is measured in `test/MutableCycleDetectorTests.cpp`, whose
+mutation matrix is one line wide: the same builder either captures a mutable
+handle (the detector must fire, naming both closing attributes) or the handle's
+current value (it must be silent, while still counting the reference, so its
+silence is not the silence of a scan that saw nothing).
 
 Three things to know before reading a result.
 

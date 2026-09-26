@@ -2040,6 +2040,74 @@ namespace proto
         Impl* impl_;
     };
 
+    /**
+     * @brief One cycle of the mutable-reference graph: a set of mutable
+     *        objects whose mutables-table entries keep each other alive for
+     *        the lifetime of the space.
+     *
+     * A cycle among mutables is never collected.  The reasoning, the two code
+     * sites that combine to produce it and the rule that follows from it are in
+     * [docs/MemoryModel.md](../docs/MemoryModel.md) § 7; the collector side is
+     * in [docs/GarbageCollector.md](../docs/GarbageCollector.md) Phase 2 and
+     * Phase 5b.  In one line: the whole mutables table is a root, so every
+     * current value is marked unconditionally; an entry is released only once
+     * the sweep has finalized its handle; so if a value reaches a handle that
+     * reaches it back, neither handle is ever unreachable and neither entry is
+     * ever released.
+     *
+     * `refs` is the complete set of `mutable_ref`s in the cycle.  `path` is a
+     * SHORTEST closed walk through the lowest-numbered one, because a cycle with
+     * no path is not actionable: it names the attribute at every hop it can
+     * name.  For a large component the walk is therefore the tightest loop
+     * inside it and not a tour of every member -- `refs` is what says how big it
+     * is.  (A type system whose every class holds its own `__mro__` and is held
+     * by its base's subclass list is one component of hundreds of handles, and a
+     * path through all of them would be unreadable.)
+     */
+    struct MutableCycle
+    {
+        std::vector<unsigned long> refs;   ///< the mutable_refs, ascending
+        std::string                path;   ///< a closed walk, hop by hop
+    };
+
+    /**
+     * @brief The result of `ProtoSpace::findMutableCycles`.
+     *
+     * Data, not a printout, and not a boolean: the diagnostic is worth having
+     * only if it says *which* handles and *by which path*, and the caller's own
+     * test framework does the asserting.  The counters are carried on a clean
+     * result too — a report whose numbers are all zero is a broken scan that
+     * looks like a clean graph, and that confusion is the reason this whole
+     * family of checks exists.
+     */
+    struct MutableGraphReport
+    {
+        unsigned long handles      = 0;  ///< entries in the mutables table
+        /**
+         * References TO a mutable handle found anywhere in the walked graph.
+         * Not the number of cycles' worth of anything: it is the measure that
+         * says the scan was looking at a real object graph, so that an empty
+         * `cycles` with a zero here is recognisable as a scan that saw nothing
+         * rather than as a graph that is clean.
+         */
+        unsigned long handleReferences = 0;
+        unsigned long cellsVisited = 0;  ///< cells the scan walked
+        /**
+         * True when the cell budget ran out.  A cycle reported by a truncated
+         * scan is still real — an edge the scan found is an edge that exists —
+         * but the ABSENCE of cycles is not established.  Never read an empty
+         * `cycles` as a clean bill of health while this is set.
+         */
+        bool truncated = false;
+        std::vector<MutableCycle> cycles;
+
+        /** True when the graph is acyclic AND the scan was complete. */
+        bool acyclicAndComplete() const { return cycles.empty() && !truncated; }
+
+        /** One line of counters, then one line per cycle.  Never empty. */
+        std::string summary() const;
+    };
+
     class ProtoSpace
     {
     public:
@@ -2127,6 +2195,61 @@ namespace proto
         void submitYoungGeneration(const Cell* cellChain);
         
         void deallocMutable(unsigned long mutable_ref);
+
+        /**
+         * @brief Find every cycle in this space's mutable-reference graph.
+         *
+         * **A cycle among mutable objects is never collected.**  This is an
+         * exact, not heuristic, detector for that condition, and it is exact
+         * because the mutables table enumerates every handle in the space:
+         * there is nowhere for a mutable to hide.  See
+         * [docs/MemoryModel.md](../docs/MemoryModel.md) § 7 for the property,
+         * the reasoning and the rule; conformance rule 13 in
+         * [docs/EMBEDDER-CONFORMANCE.md](../docs/EMBEDDER-CONFORMANCE.md) makes
+         * it normative.
+         *
+         * Three lines are enough for any embedder:
+         * @code
+         *   const proto::MutableGraphReport r = space.findMutableCycles(ctx);
+         *   if (!r.cycles.empty()) std::cerr << r.summary();
+         * @endcode
+         *
+         * **Only cycles are reported.**  An acyclic handle-to-handle edge is
+         * NOT a violation and is deliberately not reported: if `H1 -> H2` with
+         * no cycle, `H2`'s liveness merely follows `H1`'s, and once `H1` dies
+         * `H2`'s entry is released one cycle later.  Reporting those would bury
+         * the real finding.
+         *
+         * **Cost and safety.**  It walks every cell reachable from the table, so
+         * it is O(live mutable graph) and belongs in a test or a diagnostic
+         * build, not in a hot path.  It allocates no `Cell`, so it cannot
+         * itself add a handle or trigger a collection.  It holds a
+         * `ProtoContext::CriticalSection` on `context` for the whole walk, which
+         * is what makes the walk safe: a thread inside a critical section does
+         * not park, so no new stop-the-world can begin, so no new sweep can free
+         * a cell under the scan.  A cycle already in flight cannot free anything
+         * the scan can see either — everything reachable from the live table was
+         * either marked at that cycle's stop-the-world or allocated after it,
+         * and neither is a candidate of that cycle.
+         *
+         * The corollary is that this call **stalls the collector** for its
+         * duration, and on a space at its heap ceiling that stall is the
+         * difference between waiting and the out-of-memory path.  Run it at a
+         * quiescent point.
+         *
+         * @param context a context of the CALLING thread.  Passing `nullptr` or
+         *        a context of another thread performs the same walk without the
+         *        critical section, which is correct only when the caller can
+         *        guarantee by other means that no collection will start — as the
+         *        collector's own end-of-cycle hook can, being the only thread
+         *        that starts one.
+         * @param cellBudget the maximum number of cells to walk before giving
+         *        up and setting `MutableGraphReport::truncated`.  0 selects the
+         *        default (8,000,000 cells, ~1 s on the reference machine).
+         */
+        MutableGraphReport findMutableCycles(ProtoContext* context,
+                                            unsigned long cellBudget = 0) const;
+
         const ProtoList* getThreads(ProtoContext* context) const;
         const ProtoThread* newThread(
             ProtoContext *c,

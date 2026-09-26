@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 2.4.0
+    VERSION 2.5.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -60,6 +60,7 @@ add_library(protoCore SHARED
     core/ProtoSet.cpp
     core/ProtoMultiset.cpp
     core/Integer.cpp
+    core/MutableCycles.cpp
 )
 
 # The ABI version of libprotoCore. It is the single source of truth for the

@@ -36,6 +36,11 @@ const CaseEntry kCases[] = {
     { "module.root_survives_cycle",      9, false, true,  &caseModuleRootSurvivesCycle },
     { "external.bytes_accounted",        7, false, false, &caseExternalBytesAccounted },
     { "module.alias_rejected",           9, false, false, &caseModuleAliasRejected },
+    // Rule 13 runs late: it scans the whole mutable graph the runtime has built
+    // by now, so the more of the runtime the earlier cases have exercised, the
+    // more it covers.  It allocates no Cell and holds a critical section for the
+    // walk, so it cannot disturb what runs after it.
+    { "mutable.graph_cycles",           13, false, false, &caseMutableGraphCycles },
     // Its failure mode is std::abort() inside waitForHeapHeadroom, which would
     // take the whole test binary with it.  Run through the isolate binary.
     { "heap.ceiling_progress",           8, true,  false, &caseCeilingProgress },

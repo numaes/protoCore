@@ -44,7 +44,13 @@ class SelfHost : public Host
 {
 public:
     SelfHost() {}
-    ~SelfHost() override { shutdownQueueThreads(); }
+    ~SelfHost() override
+    {
+        shutdownQueueThreads();
+        // The root set must go before the space, and the space is a member, so
+        // this is the only correct place for it.
+        if (mutableRoots_) { space_.destroyRootSet(mutableRoots_); mutableRoots_ = nullptr; }
+    }
 
     const char*   name() const override { return "protoCore-selfhost"; }
     ProtoContext* mainContext() override { return space_.rootContext; }
@@ -162,6 +168,45 @@ public:
 
     unsigned long externalBytesAccounted() override { return externalBytes_; }
 
+    // --- rule 13 ---------------------------------------------------------
+    //
+    // protoCore's own mutable graph, as an embedder would build it: a mutable
+    // "class" with methods installed on it, and mutable instances that are its
+    // children and name it back.  Every edge here points from an instance to
+    // the class and never returns, so it is ACYCLIC -- and it is the shape that
+    // must not be reported, because it is the commonest shape in the family
+    // (class prototypes in protoScala and protoST, and every instance of them).
+    unsigned long makeMutableGraph() override
+    {
+        ProtoContext* ctx = mainContext();
+        const ProtoString* kName   = ProtoString::createSymbol(ctx, "selfhost_class_name");
+        const ProtoString* kOwner  = ProtoString::createSymbol(ctx, "selfhost_owner");
+        const ProtoString* kSerial = ProtoString::createSymbol(ctx, "selfhost_serial");
+
+        const ProtoObject* klass = ctx->newObject(/*mutableObject=*/true);
+        // The first write is what publishes the table entry at all.
+        klass = klass->setAttribute(ctx, kName,
+                     reinterpret_cast<const ProtoObject*>(
+                         ProtoString::createSymbol(ctx, "SelfHostPoint")));
+        unsigned long built = 1;
+        for (unsigned long i = 0; i < 16; ++i) {
+            const ProtoObject* inst = klass->newChild(ctx, /*isMutable=*/true);
+            inst->setAttribute(ctx, kOwner, klass);          // instance -> class
+            inst->setAttribute(ctx, kSerial, ctx->fromLong((long) i));
+            ++built;
+        }
+        // Pinned in a ProtoRootSet, not held in a C++ member: a bare member is
+        // invisible to the marker (rule 3), and a reference host that broke the
+        // rule it audits would be the worst possible control.
+        pinMutableRoot(klass);
+        return built;
+    }
+
+    /// The control declares an acyclic mutable graph, so any cycle the scan
+    /// finds against it is a Fail -- which is what makes the mutation below a
+    /// real mutation.
+    long declaredMutableCycles() override { return 0; }
+
     /// The control supplies every capability.  protoCore keeps two identities
     /// that differ only in provider distinct, so the honest answer is 1.
     int loadSamePathTwoProviders() override
@@ -264,6 +309,15 @@ protected:
 
     ProtoSpace    space_;
     unsigned long externalBytes_ = 0;
+    /// Keeps rule 13's graph reachable for the rest of the run, so the scan
+    /// sees a live graph and not one in the middle of being released -- pinned
+    /// as a real GC root, which is what rule 3 demands of everything else.
+    void pinMutableRoot(const ProtoObject* obj)
+    {
+        if (!mutableRoots_) mutableRoots_ = space_.createRootSet("selfhost-rule13");
+        if (mutableRoots_) mutableRoots_->add(obj);
+    }
+    ProtoRootSet* mutableRoots_ = nullptr;
 
 private:
     static void makeOne(ProtoContext* ctx, const ProtoString* k1,
@@ -438,6 +492,37 @@ public:
     {
         return mainContext()->fromUTF8String(text);
     }
+};
+
+/// Rule 13 -- a cycle among mutables, in the shape protoScala's captured `var`
+/// has: the cell is a protoCore mutable, its current value is the closure, and
+/// the closure captured the cell.  Value -> handle, and the entry can never be
+/// released.  The host still declares ZERO structural cycles, so the case must
+/// Fail: an undeclared cycle is unaccounted permanent retention.
+class NonConformingHost_MutableCycle final : public SelfHost
+{
+public:
+    const char* name() const override { return "mutant-mutable-cycle"; }
+    unsigned long makeMutableGraph() override
+    {
+        // The acyclic part first, so the finding is not merely "the only two
+        // mutables in the table refer to each other".
+        const unsigned long acyclic = SelfHost::makeMutableGraph();
+
+        ProtoContext* ctx = mainContext();
+        const ProtoString* kValue =
+            ProtoString::createSymbol(ctx, "selfhost_cell_value");
+        const ProtoString* kCapture =
+            ProtoString::createSymbol(ctx, "selfhost_captured_cell");
+
+        const ProtoObject* cell    = ctx->newObject(/*mutableObject=*/true);
+        const ProtoObject* closure = ctx->newObject(/*mutableObject=*/true);
+        closure->setAttribute(ctx, kCapture, cell);   // the closure captured it
+        cell->setAttribute(ctx, kValue, closure);     // and the cell holds it
+        pinMutableRoot(closure);
+        return acyclic + 2;
+    }
+    long declaredMutableCycles() override { return 0; }
 };
 
 /// A Host that implements only the three required capabilities, and those

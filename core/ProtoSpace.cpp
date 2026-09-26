@@ -21,6 +21,7 @@
 #include <cstdio>
 #include <chrono>
 #include <thread>
+#include <cstring>
 #if defined(__linux__)
 #include <sys/syscall.h>
 #include <unistd.h>
@@ -1362,6 +1363,52 @@ namespace proto {
         if (gcThread && gcThread->joinable()) {
             gcThread->join();
         }
+
+        // PROTOCORE_MUTABLE_CYCLE_CHECK -- the zero-code way to ask rule 13's
+        // question of a whole program.
+        //
+        // Why here and nowhere else.  A cycle among mutable objects is never
+        // collected (docs/MemoryModel.md section 7), and the table at teardown is
+        // the most informative view there is: every entry still in it either
+        // belongs to something still live or is in a cycle.  The GC thread has
+        // joined, so nothing can free a cell under the walk and no critical
+        // section is needed; `rootContext` is still alive, so attribute names
+        // still render; and it costs exactly one `getenv` when the variable is
+        // unset.
+        //
+        // Deliberately NOT hooked into the end of a GC cycle.  The walk is
+        // O(live mutable graph), and a per-cycle hook would need a frequency
+        // policy, would stall the collector on a schedule nobody chose, and would
+        // have to be tuned per runtime.  A long-running process that never exits
+        // should call findMutableCycles itself at a quiescent point -- it is three
+        // lines, which is why it is public.
+        //
+        // The value selects the destination.  "1" (or "stderr") writes to
+        // stderr; ANYTHING ELSE is a file path the report is APPENDED to, one
+        // block per space, with the process id.  The file form is not a
+        // convenience: a test suite that diffs a script's stderr fails the moment
+        // a diagnostic appears there, which is exactly the suite a maintainer
+        // wants to sweep with this, so writing to stderr would make the most
+        // valuable use of the variable impossible.
+        if (const char* dest = std::getenv("PROTOCORE_MUTABLE_CYCLE_CHECK")) {
+            const MutableGraphReport rep = this->findMutableCycles(nullptr);
+            const bool toStderr = (std::strcmp(dest, "1") == 0
+                                   || std::strcmp(dest, "stderr") == 0);
+            std::FILE* out = toStderr ? stderr : std::fopen(dest, "a");
+            if (out) {
+#if defined(__linux__)
+                std::fprintf(out,
+                    "protoCore PROTOCORE_MUTABLE_CYCLE_CHECK [pid %ld]: %s",
+                    (long) ::getpid(), rep.summary().c_str());
+#else
+                std::fprintf(out, "protoCore PROTOCORE_MUTABLE_CYCLE_CHECK: %s",
+                             rep.summary().c_str());
+#endif
+                std::fflush(out);
+                if (!toStderr) std::fclose(out);
+            }
+        }
+
         // Free any embedder root sets that the embedder didn't
         // explicitly destroy.  Doing this after the GC thread has
         // joined means no concurrent forEachRootSet can fire.

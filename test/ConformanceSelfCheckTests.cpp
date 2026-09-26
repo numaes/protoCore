@@ -101,6 +101,38 @@ TEST(ConformanceSelfCheck, FastPathKeyCatchesUninternedKey)
     expectDiagnostic(r, "getOwnAttributeDirect");
 }
 
+// Rule 13.  A cycle among mutables, in the shape protoScala's captured `var`
+// has: the cell is a protoCore mutable, its current value is the closure, and
+// the closure captured the cell.  The host declares zero structural cycles, so
+// the undeclared one must Fail -- and the failure must name the path, because a
+// cycle without one cannot be acted on.
+TEST(ConformanceSelfCheck, MutableGraphCyclesCatchesTheCapturedVarShape)
+{
+    proto::conformance::NonConformingHost_MutableCycle host;
+    const CaseResult r = runOne(host, "mutable.graph_cycles");
+    EXPECT_EQ(r.status, Status::Fail) << r.detail;
+    expectDiagnostic(r, "selfhost_cell_value");
+    expectDiagnostic(r, "selfhost_captured_cell");
+    expectDiagnostic(r, "mutables table");
+}
+
+// Rule 13's other direction, and the one that matters more: the case must be
+// SILENT on the acyclic instance -> class edges the reference host builds.  A
+// detector with false positives is worse than none, because it gets switched off
+// and takes the real findings with it.
+TEST(ConformanceSelfCheck, MutableGraphCyclesIsSilentOnAcyclicEdges)
+{
+    proto::conformance::SelfHost host;
+    const CaseResult r = runOne(host, "mutable.graph_cycles");
+    ASSERT_EQ(r.status, Status::Pass) << r.detail;
+    expectDiagnostic(r, "acyclic");
+    // And it passed having LOOKED: a pass with no references to a mutable
+    // handle would be a pass over an empty graph.
+    EXPECT_EQ(r.detail.find("0 references to a mutable handle"), std::string::npos)
+        << "the case passed without finding a single reference to a mutable "
+           "handle, so its silence is not evidence of anything: " << r.detail;
+}
+
 //===========================================================================
 // The harness's own vacuity checks.
 //===========================================================================

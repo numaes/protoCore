@@ -2,6 +2,112 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [2.5.0] - 2026-09-25
+
+Documents a retention property of the collector, and ships the exact detector
+for it as a public diagnostic. **The collector is not changed.**
+
+> **A cycle among mutable objects is never collected.**
+
+**Why 2.5.0 and not 2.4.1, and why `PROTOCORE_ABI_SOVERSION` stays 3.** This
+release adds a public API -- `ProtoSpace::findMutableCycles`, the structs
+`proto::MutableCycle` and `proto::MutableGraphReport`, and two virtual methods on
+`proto::conformance::Host` -- so it is not a patch: a consumer can now call
+something it could not call before, and a header a runtime compiles against has
+changed. It is nevertheless purely **additive**: `ProtoSpace` gained no data
+member and no virtual, so every embedder's compiled layout and call sites are
+byte-identical and a stale binary keeps working. A minor bump is the exact
+statement of that. Note also that 2.4.0's "no public header change" claim
+described 2.4.0's commits; this one does change `headers/protoCore.h`, and
+embedders should rebuild to see the new API.
+
+### Added
+
+- **`ProtoSpace::findMutableCycles(ProtoContext*, cellBudget = 0)`**
+  (`headers/protoCore.h`, `core/MutableCycles.cpp`) -- an **exact** detector for
+  cycles in the mutable-reference graph, reporting the participating handles and
+  a closed walk through them that names the attribute at every hop it can name.
+
+  It can be exact rather than heuristic because the mutables table enumerates
+  every written handle in the space and every cell field is `const` after
+  construction, so the only edge in the heap that can close a loop is the
+  handle-to-state indirection the table implements. The scan builds the
+  *augmented cell graph* -- each cell's ordinary references plus one synthetic
+  edge per handle to its current value -- and runs one Tarjan pass:
+  O(cells + references). It allocates no `Cell`, and it holds a
+  `ProtoContext::CriticalSection` for the walk, which is what makes it safe
+  (a thread in a critical section does not park, so no new stop-the-world can
+  begin and no new sweep can free a cell under the scan). The corollary is that
+  it stalls the collector, so it belongs at a quiescent point.
+
+  **Only cycles are reported.** An acyclic handle-to-handle edge is not a
+  violation -- the downstream handle's entry is released a cycle after the
+  upstream one dies -- and reporting them would mean one line per object in the
+  program.
+
+- **`PROTOCORE_MUTABLE_CYCLE_CHECK`** -- set the environment variable and every
+  `ProtoSpace` prints one cycle report as it is destroyed, from any binary that
+  links `libprotoCore`. The value selects the destination: `1` or `stderr` writes
+  to stderr, anything else is a file path the report is appended to, one block
+  per space, tagged with the process id. The file form is what makes the useful
+  recipe work -- `PROTOCORE_MUTABLE_CYCLE_CHECK=<file> ctest` sweeps a whole
+  suite in one run -- because a suite that diffs a script's stderr fails the
+  moment a diagnostic appears there. One `getenv` when unset. This exists so a runtime with no conformance Host adaptor can still ask
+  the question without writing any code. It is deliberately not hooked into the
+  end of a GC cycle: the walk is O(live mutable graph), and a per-cycle hook
+  would need a frequency policy and would stall the collector on a schedule
+  nobody chose.
+
+- **Conformance rule 13** (`mutable.graph_cycles`,
+  `conformance/CaseMutables.cpp`), with `Host::makeMutableGraph()` and
+  `Host::declaredMutableCycles()`. The verdict is a **declaration verified
+  against a measurement**, not "no cycles": a cycle can be an oversight (a
+  diagnostic back-pointer) or exactly what the program means (a captured
+  variable that refers to itself, a doubly-linked list of mutable nodes, two
+  actors referencing each other), and protoCore cannot tell those apart. A
+  runtime declares how many of its cycles are structural and the case fails on
+  the ones it did not declare. Self-checked in both directions
+  (`ConformanceSelfCheck.MutableGraphCycles*`): it fires on a cycle and stays
+  silent on the acyclic instance-to-class edges every runtime in this family
+  builds by the thousand.
+
+### Documented
+
+- **`docs/MemoryModel.md` § 7** -- the property, with the two collector sites
+  that combine to produce it (`core/ProtoSpace.cpp:519-524`, Phase 2's
+  unconditional per-shard root push, and `core/ProtoSpace.cpp:992-1000`, Phase
+  5b's release only of finalized handles); the acyclic case, which works; the
+  rule, and the two shapes where it does **not** apply and the retention simply
+  stands; and the two fixes considered and rejected -- an ephemeron pass, which
+  would put a fixpoint into a concurrent mark phase whose failure mode is a
+  use-after-free rather than a leak, and splitting assignment by destination,
+  which would make `x = y` alias or freeze depending on what `x` is and would
+  silently freeze legitimate cyclic structures.
+
+- Two things the code contradicted a first reading of, both found by writing the
+  detector: **a table entry exists only from a mutable's first write**, not from
+  its creation (so a bare `ProtoSpace` has zero entries even though
+  `objectPrototype` is created mutable); and **a handle references other handles
+  through the `parent` chain and `attributes` it was born with**, which are
+  traced, so a cycle can be closed without passing through any state.
+
+- Cross-references in `docs/GarbageCollector.md` beside the mutable-shard table,
+  Phase 2's root capture and Phase 5b's release, and rule 13 plus checklist item
+  C13 in `docs/EMBEDDER-CONFORMANCE.md`.
+
+### Tests
+
+`test/MutableCycleDetectorTests.cpp`, 9 cases. The mutation matrix is one line
+wide: the same builder either captures the mutable handle (the detector fires,
+and the reported path names both closing attributes) or the handle's current
+value (it is silent, while still counting the reference, so its silence is not
+the silence of a scan that saw nothing). The property itself is measured on
+table entries against the count the workload created, never against `> 0`: 400
+acyclic mutables dropped in a child context fall to under 10% of what was
+created after 8 cycles, while 200 two-handle cycles retain all 400 entries and
+the retained count is **identical** after a second round of 8 cycles -- the "no
+monotone progress" half of the claim.
+
 ## [2.4.0] - 2026-09-25
 
 Two kernel defects, on the maintainer's instruction to *"fix both without fail

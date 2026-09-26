@@ -178,6 +178,45 @@ public:
      *         -1 when the capability is unavailable.
      */
     virtual int loadSamePathTwoProviders() { return -1; }
+
+    /**
+     * Build, through the runtime's OWN evaluator, the structures whose
+     * retention rule 13 governs: its classes and instances, its cells, atoms,
+     * actors, frames and closures.  Rule 13's probe.
+     *
+     * The case does not need them to stay reachable.  A mutable's table entry
+     * survives until a collection releases it, and a CYCLE's entry is never
+     * released at all, so the scan is exact whether or not the runtime still
+     * holds the objects.  What the case needs is only that the runtime really
+     * built its own graph, so that "no cycles" is a statement about this runtime
+     * and not about an empty table.
+     *
+     * @return the number of mutable protoCore objects the runtime believes it
+     *         created, or 0 when it cannot tell.  Like `makeGarbage`, this is a
+     *         DECLARATION: the case cross-checks it against the growth of the
+     *         mutables table, which the kernel measures.
+     */
+    virtual unsigned long makeMutableGraph() { return 0; }
+
+    /**
+     * How many cycles in the mutable graph this runtime declares as
+     * STRUCTURAL -- cycles that are what the program means rather than an
+     * oversight, so that a snapshot would be the wrong answer.  Rule 13's
+     * verdict turns on this declaration being verified against the measurement,
+     * exactly as rule 11's `ThreadVerdict` does.
+     *
+     * The honest answers are all available:
+     *  * `0` -- this runtime claims an acyclic mutable graph.  Any cycle the scan
+     *    finds is then a Fail, and that is the finding worth having.
+     *  * `n > 0` -- this runtime has n structural cycles, recorded and justified
+     *    in its own `docs/CONFORMANCE.md`.  More than n is a Fail.
+     *  * `-1` -- not declared.  Cycles found are reported as NeedsReview, because
+     *    protoCore cannot tell a captured `var` that refers to itself from a
+     *    diagnostic back-pointer nobody needed.
+     *
+     * @return the declared count, or -1 when the runtime declares nothing.
+     */
+    virtual long declaredMutableCycles() { return -1; }
 };
 
 enum class Status { Pass, Fail, NotApplicable, Skipped, NeedsReview };

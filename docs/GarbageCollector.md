@@ -54,6 +54,16 @@ for the runtime CAS discipline.
 This design is **the** architectural pivot that allows concurrent mark
 without write barriers.  See § "Concurrent Mark Without Barriers" below.
 
+It has one consequence that is not a bug and must be stated where the mechanism
+is: **a cycle among mutable objects is never collected.**  The table is a root
+unconditionally (Phase 2 below) and an entry is released only once its handle has
+been finalized (Phase 5b below), so a value that reaches its own handle keeps
+that handle marked for ever.  The retention is bounded — the cycle's own cells,
+once — and permanent.  [MemoryModel.md](MemoryModel.md) § 7 states the property,
+the cases where it is avoidable and the two where it is not, the fixes that were
+considered and rejected, and `ProtoSpace::findMutableCycles`, the exact detector
+for it.
+
 ### 5. The per-cycle mutable-shard snapshot — `gcMutableSnapshot[]`
 A plain-pointer array of `MUTABLE_ROOT_SHARDS` entries on `ProtoSpace`.
 Captured atomically at STW Phase 2; consumed by the concurrent mark phase;
@@ -170,6 +180,18 @@ While the world is stopped, the GC:
    shard — and pushes each non-null shard root onto the worklist as a
    root.  This is the formal "snapshot at the beginning" that lets mark
    run concurrent.
+
+   The push is **unconditional** (`core/ProtoSpace.cpp:519-524`): the table
+   ORIGINATES marking, it does not merely preserve values.  Every mutable's
+   current value is marked whether or not anything still references its handle.
+   Together with Phase 5b's release condition this is why **a cycle among
+   mutable objects is never collected** — see [MemoryModel.md](MemoryModel.md)
+   § 7 for the property, the rule, and
+   `ProtoSpace::findMutableCycles`, the exact detector.  The alternative — an
+   ephemeron pass that treats the table as weak in the key and iterates to a
+   fixpoint — was considered and rejected: a fixpoint inside a mark phase that
+   runs with the world going trades a bounded leak for a use-after-free
+   (MemoryModel.md § 7.4).
 4. Records the **tuple interner snapshot**: `TupleInterner::captureForGC`
    stores each of its 64 shards' published entry count (O(shards)).
    Interned tuples are perennial and the table is a root, but the entries
@@ -342,6 +364,23 @@ references were reached in cycle N through the mutable snapshot, so they
 survive cycle N and are freed in cycle N+1 (with
 `PROTOCORE_GC_REINCLUDE_SURVIVORS`; with `survivorStagger > 1`, on the next
 fold).
+
+**What this release cannot do.**  The condition is *the handle was finalized*,
+which is *the handle was found unreachable*.  It is never met for a handle that
+its own value reaches, directly or through other mutables: the value is marked
+from the table (Phase 2), so the handle is marked, so the sweep never finalizes
+it, so the entry is never removed, and the next cycle is bit-identical.  There is
+no monotone progress here, so a later collection does not resolve it.  **A cycle
+among mutable objects is never collected** — [MemoryModel.md](MemoryModel.md)
+§ 7 states the property, the cases where an embedder can avoid it and the ones
+where the cycle is what the program means, and
+`ProtoSpace::findMutableCycles(ctx)` reports every one of them exactly, with the
+path.  An ACYCLIC chain of mutables drains at one level per cycle and is not a
+problem (MemoryModel.md § 7.2).
+
+Note also that an entry exists only from a mutable's **first write**:
+`newObject(true)` publishes nothing, so a never-written mutable has no entry for
+this phase to release and originates no marking of its own.
 
 **Per-thread caches.**  The per-thread caches are not GC roots, and each
 thread clears them when it resumes after a stop-the-world (see "Concurrent

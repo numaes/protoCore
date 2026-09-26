@@ -10,6 +10,8 @@ This directory holds protoCore's documentation. The index of all documentation, 
 - [USER_GUIDE_UMD_MODULES.md](USER_GUIDE_UMD_MODULES.md) — Short guide to creating and registering a module for Unified Module Discovery.
 - [MemoryModel.md](MemoryModel.md) — Memory model and the process sizing rule: perennials, the sum of every `ProtoSpace`'s peak working set, and memory not managed by protoCore.
 - [GarbageCollector.md](GarbageCollector.md) — Garbage collector implementation and the phases of a collection cycle.
+- [EMBEDDER-CONFORMANCE.md](EMBEDDER-CONFORMANCE.md) — **Normative.** The participation obligations an embedder must meet, each stated as a rule and mechanised as a conformance case, a static check or a checklist item.
+- [FIELD-NOTES.md](FIELD-NOTES.md) — The fourteen defects found across protoCore and the five runtimes between 2026-09-23 and 2026-09-25: the symptom as reported, what was believed, what disproved it, the measurement, a reproduction command and the fixing commit, plus a section on what remains unproven and a table of figures it corrects. Teaching material for the ITBA course, and the evidence behind the conformance rules.
 - [STW_ELIMINATION_RESEARCH.md](STW_ELIMINATION_RESEARCH.md) — Research note on bounding the stop-the-world pause.
 - [MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](MUTABLE_SHARDING_AND_CACHE_REFACTOR.md) — Dated design and results of the sharded mutable root and per-thread value cache (April 2026).
 - [ROPES_AS_PROTOTUPLE.md](ROPES_AS_PROTOTUPLE.md) — Superseded note on strings as `ProtoTuple` ropes (February 2026); see DESIGN.md for the current string representation.
