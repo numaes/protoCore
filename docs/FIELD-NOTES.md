@@ -46,8 +46,11 @@ daily-driver desktop whose load average floor is 2–3. Where load matters to a
 result, the case says so — twice it changed what a run reported, and once it is
 the reason a benchmark conclusion had to be retracted.
 
-protoCore moved 2.0.0 → **2.4.0** across these three days (`CHANGELOG.md`), with
-`PROTOCORE_ABI_SOVERSION` going 2 → 3 once, at 2.2.0. Repository heads used
+protoCore moved 2.0.0 → **2.5.0** across these three days (`CHANGELOG.md`), with
+`PROTOCORE_ABI_SOVERSION` going 2 → 3 once, at 2.2.0. 2.5.0 is the merge that
+contains this document, so the figures below were written at 2.4.0 and the
+document went stale inside its own merge — an instance of exactly what it
+records. Read a version or a test count from the source, never from here. Repository heads used
 below: protoCore `d7d03b42`, protoST `945fd8e`, protoClojure `f1d8b89`,
 protoPython `944dd628`, protoJS `e4e80430`, protoScala `ddb0038`.
 
@@ -1637,7 +1640,7 @@ the earlier version knows which one to keep.
 | protoScala's `gc.host_stress` live set 316,230 | **unconfirmed**; it appears only in prose, in two places that are one source cited twice. The recorded mutation figures (325,030 / 313,358 / 307,125) have no surviving log either | `protoScala/docs/CONFORMANCE.md:18` |
 | the benchmark comparison stood "for a day" | **12 h 28 min** for the original conclusion; 1 h 27 min for the two-point measurement | — |
 | `build_bench` linked the stale `/usr/local` library and produced published numbers | the stale library is real; **the linkage and the tainted numbers are unestablished** and should not be claimed | `protoScala/tasks/todo.md:75-76` |
-| protoCore version 2.0.0, 412 CTest cases | **2.4.0**, **488** cases (`ctest -N`, 2026-09-25) | `README.md`, Project Status |
+| protoCore version 2.0.0, 412 CTest cases | **2.5.0**, **499** cases (`ctest -N`, 2026-09-25) | `README.md`, Project Status |
 
 Two of these are wrong *inside protoCore's own shipped source and changelog*
 (the 833 and the 110×), which is the general shape of the problem: a figure
@@ -1650,7 +1653,7 @@ operand pair behind it.
 
 ```bash
 cd /home/gamarino/Documentos/proyectos/protoCore/build_release
-ctest -N < /dev/null                      # 488 cases
+ctest -N < /dev/null                      # 499 cases as of 2026-09-25; read it, do not trust this number
 ctest < /dev/null                         # the whole suite
 python3 ../scripts/conformance/check_static.py --self-test
 ```
