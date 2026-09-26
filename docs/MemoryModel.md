@@ -597,6 +597,27 @@ mutable-cycle scan: 10 handles in the mutables table, 12 references to a mutable
   CYCLE refs {5,6,7}: #5 -[.__bases__]-> #6 -[.__subclasses_list__ > ListSmall]-> #7 -[.owner]-> #5
 ```
 
+For a runtime with no conformance Host adaptor and no wish to add code, the
+environment variable **`PROTOCORE_MUTABLE_CYCLE_CHECK`** makes every
+`ProtoSpace` print one report as it is destroyed, from any binary that links
+`libprotoCore`.  The value selects the destination: `1` (or `stderr`) writes to
+stderr, and **anything else is a file path the report is appended to**, one block
+per space, tagged with the process id.  The file form is what makes the useful
+recipe possible — sweeping a whole test suite in one run:
+
+```bash
+PROTOCORE_MUTABLE_CYCLE_CHECK=/tmp/scan.txt ctest --test-dir build_release < /dev/null
+grep -c 'CYCLE refs' /tmp/scan.txt
+```
+
+A suite that diffs a script's stderr would fail the moment a diagnostic appeared
+there, which is exactly the suite a maintainer wants to sweep, so stderr is the
+opt-in and not the default for that use.  The hook is one `getenv` when the
+variable is unset, and it is at teardown rather than at the end of a GC cycle
+because the walk is O(live mutable graph) and a per-cycle hook would need a
+frequency policy and would stall the collector on a schedule nobody chose.  A
+process that never exits calls the API itself.
+
 It allocates no `Cell`, so it cannot add a handle or trigger a collection while
 it walks, and it holds a `ProtoContext::CriticalSection` for the duration — a
 thread inside one does not park, so no new stop-the-world can begin and no new
@@ -612,14 +633,34 @@ this normative for every embedder, and it turns on a **declaration verified
 against a measurement** rather than on "no cycles": a runtime declares how many
 structural cycles it has, and the case fails on the ones it did not declare.
 
-### 7.6 Recorded history
+### 7.6 Recorded history, and what a real fix looked like
 
-protoPython's run-time function objects were once all immortal through
-`fn → __closure_frames__ → frame → co_name → fn` — a cycle between two
-mutables, of the *incidental* kind, since `co_name` was a diagnostic pointer.
-The cost is recorded by protoPython's own work as roughly 62 marked cells per
-function object; that figure is quoted here, not re-measured.  protoPython broke
-the cycle on its side.
+protoPython found this property independently, from the other side, and its own
+account of it is the best worked example there is
+(`protoPython/src/library/ExecutionEngine.cpp:1232-1254`).  Every run-time
+function object was immortal through
+
+```
+fn    --__closure_frames__-->  frame
+frame --co_name------------->  fn      (the defining frame binds the new name)
+```
+
+— a cycle between two mutables — at a measured **~62 marked cells retained per
+function object, flat across 30 further collection cycles**.  That figure is
+protoPython's measurement, cited here and not re-measured by this document.
+
+The fix is worth reading because it is neither of the two rejected ones above.
+protoPython did not make the reference weak and did not snapshot it: it **stopped
+installing the edge where it cannot be used.**  A function needs the frame it was
+created in only if its own body can read a free variable, or can define something
+that will; for every other function the reference was dead weight, and dropping
+it took the retention from ~62 cells to ~1.
+
+The consequence is the honest one, and this detector confirms it: for a function
+that *does* need its closure frame — a nested `def`, or a class body — the cycle
+is still there, because the edge is load-bearing.  The fix narrowed the class of
+programs that pay, it did not eliminate the property.  That is the shape a fix
+for a structural cycle takes: reduce how many of them the program creates.
 
 ---
 

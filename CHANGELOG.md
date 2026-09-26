@@ -45,10 +45,14 @@ embedders should rebuild to see the new API.
   upstream one dies -- and reporting them would mean one line per object in the
   program.
 
-- **`PROTOCORE_MUTABLE_CYCLE_CHECK`** -- set the environment variable to
-  anything and every `ProtoSpace` prints one cycle report to `stderr` as it is
-  destroyed, from any binary that links `libprotoCore`. One `getenv` when
-  unset. This exists so a runtime with no conformance Host adaptor can still ask
+- **`PROTOCORE_MUTABLE_CYCLE_CHECK`** -- set the environment variable and every
+  `ProtoSpace` prints one cycle report as it is destroyed, from any binary that
+  links `libprotoCore`. The value selects the destination: `1` or `stderr` writes
+  to stderr, anything else is a file path the report is appended to, one block
+  per space, tagged with the process id. The file form is what makes the useful
+  recipe work -- `PROTOCORE_MUTABLE_CYCLE_CHECK=<file> ctest` sweeps a whole
+  suite in one run -- because a suite that diffs a script's stderr fails the
+  moment a diagnostic appears there. One `getenv` when unset. This exists so a runtime with no conformance Host adaptor can still ask
   the question without writing any code. It is deliberately not hooked into the
   end of a GC cycle: the walk is O(live mutable graph), and a per-cycle hook
   would need a frequency policy and would stall the collector on a schedule

@@ -130,9 +130,18 @@ if (!r.cycles.empty()) std::cerr << r.summary();
 ```
 
 and, for a runtime with no adaptor and no wish to add code, the environment
-variable **`PROTOCORE_MUTABLE_CYCLE_CHECK`**: set it to anything and every
-`ProtoSpace` prints one report to `stderr` as it is destroyed, from any binary
-that links `libprotoCore`.  It is one `getenv` when unset.  It is deliberately
+variable **`PROTOCORE_MUTABLE_CYCLE_CHECK`**: every `ProtoSpace` prints one
+report as it is destroyed, from any binary that links `libprotoCore`.  `1` or
+`stderr` writes to stderr; anything else is a file path the reports are appended
+to, which is what makes the recipe that matters work —
+
+```bash
+PROTOCORE_MUTABLE_CYCLE_CHECK=/tmp/scan.txt ctest --test-dir <build> < /dev/null
+grep -c 'CYCLE refs' /tmp/scan.txt
+```
+
+— one sweep over every program the suite runs, without disturbing a single test
+that diffs stderr.  It is one `getenv` when unset.  It is deliberately
 not hooked into the end of a GC cycle: the walk is O(live mutable graph), and a
 per-cycle hook would need a frequency policy and would stall the collector on a
 schedule nobody chose.  A process that never exits calls the API itself.
