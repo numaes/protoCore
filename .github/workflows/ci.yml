@@ -62,13 +62,18 @@ env:
   #   conformance.isolate.*                        three cases whose violation
   #                                                shows up as a deadlock, so the
   #                                                TIMEOUT 240 *is* the verdict.
-  #                                                Two of them sat at 278 s
-  #                                                against a 300 s budget until
-  #                                                they were rebounded by a clock
-  #                                                instead of an iteration count,
-  #                                                and heap.ceiling_progress is
-  #                                                recorded as intermittent in a
-  #                                                sibling runtime
+  #                                                Measured through an embedder's
+  #                                                harness, two of them once ran
+  #                                                278 s against that harness's
+  #                                                300 s budget -- an 8% margin --
+  #                                                until the case bodies were
+  #                                                rebounded by a clock instead of
+  #                                                an iteration count; they take
+  #                                                about 20 s now.  And
+  #                                                heap.ceiling_progress is
+  #                                                additionally recorded as
+  #                                                intermittent, about 2 runs in
+  #                                                10, in a sibling runtime
   #                                                (test/CMakeLists.txt:59-68)
   CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|ConcurrentMarkSafety\.ThreadCacheSlotFlipsDuringMark|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|conformance\.isolate\..*)$'
 
