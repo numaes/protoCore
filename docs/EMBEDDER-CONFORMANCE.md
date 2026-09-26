@@ -36,6 +36,12 @@ recorded in `protoClojure/tests/cli/loop-garbage-is-reclaimed.sh`. A "110×" tha
 circulated for both of these had no operand pair behind it; see
 `docs/FIELD-NOTES.md`, case 2.
 
+The ratio is **run-variant**, so quote it with its run or re-measure it. Running
+that fixture on 2026-09-25 gave `cycles=6 reclaimed-total=1,886,332
+live-last=3,873` at the same 400,000-cell ceiling — against the same 196,519,
+about 51×. Recorded pairs elsewhere give 70.6 and 362. One pair, from one named
+run, is the only honest form.
+
 That fifth row is the argument for a suite rather than a review, in one line:
 **the third bug of the class was invisible because the first bug of the class
 was still present.** A reviewer on 2026-09-23 would have found neither, because
