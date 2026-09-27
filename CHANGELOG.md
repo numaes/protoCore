@@ -2,6 +2,38 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased]
+
+### Packaging
+
+- **The DEB now ships a `DEBIAN/shlibs` file** (`libprotoCore 3 protocore (>= 2.5.0)`),
+  so a consumer's ABI dependency is derived from the binary instead of hand-written.
+  This closes a hole that was measured: the runtimes declare a `Depends` version
+  *range* on `protocore`, and a range is not an ABI check — a decoy protoCore 2.1.0
+  was accepted by dpkg for all five runtimes, and every binary then died at startup
+  with `libprotoCore.so.3: cannot open shared object file`, because
+  `PROTOCORE_ABI_SOVERSION` went 2 → 3 in 2.2.0 while their `find_package` floors
+  are 2.0 and 2.1. The RPM never had this hole, since `rpm` derives
+  `Requires: libprotoCore.so.3()(64bit)` from the library itself.
+
+  The five runtimes had already set `CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON`, which by
+  itself produced nothing: `dpkg-shlibdeps` resolves the SONAME to this package and
+  then reads its `shlibs` control file, which did not exist, and CPack passes
+  `--ignore-missing-info`, so the dependency was dropped **silently** rather than
+  failing the build. The missing piece was in the producer.
+
+  The policy is `>=`, not CPack's default `=`, which would pin a consumer to the
+  exact protoCore it was built against and break every installed runtime on a
+  2.5.1 bugfix release. The SONAME remains the compatibility statement.
+
+- **The DEB now refreshes the shared-library cache.** Generating `shlibs` also makes
+  CPack emit `postinst`/`postrm` scripts that run `ldconfig`. Previously no protoCore
+  DEB did, so `libprotoCore.so.3` was absent from `ldconfig -p` immediately after
+  installation; binaries still ran, via their `RUNPATH`, but any consumer relying on
+  the cache could not find the library.
+
+No source, API or ABI change; `PROTOCORE_ABI_SOVERSION` stays 3.
+
 ## [2.5.0] - 2026-09-25
 
 Documents a retention property of the collector, and ships the exact detector

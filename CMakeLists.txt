@@ -304,6 +304,32 @@ set(CPACK_PACKAGE_NAME "protoCore")
 # resulting names, so they are stated here instead of being inferred.
 set(CPACK_DEBIAN_PACKAGE_NAME "protocore")
 set(CPACK_RPM_PACKAGE_NAME    "protoCore")
+
+# Ship a DEBIAN/shlibs file, so a consumer's ABI dependency can be derived from
+# the binary instead of hand-written.
+#
+# This closes a hole that was measured, not theorised. The five runtimes declare
+# a Depends version RANGE on protocore, and a version range is NOT an ABI check:
+# a decoy protoCore 2.1.0 was accepted by dpkg for all five, and every binary
+# then died at startup with
+#     libprotoCore.so.3: cannot open shared object file
+# because SOVERSION went 2 -> 3 in protoCore 2.2.0 while their find_package
+# floors are 2.0 and 2.1. The RPM generator never had this hole, since rpm
+# derives `Requires: libprotoCore.so.3()(64bit)` from the library itself.
+#
+# The five runtimes set CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON to get the same
+# treatment, but that alone produced nothing: dpkg-shlibdeps resolves the
+# SONAME to this package and then reads its shlibs/symbols control file, which
+# did not exist, and CPack passes --ignore-missing-info, so the dependency was
+# dropped SILENTLY rather than failing the build. The missing piece was here, in
+# the producer, not in the consumers.
+#
+# The policy is ">=" rather than CPack's default "=". The default would pin a
+# consumer to the exact protoCore version it was built against, so a 2.5.1
+# bugfix release would break every installed runtime. ">=" keeps the SONAME as
+# the real compatibility statement, which is what SOVERSION is for.
+set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
+set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY ">=")
 set(CPACK_PACKAGE_VENDOR "numaes")
 set(CPACK_PACKAGE_CONTACT "gamarino@gmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "protoCore - High-Performance Embeddable Dynamic Object System for C++")

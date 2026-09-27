@@ -133,11 +133,52 @@ pkg-config --variable=soversion protoCore   # 3
 
 ## Platform verification status
 
+Last verified 2026-09-27 against protoCore 2.5.0 (`PROTOCORE_ABI_SOVERSION 3`).
+
 | Platform | Packaging | Status |
 |----------|-----------|--------|
-| Linux | TGZ, DEB (needs `dpkg`), RPM (needs `rpmbuild`) | Built, installed to a scratch prefix and smoke-tested |
-| macOS | TGZ, DragNDrop | Configured and reviewed, **never built** — no macOS host |
-| Windows | ZIP, NSIS (writes `HKLM\SOFTWARE\protoCore` `Version`, `Soversion`, `InstallDir`) | Configured and reviewed, **never built** — no Windows host |
+| Linux / Debian-Ubuntu | TGZ, DEB | **VERIFIED.** Built, then installed with `dpkg -i` as root in a throwaway `ubuntu:24.04` container (glibc 2.39, the same as the build host) and exercised there. |
+| Linux / Fedora-RHEL | TGZ, RPM | **VERIFIED.** `cpack -G RPM` executed in a throwaway `fedora:41` container (glibc 2.40, `rpm` 4.20.1); the RPM was installed with `rpm -i` and exercised. This closes the gap left by decision D-I2, under which the RPM generator had been configured but never run on any host. |
+| macOS | TGZ, DragNDrop | **UNVERIFIED.** Configured and reviewed only. There is no macOS host here and no cross-toolchain, so the generator has never executed. Review is not verification. |
+| Windows | ZIP, NSIS (writes `HKLM\SOFTWARE\protoCore` `Version`, `Soversion`, `InstallDir`) | **UNVERIFIED.** Configured and reviewed only. There is no Windows host here. The registry values the NSIS script writes have never been observed, so protoJS's WiX condition that reads them is equally unverified. |
+
+### What the Linux verification actually demonstrated
+
+Each item below was confirmed by also making it fail on purpose, so that a green
+result means something:
+
+- `find_package(protoCore 2.0 CONFIG)` accepts the installed 2.5.0 package and
+  reports `protoCore_SOVERSION` as `3`. Requesting `3.0` or `1.0` is refused by
+  `SameMajorVersion`.
+- A consumer binary with no `RPATH` and no `LD_LIBRARY_PATH` resolves
+  `libprotoCore.so.3` from the installed prefix; moving that one file away makes
+  it fail to start, which is what shows the resolution was real.
+- The RPM's automatically generated `Provides: libprotoCore.so.3()(64bit)` is
+  what dependent runtimes match on, and a decoy protoCore providing only
+  `libprotoCore.so.2` does not satisfy them.
+
+### Known defects in the Linux packages
+
+- **The DEB carries no `postinst` and no `ldconfig` trigger**, so `dpkg -i` does
+  not refresh the shared-library cache; `ldconfig -p` does not list
+  `libprotoCore.so.3` until `ldconfig` is run by hand. Installed programs still
+  start, because the library lands in a directory the dynamic loader searches by
+  default, but the cache is misleading and a consumer that relies on it will not
+  find the library. The RPM does not have this defect: `rpm` runs `ldconfig`
+  itself.
+- **`protoCore.pc` is not relocatable.** `prefix=` is expanded from
+  `CMAKE_INSTALL_PREFIX` at configure time, so a package configured for one
+  prefix and installed under another ships a `.pc` pointing at a directory that
+  does not exist on the target. Build packages with
+  `-DCMAKE_INSTALL_PREFIX=/usr` so that the `.pc` matches where the DEB and RPM
+  actually put the files. The CMake package config does not share this problem;
+  it is relocatable through `@PACKAGE_INIT@`.
+- **`cmake --install --component protoCore` produces a broken prefix.** The
+  exported target set includes `protoCore::protoCoreConformance`, whose static
+  library belongs to a different install component, so a component-scoped
+  install writes a `protoCoreTargets.cmake` that references a missing file and
+  every consumer's `find_package` then fails with a hard error. Install without
+  `--component`, or use the DEB/RPM, both of which carry the whole payload.
 
 ---
 
@@ -165,7 +206,28 @@ cpack            # every configured generator
 cpack -G DEB     # a single generator
 ```
 
-Packages are written to the directory where `cpack` runs. The only install rules in a top-level build are those for the library and `protoCore.h` (`test/CMakeLists.txt` forces `INSTALL_GTEST` off, and the test and benchmark executables have no install rules), so the packages contain only the library files and the public header.
+Packages are written to the directory where `cpack` runs.
+
+Build a distributable package with the prefix it will actually be installed
+under, because `protoCore.pc` bakes that prefix in at configure time:
+
+```bash
+cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+```
+
+Note that on a Debian or Ubuntu host `CMAKE_INSTALL_PREFIX=/usr` also makes
+`GNUInstallDirs` select the multiarch library directory, so the payload moves
+from `/usr/lib` to `/usr/lib/x86_64-linux-gnu`. That is the correct layout for
+those distributions, and every runtime's install `RPATH` is
+`$ORIGIN/../${CMAKE_INSTALL_LIBDIR}`, so a runtime built with the same prefix
+stays consistent with it. Build protoCore and the runtimes with the same
+`CMAKE_INSTALL_PREFIX`.
+
+The package payload is the shared library, `protoCore.h`, the CMake package
+configuration, `protoCore.pc`, and also the conformance test library
+(`libprotoCoreConformance.a`), its three headers and the
+`protocore-conformance-isolate` executable, which embedders use to run the
+conformance suite against their own build.
 
 ### Package file names
 
