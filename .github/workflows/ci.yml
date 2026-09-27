@@ -51,9 +51,9 @@ env:
   #                                                (test/ConcurrentMarkSafetyTests.cpp:286)
   #   BulkListBuild.LargeBuildDoesNotBlock...      EXPECT_LT(medianUs, buildUs/4)
   #                                                -- a stop-the-world PAUSE time
-  #                                                (test/BulkListBuildTests.cpp:487)
+  #                                                (test/BulkListBuildTests.cpp:484)
   #   MPSCQueueGC.LargeDrainDoesNotBlock...        EXPECT_LT(medianUs, drainUs/4)
-  #                                                (test/ProtoMPSCQueueGCTests.cpp:569,606)
+  #                                                (test/ProtoMPSCQueueGCTests.cpp:570,612)
   #
   #   Both of these two USED to carry a second, worse reason to be here: a
   #   wall-clock PRECONDITION, `ASSERT_GT(drainMs, 20)` / `ASSERT_GT(buildMs, 20)`,
