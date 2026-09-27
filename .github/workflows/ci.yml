@@ -49,13 +49,21 @@ env:
   #                                                cycles, not 100), with no
   #                                                defect involved
   #                                                (test/ConcurrentMarkSafetyTests.cpp:286)
-  #   BulkListBuild.LargeBuildDoesNotBlock...      EXPECT_LT(medianUs, buildMs*250)
+  #   BulkListBuild.LargeBuildDoesNotBlock...      EXPECT_LT(medianUs, buildUs/4)
   #                                                -- a stop-the-world PAUSE time
-  #                                                (test/BulkListBuildTests.cpp:466)
-  #   MPSCQueueGC.LargeDrainDoesNotBlock...        EXPECT_LT(medianUs, drainMs*250)
-  #                                                plus ASSERT_GT(drainMs, 20),
-  #                                                which a fast machine can fail
-  #                                                (test/ProtoMPSCQueueGCTests.cpp:531,546,587)
+  #                                                (test/BulkListBuildTests.cpp:487)
+  #   MPSCQueueGC.LargeDrainDoesNotBlock...        EXPECT_LT(medianUs, drainUs/4)
+  #                                                (test/ProtoMPSCQueueGCTests.cpp:569,606)
+  #
+  #   Both of these two USED to carry a second, worse reason to be here: a
+  #   wall-clock PRECONDITION, `ASSERT_GT(drainMs, 20)` / `ASSERT_GT(buildMs, 20)`,
+  #   that a fast machine failed by being fast -- the MPSC one failed on a runner
+  #   with `20 vs 20`, here and in protoPython, saying nothing whatever about the
+  #   queue.  Both preconditions are gone: the reference drain and the reference
+  #   build are now timed in microseconds, so the pause bound they guard cannot be
+  #   quantised to zero, and each bound carries a 250 us floor instead.  What keeps
+  #   these two cases out of the gate is only what is listed above -- they still
+  #   assert a pause time.
   #   MPSCQueueConcurrency.EightProducers...       EXPECT_FALSE(timedOut) against
   #                                                a 15-minute deadline
   #                                                (test/ProtoMPSCQueueConcurrencyTests.cpp:174)

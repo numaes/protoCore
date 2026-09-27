@@ -47,8 +47,8 @@ namespace {
 
 using Clock = std::chrono::steady_clock;
 
-long long millisSince(Clock::time_point t0) {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - t0).count();
+long long microsSince(Clock::time_point t0) {
+    return std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - t0).count();
 }
 
 // Requests a collection cycle.  triggerGC() is gated on heap pressure, so a
@@ -300,7 +300,7 @@ TEST(BulkListBuild, PendingRootKeepsASubmittedValueReachable) {
 // because it also carries the concurrent mark and the sweep, which are
 // proportional to the heap and run with the world running.
 //
-// The test first times one build on the main thread (`buildMs`).  A worker
+// The test first times one build on the main thread (`buildUs`).  A worker
 // ProtoThread then performs one build per sample, on request; the main
 // thread, parked in an unmanaged region so it is not itself part of the
 // quorum, waits until the build is under way, asks for a cycle and times the
@@ -308,9 +308,9 @@ TEST(BulkListBuild, PendingRootKeepsASubmittedValueReachable) {
 //
 // With the build inside a critical section the worker cannot park, so the
 // collector sits in P1 until the current build finishes and the pause lands
-// at a large fraction of `buildMs`.  With the running intermediate anchored
+// at a large fraction of `buildUs`.  With the running intermediate anchored
 // in a GC root instead, the worker parks between elements and the pause is a
-// small fraction of `buildMs`.
+// small fraction of `buildUs`.
 //
 // The bound is relative to the measured build time, so the test is
 // independent of machine speed and of the load on it.  One build at a time,
@@ -320,6 +320,9 @@ TEST(BulkListBuild, PendingRootKeepsASubmittedValueReachable) {
 TEST(BulkListBuild, LargeBuildDoesNotBlockStopTheWorld) {
     constexpr unsigned kBuildSize = 100000;
     constexpr int kSamples = 9;
+    // Floor under the pause bound below; see the bound for why no realistic host
+    // reaches it.
+    constexpr long long kMinPauseBoundUs = 250;
 
     struct Shared {
         std::atomic<bool> stop{false};
@@ -337,17 +340,25 @@ TEST(BulkListBuild, LargeBuildDoesNotBlockStopTheWorld) {
     ProtoContext* root = space.rootContext;
 
     // Reference: one build, on this thread, with no collector activity.
-    long long buildMs = 0;
+    //
+    // Timed in MICROSECONDS, with no lower bound asserted on the result.  An
+    // earlier version timed it in milliseconds and then asserted `buildMs > 20`,
+    // a wall-clock precondition that says nothing about the builder and that a
+    // fast host fails by being fast -- the sibling probe in
+    // ProtoMPSCQueueGCTests.cpp failed exactly that way on GitHub's runners,
+    // `20 vs 20`.  What the precondition protected was the bound at the end of
+    // this test, which millisecond quantisation could turn into `medianUs < 0`;
+    // microsecond resolution plus the floor on that bound makes it unnecessary.
+    long long buildUs = 0;
     {
         ProtoContext build(&space, root, nullptr, nullptr, nullptr, nullptr);
         std::vector<const ProtoObject*> items;
         fillItems(&build, items, kBuildSize);
         const auto t0 = Clock::now();
         const ProtoList* list = build.newList(kBuildSize, items.data());
-        buildMs = millisSince(t0);
+        buildUs = microsSince(t0);
         ASSERT_EQ(list->getSize(&build), kBuildSize);
     }
-    ASSERT_GT(buildMs, 20) << "the reference build is too short to measure a pause against";
 
     // One build per request, then back to an unmanaged wait so the collector
     // can reclaim what the build produced before the next one starts.
@@ -410,7 +421,7 @@ TEST(BulkListBuild, LargeBuildDoesNotBlockStopTheWorld) {
             // Cap a sample at twenty builds.  Far above the regime under
             // test either way, and it keeps a lost wake-up from turning a
             // failing assertion into a hung suite.
-            const auto cap = std::chrono::milliseconds(std::max<long long>(2000, buildMs * 20));
+            const auto cap = std::chrono::milliseconds(std::max<long long>(2000, buildUs / 50));
             // Spin, not sleep: after the fix the pause is well under a
             // millisecond and a sleeping poll would miss the whole window.
             const auto flagUpDeadline = Clock::now() + cap;
@@ -425,7 +436,7 @@ TEST(BulkListBuild, LargeBuildDoesNotBlockStopTheWorld) {
 
             // Let the build finish before the next sample.
             const auto finishDeadline =
-                Clock::now() + std::chrono::milliseconds(std::max<long long>(5000, buildMs * 50));
+                Clock::now() + std::chrono::milliseconds(std::max<long long>(5000, buildUs / 20));
             while (state.completed.load(std::memory_order_relaxed) < s + 1 &&
                    Clock::now() < finishDeadline) {
                 requestCycle(space);
@@ -450,8 +461,8 @@ TEST(BulkListBuild, LargeBuildDoesNotBlockStopTheWorld) {
     // justified by, and it is worth having in the log of a passing suite too.
     std::printf("[ PAUSE    ] stop-the-world (P1+P2) while a thread builds %u elements: "
                 "median %lld us, min %lld us, max %lld us over %d samples; "
-                "one build = %lld ms\n",
-                kBuildSize, medianUs, sorted.front(), maxUs, kSamples, buildMs);
+                "one build = %lld us\n",
+                kBuildSize, medianUs, sorted.front(), maxUs, kSamples, buildUs);
     std::fflush(stdout);
 
     EXPECT_EQ(state.bad.load(), 0u) << "the worker produced a malformed list";
@@ -462,11 +473,19 @@ TEST(BulkListBuild, LargeBuildDoesNotBlockStopTheWorld) {
     // The pause must not be a function of the length of the list being built.
     // A quarter of one build is far above the cost of collecting the roots of
     // this heap and far below the "waits for the build" regime, which sits
-    // near buildMs.
-    EXPECT_LT(medianUs, buildMs * 1000 / 4)
+    // near buildUs.
+    //
+    // The floor replaces the wall-clock precondition that used to guard this
+    // bound: a quarter of a measured build is the bound that matters, and the
+    // floor only stops it collapsing to zero on a host fast enough to build
+    // 100,000 elements in a microsecond or two.  It binds only below 1,000 us
+    // for this size, i.e. under 10 ns per element.
+    const long long boundUs = std::max<long long>(buildUs / 4, kMinPauseBoundUs);
+    EXPECT_LT(medianUs, boundUs)
         << "the world stayed stopped for " << medianUs << " us (median of "
         << kSamples << ", max " << maxUs
         << ") while a thread was building a " << kBuildSize
-        << "-element list, against " << buildMs
-        << " ms for one build: the builder is holding the stop-the-world phase open";
+        << "-element list, against " << buildUs
+        << " us for one build (bound " << boundUs
+        << " us): the builder is holding the stop-the-world phase open";
 }

@@ -386,11 +386,16 @@ struct DrainPauseProbe {
     long long medianUs{0};
     long long minUs{0};
     long long maxUs{0};
-    long long drainMs{0};
+    long long drainUs{0};
 };
 
 static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
     constexpr int kSamples = 9;
+
+    // Floor under the sanity bound below.  Its only job is to keep a fraction of
+    // a measured drain from collapsing to nothing on an arbitrarily fast host;
+    // see the bound itself for why no realistic host reaches it.
+    constexpr long long kMinSanityBoundUs = 250;
 
     using Clock = std::chrono::steady_clock;
 
@@ -419,16 +424,26 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
 
     // Reference: fill the mailbox and drain it once on this thread, with no
     // collector activity, to get the cost of one drain on this machine.
-    long long drainMs = 0;
+    //
+    // Timed in MICROSECONDS, and there is deliberately no lower bound asserted on
+    // the result.  An earlier version timed it in milliseconds and then asserted
+    // `drainMs > 20` -- a wall-clock precondition that said nothing about the
+    // queue and that a fast host fails by being fast.  GitHub's runners hit it
+    // exactly, `20 vs 20`, in protoCore and in protoPython.  What the precondition
+    // was really protecting was the sanity bound below, which millisecond
+    // quantisation could turn into `medianUs < 0`; microsecond resolution plus the
+    // floor on that bound makes it unnecessary, so it is gone.  The only thing the
+    // reference drain has to prove is that it drained the whole batch, which is
+    // asserted directly.
+    long long drainUs = 0;
     {
         ProtoContext fill(&space, root, nullptr, nullptr, nullptr, nullptr);
         for (long i = 0; i < kBatch; ++i) q->push(&fill, fill.fromInteger(i));
         const auto t0 = Clock::now();
         const ProtoList* batch = q->takeAll(&fill);
-        drainMs = std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - t0).count();
+        drainUs = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - t0).count();
         ASSERT_EQ(batch->getSize(&fill), static_cast<unsigned long>(kBatch));
     }
-    ASSERT_GT(drainMs, 20) << "the reference drain is too short to measure a pause against";
 
     // One fill-and-drain per request, then back to an unmanaged wait so the
     // collector can reclaim the batch before the next sample starts.
@@ -489,7 +504,7 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
                 space.gcStarted = true;
                 space.gcCV.notify_all();
             }
-            const auto cap = std::chrono::milliseconds(std::max<long long>(2000, drainMs * 20));
+            const auto cap = std::chrono::milliseconds(std::max<long long>(2000, drainUs / 50));
             // Spin, not sleep: after the fix the pause is well under a
             // millisecond and a sleeping poll would miss the whole window.
             const auto flagUpDeadline = Clock::now() + cap;
@@ -503,7 +518,7 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
                 std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - t0).count());
 
             const auto finishDeadline =
-                Clock::now() + std::chrono::milliseconds(std::max<long long>(5000, drainMs * 50));
+                Clock::now() + std::chrono::milliseconds(std::max<long long>(5000, drainUs / 20));
             while (state.completed.load(std::memory_order_relaxed) < s + 1 &&
                    Clock::now() < finishDeadline) {
                 {
@@ -532,8 +547,8 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
     // this branch is justified by.
     std::printf("[ PAUSE    ] stop-the-world (P1+P2) while a consumer drains %ld items: "
                 "median %lld us, min %lld us, max %lld us over %d samples; "
-                "one drain = %lld ms\n",
-                kBatch, medianUs, sorted.front(), sorted.back(), kSamples, drainMs);
+                "one drain = %lld us\n",
+                kBatch, medianUs, sorted.front(), sorted.back(), kSamples, drainUs);
     std::fflush(stdout);
 
     EXPECT_EQ(state.bad.load(), 0u) << "the consumer produced a malformed batch";
@@ -543,16 +558,26 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
 
     // Sanity bound, kept from the first version of this test: whatever else
     // is true, the world must not stay stopped for a quarter of a drain.
-    EXPECT_LT(medianUs, drainMs * 1000 / 4)
+    //
+    // The floor is what replaces the old wall-clock precondition.  A quarter of a
+    // measured drain is the bound that matters; the floor only stops it collapsing
+    // to zero on a host fast enough that the whole drain fits in a microsecond or
+    // two.  No realistic host comes near it: the floor binds only below 1,000 us
+    // for the reference drain, i.e. under 20 ns per item, against the ~400 ns per
+    // item this probe measures on real hardware -- and 250 us is still an order of
+    // magnitude under the 3,731 us the same probe measured before `takeAll` polled.
+    const long long sanityBoundUs = std::max<long long>(drainUs / 4, kMinSanityBoundUs);
+    EXPECT_LT(medianUs, sanityBoundUs)
         << "the world stayed stopped for " << medianUs << " us (median of " << kSamples
         << ", max " << sorted.back() << ") while a consumer was draining " << kBatch
-        << " items, against " << drainMs << " ms for one drain";
+        << " items, against " << drainUs << " us for one drain (bound " << sanityBoundUs
+        << " us)";
 
     out->batch = kBatch;
     out->medianUs = medianUs;
     out->minUs = sorted.front();
     out->maxUs = sorted.back();
-    out->drainMs = drainMs;
+    out->drainUs = drainUs;
 }
 
 // PMQ-SPEC section 3 constraint 1: no stop-the-world work proportional to
