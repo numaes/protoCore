@@ -10,7 +10,7 @@ table, every space marks it, serialized cycles, implement completely now.
 - [x] 3. Global table + refs carrying the space id; every space marks it (3 GlobalMutableTable tests RED->GREEN; 2 internal tests now read globalMutableShards; ctest 506/506 excluding the step-4/6 tests).
 - [x] 4. Deferred reclamation behind a grace period when several spaces are live (AValueHeldByAnotherSpacesThreadSurvivesUntilItsSafepoint RED: 302,398 corrupt reads -> GREEN; ctest 508/508).
 - [x] 5. Process-wide cache epoch (multispace::gcEpoch), cleared at quiescent points (folded into 4).
-- [ ] 6. Purge of a destroyed space's entries.
+- [x] 6. Purge of a destroyed space's entries (EntriesOfADestroyedSpaceArePurged RED 100 -> GREEN 0; ctest 509/509).
 - [ ] 7. Stress under ASan and TSan; benchmarks single-space before/after.
 - [ ] 8. Docs (GarbageCollector, MemoryModel, MODULE_DISCOVERY, DESIGN), CHANGELOG.
 - [ ] 9. Rebuild and test protoST and protoScala against it.

@@ -1422,6 +1422,13 @@ namespace proto {
 
         // Diagnostics read by tests: cycles running now, and the most ever
         // observed at once in this process.
+        // A destroyed space's entries stay in the global table until a
+        // later cycle of a live space removes them: ~ProtoSpace records the
+        // id, and Phase 5b appends every ref carrying a recorded id to the
+        // refs it releases.  Takes the recorded ids, so one cycle does it.
+        void recordDestroyedSpace(unsigned long spaceId);
+        void appendRefsOfDestroyedSpaces(std::vector<unsigned long>& refs);
+
         // Entries of the global mutable table whose ref carries `spaceId`.
         // O(table); for tests and diagnostics.
         unsigned long countMutableEntriesOfSpace(ProtoContext* context, unsigned long spaceId);

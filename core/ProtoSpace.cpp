@@ -232,6 +232,9 @@ namespace proto {
         // is submitted at the end, so they are candidates of the next cycle.
         void releaseFinalizedMutableEntries(ProtoSpace* space) {
             std::vector<unsigned long>& refs = space->gcFinalizedMutableRefs;
+            // The entries of spaces destroyed since the last cycle of any
+            // space go with them: nothing can reach those handles any more.
+            multispace::appendRefsOfDestroyedSpaces(refs);
             if (refs.empty()) return;
             ProtoContext* gc = space->gcContext;
             constexpr unsigned long kShards = ProtoSpace::MUTABLE_ROOT_SHARDS;
@@ -1473,6 +1476,9 @@ namespace proto {
             // No thread of another space parks for this space, or rejoins its
             // quorum, from here on.
             multispace::unregisterSpace(this);
+            // Its entries in the global mutable table are removed by the next
+            // cycle of a live space.
+            multispace::recordDestroyedSpace(spaceIdOf(this));
             this->gcCV.notify_all();
             // Its collector may be waiting for the cycle token.
             multispace::cycleCV.notify_all();

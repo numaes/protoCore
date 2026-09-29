@@ -21,6 +21,7 @@
 
 #include "../headers/proto_internal.h"
 
+#include <algorithm>
 #include <chrono>
 #include <condition_variable>
 #include <mutex>
@@ -55,6 +56,59 @@ unsigned long countMutableEntriesOfSpace(ProtoContext* context, unsigned long sp
             });
     }
     return count.n;
+}
+
+namespace {
+std::vector<unsigned long>& destroyedIds() {   // guarded by globalMutex
+    static std::vector<unsigned long> ids;
+    return ids;
+}
+
+// Every key of a shard tree, without allocating.
+template <typename F>
+void forEachKey(const ProtoSparseList* root, F&& f) {
+    ProtoObjectPointer p{};
+    p.oid = reinterpret_cast<const ProtoObject*>(root);
+    if (p.op.pointer_tag == POINTER_TAG_SPARSE_LIST_SMALL) {
+        const auto* small = toImpl<const ProtoSparseListSmallImplementation>(root);
+        for (unsigned i = 0; i < ProtoSparseListSmallImplementation::MAX_INLINE; ++i)
+            if (small->keys[i] != 0 && small->values[i]) f(small->keys[i]);
+        return;
+    }
+    std::vector<const ProtoSparseListImplementation*> stack;
+    stack.push_back(toImpl<const ProtoSparseListImplementation>(root));
+    while (!stack.empty()) {
+        const ProtoSparseListImplementation* n = stack.back();
+        stack.pop_back();
+        if (!n) continue;
+        if (!n->isEmpty && n->value) f(n->key);
+        if (n->previous) stack.push_back(n->previous);
+        if (n->next) stack.push_back(n->next);
+    }
+}
+}  // namespace
+
+void recordDestroyedSpace(unsigned long spaceId) {
+    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+    destroyedIds().push_back(spaceId);
+}
+
+void appendRefsOfDestroyedSpaces(std::vector<unsigned long>& refs) {
+    std::vector<unsigned long> ids;
+    {
+        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        ids.swap(destroyedIds());
+    }
+    if (ids.empty()) return;
+    std::sort(ids.begin(), ids.end());
+    for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
+        const ProtoSparseList* root = globalMutableShards[s].root.load(std::memory_order_acquire);
+        if (!root) continue;
+        forEachKey(root, [&](unsigned long key) {
+            if (std::binary_search(ids.begin(), ids.end(), key >> kMutableRefSpaceShift))
+                refs.push_back(key);
+        });
+    }
 }
 
 void noteCycleStart() {
