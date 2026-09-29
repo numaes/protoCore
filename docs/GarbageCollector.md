@@ -602,6 +602,28 @@ Phase 4 young-chain walk calls `processReferences` as well, so a
 destructive read there would be a second, silent consumer — and any future
 heap dumper or diagnostic that called it would drop untraced chains.
 
+## Several spaces in one process
+
+The mutable-shard table is process-global and every space's collector marks
+all of it, so a marker reaches cells of other spaces.  Three rules keep that
+sound; with a single space each reduces to the behaviour described above.
+Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
+
+- **Cycle token.** Before Phase 1 a cycle takes a process-wide token and keeps
+  it until the end of Phase 6, so two collectors never share a cell's mark bit.
+- **Shared threads.** A thread that constructed several spaces, or was started
+  by one and constructed another, answers any member space's stop-the-world at
+  its safepoints and leaves every member quorum while unmanaged or waiting for
+  heap.  The allocation poll reads `multispace::attention`, one process-wide
+  counter, instead of its own space's flag.
+- **Grace period.** With more than one space live, Phase 5 only collects the
+  dead cells.  After the token is released the collector waits until every
+  registered thread has passed a safepoint outside a critical section, or is
+  parked or out of its quorum; then it finalizes the dead cells, returns them
+  to the freelist and runs Phase 5b.  Threads clear their caches at that point
+  when the process-wide epoch (`multispace::gcEpoch`, advanced in Phase 2 of
+  every cycle) has moved.
+
 ## Synchronization Mechanisms
 
 - `globalMutex`: protects access to shared structures like `freeCells`,

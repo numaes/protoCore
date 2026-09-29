@@ -72,7 +72,7 @@ unsigned long mutableRefOf(const ProtoObject* object) {
 
 bool hasEntry(ProtoSpace& space, ProtoContext* ctx, unsigned long ref) {
     const ProtoSparseList* root =
-        space.mutableRoot[ref % ProtoSpace::MUTABLE_ROOT_SHARDS].root.load();
+        globalMutableShards[ref % ProtoSpace::MUTABLE_ROOT_SHARDS].root.load();  // the table is process-global
     return sparseListGetRaw(ctx, root, ref) != nullptr;
 }
 

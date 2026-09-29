@@ -230,7 +230,7 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
     ASSERT_NE(ext, nullptr);
 
     const ProtoObject* cellValue = space.objectPrototype;
-    ProtoSparseList* shardRoot = space.mutableRoot[0].root.load();
+    ProtoSparseList* shardRoot = globalMutableShards[0].root.load();  // the table is process-global
 
     constexpr int kHeadroomCells = 40000;
     space.setHeapLimits(/*soft=*/0, /*hard=*/space.heapSize + kHeadroomCells);

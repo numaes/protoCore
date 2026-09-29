@@ -31,6 +31,64 @@ to 1,000 bits, both signs); every case now matches.
 
 Test: `NumericTest.ArbitraryPrecisionMatchesReferenceValues`.
 
+### Several ProtoSpaces in one process
+
+Design, rules and limitations: [docs/GLOBAL_MUTABLE_TABLE.md](docs/GLOBAL_MUTABLE_TABLE.md).
+
+- **One table of mutable states per process.** A mutable object of one space
+  read or written through another space's context answered the state of the
+  other space's object with the same `mutable_ref`, or its own birth state,
+  and never an error: each space had its own table and its own ref counter,
+  both starting at 1. The 256 shard roots are now process-global
+  (`globalMutableShards`), a ref carries its space's id in its high bits (the
+  first space keeps the refs it always had), and every space's collector marks
+  the whole table. `ProtoSpace::mutableRoot` stays in the class for the ABI 3
+  layout and is not read; `findMutableCycles` reports the space's own entries.
+- **A thread shared by several spaces no longer stalls their collections.** The
+  thread that constructs a space counts in its quorum, so a thread that built
+  two spaces was a member of both, but it only answered the stop-the-world of
+  the space whose code it ran and only left the quorum of the space it blocked
+  through: the other space's collection waited for it indefinitely (reproduced
+  in `MultiSpaceThread.*`). Safepoints now answer any member space's
+  stop-the-world, and unmanaged regions and heap waits leave every member
+  quorum.
+- **Collection cycles are serialized in the process** (a process-wide token
+  from Phase 1 to Phase 6). Two spaces' cycles ran at once, and a marker that
+  reaches another space's cells shares their single mark bit.
+- **With more than one space live, a cycle's dead cells are freed after a grace
+  period**: once every registered thread has passed a safepoint outside a
+  critical section, or is parked or out of its quorum. A thread of another space
+  could still be reading them; before, the sweep rewrote and reused them at once
+  (302,398 corrupt reads in `AValueHeldByAnotherSpacesThreadSurvivesUntilItsSafepoint`).
+  No thread is stopped and the lookup paths are unchanged.
+- **The cache epoch is process-wide** (`multispace::gcEpoch`); threads clear
+  their caches at their first quiescent point after any space's cycle.
+- **A destroyed space's table entries are removed** by the next cycle of a live
+  space.
+
+With one space in the process every rule reduces to the previous behaviour.
+No public API change; `PROTOCORE_ABI_SOVERSION` stays 3.
+
+### Data races found by ThreadSanitizer (single-space as well)
+
+- **A shard root was read with `memory_order_relaxed` and then dereferenced**
+  (`resolveMutableState`). A reader could see a sparse-list node published by
+  another thread's compare-and-swap before the node's fields: harmless on x86,
+  a torn read on weakly ordered CPUs (arm64). Now `acquire`, free on x86.
+- **The DirtySegment free pool's lock-free pop could hand one segment to two
+  threads** (ABA: a popper read `segment->next` of a head that another thread
+  popped and the collector pushed back before the first popper's CAS). Pops are
+  now serialized by a small spin lock; pushes stay lock-free.
+- **`triggerGC()` read and wrote `heapSize`, `freeCellsCount` and `gcStarted`
+  without `globalMutex`**, although its only callers are embedders on arbitrary
+  threads. It now takes the (recursive) mutex.
+- **The heap-limit fast path read `heapSize`/`maxHeapSize` unsynchronized**
+  while `getFreeCells` wrote them; both sides now use `std::atomic_ref` (relaxed;
+  the value is still re-validated under the mutex). Layout unchanged.
+
+Remaining TSan reports come only from tests that use a `ProtoContext` on an
+unregistered `std::thread` (EMBEDDER-CONFORMANCE rule 11).
+
 ### Packaging
 
 - **The DEB now ships a `DEBIAN/shlibs` file** (`libprotoCore 3 protocore (>= 2.5.0)`),

@@ -174,9 +174,11 @@ start-up and never gives back.
 
 ## 3. Term 2 — the sum of the peaks, not the maximum
 
-`heapSize`, `maxHeapSize`, `freeCellsCount`, the freelists, the mutable-shard
-table and the collector are all per-`ProtoSpace`
-(`headers/protoCore.h:2315-2321`).  Two spaces in one process hold two heaps at
+`heapSize`, `maxHeapSize`, `freeCellsCount`, the freelists and the collector
+are all per-`ProtoSpace` (`headers/protoCore.h:2315-2321`).  The mutable-shard
+table is process-global ([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md)),
+but the states in it are cells of the space whose thread wrote them, so they
+count in that space's heap.  Two spaces in one process hold two heaps at
 the same time, and each grows to its own peak independently.  The term is
 therefore a **sum over spaces**, not a maximum.
 
@@ -192,7 +194,11 @@ This matters because each runtime in the family owns its own space:
   (`protoClojure/src/main.cpp:73`).
 
 A polyglot process that embeds two of these runtimes has two spaces, two heaps
-and two GC threads, and its cell budget is the sum of both peaks.  A single
+and two GC threads, and its cell budget is the sum of both peaks.  The two
+collectors take turns (cycles are serialized in the process), and while more
+than one space is live a cycle's freed cells return to its freelist only after
+a grace period ([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md)), so leave
+headroom above the sum.  A single
 space shared by two embedders is the other valid arrangement — root sets keep
 them isolated ([../DESIGN.md](../DESIGN.md) § "Mechanism B") — and then there
 is one term to size, not two.

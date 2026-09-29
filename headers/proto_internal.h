@@ -1337,6 +1337,108 @@ namespace proto {
     // The one module root table of this process.
     ModuleRootTable& globalModuleRootTable();
 
+    // ---- Several ProtoSpaces in one process ---------------------------------
+    // See docs/GLOBAL_MUTABLE_TABLE.md.  Everything here reduces to the
+    // single-space behaviour when the process has one space.
+
+    // A mutable_ref carries its space's id in the bits above this shift, so a
+    // ref is unique in the process and names the space that created it.  The
+    // first space of a process has id 0 and keeps the refs it always had.
+    constexpr unsigned kMutableRefSpaceShift = 40;
+
+    // The process-global table of mutable states: 256 shards, each an
+    // immutable sparse list keyed by mutable_ref and published by
+    // compare-and-swap.  Constant-initialized (all roots null); the first
+    // ProtoSpace installs an empty perennial list in every shard.  Every
+    // space's collector snapshots and marks all of it.
+    extern ProtoSpace::MutableShardSlot globalMutableShards[ProtoSpace::MUTABLE_ROOT_SHARDS];
+
+    // The id a space carries in the high bits of its refs.
+    inline unsigned long spaceIdOf(const ProtoSpace* space) {
+        return space->nextMutableRef.load(std::memory_order_relaxed) >> kMutableRefSpaceShift;
+    }
+
+    namespace multispace {
+        // Registry of live spaces, guarded by ProtoSpace::globalMutex.
+        // registerSpace returns the space's process-unique id (never reused).
+        unsigned long registerSpace(ProtoSpace* space);
+        void unregisterSpace(ProtoSpace* space);
+        unsigned long liveSpaceCount();
+
+        // Non-zero while a space's stop-the-world is raised or a collector
+        // waits for a grace period.  The allocation poll and safepoint() read
+        // it (one relaxed load) instead of their own space's flag; its slow
+        // path parks for a member space's stop-the-world and announces a
+        // quiescent state.
+        extern std::atomic<int> attention;
+
+        // Process-wide collection epoch: advanced by every cycle's
+        // stop-the-world, whatever its space.  A thread clears its attribute
+        // and mutable caches when it observes a new epoch at a quiescent
+        // point, since a sweep in any space may free an address they name.
+        extern std::atomic<uint64_t> gcEpoch;
+
+        // Quiescent-state records, one per registered OS thread (adopted main
+        // threads, threads started by newThread, collector threads).  A thread
+        // is quiescent at a safepoint outside any critical section, and while
+        // it is parked or out of the quorum: there it holds no cell reachable
+        // only from C++ locals, the invariant the stop-the-world relies on.
+        void ensureQuiescenceRecord();
+        void setQuiescenceOut(bool out);
+        void quiesce(ProtoContext* context);
+
+        // Grace period: returns once every other registered thread has been
+        // quiescent since the call began.  A collector with other spaces live
+        // frees its dead cells only after it (docs/GLOBAL_MUTABLE_TABLE.md).
+        void waitForGracePeriod();
+
+        // The calling OS thread's membership: a space counts it in its
+        // quorum when the thread constructed the space (its adopted main
+        // thread) or when the thread was started by the space's newThread.
+        void setWorkerSpace(ProtoSpace* space, ProtoThreadImplementation* impl);
+        bool isMember(const ProtoSpace* space);
+
+        // Parks the calling thread for the stop-the-world of its context's
+        // space, as before, or of any other space it is a member of.  Never
+        // parks inside a critical section of the space being stopped.
+        void parkForAnyStop(ProtoContext* context);
+
+        // Leaves / rejoins the quorum of every space the calling thread is a
+        // member of (unmanaged regions, heap-headroom waits).  Nested calls
+        // are counted per OS thread; only the outermost pair moves counters.
+        // `comeBack` parks if a stop-the-world is raised in a member space.
+        // `own` is the space the call is made through; `context`, when
+        // given, is the calling thread's current context (its caches are
+        // cleared on the way back).
+        void goOut(ProtoSpace* own);
+        void comeBack(ProtoSpace* own, ProtoContext* context);
+
+        // Collection cycles are serialized in the process: a cycle holds the
+        // token from its stop-the-world request to the end of its bulk
+        // unmark, so two markers never share the one mark bit of a cell.
+        // Guarded by ProtoSpace::globalMutex.
+        extern bool cycleActive;
+        extern std::condition_variable_any cycleCV;
+
+        // Diagnostics read by tests: cycles running now, and the most ever
+        // observed at once in this process.
+        // A destroyed space's entries stay in the global table until a
+        // later cycle of a live space removes them: ~ProtoSpace records the
+        // id, and Phase 5b appends every ref carrying a recorded id to the
+        // refs it releases.  Takes the recorded ids, so one cycle does it.
+        void recordDestroyedSpace(unsigned long spaceId);
+        void appendRefsOfDestroyedSpaces(std::vector<unsigned long>& refs);
+
+        // Entries of the global mutable table whose ref carries `spaceId`.
+        // O(table); for tests and diagnostics.
+        unsigned long countMutableEntriesOfSpace(ProtoContext* context, unsigned long spaceId);
+
+        void noteCycleStart();
+        void noteCycleEnd();
+        int cyclesHighWater();
+        void resetCyclesHighWater();
+    }
+
     // ---- StringLeafNode -------------------------------------------------------
     // 64-byte Cell. Stores up to 32 bytes of UTF-8 content in one contiguous chunk.
     // Layout (64 bytes total):
@@ -1567,9 +1669,9 @@ namespace proto {
         // ProtoThread::goUnmanaged / returnFromUnmanaged for the
         // contract.
         std::atomic<int> unmanagedDepth{0};
-        // GC cycle count (ProtoSpace::gcCycleCount) at which this thread last
-        // cleared its caches.  Written and read only by the owning thread, on
-        // the way out of a stop-the-world wait; never on the lookup path.
+        // Process-wide collection epoch (multispace::gcEpoch) at which this
+        // thread last cleared its caches.  Written and read only by the owning
+        // thread, at quiescent points; never on the lookup path.
         uint64_t lastClearedEpoch = 0;
 
         /**

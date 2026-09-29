@@ -61,6 +61,7 @@ add_library(protoCore SHARED
     core/ProtoMultiset.cpp
     core/Integer.cpp
     core/MutableCycles.cpp
+    core/MultiSpace.cpp
 )
 
 # The ABI version of libprotoCore. It is the single source of truth for the
