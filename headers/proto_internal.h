@@ -1337,6 +1337,49 @@ namespace proto {
     // The one module root table of this process.
     ModuleRootTable& globalModuleRootTable();
 
+    // ---- Several ProtoSpaces in one process ---------------------------------
+    // See docs/GLOBAL_MUTABLE_TABLE.md.  Everything here reduces to the
+    // single-space behaviour when the process has one space.
+
+    // A mutable_ref carries its space's id in the bits above this shift, so a
+    // ref is unique in the process and names the space that created it.  The
+    // first space of a process has id 0 and keeps the refs it always had.
+    constexpr unsigned kMutableRefSpaceShift = 40;
+
+    namespace multispace {
+        // Registry of live spaces, guarded by ProtoSpace::globalMutex.
+        // registerSpace returns the space's process-unique id (never reused).
+        unsigned long registerSpace(ProtoSpace* space);
+        void unregisterSpace(ProtoSpace* space);
+        unsigned long liveSpaceCount();
+
+        // Number of spaces whose stop-the-world is raised.  Collection cycles
+        // are serialized, so it is 0 or 1; the allocation poll reads it
+        // instead of its own space's flag.
+        extern std::atomic<int> stopRequests;
+
+        // The calling OS thread's membership: a space counts it in its
+        // quorum when the thread constructed the space (its adopted main
+        // thread) or when the thread was started by the space's newThread.
+        void setWorkerSpace(ProtoSpace* space, ProtoThreadImplementation* impl);
+        bool isMember(const ProtoSpace* space);
+
+        // Parks the calling thread for the stop-the-world of its context's
+        // space, as before, or of any other space it is a member of.  Never
+        // parks inside a critical section of the space being stopped.
+        void parkForAnyStop(ProtoContext* context);
+
+        // Leaves / rejoins the quorum of every space the calling thread is a
+        // member of (unmanaged regions, heap-headroom waits).  Nested calls
+        // are counted per OS thread; only the outermost pair moves counters.
+        // `comeBack` parks if a stop-the-world is raised in a member space.
+        // `own` is the space the call is made through; `context`, when
+        // given, is the calling thread's current context (its caches are
+        // cleared on the way back).
+        void goOut(ProtoSpace* own);
+        void comeBack(ProtoSpace* own, ProtoContext* context);
+    }
+
     // ---- StringLeafNode -------------------------------------------------------
     // 64-byte Cell. Stores up to 32 bytes of UTF-8 content in one contiguous chunk.
     // Layout (64 bytes total):

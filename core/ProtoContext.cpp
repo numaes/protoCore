@@ -313,34 +313,20 @@ namespace proto
      */
     void parkForStopTheWorld(ProtoContext* context)
     {
-        ProtoSpace* space = context ? context->space : nullptr;
-        if (!space) return;
-        if (!space->stwFlag.load(std::memory_order_relaxed)) return;
-        // The GC thread never parks against its own stop-the-world.
-        if (space->gcThread &&
-            std::this_thread::get_id() == space->gcThread->get_id()) return;
+        if (!context || !context->space) return;
+        // One relaxed load on the fast path: no stop-the-world is raised in
+        // any space of the process.
+        if (multispace::stopRequests.load(std::memory_order_relaxed) == 0) return;
         // Same critical-section discipline as allocCell and synchToGC, in
         // every configuration: a thread inside a critical section must NOT
         // park.  It may be mid-construction (a half-built tree unreachable
         // from any root) or hold cells read from the mutables tree only in
         // C++ locals.
         if (context->criticalSectionDepth > 0) return;
-        space->parkedThreads++;
-        {
-            GC_LOCK_TRACE("safepoint STW ACQ");
-            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-            space->gcCV.notify_all();
-            space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
-            GC_LOCK_TRACE("safepoint STW REL");
-        }
-        space->parkedThreads--;
-        // Resumed after a stop-the-world: drop this thread's cache entries
-        // before the next lookup (the caches are not GC roots).
-        if (context->thread) {
-            if (auto* ext = toImpl<ProtoThreadImplementation>(context->thread)->extension) {
-                ext->clearCachesAfterStopTheWorld(space);
-            }
-        }
+        // The context's own space, or another space this OS thread is a
+        // member of (docs/GLOBAL_MUTABLE_TABLE.md, "Threads in several
+        // spaces").  Clears this thread's caches on the way back.
+        multispace::parkForAnyStop(context);
     }
 
     /**
@@ -443,30 +429,15 @@ namespace proto
         // would orphan the in-flight cells.
         if (this && this->space &&
             (allocatedCellsCount & 63) == 0 &&
-            this->space->stwFlag.load(std::memory_order_relaxed) &&
-            std::this_thread::get_id() != this->space->gcThread->get_id()
+            multispace::stopRequests.load(std::memory_order_relaxed) != 0
             // Never park inside a critical section, in any configuration:
             // the thread may hold cells read from the mutables tree, or
             // half-built ones, only in C++ locals.
             && this->criticalSectionDepth == 0
             ) {
-            this->space->parkedThreads++;
-            {
-                GC_LOCK_TRACE("allocCell STW ACQ");
-                std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-                this->space->gcCV.notify_all();
-                this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
-                GC_LOCK_TRACE("allocCell STW ACQ(wake)");
-                GC_LOCK_TRACE("allocCell STW REL");
-            }
-            this->space->parkedThreads--;
-            // Resumed after a stop-the-world: drop this thread's cache entries
-            // before the next lookup (the caches are not GC roots).
-            if (this->thread) {
-                if (auto* ext = toImpl<ProtoThreadImplementation>(this->thread)->extension) {
-                    ext->clearCachesAfterStopTheWorld(this->space);
-                }
-            }
+            // The own space's stop-the-world (the GC thread never parks for
+            // it) or that of another space this OS thread belongs to.
+            multispace::parkForAnyStop(this);
         }
 
         Cell* newCell = nullptr;

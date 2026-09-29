@@ -313,6 +313,9 @@ namespace proto {
                 
                 // --- PHASE 1: STOP THE WORLD ---
                 space->stwFlag.store(true);
+                // Read by every allocation poll of the process: a thread of
+                // another space that belongs to this one parks for it too.
+                multispace::stopRequests.fetch_add(1);
                 // We need to wait until ALL other threads are parked
                 // runningThreads includes all application threads.
                 // GC thread doesn't increment/decrement runningThreads.
@@ -323,7 +326,15 @@ namespace proto {
                     return space->parkedThreads.load() >= space->runningThreads.load() || space->state == SPACE_STATE_ENDING;
                 });
                 GC_LOCK_TRACE("gcLoop ACQ(parked)");
-                if (space->state == SPACE_STATE_ENDING) break;
+                if (space->state == SPACE_STATE_ENDING) {
+                    // Lower the flag raised above: a thread parked for it, of
+                    // this space or of another one it belongs to, would
+                    // otherwise wait for ever.
+                    space->stwFlag.store(false);
+                    multispace::stopRequests.fetch_sub(1);
+                    space->stopTheWorldCV.notify_all();
+                    break;
+                }
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase2_start = std::chrono::steady_clock::now();
                 dbg_total_phase1_us.fetch_add(
@@ -644,6 +655,7 @@ namespace proto {
                 // docs/GarbageCollector.md § "Concurrent Mark Without
                 // Barriers" and docs/STW_ELIMINATION_RESEARCH.md § 13.
                 space->stwFlag.store(false);
+                multispace::stopRequests.fetch_sub(1);
                 space->stopTheWorldCV.notify_all();
                 GC_LOCK_TRACE("gcLoop REL(mark)");
                 lock.unlock(); // Mark, sweep, and bulk-unmark all run unlocked.
@@ -1156,6 +1168,15 @@ namespace proto {
         // caches without requiring each runtime to pass rootContext explicitly.
         this->mainThreadId = std::this_thread::get_id();
 
+        // A process-unique id, carried in the high bits of every mutable_ref
+        // this space creates, so a ref names its space and no two spaces
+        // share one (docs/GLOBAL_MUTABLE_TABLE.md).  Registered before the
+        // first mutable object of the bootstrap below.
+        {
+            const unsigned long id = multispace::registerSpace(this);
+            this->nextMutableRef.store((id << kMutableRefSpaceShift) | 1UL);
+        }
+
         // The tuple interner must exist before the first tuple is built.
         this->tupleInterner = new TupleInterner();
 
@@ -1357,6 +1378,9 @@ namespace proto {
         {
             std::lock_guard<std::recursive_mutex> lock(globalMutex);
             this->state = SPACE_STATE_ENDING;
+            // No thread of another space parks for this space, or rejoins its
+            // quorum, from here on.
+            multispace::unregisterSpace(this);
             this->gcCV.notify_all();
             this->stopTheWorldCV.notify_all();
         }
@@ -1561,9 +1585,16 @@ namespace proto {
         // Make sure a collection will actually run.
         if (!space->gcStarted) space->gcStarted = true;
         space->gcCV.notify_all();
-        // Leave the running set.  A GC already parked on the Phase-1 quorum
-        // must re-evaluate it against the lowered bound, hence the notify.
-        space->runningThreads.fetch_sub(1, std::memory_order_acq_rel);
+        const bool managed = ctx && ctx->thread;
+        // Leave the running set -- of every space this OS thread belongs to,
+        // when it has a thread: a thread shared by several spaces would stall
+        // their collections otherwise (multispace::goOut).  A GC already parked
+        // on the Phase-1 quorum must re-evaluate it, hence the notify.
+        if (managed) {
+            multispace::goOut(space);
+        } else {
+            space->runningThreads.fetch_sub(1, std::memory_order_acq_rel);
+        }
         space->gcCV.notify_all();
         space->memoryReclaimedCV.wait_for(
             lock, std::chrono::milliseconds(50),
@@ -1572,13 +1603,12 @@ namespace proto {
                            != startCycle
                     || space->state == SPACE_STATE_ENDING;
             });
-        space->runningThreads.fetch_add(1, std::memory_order_acq_rel);
         // Rejoin the stop-the-world protocol: park if a stop-the-world began
         // while this thread was out of the running set.  Park ONLY, never
         // ProtoContext::safepoint().  This wait runs from the heap checkpoint
         // of an outermost critical section (or the depth-0 refill path), inside
         // native code that may hold a half-built structure only in C++ locals
-        // and in the context's young chain — for example a list a primitive is
+        // and in the context's young chain -- for example a list a primitive is
         // about to turn into a tuple.  safepoint() hands that chain to the
         // collector once the context crosses maxAllocatedCellsPerContext, which
         // makes those cells candidates while nothing references them; the next
@@ -1590,29 +1620,26 @@ namespace proto {
         // across the park (recursive_mutex drops only one level) and wedge the
         // GC, so globalMutex is released around it.
         lock.unlock();
-        if (ctx && ctx->thread) {
-            // The thread's park-only entry.
-            ctx->thread->synchToGC();
-            // A whole cycle may have run while this thread was out of the
-            // running set, with no stop-the-world left to park for when it
-            // returns, so synchToGC's own clear may not have run: drop this
-            // thread's cache entries if a stop-the-world completed (the caches
-            // are not GC roots).  A context without a thread has no caches.
-            if (auto* ext = toImpl<ProtoThreadImplementation>(ctx->thread)->extension) {
-                ext->clearCachesAfterStopTheWorld(space);
+        if (managed) {
+            // Parks in any member space that is stopped, and drops this
+            // thread's cache entries if a stop-the-world completed meanwhile
+            // (the caches are not GC roots).
+            multispace::comeBack(space, ctx);
+        } else {
+            space->runningThreads.fetch_add(1, std::memory_order_acq_rel);
+            if (ctx && space->stwFlag.load() &&
+                !(space->gcThread && std::this_thread::get_id() == space->gcThread->get_id())
+                && ctx->criticalSectionDepth == 0) {
+                // A context without a thread parks the same way, keyed on the
+                // context's own critical-section depth.
+                space->parkedThreads++;
+                {
+                    std::unique_lock<std::recursive_mutex> parkLock(ProtoSpace::globalMutex);
+                    space->gcCV.notify_all();
+                    space->stopTheWorldCV.wait(parkLock, [space] { return !space->stwFlag.load(); });
+                }
+                space->parkedThreads--;
             }
-        } else if (ctx && space->stwFlag.load() &&
-                   !(space->gcThread && std::this_thread::get_id() == space->gcThread->get_id())
-                   && ctx->criticalSectionDepth == 0) {
-            // A context without a thread parks the same way, keyed on the
-            // context's own critical-section depth.
-            space->parkedThreads++;
-            {
-                std::unique_lock<std::recursive_mutex> parkLock(ProtoSpace::globalMutex);
-                space->gcCV.notify_all();
-                space->stopTheWorldCV.wait(parkLock, [space] { return !space->stwFlag.load(); });
-            }
-            space->parkedThreads--;
         }
         lock.lock();
     }

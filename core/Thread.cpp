@@ -125,6 +125,10 @@ namespace proto {
             // runningThreads but not yet able to park on stwFlag), and would
             // wait forever for parkedThreads to catch up.
             context->space->runningThreads++;
+            // This OS thread is a member of the space that started it; it
+            // answers that space's stop-the-world whatever code it runs.
+            multispace::setWorkerSpace(context->space,
+                                       toImpl<ProtoThreadImplementation>(context->thread));
             // If a stop-the-world is already in progress when this OS thread
             // starts, park immediately so the GC's wait-for-N-parked
             // condition counts us correctly.  Without this, the new thread
@@ -139,6 +143,7 @@ namespace proto {
                 }
             }
             context->space->runningThreads--;
+            multispace::setWorkerSpace(nullptr, nullptr);
             // Rebuild the immutable threads list OUTSIDE the global
             // mutex, then swap inside — see ProtoThreadImplementation
             // constructor for the recursive_mutex / park deadlock this
@@ -470,26 +475,30 @@ namespace proto {
     }
 
     void ProtoThreadImplementation::implSynchToGC() {
-        if (this->space->stwFlag.load()) {
-            // Same critical-section discipline as ProtoContext::allocCell()
-            // and ProtoContext::safepoint(), in every configuration: never
-            // park while the current context is inside a critical section.
-            // The thread may be mid-construction of a tree it will CAS into a
-            // root, or hold cells read from the mutables tree (a snapshot, a
-            // shard root being path-copied) only in C++ locals; a stop-the-
-            // world there could free them.
-            if (this->context && this->context->criticalSectionDepth > 0) return;
-            this->space->parkedThreads++;
-            {
-                std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-                this->space->gcCV.notify_all(); // Notify GC that a thread parked
-                this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
-            }
-            this->space->parkedThreads--;
-            // Resumed after a stop-the-world: drop this thread's cache entries
-            // before the next lookup (the caches are not GC roots).
-            if (this->extension) this->extension->clearCachesAfterStopTheWorld(this->space);
+        if (multispace::stopRequests.load() == 0) return;
+        // Same critical-section discipline as ProtoContext::allocCell()
+        // and ProtoContext::safepoint(), in every configuration: never
+        // park while the current context is inside a critical section.
+        // The thread may be mid-construction of a tree it will CAS into a
+        // root, or hold cells read from the mutables tree (a snapshot, a
+        // shard root being path-copied) only in C++ locals; a stop-the-
+        // world there could free them.
+        if (this->context) {
+            if (this->context->criticalSectionDepth > 0) return;
+            // This space's stop-the-world, or that of another space this OS
+            // thread belongs to; clears the caches on the way back.
+            multispace::parkForAnyStop(this->context);
+            return;
         }
+        if (!this->space->stwFlag.load()) return;
+        this->space->parkedThreads++;
+        {
+            std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            this->space->gcCV.notify_all(); // Notify GC that a thread parked
+            this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+        }
+        this->space->parkedThreads--;
+        if (this->extension) this->extension->clearCachesAfterStopTheWorld(this->space);
     }
 
     // 2026-05-25: unmanaged-region API.
@@ -515,14 +524,13 @@ namespace proto {
             // until the extension is in place.
             return;
         }
-        int prev = this->extension->unmanagedDepth.fetch_add(1, std::memory_order_acq_rel);
-        if (prev == 0) {
-            // First entry: announce this thread as "out".
-            this->space->parkedThreads.fetch_add(1, std::memory_order_acq_rel);
-            // The GC may have been waiting for us — kick the quorum check.
-            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-            this->space->gcCV.notify_all();
-        }
+        this->extension->unmanagedDepth.fetch_add(1, std::memory_order_acq_rel);
+        // Announce this OS thread as "out" of the quorum of every space it is
+        // a member of -- a thread shared by several spaces blocks all of them
+        // otherwise.  Nesting is counted per OS thread, so only the outermost
+        // region moves the counters, whichever space each region is opened
+        // through.  Notifies each collector: it may be waiting for us.
+        multispace::goOut(this->space);
     }
 
     // Mirror of implGoUnmanaged. Decrement the counter; if this was the
@@ -539,27 +547,14 @@ namespace proto {
     // restores the count.
     void ProtoThreadImplementation::implReturnFromUnmanaged() {
         if (!this->extension) return;  // mirror implGoUnmanaged's early-bootstrap guard
-        int prev = this->extension->unmanagedDepth.fetch_sub(1, std::memory_order_acq_rel);
-        if (prev == 1) {
-            // Last release: un-park.
-            this->space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
-            // If STW is happening, block as a normal safepoint would.
-            if (this->space->stwFlag.load(std::memory_order_acquire)) {
-                this->space->parkedThreads.fetch_add(1, std::memory_order_acq_rel);
-                {
-                    std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-                    this->space->gcCV.notify_all();
-                    this->space->stopTheWorldCV.wait(lock,
-                        [this] { return !this->space->stwFlag.load(); });
-                }
-                this->space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
-            }
-            // Back in managed code.  While unmanaged the thread counted as
-            // parked, so whole cycles may have completed without it: drop its
-            // cache entries before its next lookup if a stop-the-world
-            // happened (the caches are not GC roots).
-            this->extension->clearCachesAfterStopTheWorld(this->space);
-        }
+        this->extension->unmanagedDepth.fetch_sub(1, std::memory_order_acq_rel);
+        // Rejoin every quorum left by the matching goOut.  If a stop-the-world
+        // is in progress in one of those spaces, block exactly like a normal
+        // safepoint park -- the thread must not touch any ProtoObject* until
+        // that collector's scan finishes -- and then drop this thread's cache
+        // entries: while out it counted as parked, so whole cycles may have
+        // completed without it (the caches are not GC roots).
+        multispace::comeBack(this->space, this->context);
     }
 
     void ProtoThreadImplementation::implSetCurrentContext(ProtoContext* context) {
