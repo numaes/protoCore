@@ -11,7 +11,7 @@ table, every space marks it, serialized cycles, implement completely now.
 - [x] 4. Deferred reclamation behind a grace period when several spaces are live (AValueHeldByAnotherSpacesThreadSurvivesUntilItsSafepoint RED: 302,398 corrupt reads -> GREEN; ctest 508/508).
 - [x] 5. Process-wide cache epoch (multispace::gcEpoch), cleared at quiescent points (folded into 4).
 - [x] 6. Purge of a destroyed space's entries (EntriesOfADestroyedSpaceArePurged RED 100 -> GREEN 0; ctest 509/509).
-- [ ] 7. Stress under ASan and TSan; benchmarks single-space before/after.
+- [~] 7. ASan: new tests clean; the one failure (ThreadCacheSlotFlipsDuringMark: 100 cycles in 4 s) fails identically on master under ASan (43-58 cycles). TSan: 57-73 reports -> 0 in multi-space tests after fixing 4 pre-existing races; benchmarks pending.
 - [x] 8. Docs (GLOBAL_MUTABLE_TABLE, GarbageCollector, MemoryModel, MODULE_DISCOVERY, DESIGN), CHANGELOG.
 - [ ] 9. Rebuild and test protoST and protoScala against it.
 

@@ -2049,7 +2049,9 @@ namespace proto {
 
             lock.lock();
             GC_LOCK_TRACE("getFreeCells ACQ(OS done)");
-            this->heapSize += blocksToAllocate;
+            // Atomic so the unlocked heuristic read in heapLimitCheckpoint is
+            // not a data race; the value is re-validated under globalMutex.
+            std::atomic_ref<int>(this->heapSize).fetch_add(blocksToAllocate, std::memory_order_relaxed);
 
             // Partition the remainder into CELL_CHUNK_SIZE chunks so the next
             // getFreeCells lands in the O(1) chunked fast path.
@@ -2080,7 +2082,7 @@ namespace proto {
         if (softCells > 0 && hardCells > 0 && softCells > hardCells)
             softCells = hardCells;
         this->softHeapLimit = softCells;
-        this->maxHeapSize   = hardCells;
+        std::atomic_ref<int>(this->maxHeapSize).store(hardCells, std::memory_order_relaxed);
     }
 
     unsigned long returnUnusedCellBatch(ProtoSpace* space, Cell* head) {
@@ -2107,16 +2109,33 @@ namespace proto {
         // returns segments here after sweep, so steady-state submit/return is
         // alloc-free.  Single CAS on the pop, single CAS on the dirty-list
         // push — no system malloc on the hot path.
-        DirtySegment* segment = this->dirtySegmentFreePool.load(std::memory_order_acquire);
-        while (segment) {
-            DirtySegment* nextFree = segment->next;
-            if (this->dirtySegmentFreePool.compare_exchange_weak(
-                    segment, nextFree,
-                    std::memory_order_acquire,
-                    std::memory_order_acquire)) {
-                break;  // claimed `segment`
+        //
+        // Pops are serialized by a spin lock (pushes, done by the collector
+        // after sweep, stay lock-free).  An unguarded Treiber pop reads
+        // `segment->next` of a head another thread may pop and reuse at the
+        // same moment, and its compare-and-swap can succeed with that stale
+        // `next` if the head was pushed back meanwhile (ABA): two threads
+        // then own one segment.  Found by ThreadSanitizer.  The lock is one
+        // of a small process-wide array, chosen by space, so the ProtoSpace
+        // layout is unchanged.
+        DirtySegment* segment = nullptr;
+        {
+            static std::atomic_flag popLocks[16] = {};
+            std::atomic_flag& popLock =
+                popLocks[(reinterpret_cast<uintptr_t>(this) >> 6) & 15];
+            while (popLock.test_and_set(std::memory_order_acquire)) {}
+            segment = this->dirtySegmentFreePool.load(std::memory_order_acquire);
+            while (segment) {
+                DirtySegment* nextFree = segment->next;
+                if (this->dirtySegmentFreePool.compare_exchange_weak(
+                        segment, nextFree,
+                        std::memory_order_acquire,
+                        std::memory_order_acquire)) {
+                    break;  // claimed `segment`
+                }
+                // A push by the collector moved the head; retry from it.
             }
-            // segment reloaded by compare_exchange_weak on failure; retry.
+            popLock.clear(std::memory_order_release);
         }
         if (!segment) {
             segment = new DirtySegment();
@@ -2134,17 +2153,15 @@ namespace proto {
     }
 
     void ProtoSpace::triggerGC() {
-        // Assume globalMutex is already held if called from getFreeCells.
-        // If called from elsewhere, we might need a lock.
-        // Actually, let's just make the check atomic and notify without the lock if possible,
-        // or just ensure callers hold the lock.
-        
-        // Let's use a simpler approach: check thresholds and notify.
-        // gcCV.notify_all() doesn't need a lock.
-        
+        // Public entry point, called by embedders from any thread.  The fields
+        // it reads and writes (heapSize, freeCellsCount, gcStarted) are guarded
+        // by globalMutex everywhere else, so it takes the lock too; the mutex
+        // is recursive, so a caller that already holds it is unaffected.
+        // Unlocked, these were data races (found by ThreadSanitizer).
+        std::lock_guard<std::recursive_mutex> lock(globalMutex);
         double freeRatio = (this->heapSize > 0) ? (static_cast<double>(this->freeCellsCount) / this->heapSize) : 1.0;
-        
-        if (freeRatio < 0.2 || this->gcStarted) { 
+
+        if (freeRatio < 0.2 || this->gcStarted) {
             this->gcStarted = true;
             this->gcCV.notify_all();
         }

@@ -415,8 +415,10 @@ namespace proto
         // enforce — this is the only cost on the hot object-construction path.
         // The unsynchronised reads are a heuristic; waitForHeapHeadroom
         // re-validates the heap state under globalMutex before blocking.
-        if (!sp || sp->maxHeapSize <= 0) return;
-        if (sp->heapSize < sp->maxHeapSize) return;
+        if (!sp) return;
+        const int limit = std::atomic_ref<int>(sp->maxHeapSize).load(std::memory_order_relaxed);
+        if (limit <= 0) return;
+        if (std::atomic_ref<int>(sp->heapSize).load(std::memory_order_relaxed) < limit) return;
         // At the ceiling — block here, at criticalSectionDepth == 0, where the
         // thread holds no half-built tree and can safely yield to the GC.
         sp->waitForHeapHeadroom(this);

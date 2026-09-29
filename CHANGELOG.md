@@ -42,6 +42,26 @@ Design, rules and limitations: [docs/GLOBAL_MUTABLE_TABLE.md](docs/GLOBAL_MUTABL
 With one space in the process every rule reduces to the previous behaviour.
 No public API change; `PROTOCORE_ABI_SOVERSION` stays 3.
 
+### Data races found by ThreadSanitizer (single-space as well)
+
+- **A shard root was read with `memory_order_relaxed` and then dereferenced**
+  (`resolveMutableState`). A reader could see a sparse-list node published by
+  another thread's compare-and-swap before the node's fields: harmless on x86,
+  a torn read on weakly ordered CPUs (arm64). Now `acquire`, free on x86.
+- **The DirtySegment free pool's lock-free pop could hand one segment to two
+  threads** (ABA: a popper read `segment->next` of a head that another thread
+  popped and the collector pushed back before the first popper's CAS). Pops are
+  now serialized by a small spin lock; pushes stay lock-free.
+- **`triggerGC()` read and wrote `heapSize`, `freeCellsCount` and `gcStarted`
+  without `globalMutex`**, although its only callers are embedders on arbitrary
+  threads. It now takes the (recursive) mutex.
+- **The heap-limit fast path read `heapSize`/`maxHeapSize` unsynchronized**
+  while `getFreeCells` wrote them; both sides now use `std::atomic_ref` (relaxed;
+  the value is still re-validated under the mutex). Layout unchanged.
+
+Remaining TSan reports come only from tests that use a `ProtoContext` on an
+unregistered `std::thread` (EMBEDDER-CONFORMANCE rule 11).
+
 ### Packaging
 
 - **The DEB now ships a `DEBIAN/shlibs` file** (`libprotoCore 3 protocore (>= 2.5.0)`),

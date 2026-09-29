@@ -233,6 +233,7 @@ namespace {
 struct HoldShared {
     const ProtoObject* holder = nullptr;
     std::atomic<bool> holding{false};
+    std::atomic<bool> cycled{false};      // space A started a cycle after the drop
     std::atomic<bool> released{false};
     std::atomic<long> corrupt{0};
     std::atomic<long> checks{0};
@@ -245,10 +246,17 @@ const ProtoObject* holderMain(ProtoContext* ctx, const ProtoObject*, const Paren
     const ProtoObject* v = h.holder->getAttribute(ctx, sym(ctx, "payload"));
     const ProtoList* l = v ? v->asList(ctx) : nullptr;
     h.holding = true;
-    // No allocation and no safepoint for 400 ms: the list is referenced only
-    // from this frame.
-    const auto until = std::chrono::steady_clock::now() + std::chrono::milliseconds(400);
+    // No allocation and no safepoint: the list is referenced only from this
+    // frame.  Held until space A has started a cycle and 200 ms more of its
+    // churn have passed (bounded at 20 s for slow sanitizer builds).
+    const auto start = std::chrono::steady_clock::now();
+    auto until = start + std::chrono::seconds(20);
+    bool sawCycle = false;
     while (std::chrono::steady_clock::now() < until) {
+        if (!sawCycle && h.cycled.load()) {
+            sawCycle = true;
+            until = std::chrono::steady_clock::now() + std::chrono::milliseconds(200);
+        }
         bool ok = l && l->getSize(ctx) == 64;
         for (unsigned long i = 0; ok && i < 64; ++i) {
             const ProtoObject* e = l->getAt(ctx, static_cast<int>(i));
@@ -286,11 +294,20 @@ TEST(GlobalMutableTable, AValueHeldByAnotherSpacesThreadSurvivesUntilItsSafepoin
     inA->setAttribute(&a.ctx, key, a.ctx.fromInteger(0));
     a.space.setHeapLimits(0, a.space.heapSize + 20000);
     const uint64_t start = a.space.getGCCycleCount();
+    // Observes A's cycle count without touching the heap: the churn below can
+    // block in an allocation while A's first cycle waits for its grace period.
+    std::thread watcher([&] {
+        while (!h.released.load()) {
+            if (a.space.getGCCycleCount() != start) h.cycled = true;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+    });
     while (!h.released.load()) {
         ProtoContext garbage(&a.space, &a.ctx, nullptr, nullptr, nullptr, nullptr);
         for (int i = 0; i < 2000; ++i) (void) garbage.newList()->appendLast(&garbage, garbage.fromInteger(i));
         garbage.safepoint();
     }
+    watcher.join();
     a.space.setHeapLimits(0, 0);
     const_cast<ProtoThread*>(t)->join(b.space.rootContext);
     gHold = nullptr;
