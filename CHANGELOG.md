@@ -4,6 +4,18 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-09-29
+
+Several ProtoSpaces in one process now share objects correctly: one table of
+mutable states per process, a thread shared by several spaces no longer
+stalls their collections, collection cycles are serialized, and a
+multi-space cycle frees its dead cells only after a grace period. Also:
+integer arithmetic fixes (multi-word division, negative bitwise operations,
+shiftLeft overflow) and four data races found by ThreadSanitizer. With a
+single space behaviour is unchanged and six benchmarks show no regression.
+No API or ABI change: `PROTOCORE_ABI_SOVERSION` stays 3, so binaries built
+against 2.5.0 run unchanged.
+
 ### Integer arithmetic
 
 Found by a differential run of protoCore's integer operations against

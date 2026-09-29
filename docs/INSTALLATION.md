@@ -38,7 +38,7 @@ This builds the shared library, the test executable `build/test/proto_tests` and
 cmake --build build --target protoCore
 ```
 
-The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `2.5.0` as of 2026-09-25 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `3`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `3` for the second. On Linux the build directory contains:
+The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `2.6.0` as of 2026-09-29 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `3`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `3` for the second. On Linux the build directory contains:
 
 | File | Role |
 |------|------|
@@ -77,7 +77,7 @@ sudo ldconfig
 
 | File | Path |
 |------|------|
-| Shared library | `lib/libprotoCore.so.<version>` (`2.5.0` as of 2026-09-25), with the links `lib/libprotoCore.so.3` (the soname) and `lib/libprotoCore.so` |
+| Shared library | `lib/libprotoCore.so.<version>` (`2.6.0` as of 2026-09-29), with the links `lib/libprotoCore.so.3` (the soname) and `lib/libprotoCore.so` |
 | Public header | `include/protoCore.h` |
 | CMake package configuration | `lib/cmake/protoCore/protoCoreConfig.cmake`, `protoCoreConfigVersion.cmake`, `protoCoreTargets.cmake` and one per-configuration targets file |
 | pkg-config metadata | `lib/pkgconfig/protoCore.pc` |
@@ -113,7 +113,7 @@ The package provides:
 Version compatibility is `SameMajorVersion`: a request for `2.0` is satisfied by
 any `2.x` and refused for `1.x` and `3.x`. The soname is a separate number —
 `PROTOCORE_ABI_SOVERSION`, bumped only when the ABI breaks, and `3` while the
-project version is `2.5.0` — so do not infer one from the other. The requested
+project version is `2.6.0` — so do not infer one from the other. The requested
 minor version is still a floor, so
 a consumer that needs a feature added in a minor release asks for that release —
 protoScala asks for `2.1`, because its actor mailbox needs `ProtoMPSCQueue`,
@@ -231,7 +231,7 @@ conformance suite against their own build.
 
 ### Package file names
 
-The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`2.5.0` as of 2026-09-25):
+The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`2.6.0` as of 2026-09-29):
 
 | Platform | Files |
 |----------|-------|
