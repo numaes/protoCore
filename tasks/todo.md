@@ -12,7 +12,7 @@ table, every space marks it, serialized cycles, implement completely now.
 - [x] 5. Process-wide cache epoch (multispace::gcEpoch), cleared at quiescent points (folded into 4).
 - [x] 6. Purge of a destroyed space's entries (EntriesOfADestroyedSpaceArePurged RED 100 -> GREEN 0; ctest 509/509).
 - [ ] 7. Stress under ASan and TSan; benchmarks single-space before/after.
-- [ ] 8. Docs (GarbageCollector, MemoryModel, MODULE_DISCOVERY, DESIGN), CHANGELOG.
+- [x] 8. Docs (GLOBAL_MUTABLE_TABLE, GarbageCollector, MemoryModel, MODULE_DISCOVERY, DESIGN), CHANGELOG.
 - [ ] 9. Rebuild and test protoST and protoScala against it.
 
 ## Rulings
