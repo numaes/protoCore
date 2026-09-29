@@ -13,8 +13,13 @@ All notable changes to protoCore are documented in this file.
   put back. A thread-less context in use while another thread created a
   thread stopped being scanned, and a later cycle freed the objects only it
   held (found by protoST, whose worker pool grows while actors block in I/O:
-  the main program's variables were freed). Both registrations are now
-  restored. Tests: `NewThreadRoots.*`.
+  the main program's variables were freed). The temporary context is now
+  built with the collector's never-registered constructor, so there is no
+  window in which it replaces either root, and it is destroyed at the end,
+  returning its allocation batch (created from any thread but the main one,
+  it used to leak that batch). Thread handles stay
+  out of every collection until joined, as before. Tests: `NewThreadRoots.*`,
+  `ThreadExitRelease.*`. No API or ABI change.
 
 ## [2.6.0] - 2026-09-29
 
