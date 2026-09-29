@@ -325,7 +325,7 @@ namespace proto
         if (!context || !context->space) return;
         // One relaxed load on the fast path: no stop-the-world is raised in
         // any space of the process.
-        if (multispace::stopRequests.load(std::memory_order_relaxed) == 0) return;
+        if (multispace::attention.load(std::memory_order_relaxed) == 0) return;
         // Same critical-section discipline as allocCell and synchToGC, in
         // every configuration: a thread inside a critical section must NOT
         // park.  It may be mid-construction (a half-built tree unreachable
@@ -438,7 +438,7 @@ namespace proto
         // would orphan the in-flight cells.
         if (this && this->space &&
             (allocatedCellsCount & 63) == 0 &&
-            multispace::stopRequests.load(std::memory_order_relaxed) != 0
+            multispace::attention.load(std::memory_order_relaxed) != 0
             // Never park inside a critical section, in any configuration:
             // the thread may hold cells read from the mutables tree, or
             // half-built ones, only in C++ locals.

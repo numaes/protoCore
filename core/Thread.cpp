@@ -195,9 +195,7 @@ namespace proto {
         // The caches start empty, so they are "cleared" as of the current
         // cycle.  A new thread therefore does not clear again on its first
         // park exit unless a stop-the-world completes after this point.
-        this->lastClearedEpoch = (context && context->space)
-            ? context->space->gcCycleCount.load(std::memory_order_relaxed)
-            : 0;
+        this->lastClearedEpoch = multispace::gcEpoch.load(std::memory_order_relaxed);
     }
 
     void ProtoThreadExtension::clearCachesAfterStopTheWorld(const ProtoSpace* space) {
@@ -213,7 +211,11 @@ namespace proto {
         // function afterwards, but another thread holding the ProtoThread can,
         // so the null check is the cheap way to make that harmless.
         if (!this->attributeCache || !this->mutableValueCache) return;
-        const uint64_t epoch = space->gcCycleCount.load(std::memory_order_relaxed);
+        // The process-wide epoch: a sweep in any space may free an address a
+        // cached entry names (docs/GLOBAL_MUTABLE_TABLE.md).  With a single
+        // space it advances exactly with that space's cycles.
+        (void) space;
+        const uint64_t epoch = multispace::gcEpoch.load(std::memory_order_relaxed);
         if (epoch == this->lastClearedEpoch) return;
         std::memset(static_cast<void*>(this->attributeCache), 0,
                     THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry));
@@ -475,7 +477,7 @@ namespace proto {
     }
 
     void ProtoThreadImplementation::implSynchToGC() {
-        if (multispace::stopRequests.load() == 0) return;
+        if (multispace::attention.load() == 0) return;
         // Same critical-section discipline as ProtoContext::allocCell()
         // and ProtoContext::safepoint(), in every configuration: never
         // park while the current context is inside a critical section.

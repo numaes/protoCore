@@ -1365,10 +1365,32 @@ namespace proto {
         void unregisterSpace(ProtoSpace* space);
         unsigned long liveSpaceCount();
 
-        // Number of spaces whose stop-the-world is raised.  Collection cycles
-        // are serialized, so it is 0 or 1; the allocation poll reads it
-        // instead of its own space's flag.
-        extern std::atomic<int> stopRequests;
+        // Non-zero while a space's stop-the-world is raised or a collector
+        // waits for a grace period.  The allocation poll and safepoint() read
+        // it (one relaxed load) instead of their own space's flag; its slow
+        // path parks for a member space's stop-the-world and announces a
+        // quiescent state.
+        extern std::atomic<int> attention;
+
+        // Process-wide collection epoch: advanced by every cycle's
+        // stop-the-world, whatever its space.  A thread clears its attribute
+        // and mutable caches when it observes a new epoch at a quiescent
+        // point, since a sweep in any space may free an address they name.
+        extern std::atomic<uint64_t> gcEpoch;
+
+        // Quiescent-state records, one per registered OS thread (adopted main
+        // threads, threads started by newThread, collector threads).  A thread
+        // is quiescent at a safepoint outside any critical section, and while
+        // it is parked or out of the quorum: there it holds no cell reachable
+        // only from C++ locals, the invariant the stop-the-world relies on.
+        void ensureQuiescenceRecord();
+        void setQuiescenceOut(bool out);
+        void quiesce(ProtoContext* context);
+
+        // Grace period: returns once every other registered thread has been
+        // quiescent since the call began.  A collector with other spaces live
+        // frees its dead cells only after it (docs/GLOBAL_MUTABLE_TABLE.md).
+        void waitForGracePeriod();
 
         // The calling OS thread's membership: a space counts it in its
         // quorum when the thread constructed the space (its adopted main
@@ -1640,9 +1662,9 @@ namespace proto {
         // ProtoThread::goUnmanaged / returnFromUnmanaged for the
         // contract.
         std::atomic<int> unmanagedDepth{0};
-        // GC cycle count (ProtoSpace::gcCycleCount) at which this thread last
-        // cleared its caches.  Written and read only by the owning thread, on
-        // the way out of a stop-the-world wait; never on the lookup path.
+        // Process-wide collection epoch (multispace::gcEpoch) at which this
+        // thread last cleared its caches.  Written and read only by the owning
+        // thread, at quiescent points; never on the lookup path.
         uint64_t lastClearedEpoch = 0;
 
         /**

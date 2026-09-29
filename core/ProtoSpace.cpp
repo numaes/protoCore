@@ -300,6 +300,10 @@ namespace proto {
             static std::atomic<uint64_t> dbg_total_segments_swept{0};
             const bool dbg_profile = std::getenv("PROTOCORE_GC_PROFILE") != nullptr;
 #endif
+            // The collector takes part in grace periods (it reads the global
+            // mutable table in Phase 5b) but is quiescent everywhere else.
+            multispace::ensureQuiescenceRecord();
+            multispace::setQuiescenceOut(true);
             while (space->state != SPACE_STATE_ENDING) {
                 // Wait for a GC trigger or space ending
                 space->gcCV.wait(lock, [space] {
@@ -330,7 +334,7 @@ namespace proto {
                 space->stwFlag.store(true);
                 // Read by every allocation poll of the process: a thread of
                 // another space that belongs to this one parks for it too.
-                multispace::stopRequests.fetch_add(1);
+                multispace::attention.fetch_add(1);
                 // We need to wait until ALL other threads are parked
                 // runningThreads includes all application threads.
                 // GC thread doesn't increment/decrement runningThreads.
@@ -346,7 +350,7 @@ namespace proto {
                     // this space or of another one it belongs to, would
                     // otherwise wait for ever.
                     space->stwFlag.store(false);
-                    multispace::stopRequests.fetch_sub(1);
+                    multispace::attention.fetch_sub(1);
                     space->stopTheWorldCV.notify_all();
                     multispace::noteCycleEnd();
                     multispace::cycleActive = false;   // globalMutex is held here
@@ -624,6 +628,9 @@ namespace proto {
                 // getGCCycleCount() and heap-limit reclamation waits read it.
                 [[maybe_unused]] const uint64_t newCycle =
                     space->gcCycleCount.fetch_add(1, std::memory_order_relaxed) + 1;
+                // The process-wide epoch that tells every thread, of any
+                // space, to clear its caches at its next quiescent point.
+                multispace::gcEpoch.fetch_add(1, std::memory_order_acq_rel);
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
                 const unsigned int stagger = space->survivorStagger ? space->survivorStagger : 1;
                 const bool foldThisCycle = ((newCycle % stagger) == 0);
@@ -673,7 +680,7 @@ namespace proto {
                 // docs/GarbageCollector.md § "Concurrent Mark Without
                 // Barriers" and docs/STW_ELIMINATION_RESEARCH.md § 13.
                 space->stwFlag.store(false);
-                multispace::stopRequests.fetch_sub(1);
+                multispace::attention.fetch_sub(1);
                 space->stopTheWorldCV.notify_all();
                 GC_LOCK_TRACE("gcLoop REL(mark)");
                 lock.unlock(); // Mark, sweep, and bulk-unmark all run unlocked.
@@ -876,6 +883,16 @@ namespace proto {
                 // chunks — the out-of-memory signal (see reclaimedLastCycle).
                 unsigned long reclaimedThisCycle = 0;
 
+                // With other spaces live, a thread of another space may still
+                // hold, in C++ locals, a cell this sweep finds dead: a table
+                // node or state read before this cycle's stop-the-world, which
+                // did not stop it.  The dead cells are then only collected
+                // here and freed after a grace period (see below and
+                // docs/GLOBAL_MUTABLE_TABLE.md); sweep must not even rewrite
+                // their header.  With one space they are freed in place.
+                const bool deferFree = multispace::liveSpaceCount() > 1;
+                std::vector<Cell*> deadCells;
+
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
                     Cell* cell = currentSeg->cellChain;
@@ -896,12 +913,16 @@ namespace proto {
                     while (cell) {
                         Cell* nextCell = cell->getNext();
                         if (!cell->isMarked()) {
-                            cell->finalize(space->rootContext);
+                            if (deferFree) {
+                                deadCells.push_back(cell);
+                            } else {
+                                cell->finalize(space->rootContext);
 
-                            cell->internalSetNextRaw(batchHead);
-                            if (!batchTail) batchTail = cell;
-                            batchHead = cell;
-                            batchCount++;
+                                cell->internalSetNextRaw(batchHead);
+                                if (!batchTail) batchTail = cell;
+                                batchHead = cell;
+                                batchCount++;
+                            }
                         } else {
                             cell->unmark();
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
@@ -1028,7 +1049,7 @@ namespace proto {
                 // allocating through the collector's own context.  The states
                 // they held were marked through this cycle's snapshot and are
                 // freed next cycle.  See releaseFinalizedMutableEntries.
-                releaseFinalizedMutableEntries(space);
+                if (!deferFree) releaseFinalizedMutableEntries(space);
 
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase6_start = std::chrono::steady_clock::now();
@@ -1093,6 +1114,43 @@ namespace proto {
                     multispace::cycleActive = false;
                 }
                 multispace::cycleCV.notify_all();
+
+                if (deferFree) {
+                    // Grace period: every registered thread of the process
+                    // passes a safepoint outside any critical section, or is
+                    // parked or out of its quorum, before a dead cell of this
+                    // cycle is finalized or reused.  At such a point a thread
+                    // holds no cell reachable only from C++ locals -- the
+                    // stop-the-world's own invariant -- and it clears its
+                    // caches there.  No thread is stopped.
+                    multispace::waitForGracePeriod();
+                    Cell* head = nullptr;
+                    Cell* tail = nullptr;
+                    unsigned long count = 0;
+                    for (Cell* dead : deadCells) {
+                        dead->finalize(space->rootContext);
+                        dead->internalSetNextRaw(head);
+                        if (!tail) tail = dead;
+                        head = dead;
+                        if (++count >= ProtoSpace::CELL_CHUNK_SIZE) {
+                            std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
+                            publishFreeChunk(space, head, tail, count);
+                            head = tail = nullptr;
+                            count = 0;
+                        }
+                    }
+                    if (head) {
+                        std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
+                        publishFreeChunk(space, head, tail, count);
+                    }
+                    reclaimedThisCycle += deadCells.size();
+                    // Phase 5b, after the finalizers recorded the refs.  It
+                    // reads the live table, so this thread is not quiescent
+                    // meanwhile: another space's grace period waits for it.
+                    multispace::setQuiescenceOut(false);
+                    releaseFinalizedMutableEntries(space);
+                    multispace::setQuiescenceOut(true);
+                }
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase6_end = std::chrono::steady_clock::now();
                 dbg_total_phase6_us.fetch_add(

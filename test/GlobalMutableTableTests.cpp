@@ -170,6 +170,7 @@ const ProtoObject* stressMain(ProtoContext* ctx, const ProtoObject*, const Paren
         const ProtoObject* back = target->getAttribute(&step, slot);
         const ProtoList* l = back ? back->asList(&step) : nullptr;
         if (!l || l->getSize(&step) != 1 || !l->getAt(&step, 0)->isInteger(&step)) s.errors.fetch_add(1);
+        for (int k = 0; k < 60; ++k) (void) step.newObject(false);   // garbage: drives collections
         priv->setAttribute(&step, mine, step.fromInteger(i));
         if (longAttr(&step, priv, "mine") != i) s.errors.fetch_add(1);
         if ((i & 63) == 0) step.safepoint();
@@ -220,4 +221,82 @@ TEST(GlobalMutableTable, ThreadsOfTwoSpacesShareMutablesUnderCollection) {
     EXPECT_EQ(s.errors.load(), 0);
     EXPECT_GE(a.space.getGCCycleCount() - cyclesA, 2u) << "space A must have collected";
     EXPECT_GE(b.space.getGCCycleCount() - cyclesB, 2u) << "space B must have collected";
+}
+
+// A thread of space B reads a value of space A's object and keeps using it,
+// without reaching a safepoint, while A's thread replaces the attribute and A
+// collects.  A may free the value only after B's thread has passed a safepoint
+// (the grace period of docs/GLOBAL_MUTABLE_TABLE.md): before that the value,
+// held only in C++ locals of B's thread, must stay intact.
+namespace {
+
+struct HoldShared {
+    const ProtoObject* holder = nullptr;
+    std::atomic<bool> holding{false};
+    std::atomic<bool> released{false};
+    std::atomic<long> corrupt{0};
+    std::atomic<long> checks{0};
+};
+HoldShared* gHold = nullptr;
+
+const ProtoObject* holderMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                              const ProtoList*, const ProtoSparseList*) {
+    HoldShared& h = *gHold;
+    const ProtoObject* v = h.holder->getAttribute(ctx, sym(ctx, "payload"));
+    const ProtoList* l = v ? v->asList(ctx) : nullptr;
+    h.holding = true;
+    // No allocation and no safepoint for 400 ms: the list is referenced only
+    // from this frame.
+    const auto until = std::chrono::steady_clock::now() + std::chrono::milliseconds(400);
+    while (std::chrono::steady_clock::now() < until) {
+        bool ok = l && l->getSize(ctx) == 64;
+        for (unsigned long i = 0; ok && i < 64; ++i) {
+            const ProtoObject* e = l->getAt(ctx, static_cast<int>(i));
+            ok = e && e->isInteger(ctx) && e->asLong(ctx) == static_cast<long>(i * 7);
+        }
+        if (!ok) h.corrupt.fetch_add(1);
+        h.checks.fetch_add(1);
+    }
+    h.released = true;
+    ctx->safepoint();
+    return PROTO_NONE;
+}
+
+}  // namespace
+
+TEST(GlobalMutableTable, AValueHeldByAnotherSpacesThreadSurvivesUntilItsSafepoint) {
+    Space a, b;
+    HoldShared h;
+    gHold = &h;
+    const ProtoObject* inA = a.ctx.newObject(true);
+    const ProtoString* key = sym(&a.ctx, "payload");
+    {
+        ProtoContext build(&a.space, &a.ctx, nullptr, nullptr, nullptr, nullptr);
+        ProtoContext::CriticalSection cs(&build);
+        const ProtoList* list = build.newList();
+        for (int i = 0; i < 64; ++i) list = list->appendLast(&build, build.fromInteger(i * 7));
+        inA->setAttribute(&build, key, list->asObject(&build));
+        build.safepoint();
+    }
+    h.holder = inA;
+    const ProtoThread* t = b.space.newThread(b.space.rootContext, sym(b.space.rootContext, "holder"),
+                                             holderMain, nullptr, nullptr);
+    while (!h.holding.load()) std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    // Drop A's only reference and churn A's heap so the cells are reused.
+    inA->setAttribute(&a.ctx, key, a.ctx.fromInteger(0));
+    a.space.setHeapLimits(0, a.space.heapSize + 20000);
+    const uint64_t start = a.space.getGCCycleCount();
+    while (!h.released.load()) {
+        ProtoContext garbage(&a.space, &a.ctx, nullptr, nullptr, nullptr, nullptr);
+        for (int i = 0; i < 2000; ++i) (void) garbage.newList()->appendLast(&garbage, garbage.fromInteger(i));
+        garbage.safepoint();
+    }
+    a.space.setHeapLimits(0, 0);
+    const_cast<ProtoThread*>(t)->join(b.space.rootContext);
+    gHold = nullptr;
+    // One cycle: its grace period waits for the holder's safepoint, so the
+    // next cycle cannot start before the holder lets go.
+    EXPECT_GE(a.space.getGCCycleCount() - start, 1u) << "space A must have collected meanwhile";
+    EXPECT_GT(h.checks.load(), 0);
+    EXPECT_EQ(h.corrupt.load(), 0) << "A freed a value B's thread still used before its safepoint";
 }

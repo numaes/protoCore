@@ -21,6 +21,7 @@
 
 #include "../headers/proto_internal.h"
 
+#include <chrono>
 #include <condition_variable>
 #include <mutex>
 #include <thread>
@@ -32,7 +33,8 @@ alignas(64) ProtoSpace::MutableShardSlot globalMutableShards[ProtoSpace::MUTABLE
 
 namespace multispace {
 
-std::atomic<int> stopRequests{0};
+std::atomic<int> attention{0};
+std::atomic<uint64_t> gcEpoch{0};
 bool cycleActive = false;
 std::condition_variable_any cycleCV;
 
@@ -117,18 +119,54 @@ bool isGcThreadOf(const ProtoSpace* space) {
     return space->gcThread && std::this_thread::get_id() == space->gcThread->get_id();
 }
 
-void clearCachesOf(ProtoContext* context, ProtoSpace* stopped) {
+// Clears the calling thread's caches in every space it belongs to, if a
+// stop-the-world completed anywhere since they were last cleared.  A thread
+// shared by several spaces has one ProtoThreadImplementation, and so one pair
+// of caches, per space.
+void clearMemberCaches(ProtoContext* context) {
     if (context && context->thread) {
         if (auto* ext = toImpl<ProtoThreadImplementation>(context->thread)->extension)
             ext->clearCachesAfterStopTheWorld(context->space);
     }
-    if (ProtoThreadImplementation* impl = implIn(stopped)) {
-        if (impl->extension) impl->extension->clearCachesAfterStopTheWorld(stopped);
+    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+    for (const Entry& e : registry()) {
+        if (!isMember(e.space)) continue;
+        if (ProtoThreadImplementation* impl = implIn(e.space))
+            if (impl->extension) impl->extension->clearCachesAfterStopTheWorld(e.space);
     }
+}
+
+// ---- Quiescent-state records -------------------------------------------------
+
+struct QuiescenceRecord {
+    std::atomic<uint64_t> seq{0};      // advanced at every quiescent point
+    std::atomic<int>      out{0};      // > 0 while parked or out of the quorum
+    std::atomic<bool>     inUse{false};
+    QuiescenceRecord*     next = nullptr;  // immutable once published
+};
+
+// Records are never freed: a record of an exited thread is marked unused and
+// reused by the next thread that needs one.
+std::atomic<QuiescenceRecord*> records{nullptr};
+
+struct RecordHolder {
+    QuiescenceRecord* r = nullptr;
+    ~RecordHolder() {
+        if (r) {
+            r->out.store(0, std::memory_order_relaxed);
+            r->inUse.store(false, std::memory_order_release);
+        }
+    }
+};
+thread_local RecordHolder tlRecord;
+
+void setOut(int delta) {
+    if (tlRecord.r) tlRecord.r->out.fetch_add(delta, std::memory_order_seq_cst);
 }
 
 // Waits out `space`'s stop-the-world, counted in its quorum.
 void parkIn(ProtoSpace* space) {
+    setOut(+1);
     space->parkedThreads++;
     {
         std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
@@ -136,6 +174,7 @@ void parkIn(ProtoSpace* space) {
         space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
     }
     space->parkedThreads--;
+    setOut(-1);
 }
 
 // A member space other than `except` with a raised stop-the-world that the
@@ -157,6 +196,8 @@ ProtoSpace* foreignStopToAnswer(const ProtoSpace* except) {
 unsigned long registerSpace(ProtoSpace* space) {
     std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
     const unsigned long id = nextSpaceId++;
+    // The constructing thread is the space's adopted main thread.
+    ensureQuiescenceRecord();
     registry().push_back(Entry{space, id});
     return id;
 }
@@ -177,6 +218,7 @@ unsigned long liveSpaceCount() {
 void setWorkerSpace(ProtoSpace* space, ProtoThreadImplementation* impl) {
     tlWorkerSpace = space;
     tlWorkerImpl = impl;
+    if (space) ensureQuiescenceRecord();
 }
 
 bool isMember(const ProtoSpace* space) {
@@ -190,19 +232,20 @@ void parkForAnyStop(ProtoContext* context) {
     if (own->stwFlag.load(std::memory_order_relaxed)) {
         if (isGcThreadOf(own) || context->criticalSectionDepth > 0) return;
         parkIn(own);
-        clearCachesOf(context, own);
+        quiesce(context);
         return;
     }
     // Another space this thread belongs to.
-    if (stopRequests.load(std::memory_order_relaxed) == 0) return;
-    if (ProtoSpace* other = foreignStopToAnswer(own)) {
-        parkIn(other);
-        clearCachesOf(context, other);
-    }
+    if (attention.load(std::memory_order_relaxed) == 0) return;
+    if (ProtoSpace* other = foreignStopToAnswer(own)) parkIn(other);
+    // Every caller is at a safepoint outside any critical section: this is a
+    // quiescent point, which a collector's grace period may be waiting for.
+    quiesce(context);
 }
 
 void goOut(ProtoSpace* own) {
     if (tlOutDepth++ != 0) return;  // only the 0 -> 1 transition
+    setOut(+1);
     std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
     tlOutOf.clear();
     for (const Entry& e : registry()) {
@@ -236,17 +279,79 @@ void comeBack(ProtoSpace* own, ProtoContext* context) {
     }
     // Back in managed code: if a member space is stopped, wait it out as a
     // safepoint would.  Cycles are serialized, so one pass finds at most one.
+    setOut(-1);
     for (ProtoSpace* s : rejoined) {
         if (!s->stwFlag.load(std::memory_order_acquire)) continue;
         parkIn(s);
     }
-    for (ProtoSpace* s : rejoined) clearCachesOf(context, s);
+    quiesce(context);
     if (own && !context) {
         // No context to reach the caches through: clear this thread's
         // caches in `own` directly.
         if (ProtoThreadImplementation* impl = implIn(own))
             if (impl->extension) impl->extension->clearCachesAfterStopTheWorld(own);
     }
+}
+
+void ensureQuiescenceRecord() {
+    if (tlRecord.r) return;
+    for (QuiescenceRecord* r = records.load(std::memory_order_acquire); r; r = r->next) {
+        bool expected = false;
+        if (r->inUse.compare_exchange_strong(expected, true)) {
+            r->out.store(0);
+            tlRecord.r = r;
+            return;
+        }
+    }
+    auto* r = new QuiescenceRecord();
+    r->inUse.store(true);
+    QuiescenceRecord* head = records.load(std::memory_order_relaxed);
+    do { r->next = head; } while (!records.compare_exchange_weak(head, r));
+    tlRecord.r = r;
+}
+
+void setQuiescenceOut(bool out) {
+    ensureQuiescenceRecord();
+    setOut(out ? +1 : -1);
+}
+
+void quiesce(ProtoContext* context) {
+    if (tlRecord.r) tlRecord.r->seq.fetch_add(1, std::memory_order_seq_cst);
+    // The caches only need a look when a stop-the-world completed somewhere
+    // since this thread last looked; the member walk takes the global mutex.
+    thread_local uint64_t seenEpoch = ~0ULL;
+    const uint64_t epoch = gcEpoch.load(std::memory_order_acquire);
+    if (epoch == seenEpoch) return;
+    seenEpoch = epoch;
+    clearMemberCaches(context);
+}
+
+void waitForGracePeriod() {
+    // Make every poll of the process take its slow path, which announces a
+    // quiescent state.
+    attention.fetch_add(1, std::memory_order_seq_cst);
+    struct Pending { QuiescenceRecord* r; uint64_t seq; };
+    std::vector<Pending> pending;
+    for (QuiescenceRecord* r = records.load(std::memory_order_acquire); r; r = r->next) {
+        if (r == tlRecord.r) continue;
+        if (!r->inUse.load(std::memory_order_seq_cst)) continue;
+        if (r->out.load(std::memory_order_seq_cst) > 0) continue;
+        pending.push_back({r, r->seq.load(std::memory_order_seq_cst)});
+    }
+    for (int round = 0; !pending.empty(); ++round) {
+        std::vector<Pending> still;
+        for (const Pending& p : pending) {
+            if (!p.r->inUse.load(std::memory_order_seq_cst)) continue;
+            if (p.r->out.load(std::memory_order_seq_cst) > 0) continue;
+            if (p.r->seq.load(std::memory_order_seq_cst) != p.seq) continue;
+            still.push_back(p);
+        }
+        pending.swap(still);
+        if (pending.empty()) break;
+        if (round < 64) std::this_thread::yield();
+        else std::this_thread::sleep_for(std::chrono::microseconds(50));
+    }
+    attention.fetch_sub(1, std::memory_order_seq_cst);
 }
 
 }  // namespace multispace
