@@ -27,6 +27,9 @@
 #include <vector>
 
 namespace proto {
+
+alignas(64) ProtoSpace::MutableShardSlot globalMutableShards[ProtoSpace::MUTABLE_ROOT_SHARDS];
+
 namespace multispace {
 
 std::atomic<int> stopRequests{0};
@@ -37,6 +40,20 @@ namespace {
 std::atomic<int> cyclesNow{0};
 std::atomic<int> cyclesMax{0};
 }  // namespace
+
+unsigned long countMutableEntriesOfSpace(ProtoContext* context, unsigned long spaceId) {
+    struct Count { unsigned long id; unsigned long n; } count{spaceId, 0};
+    for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
+        ProtoSparseList* root = globalMutableShards[s].root.load(std::memory_order_acquire);
+        if (!root) continue;
+        root->processElements(context, &count,
+            [](ProtoContext*, void* self, unsigned long key, const ProtoObject*) {
+                auto* c = static_cast<Count*>(self);
+                if ((key >> kMutableRefSpaceShift) == c->id) ++c->n;
+            });
+    }
+    return count.n;
+}
 
 void noteCycleStart() {
     const int now = cyclesNow.fetch_add(1) + 1;

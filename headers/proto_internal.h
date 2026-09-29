@@ -1346,6 +1346,18 @@ namespace proto {
     // first space of a process has id 0 and keeps the refs it always had.
     constexpr unsigned kMutableRefSpaceShift = 40;
 
+    // The process-global table of mutable states: 256 shards, each an
+    // immutable sparse list keyed by mutable_ref and published by
+    // compare-and-swap.  Constant-initialized (all roots null); the first
+    // ProtoSpace installs an empty perennial list in every shard.  Every
+    // space's collector snapshots and marks all of it.
+    extern ProtoSpace::MutableShardSlot globalMutableShards[ProtoSpace::MUTABLE_ROOT_SHARDS];
+
+    // The id a space carries in the high bits of its refs.
+    inline unsigned long spaceIdOf(const ProtoSpace* space) {
+        return space->nextMutableRef.load(std::memory_order_relaxed) >> kMutableRefSpaceShift;
+    }
+
     namespace multispace {
         // Registry of live spaces, guarded by ProtoSpace::globalMutex.
         // registerSpace returns the space's process-unique id (never reused).
@@ -1388,6 +1400,10 @@ namespace proto {
 
         // Diagnostics read by tests: cycles running now, and the most ever
         // observed at once in this process.
+        // Entries of the global mutable table whose ref carries `spaceId`.
+        // O(table); for tests and diagnostics.
+        unsigned long countMutableEntriesOfSpace(ProtoContext* context, unsigned long spaceId);
+
         void noteCycleStart();
         void noteCycleEnd();
         int cyclesHighWater();

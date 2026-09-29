@@ -199,9 +199,17 @@ private:
     {
         for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
             const ProtoSparseList* root =
-                space_.mutableRoot[s].root.load(std::memory_order_acquire);
+                globalMutableShards[s].root.load(std::memory_order_acquire);
             if (!root) continue;
             walkShard(root);
+        }
+        // The table is process-global: keep this space's own entries, the
+        // ones whose ref carries its id.  Another space's mutables are that
+        // space's report.
+        const unsigned long id = spaceIdOf(&space_);
+        for (auto it = entries_.begin(); it != entries_.end();) {
+            if ((it->first >> kMutableRefSpaceShift) != id) it = entries_.erase(it);
+            else ++it;
         }
     }
 

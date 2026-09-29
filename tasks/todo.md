@@ -7,7 +7,7 @@ table, every space marks it, serialized cycles, implement completely now.
       stop-the-world and leaves every quorum when it blocks
       (core/MultiSpace.cpp; MultiSpaceThreadTests RED->GREEN; ctest 501/501).
 - [x] 2. Serialized collection cycles (process-wide cycle token; CollectionCyclesOfDifferentSpacesNeverOverlap RED (2 at once) -> GREEN; ctest 502/502).
-- [ ] 3. Global table + refs carrying the space id; every space marks it.
+- [x] 3. Global table + refs carrying the space id; every space marks it (3 GlobalMutableTable tests RED->GREEN; 2 internal tests now read globalMutableShards; ctest 506/506 excluding the step-4/6 tests).
 - [ ] 4. Epoch-based deferred reclamation when several spaces are live.
 - [ ] 5. Process-wide cache epoch, checked at lookup.
 - [ ] 6. Purge of a destroyed space's entries.

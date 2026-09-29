@@ -84,7 +84,7 @@ namespace proto
             // Validate cache entry by re-loading the live shard root.
             if (cache && cache[idx].mutable_ref == mutable_ref) {
                 ProtoSparseList* live =
-                    context->space->mutableRoot[shard].root.load(std::memory_order_relaxed);
+                    globalMutableShards[shard].root.load(std::memory_order_relaxed);
                 if (live == cache[idx].shard_root) {
                     if (outShardRoot) *outShardRoot = live;
                     if (outCurrent)   *outCurrent   = cache[idx].current_value;
@@ -97,7 +97,7 @@ namespace proto
             // happens to be PROTO_NONE (rare but legal) is not confused
             // with "no such mutable state".
             ProtoSparseList* live =
-                context->space->mutableRoot[shard].root.load(std::memory_order_relaxed);
+                globalMutableShards[shard].root.load(std::memory_order_relaxed);
             const ProtoObject* snap = sparseListGetRaw(context, live, mutable_ref);
 
             // Cache the result, INCLUDING the negative case (snap == nullptr).
@@ -1098,7 +1098,7 @@ namespace proto
                  ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
                      oldRootSL->setAt(context, oc->mutable_ref, newState));
                  ProtoSparseList* expected = oldRoot;
-                 if (context->space->mutableRoot[shard].root.compare_exchange_weak(expected, newRoot)) {
+                 if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
                      // Refresh per-thread cache so subsequent reads on this thread hit immediately.
                      refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                      break;
@@ -1217,7 +1217,7 @@ namespace proto
             ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
                 oldRootSL->setAt(context, oc->mutable_ref, newState));
             ProtoSparseList* expectedRoot = oldRoot;
-            if (context->space->mutableRoot[shard].root.compare_exchange_weak(expectedRoot, newRoot)) {
+            if (globalMutableShards[shard].root.compare_exchange_weak(expectedRoot, newRoot)) {
                 refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                 return true;
             }
@@ -1306,7 +1306,7 @@ namespace proto
                  ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
                      oldRootSL->setAt(context, oc->mutable_ref, newState));
                  ProtoSparseList* expected = oldRoot;
-                 if (context->space->mutableRoot[shard].root.compare_exchange_weak(expected, newRoot)) {
+                 if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
                      refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                      break;
                  }
@@ -1459,7 +1459,7 @@ namespace proto
                  ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
                      oldRootSL->setAt(context, oc->mutable_ref, newState));
                  ProtoSparseList* expected = oldRoot;
-                 if (context->space->mutableRoot[shard].root.compare_exchange_weak(expected, newRoot)) {
+                 if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
                      // Refresh per-thread cache so subsequent reads on this thread hit immediately.
                      refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                      break;
@@ -1611,7 +1611,7 @@ namespace proto
                 ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
                     oldRootSL->setAt(context, oc->mutable_ref, newState));
                 ProtoSparseList* expected = oldRoot;
-                if (context->space->mutableRoot[shard].root.compare_exchange_weak(expected, newRoot)) {
+                if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
                     refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
                     break;
                 }

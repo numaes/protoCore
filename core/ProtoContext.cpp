@@ -9,13 +9,22 @@
 #include <stdexcept>
 #include <vector>
 #include <cstdlib>
+#include <cstdio>
 #include <iostream>
 #include <cstring>
 
 namespace proto
 {
     unsigned long generate_mutable_ref(ProtoContext* context) {
-        return context->space->nextMutableRef++;
+        const unsigned long ref = context->space->nextMutableRef++;
+        // The low kMutableRefSpaceShift bits are the space's sequence; when
+        // they wrap, the next ref would carry the next space's id.
+        if ((ref & ((1UL << kMutableRefSpaceShift) - 1)) == 0) {
+            std::fprintf(stderr, "protoCore: this ProtoSpace created 2^%u mutable "
+                                 "objects, the most one space can name\n", kMutableRefSpaceShift);
+            std::abort();
+        }
+        return ref;
     }
 
     /**

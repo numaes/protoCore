@@ -248,7 +248,7 @@ namespace proto {
                 std::size_t end = begin + 1;
                 while (end < refs.size() && refs[end] % kShards == shard) ++end;
 
-                auto& slot = space->mutableRoot[shard].root;
+                auto& slot = globalMutableShards[shard].root;
                 for (int attempt = 1;; ++attempt) {
                     ProtoSparseList* oldRoot = slot.load(std::memory_order_acquire);
                     if (!oldRoot) break;
@@ -548,7 +548,7 @@ namespace proto {
                 // them.  See docs/STW_ELIMINATION_RESEARCH.md § 13.
                 for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
                     ProtoSparseList* r =
-                        space->mutableRoot[s].root.load(std::memory_order_acquire);
+                        globalMutableShards[s].root.load(std::memory_order_acquire);
                     space->gcMutableSnapshot[s] = r;
                     if (r) addRootObj(reinterpret_cast<const ProtoObject*>(r));
                 }
@@ -1305,19 +1305,27 @@ namespace proto {
         this->setIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
         this->multisetIteratorPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false)->addParent(this->rootContext, this->objectPrototype));
 
-        // Initialize all mutableRoot shards to an empty SparseList.
-        // Each shard holds objects with mutable_ref % MUTABLE_ROOT_SHARDS == shard_index.
-        // Also zero the per-cycle GC snapshot of the shard table; the snapshot
-        // is populated under STW at every Phase 2 and cleared at the end of
-        // every cycle, so steady-state it is always nullptr outside the cycle.
-        // The constructor-time zero just guarantees the well-defined initial
-        // state on the first cycle.
-        for (int s = 0; s < MUTABLE_ROOT_SHARDS; ++s) {
-            auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);
-            this->mutableRoot[s].root.store(const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext)));
-            this->gcMutableSnapshot[s] = nullptr;
+        // The mutable table is process-global (docs/GLOBAL_MUTABLE_TABLE.md).
+        // The first space installs an empty, perennial sparse list in every
+        // shard; later spaces find them in place.  `mutableRoot` stays in the
+        // class only to keep the ABI 3 layout and is never read.  Also zero
+        // the per-cycle GC snapshot of the shard table; the snapshot is
+        // populated under STW at every Phase 2 and cleared at the end of every
+        // cycle, so steady-state it is always nullptr outside the cycle.
+        {
+            std::lock_guard<std::recursive_mutex> lock(globalMutex);
+            for (int s = 0; s < MUTABLE_ROOT_SHARDS; ++s) {
+                this->mutableRoot[s].root.store(nullptr);
+                this->gcMutableSnapshot[s] = nullptr;
+                if (globalMutableShards[s].root.load() == nullptr) {
+                    auto* emptyRaw = new(static_cast<ProtoContext*>(nullptr))
+                        ProtoSparseListImplementation(nullptr, 0, PROTO_NONE, nullptr, nullptr, true);
+                    globalMutableShards[s].root.store(
+                        const_cast<ProtoSparseList*>(emptyRaw->asSparseList(nullptr)));
+                }
+            }
         }
-        
+
         // P3: interning is process-global.  This is a BORROWED pointer to the one
         // table of this process; the destructor must not free it.  Keeping the
         // field (rather than calling globalSymbolTable() at each use) leaves all
