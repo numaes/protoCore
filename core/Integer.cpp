@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <vector>
+#include <limits>
 #include <string> // For std::stoll
 #include <utility> // For std::move
 
@@ -504,7 +505,11 @@ namespace proto
         // words.  `nwords` must be >= the natural magnitude size + 1 so the
         // sign word is available for both operands.
         static std::vector<unsigned long> toTwosComplement(const TempBignum& n, size_t nwords) {
-            std::vector<unsigned long> out(nwords, n.is_negative ? ~0UL : 0UL);
+            // The magnitude is zero-extended first; negating the whole
+            // vector then produces the sign extension (the high words of
+            // -m are all ones).  Pre-filling them with ones would turn them
+            // into zeros under the inversion below.
+            std::vector<unsigned long> out(nwords, 0UL);
             for (size_t i = 0; i < n.magnitude.size() && i < nwords; ++i) {
                 out[i] = n.magnitude[i];
             }
@@ -615,17 +620,14 @@ namespace proto
         if (isSmallInteger(object)) {
             long long val = asLong(context, object);
             if (val == 0) return fromLong(context, 0);
-            // 53-bit SmallInteger: any shift large enough to push the
-            // magnitude past 2^53-1 must promote to bignum.
-            if (amount < 53) {
-                long long shifted = static_cast<long long>(static_cast<unsigned long long>(val) << amount);
-                // Check that the shift is safe (no overflow into the
-                // sign bit beyond what SmallInteger can represent).
-                if (val > 0 && shifted >= val && shifted <= ((1LL << 53) - 1)) {
-                    return fromLong(context, shifted);
-                }
-                if (val < 0 && shifted >= -(1LL << 53)) {
-                    return fromLong(context, shifted);
+            // |val| < 2^53 and amount < 64, so the exact product fits in a
+            // 128-bit integer; fromLong promotes it when it leaves the
+            // SmallInteger range.
+            if (amount < 64) {
+                const __int128 shifted = static_cast<__int128>(val) * (static_cast<__int128>(1) << amount);
+                if (shifted >= std::numeric_limits<long long>::min() &&
+                    shifted <= std::numeric_limits<long long>::max()) {
+                    return fromLong(context, static_cast<long long>(shifted));
                 }
             }
             // Promote to bignum and use the magnitude-shift path below.
@@ -772,7 +774,12 @@ namespace proto
             }
         }
 
-        // If it's still a large number, create a LargeIntegerImplementation
+        // GC critical section: builds a chain of LargeIntegerImplementation
+        // cells linked via `next`.  `head` is reachable only via this C++
+        // local until the final implAsObject call returns, and every
+        // intermediate `new_chunk` cell is reachable only through the
+        // (still-being-built) chain.
+        ProtoContext::CriticalSection cs(context);
         const LargeIntegerImplementation* head = nullptr;
         LargeIntegerImplementation* current = nullptr;
         int digits_processed = 0;
@@ -887,63 +894,70 @@ namespace proto
             return {std::move(q), std::move(r)};
         }
 
-        // Full multi-digit division (simplified Knuth's Algorithm D)
-        // This is a complex algorithm. The implementation here is a functional
-        // but not fully optimized version.
-        // For simplicity, we'll use a basic long division approach.
+        // Multi-digit divisor: Knuth, TAOCP vol. 2, 4.3.1, Algorithm D, on
+        // 64-bit digits with 128-bit intermediates.  Works on the magnitude
+        // vectors only; nothing is allocated on the heap of the space.
+        using u64 = unsigned long;
+        using u128 = unsigned __int128;
+        const size_t n = v.magnitude.size();
+        const size_t m = u.magnitude.size() - n;
+
+        // D1: normalize so the divisor's top digit has its high bit set.
+        const int shift = __builtin_clzl(v.magnitude[n - 1]);
+        std::vector<u64> vn(n), un(u.magnitude.size() + 1);
+        for (size_t i = n - 1; i > 0; --i)
+            vn[i] = (v.magnitude[i] << shift) | (shift ? v.magnitude[i - 1] >> (64 - shift) : 0);
+        vn[0] = v.magnitude[0] << shift;
+        un[u.magnitude.size()] = shift ? u.magnitude.back() >> (64 - shift) : 0;
+        for (size_t i = u.magnitude.size() - 1; i > 0; --i)
+            un[i] = (u.magnitude[i] << shift) | (shift ? u.magnitude[i - 1] >> (64 - shift) : 0);
+        un[0] = u.magnitude[0] << shift;
+
         TempBignum quotient;
-        TempBignum remainder = u;
-        remainder.is_negative = false; // Work with magnitudes
-
-        TempBignum current_v = v;
-        current_v.is_negative = false;
-
-        // Determine approximate number of shifts needed to align v with u
-        int num_shifts = (remainder.magnitude.size() - current_v.magnitude.size()) * 64;
-        if (num_shifts < 0) num_shifts = 0; // Should not happen if u >= v
-
-        // Shift v left until it's just smaller than or equal to u
-        TempBignum shifted_v = current_v;
-        if (num_shifts > 0) {
-            shifted_v = toTempBignum(Integer::shiftLeft(nullptr, fromTempBignum(nullptr, current_v), num_shifts));
-        }
-
-        // If shifted_v is still smaller, shift one more time
-        if (internal_compare_mag(shifted_v, remainder) > 0 && num_shifts > 0) {
-            num_shifts--;
-            shifted_v = toTempBignum(Integer::shiftRight(nullptr, fromTempBignum(nullptr, shifted_v), 1));
-        } else if (internal_compare_mag(shifted_v, remainder) < 0 && num_shifts == 0) {
-            // If u is much larger than v, we need to shift more
-            while (internal_compare_mag(shifted_v, remainder) < 0) {
-                num_shifts++;
-                shifted_v = toTempBignum(Integer::shiftLeft(nullptr, fromTempBignum(nullptr, shifted_v), 1));
+        quotient.magnitude.assign(m + 1, 0);
+        for (size_t jj = m + 1; jj-- > 0;) {
+            const size_t j = jj;
+            // D3: estimate the quotient digit from the top two digits.
+            const u128 top = (static_cast<u128>(un[j + n]) << 64) | un[j + n - 1];
+            u128 qhat = top / vn[n - 1];
+            u128 rhat = top % vn[n - 1];
+            while (qhat >> 64 ||
+                   qhat * vn[n - 2] > ((rhat << 64) | un[j + n - 2])) {
+                --qhat;
+                rhat += vn[n - 1];
+                if (rhat >> 64) break;
             }
-            if (internal_compare_mag(shifted_v, remainder) > 0 && num_shifts > 0) {
-                num_shifts--;
-                shifted_v = toTempBignum(Integer::shiftRight(nullptr, fromTempBignum(nullptr, shifted_v), 1));
+            // D4: multiply and subtract.
+            u128 carry = 0;
+            __int128 borrow = 0;
+            for (size_t i = 0; i < n; ++i) {
+                const u128 product = qhat * vn[i] + carry;
+                carry = product >> 64;
+                const __int128 t = static_cast<__int128>(un[i + j]) - borrow - static_cast<u64>(product);
+                un[i + j] = static_cast<u64>(t);
+                borrow = t < 0 ? 1 : 0;
             }
-        }
-
-
-        TempBignum one; one.magnitude.push_back(1); one.normalize();
-        quotient.magnitude.resize((num_shifts / 64) + 1, 0); // Allocate enough space for quotient
-
-        for (int i = num_shifts; i >= 0; --i) {
-            if (internal_compare_mag(remainder, shifted_v) >= 0) {
-                remainder = internal_sub_mag(remainder, shifted_v);
-                // Set the corresponding bit in the quotient
-                int word_idx = i / 64;
-                int bit_idx = i % 64;
-                if (word_idx < quotient.magnitude.size()) {
-                    quotient.magnitude[word_idx] |= (1UL << bit_idx);
-                } else {
-                    quotient.magnitude.push_back(1UL << bit_idx);
+            const __int128 t = static_cast<__int128>(un[j + n]) - borrow - static_cast<__int128>(carry);
+            un[j + n] = static_cast<u64>(t);
+            // D5/D6: the estimate was one too large; add the divisor back.
+            if (t < 0) {
+                --qhat;
+                u128 c = 0;
+                for (size_t i = 0; i < n; ++i) {
+                    const u128 sum = static_cast<u128>(un[i + j]) + vn[i] + c;
+                    un[i + j] = static_cast<u64>(sum);
+                    c = sum >> 64;
                 }
+                un[j + n] = static_cast<u64>(static_cast<u128>(un[j + n]) + c);
             }
-            if (i > 0) {
-                shifted_v = toTempBignum(Integer::shiftRight(nullptr, fromTempBignum(nullptr, shifted_v), 1));
-            }
+            quotient.magnitude[j] = static_cast<u64>(qhat);
         }
+
+        // D8: the remainder is the low n digits of un, shifted back.
+        TempBignum remainder;
+        remainder.magnitude.resize(n);
+        for (size_t i = 0; i < n; ++i)
+            remainder.magnitude[i] = (un[i] >> shift) | (shift ? un[i + 1] << (64 - shift) : 0);
         quotient.normalize();
         remainder.normalize();
         return {std::move(quotient), std::move(remainder)};

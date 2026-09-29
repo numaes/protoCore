@@ -5,6 +5,7 @@
 #include <sstream>
 #include <bitset>
 #include <stdexcept>
+#include <string>
 
 using namespace proto;
 
@@ -315,4 +316,76 @@ TEST_F(NumericTest, DoubleHashAgreesWithEquality) {
     EXPECT_TRUE(set->has(context, context->fromDouble(0.0))->asBoolean(context));
     EXPECT_TRUE(set->has(context, context->fromDouble(std::nan("7")))->asBoolean(context));
     EXPECT_EQ(set->add(context, context->fromDouble(quiet))->getSize(context), 2u);
+}
+
+// --- Arbitrary-precision results checked against reference values ---
+//
+// Each expected value was computed with Python's arbitrary-precision
+// integers (truncating division, remainder with the dividend's sign,
+// two's-complement bitwise operations).  The cases are the smallest
+// failures a differential run against Python found:
+//   * division by a divisor of two or more 64-bit words answered a wrong
+//     quotient when the quotient needed more than one word of shifts
+//     (2^140 / 2^70 gave 2^65 - 1);
+//   * and/or/xor lost the sign extension of a negative LargeInteger
+//     operand, so -1 | x answered 2^64 - 1;
+//   * shiftLeft of a negative SmallInteger overflowed 64 bits silently.
+
+namespace {
+
+const proto::ProtoObject* integerFromDecimal(proto::ProtoContext* c, const std::string& text) {
+    const bool negative = text[0] == '-';
+    const proto::ProtoObject* value = c->fromLong(0);
+    const proto::ProtoObject* ten = c->fromLong(10);
+    for (size_t i = negative ? 1 : 0; i < text.size(); ++i)
+        value = value->multiply(c, ten)->add(c, c->fromLong(text[i] - '0'));
+    return negative ? c->fromLong(0)->subtract(c, value) : value;
+}
+
+std::string decimalOf(proto::ProtoContext* c, const proto::ProtoObject* value) {
+    std::string out;
+    value->asIntegerString(c, 10)->toUTF8String(c, out);
+    return out;
+}
+
+struct ReferenceCase { const char* op; const char* left; const char* right; const char* expected; };
+
+const ReferenceCase kReferenceCases[] = {
+    {"div", "1393796574908163946345982392040522594123776", "1180591620717411303424", "1180591620717411303424"},
+    {"div", "1119732000052112050245306781229232592828783795427572907473838", "24472835931805791705", "45754076199925298930140939934848764746878"},
+    {"mod", "-1290403823332970199439001116237131073989879508999553744134169", "34377772333454995692", "-2456115007569960341"},
+    {"div", "-1606938044258990275541962092341162602522202993782792835313721", "18446744073709551617", "-87112285931760246641901533019663016919296"},
+    {"mod", "1606938044258990275541962092341162602522202993782792835313721", "-18446744073709551617", "12089"},
+    {"div", "340282366920938463463374607431768211455", "18446744073709551615", "18446744073709551617"},
+    {"mod", "515377520732011331036461129765621272702107522001", "9094947017729282379150390625", "7617714795878974575886818876"},
+    {"and", "-43641587748514744", "-1", "-43641587748514744"},
+    {"or", "13937581705629591", "-1", "-1"},
+    {"xor", "1", "-53412493823008955", "-53412493823008956"},
+    {"and", "-1180591620717411303424", "1180591620717411303423", "0"},
+    {"and", "-1180591620717411303429", "1267650600228229401496703205383", "1267650600228229401496703205379"},
+    {"or", "-1361129467683753853853498429727072845824", "18446744073709551616", "-1361129467683753853835051685653363294208"},
+    {"xor", "-1237940039285380274899124225", "-18446744073709551616", "1237940057732124348608675839"},
+    {"shl", "-7410793187882849", "35", "-254632915035011359474450432"},
+    {"shl", "7410793187882849", "35", "254632915035011359474450432"},
+    {"shl", "-1", "63", "-9223372036854775808"},
+    {"shl", "-4503599627370496", "2", "-18014398509481984"},
+    {"shl", "3", "60", "3458764513820540928"},
+};
+
+} // namespace
+
+TEST_F(NumericTest, ArbitraryPrecisionMatchesReferenceValues) {
+    for (const ReferenceCase& k : kReferenceCases) {
+        const proto::ProtoObject* x = integerFromDecimal(context, k.left);
+        const proto::ProtoObject* y = integerFromDecimal(context, k.right);
+        const std::string op = k.op;
+        const proto::ProtoObject* r =
+            op == "div" ? x->divide(context, y) :
+            op == "mod" ? x->modulo(context, y) :
+            op == "and" ? x->bitwiseAnd(context, y) :
+            op == "or"  ? x->bitwiseOr(context, y) :
+            op == "xor" ? x->bitwiseXor(context, y) :
+                          x->shiftLeft(context, static_cast<int>(y->asLong(context)));
+        EXPECT_EQ(decimalOf(context, r), k.expected) << k.left << " " << k.op << " " << k.right;
+    }
 }
