@@ -15,6 +15,8 @@
 #include <atomic>
 #include <chrono>
 #include <thread>
+#include <utility>
+#include <vector>
 
 using namespace proto;
 
@@ -105,4 +107,66 @@ TEST(MultiSpaceThread, AnUnmanagedRegionLeavesTheQuorumOfEverySpace) {
     EXPECT_TRUE(shared.done.load()) << "space B could not collect while the shared thread was unmanaged in A";
     EXPECT_GE(shared.cycles, 3u);
     joinCollector(b, t);
+}
+
+// Two spaces collecting at the same time would share the one mark bit of
+// every cell a marker reaches in the other's heap.  Cycles are serialized.
+namespace {
+
+struct Churn {
+    std::atomic<int> started{0};
+    std::atomic<bool> go{false};
+    std::atomic<int> done{0};
+};
+Churn* gChurn = nullptr;
+
+const ProtoObject* churnMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                             const ProtoList*, const ProtoSparseList*) {
+    Churn& c = *gChurn;
+    c.started.fetch_add(1);
+    {
+        ProtoContext::UnmanagedScope out(ctx);
+        while (!c.go.load()) std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    const uint64_t start = ctx->space->getGCCycleCount();
+    for (int batch = 0; batch < 2000 && ctx->space->getGCCycleCount() - start < 40; ++batch) {
+        ProtoContext garbage(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
+        for (int i = 0; i < 3000; ++i) {
+            (void) garbage.newObject(false);
+            if ((i & 511) == 0) garbage.safepoint();
+        }
+        garbage.safepoint();
+    }
+    c.done.fetch_add(1);
+    return PROTO_NONE;
+}
+
+}  // namespace
+
+TEST(MultiSpaceThread, CollectionCyclesOfDifferentSpacesNeverOverlap) {
+    Space a, b;
+    Churn c;
+    gChurn = &c;
+    multispace::resetCyclesHighWater();
+    std::vector<std::pair<Space*, const ProtoThread*>> threads;
+    for (Space* sp : {&a, &b, &a, &b}) {
+        sp->space.setHeapLimits(0, sp->space.heapSize + 30000);
+        threads.emplace_back(sp, sp->space.newThread(sp->space.rootContext,
+                                 ProtoString::createSymbol(sp->space.rootContext, "churn"),
+                                 churnMain, nullptr, nullptr));
+    }
+    {
+        ProtoContext::UnmanagedScope out(&a.ctx);
+        while (c.started.load() < 4) std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        c.go = true;
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(120);
+        while (c.done.load() < 4 && std::chrono::steady_clock::now() < deadline)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+    for (auto& [sp, t] : threads) const_cast<ProtoThread*>(t)->join(sp->space.rootContext);
+    a.space.setHeapLimits(0, 0);
+    b.space.setHeapLimits(0, 0);
+    gChurn = nullptr;
+    EXPECT_EQ(c.done.load(), 4);
+    EXPECT_EQ(multispace::cyclesHighWater(), 1) << "two collection cycles ran at once";
 }

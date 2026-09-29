@@ -311,7 +311,22 @@ namespace proto {
                 auto t_phase1_start = std::chrono::steady_clock::now();
 #endif
                 
+                // --- CYCLE TOKEN ---
+                //
+                // One collection cycle at a time in the process.  Every space
+                // marks the global mutable table, so a marker reaches cells of
+                // other spaces; two markers at once would share the one mark
+                // bit of those cells (docs/GLOBAL_MUTABLE_TABLE.md).  The wait
+                // releases globalMutex, so the mutators of this space keep
+                // running, and it is uncontended with a single space.
+                multispace::cycleCV.wait(lock, [space] {
+                    return !multispace::cycleActive || space->state == SPACE_STATE_ENDING;
+                });
+                if (space->state == SPACE_STATE_ENDING) break;
+                multispace::cycleActive = true;
+
                 // --- PHASE 1: STOP THE WORLD ---
+                multispace::noteCycleStart();
                 space->stwFlag.store(true);
                 // Read by every allocation poll of the process: a thread of
                 // another space that belongs to this one parks for it too.
@@ -333,6 +348,9 @@ namespace proto {
                     space->stwFlag.store(false);
                     multispace::stopRequests.fetch_sub(1);
                     space->stopTheWorldCV.notify_all();
+                    multispace::noteCycleEnd();
+                    multispace::cycleActive = false;   // globalMutex is held here
+                    multispace::cycleCV.notify_all();
                     break;
                 }
 #ifdef PROTOCORE_GC_INSTRUMENT
@@ -1067,6 +1085,14 @@ namespace proto {
                 for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
                     space->gcMutableSnapshot[s] = nullptr;
                 }
+                // The mark bits this cycle set are all cleared (Phase 6):
+                // hand the token to the next cycle of any space.
+                multispace::noteCycleEnd();
+                {
+                    std::lock_guard<std::recursive_mutex> token(ProtoSpace::globalMutex);
+                    multispace::cycleActive = false;
+                }
+                multispace::cycleCV.notify_all();
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase6_end = std::chrono::steady_clock::now();
                 dbg_total_phase6_us.fetch_add(
@@ -1382,6 +1408,8 @@ namespace proto {
             // quorum, from here on.
             multispace::unregisterSpace(this);
             this->gcCV.notify_all();
+            // Its collector may be waiting for the cycle token.
+            multispace::cycleCV.notify_all();
             this->stopTheWorldCV.notify_all();
         }
         if (gcThread && gcThread->joinable()) {

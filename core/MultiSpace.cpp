@@ -21,6 +21,7 @@
 
 #include "../headers/proto_internal.h"
 
+#include <condition_variable>
 #include <mutex>
 #include <thread>
 #include <vector>
@@ -29,6 +30,22 @@ namespace proto {
 namespace multispace {
 
 std::atomic<int> stopRequests{0};
+bool cycleActive = false;
+std::condition_variable_any cycleCV;
+
+namespace {
+std::atomic<int> cyclesNow{0};
+std::atomic<int> cyclesMax{0};
+}  // namespace
+
+void noteCycleStart() {
+    const int now = cyclesNow.fetch_add(1) + 1;
+    int seen = cyclesMax.load();
+    while (now > seen && !cyclesMax.compare_exchange_weak(seen, now)) {}
+}
+void noteCycleEnd() { cyclesNow.fetch_sub(1); }
+int cyclesHighWater() { return cyclesMax.load(); }
+void resetCyclesHighWater() { cyclesMax.store(cyclesNow.load()); }
 
 namespace {
 

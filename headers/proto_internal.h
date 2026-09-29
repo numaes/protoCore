@@ -1378,6 +1378,20 @@ namespace proto {
         // cleared on the way back).
         void goOut(ProtoSpace* own);
         void comeBack(ProtoSpace* own, ProtoContext* context);
+
+        // Collection cycles are serialized in the process: a cycle holds the
+        // token from its stop-the-world request to the end of its bulk
+        // unmark, so two markers never share the one mark bit of a cell.
+        // Guarded by ProtoSpace::globalMutex.
+        extern bool cycleActive;
+        extern std::condition_variable_any cycleCV;
+
+        // Diagnostics read by tests: cycles running now, and the most ever
+        // observed at once in this process.
+        void noteCycleStart();
+        void noteCycleEnd();
+        int cyclesHighWater();
+        void resetCyclesHighWater();
     }
 
     // ---- StringLeafNode -------------------------------------------------------
