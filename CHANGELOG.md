@@ -4,6 +4,33 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Integer arithmetic
+
+Found by a differential run of protoCore's integer operations against
+Python's arbitrary-precision integers (100,000 random cases, operands from 1
+to 1,000 bits, both signs); every case now matches.
+
+- **Division and remainder by a divisor of two or more 64-bit words answered
+  wrong values.** The multi-word path aligned the divisor with at most one
+  corrective shift, so a quotient wider than one word lost its high bits:
+  `2^140 / 2^70` gave `2^65 - 1`. It is replaced by Knuth's Algorithm D on
+  64-bit digits, which also stops allocating a LargeInteger per quotient bit
+  (the old loop shifted through `fromTempBignum(nullptr, ...)`).
+- **`bitwiseAnd`/`bitwiseOr`/`bitwiseXor` lost the sign of a negative
+  LargeInteger operand.** The two's-complement conversion pre-filled the high
+  words with ones and then inverted them to zeros, so `-1 | x` answered
+  `2^64 - 1` for any LargeInteger `x`.
+- **`shiftLeft` of a negative SmallInteger overflowed silently** when the
+  result exceeded 64 bits (`-7410793187882849 << 35` answered a positive
+  number). The fast path now computes the exact product in 128 bits.
+- **LargeInteger construction runs inside a GC critical section.** The 2.x
+  critical-section audit (9f4ede54) placed the guard in an unused duplicate of
+  `fromTempBignum` in `LargeInteger.cpp`; the live copy in `Integer.cpp` had
+  none. The duplicate helpers (which also used a wrong SmallInteger bound of
+  2^55) are removed.
+
+Test: `NumericTest.ArbitraryPrecisionMatchesReferenceValues`.
+
 ### Packaging
 
 - **The DEB now ships a `DEBIAN/shlibs` file** (`libprotoCore 3 protocore (>= 2.5.0)`),
