@@ -4,6 +4,18 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.6.1] - 2026-09-29
+
+- **Creating a thread no longer detaches a live context's roots.**
+  `ProtoSpace::newThread` builds a temporary context with no previous context,
+  which the constructor registered as the calling main thread's current
+  context or, on any other thread, as `ProtoSpace::mainContext`; neither was
+  put back. A thread-less context in use while another thread created a
+  thread stopped being scanned, and a later cycle freed the objects only it
+  held (found by protoST, whose worker pool grows while actors block in I/O:
+  the main program's variables were freed). Both registrations are now
+  restored. Tests: `NewThreadRoots.*`.
+
 ## [2.6.0] - 2026-09-29
 
 Several ProtoSpaces in one process now share objects correctly: one table of

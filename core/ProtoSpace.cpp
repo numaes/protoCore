@@ -1663,8 +1663,27 @@ namespace proto {
         const ProtoList* args,
         const ProtoSparseList* kwargs
     ) {
+        // `c` is only the allocation context of the new thread's cells.  A
+        // context built with no previous context registers itself as a root:
+        // as the calling main thread's current context (the constructor adopts
+        // the main thread when it runs on it), or else as space->mainContext.
+        // Either registration detached the roots of a context still in use --
+        // the main thread's current context, or a thread-less context rooted
+        // through mainContext -- and a later cycle freed what only it held.
+        // Snapshot both and put them back (NewThreadRootsTests).
+        ProtoThreadImplementation* mainImpl =
+            (this->mainThreadId == std::this_thread::get_id() && this->rootContext &&
+             this->rootContext->thread)
+                ? toImpl<ProtoThreadImplementation>(this->rootContext->thread)
+                : nullptr;
+        ProtoContext* const mainCurrent = mainImpl ? mainImpl->context : nullptr;
+        ProtoContext* const savedMainContext = this->mainContext;
+
         auto* c = new ProtoContext(this, nullptr, nullptr, nullptr, args, kwargs);
         auto* newThreadImpl = new(c) ProtoThreadImplementation(c, name, this, mainFunction, args, kwargs);
+
+        if (mainImpl) mainImpl->implSetCurrentContext(mainCurrent);
+        this->mainContext = savedMainContext;
         // runningThreads is incremented in ProtoThreadImplementation constructor
         return newThreadImpl->asThread(c);
     }
