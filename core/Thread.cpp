@@ -301,9 +301,18 @@ namespace proto {
         // construction).  It becomes a dangling pointer the moment the exiting
         // thread destroys its own root context, which releaseExitingThread
         // above now does.  So snapshot both slots and put them back.
-        auto* callerImpl = (context && context->thread)
-            ? toImpl<ProtoThreadImplementation>(context->thread)
-            : nullptr;
+        // The context below adopts the thread it runs on the way the
+        // ProtoContext constructor does: the allocation context's thread, or
+        // the main thread when it runs there.  ProtoSpace::newThread passes a
+        // never-registered allocation context with no thread, so the calling
+        // main thread is found through the same detection.
+        ProtoThreadImplementation* callerImpl = nullptr;
+        if (context && context->thread) {
+            callerImpl = toImpl<ProtoThreadImplementation>(context->thread);
+        } else if (space && space->rootContext && space->rootContext->thread &&
+                   space->mainThreadId == std::this_thread::get_id()) {
+            callerImpl = toImpl<ProtoThreadImplementation>(space->rootContext->thread);
+        }
         ProtoContext* const callerCurrent = callerImpl ? callerImpl->context : nullptr;
         ProtoContext* const savedMainContext = space ? space->mainContext : nullptr;
 

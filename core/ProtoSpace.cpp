@@ -1663,29 +1663,30 @@ namespace proto {
         const ProtoList* args,
         const ProtoSparseList* kwargs
     ) {
-        // `c` is only the allocation context of the new thread's cells.  A
-        // context built with no previous context registers itself as a root:
-        // as the calling main thread's current context (the constructor adopts
-        // the main thread when it runs on it), or else as space->mainContext.
-        // Either registration detached the roots of a context still in use --
-        // the main thread's current context, or a thread-less context rooted
-        // through mainContext -- and a later cycle freed what only it held.
-        // Snapshot both and put them back (NewThreadRootsTests).
-        ProtoThreadImplementation* mainImpl =
-            (this->mainThreadId == std::this_thread::get_id() && this->rootContext &&
-             this->rootContext->thread)
-                ? toImpl<ProtoThreadImplementation>(this->rootContext->thread)
-                : nullptr;
-        ProtoContext* const mainCurrent = mainImpl ? mainImpl->context : nullptr;
-        ProtoContext* const savedMainContext = this->mainContext;
-
-        auto* c = new ProtoContext(this, nullptr, nullptr, nullptr, args, kwargs);
+        // `c` is only the allocation context of the new thread's cells. A
+        // context built with no previous context registers itself as a root
+        // -- the calling main thread's current context, or else
+        // space->mainContext -- and a registration of this temporary context
+        // detached the roots of a context still in use: a later cycle freed
+        // what only that context held (NewThreadRootsTests). Restoring the
+        // registration afterwards still left a window in which the allocations
+        // below could park for a stop-the-world that scanned the wrong root, so
+        // `c` is built never registered at all (the collector's own
+        // allocation-context constructor).
+        auto* c = new ProtoContext(ProtoContext::GCOwnedTag{}, this);
         auto* newThreadImpl = new(c) ProtoThreadImplementation(c, name, this, mainFunction, args, kwargs);
-
-        if (mainImpl) mainImpl->implSetCurrentContext(mainCurrent);
-        this->mainContext = savedMainContext;
         // runningThreads is incremented in ProtoThreadImplementation constructor
-        return newThreadImpl->asThread(c);
+        const ProtoThread* result = newThreadImpl->asThread(c);
+        // The cells allocated here are never handed to the collector: the
+        // thread leaves space->threads when it finishes, before its creator
+        // joins it, and the creator holds the handle in C++ memory the
+        // collector does not scan (MPSCQueueConcurrency joins a vector of
+        // them). Dropping the young chain keeps them out of every cycle, as
+        // they always were; destroying `c` returns the rest of its allocation
+        // batch to the space (ThreadExitReleaseTests).
+        c->lastAllocatedCell = nullptr;
+        delete c;
+        return result;
     }
 
     // Wait for the GC to complete a collection cycle, GC-safely.  The caller
