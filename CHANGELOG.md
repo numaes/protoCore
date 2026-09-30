@@ -4,6 +4,25 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.6.2] - 2026-09-30
+
+- **The heap ceiling holds while the collector releases dead mutables.**
+  Each cycle the collector removes the entries of dead mutable objects from
+  the process-wide mutable table. It did so with one `removeAt` per entry,
+  path-copying the shard's tree once per dead object: about 20 cells each,
+  over a million cells per cycle for a program that creates mutables in a
+  loop. The collector cannot wait for its own cycle, so once the mutators had
+  taken the reclaimed cells it took that garbage from the OS, past the
+  ceiling, cycle after cycle (protoST's `cli_memory_bounded` reached 1.6-1.9
+  GB under a 640 MB ceiling on a CI runner; 11.9M cells under a 10M ceiling
+  on a workstation). The entries are now removed per shard in one join-based
+  pass that shares every untouched subtree and drops wholly-dead ones without
+  allocating: removing 16,000 of 20,000 dense keys costs 25 cells instead of
+  178,292, and the heap ends exactly at its ceiling. The collector and other
+  callers exempt from waiting are also clamped at the ceiling to one refill
+  batch, no longer a whole OS block. Tests: `SparseListBulkRemove.*`.
+  No API or ABI change.
+
 ## [2.6.1] - 2026-09-29
 
 - **Creating a thread no longer detaches a live context's roots.**

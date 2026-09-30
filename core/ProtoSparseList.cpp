@@ -297,6 +297,22 @@ namespace proto
         }
         return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context);
     }
+    const ProtoSparseList* sparseListRemoveSorted(
+        ProtoContext* context, const ProtoSparseList* sl, const unsigned long* keys, std::size_t count) {
+        if (!sl || count == 0) return sl;
+        ProtoContext::CriticalSection cs(context);
+        if (isSparseListSmall(sl)) {
+            // At most MAX_INLINE entries: one removeAt per key is already cheap.
+            for (std::size_t i = 0; i < count; ++i) sl = sl->removeAt(context, keys[i]);
+            return sl;
+        }
+        const auto* root = toImpl<const ProtoSparseListImplementation>(sl);
+        const ProtoSparseListImplementation* out = sparse_avl::removeSorted(context, root, keys, keys + count);
+        if (out == root) return sl;
+        if (!out) out = sparse_avl::makeEmpty<ProtoSparseListImplementation>(context);
+        return out->asSparseList(context);
+    }
+
     const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long offset) const {
         ProtoContext::CriticalSection cs(context);
         if (isSparseListSmall(this)) {

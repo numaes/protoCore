@@ -164,6 +164,90 @@ namespace {
         return sparse_avl::rebalance(context, newNode);
     }
 
+    //--- Bulk removal (join-based) ---------------------------------------
+    //
+    // removeSorted removes a sorted, duplicate-free run of keys in one pass:
+    // a subtree that holds none of them is kept as it is, one whose every key
+    // goes is dropped without allocating, and the surviving parts are joined
+    // back into a balanced tree ("Just Join for Parallel Ordered Sets",
+    // Blelloch, Ferizovic and Sun). One removeAt per key path-copies the tree
+    // once per key; this copies each changed path once. The collector uses it
+    // to release the entries of dead mutables from the mutable table.
+
+    template<class Node>
+    inline bool isNone(const Node* n) { return !n || n->isEmpty; }
+
+    // A node over `l` and `r`, with an empty child stored as nullptr.
+    template<class Node>
+    inline const Node* makeNode(ProtoContext* context, typename Node::KeyType k, const ProtoObject* v,
+                                const Node* l, const Node* r) {
+        return new(context) Node(context, k, v, sparse_avl::isNone(l) ? nullptr : l,
+                                 sparse_avl::isNone(r) ? nullptr : r, false);
+    }
+
+    // `t` is taller than `r` by two or more: descend t's right spine.
+    template<class Node>
+    const Node* joinRight(ProtoContext* context, const Node* t, typename Node::KeyType k,
+                          const ProtoObject* v, const Node* r) {
+        if (sparse_avl::nodeHeight(t) <= sparse_avl::nodeHeight(r) + 1)
+            return sparse_avl::makeNode(context, k, v, t, r);
+        const Node* nr = sparse_avl::joinRight(context, t->next, k, v, r);
+        return sparse_avl::rebalance(context, sparse_avl::makeNode(context, t->key, t->value, t->previous, nr));
+    }
+
+    // `t` is taller than `l` by two or more: descend t's left spine.
+    template<class Node>
+    const Node* joinLeft(ProtoContext* context, const Node* l, typename Node::KeyType k,
+                         const ProtoObject* v, const Node* t) {
+        if (sparse_avl::nodeHeight(t) <= sparse_avl::nodeHeight(l) + 1)
+            return sparse_avl::makeNode(context, k, v, l, t);
+        const Node* nl = sparse_avl::joinLeft(context, l, k, v, t->previous);
+        return sparse_avl::rebalance(context, sparse_avl::makeNode(context, t->key, t->value, nl, t->next));
+    }
+
+    // Every key of `l` < k < every key of `r`; both balanced.
+    template<class Node>
+    const Node* join(ProtoContext* context, const Node* l, typename Node::KeyType k,
+                     const ProtoObject* v, const Node* r) {
+        if (sparse_avl::isNone(l)) l = nullptr;
+        if (sparse_avl::isNone(r)) r = nullptr;
+        const int hl = sparse_avl::nodeHeight(l), hr = sparse_avl::nodeHeight(r);
+        if (hl > hr + 1) return sparse_avl::joinRight(context, l, k, v, r);
+        if (hr > hl + 1) return sparse_avl::joinLeft(context, l, k, v, r);
+        return sparse_avl::makeNode(context, k, v, l, r);
+    }
+
+    // Every key of `l` < every key of `r`. nullptr when both are empty.
+    template<class Node>
+    const Node* join2(ProtoContext* context, const Node* l, const Node* r) {
+        if (sparse_avl::isNone(l)) return sparse_avl::isNone(r) ? nullptr : r;
+        if (sparse_avl::isNone(r)) return l;
+        const Node* last = l;
+        while (!sparse_avl::isNone(last->next)) last = last->next;
+        const Node* rest = sparse_avl::removeAt(context, l, last->key);
+        return sparse_avl::join(context, rest, last->key, last->value, r);
+    }
+
+    // Removes the keys in [begin, end) (sorted by keyWord, no duplicates).
+    // Answers `node` itself when none of them is present, and nullptr when
+    // nothing is left.
+    template<class Node>
+    const Node* removeSorted(ProtoContext* context, const Node* node,
+                             const typename Node::KeyType* begin, const typename Node::KeyType* end) {
+        if (begin == end || sparse_avl::isNone(node)) return node;
+        const uintptr_t w = sparse_avl::keyWord(node->key);
+        const auto* at = std::lower_bound(begin, end, node->key,
+            [](typename Node::KeyType a, typename Node::KeyType b) {
+                return sparse_avl::keyWord(a) < sparse_avl::keyWord(b);
+            });
+        const bool hit = at != end && sparse_avl::keyWord(*at) == w;
+        const Node* l = sparse_avl::removeSorted(context, node->previous, begin, at);
+        const Node* r = sparse_avl::removeSorted(context, node->next, hit ? at + 1 : at, end);
+        if (!hit && l == node->previous && r == node->next) return node;
+        if (hit) return sparse_avl::join2(context, l, r);
+        return sparse_avl::join(context, l, node->key, node->value, r);
+    }
+
     // In-order walk; allocates nothing, so it needs no critical section.
     template<class Node, class Fn>
     void inorder(const Node* node, Fn& fn) {

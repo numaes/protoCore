@@ -244,6 +244,9 @@ namespace proto {
                 const unsigned long sb = b % kShards;
                 return sa != sb ? sa < sb : a < b;
             });
+            // Sorted by shard, then by key: each shard's run is the sorted,
+            // duplicate-free key array sparseListRemoveSorted takes.
+            refs.erase(std::unique(refs.begin(), refs.end()), refs.end());
 
             std::size_t begin = 0;
             while (begin < refs.size()) {
@@ -255,11 +258,12 @@ namespace proto {
                 for (int attempt = 1;; ++attempt) {
                     ProtoSparseList* oldRoot = slot.load(std::memory_order_acquire);
                     if (!oldRoot) break;
-                    const ProtoSparseList* newRoot = oldRoot;
-                    for (std::size_t i = begin; i < end; ++i) {
-                        if (sparseListGetRaw(gc, newRoot, refs[i]) == nullptr) continue;
-                        newRoot = newRoot->removeAt(gc, refs[i]);
-                    }
+                    // One pass for the whole run. A removeAt per entry
+                    // path-copied the shard once per dead mutable: garbage
+                    // the collector allocates past the heap ceiling, since it
+                    // cannot wait for its own cycle (SparseListBulkRemove, protoST cli_memory_bounded).
+                    const ProtoSparseList* newRoot =
+                        sparseListRemoveSorted(gc, oldRoot, refs.data() + begin, end - begin);
                     if (newRoot == oldRoot) break;  // none of the refs is present
                     ProtoSparseList* expected = oldRoot;
                     if (slot.compare_exchange_strong(expected, const_cast<ProtoSparseList*>(newRoot),
@@ -1985,15 +1989,18 @@ namespace proto {
                 blocksToAllocate = kMaxBlocksPerOSAllocation;
 
             // --- Allocation-limit enforcement -------------------------------
-            // Skipped entirely for the exempt callers and when no limit is
-            // set (maxHeapSize == 0) — then the loop falls straight through
-            // to the OS-allocation path, exactly as before this feature.
-            if (!limitExempt) {
+            // Skipped entirely when no limit is set (maxHeapSize == 0) — then
+            // the loop falls straight through to the OS-allocation path,
+            // exactly as before this feature.  The exempt callers (the GC
+            // thread, a contextless caller) never wait, but they are clamped
+            // like everyone else: at the ceiling they get one batch, not a
+            // whole OS block that would then feed the mutators.
+            if (this->maxHeapSize > 0) {
                 long headroom = static_cast<long>(this->maxHeapSize)
                               - static_cast<long>(this->heapSize);
                 if (headroom <= 0) {
                     // HARD zone: the heap is at its ceiling.
-                    if (ctx->criticalSectionDepth == 0) {
+                    if (!limitExempt && ctx->criticalSectionDepth == 0) {
                         // A depth-0 caller holds no half-built tree, so it may
                         // block for the GC.  waitForHeapHeadroom returns once
                         // the freelist refills (or escalates a genuine OOM);
@@ -2005,7 +2012,7 @@ namespace proto {
                     }
                     // Inside a critical section the thread cannot block — that
                     // would expose a helper's un-anchored cells to a STW
-                    // cycle.  The critical-section entry checkpoint already
+                    // cycle; nor can an exempt caller.  The critical-section entry checkpoint already
                     // enforced the limit; allow a bounded one-batch overshoot
                     // to satisfy this in-flight allocation.
                     blocksToAllocate = batchSize;
@@ -2013,6 +2020,7 @@ namespace proto {
                     if (this->softHeapLimit > 0
                         && this->heapSize >= this->softHeapLimit
                         && !softWaited
+                        && !limitExempt
                         && ctx->criticalSectionDepth == 0) {
                         // SOFT zone: prefer reclamation over growth.  Wait one
                         // cycle, then re-check; grow only if that did not help.

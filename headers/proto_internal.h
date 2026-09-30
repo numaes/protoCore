@@ -414,6 +414,16 @@ namespace proto {
     inline const ProtoObject* sparseListGetRaw(
         ProtoContext* context, const ProtoSparseList* sl, unsigned long offset);
 
+    /**
+     * @brief Removes a sorted, duplicate-free array of keys from `sl` in one
+     * pass (either form). Answers `sl` itself when none of the keys is
+     * present. Subtrees without any of the keys are shared, not copied, so a
+     * dense run of keys costs far fewer cells than one removeAt per key. The
+     * collector releases dead mutables' table entries with it.
+     */
+    const ProtoSparseList* sparseListRemoveSorted(
+        ProtoContext* context, const ProtoSparseList* sl, const unsigned long* keys, std::size_t count);
+
     template<> struct ExpectedTag<const ProtoSetImplementation> { static constexpr unsigned long value = POINTER_TAG_SET; };
     template<> struct ExpectedTag<ProtoSetImplementation> { static constexpr unsigned long value = POINTER_TAG_SET; };
 
