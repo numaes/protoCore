@@ -118,6 +118,35 @@ TEST_F(SparseListBulkRemove, MatchesRemovingTheKeysOneByOne) {
     }
 }
 
+// Trees shaped like the mutable table's shards: keys carry a space id in the
+// high bits (mutable_refs), and earlier single removals left empty nodes as
+// children inside the tree.
+TEST_F(SparseListBulkRemove, MatchesOnTreesThatAlreadyHadRemovals) {
+    std::mt19937_64 rng(4242);
+    const unsigned long space = 3UL << 40;
+    for (int round = 0; round < 400; ++round) {
+        const int n = 1 + static_cast<int>(rng() % 400);
+        std::vector<unsigned long> present;
+        for (int i = 0; i < n; ++i) present.push_back(space + 1 + rng() % 1000);
+        const ProtoSparseList* tree = build(ctx, present);
+        std::vector<unsigned long> earlier;
+        for (int i = 0; i < n / 2; ++i) earlier.push_back(space + 1 + rng() % 1000);
+        tree = removeOneByOne(ctx, tree, earlier);
+
+        std::vector<unsigned long> gone;
+        const unsigned long lo = space + 1 + rng() % 1000;
+        const unsigned long span = rng() % 300;
+        for (unsigned long k = lo; k <= lo + span; ++k) if (rng() % 4 != 0) gone.push_back(k);
+        for (int i = 0; i < 20; ++i) gone.push_back(space + 1 + rng() % 1100);
+        std::sort(gone.begin(), gone.end());
+        gone.erase(std::unique(gone.begin(), gone.end()), gone.end());
+
+        const ProtoSparseList* expected = removeOneByOne(ctx, tree, gone);
+        const ProtoSparseList* actual = sparseListRemoveSorted(ctx, tree, gone.data(), gone.size());
+        ASSERT_EQ(entries(ctx, actual), entries(ctx, expected)) << "round " << round;
+    }
+}
+
 TEST_F(SparseListBulkRemove, NoKeysAnswersTheTreeItself) {
     const ProtoSparseList* tree = build(ctx, {3, 1, 4, 15, 9, 26, 5});
     EXPECT_EQ(sparseListRemoveSorted(ctx, tree, nullptr, 0), tree);
