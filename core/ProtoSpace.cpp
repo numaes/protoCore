@@ -1469,7 +1469,23 @@ namespace proto {
         }
     }
 
+    // Temporary diagnostic (branch diag/heap-report): PROTOCORE_HEAP_REPORT.
+    static std::atomic<long> g_diagPeakHeap{0};
+    static std::atomic<long> g_diagOvershoots{0};
+    static std::atomic<long> g_diagHardWaits{0};
+    static std::atomic<long> g_diagOsAllocs{0};
+    static std::atomic<long> g_diagExemptCells{0};
+    static std::atomic<long> g_diagGcThreadCells{0};
+    static std::atomic<long> g_diagRaceCells{0};
+
     ProtoSpace::~ProtoSpace() {
+        if (std::getenv("PROTOCORE_HEAP_REPORT")) {
+            std::fprintf(stderr,
+                "[HEAP-REPORT] heapSize=%d max=%d peak=%ld freeCells=%d cycles=%lu osAllocs=%ld hardWaits=%ld overshoots=%ld exemptCells=%ld gcThreadCells=%ld overCeilingCells=%ld\n",
+                this->heapSize, this->maxHeapSize, g_diagPeakHeap.load(), this->freeCellsCount,
+                (unsigned long)this->gcCycleCount.load(), g_diagOsAllocs.load(),
+                g_diagHardWaits.load(), g_diagOvershoots.load(), g_diagExemptCells.load(), g_diagGcThreadCells.load(), g_diagRaceCells.load());
+        }
         {
             std::lock_guard<std::recursive_mutex> lock(globalMutex);
             this->state = SPACE_STATE_ENDING;
@@ -1988,17 +2004,18 @@ namespace proto {
             // Skipped entirely for the exempt callers and when no limit is
             // set (maxHeapSize == 0) — then the loop falls straight through
             // to the OS-allocation path, exactly as before this feature.
-            if (!limitExempt) {
+            if (this->maxHeapSize > 0) {
                 long headroom = static_cast<long>(this->maxHeapSize)
                               - static_cast<long>(this->heapSize);
                 if (headroom <= 0) {
                     // HARD zone: the heap is at its ceiling.
-                    if (ctx->criticalSectionDepth == 0) {
+                    if (!limitExempt && ctx->criticalSectionDepth == 0) {
                         // A depth-0 caller holds no half-built tree, so it may
                         // block for the GC.  waitForHeapHeadroom returns once
                         // the freelist refills (or escalates a genuine OOM);
                         // re-check the freelist afterwards.
                         lock.unlock();
+                        g_diagHardWaits.fetch_add(1);
                         this->waitForHeapHeadroom(ctx);
                         lock.lock();
                         continue;
@@ -2008,11 +2025,13 @@ namespace proto {
                     // cycle.  The critical-section entry checkpoint already
                     // enforced the limit; allow a bounded one-batch overshoot
                     // to satisfy this in-flight allocation.
+                    g_diagOvershoots.fetch_add(1);
                     blocksToAllocate = batchSize;
                 } else {
                     if (this->softHeapLimit > 0
                         && this->heapSize >= this->softHeapLimit
                         && !softWaited
+                        && !limitExempt
                         && ctx->criticalSectionDepth == 0) {
                         // SOFT zone: prefer reclamation over growth.  Wait one
                         // cycle, then re-check; grow only if that did not help.
@@ -2072,6 +2091,23 @@ namespace proto {
             // Atomic so the unlocked heuristic read in heapLimitCheckpoint is
             // not a data race; the value is re-validated under globalMutex.
             std::atomic_ref<int>(this->heapSize).fetch_add(blocksToAllocate, std::memory_order_relaxed);
+            {
+                g_diagOsAllocs.fetch_add(1);
+                if (limitExempt) g_diagExemptCells.fetch_add(blocksToAllocate);
+                if (isGcThread) {
+                    g_diagGcThreadCells.fetch_add(blocksToAllocate);
+                    if (std::getenv("PROTOCORE_HEAP_REPORT"))
+                        std::fprintf(stderr, "[GC-OS] +%d heap=%d max=%d freeCells=%d chunks=%p running=%d cycle=%lu\n",
+                            blocksToAllocate, this->heapSize, this->maxHeapSize, this->freeCellsCount,
+                            (void*)this->freeChunks, this->runningThreads.load(), (unsigned long)this->gcCycleCount.load());
+                }
+                if (this->maxHeapSize > 0 && this->heapSize > this->maxHeapSize) {
+                    long over = this->heapSize - this->maxHeapSize;
+                    g_diagRaceCells.store(over);
+                }
+                long now = this->heapSize, prev = g_diagPeakHeap.load();
+                while (now > prev && !g_diagPeakHeap.compare_exchange_weak(prev, now)) {}
+            }
 
             // Partition the remainder into CELL_CHUNK_SIZE chunks so the next
             // getFreeCells lands in the O(1) chunked fast path.
