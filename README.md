@@ -37,7 +37,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 ## The protoCore Ecosystem
 
-Five language runtimes (protoJS, protoPython, protoScala, protoST, protoClojure) and protoCpp's C++ examples are built on protoCore.
+Five language runtimes (protoJS, protoPython, protoScala, protoST, protoClojure) and protoCpp's C++ examples are built on protoCore; protoST, protoScala and protoClojure share their input and output through protoIO.
 
 | Project | Role | Repository |
 |---|---|---|
@@ -48,6 +48,7 @@ Five language runtimes (protoJS, protoPython, protoScala, protoST, protoClojure)
 | protoST | Smalltalk-inspired actor language on protoCore | https://github.com/gamarino/protoST |
 | protoClojure | Clojure dialect on protoCore (early stage) | https://github.com/gamarino/protoClojure |
 | protoCpp | Examples and benchmarks using protoCore directly from C++ | https://github.com/gamarino/protoCpp |
+| protoIO | Shared input and output for the runtimes: files, processes, TCP, UDP, TLS and HTTP/1.1 (used by protoST, protoScala and protoClojure) | https://github.com/gamarino/protoIO |
 
 ---
 
