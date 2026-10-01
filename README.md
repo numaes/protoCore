@@ -15,7 +15,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 | Item | Value |
 |------|-------|
-| Version | 2.6.2 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
+| Version | 2.7.0 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
 | Status | Open for review; not production ready |
 | Test suite | GoogleTest, counted with `ctest -N` in your build directory — 499 cases as of 2026-09-25. Count it rather than quoting this line: it grows with every fix. |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
@@ -137,7 +137,7 @@ cmake --build build
 
 `cmake --build build` builds the shared library, the test executable (`build/test/proto_tests`) and the benchmark executables. To build only the library, add `--target protoCore`.
 
-On Linux the library is `build/libprotoCore.so.<version>` (`2.6.2` as of 2026-09-30), with the links `libprotoCore.so.3` (the soname, `PROTOCORE_ABI_SOVERSION`) and `libprotoCore.so`. On macOS CMake names it `libprotoCore.<version>.dylib`. On Windows the build produces `build/bin/protoCore.dll` and `build/protoCore.lib`; it is built natively with MSVC (Visual Studio 2022) and passes the full test suite there. Platform support for macOS and Windows, including the Windows build steps, is described in [docs/INSTALLATION.md](docs/INSTALLATION.md).
+On Linux the library is `build/libprotoCore.so.<version>` (`2.7.0` as of 2026-10-01), with the links `libprotoCore.so.3` (the soname, `PROTOCORE_ABI_SOVERSION`) and `libprotoCore.so`. On macOS CMake names it `libprotoCore.<version>.dylib`. On Windows the build produces `build/bin/protoCore.dll` and `build/protoCore.lib`; it is built natively with MSVC (Visual Studio 2022) and passes the full test suite there. Platform support for macOS and Windows, including the Windows build steps, is described in [docs/INSTALLATION.md](docs/INSTALLATION.md).
 
 ## Running Tests and Benchmarks
 

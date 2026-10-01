@@ -4,6 +4,13 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-10-01
+
+A minor release: the API gains the names `proto::proto_long`,
+`proto::proto_ulong`, `PROTO_L`, `PROTO_UL` and `PROTO_FMT_U`, so code written
+against them needs 2.7.0. Nothing is removed or changed for existing code, and
+the ABI (SOVERSION 3) is unchanged.
+
 - **Windows: native MSVC build.** protoCore builds with Visual Studio 2022
   and passes its whole suite on Windows 11 (517/517); `cmake --install` and
   `cpack -G ZIP` work. The API's 64-bit integers are now spelled
@@ -17,6 +24,13 @@ All notable changes to protoCore are documented in this file.
   `PROTOCORE_DATA`. The NSIS registry commands were double-escaped so
   CPackConfig.cmake parses them. No change for existing embedders on Linux
   or macOS.
+- **macOS: builds and passes on Apple clang (arm64).** Apple's libc++ before
+  LLVM 19 has no `std::atomic_ref`; the four relaxed `int` accesses that used
+  it go through `relaxedLoad` / `relaxedStore` / `relaxedFetchAdd`, which are
+  `std::atomic_ref` wherever the library has it. The residency tests measure
+  resident memory through the Mach task on macOS (there is no `/proc`).
+- **CI on macOS and Windows** (`.github/workflows/cross-platform.yml`), next
+  to the Linux `ci.yml`.
 
 ## [2.6.2] - 2026-09-30
 
