@@ -8,7 +8,7 @@ This guide covers building protoCore from source, installing the shared library 
 
 - **Linux** with GCC or Clang is the platform these instructions are written for.
 - **macOS**: `CMakeLists.txt` configures the TGZ and DragNDrop CPack generators for macOS. This guide does not verify the macOS build.
-- **Windows**: `CMakeLists.txt` configures the ZIP and NSIS CPack generators for Windows, but the cell allocator calls `posix_memalign` (`core/ProtoSpace.cpp`, `core/ProtoContext.cpp`), which the Microsoft C runtime does not provide, and `CMakeLists.txt` adds the GCC/Clang option `-fno-delete-null-pointer-checks` for every compiler. A native MSVC build is not expected to work without source changes.
+- **Windows**: native build with MSVC (Visual Studio 2022), verified on Windows 11: the library, the tests (517 of 517 pass), `cmake --install` and the ZIP package. See [Windows (MSVC)](#windows-msvc) below.
 
 No continuous integration is configured in this repository.
 
@@ -16,7 +16,7 @@ No continuous integration is configured in this repository.
 
 ## Prerequisites
 
-- A C++ compiler with C++20 support (GCC or Clang)
+- A C++ compiler with C++20 support (GCC or Clang; MSVC from Visual Studio 2022 on Windows)
 - **CMake** 3.16 or later (`cmake_minimum_required` in `CMakeLists.txt`)
 - A threads library (`find_package(Threads REQUIRED)`)
 - Network access during the first configuration: `test/CMakeLists.txt` downloads GoogleTest 1.14.0 with `FetchContent`
@@ -55,6 +55,37 @@ ctest --test-dir build --output-on-failure
 ```
 
 ---
+
+### Windows (MSVC)
+
+protoCore builds natively with Visual Studio 2022 (MSVC 19.44 verified) using
+the CMake and Ninja that ship with it. From an "x64 Native Tools Command
+Prompt":
+
+```bat
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+ctest --test-dir build -j8
+cmake --install build --prefix %LOCALAPPDATA%\Programs\proto
+```
+
+The build produces `protoCore.dll` and its import library `protoCore.lib`.
+Executables and the DLL share `build/bin/`, so the tests run in place. On
+Windows 11 the whole suite passes (517 of 517).
+
+What differs on Windows, and why Linux and macOS are unaffected:
+
+- The API's 64-bit integers are `proto::proto_long` / `proto::proto_ulong`
+  (literals `PROTO_L(x)` / `PROTO_UL(x)`, printf conversion `PROTO_FMT_U`).
+  Windows is LLP64 (`long` is 32 bits), so there they are `long long`;
+  everywhere else they ARE `long` and `unsigned long`, so the types, the C++
+  mangling and the ABI are unchanged (the exported symbols of
+  `libprotoCore.so` are identical to those of 2.6.2).
+- 128-bit arithmetic in `Integer.cpp` uses MSVC's `std::_Unsigned128`;
+  aligned allocation uses `_aligned_malloc`.
+- The DLL exports every symbol (`WINDOWS_EXPORT_ALL_SYMBOLS`). Static data a
+  caller reads across the DLL boundary is marked `PROTOCORE_DATA`
+  (`dllexport` / `dllimport`, empty elsewhere).
 
 ## Installing the Built Library
 
@@ -140,7 +171,7 @@ Last verified 2026-09-27 against protoCore 2.5.0 (`PROTOCORE_ABI_SOVERSION 3`).
 | Linux / Debian-Ubuntu | TGZ, DEB | **VERIFIED.** Built, then installed with `dpkg -i` as root in a throwaway `ubuntu:24.04` container (glibc 2.39, the same as the build host) and exercised there. |
 | Linux / Fedora-RHEL | TGZ, RPM | **VERIFIED.** `cpack -G RPM` executed in a throwaway `fedora:41` container (glibc 2.40, `rpm` 4.20.1); the RPM was installed with `rpm -i` and exercised. This closes the gap left by decision D-I2, under which the RPM generator had been configured but never run on any host. |
 | macOS | TGZ, DragNDrop | **UNVERIFIED.** Configured and reviewed only. There is no macOS host here and no cross-toolchain, so the generator has never executed. Review is not verification. |
-| Windows | ZIP, NSIS (writes `HKLM\SOFTWARE\protoCore` `Version`, `Soversion`, `InstallDir`) | **UNVERIFIED.** Configured and reviewed only. There is no Windows host here. The registry values the NSIS script writes have never been observed, so protoJS's WiX condition that reads them is equally unverified. |
+| Windows | ZIP, NSIS (writes `HKLM\SOFTWARE\protoCore` `Version`, `Soversion`, `InstallDir`) | **PARTLY VERIFIED** (2026-10-01, Windows 11, MSVC 19.44). Built, tested (517/517), installed with `cmake --install` into a user prefix and consumed from there by protoScala; `cpack -G ZIP` produces `protoCore-<version>-win64.zip`. Running cpack also exposed and fixed a quoting defect in the NSIS registry commands. The NSIS installer itself has not been built (no NSIS on that host), so the registry values, and protoJS's WiX condition that reads them, remain unobserved. |
 
 ### What the Linux verification actually demonstrated
 

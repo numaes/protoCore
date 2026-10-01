@@ -123,7 +123,7 @@ protoCore is designed and maintained by a single architect, Gustavo Marino, work
 ### Prerequisites
 
 *   **CMake** 3.16 or later
-*   A C++ compiler with C++20 support (the build passes GCC/Clang options such as `-fno-delete-null-pointer-checks`)
+*   A C++ compiler with C++20 support: GCC or Clang on Linux and macOS, MSVC (Visual Studio 2022) on Windows
 *   Network access during the first configuration: the test suite downloads GoogleTest 1.14.0 with CMake `FetchContent`
 
 ### Compilation
@@ -137,7 +137,7 @@ cmake --build build
 
 `cmake --build build` builds the shared library, the test executable (`build/test/proto_tests`) and the benchmark executables. To build only the library, add `--target protoCore`.
 
-On Linux the library is `build/libprotoCore.so.<version>` (`2.6.2` as of 2026-09-30), with the links `libprotoCore.so.3` (the soname, `PROTOCORE_ABI_SOVERSION`) and `libprotoCore.so`. On macOS CMake names it `libprotoCore.<version>.dylib`. Platform support for macOS and Windows is described in [docs/INSTALLATION.md](docs/INSTALLATION.md).
+On Linux the library is `build/libprotoCore.so.<version>` (`2.6.2` as of 2026-09-30), with the links `libprotoCore.so.3` (the soname, `PROTOCORE_ABI_SOVERSION`) and `libprotoCore.so`. On macOS CMake names it `libprotoCore.<version>.dylib`. On Windows the build produces `build/bin/protoCore.dll` and `build/protoCore.lib`; it is built natively with MSVC (Visual Studio 2022) and passes the full test suite there. Platform support for macOS and Windows, including the Windows build steps, is described in [docs/INSTALLATION.md](docs/INSTALLATION.md).
 
 ## Running Tests and Benchmarks
 

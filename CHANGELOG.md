@@ -4,6 +4,20 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+- **Windows: native MSVC build.** protoCore builds with Visual Studio 2022
+  and passes its whole suite on Windows 11 (517/517); `cmake --install` and
+  `cpack -G ZIP` work. The API's 64-bit integers are now spelled
+  `proto::proto_long` / `proto::proto_ulong` (`PROTO_L`, `PROTO_UL`,
+  `PROTO_FMT_U`): `long long` on Windows, where `long` is 32 bits, and exactly
+  `long` / `unsigned long` everywhere else, so on Linux and macOS the types,
+  the mangling and the ABI do not change (`libprotoCore.so` exports the same
+  1053 symbols as 2.6.2, and the suite passes 517/517 on both). Platform shims
+  cover `__int128`, aligned allocation, `__PRETTY_FUNCTION__` and
+  `__builtin_prefetch`; static data read across the DLL boundary is marked
+  `PROTOCORE_DATA`. The NSIS registry commands were double-escaped so
+  CPackConfig.cmake parses them. No change for existing embedders on Linux
+  or macOS.
+
 ## [2.6.2] - 2026-09-30
 
 - **The heap ceiling holds while the collector releases dead mutables.**
