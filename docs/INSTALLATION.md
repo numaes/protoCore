@@ -38,7 +38,7 @@ This builds the shared library, the test executable `build/test/proto_tests` and
 cmake --build build --target protoCore
 ```
 
-The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `2.7.0` as of 2026-10-01 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `3`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `3` for the second. On Linux the build directory contains:
+The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `2.8.0` as of 2026-10-01 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `3`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `3` for the second. On Linux the build directory contains:
 
 | File | Role |
 |------|------|
@@ -108,7 +108,7 @@ sudo ldconfig
 
 | File | Path |
 |------|------|
-| Shared library | `lib/libprotoCore.so.<version>` (`2.7.0` as of 2026-10-01), with the links `lib/libprotoCore.so.3` (the soname) and `lib/libprotoCore.so` |
+| Shared library | `lib/libprotoCore.so.<version>` (`2.8.0` as of 2026-10-01), with the links `lib/libprotoCore.so.3` (the soname) and `lib/libprotoCore.so` |
 | Public header | `include/protoCore.h` |
 | CMake package configuration | `lib/cmake/protoCore/protoCoreConfig.cmake`, `protoCoreConfigVersion.cmake`, `protoCoreTargets.cmake` and one per-configuration targets file |
 | pkg-config metadata | `lib/pkgconfig/protoCore.pc` |
@@ -262,7 +262,7 @@ conformance suite against their own build.
 
 ### Package file names
 
-The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`2.7.0` as of 2026-10-01):
+The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`2.8.0` as of 2026-10-01):
 
 | Platform | Files |
 |----------|-------|

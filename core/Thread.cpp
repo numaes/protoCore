@@ -6,6 +6,10 @@
  */
 
 #include "../headers/proto_internal.h"
+#if defined(__APPLE__)
+#include <pthread.h>
+#endif
+#include <atomic>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -167,6 +171,61 @@ namespace proto {
 
             space->gcCV.notify_all(); // Notify GC that a thread finished
         }
+
+        std::atomic<size_t> g_threadStackBytes{0};
+
+#if defined(__APPLE__)
+        /**
+         * macOS: run thread_main on a thread with ProtoSpace::threadStackBytes
+         * of stack.  std::thread cannot be given a stack size, and macOS has no
+         * process-wide default, so the std::thread newThread creates starts a
+         * pthread with the size and waits for it.  Everything protoCore knows
+         * about the thread (registration, runningThreads, its context) happens
+         * inside thread_main, on the inner thread; the outer one is never
+         * registered and holds no quorum while it waits, and ProtoThread::join
+         * joins the outer one, which ends right after the inner one.
+         */
+        void thread_main_sized(
+            ProtoContext* context,
+            ProtoMethod method,
+            const ProtoList* args,
+            const ProtoSparseList* kwargs
+        ) {
+            const size_t want = g_threadStackBytes.load(std::memory_order_relaxed);
+            if (want == 0) { thread_main(context, method, args, kwargs); return; }
+            struct Job {
+                ProtoContext* context;
+                ProtoMethod method;
+                const ProtoList* args;
+                const ProtoSparseList* kwargs;
+            } job{context, method, args, kwargs};
+            pthread_attr_t attr;
+            pthread_t inner;
+            bool started = false;
+            if (pthread_attr_init(&attr) == 0) {
+                // A whole number of pages (16 KiB on Apple silicon).
+                const size_t page = 16384;
+                const size_t bytes = (want + page - 1) / page * page;
+                started = pthread_attr_setstacksize(&attr, bytes) == 0 &&
+                    pthread_create(&inner, &attr, [](void* p) -> void* {
+                        auto* j = static_cast<Job*>(p);
+                        thread_main(j->context, j->method, j->args, j->kwargs);
+                        return nullptr;
+                    }, &job) == 0;
+                pthread_attr_destroy(&attr);
+            }
+            if (!started) { thread_main(context, method, args, kwargs); return; }
+            pthread_join(inner, nullptr);
+        }
+#endif
+    }
+
+    void ProtoSpace::setThreadStackBytes(size_t bytes) {
+        g_threadStackBytes.store(bytes, std::memory_order_relaxed);
+    }
+
+    size_t ProtoSpace::threadStackBytes() {
+        return g_threadStackBytes.load(std::memory_order_relaxed);
     }
 
     //=========================================================================
@@ -368,7 +427,11 @@ namespace proto {
         // window between this point and `new std::thread(...)` below,
         // during which GC would otherwise see a phantom running thread
         // that could never park on stwFlag.
+#if defined(__APPLE__)
+        this->extension->osThread = new std::thread(thread_main_sized, this->context, mainFunction, args, kwargs);
+#else
         this->extension->osThread = new std::thread(thread_main, this->context, mainFunction, args, kwargs);
+#endif
     }
 
     /** Adopt-the-main-thread variant.  Builds the extension (attribute

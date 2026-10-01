@@ -4,6 +4,17 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.8.0] - 2026-10-01
+
+- **`ProtoSpace::setThreadStackBytes` / `threadStackBytes`** (new; test with
+  `PROTOCORE_HAS_THREAD_STACK_BYTES`). macOS gives a secondary thread 512 KiB
+  and has no process-wide default, so a runtime's deep recursion in a future
+  or an actor ran out of stack there, while glibc
+  (`pthread_setattr_default_np`) and Windows (`/STACK`) let the embedder set
+  it. On macOS `newThread` now runs the thread's body on a pthread of at
+  least the requested size. Linux and Windows are unchanged: the value is
+  only stored there. Additive: two new exported functions, SOVERSION 3.
+
 ## [2.7.0] - 2026-10-01
 
 A minor release: the API gains the names `proto::proto_long`,

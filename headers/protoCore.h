@@ -34,6 +34,9 @@
 #define PROTO_FMT_U "lu"
 #endif
 
+// ProtoSpace::setThreadStackBytes exists (protoCore 2.8.0 and later).
+#define PROTOCORE_HAS_THREAD_STACK_BYTES 1
+
 // Static data members of the API.  A Windows DLL exports functions to callers
 // that know nothing about it, but data must be declared dllimport by the
 // caller.  Empty everywhere else.
@@ -2417,6 +2420,22 @@ namespace proto
 
         /** @brief Module roots this process holds.  Diagnostics and tests. */
         static proto_ulong moduleRootCount();
+
+        /**
+         * @brief The stack size of the threads newThread creates, from now on.
+         *
+         * Where the C library has a process-wide default for new threads,
+         * that default is what an embedder sets (glibc:
+         * pthread_setattr_default_np; Windows: the executable's /STACK
+         * reserve) and this value is not needed.  macOS has none -- a
+         * secondary thread gets 512 KiB whatever the main thread has -- so
+         * there newThread gives each thread at least this many bytes.  0 (the
+         * default) means the platform's size.  Process-wide; call it once at
+         * start-up, before creating threads.  Since 2.8.0; test for it with
+         * PROTOCORE_HAS_THREAD_STACK_BYTES.
+         */
+        static void setThreadStackBytes(size_t bytes);
+        static size_t threadStackBytes();
 
         /**
          * @brief Publish a module this embedder loaded itself, under the ruled
