@@ -31,6 +31,8 @@
 // The CRT has no setenv/unsetenv; _putenv_s with an empty value removes one.
 static int setenv(const char* name, const char* value, int) { return _putenv_s(name, value); }
 static int unsetenv(const char* name) { return _putenv_s(name, ""); }
+#elif defined(__APPLE__)
+#include <mach/mach.h>
 #else
 #include <unistd.h>
 #endif
@@ -313,6 +315,13 @@ size_t residentBytes() {
     PROCESS_MEMORY_COUNTERS pmc{};
     if (!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) return 0;
     return pmc.WorkingSetSize;
+#elif defined(__APPLE__)
+    // macOS has no /proc: the resident size comes from the Mach task.
+    mach_task_basic_info info{};
+    mach_msg_type_number_t count = MACH_TASK_BASIC_INFO_COUNT;
+    if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO,
+                  reinterpret_cast<task_info_t>(&info), &count) != KERN_SUCCESS) return 0;
+    return static_cast<size_t>(info.resident_size);
 #else
     std::FILE* f = std::fopen("/proc/self/statm", "r");
     if (!f) return 0;

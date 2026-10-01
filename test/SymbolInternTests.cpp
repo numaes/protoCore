@@ -30,6 +30,8 @@
 #if defined(_WIN32)
 #include <windows.h>
 #include <psapi.h>
+#elif defined(__APPLE__)
+#include <mach/mach.h>
 #else
 #include <unistd.h>
 #endif
@@ -68,6 +70,15 @@ proto::proto_long residentKb() {
     PROCESS_MEMORY_COUNTERS pmc{};
     if (!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) return 0;
     return static_cast<proto::proto_long>(pmc.WorkingSetSize / 1024);
+}
+#elif defined(__APPLE__)
+// macOS has no /proc: the resident size comes from the Mach task.
+proto::proto_long residentKb() {
+    mach_task_basic_info info{};
+    mach_msg_type_number_t count = MACH_TASK_BASIC_INFO_COUNT;
+    if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO,
+                  reinterpret_cast<task_info_t>(&info), &count) != KERN_SUCCESS) return 0;
+    return static_cast<proto::proto_long>(info.resident_size / 1024);
 }
 #else
 proto::proto_long residentKb() {
