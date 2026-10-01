@@ -27,7 +27,7 @@ namespace proto {
         }
     }
 
-    uint64_t TupleInterner::hashSlots(const ProtoObject** slots, unsigned long size) {
+    uint64_t TupleInterner::hashSlots(const ProtoObject** slots, proto_ulong size) {
         // Tuple nodes are equal when their size and slot pointers are equal, so
         // hash exactly that: mix each pointer, then avalanche (pointers share
         // their alignment bits, and the shard index takes the high bits).
@@ -44,7 +44,7 @@ namespace proto {
     }
 
     TupleInterner::Entry* TupleInterner::find(const Shard& shard, uint64_t hash,
-                                             const ProtoObject** slots, unsigned long size) {
+                                             const ProtoObject** slots, proto_ulong size) {
         if (!shard.buckets) return nullptr;
         for (Entry* e = shard.buckets[hash & (shard.bucketCount - 1)]; e; e = e->chain) {
             if (e->hash == hash && e->tuple->actual_size == size &&
@@ -98,7 +98,7 @@ namespace proto {
 
     const ProtoTupleImplementation* TupleInterner::intern(ProtoContext* context,
                                                          const ProtoObject** slots,
-                                                         unsigned long size) {
+                                                         proto_ulong size) {
         const uint64_t hash = hashSlots(slots, size);
         Shard& shard = shards[hash >> 58];
         {
@@ -195,7 +195,7 @@ namespace proto {
         }
     }
 
-    unsigned long ProtoTupleIteratorImplementation::getHash(ProtoContext* context) const {
+    proto_ulong ProtoTupleIteratorImplementation::getHash(ProtoContext* context) const {
         return reinterpret_cast<uintptr_t>(this);
     }
     
@@ -214,7 +214,7 @@ namespace proto {
     namespace {
         // Every tuple node is canonicalized by the space's TupleInterner; null
         // `slots` is the empty tuple.
-        const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoObject** slots, unsigned long size) {
+        const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoObject** slots, proto_ulong size) {
             static const ProtoObject* noSlots[TUPLE_SIZE] = {nullptr};
             return context->space->tupleInterner->intern(context, slots ? slots : noSlots, size);
         }
@@ -222,29 +222,29 @@ namespace proto {
         const ProtoTupleImplementation* fromListRecursive(
             ProtoContext* context,
             const ProtoList* list,
-            unsigned long start,
-            unsigned long end
+            proto_ulong start,
+            proto_ulong end
         ) {
-            const unsigned long count = end - start;
+            const proto_ulong count = end - start;
             if (count == 0) {
-                return internTuple(context, nullptr, 0UL);
+                return internTuple(context, nullptr, PROTO_UL(0));
             }
 
             if (count <= TUPLE_SIZE) {
                 const ProtoObject* data[TUPLE_SIZE] = {nullptr};
-                for (unsigned long i = 0; i < count; ++i) {
+                for (proto_ulong i = 0; i < count; ++i) {
                     data[i] = list->getAt(context, start + i);
                 }
                 return internTuple(context, data, count);
             }
 
-            const unsigned long chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
+            const proto_ulong chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
             const ProtoObject* indirect_handles[TUPLE_SIZE] = {nullptr};
 
-            for (unsigned long i = 0; i < TUPLE_SIZE; ++i) {
-                const unsigned long child_start = start + i * chunk_size;
+            for (proto_ulong i = 0; i < TUPLE_SIZE; ++i) {
+                const proto_ulong child_start = start + i * chunk_size;
                 if (child_start >= end) break;
-                const unsigned long child_end = std::min(child_start + chunk_size, end);
+                const proto_ulong child_end = std::min(child_start + chunk_size, end);
                 
                 const ProtoTupleImplementation* child_impl = fromListRecursive(context, list, child_start, child_end);
                 if (child_impl) {
@@ -257,29 +257,29 @@ namespace proto {
         const ProtoTupleImplementation* fromVectorRecursive(
             ProtoContext* context,
             const std::vector<const ProtoObject*>& vec,
-            unsigned long start,
-            unsigned long end
+            proto_ulong start,
+            proto_ulong end
         ) {
-            const unsigned long count = end - start;
+            const proto_ulong count = end - start;
             if (count == 0) {
-                return internTuple(context, nullptr, 0UL);
+                return internTuple(context, nullptr, PROTO_UL(0));
             }
 
             if (count <= TUPLE_SIZE) {
                 const ProtoObject* data[TUPLE_SIZE] = {nullptr};
-                for (unsigned long i = 0; i < count; ++i) {
+                for (proto_ulong i = 0; i < count; ++i) {
                     data[i] = vec[start + i];
                 }
                 return internTuple(context, data, count);
             }
 
-            const unsigned long chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
+            const proto_ulong chunk_size = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
             const ProtoObject* indirect_handles[TUPLE_SIZE] = {nullptr};
 
-            for (unsigned long i = 0; i < TUPLE_SIZE; ++i) {
-                const unsigned long child_start = start + i * chunk_size;
+            for (proto_ulong i = 0; i < TUPLE_SIZE; ++i) {
+                const proto_ulong child_start = start + i * chunk_size;
                 if (child_start >= end) break;
-                const unsigned long child_end = std::min(child_start + chunk_size, end);
+                const proto_ulong child_end = std::min(child_start + chunk_size, end);
                 
                 const ProtoTupleImplementation* child_impl = fromVectorRecursive(context, vec, child_start, child_end);
                 if (child_impl) {
@@ -303,7 +303,7 @@ namespace proto {
         return fromVectorRecursive(context, source, 0, source.size());
     }
 
-    const ProtoTupleImplementation* ProtoTupleImplementation::tupleConcat(ProtoContext* context, const ProtoObject* left, const ProtoObject* right, unsigned long totalSize) {
+    const ProtoTupleImplementation* ProtoTupleImplementation::tupleConcat(ProtoContext* context, const ProtoObject* left, const ProtoObject* right, proto_ulong totalSize) {
         const ProtoObject* slots[TUPLE_SIZE] = { left, right, nullptr, nullptr };
         return new(context) ProtoTupleImplementation(context, slots, totalSize);
     }
@@ -311,7 +311,7 @@ namespace proto {
     ProtoTupleImplementation::ProtoTupleImplementation(
         ProtoContext* context,
         const ProtoObject** slot_values,
-        unsigned long size
+        proto_ulong size
     ) : Cell(context), actual_size(size){
         if (slot_values) {
             // We MUST NOT copy more than TUPLE_SIZE pointers.
@@ -325,14 +325,14 @@ namespace proto {
 
     const ProtoObject* ProtoTupleImplementation::implGetAt(ProtoContext* context, int index) const
     {
-        if (index < 0 || (unsigned long)index >= actual_size) {
+        if (index < 0 || (proto_ulong)index >= actual_size) {
             return nullptr; // Index out of bounds
         }
 
         if (actual_size <= TUPLE_SIZE) { // This is a leaf node
             return slot[index];
         } else { // This is an internal node, its slots should only contain child tuples
-            unsigned long current_child_start_index = 0;
+            proto_ulong current_child_start_index = 0;
             for (int i = 0; i < TUPLE_SIZE; ++i) {
                 if (slot[i] != PROTO_NONE) { // All non-null slots in an internal node must be tuples
                     // Assert that slot[i] is indeed a tuple, otherwise it's a construction error
@@ -341,7 +341,7 @@ namespace proto {
                         std::abort();
                     }
                     const ProtoTupleImplementation* child_tuple = toImpl<const ProtoTupleImplementation>(slot[i]);
-                    if ((unsigned long)index < current_child_start_index + child_tuple->actual_size) {
+                    if ((proto_ulong)index < current_child_start_index + child_tuple->actual_size) {
                         return child_tuple->implGetAt(context, index - current_child_start_index);
                     }
                     current_child_start_index += child_tuple->actual_size;
@@ -352,14 +352,14 @@ namespace proto {
         }
     }
 
-    unsigned long ProtoTupleImplementation::implGetSize(ProtoContext* context) const {
+    proto_ulong ProtoTupleImplementation::implGetSize(ProtoContext* context) const {
         // This method now simply returns the pre-calculated actual_size.
         return actual_size;
     }
 
     const ProtoList* ProtoTupleImplementation::implAsList(ProtoContext* context) const {
         ProtoList* list = const_cast<ProtoList*>(context->newList());
-        for (unsigned long i = 0; i < this->implGetSize(context); ++i) {
+        for (proto_ulong i = 0; i < this->implGetSize(context); ++i) {
             list = const_cast<ProtoList*>(list->appendLast(context, this->implGetAt(context, i)));
         }
         return list;
@@ -381,7 +381,7 @@ namespace proto {
         // No further recursive calls needed here, as the GC will trace through the child tuples.
     }
 
-    unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
+    proto_ulong ProtoTupleImplementation::getHash(ProtoContext* context) const {
         // STRUCT-194: content-based hash.  The previous identity-based
         // hash (pointer address) returned different values for equal-
         // content tuples whose elements came from different sources
@@ -391,15 +391,15 @@ namespace proto {
         // seed/multiplier so equal-content tuples hash identically.
         const ProtoTuple* selfT = this->asProtoTuple(context);
         if (!selfT) return reinterpret_cast<uintptr_t>(this);
-        unsigned long size = selfT->getSize(context);
+        proto_ulong size = selfT->getSize(context);
         // FNV-1a-ish mix with a tuple-distinguishing seed so empty
         // tuple is non-zero and small tuples don't collide with their
         // string elements.
-        unsigned long h = 0x345678UL ^ (size * 0xa6b3f7UL + 1UL);
-        for (unsigned long i = 0; i < size; ++i) {
+        proto_ulong h = PROTO_UL(0x345678) ^ (size * PROTO_UL(0xa6b3f7) + PROTO_UL(1));
+        for (proto_ulong i = 0; i < size; ++i) {
             const ProtoObject* e = selfT->getAt(context, static_cast<int>(i));
-            unsigned long eh = e ? e->getHash(context) : 0UL;
-            h = (h * 1000003UL) ^ eh;
+            proto_ulong eh = e ? e->getHash(context) : PROTO_UL(0);
+            h = (h * PROTO_UL(1000003)) ^ eh;
         }
         return h;
     }
@@ -423,7 +423,7 @@ namespace proto {
     // ProtoTuple API
     //=========================================================================
 
-    unsigned long ProtoTuple::getSize(ProtoContext* context) const {
+    proto_ulong ProtoTuple::getSize(ProtoContext* context) const {
         return toImpl<const ProtoTupleImplementation>(this)->implGetSize(context);
     }
 
@@ -460,20 +460,20 @@ namespace proto {
     }
 
     const ProtoObject* ProtoTuple::getFirst(ProtoContext* context) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (size == 0) return PROTO_NONE;
         return getAt(context, 0);
     }
 
     const ProtoObject* ProtoTuple::getLast(ProtoContext* context) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (size == 0) return PROTO_NONE;
         return getAt(context, size - 1);
     }
 
     bool ProtoTuple::has(ProtoContext* context, const ProtoObject* value) const {
-        unsigned long size = getSize(context);
-        for (unsigned long i = 0; i < size; ++i) {
+        proto_ulong size = getSize(context);
+        for (proto_ulong i = 0; i < size; ++i) {
             const ProtoObject* elem = getAt(context, i);
             if (elem == value) {
                 return true;

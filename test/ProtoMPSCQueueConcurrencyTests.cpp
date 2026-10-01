@@ -27,12 +27,12 @@ using namespace proto;
 
 namespace {
 
-constexpr long kProducers = 8;
-constexpr long kStride    = 10000000;   // room for any per-producer count
+constexpr proto::proto_long kProducers = 8;
+constexpr proto::proto_long kStride    = 10000000;   // room for any per-producer count
 
-long pushesPerProducer() {
+proto::proto_long pushesPerProducer() {
     if (const char* env = std::getenv("PMQ_STRESS_PUSHES")) {
-        const long v = std::atol(env);
+        const proto::proto_long v = std::atol(env);
         if (v > 0) return v;
     }
     return 1000000;
@@ -61,26 +61,26 @@ long pushesPerProducer() {
 // 8 x 1,000,000 run completes under the same ceiling with the collector
 // running throughout (measured: 15 s, 399 GC cycles, live set oscillating
 // between 39,000 and 135,000 cells).
-constexpr long kMaxInFlight = 10000;
+constexpr proto::proto_long kMaxInFlight = 10000;
 
 // Shared state handed to every producer thread through args[0].  The queue
 // handle is an ordinary ProtoObject word and is passed through args[1] so it
 // stays a GC root of the producer's own context while the thread runs.
 struct ProducerJob {
     const ProtoMPSCQueue* queue;
-    long pushes;
-    std::atomic<long> nextProducer;
-    std::atomic<long> pushed;
+    proto::proto_long pushes;
+    std::atomic<proto::proto_long> nextProducer;
+    std::atomic<proto::proto_long> pushed;
     // Published by the consumer after every batch; read by the producers to
     // hold the in-flight set at or below kMaxInFlight.
-    std::atomic<long> consumed;
+    std::atomic<proto::proto_long> consumed;
     // Set by the consumer when it gives up, so a producer waiting on
     // backpressure can never outlive it and hang the join.
     std::atomic<bool> abort;
     // How often a producer actually had to wait.  Asserted non-zero: if the
     // bound is ever raised until it stops binding, this test silently becomes
     // the unbounded one again, and that is the failure it exists to prevent.
-    std::atomic<long> throttled;
+    std::atomic<proto::proto_long> throttled;
 };
 
 // A protoCore context owns its young generation until it is destroyed
@@ -92,7 +92,7 @@ struct ProducerJob {
 // models that with one context per kPushBatch pushes, which is also what
 // makes the nodes candidates and so what actually exercises the retain
 // chain (a node is only at risk once it is a candidate).
-constexpr long kPushBatch = 2000;
+constexpr proto::proto_long kPushBatch = 2000;
 
 const ProtoObject* producerEntry(ProtoContext* ctx,
                                  const ProtoObject*,
@@ -101,10 +101,10 @@ const ProtoObject* producerEntry(ProtoContext* ctx,
                                  const ProtoSparseList*) {
     if (!args || args->getSize(ctx) < 1) return PROTO_NONE;
     auto* job = reinterpret_cast<ProducerJob*>(args->getAt(ctx, 0)->asLong(ctx));
-    const long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);
-    for (long i = 0; i < job->pushes; ) {
+    const proto::proto_long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);
+    for (proto::proto_long i = 0; i < job->pushes; ) {
         ProtoContext turn(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
-        const long end = std::min(i + kPushBatch, job->pushes);
+        const proto::proto_long end = std::min(i + kPushBatch, job->pushes);
         for (; i < end; ++i) {
             if (job->pushed.load(std::memory_order_relaxed) -
                     job->consumed.load(std::memory_order_relaxed) >= kMaxInFlight) {
@@ -133,7 +133,7 @@ const ProtoObject* producerEntry(ProtoContext* ctx,
 }  // namespace
 
 TEST(MPSCQueueConcurrency, EightProducersOneConsumerLoseNothingAndDuplicateNothing) {
-    const long kPushes = pushesPerProducer();
+    const proto::proto_long kPushes = pushesPerProducer();
 
     ProtoSpace space;
     ProtoContext consumerCtx(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
@@ -157,7 +157,7 @@ TEST(MPSCQueueConcurrency, EightProducersOneConsumerLoseNothingAndDuplicateNothi
 
     const ProtoString* name = ProtoString::createSymbol(&consumerCtx, "mpsc-producer");
     std::vector<const ProtoThread*> producers;
-    for (long p = 0; p < kProducers; ++p) {
+    for (proto::proto_long p = 0; p < kProducers; ++p) {
         const ProtoList* targs = consumerCtx.newList()->appendLast(
             &consumerCtx, consumerCtx.fromLong(reinterpret_cast<long long>(&job)));
         const ProtoThread* t = space.newThread(&consumerCtx, name, &producerEntry, targs, nullptr);
@@ -165,12 +165,12 @@ TEST(MPSCQueueConcurrency, EightProducersOneConsumerLoseNothingAndDuplicateNothi
         producers.push_back(t);
     }
 
-    std::vector<long> nextExpected(kProducers, 0);
-    long consumed = 0;
-    long outOfOrder = 0;
-    long badProducerId = 0;
+    std::vector<proto::proto_long> nextExpected(kProducers, 0);
+    proto::proto_long consumed = 0;
+    proto::proto_long outOfOrder = 0;
+    proto::proto_long badProducerId = 0;
     bool timedOut = false;
-    const long total = kProducers * kPushes;
+    const proto::proto_long total = kProducers * kPushes;
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::minutes(15);
 
     while (consumed < total) {
@@ -179,12 +179,12 @@ TEST(MPSCQueueConcurrency, EightProducersOneConsumerLoseNothingAndDuplicateNothi
         // become candidates, or the test never exercises the collector.
         ProtoContext turn(&space, &consumerCtx, nullptr, nullptr, nullptr, nullptr);
         const ProtoList* batch = q->takeAll(&turn);
-        const unsigned long n = batch->getSize(&turn);
-        for (unsigned long i = 0; i < n; ++i) {
-            const long v = static_cast<long>(
+        const proto::proto_ulong n = batch->getSize(&turn);
+        for (proto::proto_ulong i = 0; i < n; ++i) {
+            const proto::proto_long v = static_cast<proto::proto_long>(
                 batch->getAt(&turn, static_cast<int>(i))->asLong(&turn));
-            const long p = v / kStride;
-            const long s = v % kStride;
+            const proto::proto_long p = v / kStride;
+            const proto::proto_long s = v % kStride;
             // Counted, not asserted: an ASSERT here would return from the
             // test body with eight producers still waiting on backpressure,
             // and nothing would ever release them.  Every check below is made
@@ -211,13 +211,13 @@ TEST(MPSCQueueConcurrency, EightProducersOneConsumerLoseNothingAndDuplicateNothi
     for (;;) {
         ProtoContext turn(&space, &consumerCtx, nullptr, nullptr, nullptr, nullptr);
         const ProtoList* batch = q->takeAll(&turn);
-        const unsigned long n = batch->getSize(&turn);
+        const proto::proto_ulong n = batch->getSize(&turn);
         if (n == 0) break;
-        for (unsigned long i = 0; i < n; ++i) {
-            const long v = static_cast<long>(
+        for (proto::proto_ulong i = 0; i < n; ++i) {
+            const proto::proto_long v = static_cast<proto::proto_long>(
                 batch->getAt(&turn, static_cast<int>(i))->asLong(&turn));
-            const long p = v / kStride;
-            const long s = v % kStride;
+            const proto::proto_long p = v / kStride;
+            const proto::proto_long s = v % kStride;
             if (p < 0 || p >= kProducers) { ++badProducerId; continue; }
             if (s != nextExpected[p]) ++outOfOrder;
             nextExpected[p] = s + 1;
@@ -242,7 +242,7 @@ TEST(MPSCQueueConcurrency, EightProducersOneConsumerLoseNothingAndDuplicateNothi
         << "the collector never ran: nothing here was tested against marking";
     EXPECT_GT(job.throttled.load(), 0)
         << "the in-flight bound never bound; this is the unbounded test again";
-    for (long p = 0; p < kProducers; ++p)
+    for (proto::proto_long p = 0; p < kProducers; ++p)
         EXPECT_EQ(nextExpected[p], kPushes) << "producer " << p;
 
     // Self-report, so a silent failure cannot read as a pass.

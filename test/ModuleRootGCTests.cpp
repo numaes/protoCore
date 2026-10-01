@@ -27,8 +27,8 @@ constexpr int kGarbagePerBatch = 5000;
 
 struct CycleReport {
     uint64_t      cycles;     // complete GC cycles observed
-    unsigned long reclaimed;  // cells the last completed cycle swept
-    long          created;    // cells this helper deliberately made garbage
+    proto::proto_ulong reclaimed;  // cells the last completed cycle swept
+    proto::proto_long          created;    // cells this helper deliberately made garbage
 };
 
 // Two traps, both found in this family inside two days:
@@ -47,7 +47,7 @@ struct CycleReport {
 //    against it through ASSERT_CYCLES_DID_REAL_WORK.
 CycleReport forceCycles(ProtoSpace& space, ProtoContext* parent, uint64_t minCycles) {
     const uint64_t start = space.getGCCycleCount();
-    long created = 0;
+    proto::proto_long created = 0;
     space.setHeapLimits(/*soft=*/0, /*hard=*/space.heapSize + kHeadroomCells);
     for (int batch = 0; batch < 400 && space.getGCCycleCount() - start < minCycles; ++batch) {
         ProtoContext garbage(&space, parent, nullptr, nullptr, nullptr, nullptr);
@@ -67,7 +67,7 @@ CycleReport forceCycles(ProtoSpace& space, ProtoContext* parent, uint64_t minCyc
 // A stand-in for a loaded module: an object whose attribute "moduleVariable"
 // holds a freshly allocated, verifiable structure.  This is the shape that
 // matters — a module anchors its contents through its variables.
-const ProtoObject* buildModuleLike(ProtoContext* c, long tag) {
+const ProtoObject* buildModuleLike(ProtoContext* c, proto::proto_long tag) {
     ProtoContext::CriticalSection cs(c);
     const ProtoObject* contents =
         c->newList()->appendLast(c, c->fromInteger(tag))
@@ -76,7 +76,7 @@ const ProtoObject* buildModuleLike(ProtoContext* c, long tag) {
     return c->newObject(false)->setAttribute(c, key, contents);
 }
 
-bool moduleIntact(ProtoContext* c, const ProtoObject* module, long tag) {
+bool moduleIntact(ProtoContext* c, const ProtoObject* module, proto::proto_long tag) {
     const ProtoString* key = ProtoString::createSymbol(c, "moduleVariable");
     const ProtoObject* contents = module->getAttribute(c, key);
     if (!contents || contents == PROTO_NONE) return false;
@@ -91,10 +91,10 @@ bool moduleIntact(ProtoContext* c, const ProtoObject* module, long tag) {
 #define ASSERT_CYCLES_DID_REAL_WORK(rep, minCycles)                              \
     do {                                                                         \
         std::fprintf(stderr, "[gc] cycles=%lu reclaimed=%lu created=%ld\n",      \
-                     (unsigned long)(rep).cycles, (rep).reclaimed, (rep).created); \
+                     (proto::proto_ulong)(rep).cycles, (rep).reclaimed, (rep).created); \
         ASSERT_GE((rep).cycles, (uint64_t)(minCycles))                           \
             << "no collection ran; the test proves nothing";                     \
-        ASSERT_GT((rep).reclaimed, (unsigned long)((rep).created / 10))          \
+        ASSERT_GT((rep).reclaimed, (proto::proto_ulong)((rep).created / 10))          \
             << "the cycles reclaimed " << (rep).reclaimed << " cells against "   \
             << (rep).created << " created: the young generation was never "      \
             << "submitted, so this test would pass with the GC disabled";        \
@@ -183,14 +183,14 @@ TEST(ModuleRootGC, CaptureUnderStopTheWorldIsConstant) {
     ModuleRootTable::resetDiagnostics();
     CycleReport rep = forceCycles(space, &live, 2);
     ASSERT_CYCLES_DID_REAL_WORK(rep, 2);
-    const unsigned long readsWithNoModules = ModuleRootTable::lastCaptureShardReads();
+    const proto::proto_ulong readsWithNoModules = ModuleRootTable::lastCaptureShardReads();
     EXPECT_EQ(readsWithNoModules,
-              static_cast<unsigned long>(ModuleRootTable::SHARD_COUNT))
+              static_cast<proto::proto_ulong>(ModuleRootTable::SHARD_COUNT))
         << "the stop-the-world capture did not run, so this test measures nothing";
 
-    const unsigned long before = ProtoSpace::moduleRootCount();
-    for (long i = 0; i < 2000; ++i) space.addModuleRoot(buildModuleLike(&live, i));
-    ASSERT_GE(ProtoSpace::moduleRootCount(), before + 2000ul)
+    const proto::proto_ulong before = ProtoSpace::moduleRootCount();
+    for (proto::proto_long i = 0; i < 2000; ++i) space.addModuleRoot(buildModuleLike(&live, i));
+    ASSERT_GE(ProtoSpace::moduleRootCount(), before + PROTO_UL(2000))
         << "the 2000 module roots were not published, so the comparison below is "
            "between two empty tables";
 
@@ -209,9 +209,9 @@ TEST(ModuleRootGC, CaptureUnderStopTheWorldIsConstant) {
 TEST(ModuleRootGC, TheWalkNeverRunsInsideThePause) {
     ProtoSpace space;
     ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
-    const unsigned long before = ProtoSpace::moduleRootCount();
-    for (long i = 0; i < 2000; ++i) space.addModuleRoot(buildModuleLike(&live, i));
-    ASSERT_GE(ProtoSpace::moduleRootCount(), before + 2000ul);
+    const proto::proto_ulong before = ProtoSpace::moduleRootCount();
+    for (proto::proto_long i = 0; i < 2000; ++i) space.addModuleRoot(buildModuleLike(&live, i));
+    ASSERT_GE(ProtoSpace::moduleRootCount(), before + PROTO_UL(2000));
 
     ModuleRootTable::resetDiagnostics();
     const CycleReport rep = forceCycles(space, &live, 3);
@@ -219,9 +219,9 @@ TEST(ModuleRootGC, TheWalkNeverRunsInsideThePause) {
     // The counter only moves if the walk RAN, so assert it ran at all first:
     // a zero-violation count over a walk that never happened proves nothing.
     ASSERT_EQ(ModuleRootTable::lastCaptureShardReads(),
-              static_cast<unsigned long>(ModuleRootTable::SHARD_COUNT))
+              static_cast<proto::proto_ulong>(ModuleRootTable::SHARD_COUNT))
         << "no capture ran, so no walk ran, so this test measures nothing";
-    EXPECT_EQ(ModuleRootTable::stwVisitViolations(), 0ul)
+    EXPECT_EQ(ModuleRootTable::stwVisitViolations(), PROTO_UL(0))
         << "the module walk ran while the world was stopped";
 }
 
@@ -243,8 +243,8 @@ TEST(ModuleRootGC, ACollectorTracesOnlyItsOwnSpacesModules) {
     // first; before that both walks legitimately see nothing.
     globalModuleRootTable().captureForGC();
 
-    long visitedForA = 0, visitedForB = 0;
-    auto count = [](void* user, const ProtoObject*) { ++*static_cast<long*>(user); };
+    proto::proto_long visitedForA = 0, visitedForB = 0;
+    auto count = [](void* user, const ProtoObject*) { ++*static_cast<proto::proto_long*>(user); };
     globalModuleRootTable().forEachCaptured(&a, &visitedForA, count);
     globalModuleRootTable().forEachCaptured(&b, &visitedForB, count);
 
@@ -263,7 +263,7 @@ TEST(ModuleRootGC, RerootingTheSameModuleDoesNotGrowTheTable) {
     ASSERT_NE(module, nullptr);
 
     space.addModuleRoot(module);
-    const unsigned long afterFirst = ProtoSpace::moduleRootCount();
+    const proto::proto_ulong afterFirst = ProtoSpace::moduleRootCount();
     for (int i = 0; i < 1000; ++i) space.addModuleRoot(module);
     EXPECT_EQ(ProtoSpace::moduleRootCount(), afterFirst)
         << "re-rooting one module 1000 times added entries to an append-only table";
@@ -299,7 +299,7 @@ TEST(ModuleRootGC, ADeadSpacesEntriesAreRetiredAtTeardown) {
         // exactly that if this inner scope is removed.
         {
             ProtoContext c(dying, dying->rootContext, nullptr, nullptr, nullptr, nullptr);
-            for (long i = 0; i < 64; ++i) dying->addModuleRoot(buildModuleLike(&c, 1000 + i));
+            for (proto::proto_long i = 0; i < 64; ++i) dying->addModuleRoot(buildModuleLike(&c, 1000 + i));
 
             ASSERT_GE(globalModuleRootTable().countOwnedBy(dying), 64u)
                 << "the 64 module roots were never published, so the assertion "

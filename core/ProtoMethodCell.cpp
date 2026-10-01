@@ -26,7 +26,7 @@ namespace proto
         return p.oid;
     }
 
-    unsigned long ProtoMethodCell::getHash(ProtoContext* context) const
+    proto_ulong ProtoMethodCell::getHash(ProtoContext* context) const
     {
         return Cell::getHash(context);
     }

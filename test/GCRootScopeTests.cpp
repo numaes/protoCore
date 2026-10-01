@@ -64,8 +64,8 @@ bool waitForIdleCollector(ProtoSpace& space, ProtoContext* ctx) {
 // collector, and each traversal made while the world was stopped.
 class StwProbeCell final : public Cell {
 public:
-    static std::atomic<unsigned long> traversals;
-    static std::atomic<unsigned long> traversalsWhileStopped;
+    static std::atomic<proto::proto_ulong> traversals;
+    static std::atomic<proto::proto_ulong> traversalsWhileStopped;
 
     explicit StwProbeCell(ProtoContext* context) : Cell(context) {}
 
@@ -79,8 +79,8 @@ public:
     const ProtoObject* implAsObject(ProtoContext*) const override { return PROTO_NONE; }
 };
 
-std::atomic<unsigned long> StwProbeCell::traversals{0};
-std::atomic<unsigned long> StwProbeCell::traversalsWhileStopped{0};
+std::atomic<proto::proto_ulong> StwProbeCell::traversals{0};
+std::atomic<proto::proto_ulong> StwProbeCell::traversalsWhileStopped{0};
 
 }  // namespace
 
@@ -208,8 +208,8 @@ TEST(GCRootScope, ObjectReachableOnlyThroughTheMutablesTreeSurvives) {
 namespace {
 
 constexpr int kThreadIterations = 1500;
-std::atomic<unsigned long> gThreadChecks{0};
-std::atomic<unsigned long> gThreadErrors{0};
+std::atomic<proto::proto_ulong> gThreadChecks{0};
+std::atomic<proto::proto_ulong> gThreadErrors{0};
 std::atomic<int> gThreadsDone{0};
 std::atomic<bool> gThreadsRelease{false};
 
@@ -222,7 +222,7 @@ std::atomic<bool> gThreadsRelease{false};
 const ProtoObject* allocatingThreadMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
                                         const ProtoList*, const ProtoSparseList*) {
     ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);
-    for (long iteration = 0; iteration < kThreadIterations; ++iteration) {
+    for (proto::proto_long iteration = 0; iteration < kThreadIterations; ++iteration) {
         const ProtoList* old = nullptr;
         {
             ProtoContext sub(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
@@ -291,7 +291,7 @@ TEST(GCRootScope, AllocationDuringConcurrentMarkIsSafe) {
     }
 
     ASSERT_EQ(done, kThreads) << "worker threads did not finish";
-    EXPECT_EQ(gThreadChecks.load(), static_cast<unsigned long>(kThreads) * kThreadIterations);
+    EXPECT_EQ(gThreadChecks.load(), static_cast<proto::proto_ulong>(kThreads) * kThreadIterations);
     EXPECT_EQ(gThreadErrors.load(), 0u);
     EXPECT_GE(cycles, 3u) << "too few collection cycles ran for the test to exercise the mark";
 }

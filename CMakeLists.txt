@@ -16,7 +16,12 @@ include(GNUInstallDirs)
 # 2. Set the C++ standard to C++20
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-add_compile_options(-fno-delete-null-pointer-checks)
+if(MSVC)
+    # Sources are UTF-8; MSVC otherwise reads them in the console code page.
+    add_compile_options(/utf-8)
+else()
+    add_compile_options(-fno-delete-null-pointer-checks)
+endif()
 set(CMAKE_CXX_EXTENSIONS OFF) # Prefer explicit standard flags
 
 # Option: enable code coverage (gcov/lcov). Requires rebuild with -DCOVERAGE=ON.
@@ -24,6 +29,13 @@ option(COVERAGE "Build with coverage instrumentation (gcov) for coverage reports
 if(COVERAGE)
     set(COVERAGE_FLAGS "--coverage")
     message(STATUS "Coverage enabled: compiler/linker flags ${COVERAGE_FLAGS}")
+endif()
+
+# Windows has no rpath: a program finds its DLLs next to itself.  Put every
+# executable and DLL of the build in one directory so tests and benchmarks run
+# in place.  Only on Windows; other platforms keep their usual layout.
+if(WIN32 AND NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 endif()
 
 # 3. Define the core protoCore shared library (official name)
@@ -86,6 +98,13 @@ set_target_properties(protoCore PROPERTIES
     OUTPUT_NAME protoCore
     PUBLIC_HEADER "headers/protoCore.h"
 )
+
+# The public API carries no __declspec annotations; on Windows the linker
+# exports every symbol of the DLL instead, which is what ELF does by default.
+if(WIN32)
+    set_target_properties(protoCore PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    target_compile_definitions(protoCore PRIVATE PROTOCORE_BUILDING_DLL)
+endif()
 
 # The headers directory is made public so that any consumer linking against
 # 'protoCore' will automatically have access to the necessary headers.

@@ -19,7 +19,7 @@ void settle(ProtoSpace& space, ProtoContext* ctx)
 }
 
 CaseResult measuredReclaim(Host& host, const char* id, unsigned rule,
-                           unsigned long (Host::*workload)(unsigned long),
+                           proto::proto_ulong (Host::*workload)(proto::proto_ulong),
                            const char* capabilityName,
                            const char* capabilityWhy,
                            bool capabilityIsRequired)
@@ -47,7 +47,7 @@ CaseResult measuredReclaim(Host& host, const char* id, unsigned rule,
     CycleReport r;
     r.base = sample(space);
 
-    const unsigned long declared = (host.*workload)(kMinWorkloadCells);
+    const proto::proto_ulong declared = (host.*workload)(kMinWorkloadCells);
     if (declared == 0 && !capabilityIsRequired) {
         // A zero from an OPTIONAL capability means "not implemented".  For the
         // required capability a zero means "cannot measure", which is handled
@@ -159,7 +159,7 @@ CaseResult caseHostStress(Host& host)
     const unsigned kRounds = 20;
     unsigned completed = 0;
     unsigned long long cyclesBefore = space.getGCCycleCount();
-    unsigned long reclaimedSum = 0;
+    proto::proto_ulong reclaimedSum = 0;
 
     space.setHeapLimits(/*softCells=*/150000, /*hardCells=*/400000);
     for (unsigned i = 0; i < kRounds; ++i) {

@@ -72,7 +72,7 @@ namespace proto {
 
 namespace {
 
-constexpr unsigned long kDefaultCellBudget = 8000000UL;
+constexpr proto_ulong kDefaultCellBudget = PROTO_UL(8000000);
 
 /// How a sparse-list node was reached.  Load-bearing for SAFETY, not only for
 /// pretty printing: an object's attribute list is keyed by the attribute
@@ -133,7 +133,7 @@ const char* typeName(const Cell* c)
 /// `getType() == Object` is the only reliable discriminator: tag 0 is shared by
 /// seven cell types (see the tag-layout comment in proto_internal.h), so a bare
 /// tag check would read `mutable_ref` out of a ParentLink.
-unsigned long handleRefOf(const Cell* c)
+proto_ulong handleRefOf(const Cell* c)
 {
     if (!c || c->getType() != CellType::Object) return 0;
     return static_cast<const ProtoObjectCell*>(c)->mutable_ref;
@@ -141,13 +141,13 @@ unsigned long handleRefOf(const Cell* c)
 
 /// Recover an attribute key's spelling.  Only ever called for a node known to
 /// belong to an object's attribute list (see NodeKind).
-std::string attributeName(ProtoContext* readCtx, unsigned long key)
+std::string attributeName(ProtoContext* readCtx, proto_ulong key)
 {
     if (key == 0) return std::string();
     ProtoObjectPointer p{};
     p.op.value = 0;
     p.oid = reinterpret_cast<const ProtoObject*>(key);
-    const unsigned long tag = p.op.pointer_tag;
+    const proto_ulong tag = p.op.pointer_tag;
     const bool inlineStr = (tag == POINTER_TAG_EMBEDDED_VALUE
                             && p.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING);
     if (!inlineStr && tag != POINTER_TAG_SYMBOL && tag != POINTER_TAG_STRING)
@@ -165,13 +165,13 @@ std::string attributeName(ProtoContext* readCtx, unsigned long key)
 class Scan
 {
 public:
-    Scan(const ProtoSpace& space, ProtoContext* readCtx, unsigned long budget)
+    Scan(const ProtoSpace& space, ProtoContext* readCtx, proto_ulong budget)
         : space_(space), readCtx_(readCtx), budget_(budget) {}
 
     MutableGraphReport run()
     {
         collectEntries();
-        report_.handles = static_cast<unsigned long>(entries_.size());
+        report_.handles = static_cast<proto_ulong>(entries_.size());
 
         // Tarjan from every table value.  A handle cell is discovered during
         // the walk, never enumerated: the table holds no reference to it (its
@@ -206,7 +206,7 @@ private:
         // The table is process-global: keep this space's own entries, the
         // ones whose ref carries its id.  Another space's mutables are that
         // space's report.
-        const unsigned long id = spaceIdOf(&space_);
+        const proto_ulong id = spaceIdOf(&space_);
         for (auto it = entries_.begin(); it != entries_.end();) {
             if ((it->first >> kMutableRefSpaceShift) != id) it = entries_.erase(it);
             else ++it;
@@ -400,10 +400,10 @@ private:
     void recordCycle(const std::vector<const Cell*>& comp)
     {
         std::unordered_set<const Cell*> member(comp.begin(), comp.end());
-        std::vector<unsigned long> refs;
+        std::vector<proto_ulong> refs;
         const Cell* start = nullptr;
         for (const Cell* c : comp) {
-            const unsigned long r = handleRefOf(c);
+            const proto_ulong r = handleRefOf(c);
             if (r == 0) continue;
             refs.push_back(r);
             if (!start || r < handleRefOf(start)) start = c;
@@ -475,7 +475,7 @@ private:
         bool started = false;
         for (std::size_t i = 0; i < walk.size(); ++i) {
             const Cell* c = walk[i];
-            const unsigned long r = handleRefOf(c);
+            const proto_ulong r = handleRefOf(c);
             if (i > 0) {
                 auto it = edgeLabel_.find({walk[i - 1], c});
                 if (it != edgeLabel_.end() && !it->second.empty())
@@ -510,17 +510,17 @@ private:
 
     const ProtoSpace& space_;
     ProtoContext*     readCtx_;
-    unsigned long     budget_;
+    proto_ulong     budget_;
 
-    std::unordered_map<unsigned long, const ProtoObject*> entries_;
-    std::unordered_map<const Cell*, unsigned long>        index_;
-    std::unordered_map<const Cell*, unsigned long>        low_;
+    std::unordered_map<proto_ulong, const ProtoObject*> entries_;
+    std::unordered_map<const Cell*, proto_ulong>        index_;
+    std::unordered_map<const Cell*, proto_ulong>        low_;
     std::unordered_set<const Cell*>                       onStack_;
     std::vector<const Cell*>                              sccStack_;
     std::unordered_map<std::pair<const Cell*, const Cell*>, std::string, PairHash>
                                                           edgeLabel_;
-    unsigned long     nextIndex_ = 1;
-    unsigned long     visited_   = 0;
+    proto_ulong     nextIndex_ = 1;
+    proto_ulong     visited_   = 0;
     MutableGraphReport report_;
 };
 
@@ -557,10 +557,10 @@ std::string MutableGraphReport::summary() const
 }
 
 MutableGraphReport ProtoSpace::findMutableCycles(ProtoContext* context,
-                                                 unsigned long cellBudget) const
+                                                 proto_ulong cellBudget) const
 {
     ProtoContext* readCtx = context ? context : this->rootContext;
-    const unsigned long budget = cellBudget ? cellBudget : kDefaultCellBudget;
+    const proto_ulong budget = cellBudget ? cellBudget : kDefaultCellBudget;
 
     // The critical section is what makes the walk safe, and it is the reason
     // this method takes a context at all.  A thread inside a critical section

@@ -15,20 +15,20 @@ namespace {
     // Test language: integers and strings have value equality; everything
     // else is identity.
     bool testIsIdentity(ProtoContext* c, const ProtoObject* k) { return !k->isInteger(c) && !k->isString(c); }
-    unsigned long testHash(ProtoContext* c, const ProtoObject* k) {
-        return k->isInteger(c) ? static_cast<unsigned long>(k->asLong(c)) : k->getHash(c);
+    proto::proto_ulong testHash(ProtoContext* c, const ProtoObject* k) {
+        return k->isInteger(c) ? static_cast<proto::proto_ulong>(k->asLong(c)) : k->getHash(c);
     }
     bool testEquals(ProtoContext* c, const ProtoObject* a, const ProtoObject* b) {
         if (a->isInteger(c) && b->isInteger(c)) return a->asLong(c) == b->asLong(c);
         if (a->isString(c) && b->isString(c)) return a->asString(c)->cmp_to_string(c, b->asString(c)) == 0;
         return a == b;
     }
-    unsigned long constantHash(ProtoContext*, const ProtoObject*) { return 42; }
+    proto::proto_ulong constantHash(ProtoContext*, const ProtoObject*) { return 42; }
 
     const KeySemantics kTest{testIsIdentity, testHash, testEquals};
     const KeySemantics kColliding{testIsIdentity, constantHash, testEquals};
 
-    struct Seen { std::multiset<std::pair<long, long>> pairs; };
+    struct Seen { std::multiset<std::pair<proto::proto_long, proto::proto_long>> pairs; };
     void record(ProtoContext* c, void* self, const ProtoObject* k, const ProtoObject* v) {
         static_cast<Seen*>(self)->pairs.insert({k->isInteger(c) ? k->asLong(c) : -1, v->asLong(c)});
     }
@@ -55,9 +55,9 @@ TEST(HashedCollection, ForcedCollisionsKeepEveryEntry) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
     const ProtoMap* m = c->newMap();
-    for (long i = 1; i <= 10; ++i) m = hashedPut(c, m, kColliding, c->fromInteger(i), c->fromInteger(i * 2));
+    for (proto::proto_long i = 1; i <= 10; ++i) m = hashedPut(c, m, kColliding, c->fromInteger(i), c->fromInteger(i * 2));
     EXPECT_EQ(m->getSize(c), 1u);                                    // one bucket
-    for (long i = 1; i <= 10; ++i) EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(i)), c->fromInteger(i * 2));
+    for (proto::proto_long i = 1; i <= 10; ++i) EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(i)), c->fromInteger(i * 2));
     EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(11)), nullptr);
 }
 
@@ -71,21 +71,21 @@ TEST(HashedCollection, PutWithAnEqualKeyReplacesTheValue) {
     EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(1)), c->fromInteger(11));
     Seen seen;
     hashedForEach(c, m, &seen, record);
-    EXPECT_EQ(seen.pairs, (std::multiset<std::pair<long, long>>{{1, 11}, {2, 20}}));
+    EXPECT_EQ(seen.pairs, (std::multiset<std::pair<proto::proto_long, proto::proto_long>>{{1, 11}, {2, 20}}));
 }
 
 TEST(HashedCollection, RemoveFromACollisionBucket) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
     const ProtoMap* m = c->newMap();
-    for (long i = 1; i <= 5; ++i) m = hashedPut(c, m, kColliding, c->fromInteger(i), c->fromInteger(i));
+    for (proto::proto_long i = 1; i <= 5; ++i) m = hashedPut(c, m, kColliding, c->fromInteger(i), c->fromInteger(i));
     const ProtoMap* before = m;
     m = hashedRemove(c, m, kColliding, c->fromInteger(3));
     EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(3)), nullptr);
-    for (long i : {1L, 2L, 4L, 5L}) EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(i)), c->fromInteger(i));
+    for (proto::proto_long i : {PROTO_L(1), PROTO_L(2), PROTO_L(4), PROTO_L(5)}) EXPECT_EQ(hashedGet(c, m, kColliding, c->fromInteger(i)), c->fromInteger(i));
     EXPECT_EQ(hashedGet(c, before, kColliding, c->fromInteger(3)), c->fromInteger(3));   // persistence
     EXPECT_EQ(hashedRemove(c, m, kColliding, c->fromInteger(99)), m);                     // absent: unchanged
-    for (long i : {1L, 2L, 4L, 5L}) m = hashedRemove(c, m, kColliding, c->fromInteger(i));
+    for (proto::proto_long i : {PROTO_L(1), PROTO_L(2), PROTO_L(4), PROTO_L(5)}) m = hashedRemove(c, m, kColliding, c->fromInteger(i));
     EXPECT_EQ(m->getSize(c), 0u);
 }
 
@@ -93,12 +93,12 @@ TEST(HashedCollection, ForEachYieldsEveryPairExactlyOnce) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
     const ProtoMap* m = c->newMap();
-    std::multiset<std::pair<long, long>> expected;
-    for (long i = 0; i < 20; ++i) {
+    std::multiset<std::pair<proto::proto_long, proto::proto_long>> expected;
+    for (proto::proto_long i = 0; i < 20; ++i) {
         m = hashedPut(c, m, kColliding, c->fromInteger(i), c->fromInteger(100 + i));
         expected.insert({i, 100 + i});
     }
-    for (long i = 0; i < 5; ++i) {
+    for (proto::proto_long i = 0; i < 5; ++i) {
         m = hashedPut(c, m, kColliding, c->newObject(false), c->fromInteger(200 + i));
         expected.insert({-1, 200 + i});
     }
@@ -125,7 +125,7 @@ TEST(HashedCollection, HashesAbove53BitsStayEmbeddedSmallIntegerWords) {
     ProtoSpace space;
     ProtoContext* c = space.rootContext;
     const KeySemantics wideHash{
-        testIsIdentity, [](ProtoContext*, const ProtoObject*) { return ~0UL; }, testEquals};
+        testIsIdentity, [](ProtoContext*, const ProtoObject*) { return ~PROTO_UL(0); }, testEquals};
     const ProtoMap* m = c->newMap();
     m = hashedPut(c, m, wideHash, c->fromInteger(1), c->fromInteger(10));
     m = hashedPut(c, m, wideHash, c->fromInteger(2), c->fromInteger(20));
@@ -138,15 +138,15 @@ TEST(HashedCollection, HashesAbove53BitsStayEmbeddedSmallIntegerWords) {
     });
     ProtoObjectPointer p{};
     p.oid = probe.slotKey;
-    EXPECT_EQ(p.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_EMBEDDED_VALUE));
-    EXPECT_EQ(p.op.embedded_type, static_cast<unsigned long>(EMBEDDED_TYPE_SMALLINT));
-    EXPECT_EQ(p.op.value, (1UL << 54) - 1);
+    EXPECT_EQ(p.op.pointer_tag, static_cast<proto::proto_ulong>(POINTER_TAG_EMBEDDED_VALUE));
+    EXPECT_EQ(p.op.embedded_type, static_cast<proto::proto_ulong>(EMBEDDED_TYPE_SMALLINT));
+    EXPECT_EQ(p.op.value, (PROTO_UL(1) << 54) - 1);
 }
 
 namespace {
     std::atomic<int> gCallbackCalls{0};
     bool countingIsIdentity(ProtoContext*, const ProtoObject*) { ++gCallbackCalls; return false; }
-    unsigned long countingHash(ProtoContext*, const ProtoObject*) { ++gCallbackCalls; return 1; }
+    proto::proto_ulong countingHash(ProtoContext*, const ProtoObject*) { ++gCallbackCalls; return 1; }
     bool countingEquals(ProtoContext*, const ProtoObject*, const ProtoObject*) { ++gCallbackCalls; return false; }
     const KeySemantics kCounting{countingIsIdentity, countingHash, countingEquals};
 
@@ -189,7 +189,7 @@ TEST(HashedCollection, NullValueRemovesTheKey) {
     EXPECT_EQ(hashedPut(c, m, kTest, c->fromInteger(6), nullptr), m);   // absent: unchanged
 
     const ProtoMap* b = c->newMap();
-    for (long i = 1; i <= 3; ++i) b = hashedPut(c, b, kColliding, c->fromInteger(i), c->fromInteger(i * 2));
+    for (proto::proto_long i = 1; i <= 3; ++i) b = hashedPut(c, b, kColliding, c->fromInteger(i), c->fromInteger(i * 2));
     b = hashedPut(c, b, kColliding, c->fromInteger(2), nullptr);
     EXPECT_EQ(hashedGet(c, b, kColliding, c->fromInteger(2)), nullptr);
     EXPECT_EQ(hashedGet(c, b, kColliding, c->fromInteger(1)), c->fromInteger(2));
@@ -211,11 +211,11 @@ namespace {
         return s;
     }
     bool allocIsIdentity(ProtoContext* c, const ProtoObject* k) { return !k->isString(c); }
-    unsigned long allocHash(ProtoContext* c, const ProtoObject* k) {
+    proto::proto_ulong allocHash(ProtoContext* c, const ProtoObject* k) {
         ++gAllocatingCalls;
         const std::string s = contentOf(c, k);
-        unsigned long h = 1469598103934665603UL;
-        for (unsigned char ch : s) { h ^= ch; h *= 1099511628211UL; }
+        proto::proto_ulong h = PROTO_UL(1469598103934665603);
+        for (unsigned char ch : s) { h ^= ch; h *= PROTO_UL(1099511628211); }
         return h % 31;  // few slots: most lookups run equals inside a bucket
     }
     bool allocEquals(ProtoContext* c, const ProtoObject* a, const ProtoObject* b) {
@@ -287,7 +287,7 @@ TEST(HashedCollection, AllocatingCallbacksUnderGcPressure) {
             const ProtoObject* v = hashedGet(s, m, kAllocating, keyString(s, i));
             if (i == kKeys || i % 3 == 0) { bad += v != nullptr; return; }   // never put / removed
             ++present;
-            const long expected = (i % 2 == 0) ? i * 10 : i;
+            const proto::proto_long expected = (i % 2 == 0) ? i * 10 : i;
             bad += (v == nullptr || !v->isInteger(s) || v->asLong(s) != expected);
         });
     int pairs = 0;

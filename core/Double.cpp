@@ -15,7 +15,7 @@ namespace proto
     {
     }
 
-    unsigned long DoubleImplementation::getHash(ProtoContext* context) const
+    proto_ulong DoubleImplementation::getHash(ProtoContext* context) const
     {
         // The hash must agree with equality.  -0.0 == 0.0, so both hash as
         // 0.0.  NaN has many bit patterns (sign and payload; x86 0.0/0.0 is a

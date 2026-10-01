@@ -12,7 +12,7 @@ namespace proto {
     ProtoMultisetImplementation::ProtoMultisetImplementation(
         ProtoContext* context,
         const ProtoSparseListImplementation* list,
-        unsigned long size
+        proto_ulong size
     ) : Cell(context), list(list), size(size)
     {
     }
@@ -70,7 +70,7 @@ namespace proto {
     const ProtoMultiset* ProtoMultiset::add(ProtoContext* context, const ProtoObject* value) const {
         const auto* impl = toImpl<const ProtoMultisetImplementation>(this);
         const auto* current_list = impl->list;
-        unsigned long hash = value->getHash(context);
+        proto_ulong hash = value->getHash(context);
         const ProtoObject* existing = current_list->implGetAt(context, hash);
         long long count = (existing && existing != PROTO_NONE) ? existing->asLong(context) : 0;
 
@@ -92,7 +92,7 @@ namespace proto {
     const ProtoMultiset* ProtoMultiset::remove(ProtoContext* context, const ProtoObject* value) const {
         const auto* impl = toImpl<const ProtoMultisetImplementation>(this);
         const auto* current_list = impl->list;
-        unsigned long hash = value->getHash(context);
+        proto_ulong hash = value->getHash(context);
         const ProtoObject* existing = current_list->implGetAt(context, hash);
         if (!existing || existing == PROTO_NONE) return this;
 
@@ -106,7 +106,7 @@ namespace proto {
         }
         return (new (context) ProtoMultisetImplementation(context, new_list, impl->size - 1))->asProtoMultiset(context);
     }
-    unsigned long ProtoMultiset::getSize(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->size; }
+    proto_ulong ProtoMultiset::getSize(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->size; }
     const ProtoObject* ProtoMultiset::asObject(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->implAsObject(context); }
     const ProtoMultisetIterator* ProtoMultiset::getIterator(ProtoContext* context) const {
         const auto* list_iterator = toImpl<const ProtoMultisetImplementation>(this)->list->implGetIterator(context);

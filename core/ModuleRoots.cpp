@@ -14,8 +14,8 @@ namespace proto {
 namespace {
     // Diagnostics for the pause-cost tests (P3 D6). Process-wide and relaxed:
     // read only by tests, never by the collector's logic.
-    std::atomic<unsigned long> g_lastCaptureShardReads{0};
-    std::atomic<unsigned long> g_stwVisitViolations{0};
+    std::atomic<proto_ulong> g_lastCaptureShardReads{0};
+    std::atomic<proto_ulong> g_stwVisitViolations{0};
 
     // Shard by the module pointer, so concurrent loads of different modules
     // rarely contend. The low 6 bits are dropped: cells are 64-byte aligned.
@@ -99,7 +99,7 @@ void ModuleRootTable::purgeSpace(const ProtoSpace* space) {
 // GC Phase 2, under stop-the-world. O(SHARD_COUNT) counter reads; no entry is
 // dereferenced. This is the ONLY work this table does inside the pause.
 void ModuleRootTable::captureForGC() {
-    unsigned long reads = 0;
+    proto_ulong reads = 0;
     for (Shard& shard : shards) {
         shard.gcCaptured = shard.published.load(std::memory_order_acquire);
         ++reads;
@@ -154,10 +154,10 @@ size_t ModuleRootTable::size() const {
     return total;
 }
 
-unsigned long ModuleRootTable::lastCaptureShardReads() {
+proto_ulong ModuleRootTable::lastCaptureShardReads() {
     return g_lastCaptureShardReads.load(std::memory_order_relaxed);
 }
-unsigned long ModuleRootTable::stwVisitViolations() {
+proto_ulong ModuleRootTable::stwVisitViolations() {
     return g_stwVisitViolations.load(std::memory_order_relaxed);
 }
 void ModuleRootTable::resetDiagnostics() {

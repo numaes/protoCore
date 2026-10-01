@@ -11,6 +11,11 @@
 #include "../headers/protoCore.h"
 
 #include <cstdlib>
+#if defined(_WIN32)
+// The CRT has no setenv/unsetenv; _putenv_s with an empty value removes one.
+static int setenv(const char* name, const char* value, int) { return _putenv_s(name, value); }
+static int unsetenv(const char* name) { return _putenv_s(name, ""); }
+#endif
 #include <string>
 #include <vector>
 
@@ -70,7 +75,7 @@ void allocateGarbageAndCheckLiveData(ProtoSpace& space, int batches, int objects
     }
     const ProtoList* live = rs->resolve(liveHandle)->asList(ctx);
     ASSERT_NE(live, nullptr);
-    ASSERT_EQ(live->getSize(ctx), static_cast<unsigned long>(kLive));
+    ASSERT_EQ(live->getSize(ctx), static_cast<proto::proto_ulong>(kLive));
     for (int i = 0; i < kLive; ++i) {
         EXPECT_EQ(live->getAt(ctx, i)->asLong(ctx), i) << "live element " << i;
     }

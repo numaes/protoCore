@@ -54,7 +54,7 @@ struct ProtoRootSet::Impl {
     std::vector<Slot> slots;
     std::vector<unsigned int> freeList;  // indices of free slots
     unsigned int nextGeneration = 1;
-    unsigned long liveCount = 0;
+    proto_ulong liveCount = 0;
     mutable std::mutex mutex;
 };
 
@@ -117,7 +117,7 @@ void ProtoRootSet::remove(Handle h) {
     impl_->liveCount--;
 }
 
-unsigned long ProtoRootSet::size() const {
+proto_ulong ProtoRootSet::size() const {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     return impl_->liveCount;
 }

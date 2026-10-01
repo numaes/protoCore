@@ -38,8 +38,8 @@ namespace {
 
 constexpr int kMaxWorkers = 8;
 
-unsigned long heldCells(ProtoContext* ctx) {
-    unsigned long n = 0;
+proto::proto_ulong heldCells(ProtoContext* ctx) {
+    proto::proto_ulong n = 0;
     for (Cell* c = toImpl<ProtoThreadImplementation>(ctx->thread)->extension->freeCells; c; c = c->getNext()) ++n;
     return n;
 }
@@ -52,15 +52,15 @@ struct BatchShared {
     std::atomic<bool> go{false};
     std::atomic<int> done{0};
     std::atomic<bool> release{false};
-    std::atomic<unsigned long> held[kMaxWorkers];
-    std::atomic<unsigned long> maxHeld{0};
-    std::atomic<unsigned long> errors{0};
+    std::atomic<proto::proto_ulong> held[kMaxWorkers];
+    std::atomic<proto::proto_ulong> maxHeld{0};
+    std::atomic<proto::proto_ulong> errors{0};
     BatchShared() { for (auto& h : held) h.store(0); }
 };
 BatchShared* gBatch = nullptr;
 
-void recordMax(std::atomic<unsigned long>& slot, unsigned long v) {
-    unsigned long cur = slot.load();
+void recordMax(std::atomic<proto::proto_ulong>& slot, proto::proto_ulong v) {
+    proto::proto_ulong cur = slot.load();
     while (v > cur && !slot.compare_exchange_weak(cur, v)) {}
 }
 
@@ -84,7 +84,7 @@ const ProtoObject* batchThreadMain(ProtoContext* ctx, const ProtoObject*, const 
             ProtoContext garbage(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
             for (int i = 0; i < shared.garbagePerRound; ++i) (void) garbage.newObject(false);
         }
-        const unsigned long held = heldCells(ctx);
+        const proto::proto_ulong held = heldCells(ctx);
         shared.held[index].store(held);
         recordMax(shared.maxHeld, held);
         self->synchToGC();
@@ -102,7 +102,7 @@ const ProtoObject* batchThreadMain(ProtoContext* ctx, const ProtoObject*, const 
 
 // Starts the workers, releases them together, and samples the sum of the
 // cells they hold until all are done.  Returns the largest sum observed.
-unsigned long runThreads(ProtoSpace& space, int threads, BatchShared& shared) {
+proto::proto_ulong runThreads(ProtoSpace& space, int threads, BatchShared& shared) {
     ProtoContext* root = space.rootContext;
     gBatch = &shared;
     std::vector<const ProtoThread*> handles;
@@ -110,7 +110,7 @@ unsigned long runThreads(ProtoSpace& space, int threads, BatchShared& shared) {
         handles.push_back(space.newThread(root, ProtoString::createSymbol(root, "batch-worker"),
                                           batchThreadMain, nullptr, nullptr));
     }
-    unsigned long maxSum = 0;
+    proto::proto_ulong maxSum = 0;
     {
         ProtoContext::UnmanagedScope parked(root);
         const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(180);
@@ -119,7 +119,7 @@ unsigned long runThreads(ProtoSpace& space, int threads, BatchShared& shared) {
         }
         shared.go = true;
         while (shared.done.load() < threads && std::chrono::steady_clock::now() < deadline) {
-            unsigned long sum = 0;
+            proto::proto_ulong sum = 0;
             for (int t = 0; t < threads; ++t) sum += shared.held[t].load();
             if (sum > maxSum) maxSum = sum;
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -138,7 +138,7 @@ unsigned long runThreads(ProtoSpace& space, int threads, BatchShared& shared) {
 
 TEST(HeapLimitBatch, ThreadBatchesTogetherStayWithinTheLimitFraction) {
     constexpr int kThreads = 8;
-    constexpr unsigned long kLimit = 500000;
+    constexpr proto::proto_ulong kLimit = 500000;
     ProtoSpace space;
     space.setHeapLimits(/*soft=*/0, /*hard=*/static_cast<int>(kLimit));
     const uint64_t cyclesStart = space.getGCCycleCount();
@@ -146,7 +146,7 @@ TEST(HeapLimitBatch, ThreadBatchesTogetherStayWithinTheLimitFraction) {
     BatchShared shared;
     shared.rounds = 200;
     shared.garbagePerRound = 2000;   // 4,000 cells per round per thread
-    const unsigned long maxSum = runThreads(space, kThreads, shared);
+    const proto::proto_ulong maxSum = runThreads(space, kThreads, shared);
 
     EXPECT_EQ(shared.done.load(), kThreads);
     EXPECT_EQ(shared.errors.load(), 0u);
@@ -168,6 +168,6 @@ TEST(HeapLimitBatch, WithoutALimitRefillsAreUnchanged) {
 
     EXPECT_EQ(shared.done.load(), kThreads);
     EXPECT_EQ(shared.errors.load(), 0u);
-    EXPECT_GE(shared.maxHeld.load(), static_cast<unsigned long>(ProtoSpace::CELL_CHUNK_SIZE) - 1)
+    EXPECT_GE(shared.maxHeld.load(), static_cast<proto::proto_ulong>(ProtoSpace::CELL_CHUNK_SIZE) - 1)
         << "without a limit a refill must still hand out at least a full chunk";
 }

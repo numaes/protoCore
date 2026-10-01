@@ -61,7 +61,7 @@ TEST(ConcurrentMarkSafety, MutationDuringMarkPreservesValues) {
     const ProtoString* slot = sym(setupCtx, "slot");
 
     std::atomic<bool> stopGc{false};
-    std::atomic<unsigned long> mismatchCount{0};
+    std::atomic<proto::proto_ulong> mismatchCount{0};
 
     std::thread gcKicker([&]() {
         while (!stopGc.load(std::memory_order_relaxed)) {
@@ -146,7 +146,7 @@ TEST(ConcurrentMarkSafety, NoLostMutableReferences) {
 
     std::atomic<bool> stopGc{false};
     std::atomic<bool> stopFlip{false};
-    std::atomic<unsigned long> brokenChain{0};
+    std::atomic<proto::proto_ulong> brokenChain{0};
 
     std::thread gcKicker([&]() {
         while (!stopGc.load(std::memory_order_relaxed)) {
@@ -247,7 +247,7 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
                 } else {
                     // mutable_ref i + 1 never matches its slot index, so the
                     // owner's lookups never hit these entries.
-                    ext->mutableValueCache[i] = {static_cast<unsigned long>(i + 1), shardRoot,
+                    ext->mutableValueCache[i] = {static_cast<proto::proto_ulong>(i + 1), shardRoot,
                                                  toCell ? cellValue : PROTO_NONE};
                 }
             }

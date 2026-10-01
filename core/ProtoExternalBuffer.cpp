@@ -17,11 +17,11 @@ namespace proto {
 
     ProtoExternalBufferImplementation::ProtoExternalBufferImplementation(
         ProtoContext* context,
-        unsigned long bufferSize
+        proto_ulong bufferSize
     ) : Cell(context), segment(nullptr), size(bufferSize)
     {
         if (bufferSize > 0) {
-            void* p = std::aligned_alloc(kSegmentAlignment, bufferSize);
+            void* p = alignedAlloc(kSegmentAlignment, bufferSize);
             if (p)
                 segment = std::memset(p, 0, bufferSize);
         }
@@ -29,7 +29,7 @@ namespace proto {
 
     ProtoExternalBufferImplementation::~ProtoExternalBufferImplementation() {
         if (segment) {
-            std::free(segment);
+            alignedFree(segment);
             segment = nullptr;
         }
     }
@@ -38,7 +38,7 @@ namespace proto {
         return segment;
     }
 
-    unsigned long ProtoExternalBufferImplementation::implGetSize(ProtoContext* /*context*/) const {
+    proto_ulong ProtoExternalBufferImplementation::implGetSize(ProtoContext* /*context*/) const {
         return size;
     }
 
@@ -59,12 +59,12 @@ namespace proto {
 
     void ProtoExternalBufferImplementation::finalize(ProtoContext* /*context*/) const {
         if (segment) {
-            std::free(segment);
+            alignedFree(segment);
             segment = nullptr;
         }
     }
 
-    unsigned long ProtoExternalBufferImplementation::getHash(ProtoContext* /*context*/) const {
+    proto_ulong ProtoExternalBufferImplementation::getHash(ProtoContext* /*context*/) const {
         return reinterpret_cast<uintptr_t>(segment) ^ size;
     }
 
@@ -76,7 +76,7 @@ namespace proto {
         return toImpl<const ProtoExternalBufferImplementation>(this)->implGetRawPointer(context);
     }
 
-    unsigned long ProtoExternalBuffer::getSize(ProtoContext* context) const {
+    proto_ulong ProtoExternalBuffer::getSize(ProtoContext* context) const {
         return toImpl<const ProtoExternalBufferImplementation>(this)->implGetSize(context);
     }
 
@@ -84,7 +84,7 @@ namespace proto {
         return toImpl<const ProtoExternalBufferImplementation>(this)->implAsObject(context);
     }
 
-    unsigned long ProtoExternalBuffer::getHash(ProtoContext* context) const {
+    proto_ulong ProtoExternalBuffer::getHash(ProtoContext* context) const {
         return toImpl<const ProtoExternalBufferImplementation>(this)->getHash(context);
     }
 

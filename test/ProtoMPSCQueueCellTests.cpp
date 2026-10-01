@@ -23,7 +23,7 @@ void collect(ProtoContext*, void* self, const Cell* ref) {
     static_cast<Collector*>(self)->refs.push_back(ref);
 }
 
-unsigned long tagOf(const void* handle) {
+proto::proto_ulong tagOf(const void* handle) {
     ProtoObjectPointer p{};
     p.oid = reinterpret_cast<const ProtoObject*>(handle);
     return p.op.pointer_tag;
@@ -37,7 +37,7 @@ TEST(MPSCQueueCell, HandleCarriesTag28AndCellTypeMPSCQueue) {
 
     const ProtoMPSCQueue* q = ctx.newMPSCQueue();
     ASSERT_NE(q, nullptr);
-    EXPECT_EQ(tagOf(q), static_cast<unsigned long>(POINTER_TAG_MPSC_QUEUE));
+    EXPECT_EQ(tagOf(q), static_cast<proto::proto_ulong>(POINTER_TAG_MPSC_QUEUE));
     EXPECT_EQ(POINTER_TAG_MPSC_QUEUE, 28);
 
     const Cell* cell = toImpl<const ProtoMPSCQueueImplementation>(q);
@@ -149,7 +149,7 @@ TEST(MPSCQueueCell, EveryReportedReferenceIsAnAlignedCell) {
         const Cell* cell = work.back();
         work.pop_back();
         ASSERT_NE(cell, nullptr);
-        EXPECT_EQ(reinterpret_cast<uintptr_t>(cell) & 0x3FUL, 0UL);
+        EXPECT_EQ(reinterpret_cast<uintptr_t>(cell) & PROTO_UL(0x3F), PROTO_UL(0));
         ++seen;
         if (seen > 500) break;    // the chains are finite; guard a cycle bug
         Collector inner;
@@ -171,13 +171,13 @@ TEST(MPSCQueueCell, InternalCellsAreNotObjectCells) {
     const ProtoMPSCQueueNodeImplementation* node = impl->head.load();
     ASSERT_NE(node, nullptr);
     const ProtoObject* word = node->implAsObject(&ctx);
-    EXPECT_EQ(tagOf(word), static_cast<unsigned long>(POINTER_TAG_OBJECT));
+    EXPECT_EQ(tagOf(word), static_cast<proto::proto_ulong>(POINTER_TAG_OBJECT));
     EXPECT_FALSE(isObjectFast(word));
 
     (void) q->takeAll(&ctx);
     const ProtoMPSCQueueRetainImplementation* retain = impl->retained.load();
     ASSERT_NE(retain, nullptr);
     const ProtoObject* rword = retain->implAsObject(&ctx);
-    EXPECT_EQ(tagOf(rword), static_cast<unsigned long>(POINTER_TAG_OBJECT));
+    EXPECT_EQ(tagOf(rword), static_cast<proto::proto_ulong>(POINTER_TAG_OBJECT));
     EXPECT_FALSE(isObjectFast(rword));
 }

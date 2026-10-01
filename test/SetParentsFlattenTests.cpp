@@ -457,7 +457,7 @@ TEST_F(SetParentsFlattenTest, ConcurrentSetParentsWithConcurrentReadsIsSafe) {
         int rotate = 0;
         while (!stop.load(std::memory_order_relaxed)) {
             const ProtoList* parents = m->getParents(&readerCtx);
-            long size = parents->getSize(&readerCtx);
+            proto::proto_long size = parents->getSize(&readerCtx);
             if (size > 1) {
                 tornReads.fetch_add(1, std::memory_order_relaxed);
             } else if (size == 1) {

@@ -42,8 +42,8 @@ SymbolTable& globalSymbolTable() {
     return *table;
 }
 
-unsigned long SymbolTable::entryCount() const {
-    unsigned long total = 0;
+proto_ulong SymbolTable::entryCount() const {
+    proto_ulong total = 0;
     for (int i = 0; i < SHARD_COUNT; ++i) {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(shards[i].mutex));
         for (const Bucket* b = shards[i].head; b; b = b->next) ++total;
@@ -51,7 +51,7 @@ unsigned long SymbolTable::entryCount() const {
     return total;
 }
 
-unsigned long globalSymbolCount() { return globalSymbolTable().entryCount(); }
+proto_ulong globalSymbolCount() { return globalSymbolTable().entryCount(); }
 
 // ---------------------------------------------------------------------------
 // Destructor — free all bucket chains

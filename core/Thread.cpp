@@ -90,7 +90,7 @@ namespace proto {
             //    nothing), and the only readers are the attribute / mutable
             //    lookup paths reached through a ProtoContext of THIS thread -
             //    all of which are gone by now, the root one at step 1.
-            std::free(ext->attributeCache);
+            alignedFree(ext->attributeCache);
             ext->attributeCache = nullptr;
             std::free(ext->mutableValueCache);
             ext->mutableValueCache = nullptr;
@@ -148,7 +148,7 @@ namespace proto {
             // mutex, then swap inside — see ProtoThreadImplementation
             // constructor for the recursive_mutex / park deadlock this
             // pattern avoids.
-            unsigned long threadId = reinterpret_cast<uintptr_t>(context->thread);
+            proto_ulong threadId = reinterpret_cast<uintptr_t>(context->thread);
             while (true) {
                 const ProtoSparseList* oldThreads = context->space->threads;
                 const ProtoSparseList* newThreads =
@@ -183,7 +183,7 @@ namespace proto {
         // requirement it inherits), which holds here because
         // THREAD_CACHE_DEPTH * 32 is a multiple of 64 for any depth >= 2.
         this->attributeCache = static_cast<AttributeCacheEntry*>(
-            std::aligned_alloc(64, THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry)));
+            alignedAlloc(64, THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry)));
         for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
             this->attributeCache[i] = {nullptr, nullptr, nullptr, nullptr};
         }
@@ -225,7 +225,7 @@ namespace proto {
     }
 
     ProtoThreadExtension::~ProtoThreadExtension() {
-        std::free(this->attributeCache);
+        alignedFree(this->attributeCache);
         std::free(this->mutableValueCache);
         if (osThread && osThread->joinable()) {
             osThread->join();
@@ -341,7 +341,7 @@ namespace proto {
         // The CAS retry loop handles the rare case where another
         // thread inserts into space->threads between our read and our
         // swap — we recompute newThreads off the current oldThreads.
-        unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(context));
+        proto_ulong threadId = reinterpret_cast<uintptr_t>(this->asThread(context));
         const ProtoObject* threadAsObj = (const ProtoObject*)this->asThread(context);
         // GC critical section: implSetAt allocates a chain of new
         // SparseList nodes that are reachable only via `newThreads`
@@ -395,7 +395,7 @@ namespace proto {
         this->context->mutableValueCache_ = this->extension->mutableValueCache;
         // Register in space->threads using the same lock-out-of-the-CAS
         // pattern as the spawning constructor.
-        unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(mainContext));
+        proto_ulong threadId = reinterpret_cast<uintptr_t>(this->asThread(mainContext));
         const ProtoObject* threadAsObj = (const ProtoObject*)this->asThread(mainContext);
         // GC critical section: same rationale as the spawning
         // constructor above — newThreads is held in a C++ local across
@@ -424,7 +424,7 @@ namespace proto {
         // allocates new node Cells and may park; parking under
         // recursive_mutex would leave the lock held at depth 1 (see
         // constructor comment for the full deadlock chain).
-        unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(this->context));
+        proto_ulong threadId = reinterpret_cast<uintptr_t>(this->asThread(this->context));
         while (true) {
             const ProtoSparseList* oldThreads = space->threads;
             const ProtoSparseList* newThreads =
@@ -576,7 +576,7 @@ namespace proto {
         // Nothing to do here
     }
 
-    unsigned long ProtoThreadImplementation::getHash(ProtoContext* context) const {
+    proto_ulong ProtoThreadImplementation::getHash(ProtoContext* context) const {
         return reinterpret_cast<uintptr_t>(this);
     }
 

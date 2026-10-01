@@ -36,7 +36,7 @@ namespace proto
      * @note For production use in hash tables, a more robust algorithm like FNV-1a
      * or MurmurHash across all digits would provide better distribution.
      */
-    unsigned long LargeIntegerImplementation::getHash(ProtoContext* context) const {
+    proto_ulong LargeIntegerImplementation::getHash(ProtoContext* context) const {
         // Hash every digit of every chunk. Hashing only digits[0] gave every
         // multiple of 2^64 the same hash, so 2**64, 2**65 and 2**70 collided
         // and hash-keyed structures kept only one of them. The representation
@@ -50,7 +50,7 @@ namespace proto
                 h ^= h >> 32;
             }
         }
-        return static_cast<unsigned long>(h);
+        return static_cast<proto_ulong>(h);
     }
 
     void LargeIntegerImplementation::finalize(ProtoContext* context) const {

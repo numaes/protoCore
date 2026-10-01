@@ -9,8 +9,8 @@ TEST(GCStressTest, LargeAllocationReclamation) {
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;
 
-    unsigned long initialHeap = space.heapSize;
-    unsigned long initialFree = space.freeCellsCount;
+    proto::proto_ulong initialHeap = space.heapSize;
+    proto::proto_ulong initialFree = space.freeCellsCount;
     (void)initialHeap;
     (void)initialFree;
 

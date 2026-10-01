@@ -69,7 +69,7 @@ public:
      * an unsigned subtraction underflows into an astronomic one.  Count units
      * of work and multiply by a measured cells-per-unit, or return 0.
      */
-    virtual unsigned long makeGarbage(unsigned long requestedCells) = 0;
+    virtual proto_ulong makeGarbage(proto_ulong requestedCells) = 0;
 
     /**
      * Same, but built out of the runtime's own SEQUENCE type -- what a user
@@ -77,7 +77,7 @@ public:
      * deliberately does not mention ProtoTuple: the case measures
      * reclamation, so it is correct whatever representation was chosen.
      */
-    virtual unsigned long makeSequenceGarbage(unsigned long requestedCells)
+    virtual proto_ulong makeSequenceGarbage(proto_ulong requestedCells)
     { (void) requestedCells; return 0; }
 
     /**
@@ -138,7 +138,7 @@ public:
      *
      * @return true when the workload completed.
      */
-    virtual bool runProducerConsumer(unsigned long units)
+    virtual bool runProducerConsumer(proto_ulong units)
     { (void) units; return false; }
 
     /**
@@ -170,7 +170,7 @@ public:
      * itself (MemoryModel.md section 5, "Count it").
      * @return (unsigned long) -1 when the runtime keeps no such total.
      */
-    virtual unsigned long externalBytesAccounted() { return (unsigned long) -1; }
+    virtual proto_ulong externalBytesAccounted() { return (proto_ulong) -1; }
 
     /**
      * Load the same logical path from two different providers.  Rule 9c.
@@ -196,7 +196,7 @@ public:
      *         DECLARATION: the case cross-checks it against the growth of the
      *         mutables table, which the kernel measures.
      */
-    virtual unsigned long makeMutableGraph() { return 0; }
+    virtual proto_ulong makeMutableGraph() { return 0; }
 
     /**
      * How many cycles in the mutable graph this runtime declares as
@@ -216,7 +216,7 @@ public:
      *
      * @return the declared count, or -1 when the runtime declares nothing.
      */
-    virtual long declaredMutableCycles() { return -1; }
+    virtual proto_long declaredMutableCycles() { return -1; }
 };
 
 enum class Status { Pass, Fail, NotApplicable, Skipped, NeedsReview };

@@ -59,7 +59,7 @@ void runCycles(ProtoSpace& space, int cycles)
     ctx->safepoint();
 }
 
-unsigned long refOf(const ProtoObject* o)
+proto::proto_ulong refOf(const ProtoObject* o)
 {
     if (!proto::isObjectFast(o)) return 0;
     return toImpl<const ProtoObjectCell>(o)->mutable_ref;
@@ -79,8 +79,8 @@ unsigned long refOf(const ProtoObject* o)
 ///        make the detector go silent.
 struct CapturedVar
 {
-    unsigned long cellRef    = 0;
-    unsigned long closureRef = 0;
+    proto::proto_ulong cellRef    = 0;
+    proto::proto_ulong closureRef = 0;
 };
 
 CapturedVar buildCapturedVar(ProtoContext* ctx, bool captureTheHandle)
@@ -117,11 +117,11 @@ const ProtoObject* anchor(ProtoContext* ctx, ProtoSpace& space,
     return space.rootObject->setAttribute(ctx, key, value);
 }
 
-bool cycleCovers(const MutableGraphReport& r, unsigned long a, unsigned long b)
+bool cycleCovers(const MutableGraphReport& r, proto::proto_ulong a, proto::proto_ulong b)
 {
     for (const MutableCycle& c : r.cycles) {
         bool hasA = false, hasB = false;
-        for (unsigned long x : c.refs) { hasA |= (x == a); hasB |= (x == b); }
+        for (proto::proto_ulong x : c.refs) { hasA |= (x == a); hasB |= (x == b); }
         if (hasA && hasB) return true;
     }
     return false;
@@ -204,7 +204,7 @@ TEST(MutableCycleDetector, SelfReferenceIsASingleHandleCycle)
     ProtoContext* ctx = space.rootContext;
 
     const ProtoObject* self = ctx->newObject(true);
-    const unsigned long ref = refOf(self);
+    const proto::proto_ulong ref = refOf(self);
     self->setAttribute(ctx, ProtoString::createSymbol(ctx, "itself"), self);
 
     const MutableGraphReport r = space.findMutableCycles(ctx);
@@ -256,7 +256,7 @@ TEST(MutableCycleDetector, AcyclicEdgesBetweenMutablesAreNotReported)
 
 namespace {
 
-unsigned long tableEntries(ProtoSpace& space)
+proto::proto_ulong tableEntries(ProtoSpace& space)
 {
     return space.findMutableCycles(space.rootContext).handles;
 }
@@ -277,28 +277,28 @@ TEST(MutableCycleDetector, AcyclicMutablesAreReleasedFromTheTable)
     ProtoContext* ctx = space.rootContext;
 
     runCycles(space, 2);
-    const unsigned long base = tableEntries(space);
+    const proto::proto_ulong base = tableEntries(space);
 
-    constexpr unsigned long kCount = 400;
+    constexpr proto::proto_ulong kCount = 400;
     {
         // A child context so the handles have no root once it dies.
         ProtoContext child(&space, ctx);
         const ProtoString* k = ProtoString::createSymbol(&child, "payload");
-        for (unsigned long i = 0; i < kCount; ++i) {
+        for (proto::proto_ulong i = 0; i < kCount; ++i) {
             const ProtoObject* m = child.newObject(true);
-            m->setAttribute(&child, k, child.fromLong(static_cast<long>(i)));
+            m->setAttribute(&child, k, child.fromLong(static_cast<proto::proto_long>(i)));
         }
     }
-    const unsigned long peak = tableEntries(space);
+    const proto::proto_ulong peak = tableEntries(space);
     ASSERT_GE(peak, base + kCount)
         << "the workload did not create " << kCount << " table entries (base "
         << base << ", peak " << peak << "), so there is nothing to measure";
 
     runCycles(space, 8);
-    const unsigned long end = tableEntries(space);
+    const proto::proto_ulong end = tableEntries(space);
 
-    const unsigned long created  = peak - base;
-    const unsigned long residual = (end > base) ? (end - base) : 0;
+    const proto::proto_ulong created  = peak - base;
+    const proto::proto_ulong residual = (end > base) ? (end - base) : 0;
     // At least 90% of what the workload created must be gone.  A run that
     // released a handful would satisfy `< created` and mean nothing.
     EXPECT_LE(residual, created / 10)
@@ -316,23 +316,23 @@ TEST(MutableCycleDetector, CyclicMutablesAreNeverReleasedAndDoNotDecay)
     ProtoContext* ctx = space.rootContext;
 
     runCycles(space, 2);
-    const unsigned long base = tableEntries(space);
+    const proto::proto_ulong base = tableEntries(space);
 
-    constexpr unsigned long kPairs = 200;
+    constexpr proto::proto_ulong kPairs = 200;
     {
         ProtoContext child(&space, ctx);
-        for (unsigned long i = 0; i < kPairs; ++i)
+        for (proto::proto_ulong i = 0; i < kPairs; ++i)
             buildCapturedVar(&child, /*captureTheHandle=*/true);
     }
-    const unsigned long peak = tableEntries(space);
+    const proto::proto_ulong peak = tableEntries(space);
     ASSERT_GE(peak, base + 2 * kPairs)
         << "the workload did not create " << (2 * kPairs) << " table entries "
         << "(base " << base << ", peak " << peak << ")";
 
     runCycles(space, 8);
-    const unsigned long afterFirst = tableEntries(space);
+    const proto::proto_ulong afterFirst = tableEntries(space);
     runCycles(space, 8);
-    const unsigned long afterSecond = tableEntries(space);
+    const proto::proto_ulong afterSecond = tableEntries(space);
 
     EXPECT_GE(afterFirst, base + 2 * kPairs)
         << "cyclic mutables were released, which contradicts the documented "

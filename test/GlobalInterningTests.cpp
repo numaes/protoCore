@@ -34,8 +34,8 @@ constexpr int kGarbagePerBatch = 5000;
 
 struct CycleReport {
     uint64_t      cycles;     // complete GC cycles observed
-    unsigned long reclaimed;  // cells the last completed cycle swept
-    long          created;    // cells this helper deliberately made garbage
+    proto::proto_ulong reclaimed;  // cells the last completed cycle swept
+    proto::proto_long          created;    // cells this helper deliberately made garbage
 };
 
 // Forces at least `minCycles` COMPLETE cycles that actually did work.
@@ -56,7 +56,7 @@ struct CycleReport {
 //    against it through ASSERT_CYCLES_DID_REAL_WORK.
 CycleReport forceCycles(ProtoSpace& space, ProtoContext* parent, uint64_t minCycles) {
     const uint64_t start = space.getGCCycleCount();
-    long created = 0;
+    proto::proto_long created = 0;
     space.setHeapLimits(/*soft=*/0, /*hard=*/space.heapSize + kHeadroomCells);
     for (int batch = 0; batch < 400 && space.getGCCycleCount() - start < minCycles; ++batch) {
         ProtoContext garbage(&space, parent, nullptr, nullptr, nullptr, nullptr);
@@ -102,10 +102,10 @@ std::string readBack(ProtoContext* c, const ProtoString* s) {
 #define ASSERT_CYCLES_DID_REAL_WORK(rep, minCycles)                              \
     do {                                                                         \
         std::fprintf(stderr, "[gc] cycles=%lu reclaimed=%lu created=%ld\n",      \
-                     (unsigned long)(rep).cycles, (rep).reclaimed, (rep).created); \
+                     (proto::proto_ulong)(rep).cycles, (rep).reclaimed, (rep).created); \
         ASSERT_GE((rep).cycles, (uint64_t)(minCycles))                           \
             << "no collection ran; the test proves nothing";                     \
-        ASSERT_GT((rep).reclaimed, (unsigned long)((rep).created / 10))          \
+        ASSERT_GT((rep).reclaimed, (proto::proto_ulong)((rep).created / 10))          \
             << "the cycles reclaimed " << (rep).reclaimed << " cells against "   \
             << (rep).created << " created: the young generation was never "      \
             << "submitted, so this test would pass with the GC disabled";        \
@@ -276,7 +276,7 @@ TEST(GlobalInterning, ASecondSpaceInternsNothingItsPredecessorAlreadyDid) {
             ASSERT_NE(fromA[i], nullptr);
         }
     }
-    const unsigned long afterA = globalSymbolCount();
+    const proto::proto_ulong afterA = globalSymbolCount();
 
     ProtoSpace b;
     ProtoContext cb(&b, b.rootContext, nullptr, nullptr, nullptr, nullptr);
@@ -349,7 +349,7 @@ constexpr int kP3Threads   = 4;      // two per space
 // one is a real interned cell rather than an inline string.
 std::vector<std::string>            gP3Spellings;
 std::vector<const ProtoString*>     gP3Seen[kP3Threads];
-std::atomic<unsigned long>          gP3Nulls{0};
+std::atomic<proto::proto_ulong>          gP3Nulls{0};
 
 // Runs on a REGISTERED protoCore thread (ProtoSpace::newThread), not a raw
 // std::thread: an unregistered thread is not counted in runningThreads, never
@@ -357,7 +357,7 @@ std::atomic<unsigned long>          gP3Nulls{0};
 // stronger (P2 D10).
 const ProtoObject* p3InternWorkerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
                                        const ProtoList* args, const ProtoSparseList*) {
-    const long slot = args->getAt(ctx, 0)->asLong(ctx);
+    const proto::proto_long slot = args->getAt(ctx, 0)->asLong(ctx);
     // A rotated order per thread, so the threads race on the same shard from
     // different directions rather than marching in lockstep.
     for (int k = 0; k < kP3Spellings; ++k) {
@@ -387,7 +387,7 @@ TEST(GlobalInterning, ConcurrentInterningAcrossSpacesAgreesOnOnePointer) {
     // Spellings carry this test's own name so the case is independent of
     // execution order and of --gtest_repeat (P3 D8).
     gP3Spellings.clear();
-    static std::atomic<unsigned long> run{0};
+    static std::atomic<proto::proto_ulong> run{0};
     const std::string stem =
         "P3ConcurrentInterningProbe_" + std::to_string(run.fetch_add(1)) + "_";
     for (int i = 0; i < kP3Spellings; ++i)
@@ -414,7 +414,7 @@ TEST(GlobalInterning, ConcurrentInterningAcrossSpacesAgreesOnOnePointer) {
         for (const ProtoThread* w : workers) const_cast<ProtoThread*>(w)->join(rootA);
     }
 
-    EXPECT_EQ(gP3Nulls.load(), 0ul) << "createSymbol returned null under contention";
+    EXPECT_EQ(gP3Nulls.load(), PROTO_UL(0)) << "createSymbol returned null under contention";
 
     // A fifth set, interned on the main thread through a third context.
     ProtoContext main(&a, rootA, nullptr, nullptr, nullptr, nullptr);

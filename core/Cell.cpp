@@ -29,7 +29,7 @@ namespace proto
      * @param next A pointer to form a linked list of cells, used by the context.
      */
     Cell::Cell(ProtoContext* context, Cell* next)
-        : next_and_flags(reinterpret_cast<uintptr_t>(next) & ~0x3FUL)
+        : next_and_flags(reinterpret_cast<uintptr_t>(next) & ~PROTO_UL(0x3F))
     {
         // Each newly created Cell is immediately registered with the current context
         // for memory management and garbage collection tracking.
@@ -44,7 +44,7 @@ namespace proto
      * @brief Provides a default hash for a Cell, based on its memory address.
      * This ensures that every heap object has a unique, stable identifier.
      */
-    unsigned long Cell::getHash(ProtoContext* context) const
+    proto_ulong Cell::getHash(ProtoContext* context) const
     {
         return reinterpret_cast<uintptr_t>(this);
     }
@@ -54,7 +54,7 @@ namespace proto
      * Instead of calling the system allocator, it requests a new cell from the
      * current context's memory arena.
      */
-    void* Cell::operator new(unsigned long size, ProtoContext* context)
+    void* Cell::operator new(proto_ulong size, ProtoContext* context)
     {
         return context->allocCell();
     };

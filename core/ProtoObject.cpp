@@ -22,18 +22,18 @@
 #include <cstdio>
 #include <cstdlib>
 namespace proto {
-    std::atomic<unsigned long> protoCacheStats_hits{0};
-    std::atomic<unsigned long> protoCacheStats_collisions{0};
-    std::atomic<unsigned long> protoCacheStats_coldMisses{0};
+    std::atomic<proto_ulong> protoCacheStats_hits{0};
+    std::atomic<proto_ulong> protoCacheStats_collisions{0};
+    std::atomic<proto_ulong> protoCacheStats_coldMisses{0};
     namespace {
         struct ProtoCacheStatsDumper {
             ~ProtoCacheStatsDumper() {
-                unsigned long h = protoCacheStats_hits.load();
-                unsigned long c = protoCacheStats_collisions.load();
-                unsigned long m = protoCacheStats_coldMisses.load();
-                unsigned long total = h + c + m;
+                proto_ulong h = protoCacheStats_hits.load();
+                proto_ulong c = protoCacheStats_collisions.load();
+                proto_ulong m = protoCacheStats_coldMisses.load();
+                proto_ulong total = h + c + m;
                 std::fprintf(stderr,
-                    "[proto-cache-stats] lookups=%lu hits=%lu collisions=%lu coldMisses=%lu hitRate=%.2f%% collisionRate=%.2f%%\n",
+                    "[proto-cache-stats] lookups=%" PROTO_FMT_U " hits=%" PROTO_FMT_U " collisions=%" PROTO_FMT_U " coldMisses=%" PROTO_FMT_U " hitRate=%.2f%% collisionRate=%.2f%%\n",
                     total, h, c, m,
                     total ? (100.0 * h / total) : 0.0,
                     total ? (100.0 * c / total) : 0.0);
@@ -64,7 +64,7 @@ namespace proto
          * shard (nullptr when the object has not yet been mutated since allocation).
          */
         inline void resolveMutableState(ProtoContext* context,
-                                          unsigned long mutable_ref,
+                                          proto_ulong mutable_ref,
                                           ProtoSparseList** outShardRoot,
                                           const ProtoObject** outCurrent) {
             // Hot path: pull the cache pointer directly from the
@@ -79,7 +79,7 @@ namespace proto
             MutableValueCacheEntry* cache =
                 context ? context->mutableValueCache_ : nullptr;
             int shard = mutable_ref % ProtoSpace::MUTABLE_ROOT_SHARDS;
-            unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
+            proto_ulong idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
 
             // Validate cache entry by re-loading the live shard root.
             if (cache && cache[idx].mutable_ref == mutable_ref) {
@@ -116,7 +116,7 @@ namespace proto
 
         /** Read-only convenience wrapper: returns just the current snapshot. */
         inline const ProtoObject* resolveMutableSnapshot(ProtoContext* context,
-                                                         unsigned long mutable_ref) {
+                                                         proto_ulong mutable_ref) {
             const ProtoObject* snap = nullptr;
             resolveMutableState(context, mutable_ref, nullptr, &snap);
             return snap;
@@ -128,14 +128,14 @@ namespace proto
          * will hit the cache with the freshly published `(new_root, new_value)` pair.
          */
         inline void refreshMutableCache(ProtoContext* context,
-                                        unsigned long mutable_ref,
+                                        proto_ulong mutable_ref,
                                         ProtoSparseList* new_root,
                                         const ProtoObject* new_value) {
             // Same stashed-pointer fast-path as resolveMutableState:
             // skip the toImpl + extension chain, go straight to
             // context->mutableValueCache_.
             if (!context || !context->mutableValueCache_) return;
-            unsigned long idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
+            proto_ulong idx = mutable_ref % MUTABLE_VALUE_CACHE_DEPTH;
             context->mutableValueCache_[idx] = {mutable_ref, new_root, new_value};
         }
 
@@ -201,7 +201,7 @@ namespace proto
         ProtoContext* context,
         const ParentLinkImplementation* parent,
         const ProtoSparseListImplementation* attributes,
-        const unsigned long mutable_ref
+        const proto_ulong mutable_ref
     ) : Cell(context), parent(parent),
         attributes(attributes ? attributes : context->newSparseListImpl()),
         mutable_ref(mutable_ref)
@@ -406,12 +406,12 @@ namespace proto
                                   const ProtoObject* skipIdentity, FlatParentList& outFlat)
         {
             if (!newParents) return;
-            unsigned long n = newParents->getSize(context);
+            proto_ulong n = newParents->getSize(context);
             outFlat.reserve(n);
             ObjectPointerSet seen;
 
             // Step 1: listed parents, given order, de-duplicated.
-            for (unsigned long i = 0; i < n; ++i) {
+            for (proto_ulong i = 0; i < n; ++i) {
                 const ProtoObject* p = newParents->getAt(context, static_cast<int>(i));
                 if (!p) continue;
                 if (skipIdentity && p == skipIdentity) continue; // no-op: never its own parent
@@ -647,7 +647,7 @@ namespace proto
             }
         }
 
-        unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
+        proto_ulong ref = isMutable ? generate_mutable_ref(context) : 0;
         return (new(context) ProtoObjectCell(context, parent, attributes, ref))->asObject(context);
     }
 
@@ -660,7 +660,7 @@ namespace proto
              const ProtoObject* prototype = getPrototype(context);
              return prototype ? prototype->newChild(context, isMutable) : PROTO_NONE;
         }
-        unsigned long ref = isMutable ? generate_mutable_ref(context) : 0;
+        proto_ulong ref = isMutable ? generate_mutable_ref(context) : 0;
 
         // GC critical section opened BEFORE the mutable snapshot is
         // resolved (matching getParents/getFirstParent/getAttributes —
@@ -817,7 +817,7 @@ namespace proto
 
         const ProtoObject* currentPointer = this;
         const ParentLinkImplementation* currentLink = nullptr;
-        const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
+        const proto_ulong attr_hash = reinterpret_cast<uintptr_t>(name);
 
         // No step cap: this loop always terminates, because it is a
         // single-level walk of ONE receiver's own ParentLinkImplementation
@@ -854,7 +854,7 @@ namespace proto
             // (always a ProtoObjectCell), so the tag check on those
             // is a single bit-and that the predictor learns to
             // handle as taken-not-taken in the steady state.
-            const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & 0x3FUL) == POINTER_TAG_OBJECT;
+            const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & PROTO_UL(0x3F)) == POINTER_TAG_OBJECT;
             if (!isObj) {
                 // Non-object tagged pointers (e.g. Integers, None) — fall
                 // through to their prototype.  Move out of the hot
@@ -892,7 +892,7 @@ namespace proto
             // ~5 % of CPU per lookup before this change.  Right-shift by
             // 4 to spread the low alignment-zero bits into the index
             // range.
-            unsigned long hash_idx = 0;
+            proto_ulong hash_idx = 0;
             bool cache_resolved = false;
             const proto::ProtoObject* result = nullptr;
             if (cache) {
@@ -1018,7 +1018,7 @@ namespace proto
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
-                unsigned long hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
+                proto_ulong hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
@@ -1158,7 +1158,7 @@ namespace proto
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
-                unsigned long hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
+                proto_ulong hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
@@ -1168,7 +1168,7 @@ namespace proto
         }
 
         const int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-        const unsigned long key = reinterpret_cast<uintptr_t>(name);
+        const proto_ulong key = reinterpret_cast<uintptr_t>(name);
 
         // Same critical-section discipline as setAttribute: every iteration
         // builds a new attribute tree + ProtoObjectCell + shard SparseList
@@ -1253,7 +1253,7 @@ namespace proto
         if (context->thread) {
             auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
             if (threadImpl->extension) {
-                unsigned long hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
+                proto_ulong hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
                                             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
                 if (threadImpl->extension->attributeCache[hash_idx].object == this &&
                     threadImpl->extension->attributeCache[hash_idx].name == name) {
@@ -1647,7 +1647,7 @@ namespace proto
         if (!ProtoObject::isCellPointer(obj)) return nullptr;
         ProtoObjectPointer pa{};
         pa.oid = obj;
-        uintptr_t raw = reinterpret_cast<uintptr_t>(pa.voidPointer) & ~0x3FUL;
+        uintptr_t raw = reinterpret_cast<uintptr_t>(pa.voidPointer) & ~PROTO_UL(0x3F);
         return reinterpret_cast<const Cell*>(raw);
     }
 
@@ -1693,7 +1693,7 @@ namespace proto
         ProtoObjectPointer pa{}; pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE) return false;
         if (pa.op.embedded_type != EMBEDDED_TYPE_SMALLINT) return false;
-        const long value = pa.si.smallInteger;
+        const proto_long value = pa.si.smallInteger;
         return value >= -128 && value <= 255;
     }
     bool ProtoObject::isString(ProtoContext* context) const {
@@ -1808,7 +1808,7 @@ namespace proto
             }
         }
 
-        unsigned long hash_idx = 0;
+        proto_ulong hash_idx = 0;
         if (cache) {
             hash_idx = ((reinterpret_cast<uintptr_t>(snapshot) >> 6) ^
                           (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
@@ -1831,7 +1831,7 @@ namespace proto
         return result;
     }
 
-    unsigned long ProtoObject::getHash(ProtoContext* context) const {
+    proto_ulong ProtoObject::getHash(ProtoContext* context) const {
         if (!this) return 0;
 
         ProtoObjectPointer pa{}; pa.oid = this;
@@ -2168,13 +2168,13 @@ namespace proto
         // class of bug isInstanceOf had before its own fix.
         const ProtoObject* currentPointer = this;
         const ParentLinkImplementation* currentLink = nullptr;
-        const unsigned long attr_hash = reinterpret_cast<uintptr_t>(name);
+        const proto_ulong attr_hash = reinterpret_cast<uintptr_t>(name);
 
         while (currentPointer) {
             // Pure 6-bit tag check, matching getAttribute's own hot-path
             // check — see its comment for why no virtual getType() probe
             // is needed for either this or the chain-advance step below.
-            const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & 0x3FUL) == POINTER_TAG_OBJECT;
+            const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & PROTO_UL(0x3F)) == POINTER_TAG_OBJECT;
             if (!isObj) {
                 const ProtoObject* nextProto = currentPointer->getPrototype(context);
                 if (nextProto == currentPointer) break;
@@ -2289,7 +2289,7 @@ namespace proto
                 if (ancOc->attributes) {
                     const ProtoSparseListIteratorImplementation* it = ancOc->attributes->implGetIterator(context);
                     while (it && it->implHasNext()) {
-                        unsigned long key = it->implNextKey();
+                        proto_ulong key = it->implNextKey();
                         const ProtoObject* value = it->implNextValue();
                         if (!attrs || attrs->implGetAt(context, key) == nullptr) {
                             attrs = attrs ? attrs->implSetAt(context, key, value)
@@ -2409,7 +2409,7 @@ namespace proto
 
             // Read everything out of the cell BEFORE handing control to the
             // callback, which may run arbitrary embedder code.
-            const unsigned long key = node->key;
+            const proto_ulong key = node->key;
             const ProtoObject* value = node->value;
             const ProtoSparseListImplementation* right = node->next;
 
@@ -2504,7 +2504,7 @@ namespace proto
         }
     }
     
-    unsigned long ProtoObject::asTimestamp(ProtoContext* context) const {
+    proto_ulong ProtoObject::asTimestamp(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) {
@@ -2513,7 +2513,7 @@ namespace proto
         return 0;
     }
     
-    long ProtoObject::asTimeDelta(ProtoContext* context) const {
+    proto_long ProtoObject::asTimeDelta(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) {

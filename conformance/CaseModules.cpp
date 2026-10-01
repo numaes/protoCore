@@ -27,7 +27,7 @@ CaseResult caseModuleRootSurvivesCycle(Host& host)
         return {kId, 9, Status::Fail, "Host::mainContext() returned no usable context"};
     ProtoSpace& space = *ctx->space;
 
-    const unsigned long rootsBefore = ProtoSpace::moduleRootCount();
+    const proto::proto_ulong rootsBefore = ProtoSpace::moduleRootCount();
     const ModuleIdentity id("protoCore.conformance",
                             "conformance/module_root_survives_cycle", "1.0.0");
 
@@ -47,7 +47,7 @@ CaseResult caseModuleRootSurvivesCycle(Host& host)
                 "ProtoSpace::registerModule did not publish the module, so rule "
                 "9b cannot be observed"};
 
-    const unsigned long rootsAfter = ProtoSpace::moduleRootCount();
+    const proto::proto_ulong rootsAfter = ProtoSpace::moduleRootCount();
 
     // Drop our own reference.  `published` stays as a C++ local, which is NOT a
     // GC root -- so if the module root table is not a real root, the mark will

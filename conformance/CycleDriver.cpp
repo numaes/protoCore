@@ -8,9 +8,11 @@ namespace proto { namespace conformance {
 
 namespace {
 
-std::string num(long v) { return std::to_string(v); }
-std::string num(unsigned long v) { return std::to_string(v); }
+std::string num(proto::proto_long v) { return std::to_string(v); }
+std::string num(proto::proto_ulong v) { return std::to_string(v); }
+#if !defined(_WIN32)   // on Windows proto_ulong already is unsigned long long
 std::string num(unsigned long long v) { return std::to_string(v); }
+#endif
 
 /// Request one cycle and wait for it, cooperating with STW while we wait.
 ///
@@ -92,7 +94,7 @@ void driveMoreCycles(CycleReport& r, ProtoSpace& space, ProtoContext* ctx,
 {
     const auto deadline =
         std::chrono::steady_clock::now() + std::chrono::milliseconds(deadlineMs);
-    long previousInUse = sample(space).inUse;
+    proto::proto_long previousInUse = sample(space).inUse;
     unsigned stable = 0;
 
     for (unsigned i = 0; i < maxCycles; ++i) {
@@ -140,7 +142,7 @@ CycleReport driveCycles(ProtoSpace& space, ProtoContext* ctx,
     return r;
 }
 
-std::string describe(const CycleReport& r, unsigned long declaredByHost)
+std::string describe(const CycleReport& r, proto::proto_ulong declaredByHost)
 {
     std::string s;
     s += "inUse base=" + num(r.base.inUse)
@@ -160,9 +162,9 @@ std::string describe(const CycleReport& r, unsigned long declaredByHost)
 }
 
 std::string checkWorkloadLargeEnough(const CycleReport& r,
-                                     unsigned long declaredByHost)
+                                     proto::proto_ulong declaredByHost)
 {
-    if (r.grownByWorkload() < (long) kMinWorkloadCells) {
+    if (r.grownByWorkload() < (proto::proto_long) kMinWorkloadCells) {
         return "the workload did not consume enough heap to judge: the space's "
                "in-use cell count grew by only "
              + num(r.grownByWorkload()) + " cells, and at least "
@@ -176,7 +178,7 @@ std::string checkWorkloadLargeEnough(const CycleReport& r,
 }
 
 std::string checkProportionalReclaim(const CycleReport& r,
-                                     unsigned long declaredByHost)
+                                     proto::proto_ulong declaredByHost)
 {
     if (!r.converged) {
         return "reclamation did not converge within the deadline.  A cycle that "
@@ -185,9 +187,9 @@ std::string checkProportionalReclaim(const CycleReport& r,
                "quorum), not rule 1's.  " + describe(r, declaredByHost);
     }
 
-    const long grown = r.grownByWorkload();
-    const long allowedResidual =
-        (long) ((1.0 - kReclaimFraction) * (double) grown);
+    const proto::proto_long grown = r.grownByWorkload();
+    const proto::proto_long allowedResidual =
+        (proto::proto_long) ((1.0 - kReclaimFraction) * (double) grown);
 
     if (r.residual() > allowedResidual) {
         return "the workload grew the space's in-use cell count by "

@@ -63,7 +63,7 @@ CaseResult caseMutableGraphCycles(Host& host)
     // what rule 13 governs, and the growth across the probe is what establishes
     // that the probe did anything at all.
     const MutableGraphReport before = space.findMutableCycles(ctx);
-    const unsigned long declaredBuilt = host.makeMutableGraph();
+    const proto::proto_ulong declaredBuilt = host.makeMutableGraph();
     const MutableGraphReport after = space.findMutableCycles(ctx);
 
     const std::string counts =
@@ -97,8 +97,8 @@ CaseResult caseMutableGraphCycles(Host& host)
         return unavailable(kId, 13, "makeMutableGraph", why.c_str());
     }
 
-    const long declaredCycles = host.declaredMutableCycles();
-    const unsigned long found = static_cast<unsigned long>(after.cycles.size());
+    const proto::proto_long declaredCycles = host.declaredMutableCycles();
+    const proto::proto_ulong found = static_cast<proto::proto_ulong>(after.cycles.size());
 
     if (found == 0) {
         if (declaredCycles > 0)
@@ -131,7 +131,7 @@ CaseResult caseMutableGraphCycles(Host& host)
                   "Host::declaredMutableCycles().  " + counts
                 + cycleLines(after, 8)};
 
-    if (found > static_cast<unsigned long>(declaredCycles))
+    if (found > static_cast<proto::proto_ulong>(declaredCycles))
         return {kId, 13, Status::Fail,
                 "this runtime declares " + std::to_string(declaredCycles)
                 + " structural cycle(s) in its mutable graph and the scan found "

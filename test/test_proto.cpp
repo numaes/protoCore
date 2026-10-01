@@ -141,8 +141,8 @@ void test_sparse_list_operations(ProtoContext& c) {
 
     const proto::ProtoString* key1 = c.fromUTF8String("name")->asString(&c);
     const proto::ProtoString* key2 = c.fromUTF8String("age")->asString(&c);
-    const unsigned long key1_hash = key1->getHash(&c);
-    const unsigned long key2_hash = key2->getHash(&c);
+    const proto::proto_ulong key1_hash = key1->getHash(&c);
+    const proto::proto_ulong key2_hash = key2->getHash(&c);
 
     const proto::ProtoSparseList* dict1 = dict->setAt(&c, key1_hash, c.fromUTF8String("protoCore"));
     const proto::ProtoSparseList* dict2 = dict1->setAt(&c, key2_hash, c.fromInteger(7));

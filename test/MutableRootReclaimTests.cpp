@@ -66,19 +66,19 @@ bool runGcCycle(ProtoSpace& space, ProtoContext* ctx) {
     return true;
 }
 
-unsigned long mutableRefOf(const ProtoObject* object) {
+proto::proto_ulong mutableRefOf(const ProtoObject* object) {
     return toImpl<const ProtoObjectCell>(object)->mutable_ref;
 }
 
-bool hasEntry(ProtoSpace& space, ProtoContext* ctx, unsigned long ref) {
+bool hasEntry(ProtoSpace& space, ProtoContext* ctx, proto::proto_ulong ref) {
     const ProtoSparseList* root =
         globalMutableShards[ref % ProtoSpace::MUTABLE_ROOT_SHARDS].root.load();  // the table is process-global
     return sparseListGetRaw(ctx, root, ref) != nullptr;
 }
 
-std::size_t countEntries(ProtoSpace& space, ProtoContext* ctx, const std::vector<unsigned long>& refs) {
+std::size_t countEntries(ProtoSpace& space, ProtoContext* ctx, const std::vector<proto::proto_ulong>& refs) {
     std::size_t n = 0;
-    for (unsigned long ref : refs) {
+    for (proto::proto_ulong ref : refs) {
         if (hasEntry(space, ctx, ref)) ++n;
     }
     return n;
@@ -86,7 +86,7 @@ std::size_t countEntries(ProtoSpace& space, ProtoContext* ctx, const std::vector
 
 // Payload finalizer: completes an action on an external structure (a
 // counter) and nothing else, as the finalizer contract requires.
-std::atomic<unsigned long> gPayloadsFinalized{0};
+std::atomic<proto::proto_ulong> gPayloadsFinalized{0};
 void countPayloadFinalized(void*) {
     gPayloadsFinalized.fetch_add(1, std::memory_order_relaxed);
 }
@@ -101,7 +101,7 @@ TEST(MutableRootReclaim, DroppedMutablesReleaseTheirEntries) {
     const ProtoString* key = ProtoString::createSymbol(ctx, "payload");
 
     constexpr int kObjects = 4000;
-    std::vector<unsigned long> refs;
+    std::vector<proto::proto_ulong> refs;
     refs.reserve(kObjects);
     {
         ProtoContext sub(&space, ctx, nullptr, nullptr, nullptr, nullptr);
@@ -137,7 +137,7 @@ TEST(MutableRootReclaim, ObjectsReferencedByDroppedMutablesAreCollected) {
 
     constexpr int kObjects = 4000;
     static int token = 0;
-    std::vector<unsigned long> refs;
+    std::vector<proto::proto_ulong> refs;
     refs.reserve(kObjects);
     {
         ProtoContext sub(&space, ctx, nullptr, nullptr, nullptr, nullptr);
@@ -163,7 +163,7 @@ TEST(MutableRootReclaim, ObjectsReferencedByDroppedMutablesAreCollected) {
     // Cycle 2 collects the states and payloads; cycle 3 absorbs timing.
     ASSERT_TRUE(runGcCycle(space, ctx));
     ASSERT_TRUE(runGcCycle(space, ctx));
-    EXPECT_EQ(gPayloadsFinalized.load(), static_cast<unsigned long>(kObjects))
+    EXPECT_EQ(gPayloadsFinalized.load(), static_cast<proto::proto_ulong>(kObjects))
         << "objects referenced only by dropped mutables must be collected once "
            "their entries are released";
 #endif
@@ -181,7 +181,7 @@ TEST(MutableRootReclaim, LiveMutablesKeepTheirState) {
 
     constexpr int kPairs = 2000;
     std::vector<ProtoRootSet::Handle> live;
-    std::vector<unsigned long> droppedRefs;
+    std::vector<proto::proto_ulong> droppedRefs;
     live.reserve(kPairs);
     droppedRefs.reserve(kPairs);
     {
@@ -246,10 +246,10 @@ struct WriterShared {
     uint64_t stopAtCycle = 0;
     std::atomic<int> done{0};
     std::atomic<bool> release{false};
-    std::atomic<unsigned long> errors{0};
-    std::atomic<unsigned long> iterations{0};
+    std::atomic<proto::proto_ulong> errors{0};
+    std::atomic<proto::proto_ulong> iterations{0};
     std::mutex droppedMutex;
-    std::vector<unsigned long> droppedRefs;
+    std::vector<proto::proto_ulong> droppedRefs;
 };
 WriterShared* gWriters = nullptr;
 
@@ -268,7 +268,7 @@ const ProtoObject* writerThreadMain(ProtoContext* ctx, const ProtoObject*, const
             owned.push_back(shared.roots->add(sub.newObject(true)));
         }
     }
-    std::vector<unsigned long> dropped;
+    std::vector<proto::proto_ulong> dropped;
 
     ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);
     int it = 0;
@@ -303,7 +303,7 @@ const ProtoObject* writerThreadMain(ProtoContext* ctx, const ProtoObject*, const
             shared.errors.fetch_add(1, std::memory_order_relaxed);
         }
     }
-    shared.iterations.fetch_add(static_cast<unsigned long>(it));
+    shared.iterations.fetch_add(static_cast<proto::proto_ulong>(it));
     {
         std::lock_guard<std::mutex> lock(shared.droppedMutex);
         shared.droppedRefs.insert(shared.droppedRefs.end(), dropped.begin(), dropped.end());
@@ -366,7 +366,7 @@ TEST(MutableRootReclaim, ConcurrentWritersLoseNoUpdateDuringRelease) {
         droppedCount = shared.droppedRefs.size();
     }
     const ProtoObject* finalCount = shared.roots->resolve(counterHandle)->getAttribute(ctx, shared.countKey);
-    const unsigned long iterations = shared.iterations.load();
+    const proto::proto_ulong iterations = shared.iterations.load();
 
     shared.release = true;
     {
@@ -378,7 +378,7 @@ TEST(MutableRootReclaim, ConcurrentWritersLoseNoUpdateDuringRelease) {
     EXPECT_GE(cyclesDuringWrites, 3u) << "too few cycles ran while the writers were active";
     EXPECT_EQ(shared.errors.load(), 0u) << "a writer's last update to its own mutable was lost";
     ASSERT_NE(finalCount, nullptr);
-    EXPECT_EQ(static_cast<unsigned long>(finalCount->asLong(ctx)), iterations)
+    EXPECT_EQ(static_cast<proto::proto_ulong>(finalCount->asLong(ctx)), iterations)
         << "a compare-and-swap increment of the shared counter was lost";
     EXPECT_EQ(droppedCount, static_cast<std::size_t>(iterations) * kDroppedPerIteration);
     EXPECT_EQ(remaining, 0u) << "entries of dropped mutables were not released";

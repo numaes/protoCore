@@ -56,7 +56,7 @@ TEST_F(SmallListTest, SizesZeroToFive) {
         ASSERT_TRUE(isSmallList(l));
         ASSERT_EQ(l->getSize(context), n);
         for (unsigned i = 0; i < n; ++i) {
-            ASSERT_EQ(l->getAt(context, i)->asLong(context), 100 + (long)i);
+            ASSERT_EQ(l->getAt(context, i)->asLong(context), 100 + (proto::proto_long)i);
         }
     }
 }
@@ -68,7 +68,7 @@ TEST_F(SmallListTest, OverflowFallsBackToAvl) {
     ASSERT_TRUE(isAvlList(l)) << "newSmallListN with N>MAX must fall back to AVL";
     ASSERT_EQ(l->getSize(context), MAX + 1);
     for (unsigned i = 0; i < MAX + 1; ++i) {
-        ASSERT_EQ(l->getAt(context, i)->asLong(context), (long)i);
+        ASSERT_EQ(l->getAt(context, i)->asLong(context), (proto::proto_long)i);
     }
 }
 
@@ -100,7 +100,7 @@ TEST_F(SmallListTest, AppendLastStaysSmallUntilFull) {
     ASSERT_TRUE(isAvlList(l)) << "size=6 must promote to AVL";
     ASSERT_EQ(l->getSize(context), MAX + 1);
     for (unsigned i = 0; i < MAX + 1; ++i) {
-        ASSERT_EQ(l->getAt(context, i)->asLong(context), (long)(i + 1));
+        ASSERT_EQ(l->getAt(context, i)->asLong(context), (proto::proto_long)(i + 1));
     }
 }
 

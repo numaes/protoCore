@@ -15,12 +15,12 @@
 namespace proto
 {
     namespace {
-        constexpr unsigned long kSlotHashMask = (1UL << 54) - 1;
+        constexpr proto_ulong kSlotHashMask = (PROTO_UL(1) << 54) - 1;
 
         // An embedded SmallInteger word carrying the hash's low 54 bits.
         // Built directly (never through fromInteger, which would allocate a
         // LargeInteger cell for values >= 2^53).
-        const ProtoObject* hashSlotKey(unsigned long hash) {
+        const ProtoObject* hashSlotKey(proto_ulong hash) {
             ProtoObjectPointer p{};
             p.op.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
             p.op.embedded_type = EMBEDDED_TYPE_SMALLINT;

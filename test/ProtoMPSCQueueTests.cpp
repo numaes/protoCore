@@ -11,14 +11,14 @@ using namespace proto;
 
 namespace {
 
-const ProtoObject* boxed(ProtoContext* c, long v) {
+const ProtoObject* boxed(ProtoContext* c, proto::proto_long v) {
     // A real cell, so the GC has something to trace (an item that is only a
     // SmallInteger would be embedded and prove nothing about tracing).
     return c->newList()->appendLast(c, c->fromInteger(v))->asObject(c);
 }
 
-long unboxed(ProtoContext* c, const ProtoObject* o) {
-    return static_cast<long>(o->asList(c)->getAt(c, 0)->asLong(c));
+proto::proto_long unboxed(ProtoContext* c, const ProtoObject* o) {
+    return static_cast<proto::proto_long>(o->asList(c)->getAt(c, 0)->asLong(c));
 }
 
 }  // namespace
@@ -41,13 +41,13 @@ TEST(MPSCQueue, OneProducerSeesFIFOOrder) {
     ProtoContext ctx(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
     const ProtoMPSCQueue* q = ctx.newMPSCQueue();
 
-    constexpr long kN = 1000;
-    for (long i = 0; i < kN; ++i) q->push(&ctx, boxed(&ctx, i));
+    constexpr proto::proto_long kN = 1000;
+    for (proto::proto_long i = 0; i < kN; ++i) q->push(&ctx, boxed(&ctx, i));
     EXPECT_FALSE(q->isEmpty(&ctx));
 
     const ProtoList* got = q->takeAll(&ctx);
-    ASSERT_EQ(got->getSize(&ctx), static_cast<unsigned long>(kN));
-    for (long i = 0; i < kN; ++i)
+    ASSERT_EQ(got->getSize(&ctx), static_cast<proto::proto_ulong>(kN));
+    for (proto::proto_long i = 0; i < kN; ++i)
         EXPECT_EQ(unboxed(&ctx, got->getAt(&ctx, static_cast<int>(i))), i) << "at " << i;
 
     EXPECT_TRUE(q->isEmpty(&ctx));
@@ -59,9 +59,9 @@ TEST(MPSCQueue, ItemsPushedAfterATakeAllBelongToTheNextBatch) {
     ProtoContext ctx(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
     const ProtoMPSCQueue* q = ctx.newMPSCQueue();
 
-    for (long i = 0; i < 5; ++i) q->push(&ctx, boxed(&ctx, i));
+    for (proto::proto_long i = 0; i < 5; ++i) q->push(&ctx, boxed(&ctx, i));
     const ProtoList* first = q->takeAll(&ctx);
-    for (long i = 5; i < 9; ++i) q->push(&ctx, boxed(&ctx, i));
+    for (proto::proto_long i = 5; i < 9; ++i) q->push(&ctx, boxed(&ctx, i));
     const ProtoList* second = q->takeAll(&ctx);
 
     ASSERT_EQ(first->getSize(&ctx), 5u);
@@ -79,7 +79,7 @@ TEST(MPSCQueue, ItemsAreReturnedByIdentity) {
     const ProtoMPSCQueue* q = ctx.newMPSCQueue();
 
     std::vector<const ProtoObject*> pushed;
-    for (long i = 0; i < 20; ++i) {
+    for (proto::proto_long i = 0; i < 20; ++i) {
         const ProtoObject* o = boxed(&ctx, i);
         pushed.push_back(o);
         q->push(&ctx, o);
@@ -113,11 +113,11 @@ TEST(MPSCQueue, LargeBatchKeepsOrder) {
     ProtoContext ctx(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
     const ProtoMPSCQueue* q = ctx.newMPSCQueue();
 
-    constexpr long kN = 50000;
-    for (long i = 0; i < kN; ++i) q->push(&ctx, ctx.fromInteger(i));
+    constexpr proto::proto_long kN = 50000;
+    for (proto::proto_long i = 0; i < kN; ++i) q->push(&ctx, ctx.fromInteger(i));
     const ProtoList* got = q->takeAll(&ctx);
-    ASSERT_EQ(got->getSize(&ctx), static_cast<unsigned long>(kN));
-    for (long i = 0; i < kN; i += 997)
+    ASSERT_EQ(got->getSize(&ctx), static_cast<proto::proto_ulong>(kN));
+    for (proto::proto_long i = 0; i < kN; i += 997)
         EXPECT_EQ(got->getAt(&ctx, static_cast<int>(i))->asLong(&ctx), i) << "at " << i;
     EXPECT_EQ(got->getAt(&ctx, kN - 1)->asLong(&ctx), kN - 1);
 }
@@ -145,7 +145,7 @@ TEST(MPSCQueue, ObjectModelIntegration) {
     EXPECT_FALSE(ctx.fromInteger(3)->isMPSCQueue(&ctx));
 
     // Identity hash: stable across mutation, distinct per queue.
-    const unsigned long h = q->getHash(&ctx);
+    const proto::proto_ulong h = q->getHash(&ctx);
     q->push(&ctx, ctx.fromInteger(1));
     EXPECT_EQ(q->getHash(&ctx), h);
     EXPECT_NE(ctx.newMPSCQueue()->getHash(&ctx), h);

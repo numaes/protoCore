@@ -18,10 +18,10 @@ using namespace proto;
 namespace {
     struct IterationSum {
         long long sum;
-        unsigned long count;
+        proto::proto_ulong count;
     };
 
-    void accumulate(ProtoContext* c, void* self, unsigned long key, const ProtoObject* value) {
+    void accumulate(ProtoContext* c, void* self, proto::proto_ulong key, const ProtoObject* value) {
         auto* s = static_cast<IterationSum*>(self);
         s->sum += static_cast<long long>(key) + value->asLong(c);
         s->count++;
@@ -38,13 +38,13 @@ int main() {
     ProtoContext* c = space.rootContext;
 
     const int numIterations = 100000;
-    const unsigned long keyRange = 10000;
+    const proto::proto_ulong keyRange = 10000;
     std::mt19937 gen(12345);
-    std::uniform_int_distribution<unsigned long> distrib(0, keyRange);
+    std::uniform_int_distribution<proto::proto_ulong> distrib(0, keyRange);
 
-    std::vector<unsigned long> keys(numIterations);
+    std::vector<proto::proto_ulong> keys(numIterations);
     std::vector<const ProtoObject*> values(numIterations);
-    std::map<unsigned long, long long> model;
+    std::map<proto::proto_ulong, long long> model;
     for (int i = 0; i < numIterations; ++i) {
         keys[i] = distrib(gen);
         values[i] = c->fromInteger(i);
@@ -74,7 +74,7 @@ int main() {
     auto t3 = std::chrono::high_resolution_clock::now();
     long long expectedIter = 0;
     for (const auto& [k, v] : model) expectedIter += static_cast<long long>(k) + v;
-    const unsigned long pairsBeforeRemoval = model.size();
+    const proto::proto_ulong pairsBeforeRemoval = model.size();
 
     for (int i = 0; i < numIterations; i += 2) {
         list = list->removeAt(c, keys[i]);

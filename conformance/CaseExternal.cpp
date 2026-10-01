@@ -114,8 +114,8 @@ CaseResult casePerennialNeverFinalized(Host& host)
 CaseResult caseExternalBytesAccounted(Host& host)
 {
     const char* kId = "external.bytes_accounted";
-    const unsigned long bytes = host.externalBytesAccounted();
-    if (bytes == (unsigned long) -1)
+    const proto::proto_ulong bytes = host.externalBytesAccounted();
+    if (bytes == (proto::proto_ulong) -1)
         return {kId, 7, Status::NeedsReview,
                 "this runtime keeps no total of the memory it allocates outside "
                 "protoCore.  MemoryModel.md section 5 assigns that total to the "

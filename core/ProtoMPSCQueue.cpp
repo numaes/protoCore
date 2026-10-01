@@ -478,7 +478,7 @@ namespace proto
         return reinterpret_cast<const ProtoObject*>(this);   // already tagged
     }
 
-    unsigned long ProtoMPSCQueue::getHash(ProtoContext* context) const {
+    proto_ulong ProtoMPSCQueue::getHash(ProtoContext* context) const {
         // Identity: the contents change under the caller's feet, so they
         // cannot contribute.  Cell::getHash is the cell address.
         return implOf(this)->Cell::getHash(context);

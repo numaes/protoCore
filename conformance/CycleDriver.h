@@ -49,7 +49,7 @@ inline constexpr double kReclaimFraction = 0.50;
 /// is possible.  Below it, the fixed lag of (a)-(c) above is not a small
 /// fraction of the denominator and the case reports NotApplicable rather than
 /// guessing.  Chosen so that one thread's unused batch (8192) is ~4%.
-inline constexpr unsigned long kMinWorkloadCells = 200000;
+inline constexpr proto::proto_ulong kMinWorkloadCells = 200000;
 
 /// A point-in-time reading of the space's cell accounting.
 ///
@@ -60,11 +60,11 @@ inline constexpr unsigned long kMinWorkloadCells = 200000;
 /// delta of it is smallest exactly when a runtime is conforming.
 struct HeapSample
 {
-    long          heapSize   = 0;
-    long          freeCells  = 0;
-    long          inUse      = 0;   ///< heapSize - freeCells
-    unsigned long liveLast   = 0;   ///< space.liveCellsLastCycle
-    unsigned long reclaimed  = 0;   ///< space.reclaimedLastCycle
+    proto::proto_long          heapSize   = 0;
+    proto::proto_long          freeCells  = 0;
+    proto::proto_long          inUse      = 0;   ///< heapSize - freeCells
+    proto::proto_ulong liveLast   = 0;   ///< space.liveCellsLastCycle
+    proto::proto_ulong reclaimed  = 0;   ///< space.reclaimedLastCycle
     unsigned long long cycles = 0;  ///< space.getGCCycleCount()
 };
 
@@ -75,15 +75,15 @@ struct CycleReport
     HeapSample    base;              ///< before the workload
     HeapSample    peak;              ///< after the workload, before cycles
     HeapSample    end;               ///< after cycles converged
-    unsigned long reclaimedSum = 0;  ///< sum of reclaimedLastCycle over cycles
+    proto::proto_ulong reclaimedSum = 0;  ///< sum of reclaimedLastCycle over cycles
     unsigned      cyclesRun    = 0;
     bool          converged    = false;  ///< false when the deadline hit first
 
     /// Heap the workload took and had not given back when it returned.  THE
     /// DENOMINATOR, measured by the kernel rather than declared by the Host.
-    long grownByWorkload() const { return peak.inUse - base.inUse; }
+    proto::proto_long grownByWorkload() const { return peak.inUse - base.inUse; }
     /// Heap still held after reclamation converged.
-    long residual() const { return end.inUse - base.inUse; }
+    proto::proto_long residual() const { return end.inUse - base.inUse; }
 };
 
 /**
@@ -121,17 +121,17 @@ void driveMoreCycles(CycleReport& r, ProtoSpace& space, ProtoContext* ctx,
  *         includes every number it used.
  */
 std::string checkProportionalReclaim(const CycleReport& r,
-                                     unsigned long declaredByHost);
+                                     proto::proto_ulong declaredByHost);
 
 /**
  * @brief Was the workload big enough to judge at all?
  * @return an empty string when it was, otherwise the NotApplicable reason.
  */
 std::string checkWorkloadLargeEnough(const CycleReport& r,
-                                     unsigned long declaredByHost);
+                                     proto::proto_ulong declaredByHost);
 
 /// Human-readable, always emitted -- on pass as well as on fail.
-std::string describe(const CycleReport& r, unsigned long declaredByHost);
+std::string describe(const CycleReport& r, proto::proto_ulong declaredByHost);
 
 }}  // namespace proto::conformance
 

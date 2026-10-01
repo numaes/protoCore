@@ -245,14 +245,14 @@ TEST_F(AttributeEnumerationTest, WalkAllocatesNothing) {
     }
 
     Collector sink;
-    const unsigned long beforeMutable = ctx->allocatedCellsCount;
+    const proto::proto_ulong beforeMutable = ctx->allocatedCellsCount;
     mutableObj->processOwnAttributes(ctx, &sink, collect);
     EXPECT_EQ(ctx->allocatedCellsCount, beforeMutable)
         << "walking a mutable object must not allocate";
     EXPECT_EQ(sink.calls, 40);
 
     Collector sink2;
-    const unsigned long beforeImmutable = ctx->allocatedCellsCount;
+    const proto::proto_ulong beforeImmutable = ctx->allocatedCellsCount;
     immutableObj->processOwnAttributes(ctx, &sink2, collect);
     EXPECT_EQ(ctx->allocatedCellsCount, beforeImmutable)
         << "walking an immutable object must not allocate";
@@ -312,8 +312,8 @@ namespace {
 struct ConcurrentSink {
     ProtoContext* context = nullptr;
     int calls = 0;
-    unsigned long nullValues = 0;
-    unsigned long badValues = 0;
+    proto::proto_ulong nullValues = 0;
+    proto::proto_ulong badValues = 0;
 };
 
 void checkEachPair(ProtoContext* context, void* self,
@@ -341,7 +341,7 @@ TEST_F(AttributeEnumerationTest, ConcurrentMutationDuringWalkIsSafe) {
     }
 
     std::atomic<bool> stop{false};
-    std::atomic<unsigned long> writes{0};
+    std::atomic<proto::proto_ulong> writes{0};
 
     // Writer: keeps replacing values, so the snapshot a walk started from is
     // orphaned again and again while that walk is still running.  `writes`
@@ -349,7 +349,7 @@ TEST_F(AttributeEnumerationTest, ConcurrentMutationDuringWalkIsSafe) {
     // quickly — and deterministically — that the writer is really running.
     std::thread writer([&]() {
         ProtoContext writerCtx{space};
-        unsigned long n = 0;
+        proto::proto_ulong n = 0;
         while (!stop.load(std::memory_order_relaxed)) {
             for (size_t i = 0; i < keys.size(); ++i) {
                 obj->setAttribute(&writerCtx, keys[i],
@@ -382,12 +382,12 @@ TEST_F(AttributeEnumerationTest, ConcurrentMutationDuringWalkIsSafe) {
     // test claims to exercise actually happened.  The deadline keeps a
     // starved writer from hanging the suite.
     constexpr int kMinRounds = 400;
-    constexpr unsigned long kMinWrites = 500;
-    const unsigned long writesBefore = writes.load(std::memory_order_relaxed);
+    constexpr proto::proto_ulong kMinWrites = 500;
+    const proto::proto_ulong writesBefore = writes.load(std::memory_order_relaxed);
     const auto roundsDeadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
 
-    unsigned long totalWalks = 0;
-    unsigned long shortWalks = 0;
+    proto::proto_ulong totalWalks = 0;
+    proto::proto_ulong shortWalks = 0;
     for (int round = 0;
          round < kMinRounds ||
          (writes.load(std::memory_order_relaxed) - writesBefore < kMinWrites &&
@@ -405,7 +405,7 @@ TEST_F(AttributeEnumerationTest, ConcurrentMutationDuringWalkIsSafe) {
         ctx->safepoint();
     }
 
-    const unsigned long writesDuringWalks =
+    const proto::proto_ulong writesDuringWalks =
         writes.load(std::memory_order_relaxed) - writesBefore;
 
     stop.store(true, std::memory_order_relaxed);

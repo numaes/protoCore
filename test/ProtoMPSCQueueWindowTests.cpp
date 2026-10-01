@@ -163,10 +163,10 @@ const ProtoMPSCQueueImplementation* implOf(const ProtoMPSCQueue* q) {
 // How many nodes the collector can reach through `retained`.  `retained` is a
 // stack of retain cells and each carries one chain; only the newest matters
 // here because each test does exactly one takeAll.
-unsigned long nodesReachableFromRetained(const ProtoMPSCQueue* q) {
+proto::proto_ulong nodesReachableFromRetained(const ProtoMPSCQueue* q) {
     const RetainCell* r = implOf(q)->retained.load(std::memory_order_acquire);
     if (!r) return 0;
-    unsigned long n = 0;
+    proto::proto_ulong n = 0;
     for (const NodeCell* c = r->chain.load(std::memory_order_acquire); c;
          c = c->next.load(std::memory_order_acquire))
         ++n;
@@ -195,8 +195,8 @@ bool waitForIdleCollector(ProtoSpace& space, ProtoContext* ctx) {
 // (docs/GarbageCollector.md section 7) permits and nothing more happens here.
 class CanaryCell final : public Cell {
 public:
-    static std::atomic<unsigned long> finalized;
-    static std::atomic<unsigned long> traced;
+    static std::atomic<proto::proto_ulong> finalized;
+    static std::atomic<proto::proto_ulong> traced;
 
     explicit CanaryCell(ProtoContext* context) : Cell(context) {}
 
@@ -211,8 +211,8 @@ public:
         return reinterpret_cast<const ProtoObject*>(this);
     }
 };
-std::atomic<unsigned long> CanaryCell::finalized{0};
-std::atomic<unsigned long> CanaryCell::traced{0};
+std::atomic<proto::proto_ulong> CanaryCell::finalized{0};
+std::atomic<proto::proto_ulong> CanaryCell::traced{0};
 
 }  // namespace
 
@@ -229,7 +229,7 @@ std::atomic<unsigned long> CanaryCell::traced{0};
 class MPSCQueueWindowPhase : public ::testing::TestWithParam<PmqWindowPhase> {};
 
 TEST_P(MPSCQueueWindowPhase, RetainCellCoversEveryDetachedNode) {
-    constexpr long kFill = 100;
+    constexpr proto::proto_long kFill = 100;
 
     ProtoSpace space;
     ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
@@ -240,7 +240,7 @@ TEST_P(MPSCQueueWindowPhase, RetainCellCoversEveryDetachedNode) {
     const ProtoRootSet::Handle pinned = rs->add(q->asObject(&live));
     ASSERT_NE(pinned, ProtoRootSet::kNullHandle);
 
-    for (long i = 0; i < kFill; ++i) q->push(&live, live.fromInteger(i));
+    for (proto::proto_long i = 0; i < kFill; ++i) q->push(&live, live.fromInteger(i));
 
     ProtoContext producer(&space, &live, nullptr, nullptr, nullptr, nullptr);
     WindowHookState state;
@@ -257,18 +257,18 @@ TEST_P(MPSCQueueWindowPhase, RetainCellCoversEveryDetachedNode) {
     }
 
     ASSERT_EQ(state.fired.load(), 1) << "the hook never entered the publish window";
-    ASSERT_EQ(batch->getSize(&live), static_cast<unsigned long>(kFill + 1));
+    ASSERT_EQ(batch->getSize(&live), static_cast<proto::proto_ulong>(kFill + 1));
     EXPECT_EQ(batch->getAt(&live, static_cast<int>(kFill))->asLong(&live), kFill)
         << "the node prepended inside the window must be the last item out";
 
-    const unsigned long covered = nodesReachableFromRetained(q);
+    const proto::proto_ulong covered = nodesReachableFromRetained(q);
     std::printf("[ WINDOW   ] phase=%s batch=%lu reachable from retained=%lu\n",
                 GetParam() == PmqWindowPhase::AfterHeadLoad ? "after-head-load"
                                                            : "before-detach",
                 batch->getSize(&live), covered);
     std::fflush(stdout);
 
-    EXPECT_EQ(covered, static_cast<unsigned long>(kFill + 1))
+    EXPECT_EQ(covered, static_cast<proto::proto_ulong>(kFill + 1))
         << "takeAll detached " << (kFill + 1) << " nodes but only " << covered
         << " of them are reachable from `retained`.  The uncovered ones hang off "
            "nothing but a C++ local for the length of the O(batch) walk, which "
@@ -310,7 +310,7 @@ INSTANTIATE_TEST_SUITE_P(BothWindowPhases, MPSCQueueWindowPhase,
 // list: the shipped defect, observed directly rather than inferred from
 // corrupted contents, so no reuse of the freed cell is needed to see it.
 TEST(MPSCQueueWindow, AWindowPrependSurvivesACollectionDuringTheDrain) {
-    constexpr long kFill = 20000;
+    constexpr proto::proto_long kFill = 20000;
 
     CanaryCell::finalized = 0;
     CanaryCell::traced = 0;
@@ -326,7 +326,7 @@ TEST(MPSCQueueWindow, AWindowPrependSurvivesACollectionDuringTheDrain) {
 
     {
         ProtoContext filler(&space, &live, nullptr, nullptr, nullptr, nullptr);
-        for (long i = 0; i < kFill; ++i) q->push(&filler, filler.fromInteger(i));
+        for (proto::proto_long i = 0; i < kFill; ++i) q->push(&filler, filler.fromInteger(i));
     }
 
     ProtoContext producer(&space, &live, nullptr, nullptr, nullptr, nullptr);
@@ -361,7 +361,7 @@ TEST(MPSCQueueWindow, AWindowPrependSurvivesACollectionDuringTheDrain) {
     ASSERT_TRUE(state.stwSeen.load())
         << "the collector never announced a pause while takeAll held the window, "
            "so the cycle this test needs was not armed";
-    ASSERT_EQ(batch->getSize(&live), static_cast<unsigned long>(kFill + 1));
+    ASSERT_EQ(batch->getSize(&live), static_cast<proto::proto_ulong>(kFill + 1));
     EXPECT_EQ(batch->getAt(&live, static_cast<int>(kFill)),
               reinterpret_cast<const ProtoObject*>(canary))
         << "the node prepended inside the window must be the last item out";

@@ -63,17 +63,17 @@ double seconds(std::chrono::steady_clock::time_point a,
     return std::chrono::duration<double>(b - a).count();
 }
 
-constexpr long kStride = 10000000;
-constexpr long kTurn   = 2000;      // sends per producer ProtoContext
+constexpr proto::proto_long kStride = 10000000;
+constexpr proto::proto_long kTurn   = 2000;      // sends per producer ProtoContext
 
 struct SendResult {
     const char* name;
     int producers;
-    long pushed;
-    long consumed;
+    proto::proto_long pushed;
+    proto::proto_long consumed;
     double sendWall;      // longest producer's own loop
     double sendCpuSum;    // sum of the producers' loops
-    long batches;
+    proto::proto_long batches;
     bool gcSafe;
 };
 
@@ -94,16 +94,16 @@ void reportSend(const SendResult& r, bool& ok) {
 //--------------------------------------------------------------- protoCore
 struct PmqJob {
     const ProtoMPSCQueue* queue;
-    long perProducer;
-    std::atomic<long> nextProducer;
-    std::atomic<long> doneCount;
-    std::atomic<long> sendNanosSum;
-    std::atomic<long> sendNanosMax;
+    proto::proto_long perProducer;
+    std::atomic<proto::proto_long> nextProducer;
+    std::atomic<proto::proto_long> doneCount;
+    std::atomic<proto::proto_long> sendNanosSum;
+    std::atomic<proto::proto_long> sendNanosMax;
 };
 
-void recordProducer(PmqJob* job, long nanos) {
+void recordProducer(PmqJob* job, proto::proto_long nanos) {
     job->sendNanosSum.fetch_add(nanos, std::memory_order_relaxed);
-    long prev = job->sendNanosMax.load(std::memory_order_relaxed);
+    proto::proto_long prev = job->sendNanosMax.load(std::memory_order_relaxed);
     while (nanos > prev &&
            !job->sendNanosMax.compare_exchange_weak(prev, nanos,
                                                     std::memory_order_relaxed)) {}
@@ -113,11 +113,11 @@ void recordProducer(PmqJob* job, long nanos) {
 const ProtoObject* pmqProducer(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
                                const ProtoList* args, const ProtoSparseList*) {
     auto* job = reinterpret_cast<PmqJob*>(args->getAt(ctx, 0)->asLong(ctx));
-    const long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);
+    const proto::proto_long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);
     const auto t0 = std::chrono::steady_clock::now();
-    for (long i = 0; i < job->perProducer; ) {
+    for (proto::proto_long i = 0; i < job->perProducer; ) {
         ProtoContext turn(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
-        const long end = (i + kTurn < job->perProducer) ? i + kTurn : job->perProducer;
+        const proto::proto_long end = (i + kTurn < job->perProducer) ? i + kTurn : job->perProducer;
         for (; i < end; ++i) job->queue->push(&turn, turn.fromInteger(p * kStride + i));
     }
     recordProducer(job, std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -125,13 +125,13 @@ const ProtoObject* pmqProducer(ProtoContext* ctx, const ProtoObject*, const Pare
     return PROTO_NONE;
 }
 
-SendResult runProtoCore(ProtoSpace& space, ProtoContext* main, int producers, long perProducer) {
+SendResult runProtoCore(ProtoSpace& space, ProtoContext* main, int producers, proto::proto_long perProducer) {
     const ProtoMPSCQueue* q = main->newMPSCQueue();
     ProtoRootSet* rs = space.createRootSet("bench-pmq");
     const ProtoRootSet::Handle pinned = rs->add(q->asObject(main));
 
     PmqJob job{q, perProducer, {0}, {0}, {0}, {0}};
-    const long total = static_cast<long>(producers) * perProducer;
+    const proto::proto_long total = static_cast<proto::proto_long>(producers) * perProducer;
 
     const ProtoString* name = ProtoString::createSymbol(main, "bench-pmq-producer");
     const ProtoObject* handle = main->fromLong(reinterpret_cast<long long>(&job));
@@ -142,18 +142,18 @@ SendResult runProtoCore(ProtoSpace& space, ProtoContext* main, int producers, lo
                                      main->newList()->appendLast(main, handle), nullptr));
 
     // This thread is the consumer: single-consumer is the contract.
-    long got = 0;
-    long batches = 0;
+    proto::proto_long got = 0;
+    proto::proto_long batches = 0;
     while (got < total) {
         ProtoContext turn(&space, main, nullptr, nullptr, nullptr, nullptr);
         const ProtoList* batch = q->takeAll(&turn);
-        const unsigned long n = batch->getSize(&turn);
+        const proto::proto_ulong n = batch->getSize(&turn);
         if (n == 0) { std::this_thread::yield(); continue; }
         ++batches;
         // Counted by batch size, exactly as the protoST row does.  Walking a
         // ProtoList with getAt is O(log n) per element and would measure
         // list indexing, not the mailbox.
-        got += static_cast<long>(n);
+        got += static_cast<proto::proto_long>(n);
     }
     for (const ProtoThread* t : ps) const_cast<ProtoThread*>(t)->join(main);
     rs->remove(pinned);
@@ -164,18 +164,18 @@ SendResult runProtoCore(ProtoSpace& space, ProtoContext* main, int producers, lo
 }
 
 //---------------------------------------------------------- protoClojure
-struct Msg { long value; Msg* next; };
+struct Msg { proto::proto_long value; Msg* next; };
 
-SendResult runClojureShape(int producers, long perProducer) {
+SendResult runClojureShape(int producers, proto::proto_long perProducer) {
     std::atomic<Msg*> head{nullptr};
-    std::atomic<long> consumed{0};
-    std::atomic<long> batches{0};
-    std::atomic<long> nanosSum{0};
-    std::atomic<long> nanosMax{0};
-    const long total = static_cast<long>(producers) * perProducer;
+    std::atomic<proto::proto_long> consumed{0};
+    std::atomic<proto::proto_long> batches{0};
+    std::atomic<proto::proto_long> nanosSum{0};
+    std::atomic<proto::proto_long> nanosMax{0};
+    const proto::proto_long total = static_cast<proto::proto_long>(producers) * perProducer;
 
     std::thread consumer([&] {
-        long got = 0;
+        proto::proto_long got = 0;
         while (got < total) {
             Msg* chain = head.exchange(nullptr, std::memory_order_acq_rel);
             if (!chain) { std::this_thread::yield(); continue; }
@@ -189,17 +189,17 @@ SendResult runClojureShape(int producers, long perProducer) {
     for (int p = 0; p < producers; ++p) {
         ps.emplace_back([&, p] {
             const auto t0 = std::chrono::steady_clock::now();
-            for (long i = 0; i < perProducer; ++i) {
+            for (proto::proto_long i = 0; i < perProducer; ++i) {
                 Msg* m = new Msg{p * kStride + i, nullptr};
                 Msg* h = head.load(std::memory_order_relaxed);
                 do { m->next = h; }
                 while (!head.compare_exchange_weak(h, m, std::memory_order_release,
                                                    std::memory_order_relaxed));
             }
-            const long ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            const proto::proto_long ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
                                 std::chrono::steady_clock::now() - t0).count();
             nanosSum.fetch_add(ns, std::memory_order_relaxed);
-            long prev = nanosMax.load(std::memory_order_relaxed);
+            proto::proto_long prev = nanosMax.load(std::memory_order_relaxed);
             while (ns > prev && !nanosMax.compare_exchange_weak(prev, ns,
                                                                 std::memory_order_relaxed)) {}
         });
@@ -216,20 +216,20 @@ SendResult runClojureShape(int producers, long perProducer) {
 struct StJob {
     const ProtoObject* actor;
     const ProtoString* key;
-    long perProducer;
-    std::atomic<long> nextProducer;
-    std::atomic<long> sendNanosSum;
-    std::atomic<long> sendNanosMax;
+    proto::proto_long perProducer;
+    std::atomic<proto::proto_long> nextProducer;
+    std::atomic<proto::proto_long> sendNanosSum;
+    std::atomic<proto::proto_long> sendNanosMax;
 };
 
 const ProtoObject* stProducer(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
                               const ProtoList* args, const ProtoSparseList*) {
     auto* job = reinterpret_cast<StJob*>(args->getAt(ctx, 0)->asLong(ctx));
-    const long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);
+    const proto::proto_long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);
     const auto t0 = std::chrono::steady_clock::now();
-    for (long i = 0; i < job->perProducer; ) {
+    for (proto::proto_long i = 0; i < job->perProducer; ) {
         ProtoContext turn(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
-        const long end = (i + kTurn < job->perProducer) ? i + kTurn : job->perProducer;
+        const proto::proto_long end = (i + kTurn < job->perProducer) ? i + kTurn : job->perProducer;
         for (; i < end; ++i) {
             for (;;) {
                 const ProtoObject* old = job->actor->getOwnAttributeDirect(&turn, job->key);
@@ -243,16 +243,16 @@ const ProtoObject* stProducer(ProtoContext* ctx, const ProtoObject*, const Paren
             }
         }
     }
-    const long ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+    const proto::proto_long ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
                         std::chrono::steady_clock::now() - t0).count();
     job->sendNanosSum.fetch_add(ns, std::memory_order_relaxed);
-    long prev = job->sendNanosMax.load(std::memory_order_relaxed);
+    proto::proto_long prev = job->sendNanosMax.load(std::memory_order_relaxed);
     while (ns > prev && !job->sendNanosMax.compare_exchange_weak(prev, ns,
                                                                  std::memory_order_relaxed)) {}
     return PROTO_NONE;
 }
 
-SendResult runSTShape(ProtoSpace& space, ProtoContext* main, int producers, long perProducer) {
+SendResult runSTShape(ProtoSpace& space, ProtoContext* main, int producers, proto::proto_long perProducer) {
     const ProtoObject* actor = main->newObject(true);
     const ProtoString* key = ProtoString::createSymbol(main, "__mailbox__");
     actor->setAttribute(main, key, main->newList()->asObject(main));
@@ -261,7 +261,7 @@ SendResult runSTShape(ProtoSpace& space, ProtoContext* main, int producers, long
     const ProtoRootSet::Handle pinned = rs->add(actor);
 
     StJob job{actor, key, perProducer, {0}, {0}, {0}};
-    const long total = static_cast<long>(producers) * perProducer;
+    const proto::proto_long total = static_cast<proto::proto_long>(producers) * perProducer;
 
     const ProtoString* name = ProtoString::createSymbol(main, "bench-st-producer");
     const ProtoObject* handle = main->fromLong(reinterpret_cast<long long>(&job));
@@ -271,8 +271,8 @@ SendResult runSTShape(ProtoSpace& space, ProtoContext* main, int producers, long
         ps.push_back(space.newThread(main, name, &stProducer,
                                      main->newList()->appendLast(main, handle), nullptr));
 
-    long got = 0;
-    long batches = 0;
+    proto::proto_long got = 0;
+    proto::proto_long batches = 0;
     while (got < total) {
         ProtoContext turn(&space, main, nullptr, nullptr, nullptr, nullptr);
         // The whole-batch equivalent of takeAll: swap the list for an empty
@@ -284,7 +284,7 @@ SendResult runSTShape(ProtoSpace& space, ProtoContext* main, int producers, long
         if (!const_cast<ProtoObject*>(actor)->setAttributeIfEqual(&turn, key, old, empty))
             continue;
         ++batches;
-        got += static_cast<long>(mb->getSize(&turn));
+        got += static_cast<proto::proto_long>(mb->getSize(&turn));
     }
     for (const ProtoThread* t : ps) const_cast<ProtoThread*>(t)->join(main);
     rs->remove(pinned);
@@ -303,25 +303,25 @@ void drainCostTable(bool& ok) {
     std::cout << "  (push = per message on the send side; drain = per message to turn"
                  " the batch\n   into something the consumer can iterate)" << std::endl;
 
-    for (long batch : {10L, 100L, 1000L, 10000L, 100000L}) {
+    for (proto::proto_long batch : {PROTO_L(10), PROTO_L(100), PROTO_L(1000), PROTO_L(10000), PROTO_L(100000)}) {
         // --- ProtoMPSCQueue
         double pmqPush = 0, pmqDrain = 0;
-        long pmqGot = 0;
+        proto::proto_long pmqGot = 0;
         {
             ProtoSpace space;
             ProtoContext main(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
             ProtoRootSet* rs = space.createRootSet("bench-pmq-batch");
             const ProtoMPSCQueue* q = main.newMPSCQueue();
             const ProtoRootSet::Handle pinned = rs->add(q->asObject(&main));
-            const long reps = 200000 / batch + 1;
+            const proto::proto_long reps = 200000 / batch + 1;
             const auto a = std::chrono::steady_clock::now();
             std::chrono::nanoseconds drainNs{0};
-            for (long r = 0; r < reps; ++r) {
+            for (proto::proto_long r = 0; r < reps; ++r) {
                 ProtoContext turn(&space, &main, nullptr, nullptr, nullptr, nullptr);
-                for (long i = 0; i < batch; ++i) q->push(&turn, turn.fromInteger(i));
+                for (proto::proto_long i = 0; i < batch; ++i) q->push(&turn, turn.fromInteger(i));
                 const auto d0 = std::chrono::steady_clock::now();
                 const ProtoList* l = q->takeAll(&turn);
-                pmqGot += static_cast<long>(l->getSize(&turn));
+                pmqGot += static_cast<proto::proto_long>(l->getSize(&turn));
                 drainNs += std::chrono::duration_cast<std::chrono::nanoseconds>(
                     std::chrono::steady_clock::now() - d0);
             }
@@ -335,7 +335,7 @@ void drainCostTable(bool& ok) {
 
         // --- protoST shape
         double stPush = 0, stDrain = 0;
-        long stGot = 0;
+        proto::proto_long stGot = 0;
         {
             ProtoSpace space;
             ProtoContext main(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
@@ -344,12 +344,12 @@ void drainCostTable(bool& ok) {
             const ProtoString* key = ProtoString::createSymbol(&main, "__mailbox__");
             actor->setAttribute(&main, key, main.newList()->asObject(&main));
             const ProtoRootSet::Handle pinned = rs->add(actor);
-            const long reps = 200000 / batch + 1;
+            const proto::proto_long reps = 200000 / batch + 1;
             const auto a = std::chrono::steady_clock::now();
             std::chrono::nanoseconds drainNs{0};
-            for (long r = 0; r < reps; ++r) {
+            for (proto::proto_long r = 0; r < reps; ++r) {
                 ProtoContext turn(&space, &main, nullptr, nullptr, nullptr, nullptr);
-                for (long i = 0; i < batch; ++i) {
+                for (proto::proto_long i = 0; i < batch; ++i) {
                     const ProtoObject* old = actor->getOwnAttributeDirect(&turn, key);
                     const ProtoList* mb =
                         (old && old != PROTO_NONE) ? old->asList(&turn) : turn.newList();
@@ -360,7 +360,7 @@ void drainCostTable(bool& ok) {
                 const auto d0 = std::chrono::steady_clock::now();
                 const ProtoObject* old = actor->getOwnAttributeDirect(&turn, key);
                 const ProtoList* mb = old->asList(&turn);
-                stGot += static_cast<long>(mb->getSize(&turn));
+                stGot += static_cast<proto::proto_long>(mb->getSize(&turn));
                 const_cast<ProtoObject*>(actor)->setAttributeIfEqual(
                     &turn, key, old, turn.newList()->asObject(&turn));
                 drainNs += std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -386,7 +386,7 @@ void drainCostTable(bool& ok) {
 
 int main() {
     // One message count for every mode, so the rows compare directly.
-    const long perProducer = 50000;
+    const proto::proto_long perProducer = 50000;
 
     std::cout << "--- ProtoMPSCQueue microbenchmark (PMQ-SPEC section 5) ---" << std::endl;
     std::cout << "Each row states the work it did; the runner verifies consumed == pushed."

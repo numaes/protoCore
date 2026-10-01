@@ -15,11 +15,11 @@
 
 namespace proto
 {
-    unsigned long generate_mutable_ref(ProtoContext* context) {
-        const unsigned long ref = context->space->nextMutableRef++;
+    proto_ulong generate_mutable_ref(ProtoContext* context) {
+        const proto_ulong ref = context->space->nextMutableRef++;
         // The low kMutableRefSpaceShift bits are the space's sequence; when
         // they wrap, the next ref would carry the next space's id.
-        if ((ref & ((1UL << kMutableRefSpaceShift) - 1)) == 0) {
+        if ((ref & ((PROTO_UL(1) << kMutableRefSpaceShift) - 1)) == 0) {
             std::fprintf(stderr, "protoCore: this ProtoSpace created 2^%u mutable "
                                  "objects, the most one space can name\n", kMutableRefSpaceShift);
             std::abort();
@@ -168,7 +168,7 @@ namespace proto
         if (kwargs) {
             const ProtoSparseListIterator* iterator = kwargs->getIterator(this);
             while (iterator->hasNext(this)) {
-                unsigned long key = iterator->nextKey(this);
+                proto_ulong key = iterator->nextKey(this);
                 const ProtoObject* value = iterator->nextValue(this);
 
                 bool found = false;
@@ -769,7 +769,7 @@ namespace proto
             const auto* small = toImpl<const ProtoListSmallImplementation>(sourceList);
             std::vector<const ProtoObject*> elements;
             elements.reserve(small->size);
-            for (unsigned long i = 0; i < small->size; ++i) {
+            for (proto_ulong i = 0; i < small->size; ++i) {
                 elements.push_back(small->slots[i]);
             }
             return ProtoTupleImplementation::tupleFromVector(this, elements)->asProtoTuple(this);
@@ -823,7 +823,7 @@ namespace proto
         return (new(this) ProtoMultisetImplementation(this, newSparseListImpl(), 0))->asProtoMultiset(this);
     }
 
-    const ProtoByteBuffer* ProtoContext::newByteBuffer(const char* data, unsigned long len)
+    const ProtoByteBuffer* ProtoContext::newByteBuffer(const char* data, proto_ulong len)
     {
         // Allocate a fresh buffer owned by the GC descriptor.
         // The implementation accepts `nullptr` and allocates internally.
@@ -844,7 +844,7 @@ namespace proto
 
     const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
-        unsigned long ref = mutableObject ? generate_mutable_ref(this) : 0;
+        proto_ulong ref = mutableObject ? generate_mutable_ref(this) : 0;
         // GC critical section: `attributes` is held in a C++ local across
         // the wrapping ProtoObjectCell allocation.  Same discipline as
         // ProtoObject::newChild (which already wraps); this is the
@@ -858,7 +858,7 @@ namespace proto
         return result;
     }
 
-    const ProtoObject* ProtoContext::newExternalBuffer(unsigned long size)
+    const ProtoObject* ProtoContext::newExternalBuffer(proto_ulong size)
     {
         return (new(this) ProtoExternalBufferImplementation(this, size))->implAsObject(this);
     }
@@ -913,11 +913,11 @@ namespace proto
         return p.oid;
     }
 
-    const ProtoObject* ProtoContext::fromBuffer(unsigned long length, char* buffer, bool freeOnExit) {
+    const ProtoObject* ProtoContext::fromBuffer(proto_ulong length, char* buffer, bool freeOnExit) {
         return (new(this) ProtoByteBufferImplementation(this, buffer, length, freeOnExit))->implAsObject(this);
     }
 
-    const ProtoObject* ProtoContext::newBuffer(unsigned long length) {
+    const ProtoObject* ProtoContext::newBuffer(proto_ulong length) {
         return (new(this) ProtoByteBufferImplementation(this, nullptr, length, true))->implAsObject(this);
     }
 

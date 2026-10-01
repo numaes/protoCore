@@ -112,7 +112,7 @@ TEST_F(HasAttributeChainTest, ChainDeeperThan50LevelsStillFindsRootAttribute) {
     const ProtoString* a = sym("a");
     const ProtoObject* leaf = buildChainWithAttrAtRoot(60, a);
 
-    const unsigned long before = context->allocatedCellsCount;
+    const proto::proto_ulong before = context->allocatedCellsCount;
     const ProtoObject* result = leaf->hasAttribute(context, a);
     EXPECT_EQ(context->allocatedCellsCount, before) << "hasAttribute must not allocate";
     EXPECT_EQ(result, PROTO_TRUE)
@@ -127,7 +127,7 @@ TEST_F(HasAttributeChainTest, ChainDeeperThan500LevelsStillFindsRootAttribute) {
     const ProtoString* a = sym("a");
     const ProtoObject* leaf = buildChainWithAttrAtRoot(520, a);
 
-    const unsigned long before = context->allocatedCellsCount;
+    const proto::proto_ulong before = context->allocatedCellsCount;
     const ProtoObject* result = leaf->hasAttribute(context, a);
     EXPECT_EQ(context->allocatedCellsCount, before) << "hasAttribute must not allocate";
     EXPECT_EQ(result, PROTO_TRUE);

@@ -43,7 +43,7 @@ using namespace proto;
 
 namespace {
 
-std::atomic<long> g_ran{0};
+std::atomic<proto::proto_long> g_ran{0};
 
 const ProtoObject* emptyBody(ProtoContext*, const ProtoObject*, const ParentLink*,
                              const ProtoList*, const ProtoSparseList*) {
@@ -64,14 +64,14 @@ const ProtoObject* allocatingBody(ProtoContext* ctx, const ProtoObject*, const P
 // Cells the space believes it is holding: everything it took from the OS that
 // is not on a freelist.  `heapSize - freeCellsCount`, the measure
 // conformance/CycleDriver.h prescribes over any per-context counter.
-long inUse(ProtoSpace& space) { return conformance::sample(space).inUse; }
+proto::proto_long inUse(ProtoSpace& space) { return conformance::sample(space).inUse; }
 
 struct ChurnResult {
-    long base{0};
-    long after{0};
-    long heapBefore{0};
-    long heapAfter{0};
-    long threads{0};
+    proto::proto_long base{0};
+    proto::proto_long after{0};
+    proto::proto_long heapBefore{0};
+    proto::proto_long heapAfter{0};
+    proto::proto_long threads{0};
     double perThread{0.0};
 };
 
@@ -99,7 +99,7 @@ ChurnResult churn(ProtoSpace& space, ProtoContext* root, ProtoMethod body,
             }
             for (const ProtoThread* t : threads)
                 const_cast<ProtoThread*>(t)->join(&scope);
-            r.threads += (long) threads.size();
+            r.threads += (proto::proto_long) threads.size();
         }
         root->returnValue = nullptr;
         conformance::driveCycles(space, root, /*maxCycles=*/6, /*deadlineMs=*/20000);

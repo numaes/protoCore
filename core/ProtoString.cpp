@@ -133,7 +133,7 @@ namespace proto {
         return pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING;
     }
 
-    static unsigned long inlineStringLength(const ProtoObject* o) {
+    static proto_ulong inlineStringLength(const ProtoObject* o) {
         ProtoObjectPointer pa{};
         pa.oid = o;
         return pa.inlineString.inline_byte_count;
@@ -149,18 +149,18 @@ namespace proto {
         return static_cast<unsigned int>((pa.inlineString.inline_utf8_bytes >> (static_cast<unsigned>(i) * 8u)) & 0xFFu);
     }
 
-    static unsigned long getProtoStringSize(ProtoContext* /*context*/, const ProtoObject* o) {
+    static proto_ulong getProtoStringSize(ProtoContext* /*context*/, const ProtoObject* o) {
         if (isInlineString(o)) {
             // Count Unicode codepoints, not raw bytes.
-            unsigned long bc = inlineStringByteCount(o);
-            unsigned long chars = 0;
-            for (unsigned long i = 0; i < bc; ) {
+            proto_ulong bc = inlineStringByteCount(o);
+            proto_ulong chars = 0;
+            for (proto_ulong i = 0; i < bc; ) {
                 i += utf8SeqLen(inlineStringByte(o, i));
                 ++chars;
             }
             return chars;
         }
-        return static_cast<unsigned long>(getImpl(o)->implGetSize());
+        return static_cast<proto_ulong>(getImpl(o)->implGetSize());
     }
 
     static const ProtoObject* getProtoStringGetAt(ProtoContext* context, const ProtoObject* o, int index) {
@@ -179,10 +179,10 @@ namespace proto {
         pa.inlineString.pointer_tag   = POINTER_TAG_EMBEDDED_VALUE;
         pa.inlineString.embedded_type = EMBEDDED_TYPE_INLINE_STRING;
         const int byte_count = (len < INLINE_STRING_MAX_BYTES) ? len : INLINE_STRING_MAX_BYTES;
-        pa.inlineString.inline_byte_count = static_cast<unsigned long>(byte_count);
-        unsigned long packed = 0;
+        pa.inlineString.inline_byte_count = static_cast<proto_ulong>(byte_count);
+        proto_ulong packed = 0;
         for (int i = 0; i < byte_count; ++i)
-            packed |= (static_cast<unsigned long>(codepoints[i] & 0xFF) << (static_cast<unsigned>(i) * 8u));
+            packed |= (static_cast<proto_ulong>(codepoints[i] & 0xFF) << (static_cast<unsigned>(i) * 8u));
         pa.inlineString.inline_utf8_bytes = packed;
         pa.inlineString.reserved = 0;
         return reinterpret_cast<const ProtoObject*>(pa.oid);
@@ -198,9 +198,9 @@ namespace proto {
         pa.inlineString.pointer_tag       = POINTER_TAG_EMBEDDED_VALUE;
         pa.inlineString.embedded_type     = EMBEDDED_TYPE_INLINE_STRING;
         pa.inlineString.inline_byte_count = byte_count;
-        unsigned long packed = 0;
+        proto_ulong packed = 0;
         for (uint8_t i = 0; i < byte_count; ++i)
-            packed |= (static_cast<unsigned long>(bytes[i]) << (i * 8u));
+            packed |= (static_cast<proto_ulong>(bytes[i]) << (i * 8u));
         pa.inlineString.inline_utf8_bytes = packed;
         pa.inlineString.reserved = 0;
         return pa.oid;
@@ -216,7 +216,7 @@ namespace proto {
     static const ProtoStringImplementation* getImpl(const ProtoObject* obj) {
         if (!obj) return nullptr;
         ProtoObjectPointer pa{}; pa.oid = obj;
-        unsigned long tag = pa.op.pointer_tag;
+        proto_ulong tag = pa.op.pointer_tag;
         if (tag == POINTER_TAG_STRING || tag == POINTER_TAG_SYMBOL) {
             // Manually clear the lower 6 tag bits to obtain the raw Cell pointer.
             uintptr_t raw = reinterpret_cast<uintptr_t>(obj) & ~static_cast<uintptr_t>(0x3F);
@@ -229,13 +229,13 @@ namespace proto {
     static const ProtoObject* getRoot(ProtoContext* ctx, const ProtoObject* strObj) {
         if (!strObj) return nullptr;
         if (isInlineString(strObj)) {
-            unsigned long bc = inlineStringByteCount(strObj);
+            proto_ulong bc = inlineStringByteCount(strObj);
             if (bc == 0) return nullptr;
             uint8_t bytes[INLINE_STRING_MAX_BYTES];
-            for (unsigned long i = 0; i < bc; ++i)
+            for (proto_ulong i = 0; i < bc; ++i)
                 bytes[i] = inlineStringByte(strObj, i);
             uint16_t chars = 0;
-            for (unsigned long i = 0; i < bc; ) {
+            for (proto_ulong i = 0; i < bc; ) {
                 i += utf8SeqLen(bytes[i]);
                 ++chars;
             }
@@ -334,13 +334,13 @@ namespace proto {
 
                 if (isInlineString(current)) {
                     // idx tracks the current byte position within the inline UTF-8 payload.
-                    uint8_t lead = inlineStringByte(current, static_cast<unsigned long>(idx));
-                    unsigned long bc = inlineStringByteCount(current);
-                    if (static_cast<unsigned long>(idx) < bc) {
+                    uint8_t lead = inlineStringByte(current, static_cast<proto_ulong>(idx));
+                    proto_ulong bc = inlineStringByteCount(current);
+                    if (static_cast<proto_ulong>(idx) < bc) {
                         uint8_t raw[4] = {0, 0, 0, 0};
                         uint32_t seqLen = utf8SeqLen(lead);
-                        for (uint32_t b = 0; b < seqLen && static_cast<unsigned long>(idx) + b < bc; ++b)
-                            raw[b] = inlineStringByte(current, static_cast<unsigned long>(idx) + b);
+                        for (uint32_t b = 0; b < seqLen && static_cast<proto_ulong>(idx) + b < bc; ++b)
+                            raw[b] = inlineStringByte(current, static_cast<proto_ulong>(idx) + b);
                         idx += static_cast<int>(seqLen);
                         return static_cast<unsigned int>(decodeCodepoint(raw));
                     }
@@ -512,15 +512,15 @@ namespace proto {
     static int compareStrings(ProtoContext* context, const ProtoObject* s1, const ProtoObject* s2) {
         if (s1 == s2) return 0;
 
-        const unsigned long len1 = getProtoStringSize(context, s1);
-        const unsigned long len2 = getProtoStringSize(context, s2);
-        const unsigned long minLen = std::min(len1, len2);
+        const proto_ulong len1 = getProtoStringSize(context, s1);
+        const proto_ulong len2 = getProtoStringSize(context, s2);
+        const proto_ulong minLen = std::min(len1, len2);
 
         // Use RopeCharacterIterator for both sides to ensure correct UTF-8 decoding
         // regardless of whether strings are inline (potentially multi-byte) or rope-based.
         RopeCharacterIterator it1(context, s1);
         RopeCharacterIterator it2(context, s2);
-        for (unsigned long i = 0; i < minLen; ++i) {
+        for (proto_ulong i = 0; i < minLen; ++i) {
             unsigned int cp1 = it1.next();
             unsigned int cp2 = it2.next();
             if (cp1 < cp2) return -1;
@@ -532,13 +532,13 @@ namespace proto {
         return 0;
     }
 
-    unsigned long getProtoStringHash(ProtoContext* context, const ProtoObject* o) {
+    proto_ulong getProtoStringHash(ProtoContext* context, const ProtoObject* o) {
         if (isInlineString(o)) {
             // Same FNV-1a over the UTF-8 bytes as computeContentHash: a short
             // string is inline or heap-backed depending on how it was built.
-            const unsigned long len = inlineStringByteCount(o);
+            const proto_ulong len = inlineStringByteCount(o);
             uint8_t bytes[INLINE_STRING_MAX_BYTES];
-            for (unsigned long i = 0; i < len; ++i)
+            for (proto_ulong i = 0; i < len; ++i)
                 bytes[i] = inlineStringByte(o, i);
             return fnv1a(bytes, len);
         }
@@ -590,11 +590,11 @@ namespace proto {
         // leafBytePos is repurposed here as the byte offset within the inline payload.
         if (isInlineString(this->base)) {
             uint8_t raw[4] = {0, 0, 0, 0};
-            unsigned long bc = inlineStringByteCount(this->base);
-            uint8_t lead = inlineStringByte(this->base, static_cast<unsigned long>(this->leafBytePos));
+            proto_ulong bc = inlineStringByteCount(this->base);
+            uint8_t lead = inlineStringByte(this->base, static_cast<proto_ulong>(this->leafBytePos));
             uint32_t seqLen = utf8SeqLen(lead);
-            for (uint32_t b = 0; b < seqLen && static_cast<unsigned long>(this->leafBytePos) + b < bc; ++b)
-                raw[b] = inlineStringByte(this->base, static_cast<unsigned long>(this->leafBytePos) + b);
+            for (uint32_t b = 0; b < seqLen && static_cast<proto_ulong>(this->leafBytePos) + b < bc; ++b)
+                raw[b] = inlineStringByte(this->base, static_cast<proto_ulong>(this->leafBytePos) + b);
             this->leafBytePos = static_cast<uint8_t>(this->leafBytePos + seqLen);
             this->charIndex++;
             return context->fromUnicodeChar(decodeCodepoint(raw));
@@ -696,7 +696,7 @@ namespace proto {
         }
     }
 
-    unsigned long ProtoStringIteratorImplementation::getHash(ProtoContext* /*context*/) const {
+    proto_ulong ProtoStringIteratorImplementation::getHash(ProtoContext* /*context*/) const {
         return reinterpret_cast<uintptr_t>(this);
     }
 
@@ -952,8 +952,8 @@ namespace proto {
     }
 
     // Legacy compatibility: size via AVL charCount.
-    unsigned long ProtoStringImplementation::implGetSizeCompat(ProtoContext* /*context*/) const {
-        return static_cast<unsigned long>(implGetSize());
+    proto_ulong ProtoStringImplementation::implGetSizeCompat(ProtoContext* /*context*/) const {
+        return static_cast<proto_ulong>(implGetSize());
     }
 
     // Legacy compatibility: convert to list of unicode char objects.
@@ -984,8 +984,8 @@ namespace proto {
 
     void ProtoStringImplementation::finalize(ProtoContext* /*context*/) const {}
 
-    unsigned long ProtoStringImplementation::getHash(ProtoContext* /*context*/) const {
-        return static_cast<unsigned long>(implGetHash());
+    proto_ulong ProtoStringImplementation::getHash(ProtoContext* /*context*/) const {
+        return static_cast<proto_ulong>(implGetHash());
     }
 
     int ProtoStringImplementation::implCompare(ProtoContext* context, const ProtoString* other) const {
@@ -1000,19 +1000,19 @@ namespace proto {
     // ProtoString API
     //=========================================================================
 
-    unsigned long ProtoString::getSize(ProtoContext* context) const {
+    proto_ulong ProtoString::getSize(ProtoContext* context) const {
         auto* self = reinterpret_cast<const ProtoObject*>(this);
         if (isInlineString(self)) {
-            unsigned long bc = inlineStringByteCount(self);
-            unsigned long chars = 0;
-            for (unsigned long i = 0; i < bc; ) {
+            proto_ulong bc = inlineStringByteCount(self);
+            proto_ulong chars = 0;
+            for (proto_ulong i = 0; i < bc; ) {
                 i += utf8SeqLen(inlineStringByte(self, i));
                 ++chars;
             }
             return chars;
         }
         auto* impl = getImpl(self);
-        return impl ? static_cast<unsigned long>(impl->implGetSize()) : 0;
+        return impl ? static_cast<proto_ulong>(impl->implGetSize()) : 0;
     }
 
     const ProtoObject* ProtoString::getAt(ProtoContext* context, int index) const {
@@ -1038,7 +1038,7 @@ namespace proto {
 
     const ProtoString* ProtoString::getSlice(ProtoContext* context, int from, int to) const {
         auto* self = reinterpret_cast<const ProtoObject*>(this);
-        const unsigned long size = getSize(context);
+        const proto_ulong size = getSize(context);
         if (from < 0) from = 0;
         if (to > static_cast<int>(size)) to = static_cast<int>(size);
         if (from >= to) return ProtoString::fromUTF8(context, "");
@@ -1114,7 +1114,7 @@ namespace proto {
         // GC critical section: `removed` is a freshly built rope held in
         // a C++ local across insertAtString.
         ProtoContext::CriticalSection cs(context);
-        unsigned long otherLen = otherString->getSize(context);
+        proto_ulong otherLen = otherString->getSize(context);
         const ProtoString* removed = removeSlice(context, index, index + static_cast<int>(otherLen));
         return removed->insertAtString(context, index, otherString);
     }
@@ -1135,28 +1135,28 @@ namespace proto {
     }
 
     const ProtoString* ProtoString::splitFirst(ProtoContext* context, int count) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (count <= 0) return ProtoString::fromUTF8(context, "");
         if (count >= static_cast<int>(size)) return const_cast<ProtoString*>(this);
         return getSlice(context, 0, count);
     }
 
     const ProtoString* ProtoString::splitLast(ProtoContext* context, int count) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (count <= 0) return ProtoString::fromUTF8(context, "");
         if (count >= static_cast<int>(size)) return const_cast<ProtoString*>(this);
         return getSlice(context, static_cast<int>(size) - count, static_cast<int>(size));
     }
 
     const ProtoString* ProtoString::removeFirst(ProtoContext* context, int count) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (count <= 0) return const_cast<ProtoString*>(this);
         if (count >= static_cast<int>(size)) return ProtoString::fromUTF8(context, "");
         return getSlice(context, count, static_cast<int>(size));
     }
 
     const ProtoString* ProtoString::removeLast(ProtoContext* context, int count) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (count <= 0) return const_cast<ProtoString*>(this);
         if (count >= static_cast<int>(size)) return ProtoString::fromUTF8(context, "");
         return getSlice(context, 0, static_cast<int>(size) - count);
@@ -1168,7 +1168,7 @@ namespace proto {
 
     const ProtoString* ProtoString::removeSlice(ProtoContext* context, int from, int to) const {
         auto* self = reinterpret_cast<const ProtoObject*>(this);
-        const unsigned long size = getSize(context);
+        const proto_ulong size = getSize(context);
         if (from < 0) from = 0;
         if (to > static_cast<int>(size)) to = static_cast<int>(size);
         if (from >= to) return const_cast<ProtoString*>(this);
@@ -1275,14 +1275,14 @@ namespace proto {
     // ProtoString / ProtoStringIterator external API trampolines (from public API)
     const ProtoString* ProtoString::create(ProtoContext* context, const ProtoList* list) {
         if (!list) return nullptr;
-        const unsigned long size = list->getSize(context);
+        const proto_ulong size = list->getSize(context);
 
         // Collect codepoints from the list.
         std::string utf8;
         unsigned int codepoints[INLINE_STRING_MAX_BYTES];
         bool allASCII = (size <= INLINE_STRING_MAX_BYTES);
 
-        for (unsigned long i = 0; i < size; ++i) {
+        for (proto_ulong i = 0; i < size; ++i) {
             const ProtoObject* charObj = list->getAt(context, static_cast<int>(i));
             unsigned int cp = 0;
             ProtoObjectPointer pa{}; pa.oid = charObj;
@@ -1385,7 +1385,7 @@ namespace proto {
         return ProtoString::createSymbol(ctx, s.c_str());
     }
 
-    unsigned long ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
+    proto_ulong ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
     const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : getImpl(reinterpret_cast<const ProtoObject*>(this)); }
     const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
         auto* self     = reinterpret_cast<const ProtoObject*>(this);
@@ -1725,10 +1725,10 @@ namespace proto {
 
     const ProtoString* ProtoString::fromCodepointTuple(ProtoContext* context,
                                                         const ProtoTuple* tuple) {
-        unsigned long sz = tuple->getSize(context);
+        proto_ulong sz = tuple->getSize(context);
         std::string utf8;
         utf8.reserve(sz * 3);
-        for (unsigned long i = 0; i < sz; ++i) {
+        for (proto_ulong i = 0; i < sz; ++i) {
             const ProtoObject* ch = tuple->getAt(context, static_cast<int>(i));
             ProtoObjectPointer pa{};
             pa.oid = ch;

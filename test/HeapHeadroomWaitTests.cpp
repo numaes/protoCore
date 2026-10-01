@@ -44,7 +44,7 @@ TEST(HeapHeadroomWait, StructureHeldInCppLocalSurvivesHeadroomWaits) {
     for (int i = 0; i < kInitialElements; ++i) {
         list = list->appendLast(&work, work.fromInteger(i));
     }
-    ASSERT_GT(work.allocatedCellsCount, static_cast<unsigned long>(space.maxAllocatedCellsPerContext))
+    ASSERT_GT(work.allocatedCellsCount, static_cast<proto::proto_ulong>(space.maxAllocatedCellsPerContext))
         << "the building context must be above the submission threshold";
 
     const uint64_t cyclesStart = space.getGCCycleCount();
@@ -69,11 +69,11 @@ TEST(HeapHeadroomWait, StructureHeldInCppLocalSurvivesHeadroomWaits) {
     const uint64_t cycles = space.getGCCycleCount() - cyclesStart;
     space.setHeapLimits(0, 0);
 
-    const unsigned long expected = kInitialElements;
+    const proto::proto_ulong expected = kInitialElements;
     ASSERT_NE(list, nullptr);
     ASSERT_EQ(list->getSize(&work), expected);
     int mismatches = 0;
-    for (unsigned long i = 0; i < expected; ++i) {
+    for (proto::proto_ulong i = 0; i < expected; ++i) {
         const ProtoObject* element = list->getAt(&work, static_cast<int>(i));
         if (!element || !element->isInteger(&work) ||
             element->asLong(&work) != static_cast<long long>(i)) {

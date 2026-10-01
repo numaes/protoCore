@@ -13,7 +13,7 @@ namespace proto
     ProtoByteBufferImplementation::ProtoByteBufferImplementation(
         ProtoContext* context,
         char* buffer,
-        const unsigned long size,
+        const proto_ulong size,
         const bool freeOnExit
     ) : Cell(context), buffer(buffer), size(size), freeOnExit(freeOnExit)
     {
@@ -31,7 +31,7 @@ namespace proto
     {
         if (self->size == 0) return false;
         if (index < 0) index += static_cast<int>(self->size);
-        if (index < 0 || static_cast<unsigned long>(index) >= self->size) return false;
+        if (index < 0 || static_cast<proto_ulong>(index) >= self->size) return false;
         return true;
     }
 
@@ -94,14 +94,14 @@ namespace proto
         return p.byteBuffer;
     }
 
-    unsigned long ProtoByteBufferImplementation::getHash(ProtoContext* context) const
+    proto_ulong ProtoByteBufferImplementation::getHash(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = this;
         return p.asHash.hash;
     }
 
-    unsigned long ProtoByteBufferImplementation::implGetSize(ProtoContext* context) const
+    proto_ulong ProtoByteBufferImplementation::implGetSize(ProtoContext* context) const
     {
         return this->size;
     }
@@ -118,7 +118,7 @@ namespace proto {
     // ProtoByteBuffer API
     //=========================================================================
 
-    unsigned long ProtoByteBuffer::getSize(ProtoContext* context) const {
+    proto_ulong ProtoByteBuffer::getSize(ProtoContext* context) const {
         return toImpl<const ProtoByteBufferImplementation>(this)->implGetSize(context);
     }
 
@@ -138,7 +138,7 @@ namespace proto {
         return toImpl<const ProtoByteBufferImplementation>(this)->implAsObject(context);
     }
 
-    unsigned long ProtoByteBuffer::getHash(ProtoContext* context) const {
+    proto_ulong ProtoByteBuffer::getHash(ProtoContext* context) const {
         return toImpl<const ProtoByteBufferImplementation>(this)->getHash(context);
     }
 

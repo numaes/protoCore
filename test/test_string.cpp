@@ -365,7 +365,7 @@ TEST_F(StringPublicAPITest, GetAt) {
     auto* ch = s->getAt(c, 0);
     ASSERT_NE(ch, nullptr);
     ProtoObjectPointer pa{}; pa.oid = ch;
-    EXPECT_EQ(pa.unicodeChar.unicodeValue, static_cast<unsigned long>('h'));
+    EXPECT_EQ(pa.unicodeChar.unicodeValue, static_cast<proto::proto_ulong>('h'));
 }
 
 TEST_F(StringPublicAPITest, GetAtLastChar) {
@@ -373,7 +373,7 @@ TEST_F(StringPublicAPITest, GetAtLastChar) {
     auto* ch = s->getAt(c, 4);
     ASSERT_NE(ch, nullptr);
     ProtoObjectPointer pa{}; pa.oid = ch;
-    EXPECT_EQ(pa.unicodeChar.unicodeValue, static_cast<unsigned long>('o'));
+    EXPECT_EQ(pa.unicodeChar.unicodeValue, static_cast<proto::proto_ulong>('o'));
 }
 
 TEST_F(StringPublicAPITest, AppendLast) {

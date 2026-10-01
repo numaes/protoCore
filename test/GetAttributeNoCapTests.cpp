@@ -59,7 +59,7 @@ TEST_F(GetAttributeNoCapTest, AttributeFoundAtDepth501) {
     const ProtoString* a = sym("a");
     const ProtoObject* leaf = buildChainWithAttrAtRoot(501, a);
 
-    const unsigned long before = context->allocatedCellsCount;
+    const proto::proto_ulong before = context->allocatedCellsCount;
     const ProtoObject* result = leaf->getAttribute(context, a);
     EXPECT_EQ(context->allocatedCellsCount, before) << "getAttribute must not allocate";
     EXPECT_EQ(result, context->fromInteger(1))

@@ -132,7 +132,7 @@ TEST(GCSurvivorTest, LongLivedSurvivorFreedWhenReferenceDropped) {
     // dirtySegments so cycle 2 still sees it as a candidate.
     waitForGcCycles(space, 2);
 
-    const unsigned long freeBefore = space.freeCellsCount;
+    const proto::proto_ulong freeBefore = space.freeCellsCount;
 
     // Drop the reference, run one more cycle.  With the fix, the cell is in
     // a survivor segment that the next cycle re-includes; mark misses it
@@ -140,7 +140,7 @@ TEST(GCSurvivorTest, LongLivedSurvivorFreedWhenReferenceDropped) {
     rs->remove(h);
     waitForGcCycles(space, 1);
 
-    const unsigned long freeAfter = space.freeCellsCount;
+    const proto::proto_ulong freeAfter = space.freeCellsCount;
 
     // NOTE (P4): this assertion is sound for what T2 tests -- one cell, one
     // reference dropped -- but it is the SHAPE to avoid in a GC test that creates

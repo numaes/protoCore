@@ -80,7 +80,7 @@ TEST_F(SetTest, ExplicitHashKeysElementsByTheCallersHash) {
     // A runtime that treats 1 and 1.0 as one element stores both under the same hash.
     const proto::ProtoObject* one = context->fromInteger(1);
     const proto::ProtoObject* oneFloat = context->fromDouble(1.0);
-    const unsigned long h = one->getHash(context);
+    const proto::proto_ulong h = one->getHash(context);
 
     const proto::ProtoSet* set = context->newSet()->addWithHash(context, h, one);
     ASSERT_EQ(set->getSize(context), 1);

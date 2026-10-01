@@ -17,7 +17,7 @@ namespace proto {
          * Checks for null and 64-byte alignment before dereferencing.
          * A tagged handle passed by mistake will be unaligned and treated as size 0.
          */
-        inline unsigned long get_node_size(const ProtoListImplementation* node) {
+        inline proto_ulong get_node_size(const ProtoListImplementation* node) {
             if (!node || (reinterpret_cast<uintptr_t>(node) & 0x3F) != 0) {
                 return 0;
             }
@@ -103,7 +103,7 @@ namespace proto {
 
     const ProtoObject* ProtoListImplementation::implGetAt(ProtoContext* context, int index) const {
         if (isEmpty) return nullptr;
-        const unsigned long left_size = previousNode ? previousNode->size : 0;
+        const proto_ulong left_size = previousNode ? previousNode->size : 0;
         if (index < left_size) {
             return previousNode->implGetAt(context, index);
         }
@@ -147,7 +147,7 @@ namespace proto {
             return this;
         }
 
-        const unsigned long left_size = previousNode ? previousNode->size : 0;
+        const proto_ulong left_size = previousNode ? previousNode->size : 0;
 
         if (index < left_size) {
             const ProtoListImplementation* new_prev = previousNode->implSetAt(context, index, newValue);
@@ -166,7 +166,7 @@ namespace proto {
             return new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
         }
 
-        const unsigned long left_size = previousNode ? previousNode->size : 0;
+        const proto_ulong left_size = previousNode ? previousNode->size : 0;
 
         if (index <= left_size) {
             const ProtoListImplementation* new_prev = previousNode
@@ -191,7 +191,7 @@ namespace proto {
             return this;
         }
 
-        const unsigned long left_size = previousNode ? previousNode->size : 0;
+        const proto_ulong left_size = previousNode ? previousNode->size : 0;
 
         if (index < left_size) {
             const ProtoListImplementation* new_prev = previousNode->implRemoveAt(context, index);
@@ -267,13 +267,13 @@ namespace proto {
     }
 
     const ProtoObject* ProtoListSmallImplementation::implGetAt(ProtoContext* context, int index) const {
-        if (index < 0 || static_cast<unsigned long>(index) >= size) return nullptr;
+        if (index < 0 || static_cast<proto_ulong>(index) >= size) return nullptr;
         return slots[index];
     }
 
     bool ProtoListSmallImplementation::implHas(ProtoContext* context, const ProtoObject* targetValue) const {
         if (!targetValue) return false;
-        for (unsigned long i = 0; i < size; ++i) {
+        for (proto_ulong i = 0; i < size; ++i) {
             if (listElementEquals(context, slots[i], targetValue)) return true;
         }
         return false;
@@ -297,7 +297,7 @@ namespace proto {
         ProtoContext* context, void* self,
         void (*method)(ProtoContext*, void*, const Cell*)) const
     {
-        for (unsigned long i = 0; i < size; ++i) {
+        for (proto_ulong i = 0; i < size; ++i) {
             if (const Cell* c = ProtoObject::asCellPointer(slots[i])) {
                 method(context, self, c);
             }
@@ -349,7 +349,7 @@ namespace proto {
     ProtoListIteratorImplementation::ProtoListIteratorImplementation(
         ProtoContext* context,
         const ProtoObject* b,
-        unsigned long index
+        proto_ulong index
     ) : Cell(context), base(b), currentIndex(index)
     {
     }
@@ -357,7 +357,7 @@ namespace proto {
     namespace {
         // Iterator helpers — read size / element from the tagged base
         // pointer without a virtual call.
-        unsigned long iterBaseSize(const ProtoObject* base) {
+        proto_ulong iterBaseSize(const ProtoObject* base) {
             if (!base) return 0;
             ProtoObjectPointer pa{}; pa.oid = base;
             if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
@@ -365,7 +365,7 @@ namespace proto {
             }
             return toImpl<const ProtoListImplementation>(base)->size;
         }
-        const ProtoObject* iterBaseGetAt(ProtoContext* context, const ProtoObject* base, unsigned long index) {
+        const ProtoObject* iterBaseGetAt(ProtoContext* context, const ProtoObject* base, proto_ulong index) {
             if (!base) return nullptr;
             ProtoObjectPointer pa{}; pa.oid = base;
             if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
@@ -451,15 +451,15 @@ namespace proto {
         // a mutator (e.g. extend) and we want a single-pass output build.
         void avlToVector(ProtoContext* context, const ProtoListImplementation* avl,
                          std::vector<const ProtoObject*>& out) {
-            unsigned long n = avl->size;
+            proto_ulong n = avl->size;
             out.reserve(out.size() + n);
-            for (unsigned long i = 0; i < n; ++i) {
+            for (proto_ulong i = 0; i < n; ++i) {
                 out.push_back(avl->implGetAt(context, static_cast<int>(i)));
             }
         }
     }
 
-    unsigned long ProtoList::getSize(ProtoContext* context) const {
+    proto_ulong ProtoList::getSize(ProtoContext* context) const {
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->size;
@@ -477,12 +477,12 @@ namespace proto {
         return result ? result : PROTO_NONE;
     }
     const ProtoObject* ProtoList::getFirst(ProtoContext* context) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (size == 0) return PROTO_NONE;
         return getAt(context, 0);
     }
     const ProtoObject* ProtoList::getLast(ProtoContext* context) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (size == 0) return PROTO_NONE;
         return getAt(context, size - 1);
     }
@@ -498,7 +498,7 @@ namespace proto {
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             const auto* small = toImpl<const ProtoListSmallImplementation>(this);
-            if (index < 0 || static_cast<unsigned long>(index) >= small->size) {
+            if (index < 0 || static_cast<proto_ulong>(index) >= small->size) {
                 return const_cast<ProtoList*>(this);
             }
             const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
@@ -552,24 +552,24 @@ namespace proto {
         return result;
     }
     const ProtoList* ProtoList::splitFirst(ProtoContext* context, int index) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (index <= 0) return context->newList();
         if (index >= (int)size) return const_cast<ProtoList*>(this);
         return getSlice(context, 0, index);
     }
     const ProtoList* ProtoList::splitLast(ProtoContext* context, int index) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (index <= 0) return context->newList();
         if (index >= (int)size) return const_cast<ProtoList*>(this);
         return getSlice(context, size - index, size);
     }
     const ProtoList* ProtoList::removeFirst(ProtoContext* context) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (size == 0) return const_cast<ProtoList*>(this);
         return removeAt(context, 0);
     }
     const ProtoList* ProtoList::removeLast(ProtoContext* context) const {
-        unsigned long size = getSize(context);
+        proto_ulong size = getSize(context);
         if (size == 0) return const_cast<ProtoList*>(this);
         return removeAt(context, size - 1);
     }
@@ -628,7 +628,7 @@ namespace proto {
         }
         return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context);
     }
-    unsigned long ProtoList::getHash(ProtoContext* context) const {
+    proto_ulong ProtoList::getHash(ProtoContext* context) const {
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->getHash(context);
@@ -650,9 +650,9 @@ namespace proto {
         // Nested loop holds `result` across many appendLast calls.
         ProtoContext::CriticalSection cs(context);
         const ProtoList* result = context->newList();
-        unsigned long self_size = getSize(context);
+        proto_ulong self_size = getSize(context);
         for (long long i = 0; i < n; ++i) {
-            for (unsigned long j = 0; j < self_size; ++j) {
+            for (proto_ulong j = 0; j < self_size; ++j) {
                 result = result->appendLast(context, getAt(context, static_cast<int>(j)));
             }
         }

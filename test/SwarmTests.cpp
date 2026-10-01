@@ -13,9 +13,9 @@ using namespace proto;
 namespace {
 
 constexpr int ONE_MILLION = 1'000'000;
-constexpr unsigned long ROPE_TARGET_BYTES = 10 * 1024 * 1024;  // ~10 MB in UTF-32 codepoints
+constexpr proto::proto_ulong ROPE_TARGET_BYTES = 10 * 1024 * 1024;  // ~10 MB in UTF-32 codepoints
 constexpr int EXTERNAL_BUFFER_GC_COUNT = 5000;
-constexpr unsigned long EXTERNAL_BUFFER_SIZE = 4096;
+constexpr proto::proto_ulong EXTERNAL_BUFFER_SIZE = 4096;
 
 }  // namespace
 
@@ -42,8 +42,8 @@ TEST(SwarmTest, OneMillionConcats) {
     auto end = std::chrono::steady_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
-    unsigned long size = s->getSize(ctx);
-    EXPECT_EQ(size, static_cast<unsigned long>(ONE_MILLION)) << "rope length after concats";
+    proto::proto_ulong size = s->getSize(ctx);
+    EXPECT_EQ(size, static_cast<proto::proto_ulong>(ONE_MILLION)) << "rope length after concats";
 
     (void)ms;
     EXPECT_LT(ms, 120000);
@@ -67,7 +67,7 @@ TEST(SwarmTest, LargeRopeIndexAccess) {
         "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
         "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
         "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"));
-    ASSERT_GE(chunk->getSize(ctx), static_cast<unsigned long>(chunkChars));
+    ASSERT_GE(chunk->getSize(ctx), static_cast<proto::proto_ulong>(chunkChars));
 
     const ProtoString* rope = chunk;
     int numChunks = 1;
@@ -76,7 +76,7 @@ TEST(SwarmTest, LargeRopeIndexAccess) {
         numChunks++;
     }
 
-    unsigned long totalSize = rope->getSize(ctx);
+    proto::proto_ulong totalSize = rope->getSize(ctx);
     EXPECT_GE(totalSize, ROPE_TARGET_BYTES / 4u);
 
     // Index access at start, middle, end
@@ -117,7 +117,7 @@ TEST(SwarmTest, LargeRopeIndexAccessUnderHeapPressure) {
         "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
         "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
         "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"));
-    ASSERT_GE(chunk->getSize(ctx), static_cast<unsigned long>(chunkChars));
+    ASSERT_GE(chunk->getSize(ctx), static_cast<proto::proto_ulong>(chunkChars));
 
     const ProtoString* rope = chunk;
     int numChunks = 1;
@@ -127,7 +127,7 @@ TEST(SwarmTest, LargeRopeIndexAccessUnderHeapPressure) {
         numChunks++;
     }
 
-    unsigned long totalSize = rope->getSize(ctx);
+    proto::proto_ulong totalSize = rope->getSize(ctx);
     EXPECT_GE(totalSize, ROPE_TARGET_BYTES / 4u);
 
     // Index access at start, middle, end must still return non-null even
@@ -163,7 +163,7 @@ TEST(SwarmTest, ExternalBufferGC) {
         refs.push_back(obj);
     }
 
-    unsigned long heapBefore = space.heapSize;
+    proto::proto_ulong heapBefore = space.heapSize;
     refs.clear();
     // Drop all refs so buffers become collectible.
 
@@ -172,7 +172,7 @@ TEST(SwarmTest, ExternalBufferGC) {
         (void)ctx->newObject(false);
     }
 
-    unsigned long heapAfter = space.heapSize;
+    proto::proto_ulong heapAfter = space.heapSize;
     (void)heapBefore;
     (void)heapAfter;
     // GC should eventually reclaim; we only assert no crash and that GetRawPointer was usable.

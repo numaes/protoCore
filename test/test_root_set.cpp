@@ -81,13 +81,13 @@ TEST_F(RootSetTest, MultiplePinsTrackedIndependently) {
         objs.push_back(o);
         handles.push_back(rs->add(o));
     }
-    EXPECT_EQ(rs->size(), static_cast<unsigned long>(N));
+    EXPECT_EQ(rs->size(), static_cast<proto::proto_ulong>(N));
     for (int i = 0; i < N; i++) {
         EXPECT_EQ(rs->resolve(handles[i]), objs[i]);
     }
     // Remove half, the other half should still resolve.
     for (int i = 0; i < N; i += 2) rs->remove(handles[i]);
-    EXPECT_EQ(rs->size(), static_cast<unsigned long>(N / 2));
+    EXPECT_EQ(rs->size(), static_cast<proto::proto_ulong>(N / 2));
     for (int i = 0; i < N; i++) {
         if (i % 2 == 0) EXPECT_EQ(rs->resolve(handles[i]), nullptr);
         else            EXPECT_EQ(rs->resolve(handles[i]), objs[i]);

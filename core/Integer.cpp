@@ -5,6 +5,18 @@
 #include <limits>
 #include <string> // For std::stoll
 #include <utility> // For std::move
+#include <bit>
+
+// 128-bit intermediates.  GCC and Clang have __int128; MSVC does not, but its
+// standard library ships complete 128-bit integer classes (used by <ranges>).
+#if defined(_MSC_VER) && !defined(__clang__)
+#include <__msvc_int128.hpp>
+using proto_u128 = std::_Unsigned128;
+using proto_i128 = std::_Signed128;
+#else
+using proto_u128 = unsigned __int128;
+using proto_i128 = __int128;
+#endif
 
 namespace proto
 {
@@ -21,7 +33,7 @@ namespace proto
      */
     struct TempBignum {
         bool is_negative = false;
-        std::vector<unsigned long> magnitude;
+        std::vector<proto_ulong> magnitude;
 
         // Helper to remove leading zeros
         void normalize() {
@@ -78,7 +90,7 @@ namespace proto
         // A 64-bit value will typically occupy one 64-bit digit in magnitude.
         // If it's larger than 64 bits, it would need more digits, but long long is 64-bit.
         if (mag_val > 0) {
-            temp.magnitude.push_back(static_cast<unsigned long>(mag_val));
+            temp.magnitude.push_back(static_cast<proto_ulong>(mag_val));
         }
         temp.normalize(); // Ensure canonical form (no leading zeros, zero is not negative)
         return fromTempBignum(context, temp);
@@ -243,7 +255,7 @@ namespace proto
         if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
             rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
         {
-            __int128_t result_128 = (__int128_t)lp.si.smallInteger + (__int128_t)rp.si.smallInteger;
+            proto_i128 result_128 = (proto_i128)lp.si.smallInteger + (proto_i128)rp.si.smallInteger;
             const long long min_small_int = -(1LL << 53);
             const long long max_small_int = (1LL << 53) - 1;
 
@@ -295,7 +307,7 @@ namespace proto
         if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
             rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
         {
-            __int128_t result_128 = (__int128_t)lp.si.smallInteger - (__int128_t)rp.si.smallInteger;
+            proto_i128 result_128 = (proto_i128)lp.si.smallInteger - (proto_i128)rp.si.smallInteger;
             const long long min_small_int = -(1LL << 53);
             const long long max_small_int = (1LL << 53) - 1;
 
@@ -352,7 +364,7 @@ namespace proto
         if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
             rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
         {
-            __int128_t result_128 = (__int128_t)lp.si.smallInteger * (__int128_t)rp.si.smallInteger;
+            proto_i128 result_128 = (proto_i128)lp.si.smallInteger * (proto_i128)rp.si.smallInteger;
             const long long min_small_int = -(1LL << 53);
             const long long max_small_int = (1LL << 53) - 1;
 
@@ -504,12 +516,12 @@ namespace proto
         // Convert a TempBignum to a two's-complement word vector of `nwords`
         // words.  `nwords` must be >= the natural magnitude size + 1 so the
         // sign word is available for both operands.
-        static std::vector<unsigned long> toTwosComplement(const TempBignum& n, size_t nwords) {
+        static std::vector<proto_ulong> toTwosComplement(const TempBignum& n, size_t nwords) {
             // The magnitude is zero-extended first; negating the whole
             // vector then produces the sign extension (the high words of
             // -m are all ones).  Pre-filling them with ones would turn them
             // into zeros under the inversion below.
-            std::vector<unsigned long> out(nwords, 0UL);
+            std::vector<proto_ulong> out(nwords, PROTO_UL(0));
             for (size_t i = 0; i < n.magnitude.size() && i < nwords; ++i) {
                 out[i] = n.magnitude[i];
             }
@@ -521,8 +533,8 @@ namespace proto
                 bool carry = true;
                 for (auto& w : out) {
                     if (!carry) break;
-                    unsigned long prev = w;
-                    w = prev + 1UL;
+                    proto_ulong prev = w;
+                    w = prev + PROTO_UL(1);
                     carry = (w < prev);  // overflow if sum wrapped
                 }
             }
@@ -530,10 +542,10 @@ namespace proto
         }
 
         // Interpret a two's-complement word vector back into a TempBignum.
-        static TempBignum fromTwosComplement(std::vector<unsigned long> words) {
+        static TempBignum fromTwosComplement(std::vector<proto_ulong> words) {
             TempBignum out;
             if (words.empty()) return out;
-            unsigned long signBitMask = 1UL << (sizeof(unsigned long) * 8 - 1);
+            proto_ulong signBitMask = PROTO_UL(1) << (sizeof(proto_ulong) * 8 - 1);
             bool neg = (words.back() & signBitMask) != 0;
             if (neg) {
                 // invert + add 1 to get magnitude
@@ -541,8 +553,8 @@ namespace proto
                 bool carry = true;
                 for (auto& w : words) {
                     if (!carry) break;
-                    unsigned long prev = w;
-                    w = prev + 1UL;
+                    proto_ulong prev = w;
+                    w = prev + PROTO_UL(1);
                     carry = (w < prev);
                 }
             }
@@ -566,7 +578,7 @@ namespace proto
         size_t n = std::max(l.magnitude.size(), r.magnitude.size()) + 1;
         auto lw = toTwosComplement(l, n);
         auto rw = toTwosComplement(r, n);
-        std::vector<unsigned long> out(n);
+        std::vector<proto_ulong> out(n);
         for (size_t i = 0; i < n; ++i) out[i] = lw[i] & rw[i];
         TempBignum res = fromTwosComplement(std::move(out));
         return fromTempBignum(context, res);
@@ -585,7 +597,7 @@ namespace proto
         size_t n = std::max(l.magnitude.size(), r.magnitude.size()) + 1;
         auto lw = toTwosComplement(l, n);
         auto rw = toTwosComplement(r, n);
-        std::vector<unsigned long> out(n);
+        std::vector<proto_ulong> out(n);
         for (size_t i = 0; i < n; ++i) out[i] = lw[i] | rw[i];
         TempBignum res = fromTwosComplement(std::move(out));
         return fromTempBignum(context, res);
@@ -604,7 +616,7 @@ namespace proto
         size_t n = std::max(l.magnitude.size(), r.magnitude.size()) + 1;
         auto lw = toTwosComplement(l, n);
         auto rw = toTwosComplement(r, n);
-        std::vector<unsigned long> out(n);
+        std::vector<proto_ulong> out(n);
         for (size_t i = 0; i < n; ++i) out[i] = lw[i] ^ rw[i];
         TempBignum res = fromTwosComplement(std::move(out));
         return fromTempBignum(context, res);
@@ -624,7 +636,7 @@ namespace proto
             // 128-bit integer; fromLong promotes it when it leaves the
             // SmallInteger range.
             if (amount < 64) {
-                const __int128 shifted = static_cast<__int128>(val) * (static_cast<__int128>(1) << amount);
+                const proto_i128 shifted = static_cast<proto_i128>(val) * (static_cast<proto_i128>(1) << amount);
                 if (shifted >= std::numeric_limits<long long>::min() &&
                     shifted <= std::numeric_limits<long long>::max()) {
                     return fromLong(context, static_cast<long long>(shifted));
@@ -636,15 +648,15 @@ namespace proto
         // Bignum path: shift the magnitude vector by `amount` bits.
         TempBignum t = toTempBignum(object);
         if (t.magnitude.empty()) return fromLong(context, 0);
-        const size_t wbits = sizeof(unsigned long) * 8;
+        const size_t wbits = sizeof(proto_ulong) * 8;
         size_t wholeWords = static_cast<size_t>(amount) / wbits;
         size_t bits = static_cast<size_t>(amount) % wbits;
-        std::vector<unsigned long> out(t.magnitude.size() + wholeWords + 1, 0UL);
-        unsigned long carry = 0;
+        std::vector<proto_ulong> out(t.magnitude.size() + wholeWords + 1, PROTO_UL(0));
+        proto_ulong carry = 0;
         for (size_t i = 0; i < t.magnitude.size(); ++i) {
-            unsigned long v = t.magnitude[i];
+            proto_ulong v = t.magnitude[i];
             out[i + wholeWords] = (bits == 0 ? v : (v << bits)) | carry;
-            carry = (bits == 0) ? 0UL : (v >> (wbits - bits));
+            carry = (bits == 0) ? PROTO_UL(0) : (v >> (wbits - bits));
         }
         out[t.magnitude.size() + wholeWords] = carry;
         TempBignum r;
@@ -683,7 +695,7 @@ namespace proto
             // mask off the low k bits then negate.  Simpler: do the truncated
             // right-shift then add 1 if the low k bits of |n| were nonzero.
         }
-        const size_t wbits = sizeof(unsigned long) * 8;
+        const size_t wbits = sizeof(proto_ulong) * 8;
         size_t wholeWords = static_cast<size_t>(amount) / wbits;
         size_t bits = static_cast<size_t>(amount) % wbits;
         bool hadLowBits = false;
@@ -698,13 +710,13 @@ namespace proto
             if (t.magnitude[i]) { hadLowBits = true; break; }
         }
         if (bits != 0 && !hadLowBits) {
-            unsigned long mask = (1UL << bits) - 1UL;
+            proto_ulong mask = (PROTO_UL(1) << bits) - PROTO_UL(1);
             if ((t.magnitude[wholeWords] & mask) != 0) hadLowBits = true;
         }
-        std::vector<unsigned long> out(t.magnitude.size() - wholeWords, 0UL);
+        std::vector<proto_ulong> out(t.magnitude.size() - wholeWords, PROTO_UL(0));
         for (size_t i = 0; i < out.size(); ++i) {
-            unsigned long lo = (bits == 0) ? t.magnitude[i + wholeWords] : (t.magnitude[i + wholeWords] >> bits);
-            unsigned long hi = 0UL;
+            proto_ulong lo = (bits == 0) ? t.magnitude[i + wholeWords] : (t.magnitude[i + wholeWords] >> bits);
+            proto_ulong hi = PROTO_UL(0);
             if (bits != 0 && (i + wholeWords + 1) < t.magnitude.size()) {
                 hi = t.magnitude[i + wholeWords + 1] << (wbits - bits);
             }
@@ -744,7 +756,7 @@ namespace proto
             const auto* li = toImpl<const LargeIntegerImplementation>(obj);
             temp.is_negative = li->is_negative;
             const auto* current = li;
-            std::vector<unsigned long> temp_mag;
+            std::vector<proto_ulong> temp_mag;
             while (current) {
                 for (int i = 0; i < LargeIntegerImplementation::DIGIT_COUNT; ++i) {
                     temp_mag.push_back(current->digits[i]);
@@ -806,31 +818,31 @@ namespace proto
 
     static TempBignum internal_add_mag(const TempBignum& left, const TempBignum& right) {
         TempBignum result;
-        unsigned __int128 carry = 0;
+        proto_u128 carry = 0;
         size_t max_size = std::max(left.magnitude.size(), right.magnitude.size());
         result.magnitude.resize(max_size);
         for (size_t i = 0; i < max_size; ++i) {
-            unsigned __int128 sum = carry;
+            proto_u128 sum = carry;
             if (i < left.magnitude.size()) sum += left.magnitude[i];
             if (i < right.magnitude.size()) sum += right.magnitude[i];
-            result.magnitude[i] = static_cast<unsigned long>(sum);
+            result.magnitude[i] = static_cast<proto_ulong>(sum);
             carry = sum >> 64;
         }
-        if (carry > 0) result.magnitude.push_back(static_cast<unsigned long>(carry));
+        if (carry > 0) result.magnitude.push_back(static_cast<proto_ulong>(carry));
         result.normalize();
         return result;
     }
 
     static TempBignum internal_sub_mag(const TempBignum& left, const TempBignum& right) {
         TempBignum result;
-        unsigned __int128 borrow = 0;
+        proto_u128 borrow = 0;
         size_t max_size = left.magnitude.size();
         result.magnitude.resize(max_size);
         for (size_t i = 0; i < max_size; ++i) {
-            unsigned __int128 l_digit = left.magnitude[i];
-            unsigned __int128 r_digit = (i < right.magnitude.size()) ? right.magnitude[i] : 0;
-            unsigned __int128 diff = l_digit - r_digit - borrow;
-            result.magnitude[i] = static_cast<unsigned long>(diff);
+            proto_u128 l_digit = left.magnitude[i];
+            proto_u128 r_digit = (i < right.magnitude.size()) ? right.magnitude[i] : 0;
+            proto_u128 diff = l_digit - r_digit - borrow;
+            result.magnitude[i] = static_cast<proto_ulong>(diff);
             borrow = (diff >> 127) ? 1 : 0; // Check if MSB of 128-bit diff is set
         }
         result.normalize();
@@ -844,15 +856,15 @@ namespace proto
         result.magnitude.resize(left.magnitude.size() + right.magnitude.size(), 0);
 
         for (size_t i = 0; i < left.magnitude.size(); ++i) {
-            unsigned __int128 carry = 0;
+            proto_u128 carry = 0;
             for (size_t j = 0; j < right.magnitude.size(); ++j) {
-                unsigned __int128 prod = (unsigned __int128)left.magnitude[i] * right.magnitude[j] +
+                proto_u128 prod = (proto_u128)left.magnitude[i] * right.magnitude[j] +
                                          result.magnitude[i + j] + carry;
-                result.magnitude[i + j] = static_cast<unsigned long>(prod);
+                result.magnitude[i + j] = static_cast<proto_ulong>(prod);
                 carry = prod >> 64;
             }
             if (carry > 0) {
-                result.magnitude[i + right.magnitude.size()] = static_cast<unsigned long>(carry);
+                result.magnitude[i + right.magnitude.size()] = static_cast<proto_ulong>(carry);
             }
         }
         result.normalize();
@@ -880,15 +892,15 @@ namespace proto
         // Single digit divisor optimization
         if (v.magnitude.size() == 1) {
             TempBignum q;
-            unsigned __int128 rem = 0;
+            proto_u128 rem = 0;
             q.magnitude.resize(u.magnitude.size());
             for (int i = static_cast<int>(u.magnitude.size()) - 1; i >= 0; --i) {
-                unsigned __int128 current = (rem << 64) | u.magnitude[static_cast<size_t>(i)];
-                q.magnitude[static_cast<size_t>(i)] = static_cast<unsigned long>(current / v.magnitude[0]);
+                proto_u128 current = (rem << 64) | u.magnitude[static_cast<size_t>(i)];
+                q.magnitude[static_cast<size_t>(i)] = static_cast<proto_ulong>(current / v.magnitude[0]);
                 rem = current % v.magnitude[0];
             }
             TempBignum r;
-            if (rem > 0) r.magnitude.push_back(static_cast<unsigned long>(rem));
+            if (rem > 0) r.magnitude.push_back(static_cast<proto_ulong>(rem));
             q.normalize();
             r.normalize();
             return {std::move(q), std::move(r)};
@@ -897,13 +909,13 @@ namespace proto
         // Multi-digit divisor: Knuth, TAOCP vol. 2, 4.3.1, Algorithm D, on
         // 64-bit digits with 128-bit intermediates.  Works on the magnitude
         // vectors only; nothing is allocated on the heap of the space.
-        using u64 = unsigned long;
-        using u128 = unsigned __int128;
+        using u64 = proto_ulong;
+        using u128 = proto_u128;
         const size_t n = v.magnitude.size();
         const size_t m = u.magnitude.size() - n;
 
         // D1: normalize so the divisor's top digit has its high bit set.
-        const int shift = __builtin_clzl(v.magnitude[n - 1]);
+        const int shift = std::countl_zero(v.magnitude[n - 1]);
         std::vector<u64> vn(n), un(u.magnitude.size() + 1);
         for (size_t i = n - 1; i > 0; --i)
             vn[i] = (v.magnitude[i] << shift) | (shift ? v.magnitude[i - 1] >> (64 - shift) : 0);
@@ -929,15 +941,15 @@ namespace proto
             }
             // D4: multiply and subtract.
             u128 carry = 0;
-            __int128 borrow = 0;
+            proto_i128 borrow = 0;
             for (size_t i = 0; i < n; ++i) {
                 const u128 product = qhat * vn[i] + carry;
                 carry = product >> 64;
-                const __int128 t = static_cast<__int128>(un[i + j]) - borrow - static_cast<u64>(product);
+                const proto_i128 t = static_cast<proto_i128>(un[i + j]) - borrow - static_cast<u64>(product);
                 un[i + j] = static_cast<u64>(t);
                 borrow = t < 0 ? 1 : 0;
             }
-            const __int128 t = static_cast<__int128>(un[j + n]) - borrow - static_cast<__int128>(carry);
+            const proto_i128 t = static_cast<proto_i128>(un[j + n]) - borrow - static_cast<proto_i128>(carry);
             un[j + n] = static_cast<u64>(t);
             // D5/D6: the estimate was one too large; add the divisor back.
             if (t < 0) {

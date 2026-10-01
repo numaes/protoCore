@@ -19,6 +19,49 @@
 #include <vector>
 #include <functional>
 
+#include <cstdlib>
+#if defined(_WIN32)
+#include <cerrno>
+#include <malloc.h>
+#endif
+
+// Platform shims.  Outside Windows these expand to exactly what the code used
+// before; on Windows they supply what the CRT lacks.
+#if defined(_MSC_VER) && !defined(__clang__)
+#define PROTO_PREFETCH(p) ((void)0)
+#else
+#define PROTO_PREFETCH(p) __builtin_prefetch((p), 1, 1)
+#endif
+
+namespace proto {
+    // Aligned memory that is later released: pair alignedAlloc with
+    // alignedFree.  The Windows CRT has no aligned_alloc, and its
+    // _aligned_malloc must be released with _aligned_free, not free.
+    inline void* alignedAlloc(size_t alignment, size_t size) {
+#if defined(_WIN32)
+        return _aligned_malloc(size, alignment);
+#else
+        return std::aligned_alloc(alignment, size);
+#endif
+    }
+    inline void alignedFree(void* p) {
+#if defined(_WIN32)
+        _aligned_free(p);
+#else
+        std::free(p);
+#endif
+    }
+}
+
+#if defined(_WIN32)
+// Cell arenas come from posix_memalign and are never returned to the system,
+// so _aligned_malloc without a matching _aligned_free is correct here.
+inline int posix_memalign(void** out, size_t alignment, size_t size) {
+    *out = _aligned_malloc(size, alignment);
+    return *out ? 0 : ENOMEM;
+}
+#endif
+
 #ifdef PROTO_GC_LOCK_TRACE
 #include <chrono>
 #define GC_LOCK_TRACE(msg) do { \
@@ -138,58 +181,58 @@ namespace proto {
         const DoubleImplementation *doubleImplementation;
 
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            unsigned long value: 54;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_ulong value: 54;
         } op;
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            long smallInteger: 54;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_long smallInteger: 54;
         } si;
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            unsigned long unicodeValue: 54;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_ulong unicodeValue: 54;
         } unicodeChar;
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            unsigned long booleanValue: 1;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_ulong booleanValue: 1;
         } booleanValue;
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            unsigned long byteData: 8;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_ulong byteData: 8;
         } byteValue;
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            unsigned long year: 16;
-            unsigned long month: 8;
-            unsigned long day: 8;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_ulong year: 16;
+            proto_ulong month: 8;
+            proto_ulong day: 8;
         } date;
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            unsigned long timestamp: 54;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_ulong timestamp: 54;
         } timestampValue;
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            long timedelta: 54;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_long timedelta: 54;
         } timedeltaValue;
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long hash: 58;
+            proto_ulong pointer_tag: 6;
+            proto_ulong hash: 58;
         } asHash;
         /** Inline string UTF-8: byte_count (0..6) in bits 12..10; up to 6 UTF-8 bytes in bits 60..13. */
         struct {
-            unsigned long pointer_tag: 6;
-            unsigned long embedded_type: 4;
-            unsigned long inline_byte_count: 3;   // 0..6 bytes
-            unsigned long inline_utf8_bytes: 48;  // 6 bytes packed (LSB = first byte)
-            unsigned long reserved: 3;
+            proto_ulong pointer_tag: 6;
+            proto_ulong embedded_type: 4;
+            proto_ulong inline_byte_count: 3;   // 0..6 bytes
+            proto_ulong inline_utf8_bytes: 48;  // 6 bytes packed (LSB = first byte)
+            proto_ulong reserved: 3;
         } inlineString;
     };
 
@@ -301,13 +344,13 @@ namespace proto {
 #define INLINE_STRING_BYTE_COUNT_BITS 3
 
     /** Returns byte count of an inline string pointer (0..6). */
-    inline unsigned long inlineStringByteCount(const ProtoObject* o) {
+    inline proto_ulong inlineStringByteCount(const ProtoObject* o) {
         ProtoObjectPointer pa{}; pa.oid = o;
         return pa.inlineString.inline_byte_count;
     }
 
     /** Reads the i-th byte of an inline string (0-indexed, i < inlineStringByteCount). */
-    inline uint8_t inlineStringByte(const ProtoObject* o, unsigned long i) {
+    inline uint8_t inlineStringByte(const ProtoObject* o, proto_ulong i) {
         ProtoObjectPointer pa{}; pa.oid = o;
         return static_cast<uint8_t>((pa.inlineString.inline_utf8_bytes >> (i * 8)) & 0xFF);
     }
@@ -318,7 +361,7 @@ namespace proto {
                                                uint8_t byte_count);
 
     bool isInlineString(const ProtoObject* o);
-    unsigned long getProtoStringHash(ProtoContext* context, const ProtoObject* o);
+    proto_ulong getProtoStringHash(ProtoContext* context, const ProtoObject* o);
     /** Builds inline string (no allocation). codepoints must be 0..127, len 0..6. */
     const ProtoObject* createInlineString(ProtoContext* context, int len, const unsigned int* codepoints);
 
@@ -339,9 +382,16 @@ namespace proto {
     // Helper to get the name of the type for error messages (compiler-specific, but useful for debugging)
     template<typename T>
     std::string getTypeName() {
+#if defined(_MSC_VER) && !defined(__clang__)
+        // "class std::basic_string<...> __cdecl proto::getTypeName<T>(void)"
+        std::string name = __FUNCSIG__;
+        size_t start = name.find("getTypeName<") + 12;
+        size_t end = name.rfind(">(");
+#else
         std::string name = __PRETTY_FUNCTION__;
         size_t start = name.find("T = ") + 4;
         size_t end = name.find("]", start);
+#endif
         return name.substr(start, end - start);
     }
 
@@ -350,47 +400,47 @@ namespace proto {
     struct ExpectedTag;
 
     // Specializations for each implementation type
-    template<> struct ExpectedTag<const Cell> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
-    template<> struct ExpectedTag<Cell> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<const Cell> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<Cell> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
 
-    template<> struct ExpectedTag<const ParentLinkImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
-    template<> struct ExpectedTag<ParentLinkImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<const ParentLinkImplementation> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ParentLinkImplementation> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
 
-    template<> struct ExpectedTag<const ProtoListImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST; };
-    template<> struct ExpectedTag<ProtoListImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST; };
+    template<> struct ExpectedTag<const ProtoListImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST; };
+    template<> struct ExpectedTag<ProtoListImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST; };
 
-    template<> struct ExpectedTag<const ProtoListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_SMALL; };
-    template<> struct ExpectedTag<ProtoListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_SMALL; };
+    template<> struct ExpectedTag<const ProtoListSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST_SMALL; };
+    template<> struct ExpectedTag<ProtoListSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST_SMALL; };
 
-    template<> struct ExpectedTag<const ProtoSparseListImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST; };
-    template<> struct ExpectedTag<ProtoSparseListImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST; };
+    template<> struct ExpectedTag<const ProtoSparseListImplementation> { static constexpr proto_ulong value = POINTER_TAG_SPARSE_LIST; };
+    template<> struct ExpectedTag<ProtoSparseListImplementation> { static constexpr proto_ulong value = POINTER_TAG_SPARSE_LIST; };
 
-    template<> struct ExpectedTag<const ProtoSparseListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_SMALL; };
-    template<> struct ExpectedTag<ProtoSparseListSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_SMALL; };
+    template<> struct ExpectedTag<const ProtoSparseListSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_SPARSE_LIST_SMALL; };
+    template<> struct ExpectedTag<ProtoSparseListSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_SPARSE_LIST_SMALL; };
 
-    template<> struct ExpectedTag<const ProtoMapImplementation> { static constexpr unsigned long value = POINTER_TAG_MAP; };
-    template<> struct ExpectedTag<ProtoMapImplementation> { static constexpr unsigned long value = POINTER_TAG_MAP; };
+    template<> struct ExpectedTag<const ProtoMapImplementation> { static constexpr proto_ulong value = POINTER_TAG_MAP; };
+    template<> struct ExpectedTag<ProtoMapImplementation> { static constexpr proto_ulong value = POINTER_TAG_MAP; };
 
-    template<> struct ExpectedTag<const ProtoMapSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_MAP; };
-    template<> struct ExpectedTag<ProtoMapSmallImplementation> { static constexpr unsigned long value = POINTER_TAG_MAP; };
+    template<> struct ExpectedTag<const ProtoMapSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_MAP; };
+    template<> struct ExpectedTag<ProtoMapSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_MAP; };
 
     // D1 = (a): the iterator handle is the raw cell address (tag 0,
     // POINTER_TAG_OBJECT), never a boxed ProtoObject word offered to the
     // object model.  See ProtoMapIteratorImplementation::implAsObject.
-    template<> struct ExpectedTag<const ProtoMapIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
-    template<> struct ExpectedTag<ProtoMapIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<const ProtoMapIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ProtoMapIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
 
-    template<> struct ExpectedTag<const ProtoMPSCQueueImplementation> { static constexpr unsigned long value = POINTER_TAG_MPSC_QUEUE; };
-    template<> struct ExpectedTag<ProtoMPSCQueueImplementation> { static constexpr unsigned long value = POINTER_TAG_MPSC_QUEUE; };
+    template<> struct ExpectedTag<const ProtoMPSCQueueImplementation> { static constexpr proto_ulong value = POINTER_TAG_MPSC_QUEUE; };
+    template<> struct ExpectedTag<ProtoMPSCQueueImplementation> { static constexpr proto_ulong value = POINTER_TAG_MPSC_QUEUE; };
 
     // Internal cells of ProtoMPSCQueue (PMQ-SPEC section 4, decision D6): the
     // handle is the raw cell address (tag 0, POINTER_TAG_OBJECT), never a
     // boxed ProtoObject word offered to the object model.  Same discipline
     // as ProtoMapIteratorImplementation above.
-    template<> struct ExpectedTag<const ProtoMPSCQueueNodeImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
-    template<> struct ExpectedTag<ProtoMPSCQueueNodeImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
-    template<> struct ExpectedTag<const ProtoMPSCQueueRetainImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
-    template<> struct ExpectedTag<ProtoMPSCQueueRetainImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<const ProtoMPSCQueueNodeImplementation> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ProtoMPSCQueueNodeImplementation> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<const ProtoMPSCQueueRetainImplementation> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ProtoMPSCQueueRetainImplementation> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
 
     /*
      * Tag-dispatched raw-lookup helper for ProtoSparseList consumers
@@ -412,7 +462,7 @@ namespace proto {
      * classes are visible).
      */
     inline const ProtoObject* sparseListGetRaw(
-        ProtoContext* context, const ProtoSparseList* sl, unsigned long offset);
+        ProtoContext* context, const ProtoSparseList* sl, proto_ulong offset);
 
     /**
      * @brief Removes a sorted, duplicate-free array of keys from `sl` in one
@@ -422,75 +472,75 @@ namespace proto {
      * collector releases dead mutables' table entries with it.
      */
     const ProtoSparseList* sparseListRemoveSorted(
-        ProtoContext* context, const ProtoSparseList* sl, const unsigned long* keys, std::size_t count);
+        ProtoContext* context, const ProtoSparseList* sl, const proto_ulong* keys, std::size_t count);
 
-    template<> struct ExpectedTag<const ProtoSetImplementation> { static constexpr unsigned long value = POINTER_TAG_SET; };
-    template<> struct ExpectedTag<ProtoSetImplementation> { static constexpr unsigned long value = POINTER_TAG_SET; };
+    template<> struct ExpectedTag<const ProtoSetImplementation> { static constexpr proto_ulong value = POINTER_TAG_SET; };
+    template<> struct ExpectedTag<ProtoSetImplementation> { static constexpr proto_ulong value = POINTER_TAG_SET; };
 
-    template<> struct ExpectedTag<const ProtoMultisetImplementation> { static constexpr unsigned long value = POINTER_TAG_MULTISET; };
-    template<> struct ExpectedTag<ProtoMultisetImplementation> { static constexpr unsigned long value = POINTER_TAG_MULTISET; };
+    template<> struct ExpectedTag<const ProtoMultisetImplementation> { static constexpr proto_ulong value = POINTER_TAG_MULTISET; };
+    template<> struct ExpectedTag<ProtoMultisetImplementation> { static constexpr proto_ulong value = POINTER_TAG_MULTISET; };
 
-    template<> struct ExpectedTag<const ProtoObjectCell> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
-    template<> struct ExpectedTag<ProtoObjectCell> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<const ProtoObjectCell> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ProtoObjectCell> { static constexpr proto_ulong value = POINTER_TAG_OBJECT; };
 
-    template<> struct ExpectedTag<const ProtoStringImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING; };
-    template<> struct ExpectedTag<ProtoStringImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING; };
+    template<> struct ExpectedTag<const ProtoStringImplementation> { static constexpr proto_ulong value = POINTER_TAG_STRING; };
+    template<> struct ExpectedTag<ProtoStringImplementation> { static constexpr proto_ulong value = POINTER_TAG_STRING; };
 
-    template<> struct ExpectedTag<const ProtoTupleImplementation> { static constexpr unsigned long value = POINTER_TAG_TUPLE; };
-    template<> struct ExpectedTag<ProtoTupleImplementation> { static constexpr unsigned long value = POINTER_TAG_TUPLE; };
+    template<> struct ExpectedTag<const ProtoTupleImplementation> { static constexpr proto_ulong value = POINTER_TAG_TUPLE; };
+    template<> struct ExpectedTag<ProtoTupleImplementation> { static constexpr proto_ulong value = POINTER_TAG_TUPLE; };
 
-    template<> struct ExpectedTag<const ProtoMethodCell> { static constexpr unsigned long value = POINTER_TAG_METHOD; };
-    template<> struct ExpectedTag<ProtoMethodCell> { static constexpr unsigned long value = POINTER_TAG_METHOD; };
+    template<> struct ExpectedTag<const ProtoMethodCell> { static constexpr proto_ulong value = POINTER_TAG_METHOD; };
+    template<> struct ExpectedTag<ProtoMethodCell> { static constexpr proto_ulong value = POINTER_TAG_METHOD; };
 
-    template<> struct ExpectedTag<const ProtoThreadImplementation> { static constexpr unsigned long value = POINTER_TAG_THREAD; };
-    template<> struct ExpectedTag<ProtoThreadImplementation> { static constexpr unsigned long value = POINTER_TAG_THREAD; };
+    template<> struct ExpectedTag<const ProtoThreadImplementation> { static constexpr proto_ulong value = POINTER_TAG_THREAD; };
+    template<> struct ExpectedTag<ProtoThreadImplementation> { static constexpr proto_ulong value = POINTER_TAG_THREAD; };
     
-    template<> struct ExpectedTag<const ProtoRangeIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_RANGE_ITERATOR; };
-    template<> struct ExpectedTag<ProtoRangeIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_RANGE_ITERATOR; };
+    template<> struct ExpectedTag<const ProtoRangeIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_RANGE_ITERATOR; };
+    template<> struct ExpectedTag<ProtoRangeIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_RANGE_ITERATOR; };
 
-    template<> struct ExpectedTag<const DoubleImplementation> { static constexpr unsigned long value = POINTER_TAG_DOUBLE; };
-    template<> struct ExpectedTag<DoubleImplementation> { static constexpr unsigned long value = POINTER_TAG_DOUBLE; };
+    template<> struct ExpectedTag<const DoubleImplementation> { static constexpr proto_ulong value = POINTER_TAG_DOUBLE; };
+    template<> struct ExpectedTag<DoubleImplementation> { static constexpr proto_ulong value = POINTER_TAG_DOUBLE; };
 
-    template<> struct ExpectedTag<const LargeIntegerImplementation> { static constexpr unsigned long value = POINTER_TAG_LARGE_INTEGER; };
-    template<> struct ExpectedTag<LargeIntegerImplementation> { static constexpr unsigned long value = POINTER_TAG_LARGE_INTEGER; };
+    template<> struct ExpectedTag<const LargeIntegerImplementation> { static constexpr proto_ulong value = POINTER_TAG_LARGE_INTEGER; };
+    template<> struct ExpectedTag<LargeIntegerImplementation> { static constexpr proto_ulong value = POINTER_TAG_LARGE_INTEGER; };
 
-    template<> struct ExpectedTag<const ProtoByteBufferImplementation> { static constexpr unsigned long value = POINTER_TAG_BYTE_BUFFER; };
-    template<> struct ExpectedTag<ProtoByteBufferImplementation> { static constexpr unsigned long value = POINTER_TAG_BYTE_BUFFER; };
+    template<> struct ExpectedTag<const ProtoByteBufferImplementation> { static constexpr proto_ulong value = POINTER_TAG_BYTE_BUFFER; };
+    template<> struct ExpectedTag<ProtoByteBufferImplementation> { static constexpr proto_ulong value = POINTER_TAG_BYTE_BUFFER; };
 
-    template<> struct ExpectedTag<const ProtoExternalPointerImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_POINTER; };
-    template<> struct ExpectedTag<ProtoExternalPointerImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_POINTER; };
-    template<> struct ExpectedTag<const ProtoExternalBufferImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_BUFFER; };
-    template<> struct ExpectedTag<ProtoExternalBufferImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_BUFFER; };
+    template<> struct ExpectedTag<const ProtoExternalPointerImplementation> { static constexpr proto_ulong value = POINTER_TAG_EXTERNAL_POINTER; };
+    template<> struct ExpectedTag<ProtoExternalPointerImplementation> { static constexpr proto_ulong value = POINTER_TAG_EXTERNAL_POINTER; };
+    template<> struct ExpectedTag<const ProtoExternalBufferImplementation> { static constexpr proto_ulong value = POINTER_TAG_EXTERNAL_BUFFER; };
+    template<> struct ExpectedTag<ProtoExternalBufferImplementation> { static constexpr proto_ulong value = POINTER_TAG_EXTERNAL_BUFFER; };
 
-    template<> struct ExpectedTag<const ProtoListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_ITERATOR; };
-    template<> struct ExpectedTag<ProtoListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_ITERATOR; };
+    template<> struct ExpectedTag<const ProtoListIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST_ITERATOR; };
+    template<> struct ExpectedTag<ProtoListIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST_ITERATOR; };
 
-    template<> struct ExpectedTag<const ProtoSparseListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_ITERATOR; };
-    template<> struct ExpectedTag<ProtoSparseListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_ITERATOR; };
+    template<> struct ExpectedTag<const ProtoSparseListIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_SPARSE_LIST_ITERATOR; };
+    template<> struct ExpectedTag<ProtoSparseListIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_SPARSE_LIST_ITERATOR; };
 
-    template<> struct ExpectedTag<const ProtoSetIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_SET_ITERATOR; };
-    template<> struct ExpectedTag<ProtoSetIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_SET_ITERATOR; };
+    template<> struct ExpectedTag<const ProtoSetIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_SET_ITERATOR; };
+    template<> struct ExpectedTag<ProtoSetIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_SET_ITERATOR; };
 
-    template<> struct ExpectedTag<const ProtoMultisetIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_MULTISET_ITERATOR; };
-    template<> struct ExpectedTag<ProtoMultisetIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_MULTISET_ITERATOR; };
+    template<> struct ExpectedTag<const ProtoMultisetIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_MULTISET_ITERATOR; };
+    template<> struct ExpectedTag<ProtoMultisetIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_MULTISET_ITERATOR; };
 
-    template<> struct ExpectedTag<const ProtoTupleIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_TUPLE_ITERATOR; };
-    template<> struct ExpectedTag<ProtoTupleIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_TUPLE_ITERATOR; };
+    template<> struct ExpectedTag<const ProtoTupleIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_TUPLE_ITERATOR; };
+    template<> struct ExpectedTag<ProtoTupleIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_TUPLE_ITERATOR; };
 
-    template<> struct ExpectedTag<const ProtoStringIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING_ITERATOR; };
-    template<> struct ExpectedTag<ProtoStringIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING_ITERATOR; };
+    template<> struct ExpectedTag<const ProtoStringIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_STRING_ITERATOR; };
+    template<> struct ExpectedTag<ProtoStringIteratorImplementation> { static constexpr proto_ulong value = POINTER_TAG_STRING_ITERATOR; };
 
     template<> struct ExpectedTag<const StringLeafNode> {
-        static constexpr unsigned long value = POINTER_TAG_STRING_LEAF_NODE;
+        static constexpr proto_ulong value = POINTER_TAG_STRING_LEAF_NODE;
     };
     template<> struct ExpectedTag<StringLeafNode> {
-        static constexpr unsigned long value = POINTER_TAG_STRING_LEAF_NODE;
+        static constexpr proto_ulong value = POINTER_TAG_STRING_LEAF_NODE;
     };
     template<> struct ExpectedTag<const StringInternalNode> {
-        static constexpr unsigned long value = POINTER_TAG_STRING_INTERNAL_NODE;
+        static constexpr proto_ulong value = POINTER_TAG_STRING_INTERNAL_NODE;
     };
     template<> struct ExpectedTag<StringInternalNode> {
-        static constexpr unsigned long value = POINTER_TAG_STRING_INTERNAL_NODE;
+        static constexpr proto_ulong value = POINTER_TAG_STRING_INTERNAL_NODE;
     };
 
 
@@ -529,8 +579,8 @@ namespace proto {
         p.oid = reinterpret_cast<const ProtoObject*>(ptr); // Cast to const ProtoObject* for union access
 
 #ifndef NDEBUG
-        unsigned long actual_tag = p.op.pointer_tag;
-        unsigned long expected_tag = ExpectedTag<Impl>::value;
+        proto_ulong actual_tag = p.op.pointer_tag;
+        proto_ulong expected_tag = ExpectedTag<Impl>::value;
 
         // Check for embedded values first, as they are not Cell-derived objects
         if (actual_tag == POINTER_TAG_EMBEDDED_VALUE) {
@@ -549,11 +599,11 @@ namespace proto {
 #endif
 
         // Clear the tag bits (lower 6 bits) to get the raw pointer to the Cell
-        uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~0x3FUL;
+        uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~PROTO_UL(0x3F);
 
 #ifndef NDEBUG
         // Check for 64-byte alignment (lowest 6 bits should be 0)
-        if ((raw_ptr_value & 0x3FUL) != 0) {
+        if ((raw_ptr_value & PROTO_UL(0x3F)) != 0) {
             std::cerr << "Error: toImpl conversion resulted in an unaligned pointer for type "
                       << getTypeName<Impl>() << ". Raw pointer value: 0x" << std::hex << raw_ptr_value << std::dec
                       << ". Expected 64-byte alignment." << std::endl;
@@ -576,8 +626,8 @@ namespace proto {
         p.oid = reinterpret_cast<const ProtoObject*>(ptr);
 
 #ifndef NDEBUG
-        unsigned long actual_tag = p.op.pointer_tag;
-        unsigned long expected_tag = ExpectedTag<const Impl>::value; // Use const Impl for expected tag
+        proto_ulong actual_tag = p.op.pointer_tag;
+        proto_ulong expected_tag = ExpectedTag<const Impl>::value; // Use const Impl for expected tag
 
         // Check for embedded values first, as they are not Cell-derived objects
         if (actual_tag == POINTER_TAG_EMBEDDED_VALUE) {
@@ -595,7 +645,7 @@ namespace proto {
         }
 
         // Check for 64-byte alignment of the original pointer when tag is OBJECT
-        if (actual_tag == POINTER_TAG_OBJECT && (reinterpret_cast<uintptr_t>(p.oid) & 0x3FUL) != 0) {
+        if (actual_tag == POINTER_TAG_OBJECT && (reinterpret_cast<uintptr_t>(p.oid) & PROTO_UL(0x3F)) != 0) {
             std::cerr << "Error: toImpl conversion found an unaligned pointer for type "
                       << getTypeName<const Impl>() << ". Pointer value: 0x" << std::hex << (uintptr_t)p.oid << std::dec
                       << ". Expected 64-byte alignment for tag 0." << std::endl;
@@ -604,12 +654,12 @@ namespace proto {
 #endif
 
         // Clear the tag bits (lower 6 bits) to get the raw pointer to the Cell
-        uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~0x3FUL;
+        uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~PROTO_UL(0x3F);
 
         return reinterpret_cast<const Impl *>(raw_ptr_value);
     }
 
-    unsigned long generate_mutable_ref(ProtoContext* context);
+    proto_ulong generate_mutable_ref(ProtoContext* context);
     bool isInteger(const ProtoObject* obj);
     bool isObject(const ProtoObject* obj);
     bool isCell(const ProtoObject* obj);
@@ -707,7 +757,7 @@ namespace proto {
         virtual void
         processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const;
 
-        virtual unsigned long getHash(ProtoContext *context) const;
+        virtual proto_ulong getHash(ProtoContext *context) const;
 
         virtual const ProtoObject* implAsObject(ProtoContext *context) const = 0;
 
@@ -721,11 +771,11 @@ namespace proto {
         // for symmetry; the caller is the GC thread sweeping a
         // segment-captured chain whose flag bits this thread itself
         // wrote earlier in the same cycle.
-        inline void mark() { next_and_flags.fetch_or(0x1UL, std::memory_order_relaxed); }
-        inline void unmark() { next_and_flags.fetch_and(~0x1UL, std::memory_order_relaxed); }
-        inline bool isMarked() const { return (next_and_flags.load(std::memory_order_relaxed) & 0x1UL) != 0; }
+        inline void mark() { next_and_flags.fetch_or(PROTO_UL(0x1), std::memory_order_relaxed); }
+        inline void unmark() { next_and_flags.fetch_and(~PROTO_UL(0x1), std::memory_order_relaxed); }
+        inline bool isMarked() const { return (next_and_flags.load(std::memory_order_relaxed) & PROTO_UL(0x1)) != 0; }
 
-        inline Cell* getNext() const { return reinterpret_cast<Cell*>(next_and_flags.load() & ~0x3FUL); }
+        inline Cell* getNext() const { return reinterpret_cast<Cell*>(next_and_flags.load() & ~PROTO_UL(0x3F)); }
         inline void setNext(Cell* n) {
             // Plain load+store.  The mark bit is set/cleared via
             // fetch_or / fetch_and (atomic), and after the
@@ -740,9 +790,9 @@ namespace proto {
             // (commit bdb63a26) was actually the lazy-fill cross-
             // thread fetch_or, removed two commits later.  See task
             // #28 of the perf investigation plan.
-            uintptr_t newPtr = reinterpret_cast<uintptr_t>(n) & ~0x3FUL;
+            uintptr_t newPtr = reinterpret_cast<uintptr_t>(n) & ~PROTO_UL(0x3F);
             uintptr_t current = next_and_flags.load(std::memory_order_relaxed);
-            next_and_flags.store(newPtr | (current & 0x3FUL),
+            next_and_flags.store(newPtr | (current & PROTO_UL(0x3F)),
                                  std::memory_order_release);
         }
         // Use this for uninitialized memory or to reset everything.
@@ -758,7 +808,7 @@ namespace proto {
         // head) that carries its own ordering.
         inline void internalSetNextRaw(Cell* n) {
             // Even in raw mode, we should ensure the pointer part is clean if it carries flags
-            next_and_flags.store(reinterpret_cast<uintptr_t>(n) & ~0x3FUL,
+            next_and_flags.store(reinterpret_cast<uintptr_t>(n) & ~PROTO_UL(0x3F),
                                  std::memory_order_relaxed);
         }
     };
@@ -856,12 +906,12 @@ namespace proto {
         // leaked into a private slot and produced inconsistent type
         // discipline. Object attribute storage is always AVL form.
         const ProtoSparseListImplementation *attributes;
-        const unsigned long mutable_ref;
+        const proto_ulong mutable_ref;
 
         CellType getType() const override { return CellType::Object; }
 
         ProtoObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
-                        const ProtoSparseListImplementation *attributes, unsigned long mutable_ref);
+                        const ProtoSparseListImplementation *attributes, proto_ulong mutable_ref);
 
         ~ProtoObjectCell() override = default;
 
@@ -900,7 +950,7 @@ namespace proto {
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
 
-        unsigned long getHash(ProtoContext *context) const override;
+        proto_ulong getHash(ProtoContext *context) const override;
 
         void finalize(ProtoContext *context) const;
 
@@ -922,7 +972,7 @@ namespace proto {
 
         ~DoubleImplementation() override = default;
 
-        unsigned long getHash(ProtoContext *context) const override;
+        proto_ulong getHash(ProtoContext *context) const override;
 
         void finalize(ProtoContext *context) const;
 
@@ -945,7 +995,7 @@ namespace proto {
 
         ~LargeIntegerImplementation() override = default;
 
-        unsigned long getHash(ProtoContext *context) const override;
+        proto_ulong getHash(ProtoContext *context) const override;
 
         void finalize(ProtoContext *context) const;
 
@@ -958,12 +1008,12 @@ namespace proto {
     class ProtoByteBufferImplementation : public Cell {
     public:
         char *buffer;
-        unsigned long size;
+        proto_ulong size;
         bool freeOnExit;
 
         CellType getType() const override { return CellType::ByteBuffer; }
 
-        ProtoByteBufferImplementation(ProtoContext *context, char *buffer, unsigned long size, bool freeOnExit);
+        ProtoByteBufferImplementation(ProtoContext *context, char *buffer, proto_ulong size, bool freeOnExit);
 
         ~ProtoByteBufferImplementation() override;
 
@@ -980,9 +1030,9 @@ namespace proto {
 
         const ProtoByteBuffer *asByteBuffer(ProtoContext *context) const;
 
-        unsigned long getHash(ProtoContext *context) const override;
+        proto_ulong getHash(ProtoContext *context) const override;
 
-        unsigned long implGetSize(ProtoContext *context) const;
+        proto_ulong implGetSize(ProtoContext *context) const;
 
         char *implGetBuffer(ProtoContext *context) const;
     };
@@ -1009,9 +1059,9 @@ namespace proto {
                                                                size_t len);
 
         // Legacy compatibility methods (used by RopeCharacterIterator and ProtoString public API)
-        unsigned long getHash(ProtoContext* context) const override;
+        proto_ulong getHash(ProtoContext* context) const override;
         const ProtoObject* implGetAt(ProtoContext* context, int index) const;
-        unsigned long implGetSizeCompat(ProtoContext* context) const;
+        proto_ulong implGetSizeCompat(ProtoContext* context) const;
         const ProtoList* implAsList(ProtoContext* context) const;
         const ProtoStringImplementation* implAppendLast(ProtoContext* context, const ProtoString* otherString) const;
         void finalize(ProtoContext* context) const;
@@ -1086,8 +1136,8 @@ namespace proto {
         static const ProtoStringImplementation* normalizeForSymbol(
             ProtoContext* readCtx, const ProtoObject* strObj);
 
-        friend unsigned long globalSymbolCount();
-        unsigned long entryCount() const;
+        friend proto_ulong globalSymbolCount();
+        proto_ulong entryCount() const;
     };
 
     // The process-wide symbol table.
@@ -1115,7 +1165,7 @@ namespace proto {
     // Number of symbols this process has interned.  Diagnostics and tests only
     // (P3 D8: a second ProtoSpace must intern nothing its predecessor already
     // did).  Walks every bucket chain; not for a hot path.
-    unsigned long globalSymbolCount();
+    proto_ulong globalSymbolCount();
 
     // ---- TupleInterner --------------------------------------------------------
     // Canonicalizes tuples: tuples built from the same element pointers are the
@@ -1192,7 +1242,7 @@ namespace proto {
         // node is allocated only the first time it is seen.
         const ProtoTupleImplementation* intern(ProtoContext* context,
                                                const ProtoObject** slots,
-                                               unsigned long size);
+                                               proto_ulong size);
 
         // GC Phase 2 (STW): record each shard's published entry count.
         void captureForGC();
@@ -1204,9 +1254,9 @@ namespace proto {
         size_t size() const;
 
     private:
-        static uint64_t hashSlots(const ProtoObject** slots, unsigned long size);
+        static uint64_t hashSlots(const ProtoObject** slots, proto_ulong size);
         static Entry* find(const Shard& shard, uint64_t hash,
-                           const ProtoObject** slots, unsigned long size);
+                           const ProtoObject** slots, proto_ulong size);
         static void insertLocked(Shard& shard, uint64_t hash,
                                  const ProtoTupleImplementation* tuple);
     };
@@ -1339,8 +1389,8 @@ namespace proto {
         size_t size() const;
 
         // Pause-cost diagnostics (P3 D6).  Process-wide, read only by tests.
-        static unsigned long lastCaptureShardReads();
-        static unsigned long stwVisitViolations();
+        static proto_ulong lastCaptureShardReads();
+        static proto_ulong stwVisitViolations();
         static void          resetDiagnostics();
     };
 
@@ -1361,19 +1411,19 @@ namespace proto {
     // compare-and-swap.  Constant-initialized (all roots null); the first
     // ProtoSpace installs an empty perennial list in every shard.  Every
     // space's collector snapshots and marks all of it.
-    extern ProtoSpace::MutableShardSlot globalMutableShards[ProtoSpace::MUTABLE_ROOT_SHARDS];
+    extern PROTOCORE_DATA ProtoSpace::MutableShardSlot globalMutableShards[ProtoSpace::MUTABLE_ROOT_SHARDS];
 
     // The id a space carries in the high bits of its refs.
-    inline unsigned long spaceIdOf(const ProtoSpace* space) {
+    inline proto_ulong spaceIdOf(const ProtoSpace* space) {
         return space->nextMutableRef.load(std::memory_order_relaxed) >> kMutableRefSpaceShift;
     }
 
     namespace multispace {
         // Registry of live spaces, guarded by ProtoSpace::globalMutex.
         // registerSpace returns the space's process-unique id (never reused).
-        unsigned long registerSpace(ProtoSpace* space);
+        proto_ulong registerSpace(ProtoSpace* space);
         void unregisterSpace(ProtoSpace* space);
-        unsigned long liveSpaceCount();
+        proto_ulong liveSpaceCount();
 
         // Non-zero while a space's stop-the-world is raised or a collector
         // waits for a grace period.  The allocation poll and safepoint() read
@@ -1436,12 +1486,12 @@ namespace proto {
         // later cycle of a live space removes them: ~ProtoSpace records the
         // id, and Phase 5b appends every ref carrying a recorded id to the
         // refs it releases.  Takes the recorded ids, so one cycle does it.
-        void recordDestroyedSpace(unsigned long spaceId);
-        void appendRefsOfDestroyedSpaces(std::vector<unsigned long>& refs);
+        void recordDestroyedSpace(proto_ulong spaceId);
+        void appendRefsOfDestroyedSpaces(std::vector<proto_ulong>& refs);
 
         // Entries of the global mutable table whose ref carries `spaceId`.
         // O(table); for tests and diagnostics.
-        unsigned long countMutableEntriesOfSpace(ProtoContext* context, unsigned long spaceId);
+        proto_ulong countMutableEntriesOfSpace(ProtoContext* context, proto_ulong spaceId);
 
         void noteCycleStart();
         void noteCycleEnd();
@@ -1544,12 +1594,12 @@ namespace proto {
     class ProtoTupleImplementation : public Cell {
     public:
         const ProtoObject *slot[TUPLE_SIZE];
-        unsigned long actual_size : 63; // The actual number of elements this node (or its children) represents
+        proto_ulong actual_size : 63; // The actual number of elements this node (or its children) represents
 
         CellType getType() const override { return CellType::Tuple; }
 
         ProtoTupleImplementation(ProtoContext *context, const ProtoObject **slot_values,
-                                 unsigned long size);
+                                 proto_ulong size);
         ~ProtoTupleImplementation() override = default;
         static const ProtoTupleImplementation *
         tupleFromVector(ProtoContext *context, const std::vector<const ProtoObject *>& source);
@@ -1557,16 +1607,16 @@ namespace proto {
         tupleFromList(ProtoContext *context, const ProtoListImplementation *sourceList);
         /** Builds a non-interned concat tuple for rope: slot[0]=left, slot[1]=right, actual_size=totalSize. O(1). */
         static const ProtoTupleImplementation *
-        tupleConcat(ProtoContext *context, const ProtoObject *left, const ProtoObject *right, unsigned long totalSize);
+        tupleConcat(ProtoContext *context, const ProtoObject *left, const ProtoObject *right, proto_ulong totalSize);
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
         const ProtoTuple *asProtoTuple(ProtoContext *context) const;
         const ProtoObject* implGetAt(ProtoContext* context, int index) const;
-        unsigned long implGetSize(ProtoContext* context) const;
+        proto_ulong implGetSize(ProtoContext* context) const;
         const ProtoList* implAsList(ProtoContext* context) const;
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
-        unsigned long getHash(ProtoContext* context) const override;
+        proto_ulong getHash(ProtoContext* context) const override;
     };
 
     /** Compute a structure-independent content hash over all leaf bytes. Defined in ProtoString.cpp. */
@@ -1598,11 +1648,11 @@ namespace proto {
         // sparse list is always the AVL form; never a tagged public-API
         // handle in private struct fields.
         const ProtoSparseListImplementation *list;
-        unsigned long size;
+        proto_ulong size;
 
         CellType getType() const override { return CellType::Set; }
 
-        ProtoSetImplementation(ProtoContext *context, const ProtoSparseListImplementation *list, unsigned long size);
+        ProtoSetImplementation(ProtoContext *context, const ProtoSparseListImplementation *list, proto_ulong size);
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
 
@@ -1614,11 +1664,11 @@ namespace proto {
     public:
         // Raw IMPL pointer — see ProtoSetImplementation comment.
         const ProtoSparseListImplementation *list;
-        unsigned long size;
+        proto_ulong size;
 
         CellType getType() const override { return CellType::Multiset; }
 
-        ProtoMultisetImplementation(ProtoContext *context, const ProtoSparseListImplementation *list, unsigned long size);
+        ProtoMultisetImplementation(ProtoContext *context, const ProtoSparseListImplementation *list, proto_ulong size);
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
 
@@ -1662,7 +1712,7 @@ namespace proto {
      * clears the entry first.  The lookup path is unchanged.
      */
     struct MutableValueCacheEntry {
-        unsigned long       mutable_ref;     // 0 = empty entry
+        proto_ulong       mutable_ref;     // 0 = empty entry
         ProtoSparseList*    shard_root;      // shard root pointer at the time we cached
         const ProtoObject*  current_value;   // resolved snapshot
     };
@@ -1748,7 +1798,7 @@ namespace proto {
         void implReturnFromUnmanaged();
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
-        unsigned long getHash(ProtoContext* context) const override;
+        proto_ulong getHash(ProtoContext* context) const override;
     };
 
 
@@ -1771,8 +1821,8 @@ namespace proto {
         const ProtoObject *value;
         const ProtoListImplementation *previousNode;
         const ProtoListImplementation *nextNode;
-        const unsigned long hash;
-        const unsigned long size;
+        const proto_ulong hash;
+        const proto_ulong size;
         const unsigned char height;
         const bool isEmpty;
 
@@ -1817,7 +1867,7 @@ namespace proto {
         // to const Cell* and dispatching by tag in implNext / implAdvance.
         static constexpr unsigned MAX_INLINE = 5;
 
-        unsigned long size;                    // 0..MAX_INLINE
+        proto_ulong size;                    // 0..MAX_INLINE
         const ProtoObject *slots[MAX_INLINE];  // dense; [0..size) valid
 
         CellType getType() const override { return CellType::ListSmall; }
@@ -1840,11 +1890,11 @@ namespace proto {
         // ProtoListSmallImplementation (POINTER_TAG_LIST_SMALL); implNext /
         // implAdvance dispatch on the pointer tag, no virtual call.
         const ProtoObject *base;
-        unsigned long currentIndex;
+        proto_ulong currentIndex;
 
         CellType getType() const override { return CellType::ListIterator; }
 
-        ProtoListIteratorImplementation(ProtoContext *context, const ProtoObject *b, unsigned long index);
+        ProtoListIteratorImplementation(ProtoContext *context, const ProtoObject *b, proto_ulong index);
 
         int implHasNext() const;
 
@@ -1862,30 +1912,30 @@ namespace proto {
 
     class ProtoSparseListImplementation final : public Cell {
     public:
-        using KeyType = unsigned long;
-        const unsigned long key;
+        using KeyType = proto_ulong;
+        const proto_ulong key;
         const ProtoObject *value;
         const ProtoSparseListImplementation *previous;
         const ProtoSparseListImplementation *next;
-        const unsigned long hash;
-        unsigned long size: 24;
-        unsigned long height: 8;
-        unsigned long isEmpty: 1;
+        const proto_ulong hash;
+        proto_ulong size: 24;
+        proto_ulong height: 8;
+        proto_ulong isEmpty: 1;
 
         CellType getType() const override { return CellType::SparseList; }
 
-        ProtoSparseListImplementation(ProtoContext *context, unsigned long k, const ProtoObject *v,
+        ProtoSparseListImplementation(ProtoContext *context, proto_ulong k, const ProtoObject *v,
                                       const ProtoSparseListImplementation *p, const ProtoSparseListImplementation *n,
                                       bool empty);
 
-        bool implHas(ProtoContext *context, unsigned long offset) const;
+        bool implHas(ProtoContext *context, proto_ulong offset) const;
 
-        const ProtoObject *implGetAt(ProtoContext *context, unsigned long offset) const;
+        const ProtoObject *implGetAt(ProtoContext *context, proto_ulong offset) const;
 
         const ProtoSparseListImplementation *
-        implSetAt(ProtoContext *context, unsigned long offset, const ProtoObject *newValue) const;
+        implSetAt(ProtoContext *context, proto_ulong offset, const ProtoObject *newValue) const;
 
-        const ProtoSparseListImplementation *implRemoveAt(ProtoContext *context, unsigned long offset) const;
+        const ProtoSparseListImplementation *implRemoveAt(ProtoContext *context, proto_ulong offset) const;
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
 
@@ -1927,10 +1977,10 @@ namespace proto {
      */
     class ProtoSparseListSmallImplementation final : public Cell {
     public:
-        using KeyType = unsigned long;
+        using KeyType = proto_ulong;
         static constexpr unsigned MAX_INLINE = 3;
 
-        unsigned long      keys[MAX_INLINE];
+        proto_ulong      keys[MAX_INLINE];
         const ProtoObject* values[MAX_INLINE];   // nullptr = unused slot
 
         CellType getType() const override { return CellType::SparseListSmall; }
@@ -1941,18 +1991,18 @@ namespace proto {
         // Populated Small.  n must be ≤ MAX_INLINE.  Caller-supplied keys/values
         // are copied verbatim; values[i] == nullptr marks empty slots.
         ProtoSparseListSmallImplementation(ProtoContext *context, unsigned n,
-                                            const unsigned long *keys,
+                                            const proto_ulong *keys,
                                             const ProtoObject *const *values);
 
         // O(N) linear scan.
-        unsigned long      implCount() const;            // count non-null values
-        bool               implHas(ProtoContext *context, unsigned long offset) const;
-        const ProtoObject* implGetAt(ProtoContext *context, unsigned long offset) const;
+        proto_ulong      implCount() const;            // count non-null values
+        bool               implHas(ProtoContext *context, proto_ulong offset) const;
+        const ProtoObject* implGetAt(ProtoContext *context, proto_ulong offset) const;
 
         // Internal helper used by trampolines: returns the i-th used (key,value)
         // pair in iteration order (key-asc), with `idx` ranging [0..implCount()).
         // Used by promotion and iterator-builder paths.
-        bool implPairAt(unsigned i, unsigned long *outKey, const ProtoObject **outValue) const;
+        bool implPairAt(unsigned i, proto_ulong *outKey, const ProtoObject **outValue) const;
 
         // Build an equivalent AVL ProtoSparseListImplementation.  Used on
         // overflow promotion and on iterator construction.  Single CS at
@@ -1980,7 +2030,7 @@ namespace proto {
 
         int implHasNext() const;
 
-        unsigned long implNextKey() const;
+        proto_ulong implNextKey() const;
 
         const ProtoObject *implNextValue() const;
 
@@ -2009,9 +2059,9 @@ namespace proto {
         const ProtoObject* value;
         const ProtoMapImplementation* previous;
         const ProtoMapImplementation* next;
-        unsigned long size: 24;
-        unsigned long height: 8;
-        unsigned long isEmpty: 1;
+        proto_ulong size: 24;
+        proto_ulong height: 8;
+        proto_ulong isEmpty: 1;
 
         CellType getType() const override { return CellType::Map; }
 
@@ -2251,7 +2301,7 @@ namespace proto {
         const ProtoTupleIterator* asProtoTupleIterator(ProtoContext* context) const;
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
     };
 
     class ProtoStringIteratorImplementation : public Cell {
@@ -2292,7 +2342,7 @@ namespace proto {
         const ProtoStringIterator* asProtoStringIterator(ProtoContext* context) const;
         void finalize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
 
     private:
         /** Descend the AVL tree rooted at avl_root to find the leaf containing
@@ -2315,25 +2365,25 @@ namespace proto {
         void* implGetPointer(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
         void finalize(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const override;
+        proto_ulong getHash(ProtoContext* context) const override;
     };
 
     /** 64-byte header cell; segment allocated with aligned_alloc. Shadow GC: finalize() frees segment when cell is collected. */
     class ProtoExternalBufferImplementation : public Cell {
     public:
         mutable void* segment;
-        unsigned long size;
+        proto_ulong size;
 
         CellType getType() const override { return CellType::ExternalBuffer; }
 
-        ProtoExternalBufferImplementation(ProtoContext* context, unsigned long bufferSize);
+        ProtoExternalBufferImplementation(ProtoContext* context, proto_ulong bufferSize);
         ~ProtoExternalBufferImplementation() override;
         const ProtoObject* implAsObject(ProtoContext* context) const override;
         void* implGetRawPointer(ProtoContext* context) const;
-        unsigned long implGetSize(ProtoContext* context) const;
+        proto_ulong implGetSize(ProtoContext* context) const;
         void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
         void finalize(ProtoContext* context) const override;
-        unsigned long getHash(ProtoContext* context) const override;
+        proto_ulong getHash(ProtoContext* context) const override;
     };
 
     class BigCell final {
@@ -2442,7 +2492,7 @@ namespace proto {
      * it lives here rather than in that file so that the freelist internals
      * (FreeChunk, publishFreeChunk) stay inside core/ProtoSpace.cpp.
      */
-    unsigned long returnUnusedCellBatch(ProtoSpace* space, Cell* head);
+    proto_ulong returnUnusedCellBatch(ProtoSpace* space, Cell* head);
 
     /**
      * @brief The two points inside ProtoMPSCQueue::takeAll's publish window
@@ -2480,13 +2530,13 @@ namespace proto {
      *
      * Declared in the internal header only: an embedder cannot reach it.
      */
-    extern std::atomic<PmqTakeAllWindowHook> pmqTakeAllWindowHook;
+    extern PROTOCORE_DATA std::atomic<PmqTakeAllWindowHook> pmqTakeAllWindowHook;
 
     // Definition of the tag-dispatched raw-lookup helper declared above.
     // Placed here so both impl classes are fully visible; fully inlinable
     // since this header is internal to protoCore.
     inline const ProtoObject* sparseListGetRaw(
-        ProtoContext* context, const ProtoSparseList* sl, unsigned long offset)
+        ProtoContext* context, const ProtoSparseList* sl, proto_ulong offset)
     {
         if (!sl) return nullptr;
         ProtoObjectPointer pa{};

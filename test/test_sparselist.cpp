@@ -26,7 +26,7 @@ TEST_F(SparseListTest, CreationAndSize) {
 TEST_F(SparseListTest, SetAndGet) {
     const proto::ProtoSparseList* sl = context->newSparseList();
     const proto::ProtoObject* val1 = context->fromInteger(100);
-    unsigned long key1 = 12345;
+    proto::proto_ulong key1 = 12345;
 
     sl = sl->setAt(context, key1, val1);
     ASSERT_EQ(sl->getSize(context), 1);
@@ -39,8 +39,8 @@ TEST_F(SparseListTest, UseAsStringKeys) {
     const proto::ProtoString* key1 = context->fromUTF8String("first_name")->asString(context);
     const proto::ProtoString* key2 = context->fromUTF8String("last_name")->asString(context);
 
-    unsigned long key1_hash = key1->getHash(context);
-    unsigned long key2_hash = key2->getHash(context);
+    proto::proto_ulong key1_hash = key1->getHash(context);
+    proto::proto_ulong key2_hash = key2->getHash(context);
 
     dict = dict->setAt(context, key1_hash, context->fromUTF8String("John"));
     dict = dict->setAt(context, key2_hash, context->fromUTF8String("Doe"));

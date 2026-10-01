@@ -74,7 +74,7 @@ CaseResult caseCeilingProgress(Host& host)
     // would reach unreclaimed.  A conforming runtime then has room for its live
     // set and not for its garbage, which is precisely rule 8's question.
     driveCycles(space, ctx, /*maxCycles=*/4, /*deadlineMs=*/10000);
-    const long settledInUse = sample(space).inUse;
+    const proto::proto_long settledInUse = sample(space).inUse;
     const int ceiling = (int) (settledInUse + 200000);
     space.setHeapLimits(/*softCells=*/(int) (settledInUse + 100000),
                         /*hardCells=*/ceiling);

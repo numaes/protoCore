@@ -24,11 +24,11 @@
 namespace proto::sparse_avl {
 namespace {
 
-    inline uintptr_t keyWord(unsigned long k) { return k; }
+    inline uintptr_t keyWord(proto_ulong k) { return k; }
     inline uintptr_t keyWord(const ProtoObject* k) { return reinterpret_cast<uintptr_t>(k); }
 
     template<class Node>
-    inline unsigned long nodeSize(const Node* node) {
+    inline proto_ulong nodeSize(const Node* node) {
         if (!node || (reinterpret_cast<uintptr_t>(node) & 0x3F) != 0) return 0;
         return node->size;
     }
@@ -273,8 +273,8 @@ namespace {
     //--- Small inline form.  keyWord(keys[i]) == 0 marks an empty slot. ---
 
     template<class Small>
-    unsigned long smallCount(const Small* s) {
-        unsigned long c = 0;
+    proto_ulong smallCount(const Small* s) {
+        proto_ulong c = 0;
         for (unsigned i = 0; i < Small::MAX_INLINE; ++i)
             if (sparse_avl::keyWord(s->keys[i]) != 0) ++c;
         return c;
@@ -336,7 +336,7 @@ namespace {
 
     template<class Small, class Node>
     const Node* smallPromote(ProtoContext* context, const Small* s) {
-        const unsigned long n = sparse_avl::smallCount(s);
+        const proto_ulong n = sparse_avl::smallCount(s);
         const Node* avl = sparse_avl::makeEmpty<Node>(context);
         for (unsigned i = 0; i < n; ++i) {
             typename Small::KeyType k;

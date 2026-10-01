@@ -61,7 +61,7 @@ public:
     // Allocate in a CHILD context and let it die.  Both submission paths are
     // exercised: the child's destructor submits its young chain, and the main
     // context's safepoint() submits whatever the loop charged to it.
-    unsigned long makeGarbage(unsigned long requestedCells) override
+    proto::proto_ulong makeGarbage(proto::proto_ulong requestedCells) override
     {
         return allocateAndDrop(requestedCells, /*asTuple=*/false);
     }
@@ -69,7 +69,7 @@ public:
     // --- rule 5 -----------------------------------------------------------
     //
     // protoCore's own user-visible sequence is ProtoList, which is collectable.
-    unsigned long makeSequenceGarbage(unsigned long requestedCells) override
+    proto::proto_ulong makeSequenceGarbage(proto::proto_ulong requestedCells) override
     {
         return buildSequences(requestedCells, /*asTuple=*/false);
     }
@@ -100,7 +100,7 @@ public:
     }
 
     // --- rules 3 and 8 ----------------------------------------------------
-    bool runProducerConsumer(unsigned long units) override
+    bool runProducerConsumer(proto::proto_ulong units) override
     {
         ProtoContext* ctx = mainContext();
         // Rule 3, obeyed by the harness that audits it.  The queue and the
@@ -118,8 +118,8 @@ public:
         if (!q) return false;
         work.setAutomaticLocal(kSlotQueue, q->asObject(&work));
 
-        unsigned long drained = 0;
-        for (unsigned long i = 0; i < units; ++i) {
+        proto::proto_ulong drained = 0;
+        for (proto::proto_ulong i = 0; i < units; ++i) {
             const ProtoList* msg = work.newList();
             work.setAutomaticLocal(kSlotMessage, msg->asObject(&work));
             msg = msg->appendLast(&work, work.fromLong((long long) i));
@@ -166,7 +166,7 @@ public:
         return true;
     }
 
-    unsigned long externalBytesAccounted() override { return externalBytes_; }
+    proto::proto_ulong externalBytesAccounted() override { return externalBytes_; }
 
     // --- rule 13 ---------------------------------------------------------
     //
@@ -176,7 +176,7 @@ public:
     // the class and never returns, so it is ACYCLIC -- and it is the shape that
     // must not be reported, because it is the commonest shape in the family
     // (class prototypes in protoScala and protoST, and every instance of them).
-    unsigned long makeMutableGraph() override
+    proto::proto_ulong makeMutableGraph() override
     {
         ProtoContext* ctx = mainContext();
         const ProtoString* kName   = ProtoString::createSymbol(ctx, "selfhost_class_name");
@@ -188,11 +188,11 @@ public:
         klass = klass->setAttribute(ctx, kName,
                      reinterpret_cast<const ProtoObject*>(
                          ProtoString::createSymbol(ctx, "SelfHostPoint")));
-        unsigned long built = 1;
-        for (unsigned long i = 0; i < 16; ++i) {
+        proto::proto_ulong built = 1;
+        for (proto::proto_ulong i = 0; i < 16; ++i) {
             const ProtoObject* inst = klass->newChild(ctx, /*isMutable=*/true);
             inst->setAttribute(ctx, kOwner, klass);          // instance -> class
-            inst->setAttribute(ctx, kSerial, ctx->fromLong((long) i));
+            inst->setAttribute(ctx, kSerial, ctx->fromLong((proto::proto_long) i));
             ++built;
         }
         // Pinned in a ProtoRootSet, not held in a C++ member: a bare member is
@@ -205,7 +205,7 @@ public:
     /// The control declares an acyclic mutable graph, so any cycle the scan
     /// finds against it is a Fail -- which is what makes the mutation below a
     /// real mutation.
-    long declaredMutableCycles() override { return 0; }
+    proto::proto_long declaredMutableCycles() override { return 0; }
 
     /// The control supplies every capability.  protoCore keeps two identities
     /// that differ only in provider distinct, so the honest answer is 1.
@@ -224,33 +224,33 @@ protected:
     /// `longLivedContext` is the rule-1 mutation knob: allocate everything into
     /// one context that never ends and never call safepoint(), and the young
     /// chain is never submitted.
-    unsigned long allocateAndDrop(unsigned long requestedCells, bool asTuple,
+    proto::proto_ulong allocateAndDrop(proto::proto_ulong requestedCells, bool asTuple,
                                   bool longLivedContext = false,
                                   bool callSafepoint = true)
     {
         ProtoContext* main = mainContext();
         const ProtoString* k1 = ProtoString::createSymbol(main, "selfhost_key_one");
         const ProtoString* k2 = ProtoString::createSymbol(main, "selfhost_key_two");
-        const unsigned long kPerBatch = 2000;
+        const proto::proto_ulong kPerBatch = 2000;
         // Loop until the SPACE's own in-use figure has grown past the request,
         // rather than guessing a cells-per-object constant.  A guess that is too
         // low makes the case report NotApplicable ("the workload did not consume
         // enough heap to judge"), which is how a reference host silently stops
         // being a control.
-        const long floor = inUse() + (long) (requestedCells + requestedCells / 2);
-        const unsigned long kMaxBatches = 4096;
-        unsigned long objects = 0;
+        const proto::proto_long floor = inUse() + (proto::proto_long) (requestedCells + requestedCells / 2);
+        const proto::proto_ulong kMaxBatches = 4096;
+        proto::proto_ulong objects = 0;
 
-        for (unsigned long b = 0; b < kMaxBatches && inUse() < floor; ++b) {
+        for (proto::proto_ulong b = 0; b < kMaxBatches && inUse() < floor; ++b) {
             if (longLivedContext) {
-                for (unsigned long i = 0; i < kPerBatch; ++i)
+                for (proto::proto_ulong i = 0; i < kPerBatch; ++i)
                     makeOne(main, k1, k2, (long long) i, asTuple);
                 objects += kPerBatch;
                 // Deliberately no safepoint(): the young chain accumulates on a
                 // context that never dies, so nothing is ever submitted.
             } else {
                 ProtoContext child(&space_, main);
-                for (unsigned long i = 0; i < kPerBatch; ++i)
+                for (proto::proto_ulong i = 0; i < kPerBatch; ++i)
                     makeOne(&child, k1, k2, (long long) i, asTuple);
                 objects += kPerBatch;
             }
@@ -259,30 +259,30 @@ protected:
         return objects;
     }
 
-    unsigned long buildSequences(unsigned long requestedCells, bool asTuple)
+    proto::proto_ulong buildSequences(proto::proto_ulong requestedCells, bool asTuple)
     {
         ProtoContext* main = mainContext();
-        const unsigned long kPerSeq = 16;
-        unsigned long built = 0;
-        const unsigned long kPerBatch = 1000;
-        const long floor = inUse() + (long) (requestedCells + requestedCells / 2);
-        const unsigned long kMaxBatches = 4096;
+        const proto::proto_ulong kPerSeq = 16;
+        proto::proto_ulong built = 0;
+        const proto::proto_ulong kPerBatch = 1000;
+        const proto::proto_long floor = inUse() + (proto::proto_long) (requestedCells + requestedCells / 2);
+        const proto::proto_ulong kMaxBatches = 4096;
 
-        for (unsigned long b = 0; b < kMaxBatches && inUse() < floor; ++b) {
+        for (proto::proto_ulong b = 0; b < kMaxBatches && inUse() < floor; ++b) {
             ProtoContext child(&space_, main);
-            for (unsigned long s = 0; s < kPerBatch; ++s) {
+            for (proto::proto_ulong s = 0; s < kPerBatch; ++s) {
                 if (asTuple) {
                     // The rule-5 mutation: every interned tuple node is
                     // perennial, so this grows the heap monotonically.
                     std::vector<const ProtoObject*> els;
                     els.reserve(kPerSeq);
-                    for (unsigned long i = 0; i < kPerSeq; ++i)
+                    for (proto::proto_ulong i = 0; i < kPerSeq; ++i)
                         els.push_back(child.fromLong((long long) (b * 7919 + s * 131 + i)));
                     const ProtoTuple* t = child.newTuple(els);
                     (void) t;
                 } else {
                     const ProtoList* l = child.newList();
-                    for (unsigned long i = 0; i < kPerSeq; ++i)
+                    for (proto::proto_ulong i = 0; i < kPerSeq; ++i)
                         l = l->appendLast(&child, child.fromLong((long long) (b * 7919 + s * 131 + i)));
                     (void) l;
                 }
@@ -298,9 +298,9 @@ protected:
     /// Cells the space has taken from the OS and not got back on its free list.
     /// The same figure CycleDriver measures, used here only so a workload can
     /// tell when it has allocated enough to be judged.
-    long inUse() const
+    proto::proto_long inUse() const
     {
-        return (long) space_.heapSize - (long) space_.freeCellsCount;
+        return (proto::proto_long) space_.heapSize - (proto::proto_long) space_.freeCellsCount;
     }
 
     static constexpr unsigned kSlotQueue   = 0;
@@ -308,7 +308,7 @@ protected:
     static constexpr unsigned kSlotTaken   = 2;
 
     ProtoSpace    space_;
-    unsigned long externalBytes_ = 0;
+    proto::proto_ulong externalBytes_ = 0;
     /// Keeps rule 13's graph reachable for the rest of the run, so the scan
     /// sees a live graph and not one in the middle of being released -- pinned
     /// as a real GC root, which is what rule 3 demands of everything else.
@@ -376,7 +376,7 @@ class NonConformingHost_NoSafepoint final : public SelfHost
 {
 public:
     const char* name() const override { return "mutant-no-safepoint"; }
-    unsigned long makeGarbage(unsigned long requestedCells) override
+    proto::proto_ulong makeGarbage(proto::proto_ulong requestedCells) override
     {
         return allocateAndDrop(requestedCells, /*asTuple=*/false,
                                /*longLivedContext=*/true, /*callSafepoint=*/false);
@@ -389,7 +389,7 @@ class NonConformingHost_PerennialSequence final : public SelfHost
 {
 public:
     const char* name() const override { return "mutant-perennial-sequence"; }
-    unsigned long makeSequenceGarbage(unsigned long requestedCells) override
+    proto::proto_ulong makeSequenceGarbage(proto::proto_ulong requestedCells) override
     {
         return buildSequences(requestedCells, /*asTuple=*/true);
     }
@@ -503,11 +503,11 @@ class NonConformingHost_MutableCycle final : public SelfHost
 {
 public:
     const char* name() const override { return "mutant-mutable-cycle"; }
-    unsigned long makeMutableGraph() override
+    proto::proto_ulong makeMutableGraph() override
     {
         // The acyclic part first, so the finding is not merely "the only two
         // mutables in the table refer to each other".
-        const unsigned long acyclic = SelfHost::makeMutableGraph();
+        const proto::proto_ulong acyclic = SelfHost::makeMutableGraph();
 
         ProtoContext* ctx = mainContext();
         const ProtoString* kValue =
@@ -522,7 +522,7 @@ public:
         pinMutableRoot(closure);
         return acyclic + 2;
     }
-    long declaredMutableCycles() override { return 0; }
+    proto::proto_long declaredMutableCycles() override { return 0; }
 };
 
 /// A Host that implements only the three required capabilities, and those
@@ -534,7 +534,7 @@ class EmptyHost final : public Host
 public:
     const char*   name() const override { return "empty-host"; }
     ProtoContext* mainContext() override { return space_.rootContext; }
-    unsigned long makeGarbage(unsigned long) override { return 0; }
+    proto::proto_ulong makeGarbage(proto::proto_ulong) override { return 0; }
 private:
     ProtoSpace space_;
 };

@@ -27,7 +27,7 @@ struct Space {
 
 const ProtoString* sym(ProtoContext* c, const char* s) { return ProtoString::createSymbol(c, s); }
 
-long longAttr(ProtoContext* c, const ProtoObject* o, const char* name) {
+proto::proto_long longAttr(ProtoContext* c, const ProtoObject* o, const char* name) {
     const ProtoObject* v = o->getAttribute(c, sym(c, name));
     return (v && v != PROTO_NONE && v->isInteger(c)) ? v->asLong(c) : -1;
 }
@@ -120,7 +120,7 @@ TEST(GlobalMutableTable, EntriesOfADestroyedSpaceArePurged) {
     Space a;
     const ProtoObject* inA = a.ctx.newObject(true);
     inA->setAttribute(&a.ctx, sym(&a.ctx, "value"), a.ctx.fromInteger(5));
-    unsigned long deadId = 0;
+    proto::proto_ulong deadId = 0;
     {
         auto b = std::make_unique<Space>();
         const ProtoObject* first = b->ctx.newObject(true);
@@ -146,7 +146,7 @@ struct StressShared {
     std::atomic<int> started{0};
     std::atomic<bool> go{false};
     std::atomic<int> done{0};
-    std::atomic<long> errors{0};
+    std::atomic<proto::proto_long> errors{0};
     int iterations = 4000;
 };
 StressShared* gStress = nullptr;
@@ -235,8 +235,8 @@ struct HoldShared {
     std::atomic<bool> holding{false};
     std::atomic<bool> cycled{false};      // space A started a cycle after the drop
     std::atomic<bool> released{false};
-    std::atomic<long> corrupt{0};
-    std::atomic<long> checks{0};
+    std::atomic<proto::proto_long> corrupt{0};
+    std::atomic<proto::proto_long> checks{0};
 };
 HoldShared* gHold = nullptr;
 
@@ -258,9 +258,9 @@ const ProtoObject* holderMain(ProtoContext* ctx, const ProtoObject*, const Paren
             until = std::chrono::steady_clock::now() + std::chrono::milliseconds(200);
         }
         bool ok = l && l->getSize(ctx) == 64;
-        for (unsigned long i = 0; ok && i < 64; ++i) {
+        for (proto::proto_ulong i = 0; ok && i < 64; ++i) {
             const ProtoObject* e = l->getAt(ctx, static_cast<int>(i));
-            ok = e && e->isInteger(ctx) && e->asLong(ctx) == static_cast<long>(i * 7);
+            ok = e && e->isInteger(ctx) && e->asLong(ctx) == static_cast<proto::proto_long>(i * 7);
         }
         if (!ok) h.corrupt.fetch_add(1);
         h.checks.fetch_add(1);

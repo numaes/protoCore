@@ -27,7 +27,12 @@
 #include <atomic>
 #include <cstdio>
 #include <string>
+#if defined(_WIN32)
+#include <windows.h>
+#include <psapi.h>
+#else
 #include <unistd.h>
+#endif
 
 using namespace proto;
 
@@ -58,8 +63,15 @@ namespace {
                             "under AddressSanitizer";                         \
     } while (0)
 
-long residentKb() {
-    long pages = 0, resident = 0;
+#if defined(_WIN32)
+proto::proto_long residentKb() {
+    PROCESS_MEMORY_COUNTERS pmc{};
+    if (!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) return 0;
+    return static_cast<proto::proto_long>(pmc.WorkingSetSize / 1024);
+}
+#else
+proto::proto_long residentKb() {
+    proto::proto_long pages = 0, resident = 0;
     FILE* f = std::fopen("/proc/self/statm", "r");
     if (f) {
         if (std::fscanf(f, "%ld %ld", &pages, &resident) != 2) resident = 0;
@@ -67,12 +79,13 @@ long residentKb() {
     }
     return resident * (sysconf(_SC_PAGESIZE) / 1024);
 }
+#endif
 
 // A spelling no other test and no earlier repetition of this test can have
 // interned.  P3 made the symbol table process-global, so freshness is a property
 // of the process, not of a ProtoSpace.
 std::string uniqueSpelling(const char* stem) {
-    static std::atomic<unsigned long> counter{0};
+    static std::atomic<proto::proto_ulong> counter{0};
     const auto* info = ::testing::UnitTest::GetInstance()->current_test_info();
     std::string out = "P3_";
     out += info ? info->name() : "no_test";
@@ -97,8 +110,8 @@ TEST(SymbolIntern, RepeatedCreateSymbolOfAnExistingNameAllocatesNothing) {
     // Warm up: the first calls may touch pages already reserved by the space.
     for (int i = 0; i < 1000; ++i) (void) ProtoString::createSymbol(ctx, name.c_str());
 
-    const long rssBefore = residentKb();
-    const unsigned long cellsBefore = ctx->allocatedCellsCount;
+    const proto::proto_long rssBefore = residentKb();
+    const proto::proto_ulong cellsBefore = ctx->allocatedCellsCount;
     const int heapBefore = space.heapSize;
 
     constexpr int kCalls = 200000;
@@ -131,7 +144,7 @@ TEST(SymbolIntern, OverloadsAndShortNamesAreStableAndAllocationFree) {
     const ProtoString* shortB = ProtoString::createSymbol(ctx, "ab");
     EXPECT_EQ(shortA, shortB) << "short names are inline strings and already pointer-stable";
 
-    const long rssBefore = residentKb();
+    const proto::proto_long rssBefore = residentKb();
     for (int i = 0; i < 100000; ++i) {
         (void) ProtoString::createSymbol(ctx, longName);
         (void) ProtoString::createSymbol(ctx, "ab");
@@ -191,24 +204,24 @@ TEST(SymbolIntern, ResidencyDoesNotGrowWithSpaceCount) {
     { ProtoSpace warm; internAll(warm); }         // populate the global table
 
     // The floor: five spaces that intern nothing.
-    const long floorBefore = residentKb();
+    const proto::proto_long floorBefore = residentKb();
     for (int rep = 0; rep < 5; ++rep) { ProtoSpace s; (void)s; }
-    const long spaceFloorKb = residentKb() - floorBefore;
+    const proto::proto_long spaceFloorKb = residentKb() - floorBefore;
 
     // The measurement: five spaces that each intern all 2000 names.
-    const long before = residentKb();
+    const proto::proto_long before = residentKb();
     for (int rep = 0; rep < 5; ++rep) { ProtoSpace s; internAll(s); }
-    const long withInterningKb = residentKb() - before;
+    const proto::proto_long withInterningKb = residentKb() - before;
 
-    const long attributable = withInterningKb - spaceFloorKb;
+    const proto::proto_long attributable = withInterningKb - spaceFloorKb;
     std::fprintf(stderr,
                  "[residency] 5 empty spaces: %ld KB; 5 spaces x 2000 names: %ld KB; "
                  "attributable to interning: %ld KB\n",
                  spaceFloorKb, withInterningKb, attributable);
-    ASSERT_GT(spaceFloorKb, 0L)
+    ASSERT_GT(spaceFloorKb, PROTO_L(0))
         << "the space floor measured nothing, so the comparison is meaningless";
     // Re-interning 5 x 2000 names would add roughly 5 MB on top of the floor.
-    EXPECT_LT(attributable, 2048L)
+    EXPECT_LT(attributable, PROTO_L(2048))
         << "interning cost " << attributable << " KB beyond the five spaces\' own "
         << "heaps: names are being re-interned per space";
 }

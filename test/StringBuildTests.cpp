@@ -24,7 +24,16 @@
 #include <cstdio>
 #include <string>
 #include <vector>
+#if defined(_WIN32)
+#include <cstdlib>
+#include <windows.h>
+#include <psapi.h>
+// The CRT has no setenv/unsetenv; _putenv_s with an empty value removes one.
+static int setenv(const char* name, const char* value, int) { return _putenv_s(name, value); }
+static int unsetenv(const char* name) { return _putenv_s(name, ""); }
+#else
 #include <unistd.h>
+#endif
 
 using namespace proto;
 
@@ -79,7 +88,7 @@ std::string repeatUnit(const char* unit, size_t times) {
 const ProtoStringImplementation* implOf(const ProtoObject* o) {
     if (!o) return nullptr;
     ProtoObjectPointer pa{}; pa.oid = o;
-    const unsigned long tag = pa.op.pointer_tag;
+    const proto::proto_ulong tag = pa.op.pointer_tag;
     if (tag == POINTER_TAG_STRING || tag == POINTER_TAG_SYMBOL) {
         const uintptr_t raw =
             reinterpret_cast<uintptr_t>(o) & ~static_cast<uintptr_t>(0x3F);
@@ -95,10 +104,10 @@ bool isInlineRep(const ProtoObject* o) {
 }
 
 struct RopeShape {
-    long leaves = 0;
-    long internals = 0;
-    long leafBytes = 0;
-    long leafChars = 0;
+    proto::proto_long leaves = 0;
+    proto::proto_long internals = 0;
+    proto::proto_long leafBytes = 0;
+    proto::proto_long leafChars = 0;
     int  depth = 0;
 };
 
@@ -149,10 +158,10 @@ RopeShape shapeOf(const ProtoString* s, const char* label) {
 struct Golden {
     const char* name;
     std::string src;
-    unsigned long size;      // codepoints
-    unsigned long hash;      // content hash
-    long leaves;
-    long internals;
+    proto::proto_ulong size;      // codepoints
+    proto::proto_ulong hash;      // content hash
+    proto::proto_long leaves;
+    proto::proto_long internals;
     int  depth;
     bool inlineForm;
     const char* outHex;      // expected produced bytes; nullptr when large
@@ -161,15 +170,15 @@ struct Golden {
 // Goldens captured from ff532024 before the string-builder changes.
 std::vector<Golden> corpus() {
     return {
-        {"empty",               "",                      0, 14695981039346656037UL,  0,  0, 0, true,  ""},
-        {"ascii1",              asciiN(1),               1, 12638187200555641996UL,  0,  0, 0, true,  "61"},
-        {"ascii2",              asciiN(2),               2,   620445648566982762UL,  0,  0, 0, true,  "6162"},
-        {"ascii3",              asciiN(3),               3, 16654208175385433931UL,  0,  0, 0, true,  "616263"},
-        {"ascii4",              asciiN(4),               4, 18165163011005162717UL,  0,  0, 0, true,  "61626364"},
-        {"ascii5",              asciiN(5),               5,  7154184807124264104UL,  0,  0, 0, true,  "6162636465"},
-        {"ascii6",              asciiN(6),               6, 15567776504244095498UL,  0,  0, 0, true,  "616263646566"},
-        {"ascii7",              asciiN(7),               7,  4642726675185563447UL,  1,  0, 1, false, "61626364656667"},
-        {"ascii8",              asciiN(8),               8,  2727646559950394989UL,  1,  0, 1, false, "6162636465666768"},
+        {"empty",               "",                      0, PROTO_UL(14695981039346656037),  0,  0, 0, true,  ""},
+        {"ascii1",              asciiN(1),               1, PROTO_UL(12638187200555641996),  0,  0, 0, true,  "61"},
+        {"ascii2",              asciiN(2),               2,   PROTO_UL(620445648566982762),  0,  0, 0, true,  "6162"},
+        {"ascii3",              asciiN(3),               3, PROTO_UL(16654208175385433931),  0,  0, 0, true,  "616263"},
+        {"ascii4",              asciiN(4),               4, PROTO_UL(18165163011005162717),  0,  0, 0, true,  "61626364"},
+        {"ascii5",              asciiN(5),               5,  PROTO_UL(7154184807124264104),  0,  0, 0, true,  "6162636465"},
+        {"ascii6",              asciiN(6),               6, PROTO_UL(15567776504244095498),  0,  0, 0, true,  "616263646566"},
+        {"ascii7",              asciiN(7),               7,  PROTO_UL(4642726675185563447),  1,  0, 1, false, "61626364656667"},
+        {"ascii8",              asciiN(8),               8,  PROTO_UL(2727646559950394989),  1,  0, 1, false, "6162636465666768"},
         {"utf8_2byte_1",        "\xC3\xA9",              1,   775207407765167617UL,  1,  0, 1, false, "C3A9"},
         {"utf8_2byte_3",        "\xC3\xA9\xC3\xA9\xC3\xA9",
                                                          3,  6248735914807110505UL,  1,  0, 1, false, "C3A9C3A9C3A9"},
@@ -179,16 +188,16 @@ std::vector<Golden> corpus() {
         {"utf8_4byte_1",        "\xF0\x9F\x98\x80",      1, 18374412943757542024UL,  1,  0, 1, false, "F09F9880"},
         {"combining",           "e\xCC\x81 a\xCC\x80 o\xCC\x82",
                                                          8,  6054595488278041435UL,  1,  0, 1, false, "65CC812061CC80206FCC82"},
-        {"ascii32_exact",       asciiN(32),             32, 17329703966457997997UL,  1,  0, 1, false, nullptr},
-        {"ascii33",             asciiN(33),             33,  1208933092337694014UL,  2,  1, 2, false, nullptr},
-        {"ascii64",             asciiN(64),             64,  9275208735646692041UL,  2,  1, 2, false, nullptr},
-        {"ascii467",            asciiN(467),           467,  7674823378295929201UL, 16, 15, 5, false, nullptr},
-        {"ascii4096",           asciiN(4096),         4096,  4646423504542175237UL,128,127, 8, false, nullptr},
-        {"ascii65536",          asciiN(65536),       65536,  1498516194919556229UL,2048,2047,12,false, nullptr},
+        {"ascii32_exact",       asciiN(32),             32, PROTO_UL(17329703966457997997),  1,  0, 1, false, nullptr},
+        {"ascii33",             asciiN(33),             33,  PROTO_UL(1208933092337694014),  2,  1, 2, false, nullptr},
+        {"ascii64",             asciiN(64),             64,  PROTO_UL(9275208735646692041),  2,  1, 2, false, nullptr},
+        {"ascii467",            asciiN(467),           467,  PROTO_UL(7674823378295929201), 16, 15, 5, false, nullptr},
+        {"ascii4096",           asciiN(4096),         4096,  PROTO_UL(4646423504542175237),128,127, 8, false, nullptr},
+        {"ascii65536",          asciiN(65536),       65536,  PROTO_UL(1498516194919556229),2048,2047,12,false, nullptr},
         {"utf8_2byte_467",      repeatUnit("\xC3\xA9", 467),
-                                                       467, 17983208637607857065UL, 32, 31, 6, false, nullptr},
+                                                       467, PROTO_UL(17983208637607857065), 32, 31, 6, false, nullptr},
         {"utf8_3byte_4096",     repeatUnit("\xE4\xB8\xAD", 4096),
-                                                      4096, 11454319136226620197UL,512,511,10, false, nullptr},
+                                                      4096, PROTO_UL(11454319136226620197),512,511,10, false, nullptr},
 
         // ---- malformed UTF-8: tolerated exactly as before ------------------
         // The builder decodes to codepoints and re-encodes, so malformed input
@@ -211,11 +220,11 @@ std::vector<Golden> corpus() {
         // A run of continuation bytes longer than one leaf: 40 bytes decode to
         // 10 codepoints of 0, i.e. ten NUL bytes.
         {"m_cont_run_40",       repeatUnit("\x80", 40), 10,  7625447167376158605UL,  1,  0, 1, false, "00000000000000000000"},
-        {"m_cont_run_200",      repeatUnit("\x80", 200),50,  9712894080799832493UL,  2,  1, 2, false, nullptr},
-        {"m_lead_run_40",       repeatUnit("\xC3", 40), 40, 16437702613407666997UL,  4,  3, 3, false, nullptr},
+        {"m_cont_run_200",      repeatUnit("\x80", 200),50,  PROTO_UL(9712894080799832493),  2,  1, 2, false, nullptr},
+        {"m_lead_run_40",       repeatUnit("\xC3", 40), 40, PROTO_UL(16437702613407666997),  4,  3, 3, false, nullptr},
         {"m_mixed_long",        repeatUnit("ab\xC3\xA9\xFF", 30),
-                                                       120,  8021544138131661125UL,  8,  7, 4, false, nullptr},
-        {"m_ascii_then_trunc",  asciiN(40) + "\xE4\xB8", 42,  2001875717336544560UL, 2,  1, 2, false, nullptr},
+                                                       120,  PROTO_UL(8021544138131661125),  8,  7, 4, false, nullptr},
+        {"m_ascii_then_trunc",  asciiN(40) + "\xE4\xB8", 42,  PROTO_UL(2001875717336544560), 2,  1, 2, false, nullptr},
     };
 }
 
@@ -300,15 +309,21 @@ private:
 
 // Resident set size in bytes, or 0 when /proc is unavailable.
 size_t residentBytes() {
+#if defined(_WIN32)
+    PROCESS_MEMORY_COUNTERS pmc{};
+    if (!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) return 0;
+    return pmc.WorkingSetSize;
+#else
     std::FILE* f = std::fopen("/proc/self/statm", "r");
     if (!f) return 0;
-    unsigned long total = 0;
-    unsigned long resident = 0;
+    proto::proto_ulong total = 0;
+    proto::proto_ulong resident = 0;
     const int n = std::fscanf(f, "%lu %lu", &total, &resident);
     std::fclose(f);
     if (n != 2) return 0;
     return static_cast<size_t>(resident) *
            static_cast<size_t>(::sysconf(_SC_PAGESIZE));
+#endif
 }
 
 class StringBuildTest : public ::testing::Test {
@@ -354,7 +369,7 @@ TEST_F(StringBuildTest, CorpusMatchesGoldens) {
         EXPECT_EQ(sh.depth, g.depth) << g.name;
         if (!g.inlineForm) {
             EXPECT_EQ(static_cast<size_t>(sh.leafBytes), out.size()) << g.name;
-            EXPECT_EQ(static_cast<unsigned long>(sh.leafChars), g.size) << g.name;
+            EXPECT_EQ(static_cast<proto::proto_ulong>(sh.leafChars), g.size) << g.name;
             // A balanced binary tree over L leaves has exactly L-1 internals.
             EXPECT_EQ(sh.internals, sh.leaves - 1) << g.name;
         }
@@ -374,8 +389,8 @@ TEST_F(StringBuildTest, OneMebibyteBulkBuildShapeAndContent) {
         nullptr, 0, rem, &remCount);
     ASSERT_NE(s, nullptr);
     EXPECT_EQ(remCount, 0u);
-    EXPECT_EQ(s->getSize(ctx), 1048576UL);
-    EXPECT_EQ(s->getHash(ctx), 7815921241789043789UL);
+    EXPECT_EQ(s->getSize(ctx), PROTO_UL(1048576));
+    EXPECT_EQ(s->getHash(ctx), PROTO_UL(7815921241789043789));
 
     const RopeShape sh = shapeOf(s, "ascii1Mi");
     EXPECT_EQ(sh.leaves, 32768);
@@ -535,20 +550,20 @@ TEST_F(StringBuildTest, MatchesTheReferenceCodepointListConstruction) {
 // and not the O(N log N) that one-code-point-at-a-time list construction cost.
 // This bound fails by two orders of magnitude against the list route.
 TEST_F(StringBuildTest, AllocationIsLinearInLength) {
-    for (unsigned long n : {4096UL, 65536UL, 1048576UL}) {
+    for (proto::proto_ulong n : {PROTO_UL(4096), PROTO_UL(65536), PROTO_UL(1048576)}) {
         const std::string src = asciiN(n);
         ProtoContext sub(space, ctx, nullptr, nullptr, nullptr, nullptr);
-        const unsigned long before = sub.allocatedCellsCount;
+        const proto::proto_ulong before = sub.allocatedCellsCount;
         const ProtoString* s = ProtoString::fromUTF8(&sub, src.c_str());
-        const unsigned long used = sub.allocatedCellsCount - before;
+        const proto::proto_ulong used = sub.allocatedCellsCount - before;
 
         ASSERT_NE(s, nullptr) << n;
         ASSERT_EQ(s->getSize(&sub), n) << n;
 
         // One 32-byte leaf plus one internal node per 32 bytes, plus the
         // wrapper: leaves + (leaves-1) + 1 == 2*ceil(B/32).
-        const unsigned long minimum = 2UL * ((n + 31UL) / 32UL);
-        EXPECT_LE(used, minimum + minimum / 2UL + 8UL)
+        const proto::proto_ulong minimum = PROTO_UL(2) * ((n + PROTO_UL(31)) / PROTO_UL(32));
+        EXPECT_LE(used, minimum + minimum / PROTO_UL(2) + PROTO_UL(8))
             << n << " characters allocated " << used
             << " cells to produce a " << minimum << "-cell rope";
     }
@@ -595,7 +610,7 @@ TEST(StringBuildHeapLimitTest, RepeatedBuildsUnderAHeapLimitCollectAndStayBounde
     for (int i = 0; i < 20000; ++i) {
         const ProtoString* s = ProtoString::fromUTF8(ctx, src.c_str());
         ASSERT_NE(s, nullptr) << "build " << i;
-        ASSERT_EQ(s->getSize(ctx), 467UL) << "build " << i;
+        ASSERT_EQ(s->getSize(ctx), PROTO_UL(467)) << "build " << i;
         ctx->safepoint();
     }
     ctx->safepoint();
@@ -620,8 +635,8 @@ TEST_F(StringBuildTest, OneMebibytePublicPathShapeAndContent) {
     const std::string src = asciiN(1048576);
     const ProtoString* s = ProtoString::fromUTF8(ctx, src.c_str());
     ASSERT_NE(s, nullptr);
-    EXPECT_EQ(s->getSize(ctx), 1048576UL);
-    EXPECT_EQ(s->getHash(ctx), 7815921241789043789UL);
+    EXPECT_EQ(s->getSize(ctx), PROTO_UL(1048576));
+    EXPECT_EQ(s->getHash(ctx), PROTO_UL(7815921241789043789));
 
     const RopeShape sh = shapeOf(s, "ascii1Mi-public");
     EXPECT_EQ(sh.leaves, 32768);

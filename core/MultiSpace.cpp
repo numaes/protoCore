@@ -44,13 +44,13 @@ std::atomic<int> cyclesNow{0};
 std::atomic<int> cyclesMax{0};
 }  // namespace
 
-unsigned long countMutableEntriesOfSpace(ProtoContext* context, unsigned long spaceId) {
-    struct Count { unsigned long id; unsigned long n; } count{spaceId, 0};
+proto_ulong countMutableEntriesOfSpace(ProtoContext* context, proto_ulong spaceId) {
+    struct Count { proto_ulong id; proto_ulong n; } count{spaceId, 0};
     for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
         ProtoSparseList* root = globalMutableShards[s].root.load(std::memory_order_acquire);
         if (!root) continue;
         root->processElements(context, &count,
-            [](ProtoContext*, void* self, unsigned long key, const ProtoObject*) {
+            [](ProtoContext*, void* self, proto_ulong key, const ProtoObject*) {
                 auto* c = static_cast<Count*>(self);
                 if ((key >> kMutableRefSpaceShift) == c->id) ++c->n;
             });
@@ -59,8 +59,8 @@ unsigned long countMutableEntriesOfSpace(ProtoContext* context, unsigned long sp
 }
 
 namespace {
-std::vector<unsigned long>& destroyedIds() {   // guarded by globalMutex
-    static std::vector<unsigned long> ids;
+std::vector<proto_ulong>& destroyedIds() {   // guarded by globalMutex
+    static std::vector<proto_ulong> ids;
     return ids;
 }
 
@@ -88,13 +88,13 @@ void forEachKey(const ProtoSparseList* root, F&& f) {
 }
 }  // namespace
 
-void recordDestroyedSpace(unsigned long spaceId) {
+void recordDestroyedSpace(proto_ulong spaceId) {
     std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
     destroyedIds().push_back(spaceId);
 }
 
-void appendRefsOfDestroyedSpaces(std::vector<unsigned long>& refs) {
-    std::vector<unsigned long> ids;
+void appendRefsOfDestroyedSpaces(std::vector<proto_ulong>& refs) {
+    std::vector<proto_ulong> ids;
     {
         std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
         ids.swap(destroyedIds());
@@ -104,7 +104,7 @@ void appendRefsOfDestroyedSpaces(std::vector<unsigned long>& refs) {
     for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
         const ProtoSparseList* root = globalMutableShards[s].root.load(std::memory_order_acquire);
         if (!root) continue;
-        forEachKey(root, [&](unsigned long key) {
+        forEachKey(root, [&](proto_ulong key) {
             if (std::binary_search(ids.begin(), ids.end(), key >> kMutableRefSpaceShift))
                 refs.push_back(key);
         });
@@ -124,7 +124,7 @@ namespace {
 
 struct Entry {
     ProtoSpace* space;
-    unsigned long id;
+    proto_ulong id;
 };
 
 // Guarded by ProtoSpace::globalMutex.
@@ -132,7 +132,7 @@ std::vector<Entry>& registry() {
     static std::vector<Entry> entries;
     return entries;
 }
-unsigned long nextSpaceId = 0;
+proto_ulong nextSpaceId = 0;
 
 // The space that started the calling OS thread, if any, and that thread's
 // ProtoThreadImplementation in it.
@@ -145,7 +145,7 @@ thread_local ProtoThreadImplementation* tlWorkerImpl = nullptr;
 thread_local int tlOutDepth = 0;
 thread_local std::vector<Entry> tlOutOf;
 
-bool registered(const ProtoSpace* space, unsigned long id) {
+bool registered(const ProtoSpace* space, proto_ulong id) {
     for (const Entry& e : registry())
         if (e.space == space && e.id == id) return true;
     return false;
@@ -247,9 +247,9 @@ ProtoSpace* foreignStopToAnswer(const ProtoSpace* except) {
 
 }  // namespace
 
-unsigned long registerSpace(ProtoSpace* space) {
+proto_ulong registerSpace(ProtoSpace* space) {
     std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-    const unsigned long id = nextSpaceId++;
+    const proto_ulong id = nextSpaceId++;
     // The constructing thread is the space's adopted main thread.
     ensureQuiescenceRecord();
     registry().push_back(Entry{space, id});
@@ -264,7 +264,7 @@ void unregisterSpace(ProtoSpace* space) {
     }
 }
 
-unsigned long liveSpaceCount() {
+proto_ulong liveSpaceCount() {
     std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
     return registry().size();
 }

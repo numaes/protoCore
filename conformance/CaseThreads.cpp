@@ -32,7 +32,7 @@ struct KindObservation
     bool                 hadThread     = false;
     bool                 discoverable  = false;
     bool                 sameSpace     = false;
-    unsigned long        allocatedCells = 0;
+    proto::proto_ulong        allocatedCells = 0;
 };
 
 struct ThreadAccumulator
@@ -73,7 +73,7 @@ struct ThreadAccumulator
 bool inThreadRegistry(ProtoContext* ctx)
 {
     if (!ctx || !ctx->thread || !ctx->space || !ctx->space->threads) return false;
-    const unsigned long threadId = reinterpret_cast<uintptr_t>(ctx->thread);
+    const proto::proto_ulong threadId = reinterpret_cast<uintptr_t>(ctx->thread);
     const ProtoObject* found = ctx->space->threads->getAt(ctx, threadId);
     return found != nullptr && found != PROTO_NONE;
 }

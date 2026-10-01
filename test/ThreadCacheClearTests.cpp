@@ -57,7 +57,7 @@ ProtoThreadExtension* extensionOf(ProtoContext* ctx) {
     return toImpl<ProtoThreadImplementation>(ctx->thread)->extension;
 }
 
-unsigned long attributeSlot(const ProtoObject* object, const ProtoString* name) {
+proto::proto_ulong attributeSlot(const ProtoObject* object, const ProtoString* name) {
     return ((reinterpret_cast<uintptr_t>(object) >> 6) ^
             (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
 }
@@ -72,7 +72,7 @@ TEST(ThreadCacheClear, MutableValueEntryIsClearedWhenTheOwnerResumesAfterACycle)
 
     const ProtoObject* object = ctx->newObject(true);
     object->setAttribute(ctx, key, ctx->fromInteger(1));
-    const unsigned long ref = toImpl<const ProtoObjectCell>(object)->mutable_ref;
+    const proto::proto_ulong ref = toImpl<const ProtoObjectCell>(object)->mutable_ref;
     ProtoThreadExtension* ext = extensionOf(ctx);
     MutableValueCacheEntry& entry = ext->mutableValueCache[ref % MUTABLE_VALUE_CACHE_DEPTH];
 
@@ -174,7 +174,7 @@ const ProtoObject* unmanagedThreadMain(ProtoContext* ctx, const ProtoObject*, co
     ProtoThreadExtension* ext = extensionOf(ctx);
     const ProtoObject* object = ctx->newObject(true);
     object->setAttribute(ctx, shared.key, ctx->fromInteger(7));
-    const unsigned long ref = toImpl<const ProtoObjectCell>(object)->mutable_ref;
+    const proto::proto_ulong ref = toImpl<const ProtoObjectCell>(object)->mutable_ref;
     const MutableValueCacheEntry& entry = ext->mutableValueCache[ref % MUTABLE_VALUE_CACHE_DEPTH];
     (void) object->getAttribute(ctx, shared.key);
     shared.filledBefore = (entry.mutable_ref == ref);
@@ -246,7 +246,7 @@ TEST(ThreadCacheClear, CachesAreClearedWhenAHeadroomWaitSpansACycle) {
     ProtoContext work(&space, root, nullptr, nullptr, nullptr, nullptr);
     const ProtoObject* object = work.newObject(true);
     object->setAttribute(&work, key, work.fromInteger(3));
-    const unsigned long ref = toImpl<const ProtoObjectCell>(object)->mutable_ref;
+    const proto::proto_ulong ref = toImpl<const ProtoObjectCell>(object)->mutable_ref;
     const MutableValueCacheEntry& entry = ext->mutableValueCache[ref % MUTABLE_VALUE_CACHE_DEPTH];
 
     const uint64_t cyclesStart = space.getGCCycleCount();

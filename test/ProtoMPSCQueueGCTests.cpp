@@ -50,12 +50,12 @@ uint64_t forceCycles(ProtoSpace& space, ProtoContext* parent, uint64_t minCycles
 }
 
 // Builds an item whose identity is verifiable after any number of cycles.
-const ProtoObject* probe(ProtoContext* c, long i) {
+const ProtoObject* probe(ProtoContext* c, proto::proto_long i) {
     return c->newList()->appendLast(c, c->fromInteger(i))
                        ->appendLast(c, c->fromInteger(~i))->asObject(c);
 }
 
-bool probeIntact(ProtoContext* c, const ProtoObject* o, long i) {
+bool probeIntact(ProtoContext* c, const ProtoObject* o, proto::proto_long i) {
     const ProtoList* l = o ? o->asList(c) : nullptr;
     return l && l->getSize(c) == 2 &&
            l->getAt(c, 0)->asLong(c) == i &&
@@ -80,15 +80,15 @@ bool probeIntact(ProtoContext* c, const ProtoObject* o, long i) {
 // N = 30,000 does not; a no-queue control calling only newList hits the same
 // wall at the same N).  Against kHeadroomCells = 40,000 that leaves room for
 // a few hundred heavy items in flight.
-constexpr long kMarkRaceMaxInFlight = 250;
+constexpr proto::proto_long kMarkRaceMaxInFlight = 250;
 
 struct MarkRaceJob {
     const ProtoMPSCQueue* queue;
-    long total;
-    long turn;                       // pushes (or drains) per ProtoContext
-    std::atomic<long> produced;
-    std::atomic<long> consumed;
-    std::atomic<long> corrupt;
+    proto::proto_long total;
+    proto::proto_long turn;                       // pushes (or drains) per ProtoContext
+    std::atomic<proto::proto_long> produced;
+    std::atomic<proto::proto_long> consumed;
+    std::atomic<proto::proto_long> corrupt;
     // Set when the consumer stops, so a producer parked on backpressure can
     // never outlive it and hang the join.
     std::atomic<bool> abort;
@@ -101,9 +101,9 @@ const ProtoObject* markRaceProducer(ProtoContext* ctx,
                                     const ProtoSparseList*) {
     if (!args || args->getSize(ctx) < 1) return PROTO_NONE;
     auto* job = reinterpret_cast<MarkRaceJob*>(args->getAt(ctx, 0)->asLong(ctx));
-    for (long i = 0; i < job->total; ) {
+    for (proto::proto_long i = 0; i < job->total; ) {
         ProtoContext t(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
-        const long end = (i + job->turn < job->total) ? i + job->turn : job->total;
+        const proto::proto_long end = (i + job->turn < job->total) ? i + job->turn : job->total;
         for (; i < end; ++i) {
             if (job->produced.load(std::memory_order_relaxed) -
                     job->consumed.load(std::memory_order_relaxed) >= kMarkRaceMaxInFlight) {
@@ -132,13 +132,13 @@ const ProtoObject* markRaceConsumer(ProtoContext* ctx,
                                     const ProtoSparseList*) {
     if (!args || args->getSize(ctx) < 1) return PROTO_NONE;
     auto* job = reinterpret_cast<MarkRaceJob*>(args->getAt(ctx, 0)->asLong(ctx));
-    long next = 0;
+    proto::proto_long next = 0;
     const auto deadline = std::chrono::steady_clock::now() + std::chrono::minutes(10);
     while (next < job->total) {
         ProtoContext t(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
         const ProtoList* batch = job->queue->takeAll(&t);
-        const unsigned long n = batch->getSize(&t);
-        for (unsigned long i = 0; i < n; ++i) {
+        const proto::proto_ulong n = batch->getSize(&t);
+        for (proto::proto_ulong i = 0; i < n; ++i) {
             const ProtoObject* o = batch->getAt(&t, static_cast<int>(i));
             if (!probeIntact(&t, o, next)) job->corrupt.fetch_add(1, std::memory_order_relaxed);
             ++next;
@@ -193,18 +193,18 @@ TEST(MPSCQueueGC, ItemsReferencedOnlyByTheQueueSurvive) {
     const ProtoRootSet::Handle pinned = rs->add(q->asObject(&live));
     ASSERT_NE(pinned, ProtoRootSet::kNullHandle);
 
-    constexpr long kN = 2000;
+    constexpr proto::proto_long kN = 2000;
     {
         ProtoContext producer(&space, &live, nullptr, nullptr, nullptr, nullptr);
-        for (long i = 0; i < kN; ++i) q->push(&producer, probe(&producer, i));
+        for (proto::proto_long i = 0; i < kN; ++i) q->push(&producer, probe(&producer, i));
     }   // the producer context is gone; only the queue holds the items
 
     const uint64_t cycles = forceCycles(space, &live, 3);
     EXPECT_GE(cycles, 3u) << "no collection ran; the test proves nothing";
 
     const ProtoList* got = q->takeAll(&live);
-    ASSERT_EQ(got->getSize(&live), static_cast<unsigned long>(kN));
-    for (long i = 0; i < kN; ++i)
+    ASSERT_EQ(got->getSize(&live), static_cast<proto::proto_ulong>(kN));
+    for (proto::proto_long i = 0; i < kN; ++i)
         EXPECT_TRUE(probeIntact(&live, got->getAt(&live, static_cast<int>(i)), i)) << "item " << i;
 
     std::cout << "MPSC gc-only-reference: items=" << kN
@@ -225,19 +225,19 @@ TEST(MPSCQueueGC, ATakenBatchSurvivesLaterCycles) {
     const ProtoMPSCQueue* q = live.newMPSCQueue();
     const ProtoRootSet::Handle pinnedQueue = rs->add(q->asObject(&live));
 
-    constexpr long kN = 2000;
+    constexpr proto::proto_long kN = 2000;
     {
         ProtoContext producer(&space, &live, nullptr, nullptr, nullptr, nullptr);
-        for (long i = 0; i < kN; ++i) q->push(&producer, probe(&producer, i));
+        for (proto::proto_long i = 0; i < kN; ++i) q->push(&producer, probe(&producer, i));
     }
     const ProtoList* got = q->takeAll(&live);
-    ASSERT_EQ(got->getSize(&live), static_cast<unsigned long>(kN));
+    ASSERT_EQ(got->getSize(&live), static_cast<proto::proto_ulong>(kN));
     const ProtoRootSet::Handle pinnedBatch = rs->add(got->asObject(&live));
 
     const uint64_t cycles = forceCycles(space, &live, 3);
     EXPECT_GE(cycles, 3u);
 
-    for (long i = 0; i < kN; ++i)
+    for (proto::proto_long i = 0; i < kN; ++i)
         EXPECT_TRUE(probeIntact(&live, got->getAt(&live, static_cast<int>(i)), i)) << "item " << i;
 
     rs->remove(pinnedBatch);
@@ -313,7 +313,7 @@ TEST(MPSCQueueGC, ParkedProducerAndConsumerDoNotDelayAPause) {
     ProtoRootSet* rs = space.createRootSet("mpsc-unmanaged");
     const ProtoRootSet::Handle pinned = rs->add(q->asObject(&main));
 
-    for (long i = 0; i < 100; ++i) q->push(&main, probe(&main, i));
+    for (proto::proto_long i = 0; i < 100; ++i) q->push(&main, probe(&main, i));
 
     ParkJob job{{0}, {false}};
     const ProtoString* name = ProtoString::createSymbol(&main, "mpsc-parked");
@@ -344,7 +344,7 @@ TEST(MPSCQueueGC, ParkedProducerAndConsumerDoNotDelayAPause) {
 
     const ProtoList* got = q->takeAll(&main);
     EXPECT_EQ(got->getSize(&main), 100u);
-    for (long i = 0; i < 100; ++i)
+    for (proto::proto_long i = 0; i < 100; ++i)
         EXPECT_TRUE(probeIntact(&main, got->getAt(&main, static_cast<int>(i)), i));
 
     std::cout << "MPSC unmanaged-park: gc cycles=" << cycles
@@ -382,14 +382,14 @@ TEST(MPSCQueueGC, ParkedProducerAndConsumerDoNotDelayAPause) {
 // of four apart and compares them, because what constraint 1 forbids is not a
 // large pause but a pause that is a function of the batch.
 struct DrainPauseProbe {
-    long batch{0};
+    proto::proto_long batch{0};
     long long medianUs{0};
     long long minUs{0};
     long long maxUs{0};
     long long drainUs{0};
 };
 
-static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
+static void runDrainPauseProbe(proto::proto_long kBatch, DrainPauseProbe* out) {
     constexpr int kSamples = 9;
 
     // Floor under the sanity bound below.  Its only job is to keep a fraction of
@@ -401,7 +401,7 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
 
     struct Shared {
         const ProtoMPSCQueue* queue{nullptr};
-        long batch{0};
+        proto::proto_long batch{0};
         std::atomic<bool> stop{false};
         std::atomic<bool> ready{false};
         std::atomic<int> requested{0};
@@ -438,11 +438,11 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
     long long drainUs = 0;
     {
         ProtoContext fill(&space, root, nullptr, nullptr, nullptr, nullptr);
-        for (long i = 0; i < kBatch; ++i) q->push(&fill, fill.fromInteger(i));
+        for (proto::proto_long i = 0; i < kBatch; ++i) q->push(&fill, fill.fromInteger(i));
         const auto t0 = Clock::now();
         const ProtoList* batch = q->takeAll(&fill);
         drainUs = std::chrono::duration_cast<std::chrono::microseconds>(Clock::now() - t0).count();
-        ASSERT_EQ(batch->getSize(&fill), static_cast<unsigned long>(kBatch));
+        ASSERT_EQ(batch->getSize(&fill), static_cast<proto::proto_ulong>(kBatch));
     }
 
     // One fill-and-drain per request, then back to an unmanaged wait so the
@@ -450,7 +450,7 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
     state.batch = kBatch;
     auto consumerMain = [](ProtoContext* ctx, const ProtoObject*, const ParentLink*,
                            const ProtoList*, const ProtoSparseList*) -> const ProtoObject* {
-        const long kBatch = shared->batch;
+        const proto::proto_long kBatch = shared->batch;
         for (;;) {
             {
                 ProtoContext::UnmanagedScope parked(ctx);
@@ -462,13 +462,13 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
             if (shared->stop.load(std::memory_order_relaxed)) break;
             {
                 ProtoContext turn(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
-                for (long i = 0; i < kBatch; ++i)
+                for (proto::proto_long i = 0; i < kBatch; ++i)
                     shared->queue->push(&turn, turn.fromInteger(i));
                 shared->ready.store(true, std::memory_order_relaxed);
                 shared->inDrain.store(true, std::memory_order_relaxed);
                 const ProtoList* batch = shared->queue->takeAll(&turn);
                 shared->inDrain.store(false, std::memory_order_relaxed);
-                if (!batch || batch->getSize(&turn) != static_cast<unsigned long>(kBatch))
+                if (!batch || batch->getSize(&turn) != static_cast<proto::proto_ulong>(kBatch))
                     shared->bad.fetch_add(1, std::memory_order_relaxed);
             }
             shared->completed.fetch_add(1, std::memory_order_relaxed);
@@ -592,8 +592,8 @@ static void runDrainPauseProbe(long kBatch, DrainPauseProbe* out) {
 // noise on a loaded machine does not.
 TEST(MPSCQueueGC, LargeDrainDoesNotBlockStopTheWorld) {
     // Overridable so the same probe can be swept over other sizes by hand.
-    long kBatch = 200000;
-    if (const char* e = std::getenv("PMQ_PAUSE_BATCH")) { long v = std::atol(e); if (v > 0) kBatch = v; }
+    proto::proto_long kBatch = 200000;
+    if (const char* e = std::getenv("PMQ_PAUSE_BATCH")) { proto::proto_long v = std::atol(e); if (v > 0) kBatch = v; }
 
     DrainPauseProbe small{};
     runDrainPauseProbe(kBatch / 4, &small);

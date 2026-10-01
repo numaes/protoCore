@@ -201,7 +201,7 @@ TEST_F(InstanceOfHasParentTest, ThousandLevelNewChildChainNowFindsRoot) {
         current = current->newChild(context);
     }
 
-    const unsigned long before = context->allocatedCellsCount;
+    const proto::proto_ulong before = context->allocatedCellsCount;
     const ProtoObject* result = current->isInstanceOf(context, root);
     EXPECT_EQ(context->allocatedCellsCount, before)
         << "isInstanceOf must not allocate";
@@ -451,7 +451,7 @@ TEST_F(InstanceOfHasParentTest, HasParentAllocatesNothing) {
     const ProtoObject* leaf = mid->newChild(context);
     const ProtoObject* unrelated = context->newObject(false);
 
-    const unsigned long before = context->allocatedCellsCount;
+    const proto::proto_ulong before = context->allocatedCellsCount;
     int r1 = leaf->hasParent(context, base);
     int r2 = leaf->hasParent(context, mid);
     int r3 = leaf->hasParent(context, unrelated);

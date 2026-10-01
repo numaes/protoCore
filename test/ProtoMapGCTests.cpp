@@ -43,14 +43,14 @@ bool waitForIdleCollector(ProtoSpace& space, ProtoContext* ctx) {
 // A key cell that counts every traversal by the collector.
 class KeyProbeCell final : public Cell {
 public:
-    static std::atomic<unsigned long> traversals;
+    static std::atomic<proto::proto_ulong> traversals;
     explicit KeyProbeCell(ProtoContext* context) : Cell(context) {}
     void processReferences(ProtoContext*, void*, void (*)(ProtoContext*, void*, const Cell*)) const override {
         traversals.fetch_add(1, std::memory_order_relaxed);
     }
     const ProtoObject* implAsObject(ProtoContext*) const override { return PROTO_NONE; }
 };
-std::atomic<unsigned long> KeyProbeCell::traversals{0};
+std::atomic<proto::proto_ulong> KeyProbeCell::traversals{0};
 
 struct ContentCheck {
     const ProtoMap* map;
@@ -65,7 +65,7 @@ void checkPair(ProtoContext* c, void* self, const ProtoObject* key, const ProtoO
     chk->visited++;
     const ProtoList* list = key->asList(c);
     if (!list || list->getSize(c) != 1) { chk->bad++; return; }
-    const long i = list->getAt(c, 0)->asLong(c);
+    const proto::proto_long i = list->getAt(c, 0)->asLong(c);
     if (i < 0 || i >= chk->n || chk->seen[i] || value->asLong(c) != i * 10 ||
         chk->map->getAt(c, key) != value) { chk->bad++; return; }
     chk->seen[i] = true;
@@ -99,12 +99,12 @@ TEST_P(MapGC, KeyReferencedOnlyByTheCollectionIsTraced) {
     const uint64_t cycles = forceCycles(space, &live, 5);
     ASSERT_TRUE(waitForIdleCollector(space, &live));
     EXPECT_GE(cycles, 5u);
-    EXPECT_GE(KeyProbeCell::traversals.load(), static_cast<unsigned long>(n))
+    EXPECT_GE(KeyProbeCell::traversals.load(), static_cast<proto::proto_ulong>(n))
         << "a key referenced only by the collection was not traced";
 
     const ProtoMap* m = rs->resolve(pinned)->asMap(&live);
     ASSERT_NE(m, nullptr);
-    EXPECT_EQ(m->getSize(&live), static_cast<unsigned long>(n));
+    EXPECT_EQ(m->getSize(&live), static_cast<proto::proto_ulong>(n));
     rs->remove(pinned);
     space.destroyRootSet(rs);
 }
@@ -151,7 +151,7 @@ constexpr int kConcBase = 32;
 constexpr int kConcThreads = 4;
 constexpr int kConcPerThread = 3000;
 
-std::atomic<unsigned long> gConcErrors{0};
+std::atomic<proto::proto_ulong> gConcErrors{0};
 const ProtoMap* gConcBase = nullptr;
 std::vector<const ProtoObject*>* gConcBaseKeys = nullptr;
 
@@ -175,17 +175,17 @@ std::vector<const ProtoObject*>* gConcBaseKeys = nullptr;
 // needs the real per-thread registration.
 const ProtoObject* concWorkerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
                                    const ProtoList* args, const ProtoSparseList*) {
-    const long t = args->getAt(ctx, 0)->asLong(ctx);
+    const proto::proto_long t = args->getAt(ctx, 0)->asLong(ctx);
     const ProtoMap* mine = gConcBase;
     for (int i = 0; i < kConcPerThread; ++i) {
         const ProtoObject* key = ctx->newList()
-            ->appendLast(ctx, ctx->fromInteger(t * 1000000L + i))->asObject(ctx);
+            ->appendLast(ctx, ctx->fromInteger(t * PROTO_L(1000000) + i))->asObject(ctx);
         mine = mine->setAt(ctx, key, ctx->fromInteger(i));
         if (mine->getAt(ctx, key) != ctx->fromInteger(i)) gConcErrors.fetch_add(1);
         if (i % 64 == 0) {
             const int b = i % kConcBase;
             const ProtoObject* bv = gConcBase->getAt(ctx, (*gConcBaseKeys)[b]);
-            if (gConcBase->getSize(ctx) != static_cast<unsigned long>(kConcBase) ||
+            if (gConcBase->getSize(ctx) != static_cast<proto::proto_ulong>(kConcBase) ||
                 !bv || bv->asLong(ctx) != b) {
                 gConcErrors.fetch_add(1);
             }
@@ -193,7 +193,7 @@ const ProtoObject* concWorkerMain(ProtoContext* ctx, const ProtoObject*, const P
             if (!mv || mv->asLong(ctx) != b) gConcErrors.fetch_add(1);
         }
     }
-    if (mine->getSize(ctx) != static_cast<unsigned long>(kConcBase + kConcPerThread)) {
+    if (mine->getSize(ctx) != static_cast<proto::proto_ulong>(kConcBase + kConcPerThread)) {
         gConcErrors.fetch_add(1);
     }
     return PROTO_NONE;
@@ -243,7 +243,7 @@ TEST(MapConcurrency, VersionsFromASharedBaseWhileTheGcRuns) {
     gcKicker.join();
 
     EXPECT_EQ(gConcErrors.load(), 0u);
-    EXPECT_EQ(base->getSize(root), static_cast<unsigned long>(kConcBase));
+    EXPECT_EQ(base->getSize(root), static_cast<proto::proto_ulong>(kConcBase));
     for (int i = 0; i < kConcBase; ++i) EXPECT_EQ(base->getAt(root, baseKeys[i])->asLong(root), i);
 
     gConcBase = nullptr;

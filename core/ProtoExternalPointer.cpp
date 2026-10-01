@@ -52,7 +52,7 @@ namespace proto {
         }
     }
 
-    unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context) const {
+    proto_ulong ProtoExternalPointerImplementation::getHash(ProtoContext* context) const {
         return reinterpret_cast<uintptr_t>(this->pointer);
     }
 
@@ -71,7 +71,7 @@ namespace proto {
         return toImpl<const ProtoExternalPointerImplementation>(this)->implAsObject(context);
     }
 
-    unsigned long ProtoExternalPointer::getHash(ProtoContext* context) const {
+    proto_ulong ProtoExternalPointer::getHash(ProtoContext* context) const {
         return toImpl<const ProtoExternalPointerImplementation>(this)->getHash(context);
     }
 

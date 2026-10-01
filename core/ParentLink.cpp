@@ -31,7 +31,6 @@ namespace proto
      */
 #include <unordered_map>
 #include <mutex>
-#include <execinfo.h>
 #include <stdlib.h>
 std::unordered_map<const ParentLinkImplementation*, const ParentLinkImplementation*> dbg_parentLinks;
 std::mutex dbg_mutex;

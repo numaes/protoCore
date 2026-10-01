@@ -31,7 +31,7 @@ protected:
     }
     void TearDown() override { delete space; }
 
-    const ProtoObject* I(long v) { return context->fromInteger(v); }
+    const ProtoObject* I(proto::proto_long v) { return context->fromInteger(v); }
 };
 
 // -----------------------------------------------------------------------------
@@ -191,7 +191,7 @@ TEST_F(SmallSparseListTest, SmallReadsMatchAvlReads) {
     EXPECT_EQ(avl->getSize(context), 3u);
 
     EXPECT_EQ(small->getSize(context), avl->getSize(context));
-    for (unsigned long k : {7ul, 13ul, 21ul, 100ul}) {
+    for (proto::proto_ulong k : {PROTO_UL(7), PROTO_UL(13), PROTO_UL(21), PROTO_UL(100)}) {
         EXPECT_EQ(small->has(context, k),     avl->has(context, k))     << "key=" << k;
         EXPECT_EQ(small->getAt(context, k),  avl->getAt(context, k))   << "key=" << k;
     }
@@ -209,7 +209,7 @@ TEST_F(SmallSparseListTest, IteratorYieldsKeyAscOrder) {
     EXPECT_TRUE(isSmall(sl));
 
     const ProtoSparseListIterator* it = sl->getIterator(context);
-    std::vector<unsigned long> keys;
+    std::vector<proto::proto_ulong> keys;
     while (it && it->hasNext(context)) {
         keys.push_back(it->nextKey(context));
         it = const_cast<ProtoSparseListIterator*>(it)->advance(context);
@@ -227,12 +227,12 @@ TEST_F(SmallSparseListTest, ProcessElementsVisitsAllPairs) {
     sl = sl->setAt(context, 9, I(90));
 
     struct Acc {
-        std::vector<std::pair<unsigned long, long>> pairs;
+        std::vector<std::pair<proto::proto_ulong, proto::proto_long>> pairs;
         ProtoContext* ctx;
     } acc { {}, context };
 
     sl->processElements(context, &acc,
-        [](ProtoContext* c, void* self, unsigned long k, const ProtoObject* v) {
+        [](ProtoContext* c, void* self, proto::proto_ulong k, const ProtoObject* v) {
             auto* a = static_cast<Acc*>(self);
             a->pairs.emplace_back(k, v->asLong(c));
         });

@@ -37,13 +37,13 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
         }
         return PROTO_NONE;
     }
-    const unsigned long chainSize = chain->getSize(ctx);
+    const proto_ulong chainSize = chain->getSize(ctx);
     if (diag) {
-        fprintf(stderr, "DEBUG: [UMD] resolutionChain size=%lu\n", chainSize);
+        fprintf(stderr, "DEBUG: [UMD] resolutionChain size=%" PROTO_FMT_U "\n", chainSize);
     }
     const ProtoObject* module = nullptr;
 
-    for (unsigned long i = 0; i < chainSize; ++i) {
+    for (proto_ulong i = 0; i < chainSize; ++i) {
         const ProtoObject* entryObj = chain->getAt(ctx, static_cast<int>(i));
         if (!entryObj || !entryObj->isString(ctx)) continue;
 
@@ -51,7 +51,7 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
         entryObj->asString(ctx)->toUTF8String(ctx, entryStr);
 
         if (diag) {
-            fprintf(stderr, "DEBUG: [UMD]  Attempting entry[%lu]: %s\n", i, entryStr.c_str());
+            fprintf(stderr, "DEBUG: [UMD]  Attempting entry[%" PROTO_FMT_U "]: %s\n", i, entryStr.c_str());
         }
 
         // Select this entry's provider FIRST: under a provider-qualified
@@ -89,7 +89,7 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
 
         if (const ProtoObject* cached = sharedModuleCacheGet(id)) {
             if (diag) {
-                fprintf(stderr, "DEBUG: [UMD]   CACHE HIT at entry[%lu]\n", i);
+                fprintf(stderr, "DEBUG: [UMD]   CACHE HIT at entry[%" PROTO_FMT_U "]\n", i);
             }
             module = cached;
             break;
@@ -98,7 +98,7 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
         module = provider->tryLoad(key, ctx);
         if (module != nullptr && module != PROTO_NONE) {
             if (diag) {
-                fprintf(stderr, "DEBUG: [UMD]   SUCCESS: Module loaded from entry[%lu]\n", i);
+                fprintf(stderr, "DEBUG: [UMD]   SUCCESS: Module loaded from entry[%" PROTO_FMT_U "]\n", i);
             }
             sharedModuleCacheInsert(id, module);
             break;

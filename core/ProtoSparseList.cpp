@@ -21,7 +21,7 @@ namespace proto
         return state == ITERATOR_NEXT_THIS && current && !current->isEmpty;
     }
 
-    unsigned long ProtoSparseListIteratorImplementation::implNextKey() const {
+    proto_ulong ProtoSparseListIteratorImplementation::implNextKey() const {
         return (state == ITERATOR_NEXT_THIS && current) ? current->key : 0;
     }
 
@@ -60,7 +60,7 @@ namespace proto
     //=========================================================================
     // ProtoSparseListImplementation
     //=========================================================================
-    ProtoSparseListImplementation::ProtoSparseListImplementation(ProtoContext* context, unsigned long k, const ProtoObject* v, const ProtoSparseListImplementation* p, const ProtoSparseListImplementation* n, bool empty)
+    ProtoSparseListImplementation::ProtoSparseListImplementation(ProtoContext* context, proto_ulong k, const ProtoObject* v, const ProtoSparseListImplementation* p, const ProtoSparseListImplementation* n, bool empty)
         : Cell(context), key(k), value(v), previous(p), next(n),
           // P8 — `hash` was only used to propagate up the tree during
           // construction; it is never read externally and never queried
@@ -74,15 +74,15 @@ namespace proto
           height(empty ? 0 : 1 + std::max(sparse_avl::nodeHeight(p), sparse_avl::nodeHeight(n))),
           isEmpty(empty) {}
 
-    bool ProtoSparseListImplementation::implHas(ProtoContext* context, unsigned long offset) const {
+    bool ProtoSparseListImplementation::implHas(ProtoContext* context, proto_ulong offset) const {
         return implGetAt(context, offset) != nullptr;
     }
 
-    const ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext*, unsigned long offset) const {
+    const ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext*, proto_ulong offset) const {
         return sparse_avl::getAt(this, offset);
     }
 
-    const ProtoSparseListImplementation* ProtoSparseListImplementation::implSetAt(ProtoContext* context, unsigned long offset, const ProtoObject* newValue) const {
+    const ProtoSparseListImplementation* ProtoSparseListImplementation::implSetAt(ProtoContext* context, proto_ulong offset, const ProtoObject* newValue) const {
         return sparse_avl::setAt(context, this, offset, newValue);
     }
 
@@ -92,7 +92,7 @@ namespace proto
         return sparse_avl::findMin(node);
     }
 
-    const ProtoSparseListImplementation* ProtoSparseListImplementation::implRemoveAt(ProtoContext* context, unsigned long offset) const {
+    const ProtoSparseListImplementation* ProtoSparseListImplementation::implRemoveAt(ProtoContext* context, proto_ulong offset) const {
         return sparse_avl::removeAt(context, this, offset);
     }
 
@@ -162,7 +162,7 @@ namespace proto
 
     ProtoSparseListSmallImplementation::ProtoSparseListSmallImplementation(
         ProtoContext* context, unsigned n,
-        const unsigned long* ks, const ProtoObject* const* vs
+        const proto_ulong* ks, const ProtoObject* const* vs
     ) : Cell(context)
     {
         // Caller guarantees n ≤ MAX_INLINE, no zero key in the n-prefix
@@ -179,19 +179,19 @@ namespace proto
         }
     }
 
-    unsigned long ProtoSparseListSmallImplementation::implCount() const {
+    proto_ulong ProtoSparseListSmallImplementation::implCount() const {
         return sparse_avl::smallCount(this);
     }
 
-    bool ProtoSparseListSmallImplementation::implHas(ProtoContext*, unsigned long offset) const {
+    bool ProtoSparseListSmallImplementation::implHas(ProtoContext*, proto_ulong offset) const {
         return sparse_avl::smallHas(this, offset);
     }
 
-    const ProtoObject* ProtoSparseListSmallImplementation::implGetAt(ProtoContext*, unsigned long offset) const {
+    const ProtoObject* ProtoSparseListSmallImplementation::implGetAt(ProtoContext*, proto_ulong offset) const {
         return sparse_avl::smallGetAt(this, offset);
     }
 
-    bool ProtoSparseListSmallImplementation::implPairAt(unsigned i, unsigned long* outKey, const ProtoObject** outValue) const {
+    bool ProtoSparseListSmallImplementation::implPairAt(unsigned i, proto_ulong* outKey, const ProtoObject** outValue) const {
         return sparse_avl::smallPairAt(this, i, outKey, outValue);
     }
 
@@ -242,7 +242,7 @@ namespace proto
         const ProtoSparseList* setAtSmall(
             ProtoContext* context,
             const ProtoSparseListSmallImplementation* small,
-            unsigned long offset,
+            proto_ulong offset,
             const ProtoObject* value)
         {
             return reinterpret_cast<const ProtoSparseList*>(
@@ -255,13 +255,13 @@ namespace proto
         const ProtoSparseList* removeAtSmall(
             ProtoContext* context,
             const ProtoSparseListSmallImplementation* small,
-            unsigned long offset)
+            proto_ulong offset)
         {
             return setAtSmall(context, small, offset, nullptr);
         }
 
         // Return the size (used-slot count) regardless of form.
-        inline unsigned long sparseListSize(const ProtoSparseList* sl) {
+        inline proto_ulong sparseListSize(const ProtoSparseList* sl) {
             if (!sl) return 0;
             if (isSparseListSmall(sl)) {
                 return toImpl<const ProtoSparseListSmallImplementation>(sl)->implCount();
@@ -271,13 +271,13 @@ namespace proto
     } // anonymous namespace
 
     // ProtoSparseList / ProtoSparseListIterator external API trampolines
-    bool ProtoSparseList::has(ProtoContext* context, unsigned long offset) const {
+    bool ProtoSparseList::has(ProtoContext* context, proto_ulong offset) const {
         if (isSparseListSmall(this)) {
             return toImpl<const ProtoSparseListSmallImplementation>(this)->implHas(context, offset);
         }
         return toImpl<const ProtoSparseListImplementation>(this)->implHas(context, offset);
     }
-    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, unsigned long offset) const {
+    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, proto_ulong offset) const {
         const ProtoObject* result;
         if (isSparseListSmall(this)) {
             result = toImpl<const ProtoSparseListSmallImplementation>(this)->implGetAt(context, offset);
@@ -286,7 +286,7 @@ namespace proto
         }
         return result ? result : PROTO_NONE;
     }
-    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const {
+    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, proto_ulong offset, const ProtoObject* value) const {
         // GC critical section: setAtSmall / implSetAt may build several
         // new cells; the result is reachable only via this C++ frame's
         // return value until the caller publishes it.  Same discipline as
@@ -298,7 +298,7 @@ namespace proto
         return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context);
     }
     const ProtoSparseList* sparseListRemoveSorted(
-        ProtoContext* context, const ProtoSparseList* sl, const unsigned long* keys, std::size_t count) {
+        ProtoContext* context, const ProtoSparseList* sl, const proto_ulong* keys, std::size_t count) {
         if (!sl || count == 0) return sl;
         ProtoContext::CriticalSection cs(context);
         if (isSparseListSmall(sl)) {
@@ -313,14 +313,14 @@ namespace proto
         return out->asSparseList(context);
     }
 
-    const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long offset) const {
+    const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, proto_ulong offset) const {
         ProtoContext::CriticalSection cs(context);
         if (isSparseListSmall(this)) {
             return removeAtSmall(context, toImpl<const ProtoSparseListSmallImplementation>(this), offset);
         }
         return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, offset)->asSparseList(context);
     }
-    unsigned long ProtoSparseList::getSize(ProtoContext* context) const {
+    proto_ulong ProtoSparseList::getSize(ProtoContext* context) const {
         return sparseListSize(this);
     }
     const ProtoObject* ProtoSparseList::asObject(ProtoContext* context) const {
@@ -344,14 +344,14 @@ namespace proto
         return impl ? reinterpret_cast<const ProtoSparseListIterator*>(impl->implAsObject(context)) : nullptr;
     }
 
-    void ProtoSparseList::processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, const ProtoObject*)) const {
+    void ProtoSparseList::processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, proto_ulong, const ProtoObject*)) const {
         if (isSparseListSmall(this)) {
             // Small fast path: walk the inline pairs in key-asc order
             // without allocating an iterator chain.
             const auto* small = toImpl<const ProtoSparseListSmallImplementation>(this);
-            unsigned long n = small->implCount();
+            proto_ulong n = small->implCount();
             for (unsigned i = 0; i < n; ++i) {
-                unsigned long k;
+                proto_ulong k;
                 const ProtoObject* v;
                 if (small->implPairAt(i, &k, &v)) {
                     method(context, self, k, v);
@@ -369,7 +369,7 @@ namespace proto
     }
 
     int ProtoSparseListIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implHasNext(); }
-    unsigned long ProtoSparseListIterator::nextKey(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextKey(); }
+    proto_ulong ProtoSparseListIterator::nextKey(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextKey(); }
     const ProtoObject* ProtoSparseListIterator::nextValue(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextValue(); }
     const ProtoSparseListIterator* ProtoSparseListIterator::advance(ProtoContext* context) {
         if (!this) return nullptr;

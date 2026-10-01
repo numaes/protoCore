@@ -31,7 +31,7 @@ namespace proto {
 
     namespace {
         /** Maximum bytes to request from the OS in a single getFreeCells allocation (16 MiB). */
-        constexpr unsigned long kMaxBytesPerOSAllocation = 16u * 1024u * 1024u;
+        constexpr proto_ulong kMaxBytesPerOSAllocation = 16u * 1024u * 1024u;
         /** Maximum number of blocks (BigCells) per OS request. */
         constexpr int kMaxBlocksPerOSAllocation = static_cast<int>(kMaxBytesPerOSAllocation / sizeof(BigCell));
         /**
@@ -42,12 +42,12 @@ namespace proto {
          * limit but cannot be reclaimed, so this bounds the part of the limit
          * that is out of the collector's reach.
          */
-        constexpr long kLimitBatchFraction = 8;
+        constexpr proto_long kLimitBatchFraction = 8;
         /**
          * Floor of a capped refill, so that a very small limit or many threads
          * do not turn every few allocations into a refill under globalMutex.
          */
-        constexpr long kMinLimitedBatchCells = 512;
+        constexpr proto_long kMinLimitedBatchCells = 512;
 
         std::atomic<uint64_t> s_getFreeCellsCalls{0};
         static long long diagCurrentTid() {
@@ -113,7 +113,7 @@ namespace proto {
         // Publish an accumulated chunk of dead cells to the global freeChunks
         // list.  Caller MUST hold globalMutex.  The chunk's tail must already
         // have its `next` pointing at nullptr (terminator).
-        void publishFreeChunk(ProtoSpace* space, Cell* head, Cell* tail, unsigned long count) {
+        void publishFreeChunk(ProtoSpace* space, Cell* head, Cell* tail, proto_ulong count) {
             if (!head || !tail || count == 0) return;
             tail->internalSetNextRaw(nullptr);
             ProtoSpace::FreeChunk* chunk = takeFreeChunk(space);
@@ -231,17 +231,17 @@ namespace proto {
         // thread that starts a stop-the-world; the context's young generation
         // is submitted at the end, so they are candidates of the next cycle.
         void releaseFinalizedMutableEntries(ProtoSpace* space) {
-            std::vector<unsigned long>& refs = space->gcFinalizedMutableRefs;
+            std::vector<proto_ulong>& refs = space->gcFinalizedMutableRefs;
             // The entries of spaces destroyed since the last cycle of any
             // space go with them: nothing can reach those handles any more.
             multispace::appendRefsOfDestroyedSpaces(refs);
             if (refs.empty()) return;
             ProtoContext* gc = space->gcContext;
-            constexpr unsigned long kShards = ProtoSpace::MUTABLE_ROOT_SHARDS;
+            constexpr proto_ulong kShards = ProtoSpace::MUTABLE_ROOT_SHARDS;
 
-            std::sort(refs.begin(), refs.end(), [](unsigned long a, unsigned long b) {
-                const unsigned long sa = a % kShards;
-                const unsigned long sb = b % kShards;
+            std::sort(refs.begin(), refs.end(), [](proto_ulong a, proto_ulong b) {
+                const proto_ulong sa = a % kShards;
+                const proto_ulong sb = b % kShards;
                 return sa != sb ? sa < sb : a < b;
             });
             // Sorted by shard, then by key: each shard's run is the sorted,
@@ -250,7 +250,7 @@ namespace proto {
 
             std::size_t begin = 0;
             while (begin < refs.size()) {
-                const unsigned long shard = refs[begin] % kShards;
+                const proto_ulong shard = refs[begin] % kShards;
                 std::size_t end = begin + 1;
                 while (end < refs.size() && refs[end] % kShards == shard) ++end;
 
@@ -839,7 +839,7 @@ namespace proto {
                     if (!workList.empty()) {
                         const Cell* nextCell = workList.back();
                         if (nextCell && (reinterpret_cast<uintptr_t>(nextCell) & 0x3F) == 0) {
-                            __builtin_prefetch(nextCell, 1, 1);
+                            PROTO_PREFETCH(nextCell);
                         }
                     }
 
@@ -885,10 +885,10 @@ namespace proto {
                 // walk-and-cut into an O(1) chunk pop.
                 Cell* chunkHead = nullptr;
                 Cell* chunkTail = nullptr;
-                unsigned long chunkCount = 0;
+                proto_ulong chunkCount = 0;
                 // Total cells reclaimed this cycle, across all published
                 // chunks — the out-of-memory signal (see reclaimedLastCycle).
-                unsigned long reclaimedThisCycle = 0;
+                proto_ulong reclaimedThisCycle = 0;
 
                 // With other spaces live, a thread of another space may still
                 // hold, in C++ locals, a cell this sweep finds dead: a table
@@ -1133,7 +1133,7 @@ namespace proto {
                     multispace::waitForGracePeriod();
                     Cell* head = nullptr;
                     Cell* tail = nullptr;
-                    unsigned long count = 0;
+                    proto_ulong count = 0;
                     for (Cell* dead : deadCells) {
                         dead->finalize(space->rootContext);
                         dead->internalSetNextRaw(head);
@@ -1171,16 +1171,16 @@ namespace proto {
                     // long-running test floods stderr.
                     if (cycles > 0) {
                         std::fprintf(stderr,
-                            "[GC-PROFILE] cycles=%lu  P1=%luus  P2=%luus  P4=%luus  P5=%luus  REL=%luus  P6=%luus  marked=%lu  swept_segs=%lu\n",
-                            (unsigned long)cycles,
-                            (unsigned long)dbg_total_phase1_us.load(),
-                            (unsigned long)dbg_total_phase2_us.load(),
-                            (unsigned long)dbg_total_phase4_us.load(),
-                            (unsigned long)dbg_total_phase5_us.load(),
-                            (unsigned long)dbg_total_release_us.load(),
-                            (unsigned long)dbg_total_phase6_us.load(),
-                            (unsigned long)dbg_total_cells_marked.load(),
-                            (unsigned long)dbg_total_segments_swept.load());
+                            "[GC-PROFILE] cycles=%" PROTO_FMT_U "  P1=%" PROTO_FMT_U "us  P2=%" PROTO_FMT_U "us  P4=%" PROTO_FMT_U "us  P5=%" PROTO_FMT_U "us  REL=%" PROTO_FMT_U "us  P6=%" PROTO_FMT_U "us  marked=%" PROTO_FMT_U "  swept_segs=%" PROTO_FMT_U "\n",
+                            (proto_ulong)cycles,
+                            (proto_ulong)dbg_total_phase1_us.load(),
+                            (proto_ulong)dbg_total_phase2_us.load(),
+                            (proto_ulong)dbg_total_phase4_us.load(),
+                            (proto_ulong)dbg_total_phase5_us.load(),
+                            (proto_ulong)dbg_total_release_us.load(),
+                            (proto_ulong)dbg_total_phase6_us.load(),
+                            (proto_ulong)dbg_total_cells_marked.load(),
+                            (proto_ulong)dbg_total_segments_swept.load());
                     }
                 }
 #endif
@@ -1264,8 +1264,8 @@ namespace proto {
         // share one (docs/GLOBAL_MUTABLE_TABLE.md).  Registered before the
         // first mutable object of the bootstrap below.
         {
-            const unsigned long id = multispace::registerSpace(this);
-            this->nextMutableRef.store((id << kMutableRefSpaceShift) | 1UL);
+            const proto_ulong id = multispace::registerSpace(this);
+            this->nextMutableRef.store((id << kMutableRefSpaceShift) | PROTO_UL(1));
         }
 
         // The tuple interner must exist before the first tuple is built.
@@ -1277,7 +1277,7 @@ namespace proto {
         this->maxAllocatedCellsPerContext = CONTEXT_GC_THRESHOLD_DEFAULT;
         if (const char* envThreshold = std::getenv("PROTOCORE_GC_CONTEXT_THRESHOLD")) {
             char* endPtr = nullptr;
-            unsigned long parsed = std::strtoul(envThreshold, &endPtr, 10);
+            proto_ulong parsed = std::strtoul(envThreshold, &endPtr, 10);
             if (endPtr && *endPtr == '\0' && parsed > 0 && parsed <= UINT_MAX) {
                 this->maxAllocatedCellsPerContext = static_cast<unsigned int>(parsed);
             }
@@ -1291,7 +1291,7 @@ namespace proto {
         this->survivorStagger = SURVIVOR_STAGGER_DEFAULT;
         if (const char* envStagger = std::getenv("PROTOCORE_GC_SURVIVOR_STAGGER")) {
             char* endPtr = nullptr;
-            unsigned long parsed = std::strtoul(envStagger, &endPtr, 10);
+            proto_ulong parsed = std::strtoul(envStagger, &endPtr, 10);
             if (endPtr && *endPtr == '\0' && parsed >= 1 && parsed <= 256) {
                 this->survivorStagger = static_cast<unsigned int>(parsed);
             }
@@ -1527,7 +1527,7 @@ namespace proto {
 #if defined(__linux__)
                 std::fprintf(out,
                     "protoCore PROTOCORE_MUTABLE_CYCLE_CHECK [pid %ld]: %s",
-                    (long) ::getpid(), rep.summary().c_str());
+                    (proto_long) ::getpid(), rep.summary().c_str());
 #else
                 std::fprintf(out, "protoCore PROTOCORE_MUTABLE_CYCLE_CHECK: %s",
                              rep.summary().c_str());
@@ -1607,8 +1607,8 @@ namespace proto {
             resolutionChain_ = buildDefaultResolutionChain(rootContext);
             return;
         }
-        const unsigned long size = list->getSize(rootContext);
-        for (unsigned long i = 0; i < size; ++i) {
+        const proto_ulong size = list->getSize(rootContext);
+        for (proto_ulong i = 0; i < size; ++i) {
             const ProtoObject* el = list->getAt(rootContext, static_cast<int>(i));
             if (!el || !el->isString(rootContext)) {
                 resolutionChain_ = buildDefaultResolutionChain(rootContext);
@@ -1637,8 +1637,8 @@ namespace proto {
         globalModuleRootTable().add(module, this);
     }
 
-    unsigned long ProtoSpace::moduleRootCount() {
-        return static_cast<unsigned long>(globalModuleRootTable().size());
+    proto_ulong ProtoSpace::moduleRootCount() {
+        return static_cast<proto_ulong>(globalModuleRootTable().size());
     }
 
     const ProtoObject* ProtoSpace::registerModule(const ModuleIdentity& id,
@@ -1808,7 +1808,7 @@ namespace proto {
             // context's un-submitted young generation fills the heap without
             // ever entering markedList.  Two consecutive zero-reclaim cycles
             // confirm it, absorbing a single cycle's timing races.
-            unsigned long reclaimed =
+            proto_ulong reclaimed =
                 this->reclaimedLastCycle.load(std::memory_order_relaxed);
             if (reclaimed == 0) {
                 if (++oomStrikes >= 2) {
@@ -1821,12 +1821,12 @@ namespace proto {
                         lock.lock();
                     } else {
                         // Confirmed, unrecoverable out of memory.
-                        unsigned long live = this->liveCellsLastCycle.load(
+                        proto_ulong live = this->liveCellsLastCycle.load(
                             std::memory_order_relaxed);
                         lock.unlock();
                         std::fprintf(stderr,
                             "protoCore: heap hard limit %d cells reached; "
-                            "live set %lu cells, last cycle reclaimed 0 — "
+                            "live set %" PROTO_FMT_U " cells, last cycle reclaimed 0 — "
                             "out of memory\n", this->maxHeapSize, live);
                         std::fflush(stderr);
                         std::abort();
@@ -1880,10 +1880,10 @@ namespace proto {
             // threads) can exhaust a small limit while the live set is far
             // below it.  Without a limit nothing changes.
             const bool limitedBatches = this->maxHeapSize > 0;
-            long limitCap = 0;
+            proto_long limitCap = 0;
             if (limitedBatches) {
-                const long threads = std::max(1, this->runningThreads.load());
-                limitCap = static_cast<long>(this->maxHeapSize) / (kLimitBatchFraction * threads);
+                const proto_long threads = std::max(1, this->runningThreads.load());
+                limitCap = static_cast<proto_long>(this->maxHeapSize) / (kLimitBatchFraction * threads);
                 if (limitCap < kMinLimitedBatchCells) limitCap = kMinLimitedBatchCells;
                 if (batchSize > limitCap) batchSize = static_cast<int>(limitCap);
             }
@@ -1896,7 +1896,7 @@ namespace proto {
                 // chunk is handed out whole.  Under a limit, split only a
                 // chunk larger than the cap: when the cap does not bind (a
                 // generous limit) the chunk is still handed out whole.
-                if (limitedBatches && chunk->count > static_cast<unsigned long>(limitCap)) {
+                if (limitedBatches && chunk->count > static_cast<proto_ulong>(limitCap)) {
                     // Hand out only batchSize cells of this chunk: cut its
                     // chain after batchSize cells and leave the remainder
                     // (same tail) on the free-chunk list.
@@ -1904,7 +1904,7 @@ namespace proto {
                     Cell* last = batchHead;
                     for (int i = 1; i < batchSize; ++i) last = last->getNext();
                     chunk->head = last->getNext();
-                    chunk->count -= static_cast<unsigned long>(batchSize);
+                    chunk->count -= static_cast<proto_ulong>(batchSize);
                     last->internalSetNextRaw(nullptr);
                     this->freeCellsCount -= batchSize;
                     GC_LOCK_TRACE("getFreeCells REL(chunk-split)");
@@ -1996,8 +1996,8 @@ namespace proto {
             // like everyone else: at the ceiling they get one batch, not a
             // whole OS block that would then feed the mutators.
             if (this->maxHeapSize > 0) {
-                long headroom = static_cast<long>(this->maxHeapSize)
-                              - static_cast<long>(this->heapSize);
+                proto_long headroom = static_cast<proto_long>(this->maxHeapSize)
+                              - static_cast<proto_long>(this->heapSize);
                 if (headroom <= 0) {
                     // HARD zone: the heap is at its ceiling.
                     if (!limitExempt && ctx->criticalSectionDepth == 0) {
@@ -2030,7 +2030,7 @@ namespace proto {
                     }
                     // Clamp the OS request so heapSize never crosses
                     // maxHeapSize.
-                    if (static_cast<long>(blocksToAllocate) > headroom)
+                    if (static_cast<proto_long>(blocksToAllocate) > headroom)
                         blocksToAllocate = static_cast<int>(headroom);
                     // The partitioning below hands the first `batchSize` cells
                     // to the caller; keep batchSize within the (possibly
@@ -2093,7 +2093,7 @@ namespace proto {
                     &bigCellPtr[remainderStart + chunkSize - 1]);
                 chunkTail->internalSetNextRaw(nullptr);
                 publishFreeChunk(this, chunkHead, chunkTail,
-                                 static_cast<unsigned long>(chunkSize));
+                                 static_cast<proto_ulong>(chunkSize));
                 remainderStart += chunkSize;
             }
 
@@ -2113,7 +2113,7 @@ namespace proto {
         std::atomic_ref<int>(this->maxHeapSize).store(hardCells, std::memory_order_relaxed);
     }
 
-    unsigned long returnUnusedCellBatch(ProtoSpace* space, Cell* head) {
+    proto_ulong returnUnusedCellBatch(ProtoSpace* space, Cell* head) {
         if (!space || !head) return 0;
 
         // Walk to the tail to get a count and a terminator.  O(batch) once per
@@ -2121,7 +2121,7 @@ namespace proto {
         // is to keep a running count on ProtoThreadExtension, and that cell has
         // no spare byte left inside its 64-byte budget.
         Cell* tail = head;
-        unsigned long count = 1;
+        proto_ulong count = 1;
         while (Cell* next = tail->getNext()) { tail = next; ++count; }
 
         std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);

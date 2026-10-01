@@ -28,8 +28,8 @@ constexpr int kGarbagePerBatch = 5000;
 
 struct CycleReport {
     uint64_t      cycles;
-    unsigned long reclaimed;
-    long          created;
+    proto::proto_ulong reclaimed;
+    proto::proto_long          created;
 };
 
 // See test/GlobalInterningTests.cpp for the two traps this shape avoids:
@@ -37,7 +37,7 @@ struct CycleReport {
 // reclamation assertion must be consistent with the garbage created.
 CycleReport forceCycles(ProtoSpace& space, ProtoContext* parent, uint64_t minCycles) {
     const uint64_t start = space.getGCCycleCount();
-    long created = 0;
+    proto::proto_long created = 0;
     space.setHeapLimits(/*soft=*/0, /*hard=*/space.heapSize + kHeadroomCells);
     for (int batch = 0; batch < 400 && space.getGCCycleCount() - start < minCycles; ++batch) {
         ProtoContext garbage(&space, parent, nullptr, nullptr, nullptr, nullptr);
@@ -57,7 +57,7 @@ CycleReport forceCycles(ProtoSpace& space, ProtoContext* parent, uint64_t minCyc
 // A stand-in for a loaded module: an object whose attribute "moduleVariable"
 // holds a freshly allocated, verifiable structure.  This is the shape that
 // matters — a module anchors its contents through its variables.
-const ProtoObject* buildModuleLike(ProtoContext* c, long tag) {
+const ProtoObject* buildModuleLike(ProtoContext* c, proto::proto_long tag) {
     ProtoContext::CriticalSection cs(c);
     const ProtoObject* contents =
         c->newList()->appendLast(c, c->fromInteger(tag))
@@ -66,7 +66,7 @@ const ProtoObject* buildModuleLike(ProtoContext* c, long tag) {
     return c->newObject(false)->setAttribute(c, key, contents);
 }
 
-bool moduleIntact(ProtoContext* c, const ProtoObject* module, long tag) {
+bool moduleIntact(ProtoContext* c, const ProtoObject* module, proto::proto_long tag) {
     const ProtoString* key = ProtoString::createSymbol(c, "moduleVariable");
     const ProtoObject* contents = module->getAttribute(c, key);
     if (!contents || contents == PROTO_NONE) return false;
@@ -77,7 +77,7 @@ bool moduleIntact(ProtoContext* c, const ProtoObject* module, long tag) {
 }
 
 std::string uniqueIdentityPath(const char* stem) {
-    static std::atomic<unsigned long> counter{0};
+    static std::atomic<proto::proto_ulong> counter{0};
     const auto* info = ::testing::UnitTest::GetInstance()->current_test_info();
     std::string out = "p3_";
     out += info ? info->name() : "no_test";
@@ -93,10 +93,10 @@ std::string uniqueIdentityPath(const char* stem) {
 #define ASSERT_CYCLES_DID_REAL_WORK(rep, minCycles)                              \
     do {                                                                         \
         std::fprintf(stderr, "[gc] cycles=%lu reclaimed=%lu created=%ld\n",      \
-                     (unsigned long)(rep).cycles, (rep).reclaimed, (rep).created); \
+                     (proto::proto_ulong)(rep).cycles, (rep).reclaimed, (rep).created); \
         ASSERT_GE((rep).cycles, (uint64_t)(minCycles))                           \
             << "no collection ran; the test proves nothing";                     \
-        ASSERT_GT((rep).reclaimed, (unsigned long)((rep).created / 10))          \
+        ASSERT_GT((rep).reclaimed, (proto::proto_ulong)((rep).created / 10))          \
             << "the cycles reclaimed " << (rep).reclaimed << " cells against "   \
             << (rep).created << " created: the young generation was never "      \
             << "submitted, so this test would pass with the GC disabled";        \

@@ -15,7 +15,7 @@ using namespace proto;
 
 namespace {
     CellType formOf(const ProtoMap* m) {
-        return reinterpret_cast<const Cell*>(reinterpret_cast<uintptr_t>(m) & ~0x3FUL)->getType();
+        return reinterpret_cast<const Cell*>(reinterpret_cast<uintptr_t>(m) & ~PROTO_UL(0x3F))->getType();
     }
 
     using PairVec = std::vector<std::pair<const ProtoObject*, const ProtoObject*>>;
@@ -33,7 +33,7 @@ protected:
     ProtoContext* c;
     void SetUp() override { space = new ProtoSpace(); c = space->rootContext; }
     void TearDown() override { delete space; }
-    const ProtoObject* I(long v) { return c->fromInteger(v); }
+    const ProtoObject* I(proto::proto_long v) { return c->fromInteger(v); }
     const ProtoObject* obj() { return c->newObject(false); }
 };
 
@@ -41,7 +41,7 @@ TEST_F(MapTest, NewIsAnEmptySmallWithTheNewTag) {
     const ProtoMap* m = c->newMap();
     ProtoObjectPointer pa{};
     pa.oid = m->asObject(c);
-    EXPECT_EQ(pa.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_MAP));
+    EXPECT_EQ(pa.op.pointer_tag, static_cast<proto::proto_ulong>(POINTER_TAG_MAP));
     EXPECT_EQ(formOf(m), CellType::MapSmall);
     EXPECT_EQ(m->getSize(c), 0u);
     EXPECT_FALSE(m->has(c, obj()));
@@ -96,7 +96,7 @@ TEST_F(MapTest, EmbeddedKeysAreStored) {
     const ProtoObject* keys[] = {I(0), I(7), I(-3), PROTO_TRUE, PROTO_FALSE, PROTO_NONE,
                                  c->fromUnicodeChar(0x263A), c->fromUTF8String("ab")};
     const ProtoMap* m = c->newMap();
-    long i = 0;
+    proto::proto_long i = 0;
     for (const ProtoObject* k : keys) m = m->setAt(c, k, I(100 + i++));
     EXPECT_EQ(m->getSize(c), 8u);
     i = 0;
@@ -232,7 +232,7 @@ TEST_F(MapTest, ContentHashFollowsContents) {
     const ProtoMap* direct = c->newMap()->setAt(c, k[1], I(1))->setAt(c, k[0], I(0));
     EXPECT_EQ(viaAvl->getHash(c), direct->getHash(c));
 
-    const unsigned long h = fwd->getHash(c);
+    const proto::proto_ulong h = fwd->getHash(c);
     EXPECT_NE(h, fwd->setAt(c, k[3], I(33))->getHash(c));        // one value changed
     EXPECT_NE(h, fwd->removeAt(c, k[3])->getHash(c));           // one pair removed
     EXPECT_NE(h, fwd->setAt(c, obj(), I(8))->getHash(c));       // one pair added

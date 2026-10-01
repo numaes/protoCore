@@ -9,6 +9,7 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <chrono>
 #include "../headers/protoCore.h"
 
 using namespace proto;

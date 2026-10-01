@@ -42,7 +42,7 @@ CaseResult caseFastPathKeyHits(Host& host)
 
     // Long enough that the inline-string accident cannot rescue it.
     const char* kName = "conformance_long_attribute_name";
-    const unsigned long kNameLen = 31;
+    const proto::proto_ulong kNameLen = 31;
 
     const ProtoObject* keyObj = host.internAttributeKey(kName);
     if (!keyObj)

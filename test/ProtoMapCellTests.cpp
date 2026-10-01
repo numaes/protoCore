@@ -20,7 +20,7 @@ namespace {
     bool contains(const std::vector<const Cell*>& v, const Cell* c) {
         return std::find(v.begin(), v.end(), c) != v.end();
     }
-    const ProtoObject* cellObject(ProtoContext* c, long n) {
+    const ProtoObject* cellObject(ProtoContext* c, proto::proto_long n) {
         return c->newList()->appendLast(c, c->fromInteger(n))->asObject(c);
     }
     // The Small constructor requires its keys in ascending key-word order;
@@ -45,8 +45,8 @@ TEST(MapCells, BothFormsShareOneTagAndHaveTheirOwnCellType) {
     ProtoObjectPointer a{}, b{};
     a.oid = node->implAsObject(c);
     b.oid = small->implAsObject(c);
-    EXPECT_EQ(a.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_MAP));
-    EXPECT_EQ(b.op.pointer_tag, static_cast<unsigned long>(POINTER_TAG_MAP));
+    EXPECT_EQ(a.op.pointer_tag, static_cast<proto::proto_ulong>(POINTER_TAG_MAP));
+    EXPECT_EQ(b.op.pointer_tag, static_cast<proto::proto_ulong>(POINTER_TAG_MAP));
     EXPECT_EQ(node->getType(), CellType::Map);
     EXPECT_EQ(small->getType(), CellType::MapSmall);
     EXPECT_LE(sizeof(ProtoMapImplementation), 64u);

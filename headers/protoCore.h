@@ -9,6 +9,7 @@
 #define PROTO_H_
 
 #include <atomic>
+#include <cstdint>
 #include <compare>
 #include <condition_variable>
 #include <memory>
@@ -17,8 +18,43 @@
 #include <thread>
 #include <vector>
 
+// 64-bit integer types of the protoCore API.
+//
+// protoCore was written for LP64, where long is 64 bits.  Windows is LLP64 (long
+// is 32 bits), so there the API uses long long.  Everywhere else these ARE long
+// and unsigned long, so the types, the C++ mangling and the ABI on Linux and
+// macOS are exactly what they were before Windows was supported.
+#if defined(_WIN32)
+#define PROTO_L(x)  x##LL
+#define PROTO_UL(x) x##ULL
+#define PROTO_FMT_U "llu"   // printf length+conversion for proto_ulong
+#else
+#define PROTO_L(x)  x##L
+#define PROTO_UL(x) x##UL
+#define PROTO_FMT_U "lu"
+#endif
+
+// Static data members of the API.  A Windows DLL exports functions to callers
+// that know nothing about it, but data must be declared dllimport by the
+// caller.  Empty everywhere else.
+#if defined(_WIN32) && defined(PROTOCORE_BUILDING_DLL)
+#define PROTOCORE_DATA __declspec(dllexport)
+#elif defined(_WIN32)
+#define PROTOCORE_DATA __declspec(dllimport)
+#else
+#define PROTOCORE_DATA
+#endif
+
 namespace proto
 {
+#if defined(_WIN32)
+    using proto_long  = long long;
+    using proto_ulong = unsigned long long;
+#else
+    using proto_long  = long;
+    using proto_ulong = unsigned long;
+#endif
+
     class SymbolTable;  // forward declaration for 64-shard interning table
     class TupleInterner;  // forward declaration for the tuple interning table
     struct MutableValueCacheEntry;  // defined in proto_internal.h
@@ -60,9 +96,9 @@ namespace proto
 
     //! Useful constants.
     //! @warning They should be kept in sync with proto_internal.h!
-    #define PROTO_TRUE ((const proto::ProtoObject*)  1217UL) // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 1
-    #define PROTO_FALSE ((const proto::ProtoObject*) 193UL)  // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 0
-    #define PROTO_NONE ((const proto::ProtoObject*)  321UL)  // Tag: EMBEDDED_VALUE (1), Type: NONE (5), Value: 0
+    #define PROTO_TRUE ((const proto::ProtoObject*)  PROTO_UL(1217)) // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 1
+    #define PROTO_FALSE ((const proto::ProtoObject*) PROTO_UL(193))  // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 0
+    #define PROTO_NONE ((const proto::ProtoObject*)  PROTO_UL(321))  // Tag: EMBEDDED_VALUE (1), Type: NONE (5), Value: 0
 
     typedef const ProtoObject*(*ProtoMethod)(
         ProtoContext* context,
@@ -517,7 +553,7 @@ namespace proto
         const ProtoObject* divmod(ProtoContext* context, const ProtoObject* other) const;
 
         //- Internals & Type Checking
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
         int isCell(ProtoContext* context) const;
         const Cell* asCell(ProtoContext* context) const;
         static bool isCellPointer(const ProtoObject* obj);
@@ -623,8 +659,8 @@ namespace proto
         double asDouble(ProtoContext* context) const;
         char asByte(ProtoContext* context) const;
         void asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day) const;
-        unsigned long asTimestamp(ProtoContext* context) const;
-        long asTimeDelta(ProtoContext* context) const;
+        proto_ulong asTimestamp(ProtoContext* context) const;
+        proto_long asTimeDelta(ProtoContext* context) const;
         const ProtoList* asList(ProtoContext* context) const;
         const ProtoListIterator* asListIterator(ProtoContext* context) const;
         const ProtoTuple* asTuple(ProtoContext* context) const;
@@ -728,12 +764,12 @@ namespace proto
 
     static constexpr long long PROTO_SMALL_INT_MAX  = (1LL << 53) - 1;
     static constexpr long long PROTO_SMALL_INT_MIN  = -(1LL << 53);
-    static constexpr unsigned long PROTO_SMALL_INT_TAG_MASK  = 0x3FFUL; // pointer_tag(6) + embedded_type(4)
-    static constexpr unsigned long PROTO_SMALL_INT_TAG_VALUE = 0x001UL; // POINTER_TAG_EMBEDDED_VALUE | (EMBEDDED_TYPE_SMALLINT << 6)
+    static constexpr proto_ulong PROTO_SMALL_INT_TAG_MASK  = PROTO_UL(0x3FF); // pointer_tag(6) + embedded_type(4)
+    static constexpr proto_ulong PROTO_SMALL_INT_TAG_VALUE = PROTO_UL(0x001); // POINTER_TAG_EMBEDDED_VALUE | (EMBEDDED_TYPE_SMALLINT << 6)
 
     /** True iff `obj` is a tagged SmallInteger pointer (no Cell, no allocation). */
     static inline bool isSmallInt(const ProtoObject* obj) {
-        return (reinterpret_cast<unsigned long>(obj) & PROTO_SMALL_INT_TAG_MASK) == PROTO_SMALL_INT_TAG_VALUE;
+        return (reinterpret_cast<proto_ulong>(obj) & PROTO_SMALL_INT_TAG_MASK) == PROTO_SMALL_INT_TAG_VALUE;
     }
 
     /** Extract the signed 54-bit integer value from a SmallInt-tagged pointer.
@@ -771,7 +807,7 @@ namespace proto
         const ProtoObject* getFirst(ProtoContext* context) const;
         const ProtoObject* getLast(ProtoContext* context) const;
         const ProtoList* getSlice(ProtoContext* context, int from, int to) const;
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
         bool has(ProtoContext* context, const ProtoObject* value) const;
 
         //- Modifiers that return a new list
@@ -791,7 +827,7 @@ namespace proto
         //- Conversion
         const ProtoObject* asObject(ProtoContext* context) const;
         const ProtoListIterator* getIterator(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
     };
 
     class ProtoTupleIterator
@@ -811,7 +847,7 @@ namespace proto
         const ProtoObject* getFirst(ProtoContext* context) const;
         const ProtoObject* getLast(ProtoContext* context) const;
         const ProtoObject* getSlice(ProtoContext* context, int from, int to) const;
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
         bool has(ProtoContext* context, const ProtoObject* value) const;
 
         //- "Modifiers" (return new tuples)
@@ -830,7 +866,7 @@ namespace proto
         const ProtoList* asList(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
         const ProtoTupleIterator* getIterator(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
     };
 
     class ProtoStringIterator
@@ -941,7 +977,7 @@ namespace proto
 
         //- Accessors
         const ProtoObject* getAt(ProtoContext* context, int index) const;
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
         const ProtoString* getSlice(ProtoContext* context, int from, int to) const;
 
         //- "Modifiers" (return new strings)
@@ -964,7 +1000,7 @@ namespace proto
         const ProtoObject* asObject(ProtoContext* context) const;
         const ProtoList* asList(ProtoContext* context) const;
         const ProtoStringIterator* getIterator(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
         const ProtoString* isCell(ProtoContext* context) const;
         const Cell* asCell(ProtoContext* context) const;
 
@@ -986,7 +1022,7 @@ namespace proto
          */
         void* getPointer(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
     };
 
     /** Contiguous buffer (aligned_alloc). Lifecycle tied to descriptor; GC finalize frees segment (Shadow GC). */
@@ -994,9 +1030,9 @@ namespace proto
     {
     public:
         void* getRawPointer(ProtoContext* context) const;
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
     };
 
     /**
@@ -1095,7 +1131,7 @@ namespace proto
     {
     public:
         int hasNext(ProtoContext* context) const;
-        unsigned long nextKey(ProtoContext* context) const;
+        proto_ulong nextKey(ProtoContext* context) const;
         const ProtoObject* nextValue(ProtoContext* context) const;
         const ProtoSparseListIterator* advance(ProtoContext* context);
         const ProtoObject* asObject(ProtoContext* context) const;
@@ -1104,18 +1140,18 @@ namespace proto
     class ProtoSparseList
     {
     public:
-        bool has(ProtoContext* context, unsigned long index) const;
-        const ProtoObject* getAt(ProtoContext* context, unsigned long index) const;
-        const ProtoSparseList* setAt(ProtoContext* context, unsigned long index, const ProtoObject* value) const;
-        const ProtoSparseList* removeAt(ProtoContext* context, unsigned long index) const;
+        bool has(ProtoContext* context, proto_ulong index) const;
+        const ProtoObject* getAt(ProtoContext* context, proto_ulong index) const;
+        const ProtoSparseList* setAt(ProtoContext* context, proto_ulong index, const ProtoObject* value) const;
+        const ProtoSparseList* removeAt(ProtoContext* context, proto_ulong index) const;
         bool isEqual(ProtoContext* context, const ProtoSparseList* otherDict) const;
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
 
         const ProtoObject* asObject(ProtoContext* context) const;
         const ProtoSparseListIterator* getIterator(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
 
-        void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, const ProtoObject*)) const;
+        void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, proto_ulong, const ProtoObject*)) const;
         void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const;
     };
 
@@ -1160,11 +1196,11 @@ namespace proto
         const ProtoMap* setAt(ProtoContext* context, const ProtoObject* key, const ProtoObject* value) const;
         const ProtoMap* removeAt(ProtoContext* context, const ProtoObject* key) const;
         bool isEqual(ProtoContext* context, const ProtoMap* other) const;
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
 
         const ProtoObject* asObject(ProtoContext* context) const;
         const ProtoMapIterator* getIterator(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
 
         /** Visits (key, value) in ascending key-word order.  Allocates nothing and
          *  holds no GC critical section, so `method` may allocate and run
@@ -1258,7 +1294,7 @@ namespace proto
 
         /** Identity hash: the queue is mutable, so its contents cannot
          *  contribute to it. */
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
     };
 
     /**
@@ -1274,7 +1310,7 @@ namespace proto
      */
     struct KeySemantics {
         bool (*isIdentityKey)(ProtoContext*, const ProtoObject* key);
-        unsigned long (*hash)(ProtoContext*, const ProtoObject* key);
+        proto_ulong (*hash)(ProtoContext*, const ProtoObject* key);
         bool (*equals)(ProtoContext*, const ProtoObject* a, const ProtoObject* b);
     };
 
@@ -1317,7 +1353,7 @@ namespace proto
         const ProtoSetIterator* advance(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
         //! The hash the element next() returns is stored under (see ProtoSet::addWithHash).
-        unsigned long nextHash(ProtoContext* context) const;
+        proto_ulong nextHash(ProtoContext* context) const;
     };
 
     /**
@@ -1348,22 +1384,22 @@ namespace proto
          * differs (Python makes 1, 1.0 and True one element, and honours __hash__) supplies its own
          * hash through these variants; a set must then be accessed with one hash function only.
          */
-        const ProtoSet* addWithHash(ProtoContext* context, unsigned long hash, const ProtoObject* value) const;
+        const ProtoSet* addWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const;
 
         /**
          * @brief Returns true if an element is stored under `hash`.
          */
-        bool hasHash(ProtoContext* context, unsigned long hash) const;
+        bool hasHash(ProtoContext* context, proto_ulong hash) const;
 
         /**
          * @brief Returns a new set without the element stored under `hash` (the same set if absent).
          */
-        const ProtoSet* removeHash(ProtoContext* context, unsigned long hash) const;
+        const ProtoSet* removeHash(ProtoContext* context, proto_ulong hash) const;
 
         /**
          * @brief Returns the number of unique elements in the set.
          */
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
 
         /**
          * @brief Returns the set as a generic ProtoObject.
@@ -1410,7 +1446,7 @@ namespace proto
         /**
          * @brief Returns the total number of elements in the multiset (including duplicates).
          */
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
 
         /**
          * @brief Returns the multiset as a generic ProtoObject.
@@ -1426,12 +1462,12 @@ namespace proto
     class ProtoByteBuffer
     {
     public:
-        unsigned long getSize(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
         char* getBuffer(ProtoContext* context) const;
         char getAt(ProtoContext* context, int index) const;
         void setAt(ProtoContext* context, int index, char value);
         const ProtoObject* asObject(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
     };
 
     class ProtoThread
@@ -1483,7 +1519,7 @@ namespace proto
 
         const ProtoObject* getName(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
-        unsigned long getHash(ProtoContext* context) const;
+        proto_ulong getHash(ProtoContext* context) const;
 
         void setCurrentContext(ProtoContext* context);
         /** Returns the current execution context for this thread. O(1) thread-local read. */
@@ -1717,13 +1753,13 @@ namespace proto
          * block.  See docs/GarbageCollector.md § "Finalizer contract".
          */
         const ProtoObject* fromExternalPointer(void* pointer, void (*finalizer)(void*) = nullptr);
-        const ProtoObject* fromBuffer(unsigned long length, char* buffer, bool freeOnExit = false);
-        const ProtoObject* newBuffer(unsigned long length);
+        const ProtoObject* fromBuffer(proto_ulong length, char* buffer, bool freeOnExit = false);
+        const ProtoObject* newBuffer(proto_ulong length);
         const ProtoObject* fromBoolean(bool value);
         const ProtoObject* fromByte(char c);
         const ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
-        const ProtoObject* fromTimestamp(unsigned long timestamp);
-        const ProtoObject* fromTimeDelta(long timedelta);
+        const ProtoObject* fromTimestamp(proto_ulong timestamp);
+        const ProtoObject* fromTimeDelta(proto_long timedelta);
 
         //- Factory methods for complex types
         // Empty list — returns the inline-storage form (POINTER_TAG_LIST_SMALL,
@@ -1758,14 +1794,14 @@ namespace proto
         const ProtoMultiset* newMultiset();
         const ProtoObject* newObject(bool mutableObject = false);
         /** Allocates a contiguous buffer (aligned_alloc). GC finalize frees it when descriptor is collected (Shadow GC). */
-        const ProtoObject* newExternalBuffer(unsigned long size);
+        const ProtoObject* newExternalBuffer(proto_ulong size);
         /**
          * Create a fresh, GC-owned ProtoByteBuffer holding `len` raw octets.
          * The bytes are copied from `data` (data may be null only if len == 0).
          * Unlike ProtoString, ProtoByteBuffer is opaque-binary: every byte
          * 0..255 round-trips, and embedded nulls do not truncate.
          */
-        const ProtoByteBuffer* newByteBuffer(const char* data, unsigned long len);
+        const ProtoByteBuffer* newByteBuffer(const char* data, proto_ulong len);
 
         //- Memory Management
         Cell* allocCell();
@@ -1909,7 +1945,7 @@ namespace proto
         void heapLimitCheckpoint();
 
         Cell* lastAllocatedCell;
-        unsigned long allocatedCellsCount;
+        proto_ulong allocatedCellsCount;
         Cell* freeCells;
 
         // Cached pointer to this thread's MutableValueCacheEntry array
@@ -1922,7 +1958,7 @@ namespace proto
         // bootstrap, off-thread alloc with NULL context).
         MutableValueCacheEntry* mutableValueCache_;
         Cell* pendingRoot;
-        std::atomic_flag lock{ATOMIC_FLAG_INIT};
+        std::atomic_flag lock = ATOMIC_FLAG_INIT;
 
         /**
          * @brief Depth counter for in-progress GC critical sections on this
@@ -2043,7 +2079,7 @@ namespace proto
         void remove(Handle h);
 
         /** @brief Number of currently pinned roots — for tests/diagnostics. */
-        unsigned long size() const;
+        proto_ulong size() const;
 
         /** @brief Human-readable name set at creation, for diagnostics. */
         const char* getName() const;
@@ -2093,7 +2129,7 @@ namespace proto
      */
     struct MutableCycle
     {
-        std::vector<unsigned long> refs;   ///< the mutable_refs, ascending
+        std::vector<proto_ulong> refs;   ///< the mutable_refs, ascending
         std::string                path;   ///< a closed walk, hop by hop
     };
 
@@ -2109,7 +2145,7 @@ namespace proto
      */
     struct MutableGraphReport
     {
-        unsigned long handles      = 0;  ///< entries in the mutables table
+        proto_ulong handles      = 0;  ///< entries in the mutables table
         /**
          * References TO a mutable handle found anywhere in the walked graph.
          * Not the number of cycles' worth of anything: it is the measure that
@@ -2117,8 +2153,8 @@ namespace proto
          * `cycles` with a zero here is recognisable as a scan that saw nothing
          * rather than as a graph that is clean.
          */
-        unsigned long handleReferences = 0;
-        unsigned long cellsVisited = 0;  ///< cells the scan walked
+        proto_ulong handleReferences = 0;
+        proto_ulong cellsVisited = 0;  ///< cells the scan walked
         /**
          * True when the cell budget ran out.  A cycle reported by a truncated
          * scan is still real — an edge the scan found is an edge that exists —
@@ -2221,7 +2257,7 @@ namespace proto
          */
         void submitYoungGeneration(const Cell* cellChain);
         
-        void deallocMutable(unsigned long mutable_ref);
+        void deallocMutable(proto_ulong mutable_ref);
 
         /**
          * @brief Find every cycle in this space's mutable-reference graph.
@@ -2275,7 +2311,7 @@ namespace proto
          *        default (8,000,000 cells, ~1 s on the reference machine).
          */
         MutableGraphReport findMutableCycles(ProtoContext* context,
-                                            unsigned long cellBudget = 0) const;
+                                            proto_ulong cellBudget = 0) const;
 
         const ProtoList* getThreads(ProtoContext* context) const;
         const ProtoThread* newThread(
@@ -2380,7 +2416,7 @@ namespace proto
         void addModuleRoot(const ProtoObject* module);
 
         /** @brief Module roots this process holds.  Diagnostics and tests. */
-        static unsigned long moduleRootCount();
+        static proto_ulong moduleRootCount();
 
         /**
          * @brief Publish a module this embedder loaded itself, under the ruled
@@ -2450,7 +2486,7 @@ namespace proto
          */
         ProtoSparseList* gcMutableSnapshot[MUTABLE_ROOT_SHARDS];
 
-        std::atomic<unsigned long> nextMutableRef;
+        std::atomic<proto_ulong> nextMutableRef;
 
         // --- Maquinaria Interna (Público por ahora) ---
 
@@ -2480,12 +2516,12 @@ namespace proto
         struct FreeChunk {
             Cell* head;
             Cell* tail;
-            unsigned long count;
+            proto_ulong count;
             FreeChunk* next;
         };
         FreeChunk* freeChunks;
         FreeChunk* freeChunkPool;
-        static constexpr unsigned long CELL_CHUNK_SIZE = 8192;
+        static constexpr proto_ulong CELL_CHUNK_SIZE = 8192;
 
         /** Lock-free stack of dirty segments; GC drains under globalMutex. */
         std::atomic<DirtySegment*> dirtySegments;
@@ -2558,7 +2594,7 @@ namespace proto
          * cycle's mark phase.  Published by the GC thread at end of cycle;
          * used only for the diagnostic message of the out-of-memory abort.
          */
-        std::atomic<unsigned long> liveCellsLastCycle;
+        std::atomic<proto_ulong> liveCellsLastCycle;
 
         /**
          * @brief Cells reclaimed (swept into the freelist) by the most
@@ -2574,7 +2610,7 @@ namespace proto
          * generation) fill the heap without ever entering `markedList`, so a
          * mark-based count would under-report and miss that OOM.
          */
-        std::atomic<unsigned long> reclaimedLastCycle;
+        std::atomic<proto_ulong> reclaimedLastCycle;
 
         /**
          * @brief Notified by the GC thread at the end of every cycle, once the
@@ -2667,7 +2703,7 @@ namespace proto
         std::mutex moduleRootsMutex;
 
         /** @brief Global reentrant mutex for protecting space-wide metadata (interning, thread registry, GC state). */
-        static std::recursive_mutex globalMutex;
+        PROTOCORE_DATA static std::recursive_mutex globalMutex;
 
         // --- Embedder root sets (see `createRootSet`) ---
         std::vector<ProtoRootSet*> rootSets_;
@@ -2700,7 +2736,7 @@ namespace proto
          * and no mutator ever sees it.  See docs/GarbageCollector.md
          * § "Phase 5b".
          */
-        std::vector<unsigned long> gcFinalizedMutableRefs;
+        std::vector<proto_ulong> gcFinalizedMutableRefs;
     };
 }
 

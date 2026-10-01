@@ -244,7 +244,7 @@ const char* get_utf8(proto::ProtoContext* c, const proto::ProtoString* s) {
     // then builds a std::string from the long value of each character.
     const proto::ProtoList* list = s->asList(c);
     std::string result;
-    for (unsigned long i = 0; i < list->getSize(c); ++i) {
+    for (proto::proto_ulong i = 0; i < list->getSize(c); ++i) {
         result += static_cast<char>(list->getAt(c, i)->asLong(c));
     }
     // The string needs to be stored somewhere the pointer can reference.
@@ -301,7 +301,7 @@ TEST_F(NumericTest, DoubleHashAgreesWithEquality) {
         quiet, -quiet, std::copysign(quiet, -1.0), std::nan("1"), std::nan("0x7ffff"),
         -std::nan("12345"),
     };
-    const unsigned long nanHash = context->fromDouble(quiet)->getHash(context);
+    const proto::proto_ulong nanHash = context->fromDouble(quiet)->getHash(context);
     for (double v : values) {
         ASSERT_TRUE(std::isnan(v));
         EXPECT_EQ(context->fromDouble(v)->getHash(context), nanHash);

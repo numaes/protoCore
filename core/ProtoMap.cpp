@@ -90,7 +90,7 @@ namespace proto
         using Small = ProtoMapSmallImplementation;
 
         inline const Cell* cellOf(const ProtoMap* m) {
-            return reinterpret_cast<const Cell*>(reinterpret_cast<uintptr_t>(m) & ~0x3FUL);
+            return reinterpret_cast<const Cell*>(reinterpret_cast<uintptr_t>(m) & ~PROTO_UL(0x3F));
         }
 
         // One tag serves both forms (PROTOMAP-SPEC §3 rule 2): the form is the
@@ -110,7 +110,7 @@ namespace proto
         void forEachPair(const ProtoMap* m, Fn&& fn) {
             if (isSmall(m)) {
                 const Small* s = smallOf(m);
-                const unsigned long n = sparse_avl::smallCount(s);
+                const proto_ulong n = sparse_avl::smallCount(s);
                 for (unsigned i = 0; i < n; ++i) {
                     const ProtoObject* k;
                     const ProtoObject* v;
@@ -122,11 +122,11 @@ namespace proto
         }
 
         // 64-bit finalizer (MurmurHash3 fmix64).
-        inline unsigned long mixWord(unsigned long x) {
+        inline proto_ulong mixWord(proto_ulong x) {
             x ^= x >> 33;
-            x *= 0xff51afd7ed558ccdUL;
+            x *= PROTO_UL(0xff51afd7ed558ccd);
             x ^= x >> 33;
-            x *= 0xc4ceb9fe1a85ec53UL;
+            x *= PROTO_UL(0xc4ceb9fe1a85ec53);
             x ^= x >> 33;
             return x;
         }
@@ -161,7 +161,7 @@ namespace proto
         return handleOf(sparse_avl::removeAt(context, avlOf(this), key)->implAsObject(context));
     }
 
-    unsigned long ProtoMap::getSize(ProtoContext*) const {
+    proto_ulong ProtoMap::getSize(ProtoContext*) const {
         if (isSmall(this)) return sparse_avl::smallCount(smallOf(this));
         return avlOf(this)->size;
     }
@@ -182,8 +182,8 @@ namespace proto
     }
 
     // Order-independent over (key word, value hash) pairs.
-    unsigned long ProtoMap::getHash(ProtoContext* context) const {
-        unsigned long h = mixWord(getSize(context));
+    proto_ulong ProtoMap::getHash(ProtoContext* context) const {
+        proto_ulong h = mixWord(getSize(context));
         forEachPair(this, [&](const ProtoObject* k, const ProtoObject* v) {
             h += mixWord(sparse_avl::keyWord(k) ^ mixWord(v->getHash(context)));
         });
