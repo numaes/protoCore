@@ -367,17 +367,20 @@ if(WIN32)
     # disk to inspect. Record the version and the ABI in the registry instead:
     # protoJS's WiX template reads exactly these two values
     # (protoJS/packaging/templates/windows/protoJS.wxs.template).
-    # UNVERIFIED: configured and reviewed, never run - no Windows host (D-I6).
+    # The backslash is escaped twice: once for this file and once for
+    # CPackConfig.cmake, which CPack parses again.
+    # Packaging verified with the ZIP generator on Windows 11; the NSIS
+    # installer itself not yet (no NSIS on that host).
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
-        WriteRegStr HKLM 'SOFTWARE\\protoCore' 'Version' '${PROJECT_VERSION}'
-        WriteRegStr HKLM 'SOFTWARE\\protoCore' 'Soversion' '${PROTOCORE_ABI_SOVERSION}'
-        WriteRegStr HKLM 'SOFTWARE\\protoCore' 'InstallDir' '$INSTDIR'
+        WriteRegStr HKLM 'SOFTWARE\\\\protoCore' 'Version' '${PROJECT_VERSION}'
+        WriteRegStr HKLM 'SOFTWARE\\\\protoCore' 'Soversion' '${PROTOCORE_ABI_SOVERSION}'
+        WriteRegStr HKLM 'SOFTWARE\\\\protoCore' 'InstallDir' '$INSTDIR'
     ")
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
-        DeleteRegValue HKLM 'SOFTWARE\\protoCore' 'Version'
-        DeleteRegValue HKLM 'SOFTWARE\\protoCore' 'Soversion'
-        DeleteRegValue HKLM 'SOFTWARE\\protoCore' 'InstallDir'
-        DeleteRegKey /ifempty HKLM 'SOFTWARE\\protoCore'
+        DeleteRegValue HKLM 'SOFTWARE\\\\protoCore' 'Version'
+        DeleteRegValue HKLM 'SOFTWARE\\\\protoCore' 'Soversion'
+        DeleteRegValue HKLM 'SOFTWARE\\\\protoCore' 'InstallDir'
+        DeleteRegKey /ifempty HKLM 'SOFTWARE\\\\protoCore'
     ")
 elseif(APPLE)
     # macOS TGZ + drag-and-drop .dmg.
