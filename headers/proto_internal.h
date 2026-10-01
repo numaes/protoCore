@@ -34,6 +34,19 @@
 #endif
 
 namespace proto {
+    // Relaxed atomic access to a plain int field (heapSize, maxHeapSize).
+    // std::atomic_ref where the library has it; Apple's libc++ before LLVM 19
+    // does not, and there the compiler's __atomic builtins do the same.
+#if defined(__cpp_lib_atomic_ref)
+    inline int relaxedLoad(int& v) { return std::atomic_ref<int>(v).load(std::memory_order_relaxed); }
+    inline void relaxedStore(int& v, int x) { std::atomic_ref<int>(v).store(x, std::memory_order_relaxed); }
+    inline int relaxedFetchAdd(int& v, int x) { return std::atomic_ref<int>(v).fetch_add(x, std::memory_order_relaxed); }
+#else
+    inline int relaxedLoad(int& v) { return __atomic_load_n(&v, __ATOMIC_RELAXED); }
+    inline void relaxedStore(int& v, int x) { __atomic_store_n(&v, x, __ATOMIC_RELAXED); }
+    inline int relaxedFetchAdd(int& v, int x) { return __atomic_fetch_add(&v, x, __ATOMIC_RELAXED); }
+#endif
+
     // Aligned memory that is later released: pair alignedAlloc with
     // alignedFree.  The Windows CRT has no aligned_alloc, and its
     // _aligned_malloc must be released with _aligned_free, not free.

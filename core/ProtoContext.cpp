@@ -416,9 +416,9 @@ namespace proto
         // The unsynchronised reads are a heuristic; waitForHeapHeadroom
         // re-validates the heap state under globalMutex before blocking.
         if (!sp) return;
-        const int limit = std::atomic_ref<int>(sp->maxHeapSize).load(std::memory_order_relaxed);
+        const int limit = relaxedLoad(sp->maxHeapSize);
         if (limit <= 0) return;
-        if (std::atomic_ref<int>(sp->heapSize).load(std::memory_order_relaxed) < limit) return;
+        if (relaxedLoad(sp->heapSize) < limit) return;
         // At the ceiling — block here, at criticalSectionDepth == 0, where the
         // thread holds no half-built tree and can safely yield to the GC.
         sp->waitForHeapHeadroom(this);

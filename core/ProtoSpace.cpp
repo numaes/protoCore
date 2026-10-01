@@ -2079,7 +2079,7 @@ namespace proto {
             GC_LOCK_TRACE("getFreeCells ACQ(OS done)");
             // Atomic so the unlocked heuristic read in heapLimitCheckpoint is
             // not a data race; the value is re-validated under globalMutex.
-            std::atomic_ref<int>(this->heapSize).fetch_add(blocksToAllocate, std::memory_order_relaxed);
+            relaxedFetchAdd(this->heapSize, blocksToAllocate);
 
             // Partition the remainder into CELL_CHUNK_SIZE chunks so the next
             // getFreeCells lands in the O(1) chunked fast path.
@@ -2110,7 +2110,7 @@ namespace proto {
         if (softCells > 0 && hardCells > 0 && softCells > hardCells)
             softCells = hardCells;
         this->softHeapLimit = softCells;
-        std::atomic_ref<int>(this->maxHeapSize).store(hardCells, std::memory_order_relaxed);
+        relaxedStore(this->maxHeapSize, hardCells);
     }
 
     proto_ulong returnUnusedCellBatch(ProtoSpace* space, Cell* head) {
