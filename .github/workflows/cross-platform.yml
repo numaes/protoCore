@@ -1,0 +1,71 @@
+name: Cross-platform
+
+# macOS and Windows.  Linux is ci.yml's, with AddressSanitizer and the timing
+# job; this workflow adds the two platforms nobody here can run locally, so that
+# "builds and passes on macOS and Windows" is a verdict and not a belief.
+#
+# The same rule as ci.yml: nothing whose verdict is a clock may fail a build, so
+# the clock-dependent cases listed there are excluded here too (they run, and
+# report, in ci.yml's informational timing job).
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|ConcurrentMarkSafety\.ThreadCacheSlotFlipsDuringMark|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|conformance\.isolate\..*)$'
+
+jobs:
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS (Apple clang, arm64)
+            os: macos-14
+          - name: Windows (MSVC, x64)
+            os: windows-2022
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: MSVC environment
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Configure
+        # Ninja on both: the same generator the Windows instructions use, and
+        # on Windows it takes the compiler from the MSVC environment above.
+        run: cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --parallel 4
+
+      - name: Report the registered test count
+        run: |
+          COUNT=$(ctest --test-dir build -N | tail -1)
+          echo "$COUNT"
+          echo "protoCore ctest (${{ runner.os }}): $COUNT" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Test suite
+        run: ctest --test-dir build -j2 --output-on-failure --timeout 600 -E "$CLOCK_DEPENDENT_TESTS" < /dev/null
+
+      - name: Install
+        # The installed package is what the runtimes consume.
+        run: cmake --install build --prefix "$RUNNER_TEMP/protoCore-prefix"
