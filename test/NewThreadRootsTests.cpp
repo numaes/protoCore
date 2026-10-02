@@ -58,6 +58,7 @@ TEST(NewThreadRoots, CreatingAThreadKeepsTheMainContextRoot) {
 TEST(NewThreadRoots, AThreadLessContextSurvivesAThreadCreatedElsewhere) {
     ProtoSpace space;
     bool intact = false;
+    const ProtoThread* w = nullptr;
     std::thread host([&] {
         // A context on an unregistered OS thread has no ProtoThread: it is
         // rooted through space->mainContext.
@@ -69,11 +70,10 @@ TEST(NewThreadRoots, AThreadLessContextSurvivesAThreadCreatedElsewhere) {
         holder.safepoint();
 
         g_created = false;
-        const ProtoThread* w = space.newThread(space.rootContext,
-                                               ProtoString::createSymbol(space.rootContext, "creator"),
-                                               creator, nullptr, nullptr);
+        w = space.newThread(space.rootContext,
+                            ProtoString::createSymbol(space.rootContext, "creator"),
+                            creator, nullptr, nullptr);
         while (!g_created) std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        (void) w;
 
         space.setHeapLimits(0, space.heapSize + 40000);
         const uint64_t start = space.getGCCycleCount();
@@ -89,5 +89,11 @@ TEST(NewThreadRoots, AThreadLessContextSurvivesAThreadCreatedElsewhere) {
         for (int i = 0; intact && i < 100; ++i) intact = back->getAt(&holder, i)->asLong(&holder) == i;
     });
     host.join();
+    // Every thread a test creates is joined before its ProtoSpace dies: an
+    // unjoined one is an OS thread leak (ThreadSanitizer reports it) and
+    // leaves the handle undeleted.  The main thread joins it, as a registered
+    // thread whose ProtoThread::join parks it for stop-the-world.
+    ASSERT_NE(w, nullptr);
+    const_cast<ProtoThread*>(w)->join(space.rootContext);
     EXPECT_TRUE(intact) << "a collection after newThread freed objects of a thread-less context";
 }

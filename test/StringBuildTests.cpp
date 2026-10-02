@@ -18,6 +18,7 @@
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
+#include "SanitizerSupport.h"
 #include "../headers/proto_internal.h"
 
 #include <cstdint>
@@ -630,11 +631,22 @@ TEST(StringBuildHeapLimitTest, RepeatedBuildsUnderAHeapLimitCollectAndStayBounde
         << "the heap had to grow: " << startupHeap << " -> " << space.heapSize;
 
     const size_t rssAfter = residentBytes();
+#if defined(PROTO_TEST_TSAN)
+    // The resident-set bound measures protoCore's footprint only in a build
+    // whose runtime adds none of its own.  ThreadSanitizer keeps shadow memory
+    // and per-thread access history for every word this loop touches (about
+    // 150 MB here, measured), so under TSan the bound would measure the
+    // sanitizer.  The heapSize assertion above is the one that proves the
+    // builds were collected, and it still runs.
+    (void) rssBefore;
+    (void) rssAfter;
+#else
     if (rssBefore && rssAfter) {
         const size_t growth = rssAfter > rssBefore ? rssAfter - rssBefore : 0;
         EXPECT_LT(growth, size_t(64) * 1024 * 1024)
             << "resident set grew by " << (growth / (1024 * 1024)) << " MB";
     }
+#endif  // PROTO_TEST_TSAN
 #endif
 }
 

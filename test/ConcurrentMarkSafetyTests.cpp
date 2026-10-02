@@ -16,6 +16,7 @@
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
+#include "SanitizerSupport.h"
 #include <atomic>
 #include <chrono>
 #include <thread>
@@ -27,6 +28,60 @@ namespace {
 
 const ProtoString* sym(ProtoContext* ctx, const char* s) {
     return ProtoString::createSymbol(ctx, s);
+}
+
+// Shared state of MutationDuringMarkPreservesValues' workers.  A ProtoMethod
+// is a plain function pointer, so the workers reach it through these.
+constexpr int kMutPoolSize = 64;
+constexpr int kMutIterPerThread = 20000;
+std::vector<ProtoObject*>* gMutPool = nullptr;
+const ProtoString* gMutSlot = nullptr;
+std::atomic<proto::proto_ulong> gMutMismatches{0};
+
+const ProtoObject* mutationWorker(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                  const ProtoList* args, const ProtoSparseList*) {
+    const long long t = args->getAt(ctx, 0)->asLong(ctx);
+    for (int i = 0; i < kMutIterPerThread; ++i) {
+        ProtoObject* obj = (*gMutPool)[(i + t * 17) % kMutPoolSize];
+        const long long val = t * 1000000LL + i;
+        const ProtoObject* v = ctx->fromInteger(val);
+        obj->setAttribute(ctx, gMutSlot, v);
+
+        // Read it back immediately on the same thread.  Mutable attribute
+        // reads go through the per-thread cache which is also refreshed on
+        // the same CAS, so we expect the value we just wrote -- unless a
+        // concurrent CAS by another worker overwrote it between our
+        // setAttribute and our getAttribute.  We tolerate that (it is not a
+        // safety failure) by ONLY counting mismatches when the read value
+        // cannot be parsed as a valid integer, which would indicate the cell
+        // was freed and overwritten.
+        const ProtoObject* read = obj->getAttribute(ctx, gMutSlot);
+        if (!read || !read->isInteger(ctx)) {
+            gMutMismatches.fetch_add(1, std::memory_order_relaxed);
+        }
+    }
+    return PROTO_NONE;
+}
+
+// State of NoLostMutableReferences' flipper thread.
+ProtoObject* gFlipM1 = nullptr;
+const ProtoObject* gFlipM2 = nullptr;
+const ProtoString* gFlipNextKey = nullptr;
+std::atomic<bool> gStopFlip{false};
+
+const ProtoObject* chainFlipper(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                const ProtoList*, const ProtoSparseList*) {
+    bool useM2 = true;
+    while (!gStopFlip.load(std::memory_order_relaxed)) {
+        // Allocate a fresh decoy on every flip -- cycles a lot of memory
+        // through Phase 5 sweep, exercising the snapshot vs. live race.
+        const ProtoObject* decoy = ctx->newObject(false);
+        gFlipM1->setAttribute(ctx, gFlipNextKey, useM2 ? gFlipM2 : decoy);
+        useM2 = !useM2;
+    }
+    // Leave the chain in the m2 state so the verifier can read m3.
+    gFlipM1->setAttribute(ctx, gFlipNextKey, gFlipM2);
+    return PROTO_NONE;
 }
 
 }  // namespace
@@ -49,19 +104,18 @@ TEST(ConcurrentMarkSafety, MutationDuringMarkPreservesValues) {
     ProtoSpace space;
     ProtoContext* setupCtx = space.rootContext;
 
-    constexpr int kPoolSize       = 64;
-    constexpr int kThreads        = 4;
-    constexpr int kIterPerThread  = 20000;
+    constexpr int kThreads = 4;
 
     std::vector<ProtoObject*> pool;
-    pool.reserve(kPoolSize);
-    for (int i = 0; i < kPoolSize; ++i) {
+    pool.reserve(kMutPoolSize);
+    for (int i = 0; i < kMutPoolSize; ++i) {
         pool.push_back(const_cast<ProtoObject*>(setupCtx->newObject(true)));
     }
-    const ProtoString* slot = sym(setupCtx, "slot");
+    gMutPool = &pool;
+    gMutSlot = sym(setupCtx, "slot");
+    gMutMismatches = 0;
 
     std::atomic<bool> stopGc{false};
-    std::atomic<proto::proto_ulong> mismatchCount{0};
 
     std::thread gcKicker([&]() {
         while (!stopGc.load(std::memory_order_relaxed)) {
@@ -70,52 +124,31 @@ TEST(ConcurrentMarkSafety, MutationDuringMarkPreservesValues) {
         }
     });
 
-    std::vector<std::thread> workers;
-    workers.reserve(kThreads);
+    // The workers are protoCore threads (ProtoSpace::newThread), as
+    // docs/EMBEDDER-CONFORMANCE.md rule 11 requires of every thread that
+    // holds a ProtoObject*: registered, root-scanned and part of the
+    // stop-the-world quorum.  They used to be raw std::threads each building
+    // a thread-less ProtoContext, which registers itself as
+    // ProtoSpace::mainContext -- four threads writing that one slot
+    // concurrently, a data race ThreadSanitizer reported.  The kicker above
+    // touches no ProtoObject*, so it stays a plain std::thread.
+    std::vector<const ProtoThread*> workers;
     for (int t = 0; t < kThreads; ++t) {
-        workers.emplace_back([&, t]() {
-            // NOTE (P4, rule 11): a ProtoContext on a raw std::thread is NOT a
-            // registered protoCore thread.  runningThreads moves only in
-            // thread_main (core/Thread.cpp), which runs only for a thread created
-            // through ProtoSpace::newThread.  GC Phase 2 walks space->threads to
-            // find root-scanning candidates (core/ProtoSpace.cpp), so this
-            // thread's automaticLocals, returnValue, pendingRoot and young chain
-            // are NOT scanned.  That is safe HERE because everything this test
-            // holds is pinned explicitly -- and it is a trap to copy into an
-            // embedder, where the result is a use-after-free at a distance rather
-            // than a hang.  See docs/EMBEDDER-CONFORMANCE.md rule 11 and the case
-            // `thread.registered`.
-            ProtoContext threadCtx{&space};
-            for (int i = 0; i < kIterPerThread; ++i) {
-                ProtoObject* obj = pool[(i + t * 17) % kPoolSize];
-                const long long val = static_cast<long long>(t) * 1000000LL + i;
-                const ProtoObject* v = threadCtx.fromInteger(val);
-                obj->setAttribute(&threadCtx, slot, v);
-
-                // Read it back immediately on the same thread.  Mutable
-                // attribute reads go through the per-thread cache which is
-                // also refreshed on the same CAS, so we expect the value
-                // we just wrote — unless a concurrent CAS by another
-                // worker overwrote it between our setAttribute and our
-                // getAttribute.  We tolerate that (it is not a safety
-                // failure) by ONLY counting mismatches when the read
-                // value cannot be parsed as a valid integer, which would
-                // indicate the cell was freed and overwritten.
-                const ProtoObject* read = obj->getAttribute(&threadCtx, slot);
-                if (!read || !read->isInteger(&threadCtx)) {
-                    mismatchCount.fetch_add(1, std::memory_order_relaxed);
-                }
-            }
-        });
+        const ProtoList* args = setupCtx->newList()->appendLast(setupCtx, setupCtx->fromInteger(t));
+        workers.push_back(space.newThread(setupCtx, sym(setupCtx, "mutation-worker"),
+                                          mutationWorker, args, nullptr));
     }
-
-    for (auto& th : workers) th.join();
+    // ProtoThread::join parks the caller for stop-the-world while it waits.
+    for (const ProtoThread* w : workers) const_cast<ProtoThread*>(w)->join(setupCtx);
     stopGc.store(true, std::memory_order_relaxed);
     gcKicker.join();
+    const proto::proto_ulong mismatchCount = gMutMismatches.load();
+    gMutPool = nullptr;
+    gMutSlot = nullptr;
 
     // Any non-integer read indicates the SparseList carrying the slot was
     // freed while still reachable — i.e., the snapshot did not protect it.
-    EXPECT_EQ(mismatchCount.load(), 0u)
+    EXPECT_EQ(mismatchCount, 0u)
         << "the snapshot must keep every mutable cell reachable from a STW "
            "root alive across a concurrent mark cycle";
 }
@@ -145,7 +178,6 @@ TEST(ConcurrentMarkSafety, NoLostMutableReferences) {
     m3->setAttribute(setupCtx, tagKey, setupCtx->fromInteger(0xCAFE));
 
     std::atomic<bool> stopGc{false};
-    std::atomic<bool> stopFlip{false};
     std::atomic<proto::proto_ulong> brokenChain{0};
 
     std::thread gcKicker([&]() {
@@ -155,19 +187,14 @@ TEST(ConcurrentMarkSafety, NoLostMutableReferences) {
         }
     });
 
-    std::thread flipper([&]() {
-        ProtoContext flipCtx{&space};
-        bool useM2 = true;
-        while (!stopFlip.load(std::memory_order_relaxed)) {
-            // Allocate a fresh decoy on every flip — cycles a lot of memory
-            // through Phase 5 sweep, exercising the snapshot vs. live race.
-            const ProtoObject* decoy = flipCtx.newObject(false);
-            m1->setAttribute(&flipCtx, nextKey, useM2 ? m2 : decoy);
-            useM2 = !useM2;
-        }
-        // Leave the chain in the m2 state so the verifier can read m3.
-        m1->setAttribute(&flipCtx, nextKey, m2);
-    });
+    // The flipper allocates, so it is a protoCore thread (rule 11), not a
+    // raw std::thread building a thread-less context on ProtoSpace::mainContext.
+    gFlipM1 = m1;
+    gFlipM2 = m2;
+    gFlipNextKey = nextKey;
+    gStopFlip = false;
+    const ProtoThread* flipper = space.newThread(setupCtx, sym(setupCtx, "chain-flipper"),
+                                                 chainFlipper, nullptr, nullptr);
 
     // Verifier thread: chase the chain repeatedly.  Every time the chain
     // points back at m2, m3.tag must be readable and equal to 0xCAFE.
@@ -194,8 +221,11 @@ TEST(ConcurrentMarkSafety, NoLostMutableReferences) {
         }
     }
 
-    stopFlip.store(true, std::memory_order_relaxed);
-    flipper.join();
+    gStopFlip.store(true, std::memory_order_relaxed);
+    const_cast<ProtoThread*>(flipper)->join(setupCtx);
+    gFlipM1 = nullptr;
+    gFlipM2 = nullptr;
+    gFlipNextKey = nullptr;
     stopGc.store(true, std::memory_order_relaxed);
     gcKicker.join();
 
@@ -246,6 +276,19 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
     // 0: flip attributeCache[i].result, 1: flip mutableValueCache[i], 2: stop.
     std::atomic<int> phase{0};
     std::thread flipper([&]() {
+        // The data race between this thread's slot writes and the owner's
+        // ProtoThreadExtension::clearCachesAfterStopTheWorld memset is the
+        // SUBJECT of this test, not a defect: in production only the owner
+        // thread writes its caches, so the race cannot occur; here it is
+        // injected on purpose to prove the marker never reads a cache slot.
+        // Both sides store whole pointer-sized words that nothing in this
+        // test reads back.  So ThreadSanitizer is told to ignore this one
+        // thread's accesses -- not suppressed globally, not for the library:
+        // every other access in the test, the owner's and the collector's
+        // included, is still checked.
+#if defined(PROTO_TEST_TSAN)
+        __tsan_ignore_thread_begin();
+#endif
         bool toCell = true;
         int current;
         while ((current = phase.load(std::memory_order_relaxed)) != 2) {
@@ -261,6 +304,9 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
             }
             toCell = !toCell;
         }
+#if defined(PROTO_TEST_TSAN)
+        __tsan_ignore_thread_end();
+#endif
     });
 
     constexpr uint64_t kCyclesPerPhase = 50;
