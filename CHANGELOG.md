@@ -4,6 +4,30 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.9.6] - 2026-10-02
+
+An allocation fix; the ABI is unchanged (SOVERSION 3, no class layout changed).
+
+- **External buffers no longer call `aligned_alloc` with a size that is not a
+  multiple of the alignment.**  `ProtoExternalBuffer` requested its 64-byte
+  aligned segment with the caller's size unchanged, e.g.
+  `aligned_alloc(64, 12)`: undefined behaviour per C11/C17, which glibc
+  happens to accept and AddressSanitizer aborts on
+  (`invalid-aligned-alloc-alignment`).  The rounding now lives in the internal
+  `alignedAlloc` helper, so every caller is covered on every platform (the
+  Windows `_aligned_malloc` path allocates the same rounded size): the request
+  is rounded up to a multiple of the alignment, a zero-byte request becomes
+  one alignment unit, and a size whose rounding would overflow `size_t`
+  returns `nullptr` like any failed allocation.  `getSize` still reports the
+  logical size the caller asked for.  Audit: the other `alignedAlloc` caller
+  (the per-thread attribute cache) already requested a multiple of 64;
+  `alignedArenaAlloc` uses `posix_memalign` / `_aligned_malloc`, which have no
+  size requirement.  New test:
+  `SwarmTest.ExternalBufferOddSizesAreFullyAddressable` (sizes 0, 1, 12, 63,
+  64, 65, 4097; every byte zeroed, written and read back), which aborts under
+  ASan before the fix.  The gating ASan CI job never reached the bug because
+  the existing external-buffer tests used only 128 and 4096 bytes.
+
 ## [2.9.5] - 2026-10-02
 
 A conformance-case fix; the library is unchanged (ABI SOVERSION 3).
