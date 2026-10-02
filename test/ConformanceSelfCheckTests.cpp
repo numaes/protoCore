@@ -18,6 +18,8 @@
 // report that relied on it is void.
 #include <gtest/gtest.h>
 
+#include <atomic>
+
 #include "SelfHost.h"
 
 using proto::conformance::CaseResult;
@@ -271,9 +273,10 @@ TEST(ConformanceSelfCheck, JoinInsideCriticalSectionStillJoinsAndDoesNotPark)
     proto::ProtoSpace space;
     proto::ProtoContext* ctx = space.rootContext;
 
-    static volatile bool release = false;
+    // Atomic: raised here, polled by the target thread.  (A volatile bool was
+    // a data race that ThreadSanitizer reported.)
+    static std::atomic<bool> release{false};
     release = false;
-    proto::conformance::ThreadBridge::release() = &release;
 
     struct Entry {
         static const proto::ProtoObject* run(proto::ProtoContext* c,

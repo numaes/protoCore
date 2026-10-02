@@ -26,10 +26,40 @@
 
 #include "protoCore.h"
 
+#include <atomic>
 #include <string>
 #include <vector>
 
 namespace proto { namespace conformance {
+
+/**
+ * @brief Reads the release flag the case passes to Host::joinBlockingThread.
+ *
+ * The case raises the flag from another thread while the runtime's thread
+ * polls it, so a host must read it atomically: a plain `*releaseFlag` is a
+ * data race, which ThreadSanitizer reports in the host's own suite (the
+ * `volatile` in the signature orders nothing between threads).  The case
+ * raises the flag with the matching atomic store.
+ *
+ * @param releaseFlag the flag received by joinBlockingThread; nullptr reads as
+ *        "not raised".
+ */
+inline bool releaseFlagRaised(const volatile bool* releaseFlag)
+{
+    if (!releaseFlag) return false;
+#if defined(__GNUC__) || defined(__clang__)
+    return __atomic_load_n(releaseFlag, __ATOMIC_ACQUIRE);
+#elif defined(__cpp_lib_atomic_ref)
+    // The case's flag object is a plain bool (only the parameter type carries
+    // volatile), so viewing it through atomic_ref is well defined.
+    return std::atomic_ref<bool>(const_cast<bool&>(*releaseFlag))
+        .load(std::memory_order_acquire);
+#else
+    // Pre-C++20 MSVC: a volatile read has acquire semantics under /volatile:ms,
+    // the default on x86 and x64.
+    return *releaseFlag;
+#endif
+}
 
 /**
  * @brief What a case needs from the runtime under test.
@@ -159,7 +189,8 @@ public:
      *        collection, and that it terminates within the case's own bound
      *        whatever happens.  A runtime with no way to observe a C++ flag from
      *        its own language should take the second option and say so in its
-     *        docs/CONFORMANCE.md.
+     *        docs/CONFORMANCE.md.  Read it with releaseFlagRaised(), never
+     *        with a plain dereference: it is written by another thread.
      * @return true when the runtime supplied a thread and joined it.
      */
     virtual bool joinBlockingThread(volatile bool* releaseFlag)

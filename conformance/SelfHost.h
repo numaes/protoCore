@@ -10,6 +10,7 @@
 #define PROTO_CORE_CONFORMANCE_SELF_HOST_H
 
 #include "../headers/protoCoreConformance.h"
+#include "../headers/proto_internal.h"
 
 #include <atomic>
 #include <chrono>
@@ -300,7 +301,10 @@ protected:
     /// tell when it has allocated enough to be judged.
     proto::proto_long inUse() const
     {
-        return (proto::proto_long) space_.heapSize - (proto::proto_long) space_.freeCellsCount;
+        // Lock-free reads of fields the allocator updates atomically.
+        auto& space = const_cast<ProtoSpace&>(space_);
+        return (proto::proto_long) relaxedLoad(space.heapSize)
+             - (proto::proto_long) relaxedLoad(space.freeCellsCount);
     }
 
     static constexpr unsigned kSlotQueue   = 0;
@@ -354,7 +358,7 @@ private:
     {
         volatile bool* flag = ThreadBridge::release();
         const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
-        while (flag && !*flag && std::chrono::steady_clock::now() < deadline) {
+        while (!releaseFlagRaised(flag) && std::chrono::steady_clock::now() < deadline) {
             // Cooperate: this thread is registered and counted in
             // runningThreads, so a poll loop without a safepoint would hold the
             // quorum itself and the case would be measuring the wrong thread.
@@ -470,7 +474,7 @@ public:
         std::thread t([releaseFlag]() {
             const auto deadline =
                 std::chrono::steady_clock::now() + std::chrono::seconds(30);
-            while (releaseFlag && !*releaseFlag &&
+            while (!releaseFlagRaised(releaseFlag) &&
                    std::chrono::steady_clock::now() < deadline)
                 std::this_thread::sleep_for(std::chrono::milliseconds(2));
         });

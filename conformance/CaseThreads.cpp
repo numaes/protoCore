@@ -7,6 +7,7 @@
 #include <mutex>
 #include <string>
 #include <thread>
+#include <memory>
 #include <vector>
 
 namespace proto { namespace conformance {
@@ -195,6 +196,21 @@ CaseResult caseThreadRegistered(Host& host)
             + detail};
 }
 
+// Raises the release flag handed to Host::joinBlockingThread, which the
+// runtime's thread reads with releaseFlagRaised() (protoCoreConformance.h).
+// The flag is a plain bool that only the parameter type calls volatile; the
+// store is atomic so that the read on the other thread is not a data race.
+static void raiseReleaseFlag(bool* flag)
+{
+#if defined(__GNUC__) || defined(__clang__)
+    __atomic_store_n(flag, true, __ATOMIC_RELEASE);
+#elif defined(__cpp_lib_atomic_ref)
+    std::atomic_ref<bool>(*flag).store(true, std::memory_order_release);
+#else
+    *static_cast<volatile bool*>(flag) = true;
+#endif
+}
+
 // Rule 2 -- every registered protoCore thread must park.  A thread that blocks
 // does so inside ProtoContext::UnmanagedScope.
 //
@@ -228,20 +244,23 @@ CaseResult caseQuorumCompletes(Host& host)
     // thread of our own, leaving THIS thread free to demand the cycle while the
     // runtime's thread is still up.  Our helper is a bare std::thread that
     // touches no ProtoObject*, so it is not a thread protoCore must know about.
-    volatile bool release = false;
+    // Shared with the detached releaser below, which outlives this function
+    // whenever the case ends before the 25 s timer: a flag on this frame would
+    // be written after the frame is gone.
+    const auto release = std::make_shared<bool>(false);
     std::atomic<bool> supplied{false};
     std::atomic<bool> finished{false};
     std::thread driver([&]() {
-        supplied.store(host.joinBlockingThread(&release));
+        supplied.store(host.joinBlockingThread(release.get()));
         finished.store(true);
     });
     // A pure timer, touching nothing protoCore-related, so the runtime's thread
     // is released and this case returns a verdict even when the collection it
     // demands cannot start.  See the longer note in join.parks: the code that
     // releases must never sit behind the mutex the deadlock is holding.
-    std::thread releaser([&release]() {
+    std::thread releaser([release]() {
         std::this_thread::sleep_for(std::chrono::seconds(25));
-        release = true;
+        raiseReleaseFlag(release.get());
     });
     releaser.detach();
 
@@ -263,7 +282,7 @@ CaseResult caseQuorumCompletes(Host& host)
         advanced = space.getGCCycleCount() - before;
     }
 
-    release = true;
+    raiseReleaseFlag(release.get());
     driver.join();
 
     const std::string common =
@@ -334,9 +353,15 @@ CaseResult caseJoinParks(Host& host)
         return {kId, 2, Status::Fail, "Host::mainContext() returned no usable context"};
     ProtoSpace& space = *ctx->space;
 
-    volatile bool release = false;
-    std::atomic<unsigned long long> cyclesDuringJoin{0};
-    std::atomic<bool> cycleCompleted{false};
+    bool release = false;
+    // The requester below is detached and can outlive this function (it may
+    // still be blocked on globalMutex when the case returns), so what it writes
+    // is owned jointly with it rather than living on this frame.
+    struct RequesterResult {
+        std::atomic<unsigned long long> cyclesDuringJoin{0};
+        std::atomic<bool> cycleCompleted{false};
+    };
+    const auto result = std::make_shared<RequesterResult>();
 
     const unsigned long long cyclesBefore = space.getGCCycleCount();
 
@@ -357,7 +382,7 @@ CaseResult caseJoinParks(Host& host)
     // protoCore-related: no mutex, no field of the space, no ProtoObject*.  It
     // sleeps and sets the flag, so the joined thread is always released and this
     // case always returns a verdict.
-    std::thread requester([&space, &cyclesDuringJoin, &cycleCompleted, cyclesBefore]() {
+    std::thread requester([&space, result, cyclesBefore]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
         {
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
@@ -368,22 +393,22 @@ CaseResult caseJoinParks(Host& host)
             std::chrono::steady_clock::now() + std::chrono::seconds(8);
         while (std::chrono::steady_clock::now() < deadline) {
             if (space.getGCCycleCount() > cyclesBefore) {
-                cycleCompleted.store(true);
+                result->cycleCompleted.store(true);
                 break;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
-        cyclesDuringJoin.store(space.getGCCycleCount() - cyclesBefore);
+        result->cyclesDuringJoin.store(space.getGCCycleCount() - cyclesBefore);
     });
     requester.detach();   // it may be stuck on globalMutex; we must never join it
 
     std::thread timer([&release]() {
         std::this_thread::sleep_for(std::chrono::seconds(10));
-        release = true;
+        raiseReleaseFlag(&release);
     });
 
     const bool supplied = host.joinBlockingThread(&release);
-    release = true;
+    raiseReleaseFlag(&release);
     timer.join();
 
     if (!supplied)
@@ -393,14 +418,14 @@ CaseResult caseJoinParks(Host& host)
                            "own threads");
 
     const std::string common =
-        "cyclesCompletedWhileJoinBlocked=" + std::to_string(cyclesDuringJoin.load())
+        "cyclesCompletedWhileJoinBlocked=" + std::to_string(result->cyclesDuringJoin.load())
         + " gcCycleCount " + std::to_string(cyclesBefore) + "->"
         + std::to_string(space.getGCCycleCount())
         + " runningThreads=" + std::to_string(space.runningThreads.load())
         + " reclaimedLastCycle="
         + std::to_string(space.reclaimedLastCycle.load(std::memory_order_relaxed));
 
-    if (!cycleCompleted.load())
+    if (!result->cycleCompleted.load())
         return {kId, 2, Status::Fail,
                 "no collection cycle could complete during the 8 s this runtime "
                 "spent blocked in its own join.  The joining thread is still "
