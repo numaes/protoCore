@@ -266,10 +266,9 @@ namespace proto {
         // Allocate the attribute cache aligned to a 64-byte cache line so
         // that the 32-byte AttributeCacheEntry pair always lands within
         // one line — no split-line loads on lookups.  malloc only
-        // guarantees 16-byte alignment; std::aligned_alloc requires the
-        // request size to be a multiple of the alignment (a C11
-        // requirement it inherits), which holds here because
-        // THREAD_CACHE_DEPTH * 32 is a multiple of 64 for any depth >= 2.
+        // guarantees 16-byte alignment.  alignedAlloc rounds the request up
+        // to a multiple of the alignment, as aligned_alloc requires; here
+        // THREAD_CACHE_DEPTH * 32 is already a multiple of 64.
         this->attributeCache = static_cast<AttributeCacheEntry*>(
             alignedAlloc(64, THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry)));
         for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {

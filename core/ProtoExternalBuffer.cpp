@@ -1,7 +1,8 @@
 /*
  * ProtoExternalBuffer.cpp
  *
- * 64-byte header cell; contiguous segment via aligned_alloc.
+ * 64-byte header cell; contiguous segment via alignedAlloc (64-byte aligned,
+ * allocation rounded up to a multiple of 64; getSize reports the logical size).
  * Shadow GC: finalize() frees segment when the cell is collected.
  */
 
@@ -20,10 +21,16 @@ namespace proto {
         proto_ulong bufferSize
     ) : Cell(context), segment(nullptr), size(bufferSize)
     {
-        if (bufferSize > 0) {
-            void* p = alignedAlloc(kSegmentAlignment, bufferSize);
+        // `size` stays the caller's logical size; alignedAlloc rounds the
+        // allocation itself up to a multiple of the alignment, as
+        // aligned_alloc requires.  A size that does not fit in size_t (only
+        // possible where size_t is narrower than proto_ulong) leaves the
+        // buffer without a segment, exactly like a failed allocation.
+        if (bufferSize > 0 && bufferSize <= SIZE_MAX) {
+            const size_t bytes = static_cast<size_t>(bufferSize);
+            void* p = alignedAlloc(kSegmentAlignment, bytes);
             if (p)
-                segment = std::memset(p, 0, bufferSize);
+                segment = std::memset(p, 0, bytes);
         }
     }
 

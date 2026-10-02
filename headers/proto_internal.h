@@ -62,7 +62,23 @@ namespace proto {
     // Aligned memory that is later released: pair alignedAlloc with
     // alignedFree.  The Windows CRT has no aligned_alloc, and its
     // _aligned_malloc must be released with _aligned_free, not free.
+    //
+    // `alignment` must be a power of two.  C11/C17 aligned_alloc also
+    // requires `size` to be a multiple of `alignment`; anything else is
+    // undefined behaviour (glibc tolerates it, AddressSanitizer aborts).  The
+    // request is therefore rounded up here, once, for every caller: the
+    // block is at least `size` bytes, and callers keep their own logical
+    // size.  A zero-byte request is rounded to one alignment unit so the
+    // result is always a distinct, freeable block, and a size whose rounding
+    // would overflow size_t yields nullptr, like any failed allocation.
+    // _aligned_malloc has no size requirement; the same rounding is applied
+    // there so both platforms allocate the same number of bytes.
     inline void* alignedAlloc(size_t alignment, size_t size) {
+        if (size == 0)
+            size = alignment;
+        if (size > SIZE_MAX - (alignment - 1))
+            return nullptr;
+        size = (size + alignment - 1) & ~(alignment - 1);
 #if defined(_WIN32)
         return _aligned_malloc(size, alignment);
 #else
@@ -92,7 +108,10 @@ namespace proto {
     // there _aligned_malloc without a matching _aligned_free is correct for
     // memory that is never released.  A protoCore name rather than a global
     // posix_memalign stand-in, so it cannot collide with an embedder's own
-    // shim in a translation unit that includes this header.
+    // shim in a translation unit that includes this header.  Unlike
+    // aligned_alloc, neither posix_memalign nor _aligned_malloc requires the
+    // size to be a multiple of the alignment, so no rounding is needed here
+    // (every caller requests whole 64-byte cells regardless).
     inline int alignedArenaAlloc(void** out, size_t alignment, size_t size) {
 #if defined(_WIN32)
         *out = _aligned_malloc(size, alignment);
