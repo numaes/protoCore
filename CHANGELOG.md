@@ -4,6 +4,38 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.9.1] - 2026-10-02
+
+A patch release.  No library code changed: the ABI and behaviour are those of
+2.9.0.
+
+- **The Windows hang of `MutableRootReclaim.ConcurrentWritersLoseNoUpdateDuringRelease`
+  (the known issue of 2.8.0 and 2.9.0) is explained and fixed.**  It was not a
+  deadlock and not corruption: the test ran four allocating writer threads
+  without a heap limit, the configuration in which protoCore never makes an
+  allocating thread wait for the collector.  A cycle sweeps every cell
+  allocated during the previous one, and four threads allocating without pause
+  produce cells faster than one collector thread sweeps them, so cycle times
+  and the heap grow geometrically from wherever they start -- about twofold
+  per cycle, measured on Linux too: with 11 cycles of writing instead of 5,
+  2.9.0's test peaks at 0.25-1 GB resident instead of 40-80 MB.  Linux passed because its five cycles finish
+  while they are a few milliseconds long.  On the 4-CPU Windows Server runners
+  the four writers and the collector exceed the CPUs, and the thread that
+  requests the cycles slept 150-200 ms instead of 2 ms after the first one (a
+  woken thread waits a whole Server scheduling quantum for a CPU).  The writers
+  allocated 11-15 million cells meanwhile; from that start the writers reached
+  their iteration bound with 250-420 million cells (16-27 GB), the runner
+  paged, and the cycle the test then waited for ran for minutes -- which a
+  stack dump showed as a collector busy in mark, sweep or unmark.  The test now
+  runs under a hard limit of 2^21 cells, at which a writer waits for the
+  collector, and checks that the heap stays within twice that limit.  Windows
+  CI, the test alone in a loop: 0 failures in 240 Release and 80 Debug runs,
+  none longer than 1 s (run 36982874964), where 2.9.0 hung in 8 to 12 of 40
+  Release runs and passing runs took up to 48 s.
+- `docs/GarbageCollector.md` states the consequence for embedders: threads
+  that allocate faster than the collector sweeps need a hard heap limit, or
+  the heap grows without bound however often cycles are requested.
+
 ## [2.9.0] - 2026-10-02
 
 A minor release from the review of the Windows port. One function is added

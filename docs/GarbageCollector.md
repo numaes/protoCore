@@ -653,7 +653,15 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
 - **Concurrent Allocation**: threads can continue to allocate memory from
   the OS (growing the heap) even if a GC cycle is currently running.
   This ensures that a high allocation rate does not stall the entire
-  system.
+  system.  The other side of it: without a heap limit nothing slows an
+  allocating thread down, even when cycles are requested back to back.  A
+  cycle sweeps every cell allocated since the previous one, so threads that
+  allocate faster than the collector thread sweeps make each cycle longer
+  than the last and the heap grows without bound (four writer threads of
+  `MutableRootReclaimTests`: about twofold per cycle on Linux, 16-27 GB
+  after four cycles on a 4-CPU Windows runner, 2.9.1).  Such workloads need
+  a hard limit, under which an allocating thread at the ceiling waits for
+  the collector.
 - If no free cells are available, `ProtoSpace` allocates a new chunk of
   memory from the OS using `posix_memalign`, within the heap limit when
   one is set.
