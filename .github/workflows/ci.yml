@@ -154,6 +154,48 @@ jobs:
           ASAN_OPTIONS: detect_leaks=0:abort_on_error=0
         run: ctest --test-dir build_asan -j2 --output-on-failure -E "$CLOCK_DEPENDENT_TESTS" < /dev/null
 
+  tsan:
+    name: ThreadSanitizer
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure with ThreadSanitizer
+        # Raw flags, as for ASan: protoCore has no sanitizer CMake option.
+        # PRE_TEST discovery: gtest_discover_tests otherwise runs the TSan
+        # binary at build time, outside the setarch wrapper below.
+        run: >
+          cmake -B build_tsan -S .
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          -DCMAKE_CXX_FLAGS="-fsanitize=thread -fno-omit-frame-pointer -g"
+          -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=thread"
+          -DCMAKE_SHARED_LINKER_FLAGS="-fsanitize=thread"
+          -DCMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST
+
+      - name: Build
+        run: cmake --build build_tsan --parallel "$(nproc)"
+
+      - name: Test suite under TSan
+        # Every TSan report fails its case (TSan exits 66 when it reported
+        # anything), so this job gates on "no data race, no thread leak".
+        # There is no suppression file: the one race that is deliberate,
+        # ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark, is excluded
+        # from checking for that test's injector thread only, in the test
+        # itself (test/ConcurrentMarkSafetyTests.cpp).
+        #
+        # `setarch -R` disables address-space randomisation for the run:
+        # with the 32-bit vm.mmap_rnd_bits of current Ubuntu kernels, TSan
+        # aborts with "unexpected memory mapping" (docs/FIELD-NOTES.md).
+        # The clock-dependent cases are excluded for the same reason as in
+        # the ASan job: TSan multiplies every runtime.
+        env:
+          TSAN_OPTIONS: halt_on_error=0:second_deadlock_stack=1
+        run: >
+          setarch "$(uname -m)" -R
+          ctest --test-dir build_tsan -j2 --output-on-failure --timeout 1500
+          -E "$CLOCK_DEPENDENT_TESTS" < /dev/null
+
   timing:
     name: Clock-dependent cases (informational, never gates)
     runs-on: ubuntu-24.04
