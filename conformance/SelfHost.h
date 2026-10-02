@@ -485,6 +485,70 @@ public:
     }
 };
 
+/// Rule 2b's adaptor contract -- a host whose thread returns at once.  The join
+/// is protoCore's own (and parks), but it is over before the case demands a
+/// collection, so rule 2b is never measured.  The case must say so as a host
+/// contract violation, not report a quorum-holding join it never observed.
+class NonConformingHost_EarlyReturnJoin final : public SelfHost
+{
+public:
+    const char* name() const override { return "mutant-early-return-join"; }
+    bool joinBlockingThread(volatile bool* /*releaseFlag*/) override
+    {
+        ProtoContext* ctx = mainContext();
+        const ProtoThread* t = space_.newThread(
+            ctx, ProtoString::createSymbol(ctx, "early-return-thread"),
+            &returnAtOnce, ctx->newList(), nullptr);
+        if (!t) return false;
+        const_cast<ProtoThread*>(t)->join(ctx);
+        return true;
+    }
+private:
+    static const ProtoObject* returnAtOnce(ProtoContext*, const ProtoObject*,
+                                           const ParentLink*, const ProtoList*,
+                                           const ProtoSparseList*)
+    {
+        return PROTO_NONE;
+    }
+};
+
+/// A CONFORMING variant of the contract's second option: a runtime that cannot
+/// observe a C++ flag from its own language runs its thread for a fixed span of
+/// wall clock instead (protoScala's and protoPython's hosts do this), and joins
+/// it through ProtoThread::join.  Kept beside the mutants because the verdict
+/// for an early return must not swallow this legitimate shape.
+class ClockBoundedJoinHost final : public SelfHost
+{
+public:
+    const char* name() const override { return "clock-bounded-join"; }
+    bool joinBlockingThread(volatile bool* /*releaseFlag*/) override
+    {
+        ProtoContext* ctx = mainContext();
+        const ProtoThread* t = space_.newThread(
+            ctx, ProtoString::createSymbol(ctx, "clock-bounded-thread"),
+            &spinForASecond, ctx->newList(), nullptr);
+        if (!t) return false;
+        const_cast<ProtoThread*>(t)->join(ctx);
+        return true;
+    }
+private:
+    static const ProtoObject* spinForASecond(ProtoContext* context,
+                                             const ProtoObject*,
+                                             const ParentLink*,
+                                             const ProtoList*,
+                                             const ProtoSparseList*)
+    {
+        const auto deadline =
+            std::chrono::steady_clock::now() + std::chrono::seconds(1);
+        while (std::chrono::steady_clock::now() < deadline) {
+            (void) context->newObject(false);
+            context->safepoint();
+            std::this_thread::sleep_for(std::chrono::milliseconds(2));
+        }
+        return PROTO_NONE;
+    }
+};
+
 /// Rule 4 -- an attribute key built with fromUTF8String instead of
 /// createSymbol.  Correct through getAttribute's content fallback, silently
 /// absent through the getOwnAttributeDirect fast path.

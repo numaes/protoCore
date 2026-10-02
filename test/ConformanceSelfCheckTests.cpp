@@ -19,6 +19,7 @@
 #include <gtest/gtest.h>
 
 #include <atomic>
+#include <chrono>
 
 #include "SelfHost.h"
 
@@ -94,6 +95,40 @@ TEST(ConformanceSelfCheck, JoinParksCatchesBareJoin)
     const CaseResult r = runOne(host, "join.parks");
     EXPECT_EQ(r.status, Status::Fail) << r.detail;
     expectDiagnostic(r, "runningThreads");
+}
+
+// Rule 2b's adaptor contract.  A host whose thread returns before the case can
+// demand a collection.  The case once reported this as "no collection cycle
+// could complete" -- a rule-2b failure of a join it never observed blocking --
+// and, worse, its own main thread then sat in a bare std::thread::join of its
+// timer, holding the quorum itself.  It must now name the adaptor, and a
+// collection demanded after the join returned must complete, which proves the
+// case's own wait does not hold the quorum.
+TEST(ConformanceSelfCheck, JoinParksReportsAHostThreadThatReturnsBeforeTheProbe)
+{
+    proto::conformance::NonConformingHost_EarlyReturnJoin host;
+    const auto start = std::chrono::steady_clock::now();
+    const CaseResult r = runOne(host, "join.parks");
+    const auto elapsed = std::chrono::steady_clock::now() - start;
+    EXPECT_EQ(r.status, Status::Fail) << r.detail;
+    expectDiagnostic(r, "host contract violation");
+    expectDiagnostic(r, "before the case had even demanded a collection");
+    expectDiagnostic(r, "did complete once the join had returned");
+    EXPECT_EQ(r.detail.find("no collection cycle could complete"), std::string::npos)
+        << "an early-returning host is reported as a quorum-holding join: " << r.detail;
+    EXPECT_LT(elapsed, std::chrono::seconds(8))
+        << "the case waited out its deadline although a cycle could complete";
+}
+
+// The contract's second option stays legal: a thread bounded by the clock and
+// ignoring the flag (what protoScala and protoPython do) passes, because it is
+// still blocked when the case demands its collection.
+TEST(ConformanceSelfCheck, JoinParksPassesAClockBoundedHostThread)
+{
+    proto::conformance::ClockBoundedJoinHost host;
+    const CaseResult r = runOne(host, "join.parks");
+    EXPECT_EQ(r.status, Status::Pass) << r.detail;
+    expectDiagnostic(r, "cyclesCompletedWhileJoinBlocked");
 }
 
 // Rule 4.  An uninterned attribute key: correct through getAttribute's content

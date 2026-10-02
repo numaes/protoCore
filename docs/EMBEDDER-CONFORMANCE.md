@@ -97,6 +97,20 @@ thread.**  Read it with `proto::conformance::releaseFlagRaised(releaseFlag)`
 `volatile` in the signature orders nothing between threads, and a plain read is
 a data race that ThreadSanitizer reports in the host's own suite.
 
+**The joined thread must still be running when `join.parks` probes it.**  The
+case demands a collection 150 ms after it calls `joinBlockingThread`, and raises
+the release flag as soon as a cycle has completed (or after 10 s).  A host's
+thread either waits for the flag or, when the runtime cannot observe a C++ flag,
+runs for a few seconds of wall clock -- bounded by the clock, not by an
+iteration count, which finishes in under 150 ms on a fast runner.  A join that
+returns before the flag is raised and before any cycle completed is reported as
+a **Fail** headed "host contract violation, rule 2b not measured", with the
+timings (`joinReturnedAtMs`, `collectionRequestedAtMs`); it is the adaptor's
+finding, not the join's.  Until 2.9.5 this case reported such a host as a
+rule-2b failure ("no collection cycle could complete"), because its own main
+thread then waited in an unbracketed `std::thread::join` and itself held the
+quorum; the case's waits now run inside an `UnmanagedScope`.
+
 ### Rule 13 — why the verdict is a declaration and not "no cycles"
 
 **A cycle among mutable objects is never collected.**  The property, its proof

@@ -182,15 +182,21 @@ public:
      * stop-the-world quorum therefore cannot return, and the case times out
      * instead of hanging the runner.
      *
-     * @param releaseFlag a flag the case raises from another thread.  The
-     *        spawned thread may poll it and exit, OR it may simply do a few
-     *        seconds of its own work and finish -- what the case needs is that
-     *        the join is genuinely blocked for long enough to demand a
-     *        collection, and that it terminates within the case's own bound
-     *        whatever happens.  A runtime with no way to observe a C++ flag from
-     *        its own language should take the second option and say so in its
-     *        docs/CONFORMANCE.md.  Read it with releaseFlagRaised(), never
-     *        with a plain dereference: it is written by another thread.
+     * @param releaseFlag a flag the case raises from another thread: as soon
+     *        as a collection has completed while the join is blocked, or after
+     *        10 s at the latest.  The spawned thread may poll it and exit, OR it
+     *        may simply do a few seconds of its own work and finish -- what the
+     *        case needs is that the join is genuinely blocked while it demands a
+     *        collection (150 ms after this call) and until one completes, and
+     *        that it terminates within the case's own bound whatever happens.
+     *        A runtime with no way to observe a C++ flag from its own language
+     *        should take the second option, bound the work by the CLOCK rather
+     *        than by an iteration count, and say so in its docs/CONFORMANCE.md.
+     *        A join that returns before the flag is raised and before any
+     *        collection completed is a host contract violation: the case
+     *        reports it as a Fail that names the adaptor, not as a rule-2b
+     *        failure of the join.  Read the flag with releaseFlagRaised(),
+     *        never with a plain dereference: it is written by another thread.
      * @return true when the runtime supplied a thread and joined it.
      */
     virtual bool joinBlockingThread(volatile bool* releaseFlag)

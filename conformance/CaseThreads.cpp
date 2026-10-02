@@ -283,7 +283,14 @@ CaseResult caseQuorumCompletes(Host& host)
     }
 
     raiseReleaseFlag(release.get());
-    driver.join();
+    {
+        // The driver returns only when the runtime's join does, which may take
+        // a host-defined while.  This thread is counted in runningThreads, so a
+        // bare std::thread::join here would hold the stop-the-world quorum for
+        // that whole time (rule 2b); wait outside the quorum instead.
+        ProtoContext::UnmanagedScope unmanaged(ctx);
+        driver.join();
+    }
 
     const std::string common =
         "runningThreads(with the runtime's thread up)="
@@ -353,15 +360,27 @@ CaseResult caseJoinParks(Host& host)
         return {kId, 2, Status::Fail, "Host::mainContext() returned no usable context"};
     ProtoSpace& space = *ctx->space;
 
-    bool release = false;
-    // The requester below is detached and can outlive this function (it may
-    // still be blocked on globalMutex when the case returns), so what it writes
-    // is owned jointly with it rather than living on this frame.
-    struct RequesterResult {
-        std::atomic<unsigned long long> cyclesDuringJoin{0};
-        std::atomic<bool> cycleCompleted{false};
+    using Clock = std::chrono::steady_clock;
+    const auto t0 = Clock::now();
+    const auto msSince = [](Clock::time_point from) {
+        return static_cast<long long>(
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                Clock::now() - from).count());
     };
-    const auto result = std::make_shared<RequesterResult>();
+
+    // Everything the helper threads touch is owned jointly with them rather
+    // than living on this frame: both are detached, and the requester may still
+    // be blocked on globalMutex when this case returns.
+    struct Shared {
+        bool release = false;   // written with raiseReleaseFlag, read with releaseFlagRaised
+        std::atomic<bool> requested{false};       // the collection has been demanded
+        std::atomic<bool> cycleCompleted{false};  // a cycle completed inside the window
+        std::atomic<bool> windowClosed{false};    // the requester has finished
+        std::atomic<long long> requestedAtMs{-1};
+        std::atomic<long long> completedAtMs{-1};
+        std::atomic<unsigned long long> cyclesDuringWindow{0};
+    };
+    const auto shared = std::make_shared<Shared>();
 
     const unsigned long long cyclesBefore = space.getGCCycleCount();
 
@@ -378,38 +397,69 @@ CaseResult caseJoinParks(Host& host)
     // diagnosing, and rules 2, 2b, 8 and 11 are precisely the rules whose
     // failure mode IS a hang.
     //
+    // The requester raises the release flag as soon as a cycle completes, so a
+    // host that polls the flag is released as early as the verdict is known.
+    //
     // The second helper is therefore a pure timer that touches NOTHING
     // protoCore-related: no mutex, no field of the space, no ProtoObject*.  It
     // sleeps and sets the flag, so the joined thread is always released and this
-    // case always returns a verdict.
-    std::thread requester([&space, result, cyclesBefore]() {
+    // case always returns a verdict.  It is detached, never joined: a bare
+    // std::thread::join on this (registered) thread would itself hold the
+    // stop-the-world quorum -- the very defect this case diagnoses.
+    std::thread requester([&space, shared, cyclesBefore, t0, msSince]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        shared->requestedAtMs.store(msSince(t0));
+        shared->requested.store(true);
         {
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             space.gcStarted = true;
             space.gcCV.notify_all();
         }
-        const auto deadline =
-            std::chrono::steady_clock::now() + std::chrono::seconds(8);
-        while (std::chrono::steady_clock::now() < deadline) {
+        const auto deadline = Clock::now() + std::chrono::seconds(8);
+        while (Clock::now() < deadline) {
             if (space.getGCCycleCount() > cyclesBefore) {
-                result->cycleCompleted.store(true);
+                shared->completedAtMs.store(msSince(t0));
+                shared->cycleCompleted.store(true);
                 break;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
-        result->cyclesDuringJoin.store(space.getGCCycleCount() - cyclesBefore);
+        shared->cyclesDuringWindow.store(space.getGCCycleCount() - cyclesBefore);
+        raiseReleaseFlag(&shared->release);
+        shared->windowClosed.store(true);
     });
     requester.detach();   // it may be stuck on globalMutex; we must never join it
 
-    std::thread timer([&release]() {
+    std::thread timer([shared]() {
         std::this_thread::sleep_for(std::chrono::seconds(10));
-        raiseReleaseFlag(&release);
+        raiseReleaseFlag(&shared->release);
     });
+    timer.detach();
 
-    const bool supplied = host.joinBlockingThread(&release);
-    raiseReleaseFlag(&release);
-    timer.join();
+    const bool supplied = host.joinBlockingThread(&shared->release);
+
+    // What was true at the moment the runtime's join returned.  The verdict is
+    // taken from this snapshot, not from what happens afterwards: a cycle that
+    // completes after the join returned says nothing about the join.
+    const long long joinReturnedAtMs = msSince(t0);
+    const bool cycleWhileBlocked   = shared->cycleCompleted.load();
+    const bool requestedWhileBlocked = shared->requested.load();
+    const bool releasedWhileBlocked  = releaseFlagRaised(&shared->release);
+
+    raiseReleaseFlag(&shared->release);
+
+    // Let the requester close its window before the next case runs, so a
+    // pending collection request does not leak into it.  The wait is bracketed
+    // in an UnmanagedScope: this thread is counted in runningThreads, and a wait
+    // that reaches no safepoint would hold the quorum and starve the very
+    // collection the requester is waiting for.  Bounded, because on a
+    // non-conforming runtime the requester may be stuck on globalMutex.
+    {
+        ProtoContext::UnmanagedScope unmanaged(ctx);
+        const auto waitDeadline = Clock::now() + std::chrono::seconds(10);
+        while (!shared->windowClosed.load() && Clock::now() < waitDeadline)
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
 
     if (!supplied)
         return unavailable(kId, 2, "joinBlockingThread",
@@ -417,29 +467,62 @@ CaseResult caseJoinParks(Host& host)
                            "its own facility and join it the way it joins its "
                            "own threads");
 
+    const long long requestedAtMs = shared->requestedAtMs.load();
+    const long long completedAtMs = shared->completedAtMs.load();
     const std::string common =
-        "cyclesCompletedWhileJoinBlocked=" + std::to_string(result->cyclesDuringJoin.load())
+        "cyclesCompletedWhileJoinBlocked="
+        + std::to_string(cycleWhileBlocked ? shared->cyclesDuringWindow.load() : 0ULL)
+        + " joinReturnedAtMs=" + std::to_string(joinReturnedAtMs)
+        + " collectionRequestedAtMs=" + std::to_string(requestedAtMs)
+        + " cycleCompletedAtMs=" + std::to_string(completedAtMs)
         + " gcCycleCount " + std::to_string(cyclesBefore) + "->"
         + std::to_string(space.getGCCycleCount())
         + " runningThreads=" + std::to_string(space.runningThreads.load())
         + " reclaimedLastCycle="
         + std::to_string(space.reclaimedLastCycle.load(std::memory_order_relaxed));
 
-    if (!result->cycleCompleted.load())
-        return {kId, 2, Status::Fail,
-                "no collection cycle could complete during the 8 s this runtime "
-                "spent blocked in its own join.  The joining thread is still "
-                "counted in runningThreads, so parkedThreads can never reach it "
-                "and stop-the-world cannot begin; a thread that then needs "
-                "memory waits for a cycle that cannot start.  Either the join "
-                "is a direct std::thread::join on a registered thread (bracket "
-                "it in ProtoContext::UnmanagedScope), or protoCore's own "
-                "ProtoThread::join is not bracketing itself in this build.  "
+    if (cycleWhileBlocked)
+        return {kId, 2, Status::Pass,
+                "a collection completed while this runtime was blocked in its "
+                "own join, so the join did not hold the stop-the-world quorum.  "
                 + common};
 
-    return {kId, 2, Status::Pass,
-            "a collection completed while this runtime was blocked in its own "
-            "join, so the join did not hold the stop-the-world quorum.  "
+    if (!releasedWhileBlocked) {
+        // The join returned on its own: the release flag was still down and no
+        // collection had completed.  Rule 2b was not measured, and reporting
+        // that as a rule-2b failure would blame a join that was never observed
+        // blocking.  It is the host adaptor that broke its contract
+        // (Host::joinBlockingThread: the join must stay blocked until the flag
+        // is raised, or for long enough that a collection completes).
+        const std::string when = requestedWhileBlocked
+            ? "after the collection was demanded but before any cycle completed"
+            : "before the case had even demanded a collection (it does so "
+              "150 ms after calling joinBlockingThread)";
+        const std::string after = shared->cycleCompleted.load()
+            ? "A collection demanded by the case did complete once the join "
+              "had returned, so this case's own wait did not hold the quorum.  "
+            : "";
+        return {kId, 2, Status::Fail,
+                "host contract violation, rule 2b not measured: "
+                "Host::joinBlockingThread returned " + when + ", without the "
+                "release flag having been raised.  The runtime's thread must "
+                "stay alive until releaseFlagRaised(releaseFlag) is true -- the "
+                "case raises it as soon as a cycle completes, or after 10 s -- "
+                "or, when the runtime cannot observe the flag, run for a few "
+                "seconds of wall clock (bounded by the clock, not by an "
+                "iteration count).  This is the adaptor's finding, not the "
+                "join's.  " + after + common};
+    }
+
+    return {kId, 2, Status::Fail,
+            "no collection cycle could complete during the 8 s this runtime "
+            "spent blocked in its own join.  The joining thread is still "
+            "counted in runningThreads, so parkedThreads can never reach it "
+            "and stop-the-world cannot begin; a thread that then needs "
+            "memory waits for a cycle that cannot start.  Either the join "
+            "is a direct std::thread::join on a registered thread (bracket "
+            "it in ProtoContext::UnmanagedScope), or protoCore's own "
+            "ProtoThread::join is not bracketing itself in this build.  "
             + common};
 }
 
