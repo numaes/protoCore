@@ -43,6 +43,15 @@ collection once the context is gone.  `space->dirtySegments` is a lock-free
 LIFO stack.  Workers push segments; the GC drains the stack atomically at
 the start of each cycle.
 
+`~ProtoContext` runs three steps in a fixed order.  (1) It anchors the return
+value in `previous` with a `ReturnReference` cell while the context is still
+registered (the thread's current context, or `space->mainContext`): that
+allocation can block for a collection, and the collection must still reach
+the return value and the dying context's young chain.  (2) It pops the
+context.  (3) It submits the young chain, now that the return value is
+anchored in `previous`'s.  Before 2.9.2 the pop came first, and a collection
+inside step 1 could free a return value that was already a candidate.
+
 ### 4. The mutable-shard table — protoCore's *concentrated mutability*
 Every mutable in protoCore is identified by an integer `mutable_ref`.
 Mutation is implemented by a CAS on `space->mutableRoot[mutable_ref %

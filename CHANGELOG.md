@@ -4,6 +4,32 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.9.2] - 2026-10-02
+
+A patch release with one garbage-collector fix.  The ABI is unchanged
+(SOVERSION 3, no class layout changed).
+
+- **A context's return value is anchored before the context is popped.**
+  `~ProtoContext` made `previous` the thread's current context (or
+  `space->mainContext`, for a thread-less context) and only then allocated the
+  `ReturnReference` that anchors the return value in `previous`.  That
+  allocation can block for a collection -- at a stop-the-world poll, or in a
+  refill at the hard heap limit -- and that collection's root scan then
+  reached neither the return value nor the dying context's young chain.  A
+  return value that was already a sweep candidate was freed while the caller
+  was about to receive it: an object built in a nested call (whose context's
+  destruction submitted it) and passed up, or objects reachable only through
+  the young chain, such as the nodes of a list built in the context that an
+  earlier `safepoint()` had submitted.  The destructor now anchors the return
+  value while the context is still registered, then pops the context, then
+  submits its young generation.  `ContextReturnAnchor.ReturnValueSurvivesACollectionInsideTheDestructor`
+  forces that collection deterministically (hard limit at the current heap,
+  every freelist drained); it failed in 50 of 50 runs before the fix and
+  passes in every run after.  Found while investigating protoPython's
+  Windows-only crash under `PROTOCORE_HEAP_LIMIT_CELLS`: with a protoPython fix
+  and this one, its heap-limit test went from 9 crashes in 100 runs to none on
+  Windows CI.
+
 ## [2.9.1] - 2026-10-02
 
 A patch release.  No library code changed: the ABI and behaviour are those of

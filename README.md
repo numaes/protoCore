@@ -15,7 +15,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 | Item | Value |
 |------|-------|
-| Version | 2.9.1 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
+| Version | 2.9.2 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
 | Status | Open for review; not production ready |
 | Test suite | GoogleTest, counted with `ctest -N` in your build directory — 499 cases as of 2026-09-25. Count it rather than quoting this line: it grows with every fix. |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
@@ -137,7 +137,7 @@ cmake --build build
 
 `cmake --build build` builds the shared library, the test executable (`build/test/proto_tests`) and the benchmark executables. To build only the library, add `--target protoCore`.
 
-On Linux the library is `build/libprotoCore.so.<version>` (`2.9.1` as of 2026-10-02), with the links `libprotoCore.so.3` (the soname, `PROTOCORE_ABI_SOVERSION`) and `libprotoCore.so`. On macOS CMake names it `libprotoCore.<version>.dylib`. On Windows the build produces `build/bin/protoCore-3.dll` (the ABI version is in the DLL's name, as it is in the soname) and the import library `build/protoCore.lib`; it is built natively with MSVC (Visual Studio 2022).
+On Linux the library is `build/libprotoCore.so.<version>` (`2.9.2` as of 2026-10-02), with the links `libprotoCore.so.3` (the soname, `PROTOCORE_ABI_SOVERSION`) and `libprotoCore.so`. On macOS CMake names it `libprotoCore.<version>.dylib`. On Windows the build produces `build/bin/protoCore-3.dll` (the ABI version is in the DLL's name, as it is in the soname) and the import library `build/protoCore.lib`; it is built natively with MSVC (Visual Studio 2022).
 
 What CI runs, on every push to `master` (`.github/workflows/ci.yml` for Linux, `cross-platform.yml` for macOS and Windows): ctest registers 524 cases on each platform. 516 of them gate the build, and pass on Linux (Release and AddressSanitizer), macOS (Apple clang, arm64) and Windows (MSVC x64, Release and Debug). The other 8 are excluded from the gate because their verdict is a clock: five GoogleTest cases that assert a throughput, a pause time or an elapsed-time budget, and the three `conformance.isolate.*` cases whose failure mode is a deadlock caught by a timeout (the list and the reason for each are in `ci.yml`). They still run, serially and without gating, on all three platforms, and a failure there is reported in the run summary. Platform support for macOS and Windows, including the Windows build steps, is described in [docs/INSTALLATION.md](docs/INSTALLATION.md).
 

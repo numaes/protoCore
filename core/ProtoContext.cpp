@@ -238,30 +238,33 @@ namespace proto
      */
     ProtoContext::~ProtoContext()
     {
-        if (this->gcOwned_) {
-            // Never registered anywhere (see the GCOwnedTag constructor).
-        } else if (this->thread) {
-            toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this->previous);
-        } else if (this->space) {
-            this->space->mainContext = this->previous;
-        }
-
-        // Order matters here.  `submitYoungGeneration` MUST run AFTER the
-        // ReturnReference is anchored in `previous`'s young chain.  If we
-        // submit first, the inner context's young chain enters
-        // `dirtySegments` while the returnValue cell is reachable only
-        // through `this->returnValue` — which is no longer scanned
-        // because step 1 above popped this context off the thread's stack.
-        // The next allocCell (for the ReturnReference itself) parks at a
-        // STW poll, the GC runs Phase 4 with a root set that does not
-        // include this returnValue, and Phase 5 frees it.  The
-        // ReturnReference that finishes constructing after the GC wakes
-        // then holds a freed cell pointer — symptom at high-recursion
-        // workloads (e.g. bench_binary_trees(11)): "AttributeError:
-        // 'Node' object has no attribute 'left'" once the freed cell is
-        // recycled as a different type.  Anchoring first keeps the
-        // returnValue rooted via `previous`'s young chain across the
-        // submission STW window.
+        // Order matters here: anchor, then pop, then submit.
+        //
+        // 1. Anchor the return value in `previous`'s young chain while THIS
+        //    context is still registered (the thread's current context, or
+        //    space->mainContext for a thread-less one).  Allocating the
+        //    ReturnReference can block for a collection -- at a stop-the-world
+        //    poll, or in getFreeCells when the refill finds the heap at its
+        //    limit (waitForHeapHeadroom).  While this context is registered,
+        //    that collection's root scan reaches its return value and the head
+        //    of its young chain, whose walk keeps alive every older object the
+        //    young cells reference.  Popping first hid both: the young cells
+        //    survived (they are in no segment yet), but a return value that
+        //    was already a candidate -- built by a nested call, whose context
+        //    submitted it -- and objects reachable only through the young
+        //    chain -- the nodes of a list built here that an earlier
+        //    safepoint() had already submitted, for example -- were swept, and
+        //    the caller received freed cells
+        //    (test/ContextReturnAnchorTests.cpp).  Parking here while still
+        //    registered is safe: this context is a valid root until step 2.
+        //
+        // 2. Pop this context off the thread's stack.
+        //
+        // 3. Submit the young generation.  Submitting before the anchor makes
+        //    the return value a candidate while nothing a scan reaches
+        //    references it (symptom at high-recursion workloads such as
+        //    bench_binary_trees(11): "'Node' object has no attribute 'left'"
+        //    once the freed cell is recycled as a different type).
         if (this->returnValue && this->previous)
         {
             Cell* cell = const_cast<Cell*>(this->returnValue->asCell(this));
@@ -269,6 +272,14 @@ namespace proto
                 (void) new(this->previous) ReturnReference(this->previous, cell);
                 // Cell constructor already registers with context via addCell2Context.
             }
+        }
+
+        if (this->gcOwned_) {
+            // Never registered anywhere (see the GCOwnedTag constructor).
+        } else if (this->thread) {
+            toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this->previous);
+        } else if (this->space) {
+            this->space->mainContext = this->previous;
         }
 
         if (this->space && this->lastAllocatedCell) {
