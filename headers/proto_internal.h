@@ -42,7 +42,11 @@
 #endif
 
 namespace proto {
-    // Relaxed atomic access to a plain int field (heapSize, maxHeapSize).
+    // Relaxed atomic access to a plain int field (heapSize, maxHeapSize,
+    // freeCellsCount).  Their writers hold globalMutex, but heap statistics are
+    // also read without it (ProtoSpace::waitForHeapHeadroom's fast path, the
+    // conformance library's heap samples), so every write is atomic and every
+    // read outside the mutex goes through relaxedLoad.
     // std::atomic_ref where the library has it; Apple's libc++ before LLVM 19
     // does not, and there the compiler's __atomic builtins do the same.
 #if defined(__cpp_lib_atomic_ref)

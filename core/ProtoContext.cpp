@@ -297,7 +297,7 @@ namespace proto
             }
             batchTail->internalSetNextRaw(this->space->freeCells);
             this->space->freeCells = this->freeCells;
-            this->space->freeCellsCount += count;
+            relaxedFetchAdd(this->space->freeCellsCount, count);
             this->freeCells = nullptr;
             lock.clear(std::memory_order_release);
         }

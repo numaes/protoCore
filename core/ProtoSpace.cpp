@@ -125,7 +125,7 @@ namespace proto {
             // freeCellsCount is an int field of ProtoSpace (its layout is part
             // of the ABI).  It counts cells of one heap; 2^31 cells would be
             // 128 GiB, so a chunk's count fits it exactly.
-            space->freeCellsCount += static_cast<int>(count);
+            relaxedFetchAdd(space->freeCellsCount, static_cast<int>(count));
         }
 
         const char* cellTypeName(CellType type) {
@@ -1909,13 +1909,13 @@ namespace proto {
                     chunk->head = last->getNext();
                     chunk->count -= static_cast<proto_ulong>(batchSize);
                     last->internalSetNextRaw(nullptr);
-                    this->freeCellsCount -= batchSize;
+                    relaxedFetchAdd(this->freeCellsCount, -batchSize);
                     GC_LOCK_TRACE("getFreeCells REL(chunk-split)");
                     return batchHead;
                 }
                 this->freeChunks = chunk->next;
                 Cell* batchHead = chunk->head;
-                this->freeCellsCount -= static_cast<int>(chunk->count);
+                relaxedFetchAdd(this->freeCellsCount, -static_cast<int>(chunk->count));
                 recycleFreeChunk(this, chunk);
                 GC_LOCK_TRACE("getFreeCells REL(chunk)");
                 return batchHead;
@@ -1928,7 +1928,7 @@ namespace proto {
                     Cell* batchHead = this->freeCells;
                     this->freeCells = nullptr;
                     this->freeCellsTail = nullptr;
-                    this->freeCellsCount = 0;
+                    relaxedStore(this->freeCellsCount, 0);
                     GC_LOCK_TRACE("getFreeCells REL(flat-all)");
                     return batchHead;
                 }
@@ -1943,7 +1943,7 @@ namespace proto {
                 }
                 this->freeCells = current->getNext();
                 current->setNext(nullptr);
-                this->freeCellsCount -= count;
+                relaxedFetchAdd(this->freeCellsCount, -count);
                 if (!this->freeCells) this->freeCellsTail = nullptr;
                 GC_LOCK_TRACE("getFreeCells REL(flat-partial)");
                 return batchHead;

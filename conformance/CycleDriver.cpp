@@ -1,4 +1,5 @@
 #include "CycleDriver.h"
+#include "../headers/proto_internal.h"
 
 #include <chrono>
 #include <mutex>
@@ -80,8 +81,11 @@ bool requestOneCycle(ProtoSpace& space, ProtoContext* ctx, unsigned deadlineMs)
 HeapSample sample(ProtoSpace& space)
 {
     HeapSample s;
-    s.heapSize  = space.heapSize;
-    s.freeCells = space.freeCellsCount;
+    // Read without globalMutex, which the collector holds while it waits for
+    // the stop-the-world quorum: taking it here could hang the case it
+    // samples for.  The writers update both fields atomically.
+    s.heapSize  = relaxedLoad(space.heapSize);
+    s.freeCells = relaxedLoad(space.freeCellsCount);
     s.inUse     = s.heapSize - s.freeCells;
     s.liveLast  = space.liveCellsLastCycle.load(std::memory_order_relaxed);
     s.reclaimed = space.reclaimedLastCycle.load(std::memory_order_relaxed);
