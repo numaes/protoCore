@@ -36,6 +36,9 @@
 
 // ProtoSpace::setThreadStackBytes exists (protoCore 2.8.0 and later).
 #define PROTOCORE_HAS_THREAD_STACK_BYTES 1
+// ProtoSpace::currentThreadStackBytes exists, and setThreadStackBytes is
+// honoured on Linux, macOS and Windows (protoCore 2.9.0 and later).
+#define PROTOCORE_HAS_CURRENT_THREAD_STACK_BYTES 1
 
 // Static data members of the API.  A Windows DLL exports functions to callers
 // that know nothing about it, but data must be declared dllimport by the
@@ -2424,18 +2427,39 @@ namespace proto
         /**
          * @brief The stack size of the threads newThread creates, from now on.
          *
-         * Where the C library has a process-wide default for new threads,
-         * that default is what an embedder sets (glibc:
-         * pthread_setattr_default_np; Windows: the executable's /STACK
-         * reserve) and this value is not needed.  macOS has none -- a
-         * secondary thread gets 512 KiB whatever the main thread has -- so
-         * there newThread gives each thread at least this many bytes.  0 (the
-         * default) means the platform's size.  Process-wide; call it once at
-         * start-up, before creating threads.  Since 2.8.0; test for it with
-         * PROTOCORE_HAS_THREAD_STACK_BYTES.
+         * 0 (the default) means the platform's size: on Linux the glibc
+         * default (RLIMIT_STACK, usually 8 MiB, or what
+         * pthread_setattr_default_np set), on Windows the executable's /STACK
+         * reserve (1 MiB unless the linker was told otherwise), on macOS
+         * 512 KiB whatever the main thread has.  A non-zero value is honoured
+         * on every platform since 2.9.0 (on macOS only, in 2.8.0): newThread
+         * runs the thread on a native thread created with at least this many
+         * bytes of stack (rounded up to whole pages, and to the platform's
+         * minimum; on Windows it is the reservation, as /STACK is).  If the
+         * platform refuses a thread of that size, newThread says so once on
+         * stderr and runs the thread with the platform's size instead; an
+         * embedder that must know can ask, from inside the thread,
+         * currentThreadStackBytes().
+         *
+         * Process-wide; call it once at start-up, before creating threads.
+         * Since 2.8.0; test for it with PROTOCORE_HAS_THREAD_STACK_BYTES.
          */
         static void setThreadStackBytes(size_t bytes);
         static size_t threadStackBytes();
+
+        /**
+         * @brief The stack size of the calling thread, as the platform reports
+         *        it, in bytes.
+         *
+         * The reservation on Windows (GetCurrentThreadStackLimits), the pthread
+         * stack size on Linux (pthread_getattr_np) and macOS
+         * (pthread_get_stacksize_np); 0 on a platform that offers no way to
+         * ask.  Called from a thread newThread created after
+         * setThreadStackBytes(n), it is at least n unless the platform refused
+         * that size.  Since 2.9.0; test for it with
+         * PROTOCORE_HAS_CURRENT_THREAD_STACK_BYTES.
+         */
+        static size_t currentThreadStackBytes();
 
         /**
          * @brief Publish a module this embedder loaded itself, under the ruled

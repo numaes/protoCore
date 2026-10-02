@@ -6,9 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
-#if defined(__APPLE__)
-#include <pthread.h>
-#endif
+#include "ThreadStack.h"
 #include <atomic>
 #include <cstdio>
 #include <cstring>
@@ -174,16 +172,18 @@ namespace proto {
 
         std::atomic<size_t> g_threadStackBytes{0};
 
-#if defined(__APPLE__)
         /**
-         * macOS: run thread_main on a thread with ProtoSpace::threadStackBytes
-         * of stack.  std::thread cannot be given a stack size, and macOS has no
-         * process-wide default, so the std::thread newThread creates starts a
-         * pthread with the size and waits for it.  Everything protoCore knows
-         * about the thread (registration, runningThreads, its context) happens
-         * inside thread_main, on the inner thread; the outer one is never
-         * registered and holds no quorum while it waits, and ProtoThread::join
-         * joins the outer one, which ends right after the inner one.
+         * Run thread_main on a native thread with ProtoSpace::threadStackBytes
+         * of stack.  std::thread cannot be given a stack size, so when a size
+         * is set the std::thread newThread creates starts a sized native
+         * thread (threadstack::runOnSizedThread: _beginthreadex on Windows,
+         * pthread_create elsewhere) and waits for it.  Everything protoCore
+         * knows about the thread (registration, runningThreads, its context)
+         * happens inside thread_main, on the inner thread; the outer one is
+         * never registered and holds no quorum while it waits, and
+         * ProtoThread::join joins the outer one, which ends right after the
+         * inner one.  With no size set (0, the default) thread_main runs on
+         * the std::thread itself, exactly as before 2.8.0.
          */
         void thread_main_sized(
             ProtoContext* context,
@@ -199,25 +199,25 @@ namespace proto {
                 const ProtoList* args;
                 const ProtoSparseList* kwargs;
             } job{context, method, args, kwargs};
-            pthread_attr_t attr;
-            pthread_t inner;
-            bool started = false;
-            if (pthread_attr_init(&attr) == 0) {
-                // A whole number of pages (16 KiB on Apple silicon).
-                const size_t page = 16384;
-                const size_t bytes = (want + page - 1) / page * page;
-                started = pthread_attr_setstacksize(&attr, bytes) == 0 &&
-                    pthread_create(&inner, &attr, [](void* p) -> void* {
-                        auto* j = static_cast<Job*>(p);
-                        thread_main(j->context, j->method, j->args, j->kwargs);
-                        return nullptr;
-                    }, &job) == 0;
-                pthread_attr_destroy(&attr);
+            const bool ran = threadstack::runOnSizedThread(want, [](void* p) {
+                auto* j = static_cast<Job*>(p);
+                thread_main(j->context, j->method, j->args, j->kwargs);
+            }, &job);
+            if (ran) return;
+            // The platform refused a thread of that size.  Run the thread
+            // anyway, on the platform's default stack, and say so: an
+            // embedder that set the size relies on it, and a silent fallback
+            // would surface later as a stack overflow with no explanation.
+            static std::atomic<bool> warned{false};
+            if (!warned.exchange(true, std::memory_order_relaxed)) {
+                std::fprintf(stderr,
+                    "protoCore: could not create a thread with the %zu-byte stack "
+                    "requested by ProtoSpace::setThreadStackBytes; running it on "
+                    "the platform's default stack (%zu bytes) instead.\n",
+                    want, threadstack::currentThreadStackBytes());
             }
-            if (!started) { thread_main(context, method, args, kwargs); return; }
-            pthread_join(inner, nullptr);
+            thread_main(context, method, args, kwargs);
         }
-#endif
     }
 
     void ProtoSpace::setThreadStackBytes(size_t bytes) {
@@ -226,6 +226,10 @@ namespace proto {
 
     size_t ProtoSpace::threadStackBytes() {
         return g_threadStackBytes.load(std::memory_order_relaxed);
+    }
+
+    size_t ProtoSpace::currentThreadStackBytes() {
+        return threadstack::currentThreadStackBytes();
     }
 
     //=========================================================================
@@ -427,11 +431,7 @@ namespace proto {
         // window between this point and `new std::thread(...)` below,
         // during which GC would otherwise see a phantom running thread
         // that could never park on stwFlag.
-#if defined(__APPLE__)
         this->extension->osThread = new std::thread(thread_main_sized, this->context, mainFunction, args, kwargs);
-#else
-        this->extension->osThread = new std::thread(thread_main, this->context, mainFunction, args, kwargs);
-#endif
     }
 
     /** Adopt-the-main-thread variant.  Builds the extension (attribute

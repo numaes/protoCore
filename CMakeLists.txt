@@ -67,6 +67,7 @@ add_library(protoCore SHARED
     core/SymbolTable.cpp
     core/ProtoTuple.cpp
     core/Thread.cpp
+    core/ThreadStack.cpp
     core/ProtoExternalPointer.cpp
     core/ProtoExternalBuffer.cpp
     core/ProtoSet.cpp
