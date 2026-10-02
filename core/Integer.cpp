@@ -7,16 +7,11 @@
 #include <utility> // For std::move
 #include <bit>
 
-// 128-bit intermediates.  GCC and Clang have __int128; MSVC does not, but its
-// standard library ships complete 128-bit integer classes (used by <ranges>).
-#if defined(_MSC_VER) && !defined(__clang__)
-#include <__msvc_int128.hpp>
-using proto_u128 = std::_Unsigned128;
-using proto_i128 = std::_Signed128;
-#else
-using proto_u128 = unsigned __int128;
-using proto_i128 = __int128;
-#endif
+// 64x64->128 multiplication and 128/64 division come from WideArith.h, which
+// uses unsigned __int128 where the compiler has it and intrinsics or portable
+// half-digit code elsewhere (MSVC has no 128-bit integer type).
+#include "WideArith.h"
+#include <cstdint>
 
 namespace proto
 {
@@ -255,15 +250,17 @@ namespace proto
         if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
             rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
         {
-            proto_i128 result_128 = (proto_i128)lp.si.smallInteger + (proto_i128)rp.si.smallInteger;
+            // Both operands are below 2^53 in magnitude, so the exact result fits in
+            // 64 bits with room to spare.
+            const long long exact = static_cast<long long>(lp.si.smallInteger) + static_cast<long long>(rp.si.smallInteger);
             const long long min_small_int = -(1LL << 53);
             const long long max_small_int = (1LL << 53) - 1;
 
-            if (result_128 >= min_small_int && result_128 <= max_small_int) {
+            if (exact >= min_small_int && exact <= max_small_int) {
                 ProtoObjectPointer res{};
                 res.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
                 res.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
-                res.si.smallInteger = (long long)result_128;
+                res.si.smallInteger = (long long)exact;
                 return res.oid;
             }
         }
@@ -307,15 +304,17 @@ namespace proto
         if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
             rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
         {
-            proto_i128 result_128 = (proto_i128)lp.si.smallInteger - (proto_i128)rp.si.smallInteger;
+            // Both operands are below 2^53 in magnitude, so the exact result fits in
+            // 64 bits with room to spare.
+            const long long exact = static_cast<long long>(lp.si.smallInteger) - static_cast<long long>(rp.si.smallInteger);
             const long long min_small_int = -(1LL << 53);
             const long long max_small_int = (1LL << 53) - 1;
 
-            if (result_128 >= min_small_int && result_128 <= max_small_int) {
+            if (exact >= min_small_int && exact <= max_small_int) {
                 ProtoObjectPointer res{};
                 res.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
                 res.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
-                res.si.smallInteger = (long long)result_128;
+                res.si.smallInteger = (long long)exact;
                 return res.oid;
             }
         }
@@ -364,15 +363,23 @@ namespace proto
         if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
             rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
         {
-            proto_i128 result_128 = (proto_i128)lp.si.smallInteger * (proto_i128)rp.si.smallInteger;
-            const long long min_small_int = -(1LL << 53);
-            const long long max_small_int = (1LL << 53) - 1;
+            // The exact product of two magnitudes below 2^53 needs up to 106
+            // bits: form it as (hi, lo) and keep it only when it is a
+            // SmallInteger, that is |product| <= 2^53 - 1, or exactly -2^53.
+            const long long a = lp.si.smallInteger;
+            const long long b = rp.si.smallInteger;
+            const bool negative = (a < 0) != (b < 0);
+            const std::uint64_t ma = a < 0 ? 0 - static_cast<std::uint64_t>(a) : static_cast<std::uint64_t>(a);
+            const std::uint64_t mb = b < 0 ? 0 - static_cast<std::uint64_t>(b) : static_cast<std::uint64_t>(b);
+            std::uint64_t hi = 0;
+            const std::uint64_t lo = wide::mul64x64(ma, mb, &hi);
+            const std::uint64_t limit = negative ? (std::uint64_t{1} << 53) : (std::uint64_t{1} << 53) - 1;
 
-            if (result_128 >= min_small_int && result_128 <= max_small_int) {
+            if (hi == 0 && lo <= limit) {
                 ProtoObjectPointer res{};
                 res.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
                 res.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
-                res.si.smallInteger = (long long)result_128;
+                res.si.smallInteger = negative ? -static_cast<long long>(lo) : static_cast<long long>(lo);
                 return res.oid;
             }
         }
@@ -632,15 +639,14 @@ namespace proto
         if (isSmallInteger(object)) {
             long long val = asLong(context, object);
             if (val == 0) return fromLong(context, 0);
-            // |val| < 2^53 and amount < 64, so the exact product fits in a
-            // 128-bit integer; fromLong promotes it when it leaves the
-            // SmallInteger range.
-            if (amount < 64) {
-                const proto_i128 shifted = static_cast<proto_i128>(val) * (static_cast<proto_i128>(1) << amount);
-                if (shifted >= std::numeric_limits<long long>::min() &&
-                    shifted <= std::numeric_limits<long long>::max()) {
-                    return fromLong(context, static_cast<long long>(shifted));
-                }
+            // |val| < 2^53.  When |val| << amount stays below 2^63 the shift
+            // is exact in a long long, and fromLong promotes it when it
+            // leaves the SmallInteger range; otherwise the bignum path below
+            // computes it.
+            const std::uint64_t mag = val < 0 ? 0 - static_cast<std::uint64_t>(val) : static_cast<std::uint64_t>(val);
+            if (amount < 64 && static_cast<int>(std::bit_width(mag)) + amount <= 63) {
+                const long long shifted = static_cast<long long>(mag << amount);
+                return fromLong(context, val < 0 ? -shifted : shifted);
             }
             // Promote to bignum and use the magnitude-shift path below.
         }
@@ -818,32 +824,28 @@ namespace proto
 
     static TempBignum internal_add_mag(const TempBignum& left, const TempBignum& right) {
         TempBignum result;
-        proto_u128 carry = 0;
+        std::uint64_t carry = 0;
         size_t max_size = std::max(left.magnitude.size(), right.magnitude.size());
         result.magnitude.resize(max_size);
         for (size_t i = 0; i < max_size; ++i) {
-            proto_u128 sum = carry;
-            if (i < left.magnitude.size()) sum += left.magnitude[i];
-            if (i < right.magnitude.size()) sum += right.magnitude[i];
-            result.magnitude[i] = static_cast<proto_ulong>(sum);
-            carry = sum >> 64;
+            const std::uint64_t l = i < left.magnitude.size() ? left.magnitude[i] : 0;
+            const std::uint64_t r = i < right.magnitude.size() ? right.magnitude[i] : 0;
+            result.magnitude[i] = static_cast<proto_ulong>(wide::addCarry(l, r, carry, &carry));
         }
         if (carry > 0) result.magnitude.push_back(static_cast<proto_ulong>(carry));
         result.normalize();
         return result;
     }
 
+    // Precondition: |left| >= |right|.
     static TempBignum internal_sub_mag(const TempBignum& left, const TempBignum& right) {
         TempBignum result;
-        proto_u128 borrow = 0;
+        std::uint64_t borrow = 0;
         size_t max_size = left.magnitude.size();
         result.magnitude.resize(max_size);
         for (size_t i = 0; i < max_size; ++i) {
-            proto_u128 l_digit = left.magnitude[i];
-            proto_u128 r_digit = (i < right.magnitude.size()) ? right.magnitude[i] : 0;
-            proto_u128 diff = l_digit - r_digit - borrow;
-            result.magnitude[i] = static_cast<proto_ulong>(diff);
-            borrow = (diff >> 127) ? 1 : 0; // Check if MSB of 128-bit diff is set
+            const std::uint64_t r = i < right.magnitude.size() ? right.magnitude[i] : 0;
+            result.magnitude[i] = static_cast<proto_ulong>(wide::subBorrow(left.magnitude[i], r, borrow, &borrow));
         }
         result.normalize();
         return result;
@@ -856,12 +858,20 @@ namespace proto
         result.magnitude.resize(left.magnitude.size() + right.magnitude.size(), 0);
 
         for (size_t i = 0; i < left.magnitude.size(); ++i) {
-            proto_u128 carry = 0;
+            std::uint64_t carry = 0;
             for (size_t j = 0; j < right.magnitude.size(); ++j) {
-                proto_u128 prod = (proto_u128)left.magnitude[i] * right.magnitude[j] +
-                                         result.magnitude[i + j] + carry;
-                result.magnitude[i + j] = static_cast<proto_ulong>(prod);
-                carry = prod >> 64;
+                // left[i] * right[j] + result[i + j] + carry is at most
+                // (2^64 - 1)^2 + 2 * (2^64 - 1) = 2^128 - 1, so adding the two
+                // digits to the product never overflows its high digit.
+                std::uint64_t hi = 0;
+                std::uint64_t lo = wide::mul64x64(left.magnitude[i], right.magnitude[j], &hi);
+                std::uint64_t c = 0;
+                lo = wide::addCarry(lo, result.magnitude[i + j], 0, &c);
+                hi += c;
+                lo = wide::addCarry(lo, carry, 0, &c);
+                hi += c;
+                result.magnitude[i + j] = static_cast<proto_ulong>(lo);
+                carry = hi;
             }
             if (carry > 0) {
                 result.magnitude[i + right.magnitude.size()] = static_cast<proto_ulong>(carry);
@@ -892,12 +902,12 @@ namespace proto
         // Single digit divisor optimization
         if (v.magnitude.size() == 1) {
             TempBignum q;
-            proto_u128 rem = 0;
+            std::uint64_t rem = 0;
+            const std::uint64_t d = v.magnitude[0];
             q.magnitude.resize(u.magnitude.size());
-            for (int i = static_cast<int>(u.magnitude.size()) - 1; i >= 0; --i) {
-                proto_u128 current = (rem << 64) | u.magnitude[static_cast<size_t>(i)];
-                q.magnitude[static_cast<size_t>(i)] = static_cast<proto_ulong>(current / v.magnitude[0]);
-                rem = current % v.magnitude[0];
+            for (size_t i = u.magnitude.size(); i-- > 0;) {
+                // rem < d, so (rem, u[i]) / d fits in one digit.
+                q.magnitude[i] = static_cast<proto_ulong>(wide::div128by64(rem, u.magnitude[i], d, &rem));
             }
             TempBignum r;
             if (rem > 0) r.magnitude.push_back(static_cast<proto_ulong>(rem));
@@ -907,15 +917,17 @@ namespace proto
         }
 
         // Multi-digit divisor: Knuth, TAOCP vol. 2, 4.3.1, Algorithm D, on
-        // 64-bit digits with 128-bit intermediates.  Works on the magnitude
-        // vectors only; nothing is allocated on the heap of the space.
-        using u64 = proto_ulong;
-        using u128 = proto_u128;
+        // 64-bit digits, with the double-digit steps done by WideArith.h.
+        // Works on the magnitude vectors only; nothing is allocated on the
+        // heap of the space.  test/WideArithTests.cpp drives the rare steps
+        // (a trial quotient of 2^64, rhat overflow, and the D6 add-back) with
+        // known operands.
+        using u64 = std::uint64_t;
         const size_t n = v.magnitude.size();
         const size_t m = u.magnitude.size() - n;
 
         // D1: normalize so the divisor's top digit has its high bit set.
-        const int shift = std::countl_zero(v.magnitude[n - 1]);
+        const int shift = std::countl_zero(static_cast<u64>(v.magnitude[n - 1]));
         std::vector<u64> vn(n), un(u.magnitude.size() + 1);
         for (size_t i = n - 1; i > 0; --i)
             vn[i] = (v.magnitude[i] << shift) | (shift ? v.magnitude[i - 1] >> (64 - shift) : 0);
@@ -927,42 +939,58 @@ namespace proto
 
         TempBignum quotient;
         quotient.magnitude.assign(m + 1, 0);
+        const u64 v1 = vn[n - 1];
+        const u64 v2 = vn[n - 2];
         for (size_t jj = m + 1; jj-- > 0;) {
             const size_t j = jj;
-            // D3: estimate the quotient digit from the top two digits.
-            const u128 top = (static_cast<u128>(un[j + n]) << 64) | un[j + n - 1];
-            u128 qhat = top / vn[n - 1];
-            u128 rhat = top % vn[n - 1];
-            while (qhat >> 64 ||
-                   qhat * vn[n - 2] > ((rhat << 64) | un[j + n - 2])) {
-                --qhat;
-                rhat += vn[n - 1];
-                if (rhat >> 64) break;
+            // D3: estimate the quotient digit from the top two digits.  The
+            // running remainder is below the divisor, so un[j + n] <= v1.  When
+            // they are equal, (un[j+n], un[j+n-1]) / v1 is 2^64 or more; it is
+            // capped at 2^64 - 1, which leaves
+            // rhat = (un[j+n], un[j+n-1]) - (2^64 - 1) * v1 = un[j+n-1] + v1.
+            u64 qhat, rhat;
+            bool rhatOverflow = false;
+            if (un[j + n] >= v1) {
+                qhat = ~u64{0};
+                u64 c = 0;
+                rhat = wide::addCarry(un[j + n - 1], v1, 0, &c);
+                rhatOverflow = c != 0;
+            } else {
+                qhat = wide::div128by64(un[j + n], un[j + n - 1], v1, &rhat);
             }
-            // D4: multiply and subtract.
-            u128 carry = 0;
-            proto_i128 borrow = 0;
+            // While qhat * v2 > (rhat, un[j+n-2]), qhat is too large.  Once
+            // rhat reaches 2^64 that test can no longer succeed.
+            while (!rhatOverflow) {
+                u64 phi = 0;
+                const u64 plo = wide::mul64x64(qhat, v2, &phi);
+                if (phi < rhat || (phi == rhat && plo <= un[j + n - 2])) break;
+                --qhat;
+                u64 c = 0;
+                rhat = wide::addCarry(rhat, v1, 0, &c);
+                rhatOverflow = c != 0;
+            }
+            // D4: multiply and subtract qhat * vn from un[j .. j+n].
+            u64 carry = 0;
+            u64 borrow = 0;
             for (size_t i = 0; i < n; ++i) {
-                const u128 product = qhat * vn[i] + carry;
-                carry = product >> 64;
-                const proto_i128 t = static_cast<proto_i128>(un[i + j]) - borrow - static_cast<u64>(product);
-                un[i + j] = static_cast<u64>(t);
-                borrow = t < 0 ? 1 : 0;
+                u64 phi = 0;
+                u64 plo = wide::mul64x64(qhat, vn[i], &phi);
+                u64 c = 0;
+                plo = wide::addCarry(plo, carry, 0, &c);
+                carry = phi + c;  // no overflow: qhat * vn[i] + carry < 2^128
+                un[i + j] = wide::subBorrow(un[i + j], plo, borrow, &borrow);
             }
-            const proto_i128 t = static_cast<proto_i128>(un[j + n]) - borrow - static_cast<proto_i128>(carry);
-            un[j + n] = static_cast<u64>(t);
-            // D5/D6: the estimate was one too large; add the divisor back.
-            if (t < 0) {
+            un[j + n] = wide::subBorrow(un[j + n], carry, borrow, &borrow);
+            // D5/D6: a final borrow means the estimate was one too large and
+            // the partial remainder went negative; add the divisor back.
+            if (borrow) {
                 --qhat;
-                u128 c = 0;
-                for (size_t i = 0; i < n; ++i) {
-                    const u128 sum = static_cast<u128>(un[i + j]) + vn[i] + c;
-                    un[i + j] = static_cast<u64>(sum);
-                    c = sum >> 64;
-                }
-                un[j + n] = static_cast<u64>(static_cast<u128>(un[j + n]) + c);
+                u64 c = 0;
+                for (size_t i = 0; i < n; ++i)
+                    un[i + j] = wide::addCarry(un[i + j], vn[i], c, &c);
+                un[j + n] += c;  // wraps back to the true, non-negative value
             }
-            quotient.magnitude[j] = static_cast<u64>(qhat);
+            quotient.magnitude[j] = static_cast<proto_ulong>(qhat);
         }
 
         // D8: the remainder is the low n digits of un, shifted back.
