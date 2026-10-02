@@ -16,6 +16,14 @@
 //   * live mutables keep their state while entries of their shards are
 //     released;
 //   * writers updating the same shards while releases run lose no update.
+//
+// The writers' test runs under a hard heap limit.  Without one, protoCore
+// never makes an allocating thread wait for the collector, and four threads
+// that allocate without pause outrun the single collector thread: each cycle
+// sweeps every cell allocated during the previous one, so cycle times and the
+// heap grow geometrically (about twofold per cycle on Linux).  The limit is
+// the configuration in which protoCore keeps the heap bounded, and the one an
+// embedder with such threads must use.
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
@@ -237,6 +245,22 @@ constexpr int kDroppedPerIteration = 8;
 constexpr int kMinWriterIterations = 500;
 constexpr int kMaxWriterIterations = 200000;
 constexpr uint64_t kCyclesDuringWrites = 5;
+// Hard heap limit for the writers' test, in cells (128 MiB of 64-byte
+// cells), just above the 0.7 to 1.7 million cells the test reaches where the
+// collector keeps up (Linux, Windows Debug).  At the limit an allocating
+// writer waits for the collector to reclaim cells, so the writers cannot
+// outrun it.
+//
+// Without it the test hung on Windows runners in a quarter of the runs: four
+// writers and the collector on four virtual CPUs, where a thread that wakes
+// from a sleep can wait a whole scheduling quantum of Windows Server (about
+// 200 ms) for a CPU.  The thread requesting the cycles slept that long after
+// the first one, the writers allocated some 15 million cells meanwhile, and
+// from that start the geometric growth reached the writers' iteration bound
+// with 250 to 420 million cells (16 to 27 GB): the runner paged, and the
+// cycle the test then waited for ran for minutes.  The same growth, from a
+// smaller start, is measured on Linux by raising kCyclesDuringWrites.
+constexpr int kWriterHeapLimitCells = 1 << 21;
 
 struct WriterShared {
     ProtoRootSet* roots = nullptr;
@@ -323,6 +347,7 @@ const ProtoObject* writerThreadMain(ProtoContext* ctx, const ProtoObject*, const
 TEST(MutableRootReclaim, ConcurrentWritersLoseNoUpdateDuringRelease) {
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;
+    space.setHeapLimits(0, kWriterHeapLimitCells);
     WriterShared shared;
     gWriters = &shared;
     shared.roots = space.createRootSet("mutable-root-reclaim-writers");
@@ -353,6 +378,12 @@ TEST(MutableRootReclaim, ConcurrentWritersLoseNoUpdateDuringRelease) {
     }
     const uint64_t cyclesDuringWrites = space.getGCCycleCount() - cyclesStart;
     const int done = shared.done.load();
+    // heapSize is written under globalMutex.
+    int heapCellsAfterWrites = 0;
+    {
+        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        heapCellsAfterWrites = space.heapSize;
+    }
 
     // The writers are parked; two more cycles release the entries of the
     // mutables dropped at the end of their runs.
@@ -376,6 +407,11 @@ TEST(MutableRootReclaim, ConcurrentWritersLoseNoUpdateDuringRelease) {
 
     ASSERT_EQ(done, kWriters) << "writer threads did not finish";
     EXPECT_GE(cyclesDuringWrites, 3u) << "too few cycles ran while the writers were active";
+    // A critical section may finish its allocations past the limit (a
+    // bounded overshoot, see ProtoContext::heapLimitCheckpoint); twice the
+    // limit means the writers outran the collector.
+    EXPECT_LE(heapCellsAfterWrites, 2 * kWriterHeapLimitCells)
+        << "the heap outgrew its limit while the writers ran";
     EXPECT_EQ(shared.errors.load(), 0u) << "a writer's last update to its own mutable was lost";
     ASSERT_NE(finalCount, nullptr);
     EXPECT_EQ(static_cast<proto::proto_ulong>(finalCount->asLong(ctx)), iterations)
