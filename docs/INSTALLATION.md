@@ -8,7 +8,7 @@ This guide covers building protoCore from source, installing the shared library 
 
 - **Linux** with GCC or Clang is the platform these instructions are written for.
 - **macOS**: `CMakeLists.txt` configures the TGZ and DragNDrop CPack generators for macOS. This guide does not verify the macOS build.
-- **Windows**: native build with MSVC (Visual Studio 2022). CI (`cross-platform.yml`, Windows Server 2022, MSVC x64) builds Release and Debug at /W3 with warnings as errors, runs the gating suite (516 of the 524 registered cases; the 8 clock-dependent ones run without gating), and builds, unpacks and consumes the ZIP. See [Windows (MSVC)](#windows-msvc) below.
+- **Windows**: native build with MSVC (Visual Studio 2022). CI (`cross-platform.yml`, Windows Server 2022, MSVC x64) builds Release and Debug at /W3 with warnings as errors, runs the gating suite (519 of the 526 registered cases; the 7 clock-dependent ones run without gating), and builds, unpacks and consumes the ZIP. See [Windows (MSVC)](#windows-msvc) below.
 
 No continuous integration is configured in this repository.
 
@@ -71,8 +71,8 @@ cmake --install build --prefix %LOCALAPPDATA%\Programs\proto
 
 The build produces `protoCore-3.dll` and its import library `protoCore.lib`.
 Executables and the DLL share `build/bin/`, so the tests run in place. CI runs
-the suite on Windows in Release and in Debug (MSVC's checked iterators): 516
-gating cases of the 524 registered, all passing; the 8 clock-dependent cases
+the suite on Windows in Release and in Debug (MSVC's checked iterators): 519
+gating cases of the 526 registered, all passing; the 7 clock-dependent cases
 listed in `.github/workflows/ci.yml` run in a separate, non-gating step.
 
 What differs on Windows, and why Linux and macOS are unaffected:

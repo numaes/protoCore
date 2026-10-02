@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|ConcurrentMarkSafety\.ThreadCacheSlotFlipsDuringMark|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|conformance\.isolate\..*)$'
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|conformance\.isolate\..*)$'
 
 jobs:
   test:
@@ -82,7 +82,7 @@ jobs:
 
       - name: Clock-dependent cases, serially (informational, never gates)
         # The same cases ci.yml's timing job runs on Linux, here so that the
-        # platform-specific paths they cover (the eight timing cases and the
+        # platform-specific paths they cover (the timing cases and the
         # three conformance.isolate deadlock detectors) run on macOS and
         # Windows too.  A failure is reported, not gating: on a shared runner
         # the verdict is partly the machine's.

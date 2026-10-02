@@ -222,6 +222,14 @@ TEST(ConcurrentMarkSafety, NoLostMutableReferences) {
 // garbage allocated below fills it, refills wait for cycles that reclaim the
 // destroyed contexts' cells.  Surviving is the assertion; the cycle count
 // proves the collector actually ran.
+//
+// Each phase is bounded by WORK, not by time: it runs until kCyclesPerPhase
+// collection cycles have completed while that kind of slot is being flipped.
+// It used to run for a fixed two seconds and then require 100 cycles in
+// total, which made the verdict a throughput floor: an unoptimised MSVC Debug
+// build reached 61 and an ASan build 31, with no defect involved, so the case
+// had to be kept out of every gating CI job.  The deadline below is only a
+// hang detector, far above the slowest measured build (about 11 s under ASan).
 TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
     ProtoSpace space;
     ProtoContext* root = space.rootContext;
@@ -255,13 +263,14 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
         }
     });
 
-    const uint64_t cyclesStart = space.getGCCycleCount();
+    constexpr uint64_t kCyclesPerPhase = 50;
+    uint64_t cyclesInPhase[2] = {0, 0};
     for (int p = 0; p < 2; ++p) {
         phase.store(p, std::memory_order_relaxed);
         const uint64_t phaseStart = space.getGCCycleCount();
-        const auto phaseEnd = std::chrono::steady_clock::now() + std::chrono::seconds(2);
-        while (std::chrono::steady_clock::now() < phaseEnd &&
-               space.getGCCycleCount() - phaseStart < 500) {
+        const auto hangDeadline = std::chrono::steady_clock::now() + std::chrono::seconds(300);
+        while (space.getGCCycleCount() - phaseStart < kCyclesPerPhase &&
+               std::chrono::steady_clock::now() < hangDeadline) {
             // Garbage in a short-lived context: destroying it submits the
             // young generation, and under the heap limit refills wait for
             // the cycles that reclaim it.  Safepoints let a requested cycle
@@ -272,6 +281,7 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
                 if ((j & 0x3F) == 0) sub.safepoint();
             }
         }
+        cyclesInPhase[p] = space.getGCCycleCount() - phaseStart;
     }
     phase.store(2, std::memory_order_relaxed);
     flipper.join();
@@ -283,6 +293,8 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
         ext->mutableValueCache[i] = {0, nullptr, nullptr};
     }
 
-    EXPECT_GE(space.getGCCycleCount() - cyclesStart, 100u)
-        << "too few collection cycles ran for the test to exercise the race";
+    EXPECT_GE(cyclesInPhase[0], kCyclesPerPhase)
+        << "the collector stalled while attribute-cache slots were flipping";
+    EXPECT_GE(cyclesInPhase[1], kCyclesPerPhase)
+        << "the collector stalled while mutable-value-cache slots were flipping";
 }

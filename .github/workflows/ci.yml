@@ -32,7 +32,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # The eight ctest cases whose verdict IS a measurement.  The line drawn here:
+  # The ctest cases whose verdict IS a measurement.  The line drawn here:
   # a case is excluded when a slow machine alone can fail it -- a throughput
   # figure, a pause time, an elapsed-time budget, or a timeout used as the
   # pass/fail signal.  A bounded wait whose threshold sits orders of magnitude
@@ -41,14 +41,6 @@ env:
   #
   #   SwarmTest.OneMillionConcats                  EXPECT_LT(ms, 120000)
   #                                                (test/SwarmTests.cpp:49)
-  #   ConcurrentMarkSafety.ThreadCacheSlotFlips...  EXPECT_GE(cycles, 100) after
-  #                                                two 2-second windows -- a
-  #                                                throughput floor.  MEASURED:
-  #                                                this case fails under ASan on
-  #                                                an idle 12-core machine (31
-  #                                                cycles, not 100), with no
-  #                                                defect involved
-  #                                                (test/ConcurrentMarkSafetyTests.cpp:286)
   #   BulkListBuild.LargeBuildDoesNotBlock...      EXPECT_LT(medianUs, buildUs/4)
   #                                                -- a stop-the-world PAUSE time
   #                                                (test/BulkListBuildTests.cpp:484)
@@ -67,6 +59,11 @@ env:
   #   MPSCQueueConcurrency.EightProducers...       EXPECT_FALSE(timedOut) against
   #                                                a 15-minute deadline
   #                                                (test/ProtoMPSCQueueConcurrencyTests.cpp:174)
+  #   ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark USED to be listed
+  #   here: it required 100 cycles in two 2-second windows, a throughput floor
+  #   that ASan (31 cycles) and MSVC Debug (61) failed with no defect involved.
+  #   Since 2.9.3 each phase runs until it has seen 50 cycles, under a 300 s
+  #   hang detector, so it gates in every job, ASan included.
   #   conformance.isolate.*                        three cases whose violation
   #                                                shows up as a deadlock, so the
   #                                                TIMEOUT 240 *is* the verdict.
@@ -83,7 +80,7 @@ env:
   #                                                intermittent, about 2 runs in
   #                                                10, in a sibling runtime
   #                                                (test/CMakeLists.txt:59-68)
-  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|ConcurrentMarkSafety\.ThreadCacheSlotFlipsDuringMark|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|conformance\.isolate\..*)$'
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|conformance\.isolate\..*)$'
 
 jobs:
   test:
