@@ -4,6 +4,34 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.9.5] - 2026-10-02
+
+A conformance-case fix; the library is unchanged (ABI SOVERSION 3).
+
+- **Conformance: `join.parks` no longer reports an early-returning host as a
+  rule-2b failure.**  When the runtime's joined thread finished before the
+  case demanded its collection (150 ms in), the case's main thread waited in a
+  bare `std::thread::join` of its 10 s timer, held the stop-the-world quorum
+  itself, and reported "no collection cycle could complete" -- blaming a join
+  it never observed blocking (protoScala's CI, 2026-09-30 to 2026-10-02).  The
+  case now snapshots, at the moment the join returns, whether a cycle
+  completed, whether the collection had been demanded and whether the release
+  flag was up.  A join that returned on its own before any of that is a
+  **Fail** headed "host contract violation, rule 2b not measured", with
+  `joinReturnedAtMs` and `collectionRequestedAtMs`.  The timer is detached
+  (never joined), the case's remaining wait runs in an `UnmanagedScope`, and
+  the release flag is raised as soon as a cycle completes, so a conforming
+  run takes ~0.2 s instead of 10 s.  `stw.quorum_completes` now also waits for
+  its driver thread inside an `UnmanagedScope`.  New self-checks:
+  `ConformanceSelfCheck.JoinParksReportsAHostThreadThatReturnsBeforeTheProbe`
+  and `JoinParksPassesAClockBoundedHostThread` (the contract's
+  wall-clock option stays legal).  The `Host::joinBlockingThread` contract in
+  `protoCoreConformance.h` and docs/EMBEDDER-CONFORMANCE.md states the timing.
+- **Correction to the 2.9.4 entry** (fixed in place there).  It said protoPython's and protoScala's
+  conformance hosts "still read the flag plainly and should switch".  Neither
+  host has ever read the flag: both ignore it and bound their thread by the
+  clock, so they had no data race and need no change for the atomic read.
+
 ## [2.9.4] - 2026-10-02
 
 The whole test suite now runs clean under ThreadSanitizer, and CI runs it
@@ -23,7 +51,8 @@ there.  One library field changed how it is accessed; the ABI is unchanged
   cases.  New `proto::conformance::releaseFlagRaised()` in
   `protoCoreConformance.h` is the read a host must use; the virtual's
   signature is unchanged, so existing hosts still build (protoPython's and
-  protoScala's hosts still read the flag plainly and should switch).
+  protoScala's hosts never read the flag, so neither had the race; corrected
+  in 2.9.5).
 - **Conformance: detached helper threads no longer write to a returned stack
   frame.**  `stw.quorum_completes` detached a releaser that set the flag on the
   case's frame 25 s later, normally after the case had returned; `join.parks`
