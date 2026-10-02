@@ -16,6 +16,31 @@ namespace proto {
 
     namespace {
         /**
+         * The current `space->threads`, read under ProtoSpace::globalMutex.
+         *
+         * Every update of the threads list follows the same pattern: snapshot
+         * the list, rebuild it OUTSIDE the mutex (the rebuild allocates, and
+         * allocating under the recursive globalMutex can deadlock a park - see
+         * the ProtoThreadImplementation constructor), then publish under the
+         * mutex only if the list is still the snapshot.  The publish is a plain
+         * store made under the mutex, so the snapshot must be taken under the
+         * mutex too.  A lock-free load here is a data race on a non-atomic
+         * pointer (undefined behaviour), and it leaves no happens-before edge
+         * to the thread that built the published nodes, so the rebuild could
+         * walk node fields that are not yet visible on a weakly ordered CPU.
+         * ThreadSanitizer reported both on concurrent thread exits.
+         *
+         * Holding the mutex only for the load keeps the deadlock-avoidance
+         * rule intact: nothing is allocated, and nothing parks, while it is
+         * held.
+         */
+        const ProtoSparseList* snapshotThreads(ProtoSpace* space)
+        {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            return space->threads;
+        }
+
+        /**
          * Release everything a managed thread owns, on that thread, as the last
          * thing it does.
          *
@@ -152,7 +177,7 @@ namespace proto {
             // pattern avoids.
             proto_ulong threadId = reinterpret_cast<uintptr_t>(context->thread);
             while (true) {
-                const ProtoSparseList* oldThreads = context->space->threads;
+                const ProtoSparseList* oldThreads = snapshotThreads(context->space);
                 const ProtoSparseList* newThreads =
                     oldThreads->removeAt(context, threadId);
                 std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
@@ -414,7 +439,7 @@ namespace proto {
         // Same discipline as ProtoObject::setAttribute (mutable path).
         ProtoContext::CriticalSection cs(context);
         while (true) {
-            const ProtoSparseList* oldThreads = space->threads;
+            const ProtoSparseList* oldThreads = snapshotThreads(space);
             const ProtoSparseList* newThreads =
                 oldThreads->setAt(context, threadId, threadAsObj);
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
@@ -466,7 +491,7 @@ namespace proto {
         // space->threads at the bottom of the loop.
         ProtoContext::CriticalSection cs(mainContext);
         while (true) {
-            const ProtoSparseList* oldThreads = space->threads;
+            const ProtoSparseList* oldThreads = snapshotThreads(space);
             const ProtoSparseList* newThreads =
                 oldThreads->setAt(mainContext, threadId, threadAsObj);
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
@@ -489,7 +514,7 @@ namespace proto {
         // constructor comment for the full deadlock chain).
         proto_ulong threadId = reinterpret_cast<uintptr_t>(this->asThread(this->context));
         while (true) {
-            const ProtoSparseList* oldThreads = space->threads;
+            const ProtoSparseList* oldThreads = snapshotThreads(space);
             const ProtoSparseList* newThreads =
                 oldThreads->removeAt(this->context, threadId);
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);

@@ -37,6 +37,7 @@
 
 #include <atomic>
 #include <cstdio>
+#include <thread>
 #include <vector>
 
 using namespace proto;
@@ -221,3 +222,59 @@ TEST(ThreadExitRelease, AJoinedThreadHoldsNoneOfItsResources) {
 // automaticLocals array) still leak - a handful of cells per thread rather than
 // a batch.  Removing that leak means changing which context the thread cells
 // live in, which is a different change from this one.
+
+// Threads that leave `space->threads` at the same moment.
+//
+// Every exiting thread removes itself from the immutable threads list with a
+// rebuild-outside-the-lock / swap-under-the-lock loop (core/Thread.cpp,
+// thread_main).  The rebuild has to start from a snapshot of the list, and that
+// snapshot used to be a plain load of `space->threads` taken without
+// ProtoSpace::globalMutex, while another exiting (or starting) thread was
+// storing to the same field under it.  That is a data race on a non-atomic
+// pointer - undefined behaviour - and, worse, it left no happens-before edge
+// between the thread that built the published list nodes and the thread that
+// walked them in `removeAt`: a weakly ordered CPU may show the new pointer with
+// stale node contents.  ThreadSanitizer reported both halves (the pointer and
+// the node fields) on every few runs of the concurrent-builder tests.
+//
+// The bodies wait at a gate and are released together so that their exits
+// overlap.  The assertion holds on any build (the swap is a compare-and-swap,
+// so no removal may be lost); the race itself is visible only to
+// ThreadSanitizer, which flags this test on the unfixed code.
+namespace {
+std::atomic<bool> g_exitGate{false};
+std::atomic<int> g_atGate{0};
+
+const ProtoObject* gatedBody(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                             const ProtoList*, const ProtoSparseList*) {
+    g_atGate.fetch_add(1, std::memory_order_relaxed);
+    ProtoContext::UnmanagedScope parked(ctx);
+    while (!g_exitGate.load(std::memory_order_acquire)) std::this_thread::yield();
+    return PROTO_NONE;
+}
+}  // namespace
+
+TEST(ThreadExitRelease, SimultaneousExitsLeaveTheThreadsListConsistent) {
+    constexpr int kRounds = 20;
+    constexpr int kThreads = 8;
+
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    const ProtoString* name = ProtoString::createSymbol(root, "simultaneous-exit");
+    const proto_ulong before = space.threads->getSize(root);
+
+    for (int round = 0; round < kRounds; ++round) {
+        g_exitGate.store(false);
+        g_atGate.store(0);
+        std::vector<const ProtoThread*> threads;
+        for (int i = 0; i < kThreads; ++i)
+            threads.push_back(space.newThread(root, name, &gatedBody, nullptr, nullptr));
+        ProtoContext::UnmanagedScope parked(root);
+        while (g_atGate.load(std::memory_order_relaxed) < kThreads) std::this_thread::yield();
+        g_exitGate.store(true, std::memory_order_release);
+        for (const ProtoThread* t : threads) const_cast<ProtoThread*>(t)->join(root);
+    }
+
+    EXPECT_EQ(space.threads->getSize(root), before)
+        << "an exiting thread's removal from space->threads was lost";
+}
