@@ -233,7 +233,7 @@ namespace proto {
             if (count <= TUPLE_SIZE) {
                 const ProtoObject* data[TUPLE_SIZE] = {nullptr};
                 for (proto_ulong i = 0; i < count; ++i) {
-                    data[i] = list->getAt(context, start + i);
+                    data[i] = list->getAt(context, toIndex(start + i));
                 }
                 return internTuple(context, data, count);
             }
@@ -342,7 +342,7 @@ namespace proto {
                     }
                     const ProtoTupleImplementation* child_tuple = toImpl<const ProtoTupleImplementation>(slot[i]);
                     if ((proto_ulong)index < current_child_start_index + child_tuple->actual_size) {
-                        return child_tuple->implGetAt(context, index - current_child_start_index);
+                        return child_tuple->implGetAt(context, toIndex(index - current_child_start_index));
                     }
                     current_child_start_index += child_tuple->actual_size;
                 }
@@ -360,7 +360,7 @@ namespace proto {
     const ProtoList* ProtoTupleImplementation::implAsList(ProtoContext* context) const {
         ProtoList* list = const_cast<ProtoList*>(context->newList());
         for (proto_ulong i = 0; i < this->implGetSize(context); ++i) {
-            list = const_cast<ProtoList*>(list->appendLast(context, this->implGetAt(context, i)));
+            list = const_cast<ProtoList*>(list->appendLast(context, this->implGetAt(context, toIndex(i))));
         }
         return list;
     }
@@ -468,13 +468,13 @@ namespace proto {
     const ProtoObject* ProtoTuple::getLast(ProtoContext* context) const {
         proto_ulong size = getSize(context);
         if (size == 0) return PROTO_NONE;
-        return getAt(context, size - 1);
+        return getAt(context, toIndex(size - 1));
     }
 
     bool ProtoTuple::has(ProtoContext* context, const ProtoObject* value) const {
         proto_ulong size = getSize(context);
         for (proto_ulong i = 0; i < size; ++i) {
-            const ProtoObject* elem = getAt(context, i);
+            const ProtoObject* elem = getAt(context, toIndex(i));
             if (elem == value) {
                 return true;
             }

@@ -104,8 +104,11 @@ namespace proto
         // Fast path (externalSlots): caller pre-allocated a stack buffer — zero heap cost.
         // Slow path: heap-allocate and zero-initialise.
         {
-            size_t nameCount = localNames ? localNames->getSize(this) : 0;
-            automaticLocalsCount = (totalSlots > nameCount) ? totalSlots : nameCount;
+            // automaticLocalsCount is an unsigned int field of ProtoContext
+            // (its layout is part of the ABI); a method has far fewer than
+            // 2^32 locals, so the count is exact.
+            const size_t nameCount = localNames ? localNames->getSize(this) : 0;
+            automaticLocalsCount = static_cast<unsigned int>((totalSlots > nameCount) ? totalSlots : nameCount);
             if (externalSlots && automaticLocalsCount <= totalSlots) {
                 // Caller owns the buffer and has already initialised it to PROTO_NONE.
                 this->automaticLocals = externalSlots;
@@ -137,8 +140,9 @@ namespace proto
         // allocation that triggers GC will find this context on the reachable set.
         closureLocals = this->newSparseList();
 
-        const unsigned int paramCount = parameterNames->getSize(this);
-        const unsigned int argCount = args ? args->getSize(this) : 0;
+        // Parameter and argument counts of one call: far below 2^32.
+        const unsigned int paramCount = static_cast<unsigned int>(parameterNames->getSize(this));
+        const unsigned int argCount = args ? static_cast<unsigned int>(args->getSize(this)) : 0u;
 
         // 3a. Too many positional arguments
         if (argCount > paramCount) {

@@ -226,9 +226,9 @@ TEST(SymbolIntern, ResidencyDoesNotGrowWithSpaceCount) {
 
     const proto::proto_long attributable = withInterningKb - spaceFloorKb;
     std::fprintf(stderr,
-                 "[residency] 5 empty spaces: %ld KB; 5 spaces x 2000 names: %ld KB; "
-                 "attributable to interning: %ld KB\n",
-                 spaceFloorKb, withInterningKb, attributable);
+                 "[residency] 5 empty spaces: %lld KB; 5 spaces x 2000 names: %lld KB; "
+                 "attributable to interning: %lld KB\n",
+                 (long long) spaceFloorKb, (long long) withInterningKb, (long long) attributable);
     ASSERT_GT(spaceFloorKb, PROTO_L(0))
         << "the space floor measured nothing, so the comparison is meaningless";
     // Re-interning 5 x 2000 names would add roughly 5 MB on top of the floor.

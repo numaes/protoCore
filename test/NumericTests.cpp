@@ -245,7 +245,7 @@ const char* get_utf8(proto::ProtoContext* c, const proto::ProtoString* s) {
     const proto::ProtoList* list = s->asList(c);
     std::string result;
     for (proto::proto_ulong i = 0; i < list->getSize(c); ++i) {
-        result += static_cast<char>(list->getAt(c, i)->asLong(c));
+        result += static_cast<char>(list->getAt(c, static_cast<int>(i))->asLong(c));
     }
     // The string needs to be stored somewhere the pointer can reference.
     // A static variable is a simple way to do this for tests.

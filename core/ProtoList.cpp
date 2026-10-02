@@ -110,7 +110,7 @@ namespace proto {
         if (index == left_size) {
             return value;
         }
-        return nextNode->implGetAt(context, index - left_size - 1);
+        return nextNode->implGetAt(context, toIndex(index - left_size - 1));
     }
 
     namespace {
@@ -157,7 +157,7 @@ namespace proto {
             return rebalance(context, new (context) ProtoListImplementation(context, newValue, false, previousNode, nextNode));
         }
 
-        const ProtoListImplementation* new_next = nextNode->implSetAt(context, index - left_size - 1, newValue);
+        const ProtoListImplementation* new_next = nextNode->implSetAt(context, toIndex(index - left_size - 1), newValue);
         return rebalance(context, new (context) ProtoListImplementation(context, value, false, previousNode, new_next));
     }
 
@@ -175,7 +175,7 @@ namespace proto {
             return rebalance(context, new (context) ProtoListImplementation(context, value, false, new_prev, nextNode));
         } else {
             const ProtoListImplementation* new_next = nextNode
-                ? nextNode->implInsertAt(context, index - left_size - 1, newValue)
+                ? nextNode->implInsertAt(context, toIndex(index - left_size - 1), newValue)
                 : new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
             return rebalance(context, new (context) ProtoListImplementation(context, value, false, previousNode, new_next));
         }
@@ -183,7 +183,7 @@ namespace proto {
 
 
     const ProtoListImplementation* ProtoListImplementation::implAppendLast(ProtoContext* context, const ProtoObject* newValue) const {
-        return implInsertAt(context, size, newValue);
+        return implInsertAt(context, toIndex(size), newValue);
     }
 
     const ProtoListImplementation* ProtoListImplementation::implRemoveAt(ProtoContext* context, int index) const {
@@ -208,14 +208,14 @@ namespace proto {
             if (!nextNode) return rebalance(context, previousNode);
 
             // Both exist. Promote from left.
-            const ProtoObject* new_val = previousNode->implGetAt(context, previousNode->size - 1);
-            const ProtoListImplementation* new_prev = previousNode->implRemoveAt(context, previousNode->size - 1);
+            const ProtoObject* new_val = previousNode->implGetAt(context, toIndex(previousNode->size - 1));
+            const ProtoListImplementation* new_prev = previousNode->implRemoveAt(context, toIndex(previousNode->size - 1));
             if (new_prev && new_prev->size == 0) new_prev = nullptr;
             return rebalance(context, new (context) ProtoListImplementation(context, new_val, false, new_prev, nextNode));
         }
         else {
             // index > left_size
-            const ProtoListImplementation* new_next = nextNode->implRemoveAt(context, index - left_size - 1);
+            const ProtoListImplementation* new_next = nextNode->implRemoveAt(context, toIndex(index - left_size - 1));
             if (new_next && new_next->size == 0) new_next = nullptr;
             return rebalance(context, new (context) ProtoListImplementation(context, value, false, previousNode, new_next));
         }
@@ -484,7 +484,7 @@ namespace proto {
     const ProtoObject* ProtoList::getLast(ProtoContext* context) const {
         proto_ulong size = getSize(context);
         if (size == 0) return PROTO_NONE;
-        return getAt(context, size - 1);
+        return getAt(context, toIndex(size - 1));
     }
     bool ProtoList::has(ProtoContext* context, const ProtoObject* value) const {
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
@@ -561,7 +561,7 @@ namespace proto {
         proto_ulong size = getSize(context);
         if (index <= 0) return context->newList();
         if (index >= (int)size) return const_cast<ProtoList*>(this);
-        return getSlice(context, size - index, size);
+        return getSlice(context, toIndex(size - index), toIndex(size));
     }
     const ProtoList* ProtoList::removeFirst(ProtoContext* context) const {
         proto_ulong size = getSize(context);
@@ -571,7 +571,7 @@ namespace proto {
     const ProtoList* ProtoList::removeLast(ProtoContext* context) const {
         proto_ulong size = getSize(context);
         if (size == 0) return const_cast<ProtoList*>(this);
-        return removeAt(context, size - 1);
+        return removeAt(context, toIndex(size - 1));
     }
     const ProtoList* ProtoList::removeAt(ProtoContext* context, int index) const {
         ProtoContext::CriticalSection cs(context);

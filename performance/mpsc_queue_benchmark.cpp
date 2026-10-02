@@ -80,13 +80,13 @@ struct SendResult {
 void reportSend(const SendResult& r, bool& ok) {
     const bool good = r.consumed == r.pushed;
     ok = ok && good;
-    std::printf("  %s | producers=%d | msgs=%8ld | consumed=%8ld | "
+    std::printf("  %s | producers=%d | msgs=%8lld | consumed=%8lld | "
                 "send wall=%7.3f s | sends/s=%11.0f | mean ns/send=%8.0f | "
-                "drains=%7ld | gc-safe=%s%s\n",
-                r.name, r.producers, r.pushed, r.consumed, r.sendWall,
+                "drains=%7lld | gc-safe=%s%s\n",
+                r.name, r.producers, (long long) r.pushed, (long long) r.consumed, r.sendWall,
                 r.sendWall > 0 ? r.pushed / r.sendWall : 0.0,
                 r.pushed > 0 ? r.sendCpuSum * 1e9 / r.pushed : 0.0,
-                r.batches, r.gcSafe ? "yes" : "NO ",
+                (long long) r.batches, r.gcSafe ? "yes" : "NO ",
                 good ? "" : "  <-- MISMATCH");
     std::fflush(stdout);
 }
@@ -374,9 +374,9 @@ void drainCostTable(bool& ok) {
             rs->remove(pinned);
         }
 
-        std::printf("  batch=%6ld | PMQ push=%8.0f ns  drain=%8.0f ns  total=%8.0f ns"
+        std::printf("  batch=%6lld | PMQ push=%8.0f ns  drain=%8.0f ns  total=%8.0f ns"
                     " | protoST push=%8.0f ns  drain=%8.0f ns  total=%8.0f ns\n",
-                    batch, pmqPush, pmqDrain, pmqPush + pmqDrain,
+                    (long long) batch, pmqPush, pmqDrain, pmqPush + pmqDrain,
                     stPush, stDrain, stPush + stDrain);
         std::fflush(stdout);
     }

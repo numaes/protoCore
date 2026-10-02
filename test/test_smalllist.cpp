@@ -32,7 +32,7 @@ protected:
     const ProtoList* small(std::initializer_list<int> ints) {
         std::vector<const ProtoObject*> items;
         for (int v : ints) items.push_back(context->fromInteger(v));
-        return context->newList(items.size(), items.data());
+        return context->newList(static_cast<unsigned int>(items.size()), items.data());
     }
 
     const ProtoList* avl(std::initializer_list<int> ints) {

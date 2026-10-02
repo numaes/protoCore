@@ -25,6 +25,12 @@ if(MSVC)
     # Directory-scoped, so a project that pulls protoCore in with
     # add_subdirectory keeps its own warning level.
     add_compile_options(/W3)
+    # At /W3 MSVC also reports C4996 for getenv and fopen, recommending the
+    # Microsoft-only _dupenv_s / fopen_s.  protoCore uses the standard C
+    # functions on purpose (one code path for every platform; its getenv
+    # calls read configuration once, not concurrently with setenv), so the
+    # CRT deprecation is switched off rather than the code forked.
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 else()
     add_compile_options(-fno-delete-null-pointer-checks)
 endif()

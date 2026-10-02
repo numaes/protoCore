@@ -65,6 +65,14 @@ namespace proto {
         return std::aligned_alloc(alignment, size);
 #endif
     }
+    // Element positions are `int` in the list, tuple and string API
+    // (ProtoList::getAt and the impl methods behind it), while sizes are
+    // proto_ulong.  Narrowing a size-derived position is exact: a sequence of
+    // 2^31 elements would need 2^31 cells of 64 bytes (128 GiB) before it
+    // could be indexed out of range.  One named conversion, so every such
+    // site says so instead of truncating implicitly.
+    inline int toIndex(proto_ulong position) { return static_cast<int>(position); }
+
     inline void alignedFree(void* p) {
 #if defined(_WIN32)
         _aligned_free(p);

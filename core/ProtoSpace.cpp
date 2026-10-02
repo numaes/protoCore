@@ -122,7 +122,10 @@ namespace proto {
             chunk->count = count;
             chunk->next = space->freeChunks;
             space->freeChunks = chunk;
-            space->freeCellsCount += count;
+            // freeCellsCount is an int field of ProtoSpace (its layout is part
+            // of the ABI).  It counts cells of one heap; 2^31 cells would be
+            // 128 GiB, so a chunk's count fits it exactly.
+            space->freeCellsCount += static_cast<int>(count);
         }
 
         const char* cellTypeName(CellType type) {

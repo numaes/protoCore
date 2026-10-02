@@ -80,7 +80,7 @@ namespace proto
         // If it doesn't fit, convert to TempBignum and then to a LargeInteger.
         TempBignum temp;
         temp.is_negative = value < 0;
-        unsigned long long mag_val = value < 0 ? -static_cast<unsigned long long>(value) : value;
+        unsigned long long mag_val = value < 0 ? 0 - static_cast<unsigned long long>(value) : value;
 
         // A 64-bit value will typically occupy one 64-bit digit in magnitude.
         // If it's larger than 64 bits, it would need more digits, but long long is 64-bit.
@@ -756,7 +756,7 @@ namespace proto
             long long value = p.si.smallInteger; // Correctly sign-extend
             if (value != 0) {
                 temp.is_negative = value < 0;
-                temp.magnitude.push_back(value < 0 ? -static_cast<unsigned long long>(value) : value);
+                temp.magnitude.push_back(value < 0 ? 0 - static_cast<unsigned long long>(value) : value);
             }
         } else if (isLargeInteger(obj)) {
             const auto* li = toImpl<const LargeIntegerImplementation>(obj);
@@ -800,13 +800,14 @@ namespace proto
         ProtoContext::CriticalSection cs(context);
         const LargeIntegerImplementation* head = nullptr;
         LargeIntegerImplementation* current = nullptr;
-        int digits_processed = 0;
-        int num_digits = temp.magnitude.size();
+        size_t digits_processed = 0;
+        const size_t num_digits = temp.magnitude.size();
         while (digits_processed < num_digits) {
             auto* new_chunk = new(context) LargeIntegerImplementation(context);
             new_chunk->is_negative = temp.is_negative;
-            int digits_to_copy = std::min(num_digits - digits_processed, LargeIntegerImplementation::DIGIT_COUNT);
-            for (int i = 0; i < digits_to_copy; ++i) { new_chunk->digits[i] = temp.magnitude[digits_processed + i]; }
+            const size_t digits_to_copy = std::min(num_digits - digits_processed,
+                                                   static_cast<size_t>(LargeIntegerImplementation::DIGIT_COUNT));
+            for (size_t i = 0; i < digits_to_copy; ++i) { new_chunk->digits[i] = temp.magnitude[digits_processed + i]; }
             if (head == nullptr) { head = new_chunk; } else { current->next = new_chunk; }
             current = new_chunk;
             digits_processed += digits_to_copy;
@@ -816,7 +817,7 @@ namespace proto
 
     static int internal_compare_mag(const TempBignum& left, const TempBignum& right) {
         if (left.magnitude.size() != right.magnitude.size()) return left.magnitude.size() < right.magnitude.size() ? -1 : 1;
-        for (int i = left.magnitude.size() - 1; i >= 0; --i) {
+        for (size_t i = left.magnitude.size(); i-- > 0;) {
             if (left.magnitude[i] != right.magnitude[i]) return left.magnitude[i] < right.magnitude[i] ? -1 : 1;
         }
         return 0;
