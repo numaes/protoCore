@@ -127,6 +127,20 @@ namespace proto
         // a nullptr value is safe. Callers that pass parameterNames=nullptr (e.g. protoPython's
         // slot-based calling convention) avoid the allocation entirely.
         if (this->thread) {
+            if (std::getenv("PROTOCORE_CTX_CHECK")) {
+                ProtoContext* cur = toImpl<ProtoThreadImplementation>(this->thread)->context;
+                if (cur != previous) {
+                    int skipped = 0; bool ancestor = false;
+                    for (ProtoContext* c = cur; c; c = c->previous) {
+                        if (c == previous) { ancestor = true; break; }
+                        ++skipped;
+                    }
+                    std::fprintf(stderr, "protoCore CTX CHECK: new context %p has previous %p but the thread's current context is %p (%s, %d live contexts skipped)\n",
+                        (void*)this, (void*)previous, (void*)cur, ancestor ? "previous is an ancestor" : "previous is NOT on the current chain", skipped);
+                    std::fflush(stderr);
+                    if (std::getenv("PROTOCORE_CTX_CHECK_ABORT")) std::abort();
+                }
+            }
             toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this);
         } else if (this->space) {
             this->space->mainContext = this;
@@ -236,8 +250,56 @@ namespace proto
      * @brief Destructor for the context.
      * Reports allocated cells to the GC and frees automatic local variable storage.
      */
+    void diagForceCycle(ProtoSpace* space, ProtoContext* ctx);
+
     ProtoContext::~ProtoContext()
     {
+        // Order matters here: anchor, then pop, then submit.
+        //
+        // 1. Anchor the return value in `previous`'s young chain while THIS
+        //    context is still the thread's current context.  The allocation
+        //    of the ReturnReference can block for a collection: at a
+        //    stop-the-world poll, or in getFreeCells when the refill finds
+        //    the heap at its limit (waitForHeapHeadroom).  While this context
+        //    is current, that collection's root scan reaches its return value
+        //    and the head of its young chain, whose walk keeps alive every
+        //    older object this context's young cells reference.  Popping
+        //    first left both invisible during that collection: the young
+        //    cells themselves survived (they are in no segment), but objects
+        //    reachable only through them -- for example the nodes of a list
+        //    built here that an earlier safepoint() had already submitted --
+        //    were swept, and the returned value then referenced freed cells.
+        //
+        // 2. Pop this context off the thread's stack.
+        //
+        // 3. Submit the young generation.  Submitting before the anchor would
+        //    make the return value a candidate while it is referenced from
+        //    nowhere a scan reaches (the bench_binary_trees(11) failure:
+        //    "'Node' object has no attribute 'left'").
+        // TEMPORARY DIAGNOSTIC: PROTOCORE_DIAG_OLD_ORDER restores the
+        // pop-before-anchor order (2.9.0) for A/B runs.
+        static const bool diagOldOrder = std::getenv("PROTOCORE_DIAG_OLD_ORDER") != nullptr;
+        auto anchorReturnValue = [this] {
+            if (this->returnValue && this->previous)
+            {
+                Cell* cell = const_cast<Cell*>(this->returnValue->asCell(this));
+                if (cell != nullptr) {
+                    (void) new(this->previous) ReturnReference(this->previous, cell);
+                    // Cell constructor already registers with context via addCell2Context.
+                }
+            }
+        };
+        if (!diagOldOrder) anchorReturnValue();
+
+        if (this->thread && std::getenv("PROTOCORE_CTX_CHECK")) {
+            ProtoContext* cur = toImpl<ProtoThreadImplementation>(this->thread)->context;
+            if (cur != this) {
+                std::fprintf(stderr, "protoCore CTX CHECK: destroying context %p (previous %p) but the thread's current context is %p\n",
+                    (void*)this, (void*)this->previous, (void*)cur);
+                std::fflush(stderr);
+                if (std::getenv("PROTOCORE_CTX_CHECK_ABORT")) std::abort();
+            }
+        }
         if (this->gcOwned_) {
             // Never registered anywhere (see the GCOwnedTag constructor).
         } else if (this->thread) {
@@ -246,30 +308,20 @@ namespace proto
             this->space->mainContext = this->previous;
         }
 
-        // Order matters here.  `submitYoungGeneration` MUST run AFTER the
-        // ReturnReference is anchored in `previous`'s young chain.  If we
-        // submit first, the inner context's young chain enters
-        // `dirtySegments` while the returnValue cell is reachable only
-        // through `this->returnValue` — which is no longer scanned
-        // because step 1 above popped this context off the thread's stack.
-        // The next allocCell (for the ReturnReference itself) parks at a
-        // STW poll, the GC runs Phase 4 with a root set that does not
-        // include this returnValue, and Phase 5 frees it.  The
-        // ReturnReference that finishes constructing after the GC wakes
-        // then holds a freed cell pointer — symptom at high-recursion
-        // workloads (e.g. bench_binary_trees(11)): "AttributeError:
-        // 'Node' object has no attribute 'left'" once the freed cell is
-        // recycled as a different type.  Anchoring first keeps the
-        // returnValue rooted via `previous`'s young chain across the
-        // submission STW window.
-        if (this->returnValue && this->previous)
-        {
-            Cell* cell = const_cast<Cell*>(this->returnValue->asCell(this));
-            if (cell != nullptr) {
-                (void) new(this->previous) ReturnReference(this->previous, cell);
-                // Cell constructor already registers with context via addCell2Context.
-            }
+        if (this->returnValue && this->previous && this->space) {
+            // TEMPORARY DIAGNOSTIC (diag/win-heaplimit-crash): with
+            // PROTOCORE_GC_FORCE_AT_RETURN=<n>, every n-th return blocks here,
+            // after the pop, for a collection.
+            static const long forceEvery = [] {
+                const char* v = std::getenv("PROTOCORE_GC_FORCE_AT_RETURN");
+                return v ? std::atol(v) : 0L;
+            }();
+            static std::atomic<long> returns{0};
+            if (forceEvery > 0
+                && (returns.fetch_add(1) + 1) % forceEvery == 0)
+                diagForceCycle(this->space, this->previous);
         }
+        if (diagOldOrder) anchorReturnValue();
 
         if (this->space && this->lastAllocatedCell) {
             this->space->submitYoungGeneration(this->lastAllocatedCell);

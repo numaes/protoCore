@@ -189,10 +189,17 @@ namespace proto {
             static const bool on = std::getenv("PROTOCORE_GC_POISON") != nullptr;
             return on;
         }
-        inline void gcPoison(Cell* cell) {
+        inline void gcPoison(Cell* cell, uint64_t cycle, int type) {
             unsigned char* b = reinterpret_cast<unsigned char*>(cell);
             std::memset(b, 0xA5, 8);
             std::memset(b + 16, 0xA5, 48);
+            std::memcpy(b + 16, &cycle, 8);
+            std::memcpy(b + 24, &type, 4);
+        }
+        inline void gcPoisonInfo(const Cell* cell, uint64_t& cycle, int& type) {
+            const unsigned char* b = reinterpret_cast<const unsigned char*>(cell);
+            std::memcpy(&cycle, b + 16, 8);
+            std::memcpy(&type, b + 24, 4);
         }
         inline bool gcIsPoisoned(const Cell* cell) {
             uint64_t w;
@@ -220,6 +227,18 @@ namespace proto {
                 std::abort();
             }
 #endif
+            if (gcPoisonEnabled() && ref && gcIsPoisoned(ref)) {
+                uint64_t fc = 0; int ft = 0;
+                gcPoisonInfo(ref, fc, ft);
+                std::fprintf(stderr,
+                    "protoCore GC POISON: %s: cell %p of type %d (%s) references freed cell %p "
+                    "(type %d (%s), freed by cycle %llu)\n",
+                    phase, static_cast<const void*>(parent), static_cast<int>(parent->getType()),
+                    cellTypeName(parent->getType()), static_cast<const void*>(ref),
+                    ft, cellTypeName(static_cast<CellType>(ft)), static_cast<unsigned long long>(fc));
+                std::fflush(stderr);
+                std::abort();
+            }
             workList->push_back(ref);
         }
 
@@ -401,6 +420,13 @@ namespace proto {
                 std::vector<const Cell*> youngChainHeads;
                 auto addRootObj = [&](const ProtoObject* obj) {
                     if (ProtoObject::isCellPointer(obj)) {
+                        if (gcPoisonEnabled() && ProtoObject::asCellPointer(obj)
+                            && gcIsPoisoned(ProtoObject::asCellPointer(obj))) {
+                            std::fprintf(stderr, "protoCore GC POISON: a root is a freed cell %p\n",
+                                static_cast<const void*>(ProtoObject::asCellPointer(obj)));
+                            std::fflush(stderr);
+                            std::abort();
+                        }
                         workList.push_back(ProtoObject::asCellPointer(obj));
                     }
                 };
@@ -952,8 +978,9 @@ namespace proto {
                             if (deferFree) {
                                 deadCells.push_back(cell);
                             } else {
+                                const int freedType = gcPoisonEnabled() ? static_cast<int>(cell->getType()) : 0;
                                 cell->finalize(space->rootContext);
-                                if (gcPoisonEnabled()) gcPoison(cell);
+                                if (gcPoisonEnabled()) gcPoison(cell, space->gcCycleCount.load(), freedType);
 
                                 cell->internalSetNextRaw(batchHead);
                                 if (!batchTail) batchTail = cell;
@@ -1796,6 +1823,19 @@ namespace proto {
             }
         }
         lock.lock();
+    }
+
+    // TEMPORARY DIAGNOSTIC (diag/win-heaplimit-crash): block the caller until
+    // a collection has captured its roots (gcCycleCount advances in Phase 2),
+    // exactly as waitForHeapHeadroom does when the heap is at its ceiling.
+    void diagForceCycle(ProtoSpace* space, ProtoContext* ctx) {
+        if (space->gcThread && std::this_thread::get_id() == space->gcThread->get_id()) return;
+        std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        const uint64_t start = space->gcCycleCount.load(std::memory_order_relaxed);
+        while (space->gcCycleCount.load(std::memory_order_relaxed) == start
+               && space->state != SPACE_STATE_ENDING) {
+            reclaimWaitLocked(space, lock, ctx);
+        }
     }
 
     void ProtoSpace::waitForHeapHeadroom(ProtoContext* ctx) {
