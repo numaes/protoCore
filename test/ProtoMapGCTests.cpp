@@ -166,13 +166,10 @@ std::vector<const ProtoObject*>* gConcBaseKeys = nullptr;
 // ProtoSpace::mainContext, protecting the List and ProtoMap
 // cells this function allocates directly on `ctx` via the same young-chain
 // mechanism proven by allocatingThreadMain in GCRootScopeTests.cpp. A raw
-// std::thread building a bare ProtoContext(&space) here (as
-// ConcurrentMarkSafetyTests.cpp does) would not be registered in
-// space->threads; it would instead race other such threads on
-// ProtoSpace::mainContext, which is safe there only because that test's
-// payload is mutable objects and tagged SmallIntegers -- neither needs
-// context-based rooting. This test allocates real immutable cells, so it
-// needs the real per-thread registration.
+// std::thread building a bare ProtoContext(&space) here would not be
+// registered in space->threads; it would instead race other such threads on
+// ProtoSpace::mainContext (a data race ThreadSanitizer reports) and its cells
+// would not be root-scanned (docs/EMBEDDER-CONFORMANCE.md rule 11).
 const ProtoObject* concWorkerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
                                    const ProtoList* args, const ProtoSparseList*) {
     const proto::proto_long t = args->getAt(ctx, 0)->asLong(ctx);

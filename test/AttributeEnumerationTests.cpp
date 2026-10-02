@@ -327,6 +327,29 @@ void checkEachPair(ProtoContext* context, void* self,
 }
 }  // namespace
 
+namespace {
+
+// State of ConcurrentMutationDuringWalkIsSafe's writer thread.
+ProtoObject* gWalkObject = nullptr;
+const std::vector<const ProtoString*>* gWalkKeys = nullptr;
+std::atomic<bool> gWalkStop{false};
+std::atomic<proto::proto_ulong> gWalkWrites{0};
+
+const ProtoObject* walkWriter(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                              const ProtoList*, const ProtoSparseList*) {
+    proto::proto_ulong n = 0;
+    while (!gWalkStop.load(std::memory_order_relaxed)) {
+        for (const ProtoString* key : *gWalkKeys) {
+            gWalkObject->setAttribute(ctx, key, ctx->fromInteger(static_cast<long long>(1000 + n)));
+            gWalkWrites.fetch_add(1, std::memory_order_relaxed);
+        }
+        ++n;
+    }
+    return PROTO_NONE;
+}
+
+}  // namespace
+
 // Another thread mutates the same MUTABLE object — and the collector runs —
 // while the walk is in progress.  The walk must never crash and must never
 // report a torn pair: it reports the snapshot it resolved when it started.
@@ -341,24 +364,19 @@ TEST_F(AttributeEnumerationTest, ConcurrentMutationDuringWalkIsSafe) {
     }
 
     std::atomic<bool> stop{false};
-    std::atomic<proto::proto_ulong> writes{0};
+    gWalkObject = obj;
+    gWalkKeys = &keys;
+    gWalkStop = false;
+    gWalkWrites = 0;
+    std::atomic<proto::proto_ulong>& writes = gWalkWrites;
 
     // Writer: keeps replacing values, so the snapshot a walk started from is
     // orphaned again and again while that walk is still running.  `writes`
     // counts INDIVIDUAL setAttribute calls, so the main thread can tell
-    // quickly — and deterministically — that the writer is really running.
-    std::thread writer([&]() {
-        ProtoContext writerCtx{space};
-        proto::proto_ulong n = 0;
-        while (!stop.load(std::memory_order_relaxed)) {
-            for (size_t i = 0; i < keys.size(); ++i) {
-                obj->setAttribute(&writerCtx, keys[i],
-                                  writerCtx.fromInteger(static_cast<long long>(1000 + n)));
-                writes.fetch_add(1, std::memory_order_relaxed);
-            }
-            ++n;
-        }
-    });
+    // quickly -- and deterministically -- that the writer is really running.
+    // It allocates, so it is a protoCore thread (docs/EMBEDDER-CONFORMANCE.md
+    // rule 11), not a raw std::thread with a thread-less context.
+    const ProtoThread* writer = space->newThread(ctx, sym("walk-writer"), walkWriter, nullptr, nullptr);
 
     // Collector: forces cycles that would sweep an orphaned snapshot.
     std::thread gcKicker([&]() {
@@ -409,8 +427,11 @@ TEST_F(AttributeEnumerationTest, ConcurrentMutationDuringWalkIsSafe) {
         writes.load(std::memory_order_relaxed) - writesBefore;
 
     stop.store(true, std::memory_order_relaxed);
-    writer.join();
+    gWalkStop.store(true, std::memory_order_relaxed);
+    const_cast<ProtoThread*>(writer)->join(ctx);
     gcKicker.join();
+    gWalkObject = nullptr;
+    gWalkKeys = nullptr;
 
     EXPECT_EQ(shortWalks, 0u)
         << "a walk saw an inconsistent number of attributes out of " << totalWalks;

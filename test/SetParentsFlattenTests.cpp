@@ -420,7 +420,75 @@ TEST_F(SetParentsFlattenTest, OrderingDiffersFromAddParentAndAffectsAttributePre
 }
 
 // --- I6: concurrency -----------------------------------------------------
-//
+
+namespace {
+
+// Shared state of ConcurrentSetParentsWithConcurrentReadsIsSafe.  A
+// ProtoMethod is a plain function pointer, so its threads reach it through
+// these.
+constexpr int kSetParentsIterPerThread = 1500;
+ProtoObject* gSpReceiver = nullptr;
+const std::vector<const ProtoObject*>* gSpCandidates = nullptr;
+std::atomic<bool> gSpStop{false};
+std::atomic<int> gSpTornReads{0};
+
+const ProtoObject* setParentsReader(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                    const ProtoList*, const ProtoSparseList*) {
+    // Each check below is a SINGLE call: it observes m's state at one
+    // instant. Two SEPARATE calls (e.g. getParents() then hasParent())
+    // can legitimately observe DIFFERENT states under a concurrent
+    // writer -- that is not tearing, just an ordinary lock-free race,
+    // and comparing them would be a false positive in the TEST, not a
+    // bug in the code. What must never happen, from any SINGLE call,
+    // is a corrupted/partial result: getParents() returning more than
+    // one entry (only ever one candidate is ever set at a time) or an
+    // entry that is not one of the known candidates; isInstanceOf
+    // returning anything other than PROTO_TRUE/PROTO_NONE; or a crash.
+    const ProtoObject* m = gSpReceiver;
+    const std::vector<const ProtoObject*>& candidates = *gSpCandidates;
+    int rotate = 0;
+    while (!gSpStop.load(std::memory_order_relaxed)) {
+        const ProtoList* parents = m->getParents(ctx);
+        proto::proto_long size = parents->getSize(ctx);
+        if (size > 1) {
+            gSpTornReads.fetch_add(1, std::memory_order_relaxed);
+        } else if (size == 1) {
+            const ProtoObject* p = parents->getAt(ctx, 0);
+            bool matches = false;
+            for (const ProtoObject* c : candidates) {
+                if (c == p) { matches = true; break; }
+            }
+            if (!matches) gSpTornReads.fetch_add(1, std::memory_order_relaxed);
+        }
+
+        const ProtoObject* target = candidates[rotate % candidates.size()];
+        ++rotate;
+        const ProtoObject* result = m->isInstanceOf(ctx, target);
+        if (result != PROTO_TRUE && result != PROTO_NONE) {
+            gSpTornReads.fetch_add(1, std::memory_order_relaxed);
+        }
+        int has = m->hasParent(ctx, target);
+        if (has != 0 && has != 1) {
+            gSpTornReads.fetch_add(1, std::memory_order_relaxed);
+        }
+        // The loop may not allocate; let a requested stop-the-world proceed.
+        ctx->safepoint();
+    }
+    return PROTO_NONE;
+}
+
+const ProtoObject* setParentsWriter(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                    const ProtoList* args, const ProtoSparseList*) {
+    const proto::proto_long t = args->getAt(ctx, 0)->asLong(ctx);
+    const ProtoList* singleParent = ctx->newList()->appendLast(ctx, (*gSpCandidates)[t]);
+    for (int i = 0; i < kSetParentsIterPerThread; ++i) {
+        gSpReceiver->setParents(ctx, singleParent);
+    }
+    return PROTO_NONE;
+}
+
+}  // namespace
+
 // Several threads call setParents on ONE shared mutable object, each with
 // its own, mutually-unrelated single parent candidate (so none of these
 // calls is ever self-referential), while another thread concurrently
@@ -428,9 +496,13 @@ TEST_F(SetParentsFlattenTest, OrderingDiffersFromAddParentAndAffectsAttributePre
 // read may ever observe a torn/partial chain (more than one entry, or an
 // entry that is not one of the candidates) — these candidates share no
 // ancestry with each other or with the receiver.
+//
+// Every thread is a protoCore thread (ProtoSpace::newThread), as
+// docs/EMBEDDER-CONFORMANCE.md rule 11 requires of a thread that holds a
+// ProtoObject*.  Raw std::threads with thread-less contexts all wrote
+// ProtoSpace::mainContext, a data race ThreadSanitizer reported.
 TEST_F(SetParentsFlattenTest, ConcurrentSetParentsWithConcurrentReadsIsSafe) {
     constexpr int kThreads = 4;
-    constexpr int kIterPerThread = 1500;
 
     auto* m = const_cast<ProtoObject*>(context->newObject(true));
 
@@ -438,67 +510,29 @@ TEST_F(SetParentsFlattenTest, ConcurrentSetParentsWithConcurrentReadsIsSafe) {
     for (int t = 0; t < kThreads; ++t) {
         candidates.push_back(context->newObject(false));
     }
+    gSpReceiver = m;
+    gSpCandidates = &candidates;
+    gSpStop = false;
+    gSpTornReads = 0;
 
-    std::atomic<bool> stop{false};
-    std::atomic<int> tornReads{0};
-
-    std::thread reader([&]() {
-        // Each check below is a SINGLE call: it observes m's state at one
-        // instant. Two SEPARATE calls (e.g. getParents() then hasParent())
-        // can legitimately observe DIFFERENT states under a concurrent
-        // writer -- that is not tearing, just an ordinary lock-free race,
-        // and comparing them would be a false positive in the TEST, not a
-        // bug in the code. What must never happen, from any SINGLE call,
-        // is a corrupted/partial result: getParents() returning more than
-        // one entry (only ever one candidate is ever set at a time) or an
-        // entry that is not one of the known candidates; isInstanceOf
-        // returning anything other than PROTO_TRUE/PROTO_NONE; or a crash.
-        ProtoContext readerCtx{space};
-        int rotate = 0;
-        while (!stop.load(std::memory_order_relaxed)) {
-            const ProtoList* parents = m->getParents(&readerCtx);
-            proto::proto_long size = parents->getSize(&readerCtx);
-            if (size > 1) {
-                tornReads.fetch_add(1, std::memory_order_relaxed);
-            } else if (size == 1) {
-                const ProtoObject* p = parents->getAt(&readerCtx, 0);
-                bool matches = false;
-                for (const ProtoObject* c : candidates) {
-                    if (c == p) { matches = true; break; }
-                }
-                if (!matches) tornReads.fetch_add(1, std::memory_order_relaxed);
-            }
-
-            const ProtoObject* target = candidates[rotate % candidates.size()];
-            ++rotate;
-            const ProtoObject* result = m->isInstanceOf(&readerCtx, target);
-            if (result != PROTO_TRUE && result != PROTO_NONE) {
-                tornReads.fetch_add(1, std::memory_order_relaxed);
-            }
-            int has = m->hasParent(&readerCtx, target);
-            if (has != 0 && has != 1) {
-                tornReads.fetch_add(1, std::memory_order_relaxed);
-            }
-        }
-    });
-
-    std::vector<std::thread> workers;
-    workers.reserve(kThreads);
+    const ProtoThread* reader = space->newThread(context, sym("set-parents-reader"),
+                                                 setParentsReader, nullptr, nullptr);
+    std::vector<const ProtoThread*> workers;
     for (int t = 0; t < kThreads; ++t) {
-        workers.emplace_back([&, t]() {
-            ProtoContext threadCtx{space};
-            const ProtoList* singleParent = threadCtx.newList()->appendLast(&threadCtx, candidates[t]);
-            for (int i = 0; i < kIterPerThread; ++i) {
-                m->setParents(&threadCtx, singleParent);
-            }
-        });
+        const ProtoList* args = context->newList()->appendLast(context, context->fromInteger(t));
+        workers.push_back(space->newThread(context, sym("set-parents-writer"),
+                                           setParentsWriter, args, nullptr));
     }
 
-    for (auto& th : workers) th.join();
-    stop.store(true, std::memory_order_relaxed);
-    reader.join();
+    // ProtoThread::join parks the caller for stop-the-world while it waits.
+    for (const ProtoThread* w : workers) const_cast<ProtoThread*>(w)->join(context);
+    gSpStop.store(true, std::memory_order_relaxed);
+    const_cast<ProtoThread*>(reader)->join(context);
+    const int tornReads = gSpTornReads.load();
+    gSpReceiver = nullptr;
+    gSpCandidates = nullptr;
 
-    EXPECT_EQ(tornReads.load(), 0);
+    EXPECT_EQ(tornReads, 0);
 
     // Final state: exactly one of the candidates, whichever write landed last.
     const ProtoList* finalParents = m->getParents(context);

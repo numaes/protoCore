@@ -145,32 +145,55 @@ TEST_F(RootSetTest, ExplicitDestroyDetachesFromSpace) {
     EXPECT_EQ(rs2->size(), 0u);
 }
 
+namespace {
+
+// Shared state of ConcurrentAddRemoveIsSafe.  A ProtoMethod is a plain
+// function pointer, so its threads reach it through these.
+constexpr int kRootSetOpsPerThread = 200;
+ProtoRootSet* gConcurrentRootSet = nullptr;
+std::atomic<int> gRootSetErrors{0};
+
+const ProtoObject* rootSetWorker(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                 const ProtoList*, const ProtoSparseList*) {
+    ProtoRootSet* rs = gConcurrentRootSet;
+    std::vector<ProtoRootSet::Handle> handles;
+    handles.reserve(kRootSetOpsPerThread);
+    for (int i = 0; i < kRootSetOpsPerThread; i++) {
+        auto* o = ctx->newObject(true);
+        auto h = rs->add(o);
+        if (rs->resolve(h) != o) gRootSetErrors++;
+        handles.push_back(h);
+    }
+    for (auto h : handles) {
+        rs->remove(h);
+        if (rs->resolve(h) != nullptr) gRootSetErrors++;
+    }
+    return PROTO_NONE;
+}
+
+}  // namespace
+
+// Each worker is a protoCore thread with its own context.  The workers used
+// to be raw std::threads that all allocated through the main thread's
+// rootContext -- one context shared by five threads, whose unsynchronised
+// per-context state (the critical-section depth, the young chain)
+// ThreadSanitizer reported as data races.  A context belongs to one thread.
 TEST_F(RootSetTest, ConcurrentAddRemoveIsSafe) {
     auto* rs = space->createRootSet("concurrent");
     constexpr int kThreads = 4;
-    constexpr int kOpsPerThread = 200;
-    std::atomic<int> errors{0};
+    gConcurrentRootSet = rs;
+    gRootSetErrors = 0;
 
-    auto worker = [&]() {
-        std::vector<ProtoRootSet::Handle> handles;
-        handles.reserve(kOpsPerThread);
-        for (int i = 0; i < kOpsPerThread; i++) {
-            auto* o = context->newObject(true);
-            auto h = rs->add(o);
-            if (rs->resolve(h) != o) errors++;
-            handles.push_back(h);
-        }
-        for (auto h : handles) {
-            rs->remove(h);
-            if (rs->resolve(h) != nullptr) errors++;
-        }
-    };
+    std::vector<const ProtoThread*> ts;
+    for (int t = 0; t < kThreads; t++) {
+        ts.push_back(space->newThread(context, ProtoString::createSymbol(context, "root-set-worker"),
+                                      rootSetWorker, nullptr, nullptr));
+    }
+    // ProtoThread::join parks the caller for stop-the-world while it waits.
+    for (const ProtoThread* t : ts) const_cast<ProtoThread*>(t)->join(context);
+    gConcurrentRootSet = nullptr;
 
-    std::vector<std::thread> ts;
-    for (int t = 0; t < kThreads; t++) ts.emplace_back(worker);
-    for (auto& t : ts) t.join();
-
-    EXPECT_EQ(errors.load(), 0);
+    EXPECT_EQ(gRootSetErrors.load(), 0);
     EXPECT_EQ(rs->size(), 0u);
 }
 

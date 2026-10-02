@@ -175,25 +175,48 @@ TEST_F(TupleTest, InternedTuplesArePerennialAndKeepTheirElementsAlive) {
     EXPECT_EQ(pair(context, element, context->fromInteger(7)), tuple);
 }
 
+namespace {
+
+// Shared state of ConcurrentInterningYieldsOneObjectPerTuple.
+constexpr int kInternKeys = 20000;
+std::vector<std::vector<const proto::ProtoTuple*>>* gTupleResults = nullptr;
+const proto::ProtoObject* gTupleTag = nullptr;
+
+const proto::ProtoObject* tupleInternWorker(proto::ProtoContext* ctx, const proto::ProtoObject*,
+                                            const proto::ParentLink*, const proto::ProtoList* args,
+                                            const proto::ProtoSparseList*) {
+    const int t = static_cast<int>(args->getAt(ctx, 0)->asLong(ctx));
+    for (int n = 0; n < kInternKeys; ++n) {
+        const int k = (t % 2 == 0) ? n : kInternKeys - 1 - n;
+        (*gTupleResults)[t][k] = pair(ctx, ctx->fromInteger(k), gTupleTag);
+    }
+    return PROTO_NONE;
+}
+
+}  // namespace
+
 TEST_F(TupleTest, ConcurrentInterningYieldsOneObjectPerTuple) {
     // Threads interning the same tuples at the same time, in opposite orders,
-    // must all get one object per distinct tuple.
+    // must all get one object per distinct tuple.  They are protoCore threads
+    // (docs/EMBEDDER-CONFORMANCE.md rule 11): raw std::threads with
+    // thread-less contexts all wrote ProtoSpace::mainContext, a data race
+    // ThreadSanitizer reported.
     constexpr int kThreads = 4;
-    constexpr int kKeys = 20000;
+    constexpr int kKeys = kInternKeys;
     const proto::ProtoObject* tag = context->fromUTF8String("t");
     std::vector<std::vector<const proto::ProtoTuple*>> results(
         kThreads, std::vector<const proto::ProtoTuple*>(kKeys, nullptr));
-    std::vector<std::thread> workers;
+    gTupleResults = &results;
+    gTupleTag = tag;
+    std::vector<const proto::ProtoThread*> workers;
     for (int t = 0; t < kThreads; ++t) {
-        workers.emplace_back([&, t]() {
-            proto::ProtoContext threadCtx{space};
-            for (int n = 0; n < kKeys; ++n) {
-                const int k = (t % 2 == 0) ? n : kKeys - 1 - n;
-                results[t][k] = pair(&threadCtx, threadCtx.fromInteger(k), tag);
-            }
-        });
+        const proto::ProtoList* args = context->newList()->appendLast(context, context->fromInteger(t));
+        workers.push_back(space->newThread(context, proto::ProtoString::createSymbol(context, "tuple-intern-worker"),
+                                           tupleInternWorker, args, nullptr));
     }
-    for (auto& worker : workers) worker.join();
+    for (const proto::ProtoThread* w : workers) const_cast<proto::ProtoThread*>(w)->join(context);
+    gTupleResults = nullptr;
+    gTupleTag = nullptr;
     for (int k = 0; k < kKeys; ++k) {
         for (int t = 1; t < kThreads; ++t) {
             ASSERT_EQ(results[t][k], results[0][k]) << "tuple " << k << " was interned twice";

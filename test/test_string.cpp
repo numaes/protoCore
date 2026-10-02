@@ -727,20 +727,39 @@ TEST_F(SymbolTest, AutoInternOnSetAttribute) {
     EXPECT_EQ(retrieved, val);
 }
 
+namespace {
+
+// Results of ConcurrentInternSamePointer, one slot per thread; the thread's
+// index arrives as its first argument.
+std::vector<const ProtoString*>* gInternResults = nullptr;
+
+const ProtoObject* internSharedKey(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                   const ProtoList* args, const ProtoSparseList*) {
+    const auto i = static_cast<size_t>(args->getAt(ctx, 0)->asLong(ctx));
+    (*gInternResults)[i] = ProtoString::createSymbol(ctx, "sharedKey");
+    return PROTO_NONE;
+}
+
+}  // namespace
+
 TEST_F(SymbolTest, ConcurrentInternSamePointer) {
     // 8 threads all trying to intern "sharedKey" simultaneously
-    // must all receive the same pointer
+    // must all receive the same pointer.  They are protoCore threads
+    // (docs/EMBEDDER-CONFORMANCE.md rule 11): raw std::threads with
+    // thread-less contexts all wrote ProtoSpace::mainContext, a data race
+    // ThreadSanitizer reported.
     const int NTHREADS = 8;
     std::vector<const ProtoString*> results(NTHREADS, nullptr);
-    std::vector<std::thread> threads;
+    gInternResults = &results;
+    std::vector<const ProtoThread*> threads;
 
     for (int i = 0; i < NTHREADS; ++i) {
-        threads.emplace_back([&, i]() {
-            proto::ProtoContext thread_ctx{&space};
-            results[i] = ProtoString::createSymbol(&thread_ctx, "sharedKey");
-        });
+        const ProtoList* args = c->newList()->appendLast(c, c->fromInteger(i));
+        threads.push_back(space.newThread(c, ProtoString::createSymbol(c, "intern-worker"),
+                                          internSharedKey, args, nullptr));
     }
-    for (auto& t : threads) t.join();
+    for (const ProtoThread* t : threads) const_cast<ProtoThread*>(t)->join(c);
+    gInternResults = nullptr;
 
     for (int i = 1; i < NTHREADS; ++i)
         EXPECT_EQ(results[0], results[i])

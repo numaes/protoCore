@@ -8,7 +8,6 @@
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
-#include <thread>
 #include <vector>
 
 using namespace proto;
@@ -82,36 +81,59 @@ TEST_F(AttributeCasTest, ImmutableReceiverReturnsFalse) {
     EXPECT_FALSE(obj->setAttributeIfEqual(ctx, key, a, ctx->fromInteger(20)));
 }
 
+namespace {
+
+// Shared state of ConcurrentCasIncrementLosesNoUpdate's workers.  A
+// ProtoMethod is a plain function pointer, so the workers reach the object
+// and key through these instead of a lambda capture.
+ProtoObject* gCasObject = nullptr;
+const ProtoString* gCasKey = nullptr;
+constexpr int kCasPerThread = 2000;
+
+const ProtoObject* casIncrementWorker(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                      const ProtoList*, const ProtoSparseList*) {
+    for (int i = 0; i < kCasPerThread; ++i) {
+        for (;;) {
+            const ProtoObject* old = gCasObject->getOwnAttributeDirect(ctx, gCasKey);
+            const ProtoObject* next = ctx->fromInteger(old->asLong(ctx) + 1);
+            if (gCasObject->setAttributeIfEqual(ctx, gCasKey, old, next)) break;
+        }
+    }
+    return PROTO_NONE;
+}
+
+}  // namespace
+
 // The core guarantee: many threads each running a CAS-retry increment must
 // produce exactly NTHREADS * PER_THREAD increments — no update is ever lost.
 // This is the lock-free read-modify-write that replaces an external mutex.
+//
+// The workers are protoCore threads (ProtoSpace::newThread), as
+// docs/EMBEDDER-CONFORMANCE.md rule 11 requires of every thread that holds a
+// ProtoObject*.  They used to be raw std::threads each building a thread-less
+// ProtoContext, which registers itself as ProtoSpace::mainContext: eight of
+// them wrote that one slot concurrently, a data race ThreadSanitizer reported
+// and a root the collector could not rely on.
 TEST_F(AttributeCasTest, ConcurrentCasIncrementLosesNoUpdate) {
     auto* obj = const_cast<ProtoObject*>(ctx->newObject(true));
     const ProtoString* key = sym("counter");
     obj->setAttribute(ctx, key, ctx->fromInteger(0));
+    gCasObject = obj;
+    gCasKey = key;
 
-    const int NTHREADS  = 8;
-    const int PER_THREAD = 2000;
-    std::vector<std::thread> threads;
+    const int NTHREADS = 8;
+    std::vector<const ProtoThread*> threads;
     for (int t = 0; t < NTHREADS; ++t) {
-        threads.emplace_back([&]() {
-            ProtoContext threadCtx{space};
-            for (int i = 0; i < PER_THREAD; ++i) {
-                for (;;) {
-                    const ProtoObject* old =
-                        obj->getOwnAttributeDirect(&threadCtx, key);
-                    const ProtoObject* next =
-                        threadCtx.fromInteger(old->asLong(&threadCtx) + 1);
-                    if (obj->setAttributeIfEqual(&threadCtx, key, old, next))
-                        break;
-                }
-            }
-        });
+        threads.push_back(space->newThread(ctx, sym("cas-increment-worker"),
+                                           casIncrementWorker, nullptr, nullptr));
     }
-    for (auto& th : threads) th.join();
+    // ProtoThread::join parks the caller for stop-the-world while it waits.
+    for (const ProtoThread* th : threads) const_cast<ProtoThread*>(th)->join(ctx);
+    gCasObject = nullptr;
+    gCasKey = nullptr;
 
     const ProtoObject* finalValue = obj->getAttribute(ctx, key);
     EXPECT_EQ(finalValue->asLong(ctx),
-              static_cast<long long>(NTHREADS) * PER_THREAD)
+              static_cast<long long>(NTHREADS) * kCasPerThread)
         << "a concurrent CAS-retry increment lost an update";
 }
