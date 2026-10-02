@@ -503,7 +503,7 @@ namespace proto
              // targets alive.  That is sufficient for a symbol, whose nodes are
              // all perennial too, and INSUFFICIENT for anything that points at
              // ordinary heap objects — see ModuleRootTable, which is a real root.
-             int result = posix_memalign(reinterpret_cast<void**>(&newCell), 64, sizeof(BigCell));
+             int result = alignedArenaAlloc(reinterpret_cast<void**>(&newCell), 64, sizeof(BigCell));
              if (result != 0) return nullptr;
         }
 

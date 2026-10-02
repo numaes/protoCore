@@ -27,7 +27,15 @@
 
 // Platform shims.  Outside Windows these expand to exactly what the code used
 // before; on Windows they supply what the CRT lacks.
-#if defined(_MSC_VER) && !defined(__clang__)
+#if defined(_MSC_VER) && !defined(__clang__) && (defined(_M_X64) || defined(_M_IX86))
+// __builtin_prefetch(p, 1, 1) asks for a low-locality prefetch; SSE has no
+// write hint, and _MM_HINT_T2 is its low-locality level.
+#include <xmmintrin.h>
+#define PROTO_PREFETCH(p) _mm_prefetch(reinterpret_cast<const char*>(p), _MM_HINT_T2)
+#elif defined(_MSC_VER) && !defined(__clang__) && defined(_M_ARM64)
+#include <intrin.h>
+#define PROTO_PREFETCH(p) __prefetch(reinterpret_cast<const void*>(p))
+#elif defined(_MSC_VER) && !defined(__clang__)
 #define PROTO_PREFETCH(p) ((void)0)
 #else
 #define PROTO_PREFETCH(p) __builtin_prefetch((p), 1, 1)
@@ -66,14 +74,22 @@ namespace proto {
     }
 }
 
+namespace proto {
+    // Cell arenas and perennial cells: aligned memory that is never returned
+    // to the system.  posix_memalign where it exists.  Windows has none, and
+    // there _aligned_malloc without a matching _aligned_free is correct for
+    // memory that is never released.  A protoCore name rather than a global
+    // posix_memalign stand-in, so it cannot collide with an embedder's own
+    // shim in a translation unit that includes this header.
+    inline int alignedArenaAlloc(void** out, size_t alignment, size_t size) {
 #if defined(_WIN32)
-// Cell arenas come from posix_memalign and are never returned to the system,
-// so _aligned_malloc without a matching _aligned_free is correct here.
-inline int posix_memalign(void** out, size_t alignment, size_t size) {
-    *out = _aligned_malloc(size, alignment);
-    return *out ? 0 : ENOMEM;
-}
+        *out = _aligned_malloc(size, alignment);
+        return *out ? 0 : ENOMEM;
+#else
+        return ::posix_memalign(out, alignment, size);
 #endif
+    }
+}
 
 #ifdef PROTO_GC_LOCK_TRACE
 #include <chrono>
@@ -775,6 +791,19 @@ namespace proto {
         virtual const ProtoObject* implAsObject(ProtoContext *context) const = 0;
 
         static void* operator new(size_t size, ProtoContext *context);
+
+        // The placement delete that matches the operator new above.  C++ calls
+        // it only when a Cell constructor throws after the allocation
+        // succeeded; without a matching form MSVC warns (C4291) that the
+        // memory would not be freed.
+        // It deliberately does nothing: the cell came from the context's
+        // arena (allocCell), never from the system allocator, so there is
+        // nothing to return; the cell stays with that arena and its
+        // collector, exactly as before this declaration existed.
+        static void operator delete(void*, ProtoContext*) noexcept {}
+        // Declaring the placement form hides the global one for `delete p`
+        // and for the deleting destructors; this keeps them what they were.
+        static void operator delete(void* p) noexcept { ::operator delete(p); }
 
         // Flags: bit 0 is Mark.  mark/unmark use memory_order_relaxed
         // because the GC thread is the only writer to bit 0 (mutators

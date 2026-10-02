@@ -2047,7 +2047,7 @@ namespace proto {
             GC_LOCK_TRACE("getFreeCells REL(OS alloc)");
 
             Cell* newMemory = nullptr;
-            int result = posix_memalign(reinterpret_cast<void**>(&newMemory),
+            int result = alignedArenaAlloc(reinterpret_cast<void**>(&newMemory),
                                         64,
                                         blocksToAllocate * sizeof(BigCell));
             if (result != 0) {
