@@ -181,6 +181,25 @@ namespace proto {
         // and name the reporting cell's type, so the offender is identified
         // instead of masked; other builds push it, and the work-list pop
         // skips null entries.
+        // TEMPORARY DIAGNOSTIC (diag/win-heaplimit-crash): with
+        // PROTOCORE_GC_POISON set, sweep overwrites every freed cell (all but
+        // its link word) with 0xA5, so a use after free faults or is detected
+        // by mark instead of reading stale but plausible contents.
+        inline bool gcPoisonEnabled() {
+            static const bool on = std::getenv("PROTOCORE_GC_POISON") != nullptr;
+            return on;
+        }
+        inline void gcPoison(Cell* cell) {
+            unsigned char* b = reinterpret_cast<unsigned char*>(cell);
+            std::memset(b, 0xA5, 8);
+            std::memset(b + 16, 0xA5, 48);
+        }
+        inline bool gcIsPoisoned(const Cell* cell) {
+            uint64_t w;
+            std::memcpy(&w, cell, 8);
+            return w == 0xA5A5A5A5A5A5A5A5ull;
+        }
+
         inline void pushReportedReference(std::vector<const Cell*>* workList,
                                           const Cell* parent,
                                           const Cell* ref,
@@ -846,6 +865,13 @@ namespace proto {
                         }
                     }
 
+                    if (gcPoisonEnabled() && gcIsPoisoned(cell)) {
+                        std::fprintf(stderr, "protoCore GC POISON: mark reached freed cell %p (cycle %llu)\n",
+                            static_cast<const void*>(cell),
+                            static_cast<unsigned long long>(space->gcCycleCount.load()));
+                        std::fflush(stderr);
+                        std::abort();
+                    }
                     if (!cell->isMarked()) {
                         const_cast<Cell*>(cell)->mark();
                         markedList.push_back(cell);
@@ -927,6 +953,7 @@ namespace proto {
                                 deadCells.push_back(cell);
                             } else {
                                 cell->finalize(space->rootContext);
+                                if (gcPoisonEnabled()) gcPoison(cell);
 
                                 cell->internalSetNextRaw(batchHead);
                                 if (!batchTail) batchTail = cell;
