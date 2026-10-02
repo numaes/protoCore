@@ -92,8 +92,9 @@ std::string uniqueIdentityPath(const char* stem) {
 
 #define ASSERT_CYCLES_DID_REAL_WORK(rep, minCycles)                              \
     do {                                                                         \
-        std::fprintf(stderr, "[gc] cycles=%lu reclaimed=%lu created=%ld\n",      \
-                     (proto::proto_ulong)(rep).cycles, (rep).reclaimed, (rep).created); \
+        std::fprintf(stderr, "[gc] cycles=%llu reclaimed=%llu created=%lld\n",   \
+                     (unsigned long long)(rep).cycles,                           \
+                     (unsigned long long)(rep).reclaimed, (long long)(rep).created); \
         ASSERT_GE((rep).cycles, (uint64_t)(minCycles))                           \
             << "no collection ran; the test proves nothing";                     \
         ASSERT_GT((rep).reclaimed, (proto::proto_ulong)((rep).created / 10))          \

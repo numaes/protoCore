@@ -68,7 +68,8 @@ jobs:
           -DPROTOCORE_MSVC_WARNINGS_AS_ERRORS=ON
 
       - name: Build
-        run: cmake --build build --parallel 4
+        # -k 0: report every failing translation unit, not just the first few.
+        run: cmake --build build --parallel 4 -- -k 0
 
       - name: Report the registered test count
         run: |

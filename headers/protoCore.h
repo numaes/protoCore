@@ -73,7 +73,7 @@ namespace proto
     class ProtoContext;
     class ProtoSpace;
     class ProtoRootSet;
-    class DirtySegment;
+    struct DirtySegment;
     class ProtoObject;
     class TupleDictionary;
     class ProtoTuple;

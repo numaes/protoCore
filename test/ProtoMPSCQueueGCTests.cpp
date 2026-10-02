@@ -545,10 +545,10 @@ static void runDrainPauseProbe(proto::proto_long kBatch, DrainPauseProbe* out) {
 
     // Reported on every run, pass or fail: this is the number the merge of
     // this branch is justified by.
-    std::printf("[ PAUSE    ] stop-the-world (P1+P2) while a consumer drains %ld items: "
+    std::printf("[ PAUSE    ] stop-the-world (P1+P2) while a consumer drains %lld items: "
                 "median %lld us, min %lld us, max %lld us over %d samples; "
                 "one drain = %lld us\n",
-                kBatch, medianUs, sorted.front(), sorted.back(), kSamples, drainUs);
+                (long long) kBatch, medianUs, sorted.front(), sorted.back(), kSamples, drainUs);
     std::fflush(stdout);
 
     EXPECT_EQ(state.bad.load(), 0u) << "the consumer produced a malformed batch";
@@ -604,9 +604,9 @@ TEST(MPSCQueueGC, LargeDrainDoesNotBlockStopTheWorld) {
     if (::testing::Test::HasFatalFailure()) return;
 
     const long long bound = small.medianUs * 4 + 200;
-    std::printf("[ PAUSE    ] proportionality: %ld items -> %lld us, %ld items -> %lld us "
+    std::printf("[ PAUSE    ] proportionality: %lld items -> %lld us, %lld items -> %lld us "
                 "(bound %lld us)\n",
-                small.batch, small.medianUs, large.batch, large.medianUs, bound);
+                (long long) small.batch, small.medianUs, (long long) large.batch, large.medianUs, bound);
     std::fflush(stdout);
 
     EXPECT_LT(large.medianUs, bound)

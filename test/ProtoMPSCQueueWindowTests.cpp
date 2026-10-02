@@ -262,10 +262,10 @@ TEST_P(MPSCQueueWindowPhase, RetainCellCoversEveryDetachedNode) {
         << "the node prepended inside the window must be the last item out";
 
     const proto::proto_ulong covered = nodesReachableFromRetained(q);
-    std::printf("[ WINDOW   ] phase=%s batch=%lu reachable from retained=%lu\n",
+    std::printf("[ WINDOW   ] phase=%s batch=%llu reachable from retained=%llu\n",
                 GetParam() == PmqWindowPhase::AfterHeadLoad ? "after-head-load"
                                                            : "before-detach",
-                batch->getSize(&live), covered);
+                (unsigned long long) batch->getSize(&live), (unsigned long long) covered);
     std::fflush(stdout);
 
     EXPECT_EQ(covered, static_cast<proto::proto_ulong>(kFill + 1))
@@ -366,10 +366,11 @@ TEST(MPSCQueueWindow, AWindowPrependSurvivesACollectionDuringTheDrain) {
               reinterpret_cast<const ProtoObject*>(canary))
         << "the node prepended inside the window must be the last item out";
 
-    std::printf("[ WINDOW   ] drain of %ld items spanned %llu gc cycles; "
-                "canary traced=%lu finalized=%lu\n",
-                kFill + 1, (unsigned long long) cyclesDuringDrain,
-                CanaryCell::traced.load(), CanaryCell::finalized.load());
+    std::printf("[ WINDOW   ] drain of %lld items spanned %llu gc cycles; "
+                "canary traced=%llu finalized=%llu\n",
+                (long long) (kFill + 1), (unsigned long long) cyclesDuringDrain,
+                (unsigned long long) CanaryCell::traced.load(),
+                (unsigned long long) CanaryCell::finalized.load());
     std::fflush(stdout);
 
     // Anti-vacuity: without a cycle inside the call there is nothing to survive.

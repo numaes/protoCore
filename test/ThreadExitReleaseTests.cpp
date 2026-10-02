@@ -109,10 +109,10 @@ ChurnResult churn(ProtoSpace& space, ProtoContext* root, ProtoMethod body,
     r.heapAfter = space.heapSize;
     r.perThread = r.threads ? (double) (r.after - r.base) / (double) r.threads : 0.0;
 
-    std::printf("[ THREADS  ] %s: %ld threads, inUse %ld -> %ld (%+.1f cells per "
-                "exiting thread), heapSize %ld -> %ld\n",
-                label, r.threads, r.base, r.after, r.perThread,
-                r.heapBefore, r.heapAfter);
+    std::printf("[ THREADS  ] %s: %lld threads, inUse %lld -> %lld (%+.1f cells per "
+                "exiting thread), heapSize %lld -> %lld\n",
+                label, (long long) r.threads, (long long) r.base, (long long) r.after, r.perThread,
+                (long long) r.heapBefore, (long long) r.heapAfter);
     std::fflush(stdout);
     return r;
 }

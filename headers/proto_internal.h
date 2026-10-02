@@ -114,7 +114,7 @@ namespace proto {
     // Forward Declarations
     class Cell;
     class BigCell;
-    class DirtySegment;
+    struct DirtySegment;
     class ProtoContext;
     class ProtoObjectCell;
     class ParentLinkImplementation;
@@ -2459,6 +2459,14 @@ namespace proto {
             ProtoSetIteratorImplementation setIteratorCell;
             ProtoMultisetIteratorImplementation multisetIteratorCell;
         };
+
+    public:
+        // BigCell only sizes and aligns raw cell memory; no BigCell object is
+        // ever constructed or destroyed.  Its union members have non-trivial
+        // destructors, so the destructor is deleted either way; saying so
+        // explicitly documents it (and keeps MSVC from warning C4624 that it
+        // was deleted implicitly).
+        ~BigCell() = delete;
     };
 
     static_assert(sizeof(BigCell) <= 64, "BigCell exceeds 64 bytes!!!!");

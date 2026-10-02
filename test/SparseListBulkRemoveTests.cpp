@@ -181,8 +181,8 @@ TEST_F(SparseListBulkRemove, ADenseRunCostsFarFewerCellsThanOneRemoveAtPerKey) {
     const ProtoSparseList* actual = sparseListRemoveSorted(&bulk, tree, gone.data(), gone.size());
     const proto::proto_ulong bulkCells = bulk.allocatedCellsCount - before2;
 
-    std::printf("[ BULK     ] removing 16000 of 20000 keys: %lu cells one by one, %lu in bulk\n",
-                seqCells, bulkCells);
+    std::printf("[ BULK     ] removing 16000 of 20000 keys: %llu cells one by one, %llu in bulk\n",
+                (unsigned long long) seqCells, (unsigned long long) bulkCells);
     ASSERT_EQ(entries(ctx, actual), entries(ctx, expected));
     EXPECT_LT(bulkCells * 20, seqCells)
         << "bulk removal allocated " << bulkCells << " cells, one-by-one " << seqCells;
