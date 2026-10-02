@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 2.8.0
+    VERSION 2.9.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -19,6 +19,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(MSVC)
     # Sources are UTF-8; MSVC otherwise reads them in the console code page.
     add_compile_options(/utf-8)
+    # Warning level 3 for protoCore's own targets.  Since CMake 3.15
+    # (CMP0092) no /W flag is added by default, which leaves MSVC at /W1 and
+    # hides the truncation (C4244, C4267) and printf-format (C4477) warnings.
+    # Directory-scoped, so a project that pulls protoCore in with
+    # add_subdirectory keeps its own warning level.
+    add_compile_options(/W3)
 else()
     add_compile_options(-fno-delete-null-pointer-checks)
 endif()
@@ -105,6 +111,15 @@ set_target_properties(protoCore PROPERTIES
 if(WIN32)
     set_target_properties(protoCore PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
     target_compile_definitions(protoCore PRIVATE PROTOCORE_BUILDING_DLL)
+    # A DLL has no soname, so the ABI version goes into its file name:
+    # protoCore-3.dll, the counterpart of libprotoCore.so.3.  The import
+    # library keeps the plain name (protoCore.lib) and records the versioned
+    # DLL name, so a consumer links as before and its program then loads
+    # exactly the ABI it was built against; a protoCore with another
+    # SOVERSION is a missing DLL at start-up, never a silent mismatch.  The
+    # package config checks for this file (cmake/protoCoreConfig.cmake.in).
+    set_target_properties(protoCore PROPERTIES
+        RUNTIME_OUTPUT_NAME "protoCore-${PROTOCORE_ABI_SOVERSION}")
 endif()
 
 # The headers directory is made public so that any consumer linking against
@@ -226,6 +241,19 @@ message(STATUS "Configured benchmark: microbenchmark_final")
 # conformance/CMakeLists.txt).
 add_subdirectory(conformance)
 
+# Warnings as errors for protoCore's own targets on MSVC, so a truncation or
+# format warning fixed once cannot come back unnoticed.  Off by default (a new
+# compiler release must not break a user's build); the Windows CI jobs turn it
+# on.  GoogleTest, fetched by the test suite, is not affected.
+option(PROTOCORE_MSVC_WARNINGS_AS_ERRORS "Build protoCore's own targets with /WX (MSVC only)" OFF)
+function(protocore_msvc_werror)
+    if(MSVC AND PROTOCORE_MSVC_WARNINGS_AS_ERRORS)
+        foreach(_t IN LISTS ARGN)
+            target_compile_options(${_t} PRIVATE /WX)
+        endforeach()
+    endif()
+endfunction()
+
 # 5. Configure the test suite
 # The 'enable_testing()' command allows the use of ctest.
 enable_testing()
@@ -266,6 +294,19 @@ install(TARGETS protoCore
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
+# The Visual C++ runtime (vcruntime140.dll, msvcp140.dll, ...) that
+# protoCore-3.dll links against, installed app-local next to it in bin/ so the
+# ZIP and the NSIS installer work on a machine without the Visual C++
+# Redistributable.  App-local rather than chaining vc_redist.x64.exe: a ZIP
+# cannot run an installer, and Microsoft supports app-local deployment of these
+# DLLs.  The Universal CRT is not shipped; it is part of Windows 10 and later.
+# The Windows CI job checks that the packaged ZIP carries these DLLs.
+if(WIN32)
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${CMAKE_INSTALL_BINDIR}")
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_COMPONENT ${PROTOCORE_INSTALL_COMPONENT})
+    include(InstallRequiredSystemLibraries)
+endif()
+
 # --- CMake package configuration -------------------------------------------
 # Without these rules the EXPORT keyword above names an export set that is
 # never written out, so no protoCoreConfig.cmake exists and no consumer can
@@ -285,7 +326,7 @@ configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/protoCoreConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/protoCoreConfig.cmake"
     INSTALL_DESTINATION "${PROTOCORE_CMAKE_CONFIG_INSTALL_DIR}"
-    PATH_VARS CMAKE_INSTALL_INCLUDEDIR CMAKE_INSTALL_LIBDIR
+    PATH_VARS CMAKE_INSTALL_INCLUDEDIR CMAKE_INSTALL_LIBDIR CMAKE_INSTALL_BINDIR
 )
 
 # SameMajorVersion: find_package(protoCore 2.0) accepts any 2.x and rejects
@@ -363,15 +404,24 @@ set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 # Generator selection: only enable packages for the current OS so cpack does not fail
 # when tools for other formats (e.g. rpmbuild) are not installed.
 if(WIN32)
-    set(CPACK_GENERATOR "ZIP;NSIS")
+    # NSIS only where makensis exists, so cpack does not fail without it.
+    set(CPACK_GENERATOR "ZIP")
+    set(_protocore_pf86 "ProgramFiles(x86)")
+    find_program(MAKENSIS_EXECUTABLE makensis
+        PATHS "$ENV{ProgramFiles}/NSIS" "$ENV{${_protocore_pf86}}/NSIS")
+    if(MAKENSIS_EXECUTABLE)
+        list(APPEND CPACK_GENERATOR "NSIS")
+        message(STATUS "CPack: NSIS generator enabled (${MAKENSIS_EXECUTABLE})")
+    else()
+        message(STATUS "CPack: NSIS generator disabled (makensis not found)")
+    endif()
     # A Windows DLL carries no soname, so a dependent installer has nothing on
     # disk to inspect. Record the version and the ABI in the registry instead:
     # protoJS's WiX template reads exactly these two values
     # (protoJS/packaging/templates/windows/protoJS.wxs.template).
     # The backslash is escaped twice: once for this file and once for
     # CPackConfig.cmake, which CPack parses again.
-    # Packaging verified with the ZIP generator on Windows 11; the NSIS
-    # installer itself not yet (no NSIS on that host).
+    # The cross-platform CI workflow builds the ZIP and the NSIS installer.
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
         WriteRegStr HKLM 'SOFTWARE\\\\protoCore' 'Version' '${PROJECT_VERSION}'
         WriteRegStr HKLM 'SOFTWARE\\\\protoCore' 'Soversion' '${PROTOCORE_ABI_SOVERSION}'
@@ -439,3 +489,14 @@ message(STATUS "Configured benchmark: cache_pressure_benchmark")
 
 add_executable(hash_quality_benchmark performance/hash_quality_benchmark.cpp)
 target_link_libraries(hash_quality_benchmark PRIVATE protoCore)
+
+# Every target defined in this directory and in conformance/ is protoCore's own;
+# test/ applies the same to proto_tests itself.
+get_property(_protocore_own_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+get_property(_protocore_conformance_targets DIRECTORY conformance PROPERTY BUILDSYSTEM_TARGETS)
+foreach(_t IN LISTS _protocore_own_targets _protocore_conformance_targets)
+    get_target_property(_type ${_t} TYPE)
+    if(NOT _type STREQUAL "UTILITY")
+        protocore_msvc_werror(${_t})
+    endif()
+endforeach()

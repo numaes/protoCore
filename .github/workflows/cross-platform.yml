@@ -28,15 +28,24 @@ jobs:
   test:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
         include:
           - name: macOS (Apple clang, arm64)
             os: macos-14
+            build_type: Release
           - name: Windows (MSVC, x64)
             os: windows-2022
+            build_type: Release
+            package: true
+          # Debug: MSVC's checked iterators (_ITERATOR_DEBUG_LEVEL=2) and the
+          # debug CRT catch out-of-range and invalidated-iterator accesses that
+          # a Release build runs through silently.
+          - name: Windows (MSVC, x64, Debug)
+            os: windows-2022
+            build_type: Debug
     defaults:
       run:
         shell: bash
@@ -52,7 +61,11 @@ jobs:
       - name: Configure
         # Ninja on both: the same generator the Windows instructions use, and
         # on Windows it takes the compiler from the MSVC environment above.
-        run: cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release
+        # On MSVC protoCore's own targets build at /W3 with /WX: a truncation
+        # or printf-format warning fails the build.
+        run: >
+          cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DPROTOCORE_MSVC_WARNINGS_AS_ERRORS=ON
 
       - name: Build
         run: cmake --build build --parallel 4
@@ -61,11 +74,73 @@ jobs:
         run: |
           COUNT=$(ctest --test-dir build -N | tail -1)
           echo "$COUNT"
-          echo "protoCore ctest (${{ runner.os }}): $COUNT" >> "$GITHUB_STEP_SUMMARY"
+          echo "protoCore ctest (${{ matrix.name }}): $COUNT" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Test suite
-        run: ctest --test-dir build -j2 --output-on-failure --timeout 600 -E "$CLOCK_DEPENDENT_TESTS" < /dev/null
+        run: ctest --test-dir build -j2 --output-on-failure --timeout 900 -E "$CLOCK_DEPENDENT_TESTS" < /dev/null
+
+      - name: Clock-dependent cases, serially (informational, never gates)
+        # The same cases ci.yml's timing job runs on Linux, here so that the
+        # platform-specific paths they cover (the eight timing cases and the
+        # three conformance.isolate deadlock detectors) run on macOS and
+        # Windows too.  A failure is reported, not gating: on a shared runner
+        # the verdict is partly the machine's.
+        continue-on-error: true
+        run: |
+          set +e
+          ctest --test-dir build --output-on-failure --timeout 900 -R "$CLOCK_DEPENDENT_TESTS" < /dev/null
+          STATUS=$?
+          set -e
+          if [ "$STATUS" -eq 0 ]; then
+            echo "Clock-dependent cases (${{ matrix.name }}): all passed" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Clock-dependent cases (${{ matrix.name }}): FAILED (informational -- may be runner load, not a regression)" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit "$STATUS"
 
       - name: Install
         # The installed package is what the runtimes consume.
         run: cmake --install build --prefix "$RUNNER_TEMP/protoCore-prefix"
+
+      - name: Package (ZIP, and NSIS where makensis exists)
+        if: matrix.package
+        run: |
+          cd build
+          cpack
+          ls -l *.zip *.exe 2>/dev/null || true
+
+      - name: The ZIP is self-contained and passes its own ABI check
+        # A consumer is built against the unpacked ZIP alone and run from a
+        # directory that holds only that program and the ZIP's bin/.  Then the
+        # versioned DLL is removed, and find_package must refuse the prefix:
+        # the ABI check is live on Windows.
+        if: matrix.package
+        run: |
+          set -x
+          PKG="$RUNNER_TEMP/pkg"
+          mkdir -p "$PKG"
+          ZIP=$(ls "$PWD"/build/protoCore-*.zip)
+          (cd "$PKG" && cmake -E tar xf "$ZIP")
+          PREFIX=$(ls -d "$PKG"/protoCore-*)
+          SOV=$(sed -n 's/^set(PROTOCORE_ABI_SOVERSION \([0-9]*\)).*/\1/p' CMakeLists.txt)
+          ls -l "$PREFIX/bin"
+          for f in "bin/protoCore-$SOV.dll" bin/vcruntime140.dll bin/msvcp140.dll \
+                   lib/protoCore.lib include/protoCore.h lib/cmake/protoCore/protoCoreConfig.cmake; do
+            test -f "$PREFIX/$f" || { echo "::error::the ZIP lacks $f"; exit 1; }
+          done
+          cmake -S test/package_consumer -B "$RUNNER_TEMP/consumer" -G Ninja \
+                -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$PREFIX"
+          cmake --build "$RUNNER_TEMP/consumer"
+          RUN="$RUNNER_TEMP/run"
+          mkdir -p "$RUN"
+          cp "$RUNNER_TEMP/consumer/package_consumer.exe" "$PREFIX"/bin/*.dll "$RUN/"
+          (cd "$RUN" && PATH="/c/Windows/system32:/c/Windows" ./package_consumer.exe)
+          mv "$PREFIX/bin/protoCore-$SOV.dll" "$RUNNER_TEMP/"
+          if cmake -S test/package_consumer -B "$RUNNER_TEMP/consumer-noabi" -G Ninja \
+                   -DCMAKE_PREFIX_PATH="$PREFIX" > "$RUNNER_TEMP/noabi.log" 2>&1; then
+            cat "$RUNNER_TEMP/noabi.log"
+            echo "::error::find_package accepted a prefix without protoCore-$SOV.dll"
+            exit 1
+          fi
+          grep -q "does not exist" "$RUNNER_TEMP/noabi.log"
+          echo "ZIP: self-contained (protoCore-$SOV.dll + VC++ runtime), consumer ran, ABI check refuses a prefix without the DLL" >> "$GITHUB_STEP_SUMMARY"

@@ -24,6 +24,7 @@ add_executable(proto_tests ${TEST_SOURCES})
 # 4. Link the test suite against the protoCore shared library and Google Test
 # Link gtest before gtest_main so that gtest symbols are available to gtest_main.
 target_link_libraries(proto_tests PRIVATE protoCore protoCoreConformance gtest gtest_main)
+protocore_msvc_werror(proto_tests)
 # The self-check matrix (test/ConformanceSelfCheckTests.cpp) needs the internal
 # SelfHost header, which lives beside the conformance sources and is not
 # installed: no embedder may build a Host out of protoCore's own reference one.
