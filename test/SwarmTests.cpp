@@ -192,3 +192,39 @@ TEST(SwarmTest, GetRawPointerIfExternalBuffer) {
     void* rawList = listObj->getRawPointerIfExternalBuffer(ctx);
     EXPECT_EQ(rawList, nullptr);
 }
+
+// C11/C17 aligned_alloc requires the requested size to be a multiple of the
+// alignment.  The external-buffer segment is 64-byte aligned, and it used to
+// request the caller's size unchanged: aligned_alloc(64, 12) is undefined
+// behaviour, which glibc happens to accept and AddressSanitizer aborts on.
+// Every size that is not a multiple of 64 must still produce a buffer whose
+// every byte is addressable, zero-initialised and writable, and getSize must
+// report the logical size the caller asked for, not the rounded allocation.
+TEST(SwarmTest, ExternalBufferOddSizesAreFullyAddressable) {
+    ProtoSpace space;
+    ProtoContext* ctx = space.rootContext;
+
+    const proto::proto_ulong sizes[] = {0, 1, 12, 63, 64, 65, 4097};
+    for (proto::proto_ulong size : sizes) {
+        const ProtoObject* obj = ctx->newExternalBuffer(size);
+        ASSERT_NE(obj, nullptr) << "size " << size;
+        const ProtoExternalBuffer* buffer = obj->asExternalBuffer(ctx);
+        ASSERT_NE(buffer, nullptr) << "size " << size;
+        EXPECT_EQ(buffer->getSize(ctx), size) << "logical size must be preserved";
+
+        auto* bytes = static_cast<unsigned char*>(obj->getRawPointerIfExternalBuffer(ctx));
+        if (size == 0) {
+            continue;  // An empty buffer has no segment to touch.
+        }
+        ASSERT_NE(bytes, nullptr) << "size " << size;
+        EXPECT_EQ(reinterpret_cast<uintptr_t>(bytes) % 64, 0u) << "size " << size;
+        for (proto::proto_ulong i = 0; i < size; ++i) {
+            ASSERT_EQ(bytes[i], 0) << "size " << size << " byte " << i;
+            bytes[i] = static_cast<unsigned char>(i * 31 + 7);
+        }
+        for (proto::proto_ulong i = 0; i < size; ++i) {
+            ASSERT_EQ(bytes[i], static_cast<unsigned char>(i * 31 + 7))
+                << "size " << size << " byte " << i;
+        }
+    }
+}
