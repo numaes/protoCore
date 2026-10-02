@@ -4,6 +4,44 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.9.3] - 2026-10-02
+
+A patch release with one thread-registration fix and one test made
+independent of machine speed.  The ABI is unchanged (SOVERSION 3, no class
+layout changed).
+
+- **The threads list is snapshotted under `ProtoSpace::globalMutex`.**  Every
+  update of `space->threads` (thread start, the adopted main thread, thread
+  exit, the thread destructor) rebuilds the immutable list outside the mutex
+  and publishes it under the mutex only if the list is still the snapshot it
+  started from.  The publish was a plain store under the mutex, but the
+  snapshot was a plain load taken without it.  ThreadSanitizer reported both
+  consequences when threads exit together (19 warnings in 10 runs of
+  `BulkListBuild.ConcurrentBuildersSurviveForcedCollections`): a data race on
+  the non-atomic `space->threads` pointer, which is undefined behaviour, and
+  `removeAt` reading the fields of list nodes built by another thread with no
+  happens-before edge to their construction, which a weakly ordered CPU may
+  show stale.  The snapshot is now taken under the mutex (`snapshotThreads`,
+  core/Thread.cpp).  Nothing allocates or parks while the mutex is held for
+  that load, so the rule that the rebuild must not allocate under the
+  recursive mutex still holds.  New test
+  `ThreadExitRelease.SimultaneousExitsLeaveTheThreadsListConsistent` releases
+  eight threads at once for twenty rounds: under ThreadSanitizer it reported
+  races in 5 of 5 runs before the fix, and it and the `BulkListBuild` suite
+  ran 20 times with no report after.
+- **`ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark` is bounded by
+  cycles, not by time, and gates CI again.**  It ran two fixed 2-second phases
+  and then required 100 collection cycles, a throughput floor that MSVC Debug
+  (61 cycles) and AddressSanitizer (31) failed with no defect involved.  Each
+  phase now runs until it has observed 50 cycles, under a 300-second hang
+  detector, and the case left the clock-dependent list in `ci.yml` and
+  `cross-platform.yml`, so it now gates in every job, ASan and Windows Debug
+  included.  It still detects the defect it guards: with the pre-2.6.0 mark
+  of the thread caches restored (two loads per slot, no null skip in the mark
+  loop) it crashes in 5 of 5 runs.
+- Test counts in README and docs/INSTALLATION.md: 526 registered, 519 gating,
+  7 clock-dependent.
+
 ## [2.9.2] - 2026-10-02
 
 A patch release with one garbage-collector fix.  The ABI is unchanged
