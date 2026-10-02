@@ -4,6 +4,63 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.9.0] - 2026-10-02
+
+A minor release from the review of the Windows port. One function is added
+(`ProtoSpace::currentThreadStackBytes`); nothing is removed or changed for
+existing code, and on Linux and macOS the ABI is unchanged (SOVERSION 3, no
+class layout changed). On Windows the DLL is renamed (see below).
+
+- **`setThreadStackBytes` is honoured on Linux and Windows too.** In 2.8.0
+  only macOS created a thread of the requested size; elsewhere the value was
+  stored and ignored, so a runtime that asked for 8 MiB on Windows ran on the
+  default 1 MiB with no sign of it. `newThread` now runs the thread on a
+  native thread created with that stack on every platform
+  (`_beginthreadex` with `STACK_SIZE_PARAM_IS_A_RESERVATION` on Windows,
+  `pthread_create` with `pthread_attr_setstacksize` elsewhere); with no size
+  set (the default) nothing changes. If the platform refuses the size,
+  `newThread` says so once on stderr and uses the default stack. New:
+  `ProtoSpace::currentThreadStackBytes()` reports the calling thread's stack
+  (`PROTOCORE_HAS_CURRENT_THREAD_STACK_BYTES`). The test asks for 32 MiB, checks
+  the size from inside the thread and then recurses through 16 MiB; it failed
+  on Linux (8 MiB) and on Windows (1 MiB) before the change.
+- **Windows: the DLL is `protoCore-3.dll`** (the SOVERSION in the file name,
+  the counterpart of `libprotoCore.so.3`); the import library is still
+  `protoCore.lib` and names it, so consumers link as before and load the ABI
+  they were built against. `protoCoreConfig.cmake` now checks for that file on
+  Windows, where its ABI check used to be disabled. A program that copies the
+  DLL by name must copy `protoCore-3.dll` (`$<TARGET_FILE:protoCore::protoCore>`
+  already does).
+- **Windows: the ZIP and the NSIS installer ship the Visual C++ runtime**
+  app-local in `bin\` (`InstallRequiredSystemLibraries`), so they work without
+  the redistributable; the Universal CRT is part of Windows 10 and later. NSIS
+  is a generator only where `makensis` is found. CI unpacks the ZIP, builds a
+  consumer against it, runs it from a clean directory, and checks that
+  `find_package` refuses the prefix once `protoCore-3.dll` is removed.
+- **No MSVC-internal 128-bit type.** `Integer.cpp` used `std::_Signed128` from
+  MSVC's internal `<__msvc_int128.hpp>`. The bignum code now uses
+  `core/WideArith.h`: `unsigned __int128` on GCC/Clang, `_umul128`/`_udiv128`
+  on MSVC x64, and portable half-digit code elsewhere, all tested against
+  values computed with Python. Knuth's Algorithm D is driven through its rare
+  steps (trial quotient 2^64, rhat overflow, the D6 add-back) by operands
+  found with a model of the algorithm; removing the add-back fails the test.
+- **MSVC warning level 3** (it was the compiler's /W1 default) for
+  protoCore's own targets, with every C4244/C4267 truncation, C4477 format,
+  C4291 placement-delete, C4146, C4099 and C4624 warning fixed rather than
+  disabled; `_CRT_SECURE_NO_WARNINGS` silences only the C4996 advice to use
+  Microsoft-only `getenv`/`fopen` replacements.
+  `PROTOCORE_MSVC_WARNINGS_AS_ERRORS=ON` adds /WX, and the Windows CI jobs
+  use it.
+- `PROTO_PREFETCH` is `_mm_prefetch` on MSVC (it compiled to nothing). The
+  Windows `posix_memalign` stand-in is no longer a global function in an
+  included header: it is `proto::alignedArenaAlloc`. `Cell` has the
+  placement `operator delete` matching its `operator new` (a no-op, as the
+  memory belongs to the context's arena).
+- **CI:** a Windows Debug job (MSVC checked iterators) runs the suite; the
+  clock-dependent cases run on macOS and Windows as a non-gating step, as on
+  Linux. `ResolutionChain_DefaultEntriesPerPlatform` checks the default
+  module resolution chain on every platform (it was empty on Windows).
+
 ## [2.8.0] - 2026-10-01
 
 - **`ProtoSpace::setThreadStackBytes` / `threadStackBytes`** (new; test with

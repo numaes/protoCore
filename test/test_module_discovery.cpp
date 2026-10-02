@@ -3,6 +3,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <vector>
 #include "../headers/protoCore.h"
 #include <memory>
 #include <string>
@@ -83,19 +84,29 @@ TEST_F(ModuleDiscoveryTest, ResolutionChain_GetReturnsNonEmpty) {
     ASSERT_GT(list->getSize(ctx), 0u);
 }
 
-TEST_F(ModuleDiscoveryTest, ResolutionChain_FirstEntryIsDotOnUnix) {
-#if !defined(_WIN32)
+// The default chain starts with "." on every platform; the system directories
+// after it are the platform's (core/ProtoSpace.cpp buildDefaultResolutionChain).
+TEST_F(ModuleDiscoveryTest, ResolutionChain_DefaultEntriesPerPlatform) {
+#if defined(_WIN32)
+    const std::vector<std::string> expected = {".", "C:\\Program Files\\proto\\lib"};
+#elif defined(__APPLE__)
+    const std::vector<std::string> expected = {".", "/usr/local/lib/proto"};
+#else
+    const std::vector<std::string> expected = {".", "/usr/lib/proto", "/usr/local/lib/proto"};
+#endif
     const ProtoObject* chain = space.getResolutionChain();
     ASSERT_NE(chain, PROTO_NONE);
     const ProtoList* list = chain->asList(ctx);
     ASSERT_NE(list, nullptr);
-    const ProtoObject* first = list->getAt(ctx, 0);
-    ASSERT_NE(first, nullptr);
-    ASSERT_TRUE(first->isString(ctx));
-    std::string s;
-    first->asString(ctx)->toUTF8String(ctx, s);
-    ASSERT_EQ(s, ".");
-#endif
+    ASSERT_EQ(list->getSize(ctx), expected.size());
+    for (size_t i = 0; i < expected.size(); ++i) {
+        const ProtoObject* entry = list->getAt(ctx, static_cast<int>(i));
+        ASSERT_NE(entry, nullptr);
+        ASSERT_TRUE(entry->isString(ctx));
+        std::string s;
+        entry->asString(ctx)->toUTF8String(ctx, s);
+        EXPECT_EQ(s, expected[i]) << "entry " << i;
+    }
 }
 
 TEST_F(ModuleDiscoveryTest, GetImportModule_NoProviderReturnsNone) {

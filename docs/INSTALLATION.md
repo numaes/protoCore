@@ -8,7 +8,7 @@ This guide covers building protoCore from source, installing the shared library 
 
 - **Linux** with GCC or Clang is the platform these instructions are written for.
 - **macOS**: `CMakeLists.txt` configures the TGZ and DragNDrop CPack generators for macOS. This guide does not verify the macOS build.
-- **Windows**: native build with MSVC (Visual Studio 2022), verified on Windows 11: the library, the tests (517 of 517 pass), `cmake --install` and the ZIP package. See [Windows (MSVC)](#windows-msvc) below.
+- **Windows**: native build with MSVC (Visual Studio 2022). CI (`cross-platform.yml`, Windows Server 2022, MSVC x64) builds Release and Debug at /W3 with warnings as errors, runs the gating suite (516 of the 524 registered cases; the 8 clock-dependent ones run without gating), and builds, unpacks and consumes the ZIP. See [Windows (MSVC)](#windows-msvc) below.
 
 No continuous integration is configured in this repository.
 
@@ -38,7 +38,7 @@ This builds the shared library, the test executable `build/test/proto_tests` and
 cmake --build build --target protoCore
 ```
 
-The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `2.8.0` as of 2026-10-01 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `3`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `3` for the second. On Linux the build directory contains:
+The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `2.9.0` as of 2026-10-02 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `3`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `3` for the second. On Linux the build directory contains:
 
 | File | Role |
 |------|------|
@@ -69,9 +69,11 @@ ctest --test-dir build -j8
 cmake --install build --prefix %LOCALAPPDATA%\Programs\proto
 ```
 
-The build produces `protoCore.dll` and its import library `protoCore.lib`.
-Executables and the DLL share `build/bin/`, so the tests run in place. On
-Windows 11 the whole suite passes (517 of 517).
+The build produces `protoCore-3.dll` and its import library `protoCore.lib`.
+Executables and the DLL share `build/bin/`, so the tests run in place. CI runs
+the suite on Windows in Release and in Debug (MSVC's checked iterators): 516
+gating cases of the 524 registered, all passing; the 8 clock-dependent cases
+listed in `.github/workflows/ci.yml` run in a separate, non-gating step.
 
 What differs on Windows, and why Linux and macOS are unaffected:
 
@@ -81,11 +83,37 @@ What differs on Windows, and why Linux and macOS are unaffected:
   everywhere else they ARE `long` and `unsigned long`, so the types, the C++
   mangling and the ABI are unchanged (the exported symbols of
   `libprotoCore.so` are identical to those of 2.6.2).
-- 128-bit arithmetic in `Integer.cpp` uses MSVC's `std::_Unsigned128`;
-  aligned allocation uses `_aligned_malloc`.
+- **The DLL carries the ABI version in its name**: `protoCore-3.dll`, the
+  counterpart of `libprotoCore.so.3` (since 2.9.0; it was `protoCore.dll`).
+  The import library keeps the plain name `protoCore.lib` and records the
+  versioned DLL name, so a consumer links as before and its program loads
+  exactly the ABI it was built against. `protoCoreConfig.cmake` refuses a
+  prefix whose `bin/protoCore-<SOVERSION>.dll` is missing, as it refuses a
+  Linux prefix without `libprotoCore.so.<SOVERSION>`. A project that copies
+  the DLL next to its programs should copy `$<TARGET_FILE:protoCore::protoCore>`
+  rather than a hard-coded file name.
+- **The Visual C++ runtime is deployed app-local.** `cmake --install`, the ZIP
+  and the NSIS installer put `vcruntime140*.dll`, `msvcp140*.dll` and
+  `concrt140.dll` (CMake's `InstallRequiredSystemLibraries`) in `bin/` next
+  to `protoCore-3.dll`, so they work on a machine without the Visual C++
+  Redistributable. App-local rather than chaining `vc_redist.x64.exe`: a ZIP
+  cannot run an installer. The Universal CRT is not shipped; it is part of
+  Windows 10 and later.
+- `ProtoSpace::setThreadStackBytes` is honoured: threads created by
+  `newThread` get the requested stack as their reservation
+  (`_beginthreadex` with `STACK_SIZE_PARAM_IS_A_RESERVATION`), instead of the
+  executable's `/STACK` default (1 MiB). Since 2.9.0.
+- 128-bit intermediates of the bignum code use the `_umul128` / `_udiv128`
+  intrinsics (`core/WideArith.h`); GCC and Clang use `unsigned __int128`.
+  Aligned allocation uses `_aligned_malloc`; `PROTO_PREFETCH` is
+  `_mm_prefetch`.
 - The DLL exports every symbol (`WINDOWS_EXPORT_ALL_SYMBOLS`). Static data a
   caller reads across the DLL boundary is marked `PROTOCORE_DATA`
   (`dllexport` / `dllimport`, empty elsewhere).
+- protoCore's own targets build at `/W3`; configure with
+  `-DPROTOCORE_MSVC_WARNINGS_AS_ERRORS=ON` to add `/WX`, as CI does. A
+  project that includes protoCore with `add_subdirectory` keeps its own
+  warning level.
 
 ## Installing the Built Library
 
@@ -108,12 +136,12 @@ sudo ldconfig
 
 | File | Path |
 |------|------|
-| Shared library | `lib/libprotoCore.so.<version>` (`2.8.0` as of 2026-10-01), with the links `lib/libprotoCore.so.3` (the soname) and `lib/libprotoCore.so` |
+| Shared library | `lib/libprotoCore.so.<version>` (`2.9.0` as of 2026-10-02), with the links `lib/libprotoCore.so.3` (the soname) and `lib/libprotoCore.so` |
 | Public header | `include/protoCore.h` |
 | CMake package configuration | `lib/cmake/protoCore/protoCoreConfig.cmake`, `protoCoreConfigVersion.cmake`, `protoCoreTargets.cmake` and one per-configuration targets file |
 | pkg-config metadata | `lib/pkgconfig/protoCore.pc` |
 
-The library and header directories come from `GNUInstallDirs`. With the default `/usr/local` prefix they are `lib` and `include`; with other prefixes or distributions the library directory may be `lib64` or a multiarch directory. On Windows the install rules place the DLL in `bin/` and the import library in `lib/`.
+The library and header directories come from `GNUInstallDirs`. With the default `/usr/local` prefix they are `lib` and `include`; with other prefixes or distributions the library directory may be `lib64` or a multiarch directory. On Windows the install rules place the DLL (`protoCore-3.dll`) and the Visual C++ runtime DLLs in `bin/` and the import library in `lib/`.
 
 ## Consuming protoCore from CMake
 
@@ -171,7 +199,7 @@ Last verified 2026-09-27 against protoCore 2.5.0 (`PROTOCORE_ABI_SOVERSION 3`).
 | Linux / Debian-Ubuntu | TGZ, DEB | **VERIFIED.** Built, then installed with `dpkg -i` as root in a throwaway `ubuntu:24.04` container (glibc 2.39, the same as the build host) and exercised there. |
 | Linux / Fedora-RHEL | TGZ, RPM | **VERIFIED.** `cpack -G RPM` executed in a throwaway `fedora:41` container (glibc 2.40, `rpm` 4.20.1); the RPM was installed with `rpm -i` and exercised. This closes the gap left by decision D-I2, under which the RPM generator had been configured but never run on any host. |
 | macOS | TGZ, DragNDrop | **UNVERIFIED.** Configured and reviewed only. There is no macOS host here and no cross-toolchain, so the generator has never executed. Review is not verification. |
-| Windows | ZIP, NSIS (writes `HKLM\SOFTWARE\protoCore` `Version`, `Soversion`, `InstallDir`) | **PARTLY VERIFIED** (2026-10-01, Windows 11, MSVC 19.44). Built, tested (517/517), installed with `cmake --install` into a user prefix and consumed from there by protoScala; `cpack -G ZIP` produces `protoCore-<version>-win64.zip`. Running cpack also exposed and fixed a quoting defect in the NSIS registry commands. The NSIS installer itself has not been built (no NSIS on that host), so the registry values, and protoJS's WiX condition that reads them, remain unobserved. |
+| Windows | ZIP, NSIS (writes `HKLM\SOFTWARE\protoCore` `Version`, `Soversion`, `InstallDir`) | **VERIFIED in CI, except the NSIS install itself** (2026-10-02, `cross-platform.yml` on Windows Server 2022, MSVC x64). Every run builds the ZIP and the NSIS `.exe`, unpacks the ZIP, checks that it holds `protoCore-3.dll`, the Visual C++ runtime, `protoCore.lib`, the header and the CMake package, builds `test/package_consumer` against it alone, runs that program from a directory holding only it and the ZIP's `bin/` (with `PATH` reduced to the Windows directories), then removes `protoCore-3.dll` and checks that `find_package` refuses the prefix. The runner has the Visual C++ runtime installed system-wide, so the run proves the runtime DLLs are shipped, not that the consumer needed them. The NSIS installer is built but never executed, so the registry values, and protoJS's WiX condition that reads them, remain unobserved. Earlier (2026-10-01, Windows 11): installed with `cmake --install` and consumed by protoScala. |
 
 ### What the Linux verification actually demonstrated
 
@@ -262,7 +290,7 @@ conformance suite against their own build.
 
 ### Package file names
 
-The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`2.8.0` as of 2026-10-01):
+The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`2.9.0` as of 2026-10-02):
 
 | Platform | Files |
 |----------|-------|
