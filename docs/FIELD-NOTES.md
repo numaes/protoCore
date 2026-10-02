@@ -1564,6 +1564,19 @@ runs TSan automatically. Those runs also left a known 40–116-warning baseline
 accepted as benign, and an open recommendation to make `ProtoSpace::softHeapLimit`
 and `maxHeapSize` atomic has not been taken.
 
+*Update, 2026-10-02 (protoCore 2.9.4).* For protoCore this paragraph is
+history. Its CI has a ThreadSanitizer job over the whole suite, and the suite
+runs with no report and no suppression file (docs/TESTING.md,
+"ThreadSanitizer"). The last reports were not benign noise: most came from
+tests running raw `std::thread`s that held `ProtoObject*` (rule 11), one from a
+`volatile bool` used as a cross-thread flag in the conformance library, whose
+detached threads could also write to a stack frame that had already returned,
+and one from `freeCellsCount`, read lock-free by the conformance sampler while
+the allocator updated it non-atomically. `heapSize`, `maxHeapSize` and now
+`freeCellsCount` have atomic accessors for their lock-free readers, and TSan
+reports nothing on `softHeapLimit`. protoScala's, protoST's and protoClojure's
+concurrency surfaces are still not instrumented.
+
 Never instrumented: protoScala's entire concurrency surface — `ActorScheduler`,
 `Mailbox`, `ReadyStack`, `Futures`, `ActorPrimitives`, `FutureYield` — and
 protoST's and protoClojure's, which have no option, no log and no statement.

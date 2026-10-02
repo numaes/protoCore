@@ -85,6 +85,18 @@ it**:
 A kind that declares `HoldsNothing` and then allocates is a **Fail**, and that
 is the finding worth having: a declaration the code contradicts.
 
+An unregistered thread that builds its own `ProtoContext` is also a data race,
+not only a rooting gap: a context with no thread registers itself as
+`ProtoSpace::mainContext`, one slot for the whole space, so two such threads
+write it concurrently (ThreadSanitizer reports it in `~ProtoContext` and the
+constructor).  protoCore's own suite had six tests of that shape until 2.9.4.
+
+**The release flag of `Host::joinBlockingThread` is written by another
+thread.**  Read it with `proto::conformance::releaseFlagRaised(releaseFlag)`
+(`protoCoreConformance.h`, since 2.9.4), not with `*releaseFlag`: the
+`volatile` in the signature orders nothing between threads, and a plain read is
+a data race that ThreadSanitizer reports in the host's own suite.
+
 ### Rule 13 — why the verdict is a declaration and not "no cycles"
 
 **A cycle among mutable objects is never collected.**  The property, its proof

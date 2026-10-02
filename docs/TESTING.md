@@ -219,6 +219,49 @@ Run CTest tests matching a regular expression:
 ctest --test-dir build -R 'PrimitivesTest' -j$(nproc) --output-on-failure
 ```
 
+## ThreadSanitizer
+
+The whole suite runs clean under ThreadSanitizer, and CI keeps it that way
+(the `tsan` job in `.github/workflows/ci.yml`; every report fails its case,
+because TSan exits 66 when it reported anything).  There is no sanitizer CMake
+option; the flags are passed raw:
+
+```bash
+cmake -B build_tsan -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCMAKE_CXX_FLAGS="-fsanitize=thread -fno-omit-frame-pointer -g" \
+  -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=thread" \
+  -DCMAKE_SHARED_LINKER_FLAGS="-fsanitize=thread" \
+  -DCMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST
+cmake --build build_tsan -j4
+setarch "$(uname -m)" -R ctest --test-dir build_tsan --output-on-failure < /dev/null
+```
+
+`setarch -R` disables address-space randomisation: with the 32-bit
+`vm.mmap_rnd_bits` of current Ubuntu kernels TSan otherwise aborts with
+`unexpected memory mapping`.  `PRE_TEST` discovery keeps CMake from running the
+TSan binary at build time, outside that wrapper.
+
+Rules the suite follows so that it stays clean:
+
+- **A test thread that holds a `ProtoObject*` is a protoCore thread**
+  (`ProtoSpace::newThread`, joined with `ProtoThread::join`), never a raw
+  `std::thread` building its own `ProtoContext`.  A thread-less context
+  registers itself as `ProtoSpace::mainContext`, so two such threads race on
+  that slot, and neither is root-scanned
+  ([EMBEDDER-CONFORMANCE.md](EMBEDDER-CONFORMANCE.md) rule 11).  A raw
+  `std::thread` is fine for a helper that touches no `ProtoObject*`, such as a
+  GC kicker calling `triggerGC()`.
+- **A context belongs to one thread.**  Never allocate through another thread's
+  context (the main thread's `rootContext` included).
+- **Every thread a test creates is joined** before its `ProtoSpace` is
+  destroyed; TSan reports an unjoined one as a thread leak.
+- **There is no suppression file.**  The one deliberate race,
+  `ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark` (a helper thread writes
+  the owner's cache slots to prove the marker never reads them), excludes only
+  that helper thread from checking, with `__tsan_ignore_thread_begin/end`
+  (`test/SanitizerSupport.h`).  `StringBuildHeapLimitTest`'s resident-set bound
+  is compiled out under TSan, whose shadow memory it would otherwise measure.
+
 ## Summary
 
 | Task                 | Command or script |

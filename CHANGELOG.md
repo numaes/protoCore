@@ -4,6 +4,48 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.9.4] - 2026-10-02
+
+The whole test suite now runs clean under ThreadSanitizer, and CI runs it
+there.  One library field changed how it is accessed; the ABI is unchanged
+(SOVERSION 3, no class layout changed).
+
+- **`ProtoSpace::freeCellsCount` is updated atomically.**  Its writers hold
+  `globalMutex`, but the conformance library's heap sampler reads it without
+  the mutex -- and must, since the collector holds that mutex while it waits
+  for the stop-the-world quorum.  TSan reported the read in
+  `conformance.isolate.stw.quorum_completes`.  The field stays a plain `int`
+  and gets `heapSize`'s treatment: atomic writes (`relaxedFetchAdd` /
+  `relaxedStore`), and `relaxedLoad` for lock-free readers.
+- **Conformance: the `joinBlockingThread` release flag is read and written
+  atomically.**  It was a `volatile bool` shared between threads, a data race
+  in `join.parks`, `stw.quorum_completes` and three `ConformanceSelfCheck`
+  cases.  New `proto::conformance::releaseFlagRaised()` in
+  `protoCoreConformance.h` is the read a host must use; the virtual's
+  signature is unchanged, so existing hosts still build (protoPython's and
+  protoScala's hosts still read the flag plainly and should switch).
+- **Conformance: detached helper threads no longer write to a returned stack
+  frame.**  `stw.quorum_completes` detached a releaser that set the flag on the
+  case's frame 25 s later, normally after the case had returned; `join.parks`
+  detached a requester that wrote two stack atomics and may outlive the case
+  while it waits on `globalMutex`.  Both now share heap-owned state.
+- **Tests: every thread that holds a `ProtoObject*` is a protoCore thread.**
+  Eight tests ran raw `std::thread`s with thread-less contexts (or, in
+  `RootSetTest.ConcurrentAddRemoveIsSafe`, the main thread's `rootContext`
+  shared by five threads), which races on `ProtoSpace::mainContext` and
+  violates EMBEDDER-CONFORMANCE rule 11.  They use `ProtoSpace::newThread` and
+  `ProtoThread::join` now.  `NewThreadRoots.AThreadLessContextSurvivesAThreadCreatedElsewhere`
+  joins the thread it creates (TSan reported a thread leak).
+- **Tests: the one deliberate race is excluded precisely.**
+  `ConcurrentMarkSafety.ThreadCacheSlotFlipsDuringMark` writes the owner's cache
+  slots from a helper thread on purpose; only that helper thread is excluded
+  from TSan checking (`__tsan_ignore_thread_begin/end`).  There is no
+  suppression file.  `StringBuildHeapLimitTest`'s resident-set bound is
+  compiled out under TSan, whose shadow memory it would measure.
+- **CI: new `tsan` job** (`.github/workflows/ci.yml`), the full suite minus the
+  clock-dependent cases, gating.  docs/TESTING.md, "ThreadSanitizer", has the
+  recipe and the rules the suite follows.
+
 ## [2.9.3] - 2026-10-02
 
 A patch release with one thread-registration fix and one test made
