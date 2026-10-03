@@ -339,6 +339,9 @@ namespace proto {
                 });
                 if (space->state == SPACE_STATE_ENDING) break;
                 multispace::cycleActive = true;
+                // The adaptive heap controller's trace reports the cycle's
+                // duration from here (a no-op unless it is enabled).
+                adaptive::onCycleStart(space);
 
                 // --- PHASE 1: STOP THE WORLD ---
                 multispace::noteCycleStart();

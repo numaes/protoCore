@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <chrono>
 #include <climits>
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -170,7 +171,7 @@ TEST(AdaptiveHeap, EnableAppliesTheDefaults) {
                                                      adaptive::processMemoryLimitBytes());
     EXPECT_TRUE(s.enabled);
     EXPECT_EQ(s.hardCells, H);
-    EXPECT_EQ(s.softCells, std::min<proto_ulong>(524288, H));
+    EXPECT_EQ(s.softCells, std::min<proto_ulong>(adaptive::kDefaultInitialSoftCells, H));
     EXPECT_EQ(softOf(space), s.softCells);
     EXPECT_GT(ceilingOf(space), 0);
     EXPECT_LE(static_cast<proto_ulong>(ceilingOf(space)), H);
@@ -350,16 +351,56 @@ TEST(AdaptiveHeap, SteadyWorkloadHeapFollowsTheSoftLimit) {
     EXPECT_LT(s.heapCells, s.softCells + 4000000u);
 }
 
-// Clock-dependent (listed in CLOCK_DEPENDENT_TESTS): where S settles depends
-// on the allocation rate against the collector's speed.  The heap ends far
-// below the garbage volume (a quarter of it; 1-5 M cells of 20 M measured on
-// Linux x86-64 and macOS arm64).
+// Clock-dependent (listed in CLOCK_DEPENDENT_TESTS): how far the heap grows
+// past S while cycles run depends on the allocation rate against the
+// collector's speed.  The heap ends far below the garbage volume.  2.10.0
+// asserted a quarter of it and was flaky: S itself ran to 1-5 M cells of 20 M.
+// Since 2.10.1 pressure grows S only up to max(S0, 8 x L), 2.4 M cells here,
+// and the heap measured 2.71 M cells (13.6 %) in ten runs on Linux x86-64
+// (Release); half the garbage volume leaves room for a slow collector
+// (sanitizers, loaded CI machines) without losing the point of the check.
 TEST(AdaptiveHeapSteady, HeapStaysFarBelowTheGarbageVolume) {
     CleanEnv env;
     ProtoSpace space;
     const SteadyRun run = runSteady(space);
-    EXPECT_LT(run.stats.heapCells, run.garbageCells / 4)
+    EXPECT_LT(run.stats.heapCells, run.garbageCells / 2)
         << run.garbageCells << " cells allocated";
+}
+
+// --- Fast allocator ----------------------------------------------------------
+
+// A large live set and garbage allocated as fast as the allocator goes, the
+// case that took 2.10.0's soft limit to about 20 x the live set: the
+// collector's sweep throughput was below the allocation rate, so a stall came
+// back at every soft limit and every stall grew S by g.  Since 2.10.1 pressure
+// grows S only up to max(S0, k_cap x L).  Gating: S is a pure function of the
+// samples, so the bound holds whatever the machine's speed; the heap may pass
+// S only by what grows while a cycle runs.
+TEST(AdaptiveHeapFastAllocator, SoftLimitStaysWithinTheLiveCap) {
+    CleanEnv env;
+    ProtoSpace space;
+    space.enableAdaptiveHeap();
+    RootedList live(space, 400000);   // ~800,000 live cells (object + node)
+    proto_ulong maxLive = 0;
+    proto_ulong garbage = 0;
+    for (int r = 0; r < 60; ++r) {
+        garbage += churn(space, 500000, 0);   // 30,000,000 objects in all
+        maxLive = std::max(maxLive, space.adaptiveHeapStats().liveCellsLastCycle);
+    }
+    const AdaptiveHeapStats s = space.adaptiveHeapStats();
+    std::printf("[ fast ] L=%lu maxL=%lu S=%lu heap=%lu cycles=%llu p=%.4f garbage=%lu\n",
+                (unsigned long) s.liveCellsLastCycle, (unsigned long) maxLive,
+                (unsigned long) s.softCells, (unsigned long) s.heapCells,
+                (unsigned long long) s.cycles, s.lastPressure, (unsigned long) garbage);
+    EXPECT_EQ(live.size(space), 400000u) << "the live set did not survive";
+    ASSERT_GT(s.cycles, 0u);
+    const proto_ulong cap = std::max<proto_ulong>(
+        adaptive::kDefaultInitialSoftCells,
+        static_cast<proto_ulong>(std::ceil(adaptive::kLiveCapFactor * static_cast<double>(maxLive))));
+    EXPECT_LE(s.softCells, cap) << "pressure took S past max(S0, 8 x L)";
+    // What grows while cycles run: a few 16 MiB blocks (measured: under
+    // 1,000,000 cells past S on Linux x86-64).
+    EXPECT_LT(s.heapCells, s.softCells + 4000000u);
 }
 
 // --- Storm workload ----------------------------------------------------------
@@ -372,7 +413,14 @@ struct StormRun {
     double lastPressure = 1.0;
     uint64_t cycles = 0;
     uint64_t cyclesToCalm = 0;   // 0: pressure never fell below p_high
+    uint64_t cyclesToCap = 0;    // 0: S never reached max(S0, k_cap x L)
+    proto_ulong cap = 0;         // max(S0, k_cap x L), the largest L seen
 };
+
+proto_ulong liveCapOf(proto_ulong live) {
+    return std::max<proto_ulong>(adaptive::kDefaultInitialSoftCells,
+        static_cast<proto_ulong>(std::ceil(adaptive::kLiveCapFactor * static_cast<double>(live))));
+}
 
 // A large live set with k_live = 1, so S starts at the live set itself.
 // With `safepoints` false every cycle is a stall (see churn).
@@ -382,28 +430,37 @@ StormRun runStorm(ProtoSpace& space, int maxRounds, bool stopWhenCalm, bool safe
     space.enableAdaptiveHeap(c);
     RootedList live(space, 300000);   // ~900,000 live cells
     StormRun run;
+    proto_ulong maxLive = 0;
     uint64_t seen = space.adaptiveHeapStats().cycles;
     for (int r = 0; r < maxRounds; ++r) {
         churn(space, 100000, 0, safepoints);
         const AdaptiveHeapStats s = space.adaptiveHeapStats();
         if (s.cycles != seen) {
             seen = s.cycles;
+            maxLive = std::max(maxLive, s.liveCellsLastCycle);
             run.lastPressure = s.lastPressure;
             if (s.lastPressure > run.maxPressure) run.maxPressure = s.lastPressure;
             if (run.cyclesToCalm == 0 && run.maxPressure > 0.05 && s.lastPressure <= 0.05) {
                 run.cyclesToCalm = s.cycles;
                 if (stopWhenCalm) break;
             }
+            if (run.cyclesToCap == 0 && s.softCells >= liveCapOf(maxLive)) {
+                run.cyclesToCap = s.cycles;
+                if (stopWhenCalm) break;
+            }
         }
     }
     const AdaptiveHeapStats s = space.adaptiveHeapStats();
     run.finalSoft = s.softCells;
-    run.floor = std::max<proto_ulong>(524288, s.liveCellsLastCycle);
+    run.floor = std::max<proto_ulong>(adaptive::kDefaultInitialSoftCells, s.liveCellsLastCycle);
     run.cycles = s.cycles;
-    std::printf("[ storm ] L=%lu S=%lu heap=%lu cycles=%llu maxp=%.3f lastp=%.4f calm-at=%llu\n",
+    run.cap = liveCapOf(std::max(maxLive, s.liveCellsLastCycle));
+    std::printf("[ storm ] L=%lu S=%lu heap=%lu cycles=%llu maxp=%.3f lastp=%.4f calm-at=%llu "
+                "cap-at=%llu\n",
                 (unsigned long) s.liveCellsLastCycle, (unsigned long) s.softCells,
                 (unsigned long) s.heapCells, (unsigned long long) s.cycles,
-                run.maxPressure, run.lastPressure, (unsigned long long) run.cyclesToCalm);
+                run.maxPressure, run.lastPressure, (unsigned long long) run.cyclesToCalm,
+                (unsigned long long) run.cyclesToCap);
     return run;
 }
 }  // namespace
@@ -420,17 +477,22 @@ TEST(AdaptiveHeapStorm, SoftLimitRisesUnderStall) {
         << "S never grew beyond max(S0, L)";
 }
 
-// Clock-dependent (listed in CLOCK_DEPENDENT_TESTS): with safepoints, after
-// the storm, pressure falls below p_high within a bounded number of cycles.
-// Whether the start is a storm at all depends on the relative speed of the
-// mutator and the collector, hence not a gate.
-TEST(AdaptiveHeapStorm, PressureFallsWithinBoundedCycles) {
+// Clock-dependent (listed in CLOCK_DEPENDENT_TESTS): with safepoints, S
+// settles within a bounded number of cycles.  Either pressure falls below
+// p_high (the headroom was what stalled the mutator), or S reaches the live
+// cap max(S0, k_cap x L) and stays there (the collector's throughput was:
+// no soft limit removes that stall, and 2.10.0 grew S towards H chasing it).
+// Which one happens depends on the relative speed of the mutator and the
+// collector, hence not a gate.
+TEST(AdaptiveHeapStorm, SoftLimitSettlesWithinBoundedCycles) {
     CleanEnv env;
     ProtoSpace space;
     const StormRun run = runStorm(space, 3000, true, true);
     ASSERT_GT(run.maxPressure, 0.05) << "the storm produced no stall";
-    EXPECT_GT(run.cyclesToCalm, 0u) << "pressure never fell below p_high";
-    EXPECT_LE(run.cyclesToCalm, 60u);
+    const uint64_t settledAt = run.cyclesToCalm ? run.cyclesToCalm : run.cyclesToCap;
+    EXPECT_GT(settledAt, 0u) << "pressure never fell and S never reached the live cap";
+    EXPECT_LE(settledAt, 60u);
+    EXPECT_LE(run.finalSoft, run.cap) << "pressure took S past the live cap";
 }
 
 // --- Out of memory -----------------------------------------------------------

@@ -31,22 +31,39 @@ namespace adaptive {
 
     // --- 1. Control law ------------------------------------------------------
 
-    /** Initial soft limit when none is configured: 32 MiB worth of cells. */
-    constexpr proto_ulong kDefaultInitialSoftCells = 524288;
+    /** Initial soft limit when none is configured: 128 MiB worth of cells. */
+    constexpr proto_ulong kDefaultInitialSoftCells = 2097152;
     /** Largest hard limit: cell counts are `int` in ABI 3 (128 GiB). */
     constexpr proto_ulong kMaxCells = 2147483647UL;
+    /** k_live when none is configured: S never falls below 3 x L. */
+    constexpr double kDefaultLiveHeadroom = 3.0;
+    /**
+     * Pressure grows S only up to this multiple of the live set (or S0, or
+     * the floor, whichever is larger).  Past it, a stall is the collector's
+     * throughput falling short of the allocation rate, which no soft limit
+     * removes: measured, S then ran to 20 x L and beyond while the stall
+     * reappeared at every size (docs/reports/2026-10-03-adaptive-heap-
+     * calibration.md).
+     */
+    constexpr double kLiveCapFactor = 8.0;
+    /** Pacing: the fraction of the headroom S - L consumed before the next
+     *  cycle is requested; the rest is the mutators' runway. */
+    constexpr double kTriggerFraction = 0.75;
 
     struct LawParams {
-        double highPressure = 0.05;  // p_high
-        double growthFactor = 1.5;   // g
-        double liveHeadroom = 1.5;   // k_live
+        double highPressure = 0.05;                    // p_high
+        double growthFactor = 1.5;                     // g
+        double liveHeadroom = kDefaultLiveHeadroom;    // k_live
+        double liveCap = kLiveCapFactor;               // k_cap >= k_live
+        proto_ulong initialSoft = kDefaultInitialSoftCells;  // S0
     };
 
     /**
-     * The soft limit after a cycle (spec section 3.3):
+     * The soft limit after a cycle (spec section 3.3, as calibrated in 2.10.1):
      *
      *     floor = ceil(k_live * L)
-     *     p > p_high:  S' = min(H, max(floor, ceil(S * g)))
+     *     cap   = max(S0, ceil(k_cap * L), floor)
+     *     p > p_high:  S' = min(H, max(S, floor, min(ceil(S * g), cap)))
      *     otherwise:   S' = min(H, max(S, floor))
      *
      * Never below S while S <= H, never above H.
@@ -56,7 +73,9 @@ namespace adaptive {
                               const LawParams& params);
 
     /** The parameters of a configuration, invalid values replaced by the
-     *  defaults (p_high in (0, 1], g > 1, k_live >= 1). */
+     *  defaults (p_high in (0, 1], g > 1, k_live >= 1); k_cap is
+     *  max(kLiveCapFactor, k_live) and S0 is left at its default (the
+     *  caller sets it). */
     LawParams sanitizedParams(const AdaptiveHeapConfig& config);
 
     // --- 2. Memory limits ----------------------------------------------------
@@ -145,6 +164,9 @@ namespace adaptive {
      *  spaces under the process budget, and requests a cycle when an
      *  enabled space's heap has reached its soft limit. */
     void afterHeapGrowth(ProtoSpace* space, int cells);
+    /** Start of a cycle of `space` (the collector holds the cycle token);
+     *  the trace reports the cycle's duration.  globalMutex held. */
+    void onCycleStart(ProtoSpace* space);
     /** Mutator stall: time a thread of `space` waited for a cycle. */
     void recordMutatorWait(const ProtoSpace* space, std::uint64_t nanos);
     /** End of a cycle of `space`: apply the control law. */
