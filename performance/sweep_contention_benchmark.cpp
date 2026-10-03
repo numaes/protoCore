@@ -126,8 +126,8 @@ const ProtoObject* readSurvivors(ProtoContext* ctx, const ProtoObject*, const Pa
     std::uint64_t seen = 0;
     while (!gStop.load(std::memory_order_relaxed)) {
         const ProtoList* list = gRoots->resolve(gLive)->asList(ctx);
-        const unsigned long n = list->getSize(ctx);
-        for (unsigned long i = 0; i < n; ++i) {
+        const proto_ulong n = list->getSize(ctx);
+        for (proto_ulong i = 0; i < n; ++i) {
             if (list->getAt(ctx, static_cast<int>(i))) ++seen;
             if ((i & 1023) == 0) {
                 if (gStop.load(std::memory_order_relaxed)) break;
