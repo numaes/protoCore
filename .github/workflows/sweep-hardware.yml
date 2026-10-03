@@ -1,0 +1,72 @@
+name: Sweep on other hardware
+
+# A second hardware data point for the collector-throughput work
+# (docs/reports/2026-10-03-collector-throughput.md, "Hardware class").  The
+# figures behind the sweep's defaults come from one notebook-class x86-64
+# CPU; this workflow runs the sweep's deterministic tests and a short sweep
+# benchmark on GitHub's arm64 Linux, macOS arm64 and x64 Linux runners.
+#
+# Runners are shared virtual machines: every number here is noisy and is
+# read as a direction, never as a measurement.  It runs on manual dispatch
+# and on a push to a measure/sweep-hardware* branch (a workflow must be on
+# the default branch before it can be dispatched); it never gates anything.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['measure/sweep-hardware*']
+
+permissions:
+  contents: read
+
+jobs:
+  sweep:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04-arm, macos-latest, ubuntu-24.04]
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Record the hardware
+        run: |
+          uname -a
+          if [ "$(uname)" = "Darwin" ]; then
+            sysctl -n machdep.cpu.brand_string hw.physicalcpu hw.logicalcpu hw.l2cachesize hw.l3cachesize hw.memsize || true
+          else
+            lscpu || true
+            free -h || true
+          fi
+
+      - name: Configure
+        run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --parallel 4 --target proto_tests sweep_contention_benchmark
+
+      - name: Deterministic sweep and pacing tests
+        run: >
+          ./build/test/proto_tests
+          --gtest_filter='ParallelSweep*:CollectorPacing.*:PacingRunway.*:AdaptiveHeapLaw.*'
+          < /dev/null
+
+      - name: Sweep benchmark, helpers 0..3 (noisy VM)
+        run: ./build/sweep_contention_benchmark 1000000 3 3 0,1,2,3 | tee bench_helpers.txt
+
+      - name: Sweep benchmark, 1 chain and no prefetch (noisy VM)
+        env:
+          PROTOCORE_GC_SWEEP_CURSORS: "1"
+          PROTOCORE_GC_SWEEP_PREFETCH: "0"
+        run: ./build/sweep_contention_benchmark 1000000 3 3 | tee bench_single_chain.txt
+
+      - name: Summary
+        run: |
+          {
+            echo "### ${{ matrix.os }} (shared VM: noisy)"
+            echo '```'
+            grep -E "hardware|helpers K|median|verified" bench_helpers.txt bench_single_chain.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
