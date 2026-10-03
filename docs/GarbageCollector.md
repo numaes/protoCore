@@ -903,6 +903,107 @@ costs time the soft limit cannot recover (protoJS structure benchmarks
 +12 to +31 %, +75 % with six allocating threads), because the cost is the
 single collector thread's sweep of every garbage cell.
 
+## Measured behaviour (October 2026)
+
+This section keeps the conclusions of three measurement reports where the
+design is described, so they are not lost in dated files.  The reports hold
+the method, every table and the raw data
+([reports/README.md](reports/README.md)).
+
+### Where collector time goes
+
+From [reports/2026-10-03-gc-phase-breakdown.md](reports/2026-10-03-gc-phase-breakdown.md)
+(protoCore 2.10.2, instrumented with `-DPROTOCORE_GC_INSTRUMENT=ON` on
+branch `measure/gc-phases`; one run per configuration, 6-core / 12-thread
+machine):
+
+| Workload (threads) | GC busy / wall | Sweep / mark share of GC time | Mutator time waiting for headroom | Sweep throughput |
+|---|---:|---:|---:|---:|
+| core benchmark, 1 M live, fixed 640 MB (1) | 56 % | 69 / 26 % | 35 % | 52 M cells/s |
+| protoJS `records` (12) | 89 % | 73 / 20 % | 46 % | 15 M cells/s |
+| protoJS `graph` (12) | 92 % | 66 / 27 % | 50 % | 16 M cells/s |
+| protoScala persistent trees (6) | 92 % | 84 / 14 % | 45 % | 6 M cells/s |
+| protoClojure assoc / cons (6) | 94 % | 98 / 2 % | 66 % | 7 M cells/s |
+| protoJS CAD model, 20 k parts | 89 % | 65 / 28 % | — | 8 M cells/s |
+
+1. **The pause is not the cost.**  Stop-the-world is at most 0.23 ms per
+   cycle; Phase 5b and the bulk unmark together are at most 14 % of the
+   collector's time.
+2. **The sweep is the dominant phase**: 41–99 % of collector time in 30 of
+   the 32 runs that collected and completed.  Mark leads only when most of
+   the heap is live (near a full heap).
+3. **With many allocating threads the single collector is the
+   bottleneck.**  At 12 threads it is busy 56–95 % of wall time and the
+   mutators spend 17–63 % of their thread time waiting for headroom.
+4. **Sweep cost per cell rises 3–4× under concurrent allocation**
+   (protoClojure 45 → 143 ns, protoScala 40 → 158 ns, protoJS 17 → 85 ns
+   from 1 to 12 threads) although the collector thread is on the CPU
+   99–100 % of the sweep.  The suspected cause is cache-coherence
+   traffic: the swept cells were last written on other cores.  It is not
+   yet measured (`perf c2c` is the next step).  If that is the cause, more
+   sweeping threads share the same traffic and will not scale linearly; a
+   sweep that runs where the cells were allocated attacks the cost itself.
+5. **Part of the waiting is timing, not throughput.**  With a fixed limit a
+   cycle is requested only at the ceiling, so the mutators stop for its
+   whole length even when the collector would keep up (10–22 % of mutator
+   time at 6 threads with a 40 M-cell limit).  Requesting the cycle before
+   the ceiling (pacing) fixes this; a faster sweep does not.
+6. **Amdahl bound.**  Removing every wait would cut wall time by at most
+   17–66 % at 6–12 threads.  On every completed workload a sweep 1.2–3.9×
+   faster reaches that bound with mark unchanged; parallelising mark pays
+   only near a full heap.
+
+### What the adaptive controller showed
+
+From [reports/2026-10-03-adaptive-heap-calibration.md](reports/2026-10-03-adaptive-heap-calibration.md)
+(44 workloads from every runtime, median of 3):
+
+- A soft limit driven only by pressure runs away for fast allocators
+  (2.10.0 grew S to 20× the live set): the cycle time grows with S, so the
+  collector never catches up.  The calibrated law (2.10.1) caps the growth
+  at 8× the live set.
+- The controller keeps memory at or below each runtime's previous policy
+  on 40 of 44 workloads, but wall time is within +5 % on only 28.  Where
+  the previous policy never collected, collecting costs time that no soft
+  limit recovers; at 12 allocating threads it ran more cycles of an
+  already saturated collector and was slower than the fixed limit on all
+  five protoJS structure workloads.
+- Conclusion: the controller's remaining cost is the collector's
+  throughput (points 2–4 above), not the control law.
+
+### What the measurements mean for the design
+
+- **Collector throughput is central to the paradigm, not a side issue.**
+  Programs written in protoCore's style (new immutable versions instead
+  of in-place updates: Scala's `copy`, Clojure's `assoc`, a JS spread)
+  produce more garbage than in-place mutation, and several threads produce
+  it in parallel.  The sweep's throughput, not the pause, decides how far
+  that style scales.
+- **The cost of a mutable write is the price of the model, not a defect.**
+  A write publishes a new immutable snapshot through the mutable-shard
+  table (§ 4); that is what gives lock-free sharing between threads and a
+  concurrent mark without write barriers.  The improvement that preserves
+  the model is to publish less often (one publication for a run of writes
+  to the same object, `setAttributes`), not to make the publication
+  cheaper by mutating in place.
+- **Comparisons with mutable-style runtimes must be read as such.**  The
+  protoJS structure benchmarks of 2026-10-03 (protoJS
+  `benchmarks/reports/2026-10-03-structure-benchmarks.md`) run
+  mutable-style JavaScript, V8's home ground: Node.js is 60–140× faster per
+  task, while protoJS shares data between threads without copies and
+  Node's workers spend most of their time cloning (and cannot send a
+  graph at all).  Benchmarks meant to show the platform are written in its
+  own style.
+- **A destroyed `ProtoSpace` does not return its memory**
+  ([issue #2](https://github.com/numaes/protoCore/issues/2)): it
+  does not affect a program that keeps one space, but a test or a host that
+  creates and destroys many spaces grows by each space's peak.
+
+The design that follows from points 2–5 (diagnose the per-cell cost, a
+parallel sweep on collector-owned helper threads, pacing under fixed limits)
+is being drafted as a design specification for review; nothing of it is
+implemented yet.
+
 ## Optimization Features
 
 - **Inline Caching**: per-thread attribute caches
@@ -984,8 +1085,15 @@ behaviour can be reasoned about quantitatively.
 **Estimated total for a typical workload** (e.g. protoPython running
 pyperformance, protoST with a moderate actor count, protoJS
 interactive): **30–250 μs**, from the per-component estimates above.
-No measured pause distribution is recorded yet; see "Real-time
-positioning" below.
+Measured on 2026-10-03 (instrumented build, 41 runs of protoJS,
+protoScala, protoClojure and protoCore workloads, up to 12 allocating
+threads): the stop-the-world window was at most **0.23 ms per cycle** and
+at most 0.025 % of the collector's busy time; the quorum wait before it
+was at most 21 ms per protoJS run with a fixed limit and up to 270 ms per
+run under the adaptive controller.  See "Measured behaviour" above and
+[reports/2026-10-03-gc-phase-breakdown.md](reports/2026-10-03-gc-phase-breakdown.md).
+A full pause distribution (percentiles) is still not recorded; see
+"Real-time positioning" below.
 
 One point measurement (September 2026, instrumented build,
 `PROTOCORE_GC_PROFILE=1`): a thread one context below the root context,

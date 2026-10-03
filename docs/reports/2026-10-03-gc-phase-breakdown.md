@@ -306,9 +306,14 @@ Reading:
 
 ## Data
 
-Raw per-run records (JSON lines, with the last `[GC-PHASES]` line parsed),
-the runner, the two new workloads and the tabulator are kept outside the
-repository; the branch `measure/gc-phases` holds the instrumentation.  To
-reproduce a row: build that branch with `-DPROTOCORE_GC_INSTRUMENT=ON`,
-run the binary with `LD_LIBRARY_PATH` pointing at the build and
-`PROTOCORE_GC_PROFILE=1`, and read the last `[GC-PHASES]` line.
+[data/2026-10-03-gc-phase-breakdown/](data/2026-10-03-gc-phase-breakdown/)
+holds the raw per-run records (`results.jsonl`, one JSON object per run with
+the last `[GC-PHASES]` line parsed; `cpu-rerun.jsonl`, the collector-CPU
+subset; `graph-reproducibility.jsonl`), the runner (`runner.py`), the
+tabulator (`tab.py`) and the two new workloads (`workloads/tree_alloc.scala`,
+`workloads/coll_alloc.clj`).  Machine-specific paths in the records are
+replaced by `<workspace>` and `<scratch>`.  The branch `measure/gc-phases`
+holds the instrumentation.  To reproduce a row: build that branch with
+`-DPROTOCORE_GC_INSTRUMENT=ON`, run the binary with `LD_LIBRARY_PATH`
+pointing at the build and `PROTOCORE_GC_PROFILE=1`, and read the last
+`[GC-PHASES]` line.

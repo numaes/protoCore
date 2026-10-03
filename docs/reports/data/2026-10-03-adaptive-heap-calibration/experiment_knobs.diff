@@ -1,0 +1,211 @@
+diff --git a/core/AdaptiveHeap.cpp b/core/AdaptiveHeap.cpp
+index ec32796f..80255374 100644
+--- a/core/AdaptiveHeap.cpp
++++ b/core/AdaptiveHeap.cpp
+@@ -292,6 +292,12 @@ namespace adaptive {
+             // pace(): a cycle is requested when the cells left before S
+             // fall below this (half of S - L after the last cycle).
+             long long triggerRunway = 0;
++            Clock::time_point cycleStart;
++            Clock::time_point firstPublish;
++            bool published = false;
++            proto_ulong initialSoft = 0;
++            proto_ulong prevLive = 0;
++            int consecutiveHigh = 0;
+             // Cells the last cycle left unreclaimed: heapSize minus the
+             // global freelist, right after the sweep published its cells.
+             proto_ulong retainedLastCycle = 0;
+@@ -341,6 +347,35 @@ namespace adaptive {
+ 
+     std::atomic<int> softWaitPending{0};
+ 
++    namespace {
++        struct XParams {
++            double trigger = 0.5, capK = 0, rateM = 0, phigh = -1, g = -1, k = -1, s0 = 0;
++            int capN = 3, early = 0, useTc = 0;
++        };
++        const XParams& X() {
++            static const XParams x = [] {
++                XParams r;
++                auto d = [](const char* n, double def) {
++                    const char* v = std::getenv(n);
++                    return v ? std::atof(v) : def;
++                };
++                r.trigger = d("PCX_TRIGGER", 0.5);
++                r.capK = d("PCX_CAPK", 0);
++                r.capN = static_cast<int>(d("PCX_CAPN", 3));
++                r.rateM = d("PCX_RATEM", 0);
++                r.early = static_cast<int>(d("PCX_EARLY", 0));
++                r.useTc = static_cast<int>(d("PCX_USETC", 0));
++                r.phigh = d("PCX_PHIGH", -1);
++                r.g = d("PCX_G", -1);
++                r.k = d("PCX_K", -1);
++                r.s0 = d("PCX_S0", 0);
++                return r;
++            }();
++            return x;
++        }
++    }
++    bool earlyWake() { return X().early != 0; }
++
+     namespace {
+         void clearPending(SpaceState* s) {
+             if (s->pending) {
+@@ -389,12 +424,11 @@ namespace adaptive {
+ 
+     /** The fraction of the headroom S - L consumed before the next cycle
+      *  is requested; the rest is the mutators' runway during the cycle. */
+-    constexpr double kTriggerFraction = 0.5;
+ 
+     namespace {
+         long long runwayFor(proto_ulong soft, proto_ulong live) {
+             const long long headroom = static_cast<long long>(soft) - static_cast<long long>(live);
+-            return headroom > 0 ? static_cast<long long>(headroom * (1.0 - kTriggerFraction)) : 0;
++            return headroom > 0 ? static_cast<long long>(headroom * (1.0 - X().trigger)) : 0;
+         }
+     }
+ 
+@@ -420,6 +454,17 @@ namespace adaptive {
+             requestCycle(space);
+     }
+ 
++    void onCycleStart(ProtoSpace* space) {
++        if (SpaceState* s = findEnabled(space)) { s->cycleStart = Clock::now(); s->published = false; }
++    }
++
++    void onSweepPublished(ProtoSpace* space) {
++        SpaceState* s = findEnabled(space);
++        if (!s) return;
++        if (!s->published) { s->published = true; s->firstPublish = Clock::now(); }
++        if (X().early) space->memoryReclaimedCV.notify_all();
++    }
++
+     void recordMutatorWait(const ProtoSpace* space, std::uint64_t nanos) {
+         if (SpaceState* s = findEnabled(space))
+             s->waitNanos.fetch_add(nanos, std::memory_order_relaxed);
+@@ -454,7 +499,34 @@ namespace adaptive {
+         const double p = T > 0.0 ? P / T : 0.0;
+         const proto_ulong L = space->liveCellsLastCycle.load(std::memory_order_relaxed);
+         const proto_ulong before = static_cast<proto_ulong>(std::max(0, space->softHeapLimit));
+-        const proto_ulong after = nextSoftLimit(before, s->hardCells, L, p, s->params);
++        proto_ulong after = nextSoftLimit(before, s->hardCells, L, p, s->params);
++        const double Tc = static_cast<double>(
++            std::chrono::duration_cast<std::chrono::nanoseconds>(now - s->cycleStart).count());
++        const double grownLive = L > s->prevLive ? static_cast<double>(L - s->prevLive) : 0.0;
++        const double A = static_cast<double>(space->reclaimedLastCycle.load(std::memory_order_relaxed)) + grownLive;
++        const double rate = T > 0.0 ? A / T : 0.0;   // cells per ns
++        if (p > s->params.highPressure) ++s->consecutiveHigh; else s->consecutiveHigh = 0;
++        const XParams& x = X();
++        double target = 0;
++        const double Tm = s->published
++            ? static_cast<double>(std::chrono::duration_cast<std::chrono::nanoseconds>(
++                  s->firstPublish - s->cycleStart).count())
++            : Tc;
++        if (x.rateM > 0) {
++            target = static_cast<double>(L) + x.rateM * rate * (x.useTc ? Tc : Tm) / (1.0 - x.trigger);
++            target = std::max(target, std::ceil(s->params.liveHeadroom * static_cast<double>(L)));
++            double next = std::max(static_cast<double>(before),
++                                   std::min(target, s->params.growthFactor * static_cast<double>(before)));
++            if (s->consecutiveHigh >= x.capN)
++                next = std::max(next, std::ceil(s->params.growthFactor * static_cast<double>(before)));
++            after = static_cast<proto_ulong>(std::min(static_cast<double>(s->hardCells), next));
++        }
++        if (x.capK > 0) {
++            const proto_ulong cap = std::max<proto_ulong>(s->initialSoft,
++                static_cast<proto_ulong>(x.capK * static_cast<double>(L)));
++            if (after > cap && s->consecutiveHigh < x.capN) after = std::max(before, cap);
++        }
++        s->prevLive = L;
+         space->softHeapLimit = static_cast<int>(std::min<proto_ulong>(after, kMaxCells));
+ 
+         const long long retained = static_cast<long long>(space->heapSize)
+@@ -471,10 +543,13 @@ namespace adaptive {
+             std::fprintf(stderr,
+                 "protoCore heap: space=%p cycle=%llu L=%" PROTO_FMT_U " T=%.3fms "
+                 "P=%.3fms p=%.4f S=%" PROTO_FMT_U "->%d H=%" PROTO_FMT_U
+-                " heap=%d retained=%" PROTO_FMT_U "\n",
++                " heap=%d retained=%" PROTO_FMT_U " A=%.0f Tm=%.3fms Tc=%.3fms rate=%.1fMc/s target=%.0f hi=%d\n",
+                 static_cast<void*>(space), static_cast<unsigned long long>(s->cycles),
+                 L, T / 1e6, P / 1e6, p, before, space->softHeapLimit,
+-                s->hardCells, space->heapSize, s->retainedLastCycle);
++                s->hardCells, space->heapSize, s->retainedLastCycle, A,
++                s->published ? std::chrono::duration<double, std::milli>(s->firstPublish - s->cycleStart).count() : -1.0,
++                Tc / 1e6,
++                rate * 1e3, target, s->consecutiveHigh);
+             std::fflush(stderr);
+         }
+     }
+@@ -525,6 +600,7 @@ namespace adaptive {
+         proto_ulong S0;
+         if (fromEnv && envSoft > 0) S0 = static_cast<proto_ulong>(envSoft);
+         else if (config.initialSoftCells > 0) S0 = config.initialSoftCells;
++        else if (X().s0 > 0) S0 = static_cast<proto_ulong>(X().s0);
+         else S0 = kDefaultInitialSoftCells;
+         if (S0 > H) S0 = H;
+ 
+@@ -546,6 +622,9 @@ namespace adaptive {
+             ++enabledCount;
+         }
+         s->params = sanitizedParams(config);
++        if (X().phigh > 0) s->params.highPressure = X().phigh;
++        if (X().g > 1) s->params.growthFactor = X().g;
++        if (X().k >= 1) s->params.liveHeadroom = X().k;
+         s->hardCells = H;
+         const char* traceEnv = std::getenv("PROTOCORE_HEAP_TRACE");
+         s->trace = traceEnv && std::strcmp(traceEnv, "0") != 0 && *traceEnv;
+@@ -558,6 +637,8 @@ namespace adaptive {
+         for (SpaceState* other : registry())
+             if (other->enabled) other->hardCells = H;
+         space->softHeapLimit = static_cast<int>(S0);
++        s->initialSoft = S0;
++        s->cycleStart = s->lastCycleEnd;
+         s->triggerRunway = runwayFor(S0, space->liveCellsLastCycle.load(std::memory_order_relaxed));
+         relaxedStore(space->maxHeapSize, static_cast<int>(H));
+         recomputeCeilings();
+diff --git a/core/AdaptiveHeap.h b/core/AdaptiveHeap.h
+index 3e2dfe17..658bd148 100644
+--- a/core/AdaptiveHeap.h
++++ b/core/AdaptiveHeap.h
+@@ -145,6 +145,12 @@ namespace adaptive {
+      *  spaces under the process budget, and requests a cycle when an
+      *  enabled space's heap has reached its soft limit. */
+     void afterHeapGrowth(ProtoSpace* space, int cells);
++    /** Start of a cycle of `space` (the collector holds the cycle token). */
++    void onCycleStart(ProtoSpace* space);
++    /** The sweep published free cells (globalMutex held). */
++    void onSweepPublished(ProtoSpace* space);
++    /** EXPERIMENT: a wait ends when free chunks appear. */
++    bool earlyWake();
+     /** Mutator stall: time a thread of `space` waited for a cycle. */
+     void recordMutatorWait(const ProtoSpace* space, std::uint64_t nanos);
+     /** End of a cycle of `space`: apply the control law. */
+diff --git a/core/ProtoSpace.cpp b/core/ProtoSpace.cpp
+index b929cf20..dee765d8 100644
+--- a/core/ProtoSpace.cpp
++++ b/core/ProtoSpace.cpp
+@@ -127,6 +127,7 @@ namespace proto {
+             // of the ABI).  It counts cells of one heap; 2^31 cells would be
+             // 128 GiB, so a chunk's count fits it exactly.
+             relaxedFetchAdd(space->freeCellsCount, static_cast<int>(count));
++            adaptive::onSweepPublished(space);
+         }
+ 
+         const char* cellTypeName(CellType type) {
+@@ -339,6 +340,7 @@ namespace proto {
+                 });
+                 if (space->state == SPACE_STATE_ENDING) break;
+                 multispace::cycleActive = true;
++                adaptive::onCycleStart(space);
+ 
+                 // --- PHASE 1: STOP THE WORLD ---
+                 multispace::noteCycleStart();
+@@ -1754,7 +1756,8 @@ namespace proto {
+             [space, startCycle, byCompletion, startCompleted] {
+                 if (space->state == SPACE_STATE_ENDING) return true;
+                 if (byCompletion)
+-                    return adaptive::completedCycles(space) != startCompleted;
++                    return adaptive::completedCycles(space) != startCompleted
++                        || (adaptive::earlyWake() && (space->freeChunks || space->freeCells));
+                 return space->gcCycleCount.load(std::memory_order_relaxed)
+                            != startCycle;
+             });

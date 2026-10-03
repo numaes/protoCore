@@ -491,3 +491,13 @@ wanted.**
    variable and binary is listed under Method.  The
    `PROTOCORE_ADAPTIVE_HEAP=1` switch is what makes the measurement
    repeatable without rebuilding a runtime.
+
+## Data
+
+[data/2026-10-03-adaptive-heap-calibration/](data/2026-10-03-adaptive-heap-calibration/)
+holds the final matrix (`final.jsonl`), the frontier runs (`frontier.jsonl`),
+the variant definitions (`variants.json`), the harness and summarisers
+(`run.py`, `summ.py`, `table.py`), the notes on rejected alternatives
+(`rejected.md`), the diff of the experimental knobs
+(`experiment_knobs.diff`) and the protoJS probe (`workloads/probe100k.js`).
+Machine-specific paths are replaced by `<workspace>` and `<scratch>`.
