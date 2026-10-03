@@ -136,6 +136,9 @@ namespace proto {
             // of the ABI).  It counts cells of one heap; 2^31 cells would be
             // 128 GiB, so a chunk's count fits it exactly.
             relaxedFetchAdd(space->freeCellsCount, static_cast<int>(count));
+            // A thread waiting for headroom takes these cells now, not at
+            // its 50 ms watchdog (a no-op when no thread waits).
+            adaptive::cellsPublished(space);
         }
 
         const char* cellTypeName(CellType type) {
@@ -753,6 +756,11 @@ namespace proto {
                         std::chrono::steady_clock::now() - stwStart).count());
                 GC_LOCK_TRACE("gcLoop REL(mark)");
                 lock.unlock(); // Mark, sweep, and bulk-unmark all run unlocked.
+                // The cycle's always-on measures (adaptive::CycleMeasures):
+                // three clock reads and a counter per swept cell.
+                adaptive::CycleMeasures measures;
+                measures.stwNanos = stwNanos;
+                const auto markStart = std::chrono::steady_clock::now();
 #ifdef PROTOCORE_GC_INSTRUMENT
                 // P2 ends here, where the world resumes, so P1 + P2 is the
                 // stop-the-world pause.  Everything below counts as mark (P4).
@@ -962,6 +970,11 @@ namespace proto {
                 // of sweep the partial trailing chunk is published with its
                 // actual count.  This converts getFreeCells from an O(N)
                 // walk-and-cut into an O(1) chunk pop.
+                const auto sweepStart = std::chrono::steady_clock::now();
+                measures.markNanos = static_cast<std::uint64_t>(
+                    std::chrono::duration_cast<std::chrono::nanoseconds>(sweepStart - markStart).count());
+                proto_ulong sweptCells = 0;
+                proto_ulong sweptSegments = 0;
                 Cell* chunkHead = nullptr;
                 Cell* chunkTail = nullptr;
                 proto_ulong chunkCount = 0;
@@ -996,8 +1009,10 @@ namespace proto {
                     Cell* survHead = nullptr;
 #endif
 
+                    ++sweptSegments;
                     while (cell) {
                         Cell* nextCell = cell->getNext();
+                        ++sweptCells;
 #ifdef PROTOCORE_GC_INSTRUMENT
                         ++dbg_swept_cells;
 #endif
@@ -1121,6 +1136,11 @@ namespace proto {
                     publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
                     GC_LOCK_TRACE("gcLoop REL(chunk-tail)");
                 }
+                measures.sweepNanos = static_cast<std::uint64_t>(
+                    std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        std::chrono::steady_clock::now() - sweepStart).count());
+                measures.sweptCells = sweptCells;
+                measures.sweptSegments = sweptSegments;
 
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_release_start = std::chrono::steady_clock::now();
@@ -1317,7 +1337,8 @@ namespace proto {
                                                 std::memory_order_relaxed);
                 // The adaptive heap controller, when enabled, sets the next
                 // soft limit from this cycle's live set and pressure.
-                adaptive::onCycleEnd(space, stwNanos);
+                measures.freedCells = reclaimedThisCycle;
+                adaptive::onCycleEnd(space, measures);
                 space->memoryReclaimedCV.notify_all();
                 space->gcCV.notify_all();
             }
@@ -1497,6 +1518,9 @@ namespace proto {
         // cycle, so steady-state it is always nullptr outside the cycle.
         {
             std::lock_guard<std::recursive_mutex> lock(globalMutex);
+            // The side state of pacing and of the headroom waits, for every
+            // space (adaptive::registerSpace; removed by forgetSpace).
+            adaptive::registerSpace(this);
             for (int s = 0; s < MUTABLE_ROOT_SHARDS; ++s) {
                 this->mutableRoot[s].root.store(nullptr);
                 this->gcMutableSnapshot[s] = nullptr;
@@ -1836,9 +1860,18 @@ namespace proto {
         // lasted until the 50 ms watchdog: a stall the controller would read
         // as collection pressure.  Fixed limits keep the historical predicate.
         const bool byCompletion = adaptive::isEnabled(space);
-        const uint64_t startCompleted = adaptive::completedCycles(space);
+        const uint64_t startCompleted = adaptive::cyclesCompleted(space);
+        // The wait also ends when cells are published to the freelist
+        // (adaptive::cellsPublished wakes one waiter per publication): the
+        // sweep publishes chunks while it runs, and a thread that slept until
+        // the watchdog polled the freelist every 50 ms meanwhile
+        // (docs/specs/2026-10-03-collector-throughput-design.md, 4.4).
+        const bool wakeOnCells = adaptive::earlyWake(space);
         // Make sure a collection will actually run.
-        if (!space->gcStarted) space->gcStarted = true;
+        if (!space->gcStarted) {
+            adaptive::noteCycleRequested(space);
+            space->gcStarted = true;
+        }
         space->gcCV.notify_all();
         const bool managed = ctx && ctx->thread;
         // Leave the running set -- of every space this OS thread belongs to,
@@ -1852,15 +1885,28 @@ namespace proto {
         }
         space->gcCV.notify_all();
         const auto waitStart = std::chrono::steady_clock::now();
+        adaptive::waitBegin(space);
+        adaptive::WakeReason reason = adaptive::WakeReason::Watchdog;
         space->memoryReclaimedCV.wait_for(
             lock, std::chrono::milliseconds(50),
-            [space, startCycle, byCompletion, startCompleted] {
-                if (space->state == SPACE_STATE_ENDING) return true;
-                if (byCompletion)
-                    return adaptive::completedCycles(space) != startCompleted;
-                return space->gcCycleCount.load(std::memory_order_relaxed)
-                           != startCycle;
+            [space, startCycle, byCompletion, startCompleted, wakeOnCells, &reason] {
+                if (space->state == SPACE_STATE_ENDING) {
+                    reason = adaptive::WakeReason::Ending;
+                    return true;
+                }
+                if (wakeOnCells && (space->freeChunks || space->freeCells)) {
+                    reason = adaptive::WakeReason::Cells;
+                    return true;
+                }
+                if (adaptive::cyclesCompleted(space) != startCompleted
+                    || (!byCompletion
+                        && space->gcCycleCount.load(std::memory_order_relaxed) != startCycle)) {
+                    reason = adaptive::WakeReason::Cycle;
+                    return true;
+                }
+                return false;
             });
+        adaptive::waitEnd(space, reason);
         // Mutator stall for the adaptive heap controller (a no-op unless it
         // is enabled for this space).  globalMutex is held again here.
         adaptive::recordMutatorWait(space, static_cast<std::uint64_t>(
@@ -2355,6 +2401,7 @@ namespace proto {
         while (Cell* next = tail->getNext()) { tail = next; ++count; }
 
         std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        adaptive::cellsReturned(space, count);
         publishFreeChunk(space, head, tail, count);
         return count;
     }
@@ -2420,6 +2467,7 @@ namespace proto {
         double freeRatio = (this->heapSize > 0) ? (static_cast<double>(this->freeCellsCount) / this->heapSize) : 1.0;
 
         if (freeRatio < 0.2 || this->gcStarted) {
+            if (!this->gcStarted) adaptive::noteCycleRequested(this);
             this->gcStarted = true;
             this->gcCV.notify_all();
         }
