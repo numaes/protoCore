@@ -4,6 +4,58 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.10.1] - 2026-10-03
+
+Calibration of the adaptive heap controller on the runtimes' own programs.
+No API or ABI change (SOVERSION 3); the controller is still opt-in, and the
+runtimes have not adopted it.  Report:
+[docs/reports/2026-10-03-adaptive-heap-calibration.md](docs/reports/2026-10-03-adaptive-heap-calibration.md);
+design: section 7 of
+[docs/specs/2026-10-02-adaptive-heap-controller-design.md](docs/specs/2026-10-02-adaptive-heap-controller-design.md).
+
+### Changed
+
+- **Pressure grows the soft limit only up to 8 x the live set** (or S0, or
+  the floor).  In 2.10.0 a fast allocator took S to about 20 x the live set
+  (1.2 GB against 672 MB under a 640 MB fixed limit on
+  `adaptive_heap_benchmark` with a 1 M-cell live set): its stall was the
+  collector's sweep throughput, which no soft limit removes, and each stall
+  grew S by 1.5x.  Now 544 MB on that case (17 % slower than the fixed
+  limit; 2.10.0 was 17 % faster).
+- **Defaults:** `liveHeadroom` (k_live) 3 (was 1.5), initial soft limit
+  128 MiB (was 32 MiB); `highPressure` 0.05 and `growthFactor` 1.5 are
+  unchanged.  A configuration compiled against the 2.10.0 header passes
+  `liveHeadroom = 1.5` explicitly and keeps it.
+- **Pacing:** the next cycle is requested when a quarter of the headroom
+  `S - L` is left (half in 2.10.0); fewer cycles for the same garbage.
+- `PROTOCORE_HEAP_TRACE` lines carry the cycle's duration `Tc`, and spaces
+  with fixed limits print a `fixed` line per cycle.
+
+### Added
+
+- `PROTOCORE_ADAPTIVE_HEAP=1` (diagnosis): every space enables the
+  controller when it is created and `setHeapLimits` leaves it enabled, so an
+  existing runtime binary can be measured under the controller against a
+  development library without rebuilding it.
+
+### Tests
+
+- `AdaptiveHeapLaw.*` rewritten for the calibrated law, with new cases for
+  the live cap (`PermanentStormStopsAtTheLiveCap`,
+  `LiveCapIsNeverBelowS0NorTheFloor`, `NeverExceedsTheLiveCapThroughPressure`,
+  `StormWithALargeLiveSetReachesH`, `DefaultsAreTheCalibratedOnes`).
+- `AdaptiveHeapFastAllocator.SoftLimitStaysWithinTheLiveCap` (gating): a
+  1.2 M-cell live set and 60 M cells of garbage at full speed; failed on
+  2.10.0 (S = 30.2 M cells against a cap of 10.4 M).
+- `AdaptiveHeap.AdaptiveOnEnablesTheControllerAtCreation`,
+  `AdaptiveHeap.AdaptiveOnHonoursTheLimitVariable`.
+- `AdaptiveHeapStorm.PressureFallsWithinBoundedCycles` became
+  `SoftLimitSettlesWithinBoundedCycles`: pressure falls below p_high, or S
+  reaches the live cap, within 60 cycles (clock-dependent list).
+- `AdaptiveHeapSteady.HeapStaysFarBelowTheGarbageVolume` bound loosened from
+  a quarter to half of the garbage volume (measured 13.6 % in ten runs; the
+  2.10.0 bound failed once on macOS at 25.1 %).
+
 ## [2.10.0] - 2026-10-02
 
 The adaptive heap controller: one call, `ProtoSpace::enableAdaptiveHeap()`,

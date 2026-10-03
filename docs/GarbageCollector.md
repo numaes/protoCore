@@ -746,9 +746,9 @@ runtime.
   so H is clamped to `INT_MAX` cells (128 GiB) until the next SOVERSION.
   `PROTOCORE_HEAP_LIMIT_CELLS` overrides it (and `AdaptiveHeapConfig::
   hardCells`).
-- The **soft limit S** starts at 32 MiB worth of cells (524,288; or H if
-  smaller) and is kept in `softHeapLimit`, where the allocator already
-  reads it.  S never decreases and never exceeds H.
+- The **soft limit S** starts at 128 MiB worth of cells (2,097,152; or H
+  if smaller; 32 MiB in 2.10.0) and is kept in `softHeapLimit`, where the
+  allocator already reads it.  S never decreases and never exceeds H.
 
 **Measurement.**  At the end of each cycle the collector takes the live set
 L (`liveCellsLastCycle`), the wall time T since the previous cycle's end,
@@ -762,13 +762,25 @@ threads waiting P counts each thread's wait.  Concurrent mark and sweep are
 not in P: they cost the collector thread CPU, not the mutators time.  The
 pressure is `p = P / T`.
 
-**Control law** (a pure function, `adaptive::nextSoftLimit`):
+**Control law** (a pure function, `adaptive::nextSoftLimit`; calibrated in
+2.10.1, see
+[reports/2026-10-03-adaptive-heap-calibration.md](reports/2026-10-03-adaptive-heap-calibration.md)):
 
 ```
-floor = ceil(k_live * L)                  k_live = 1.5
-p > p_high:  S = min(H, max(floor, ceil(S * g)))   p_high = 0.05, g = 1.5
+floor = ceil(k_live * L)                       k_live = 3
+cap   = max(S0, ceil(k_cap * L), floor)        k_cap = 8
+p > p_high:  S = min(H, max(S, floor, min(ceil(S * g), cap)))
+                                               p_high = 0.05, g = 1.5
 otherwise:   S = min(H, max(S, floor))
 ```
+
+The cap is what 2.10.1 added.  A stall that comes back at every soft limit
+is the collector's sweep throughput falling short of the allocation rate:
+the sweep is proportional to the garbage, so a larger S only makes each
+cycle longer.  2.10.0 grew S by g at each such stall and, on a fast
+allocator, reached 20-30 x the live set before the program ended.  Past
+`k_cap * L` the stall is accepted: the mutator is paced by the collector,
+as under a fixed limit, and memory stays proportional to the live set.
 
 Because S never decreases, it converges after at most `log_g(H / S0)`
 growth steps (about 20 for 64 GiB).  A stall of fixed length matters less
@@ -778,15 +790,18 @@ isolated scheduling noise.
 **When cycles run.**
 
 - *Pacing.*  At every refill the allocator compares the cells left before
-  S (the global freelist plus the room between `heapSize` and S) with half
-  of the headroom `S - L` the last cycle left; below it, a cycle is
-  requested.  The mutators consume the other half while the collector
-  marks and sweeps concurrently.  Requesting the cycle only when the heap
-  reached S left no runway: every cycle stalled the mutators for its whole
-  length, the stall grew with S (the sweep is proportional to the garbage)
-  and S ran away to H.  Measured on `adaptive_heap_benchmark`: S settled at
-  20 M cells with p = 0.31 without pacing, at 2.6-4 M cells with
-  p = 0.0003 with it.
+  S (the global freelist plus the room between `heapSize` and S) with a
+  quarter of the headroom `S - L` the last cycle left (half in 2.10.0);
+  below it, a cycle is requested.  The mutators consume that quarter while
+  the collector marks and sweeps concurrently.  Requesting the cycle only
+  when the heap reached S left no runway: every cycle stalled the mutators
+  for its whole length, the stall grew with S (the sweep is proportional to
+  the garbage) and S ran away to H.  Measured on `adaptive_heap_benchmark`:
+  S settled at 20 M cells with p = 0.31 without pacing, at 2.6-4 M cells
+  with p = 0.0003 with it.  With `k_live = 3` the headroom is at least 2 L,
+  so a quarter of it still covers a mark of L; requesting at half the
+  headroom ran the collector nearly back to back (cycle time equal to the
+  interval), more cycles for the same garbage.
 - A cycle is also requested whenever a refill grows the heap to S or
   beyond, whether or not a thread waits.
 - *At S with an empty freelist*, a refill waits for the cycle requested or
@@ -837,13 +852,14 @@ its out-of-memory rule.
 | Variable | Effect with the controller |
 |---|---|
 | `PROTOCORE_HEAP_LIMIT_CELLS=<hard>` or `<soft>,<hard>` | H, and S0 when a soft part is given; takes precedence over `AdaptiveHeapConfig` |
-| `PROTOCORE_HEAP_TRACE=1` | one line per cycle on stderr: `L`, `T`, `P`, `p`, S before and after, H, `heapSize`, cells left unreclaimed |
+| `PROTOCORE_HEAP_TRACE=1` | one line per cycle on stderr: `L`, `T`, `P`, `p`, S before and after, H, `heapSize`, cells left unreclaimed, the cycle's duration `Tc`; spaces with fixed limits print a `fixed` line (cycle, L, limits, `heapSize`, pause) |
 | `PROTOCORE_ADAPTIVE_HEAP=0` | `enableAdaptiveHeap` applies H as a fixed hard limit (`setHeapLimits(0, H)`), for diagnosis |
+| `PROTOCORE_ADAPTIVE_HEAP=1` | diagnosis: every space enables the controller (default configuration) when it is created, and `setHeapLimits` leaves it enabled, so an existing runtime binary is measured under the controller without rebuilding it (run it against the library under test with `LD_LIBRARY_PATH`, and check with `ldd` that it is the one loaded) |
 
 A trace line:
 
 ```
-protoCore heap: space=0x7ffc208fb6c0 cycle=26 L=100306 T=53.070ms P=0.017ms p=0.0003 S=3981312->3981312 H=782404224 heap=3973120 retained=2749348
+protoCore heap: space=0x7ffd4f1c2a30 cycle=15 L=1000306 T=433.416ms P=219.511ms p=0.5065 S=8962296->8962296 H=782404224 heap=9035776 retained=3000990 Tc=298.310ms
 ```
 
 **For runtimes.**  Replace the runtime's own default limit with one call
@@ -866,23 +882,26 @@ and a mutator that reaches none turns every cycle into a wait.
 and the last pressure.
 
 **Measured** (`adaptive_heap_benchmark`: a live list in a root set, then
-200,000 calls of 100 objects each with a safepoint between calls, about
-30 M cells/s; Release, Linux x86-64, 62 GB machine, so H = 782 M cells;
-three runs, ranges):
+200,000 calls of 100 objects each with a safepoint between calls, 20-50 M
+cells/s; Release, Linux x86-64, median of three runs in a 10 GB cgroup,
+so H = 126 M cells):
 
-| Live list | Controller: max RSS, cycles, time | Fixed 640 MB limit: max RSS, cycles, time |
-|---|---|---|
-| none | 35 MB, 192, 1.13-1.16 s (S stays at S0) | 644 MB, 4, 1.90-1.96 s |
-| 100,000 elements (L = 100,306 cells) | 237 MB, 30-31, 1.28-1.40 s (S = 4.0 M cells) | 646 MB, 5, 2.01-2.13 s |
-| 1,000,000 elements (L = 1,000,306 cells) | 1,213-1,261 MB, 15, 2.49-2.53 s (S = 20.2 M cells) | 672 MB, 7, 3.88 s |
+| Live list | Fixed 640 MB limit | 2.10.0 controller | 2.10.1 controller |
+|---|---|---|---|
+| none | 645 MB, 2.36 s | 36 MB, 1.34 s | 116 MB, 1.42 s (S stays at S0) |
+| 100,000 elements | 647 MB, 2.56 s | 221 MB, 1.52 s | 152 MB, 2.48 s |
+| 1,000,000 elements | 671 MB, 4.10 s | 1,161 MB, 3.40 s (S = 20.2 M cells) | 544 MB, 4.80 s (S = 8.4 M cells) |
+| 5,000,000 elements | 742 MB, 25.8 s (thrashes) | 2,876 MB, 9.2 s | 2,559 MB, 12.4 s |
 
-The controller trades memory for time exactly as its law says: S settles
-where the runway covers a cycle at the program's allocation rate, not at
-`k_live * L + S0`.  With the large list, building it (path copies at about
-20 cells per append while the live set grows) produced cycles with 13-58 %
-of the time lost to waiting, and S grew to 20 L; a program that allocates
-slowly ends near `max(S0, 1.5 L)`.  `p_high` and `g` are the calibration
-knobs (design, section 5).
+The runtimes' own programs, measured the same way against today's
+policies (a 640 MB fixed limit for protoST, no limit for protoPython,
+protoClojure and protoScala, 75 % of memory for protoJS), are in
+[reports/2026-10-03-adaptive-heap-calibration.md](reports/2026-10-03-adaptive-heap-calibration.md).
+In short: memory at or below today's policy on 40 of 44 workloads; time
+within +5 % on 28 of them; where today's policy never collects, collecting
+costs time the soft limit cannot recover (protoJS structure benchmarks
++12 to +31 %, +75 % with six allocating threads), because the cost is the
+single collector thread's sweep of every garbage cell.
 
 ## Optimization Features
 

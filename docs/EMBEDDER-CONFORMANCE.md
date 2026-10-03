@@ -362,8 +362,12 @@ limit it had reached.  The controller paces cycles
 while the program runs, so it depends on rules 1 and 2: a young generation
 that is never submitted is live to it too, and a thread that reaches no
 safepoint turns every cycle into a stall, which the controller answers by
-growing the heap.  Mechanism, defaults and measurements:
-[GarbageCollector.md](GarbageCollector.md) § "Adaptive heap controller".
+growing the heap (since 2.10.1 only up to 8 x the live set).  Mechanism,
+defaults and measurements: [GarbageCollector.md](GarbageCollector.md)
+§ "Adaptive heap controller".  Before switching, measure the runtime's own
+workloads under the controller with `PROTOCORE_ADAPTIVE_HEAP=1` (no rebuild
+needed): [reports/2026-10-03-adaptive-heap-calibration.md](reports/2026-10-03-adaptive-heap-calibration.md)
+lists where it costs time against today's fixed limits.
 
 ## What a status means
 
