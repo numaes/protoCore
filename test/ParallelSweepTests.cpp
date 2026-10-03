@@ -15,6 +15,7 @@
 #include "../headers/proto_internal.h"
 #include "../core/AdaptiveHeap.h"
 #include "../core/Sweep.h"
+#include "SanitizerSupport.h"
 
 #include <algorithm>
 #include <atomic>
@@ -449,6 +450,12 @@ TEST(ParallelSweepMultiSpace, TwoSpacesCollectingBackToBackShareOnePool) {
 
 #if !defined(_WIN32)
 TEST(ParallelSweepFork, AChildForkedAfterThePoolStartedCompletesACycle) {
+#if defined(PROTO_TEST_TSAN)
+    // ThreadSanitizer kills a child that starts a thread after a
+    // multi-threaded fork ("not supported"), and every new space starts its
+    // collector thread.  The case runs in the Release and ASan jobs.
+    GTEST_SKIP() << "ThreadSanitizer does not support threads after a multi-threaded fork";
+#endif
     EngagedHelpers h(3);
     ProtoSpace parent;
     garbage(parent, 300000);
