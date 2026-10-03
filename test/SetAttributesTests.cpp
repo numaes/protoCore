@@ -43,12 +43,12 @@ protected:
 };
 
 // Every own attribute of `o`, as (key word, value) pairs in key order.
-std::vector<std::pair<unsigned long, const ProtoObject*>>
+std::vector<std::pair<proto_ulong, const ProtoObject*>>
 ownEntries(ProtoContext* c, const ProtoObject* o) {
-    std::vector<std::pair<unsigned long, const ProtoObject*>> out;
+    std::vector<std::pair<proto_ulong, const ProtoObject*>> out;
     o->getOwnAttributes(c)->processElements(c, &out,
         [](ProtoContext*, void* self, proto_ulong key, const ProtoObject* value) {
-            static_cast<std::vector<std::pair<unsigned long, const ProtoObject*>>*>(self)
+            static_cast<std::vector<std::pair<proto_ulong, const ProtoObject*>>*>(self)
                 ->emplace_back(key, value);
         });
     return out;
