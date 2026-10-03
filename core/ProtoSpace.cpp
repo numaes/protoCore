@@ -248,6 +248,178 @@ namespace proto {
             }
         };
 
+        // --- Phase 5, the sweep -------------------------------------------
+        //
+        // The state one sweeping thread owns while it sweeps: the free chunk
+        // under construction, its counters, the processed-segment chains
+        // and, when the cells are freed only after a grace period, its
+        // vector of dead cells.  Published by finish().
+        struct SweeperLocal {
+            ProtoSpace* space;
+            bool deferFree;
+            std::vector<Cell*>* deadCells;
+            Cell* chunkHead = nullptr;
+            Cell* chunkTail = nullptr;
+            proto_ulong chunkCount = 0;
+            proto_ulong reclaimed = 0;
+            proto_ulong swept = 0;
+            proto_ulong segments = 0;
+            SegmentChain freeSegs;
+            SegmentChain penSegs;
+
+            SweeperLocal(ProtoSpace* s, bool defer, std::vector<Cell*>* dead)
+                : space(s), deferFree(defer), deadCells(dead) {}
+
+            // Merge one segment's dead cells into the running chunk, and
+            // publish the chunk once it reaches CELL_CHUNK_SIZE.
+            void addBatch(Cell* head, Cell* tail, proto_ulong count) {
+                if (!head) return;
+                // Prepend: the batch's tail points at the previous chunk
+                // head.  Order does not matter for the freelist; the final
+                // terminator is set by publishFreeChunk.
+                if (chunkHead) tail->internalSetNextRaw(chunkHead);
+                else chunkTail = tail;
+                chunkHead = head;
+                chunkCount += count;
+                reclaimed += count;
+                if (chunkCount >= ProtoSpace::CELL_CHUNK_SIZE) {
+                    GC_LOCK_TRACE("gcLoop ACQ(chunk)");
+                    std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
+                    publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
+                    chunkHead = chunkTail = nullptr;
+                    chunkCount = 0;
+                    GC_LOCK_TRACE("gcLoop REL(chunk)");
+                }
+            }
+
+            // A segment is done: survivors re-chained in it go to the pen,
+            // an empty one back to the free pool -- both through local
+            // chains published in batches (see SegmentChain).
+            void retire(DirtySegment* seg, Cell* survivors) {
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                if (survivors) {
+                    // When stagger == 1 (default) the pen is folded back into
+                    // dirtySegments at the start of every cycle; with
+                    // stagger > 1 only every Nth cycle (survivorStagger).
+                    seg->cellChain = survivors;
+                    penSegs.push(seg);
+                    return;
+                }
+#else
+                (void) survivors;
+#endif
+                seg->cellChain = nullptr;
+                freeSegs.push(seg);
+                if (freeSegs.count >= kSegmentRecycleBatch)
+                    freeSegs.pushAllOnto(space->dirtySegmentFreePool);
+            }
+
+            // Publish everything still private: the segment chains and the
+            // trailing partial chunk.
+            void finish() {
+                freeSegs.pushAllOnto(space->dirtySegmentFreePool);
+                penSegs.pushAllOnto(space->survivorPen);
+                if (chunkHead) {
+                    GC_LOCK_TRACE("gcLoop ACQ(chunk-tail)");
+                    std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
+                    publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
+                    chunkHead = chunkTail = nullptr;
+                    chunkCount = 0;
+                    GC_LOCK_TRACE("gcLoop REL(chunk-tail)");
+                }
+            }
+        };
+
+        // How many segment chains one sweeping thread walks in lockstep.
+        constexpr int kSweepCursors = 8;
+
+        // Sweep every segment of `list` (nullptr-terminated, private to the
+        // caller).  Each cell: one load of its header word; a dead cell is
+        // finalized and chained into its segment's batch (or recorded for a
+        // deferred free); a survivor is unmarked and prepended to its
+        // segment's survivor chain with one store.
+        //
+        // Multi-cursor: a chain is a dependent pointer chase with one miss in
+        // flight.  kSweepCursors chains walked in lockstep, each prefetching
+        // its next cell (write intent) before the others are processed, keep
+        // several misses in flight on one thread.  Each cursor keeps its own
+        // batch and survivor chain, merged when its segment ends, so the
+        // result is the one the single-chain walk produced.
+        void sweepSegments(DirtySegment* list, SweeperLocal& L) {
+            struct Cursor {
+                DirtySegment* seg;
+                Cell* cell;
+                Cell* batchHead;
+                Cell* batchTail;
+                proto_ulong batchCount;
+                Cell* survHead;
+            };
+            Cursor cur[kSweepCursors];
+            int active = 0;
+            DirtySegment* nextSeg = list;
+            auto load = [&](Cursor& c) -> bool {
+                if (!nextSeg) return false;
+                c.seg = nextSeg;
+                nextSeg = nextSeg->next;
+                if (nextSeg) PROTO_PREFETCH(nextSeg);
+                c.cell = c.seg->cellChain;
+                if (c.cell) PROTO_PREFETCH(c.cell);
+                c.batchHead = c.batchTail = nullptr;
+                c.batchCount = 0;
+                c.survHead = nullptr;
+                ++L.segments;
+                return true;
+            };
+            while (active < kSweepCursors && load(cur[active])) ++active;
+            ProtoContext* const ctx = L.space->rootContext;
+            while (active > 0) {
+                for (int i = 0; i < active;) {
+                    Cursor& c = cur[i];
+                    Cell* cell = c.cell;
+                    if (!cell) {
+                        L.addBatch(c.batchHead, c.batchTail, c.batchCount);
+                        L.retire(c.seg, c.survHead);
+                        if (!load(c)) cur[i] = cur[--active];
+                        continue;
+                    }
+                    const uintptr_t header = cell->next_and_flags.load(std::memory_order_acquire);
+                    Cell* next = reinterpret_cast<Cell*>(header & ~PROTO_UL(0x3F));
+                    if (next) PROTO_PREFETCH(next);
+                    ++L.swept;
+                    if (!(header & PROTO_UL(0x1))) {
+                        if (L.deferFree) {
+                            L.deadCells->push_back(cell);
+                        } else {
+                            cell->finalize(ctx);
+                            cell->internalSetNextRaw(c.batchHead);
+                            if (!c.batchTail) c.batchTail = cell;
+                            c.batchHead = cell;
+                            ++c.batchCount;
+                        }
+                    } else {
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                        // Unmark and prepend to the survivor chain in one
+                        // store: the collector is the only writer of a
+                        // candidate's next_and_flags during sweep
+                        // (Cell::setNext), so an unmark (a locked
+                        // read-modify-write) followed by a second store is
+                        // not needed.  Flag bits 1..5 are kept (always zero).
+                        // The old link is in `next` already.
+                        cell->next_and_flags.store(
+                            (reinterpret_cast<uintptr_t>(c.survHead) & ~PROTO_UL(0x3F))
+                                | (header & PROTO_UL(0x3E)),
+                            std::memory_order_release);
+                        c.survHead = cell;
+#else
+                        cell->unmark();
+#endif
+                    }
+                    c.cell = next;
+                    ++i;
+                }
+            }
+        }
+
         // Phase 5b: removes from the mutables tree the entries of the mutable
         // objects whose handles this cycle's sweep finalized.  Runs on the GC
         // thread after sweep, unlocked, concurrently with the mutators.
@@ -1004,15 +1176,6 @@ namespace proto {
                 const auto sweepStart = std::chrono::steady_clock::now();
                 measures.markNanos = static_cast<std::uint64_t>(
                     std::chrono::duration_cast<std::chrono::nanoseconds>(sweepStart - markStart).count());
-                proto_ulong sweptCells = 0;
-                proto_ulong sweptSegments = 0;
-                Cell* chunkHead = nullptr;
-                Cell* chunkTail = nullptr;
-                proto_ulong chunkCount = 0;
-                // Total cells reclaimed this cycle, across all published
-                // chunks — the out-of-memory signal (see reclaimedLastCycle).
-                proto_ulong reclaimedThisCycle = 0;
-
                 // With other spaces live, a thread of another space may still
                 // hold, in C++ locals, a cell this sweep finds dead: a table
                 // node or state read before this cycle's stop-the-world, which
@@ -1023,154 +1186,20 @@ namespace proto {
                 const bool deferFree = multispace::liveSpaceCount() > 1;
                 std::vector<Cell*> deadCells;
 
-                // Processed segments are chained locally and handed back with
-                // one compare-and-swap per batch instead of one per segment
-                // (about 6 cells): the free pool's head is the line every
-                // mutator pops at each context destruction.  The free chain
-                // goes back every kSegmentRecycleBatch segments, so the
-                // mutators are not starved of segments during a long sweep;
-                // the survivor chain goes to the pen once, at the end (the
-                // pen is folded only under a later stop-the-world).
-                SegmentChain freeSegs;
-                SegmentChain penSegs;
-
-                DirtySegment* currentSeg = segmentsToProcess;
-                while (currentSeg) {
-                    Cell* cell = currentSeg->cellChain;
-
-                    Cell* batchHead = nullptr;
-                    Cell* batchTail = nullptr;
-                    int batchCount = 0;
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                    // Cells that survived this cycle (were reachable from
-                    // roots) are chained here and re-pushed to dirtySegments
-                    // so the next cycle includes them in its candidate set.
-                    // Without this re-inclusion, a cell that survives once
-                    // is dropped from analysis forever and leaks when it
-                    // later becomes unreachable.
-                    Cell* survHead = nullptr;
-#endif
-
-                    ++sweptSegments;
-                    while (cell) {
-                        // One load of the header word gives the link and the
-                        // mark bit.
-                        const uintptr_t header =
-                            cell->next_and_flags.load(std::memory_order_acquire);
-                        Cell* nextCell = reinterpret_cast<Cell*>(header & ~PROTO_UL(0x3F));
-                        ++sweptCells;
+                SweeperLocal sweeper(space, deferFree, &deadCells);
+                sweepSegments(segmentsToProcess, sweeper);
+                sweeper.finish();
+                // Total cells reclaimed this cycle, across all published
+                // chunks — the out-of-memory signal (see reclaimedLastCycle).
+                proto_ulong reclaimedThisCycle = sweeper.reclaimed;
 #ifdef PROTOCORE_GC_INSTRUMENT
-                        ++dbg_swept_cells;
+                dbg_swept_cells += sweeper.swept;
 #endif
-                        if (!(header & PROTO_UL(0x1))) {
-                            if (deferFree) {
-                                deadCells.push_back(cell);
-                            } else {
-                                cell->finalize(space->rootContext);
-
-                                cell->internalSetNextRaw(batchHead);
-                                if (!batchTail) batchTail = cell;
-                                batchHead = cell;
-                                batchCount++;
-                            }
-                        } else {
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                            // Unmark and prepend to the survivor chain in one
-                            // store: the collector is the only writer of a
-                            // candidate's next_and_flags during sweep
-                            // (Cell::setNext), so the read-modify-write of an
-                            // unmark followed by a second store is not
-                            // needed.  Flag bits 1..5 are kept as they are
-                            // (always zero).  The old link is no longer
-                            // needed: the cursor is in `nextCell`.
-                            cell->next_and_flags.store(
-                                (reinterpret_cast<uintptr_t>(survHead) & ~PROTO_UL(0x3F))
-                                    | (header & PROTO_UL(0x3E)),
-                                std::memory_order_release);
-                            survHead = cell;
-#else
-                            cell->unmark();
-#endif
-                        }
-                        cell = nextCell;
-                    }
-
-                    if (batchHead) {
-                        // Merge this segment's batch into the running chunk.
-                        // The previous batchTail terminator is overwritten
-                        // when chaining onto the next batch (chunkHead is
-                        // prepended).  Final terminator is set inside
-                        // publishFreeChunk.
-                        if (chunkHead) {
-                            // Prepend: batch's tail points at the previous
-                            // chunkHead; chunkHead becomes batch's head.
-                            // Order doesn't matter for the freelist —
-                            // mutators consume cells one by one regardless.
-                            batchTail->internalSetNextRaw(chunkHead);
-                        } else {
-                            chunkTail = batchTail;
-                        }
-                        chunkHead = batchHead;
-                        chunkCount += batchCount;
-                        reclaimedThisCycle += batchCount;
-
-                        // If we've crossed the chunk-size threshold, publish.
-                        // Most segments are small (~5.86 cells avg) so this
-                        // typically fires only once per ~1400 segments, well
-                        // below the per-segment lock cost we used to pay.
-                        if (chunkCount >= ProtoSpace::CELL_CHUNK_SIZE) {
-                            GC_LOCK_TRACE("gcLoop ACQ(chunk)");
-                            std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
-                            publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
-                            chunkHead = chunkTail = nullptr;
-                            chunkCount = 0;
-                            GC_LOCK_TRACE("gcLoop REL(chunk)");
-                        }
-                    }
-
-                    DirtySegment* nextSeg = currentSeg->next;
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                    if (survHead) {
-                        // Repurpose currentSeg as a survivor segment for the
-                        // survivor pen.  When stagger == 1 (default) the pen
-                        // is folded back into dirtySegments at the start of
-                        // every cycle.  When stagger > 1 it is folded only
-                        // every Nth cycle, so survivors skip mark cost in the
-                        // meantime (at the price of delayed reclamation; see
-                        // survivorStagger doc).
-                        currentSeg->cellChain = survHead;
-                        penSegs.push(currentSeg);
-                    } else {
-                        currentSeg->cellChain = nullptr;
-                        freeSegs.push(currentSeg);
-                    }
-#else
-                    currentSeg->cellChain = nullptr;
-                    freeSegs.push(currentSeg);
-#endif
-                    if (freeSegs.count >= kSegmentRecycleBatch)
-                        freeSegs.pushAllOnto(space->dirtySegmentFreePool);
-                    currentSeg = nextSeg;
-                }
-
-                freeSegs.pushAllOnto(space->dirtySegmentFreePool);
-                penSegs.pushAllOnto(space->survivorPen);
-
-                // Publish the trailing partial chunk (count < CELL_CHUNK_SIZE).
-                // Common at end of sweep when the last few segments did not
-                // accumulate enough cells to fill a chunk — the chunk is
-                // valid at any size, so we simply hand it over.
-                if (chunkHead) {
-                    GC_LOCK_TRACE("gcLoop ACQ(chunk-tail)");
-                    std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
-                    publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
-                    GC_LOCK_TRACE("gcLoop REL(chunk-tail)");
-                }
                 measures.sweepNanos = static_cast<std::uint64_t>(
                     std::chrono::duration_cast<std::chrono::nanoseconds>(
                         std::chrono::steady_clock::now() - sweepStart).count());
-                measures.sweptCells = sweptCells;
-                measures.sweptSegments = sweptSegments;
+                measures.sweptCells = sweeper.swept;
+                measures.sweptSegments = sweeper.segments;
 
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_release_start = std::chrono::steady_clock::now();
