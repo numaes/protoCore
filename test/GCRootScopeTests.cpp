@@ -151,11 +151,14 @@ TEST(GCRootScope, ObjectReachableOnlyThroughAYoungCellSurvives) {
     ProtoContext live(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
 
     const ProtoList* old = nullptr;
+    const ProtoList* young = nullptr;
     {
         ProtoContext sub(&space, &live, nullptr, nullptr, nullptr, nullptr);
         old = sub.newList()->appendLast(&sub, sub.fromInteger(4242));
-    }  // `old` is now a sweep candidate
-    const ProtoList* young = live.newList()->appendLast(&live, old->asObject(&live));
+        // Built while `sub` is alive: `old` is never held only by a C++ local
+        // across an allocation (EMBEDDER-CONFORMANCE rule 3).
+        young = live.newList()->appendLast(&live, old->asObject(&live));
+    }  // `old` is now a sweep candidate, reachable only through `young`
 
     const uint64_t cycles = forceCycles(space, &live, 5);
     ASSERT_TRUE(waitForIdleCollector(space, &live));
@@ -216,6 +219,8 @@ std::atomic<bool> gThreadsRelease{false};
 // Each iteration makes an old list (a candidate once its context is gone),
 // references it from a young list held only in C++ locals and the thread's
 // young chain, allocates garbage while cycles run, and checks both lists.
+// The young list is built before the old list's context dies, so the old
+// list is never reachable only from a C++ local.
 // The thread parks through synchToGC(), which never submits the young
 // generation.  When its work is done it waits, parked, for the release, so
 // no thread exits while a cycle may be requested.
@@ -224,11 +229,17 @@ const ProtoObject* allocatingThreadMain(ProtoContext* ctx, const ProtoObject*, c
     ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);
     for (proto::proto_long iteration = 0; iteration < kThreadIterations; ++iteration) {
         const ProtoList* old = nullptr;
+        const ProtoList* young = nullptr;
         {
             ProtoContext sub(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
             old = sub.newList()->appendLast(&sub, sub.fromInteger(iteration));
-        }
-        const ProtoList* young = ctx->newList()->appendLast(ctx, old->asObject(ctx));
+            // `young` is built while `sub` is alive.  Built after `sub` died,
+            // `old` would be a candidate held only by a C++ local across the
+            // allocations of `young` (EMBEDDER-CONFORMANCE rule 3), and a
+            // cycle whose stop-the-world fell there freed it: the macOS arm64
+            // flake of this test (about 1 run in 110 under --gtest_repeat).
+            young = ctx->newList()->appendLast(ctx, old->asObject(ctx));
+        }  // `old` is now a candidate, reachable only through `young`
         {
             ProtoContext garbage(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
             for (int i = 0; i < 256; ++i) {
@@ -294,4 +305,95 @@ TEST(GCRootScope, AllocationDuringConcurrentMarkIsSafe) {
     EXPECT_EQ(gThreadChecks.load(), static_cast<proto::proto_ulong>(kThreads) * kThreadIterations);
     EXPECT_EQ(gThreadErrors.load(), 0u);
     EXPECT_GE(cycles, 3u) << "too few collection cycles ran for the test to exercise the mark";
+}
+
+namespace {
+
+constexpr int kForcedIterations = 200;
+std::atomic<proto::proto_ulong> gForcedChecks{0};
+std::atomic<proto::proto_ulong> gForcedErrors{0};
+std::atomic<proto::proto_ulong> gForcedCycles{0};
+
+// Requests a cycle unconditionally (ProtoSpace::triggerGC fires only below a
+// 20 % free ratio) and waits at safepoints until one has completed, sweep
+// included.  Bounded: a missed cycle weakens the iteration, it does not hang.
+void cycleNow(ProtoContext* ctx, ProtoThread* self) {
+    ProtoSpace* space = ctx->space;
+    const uint64_t before = space->getGCCycleCount();
+    {
+        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        space->gcStarted = true;
+        space->gcCV.notify_all();
+    }
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(500);
+    while (std::chrono::steady_clock::now() < deadline) {
+        self->synchToGC();
+        if (space->getGCCycleCount() > before && !space->gcStarted.load()) {
+            gForcedCycles.fetch_add(1, std::memory_order_relaxed);
+            return;
+        }
+        std::this_thread::yield();
+    }
+}
+
+// Each iteration makes an old list in a nested context, references it from
+// a young list of the thread's context, lets the nested context die and
+// forces a whole cycle at once: the old list is then a candidate of that
+// cycle, reachable only through the young chain.  Garbage allocated next
+// recycles whatever the sweep freed, so a freed old list reads wrong.
+const ProtoObject* forcedCycleThreadMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                                         const ProtoList*, const ProtoSparseList*) {
+    ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);
+    for (proto::proto_long iteration = 0; iteration < kForcedIterations; ++iteration) {
+        const ProtoList* old = nullptr;
+        const ProtoList* young = nullptr;
+        {
+            ProtoContext sub(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
+            old = sub.newList()->appendLast(&sub, sub.fromInteger(iteration));
+            young = ctx->newList()->appendLast(ctx, old->asObject(ctx));
+        }
+        cycleNow(ctx, self);
+        {
+            ProtoContext garbage(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
+            for (int i = 0; i < 256; ++i) (void) garbage.newObject(false);
+        }
+        const ProtoObject* item = young->getSize(ctx) == 1 ? young->getAt(ctx, 0) : nullptr;
+        const ProtoList* list = item ? item->asList(ctx) : nullptr;
+        if (item != old->asObject(ctx) || !list || list->getSize(ctx) != 1 ||
+            list->getAt(ctx, 0)->asLong(ctx) != iteration) {
+            gForcedErrors.fetch_add(1, std::memory_order_relaxed);
+        }
+        gForcedChecks.fetch_add(1, std::memory_order_relaxed);
+    }
+    return PROTO_NONE;
+}
+
+}  // namespace
+
+// The deterministic form of AllocationDuringConcurrentMarkIsSafe: a cycle is
+// forced right after each old list's context dies, while another thread does
+// the same, so every old list is a candidate of a cycle that must reach it
+// through a young chain.
+TEST(GCRootScope, CandidateReachableOnlyFromAYoungCellSurvivesACycleForcedAtOnce) {
+    constexpr int kThreads = 2;
+    gForcedChecks = 0;
+    gForcedErrors = 0;
+    gForcedCycles = 0;
+
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    std::vector<const ProtoThread*> threads;
+    for (int t = 0; t < kThreads; ++t) {
+        threads.push_back(space.newThread(root, ProtoString::createSymbol(root, "gc-root-scope-forced"),
+                                          forcedCycleThreadMain, nullptr, nullptr));
+    }
+    {
+        ProtoContext::UnmanagedScope parked(root);
+        for (const ProtoThread* thread : threads) const_cast<ProtoThread*>(thread)->join(root);
+    }
+
+    EXPECT_EQ(gForcedChecks.load(), static_cast<proto::proto_ulong>(kThreads) * kForcedIterations);
+    EXPECT_EQ(gForcedErrors.load(), 0u);
+    EXPECT_GE(gForcedCycles.load(), static_cast<proto::proto_ulong>(kForcedIterations))
+        << "too few forced cycles completed for the test to exercise the young chains";
 }

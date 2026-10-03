@@ -27,6 +27,7 @@ loudly**.
 | protoScala `Mailbox::push` | the same rule — a CAS snapshot held across `appendLast` | nothing, until GC pressure |
 | protoST `MailboxCursor::adopt` | the same rule — `unique_ptr::reset` releases a live pin | **unreachable until S15 was fixed**; 848 passing tests could not reach it |
 | protoClojure's four blocking joins | a blocking join must not hold the stop-the-world quorum | a 90-second hang; the apparent live set was 90.8× the real one |
+| protoCore's own `GCRootScope` test (2026-10) | rule 3 — a nested context's result held in a C++ local across the allocation of the list meant to reference it | about 1 run in 110, macOS arm64 only; 40 local Linux runs green |
 
 Two of those entries are a count and a ratio, so this is where each comes from.
 protoST's suite was **848/848** when S15 was measured (`protoST/docs/STATUS.md`,
