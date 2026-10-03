@@ -95,6 +95,13 @@ Documentation: docs/GarbageCollector.md § "Adaptive heap controller".
   Found by the controller's multi-space test (about one run in three hung).
   Test: `MultiSpaceTeardown.DestroyingASpaceWhileItsCollectorWaitsForAGracePeriod`
   (hung 3 runs out of 3 before the fix).
+- **Test: the attribute-walk writer reaches safepoints.**  The writer thread
+  of `AttributeEnumerationTest.ConcurrentMutationDuringWalkIsSafe` allocated
+  only inside `setAttribute`'s critical section and called no safepoint, so
+  a stop-the-world raised by the test's collector kicker could never
+  complete: the walking thread parked for it, and the writer allocated until
+  macOS killed the process (once in CI; usually the walk ended first).  A
+  forced stop-the-world during the walk hung every run before the change.
 
 ## [2.9.6] - 2026-10-02
 
