@@ -30,6 +30,15 @@
 
 namespace proto {
 
+#ifdef PROTOCORE_GC_INSTRUMENT
+    namespace gcprof {
+        std::atomic<std::uint64_t> mutatorParkNs{0};
+        std::atomic<std::uint64_t> mutatorParks{0};
+        std::atomic<std::uint64_t> headroomWaitNs{0};
+        std::atomic<std::uint64_t> headroomWaits{0};
+    }
+#endif
+
     namespace {
         /** Maximum bytes to request from the OS in a single getFreeCells allocation (16 MiB). */
         constexpr proto_ulong kMaxBytesPerOSAllocation = 16u * 1024u * 1024u;
@@ -309,6 +318,25 @@ namespace proto {
             static std::atomic<uint64_t> dbg_total_release_us{0};
             static std::atomic<uint64_t> dbg_total_cells_marked{0};
             static std::atomic<uint64_t> dbg_total_segments_swept{0};
+            // Finer split (the [GC-PHASES] line).  All cumulative.
+            //  token: waiting for the process-wide cycle token (part of P1)
+            //  quorum: stwFlag raised -> every mutator parked (part of P1)
+            //  stw: every mutator parked -> world resumed (the real pause)
+            //  young: young-chain + survivor-pen walk at the start of P4
+            //  trace: the transitive mark loop (rest of P4)
+            //  unmark: bulk unmark of markedList (part of P6)
+            //  busy: whole cycle minus token wait
+            static uint64_t dbg_ns_token = 0, dbg_ns_quorum = 0, dbg_ns_stw = 0,
+                            dbg_ns_young = 0, dbg_ns_trace = 0, dbg_ns_unmark = 0,
+                            dbg_ns_busy = 0, dbg_ns_max_stw = 0;
+            static uint64_t dbg_young_cells = 0, dbg_swept_cells = 0,
+                            dbg_freed_cells = 0, dbg_roots = 0;
+            auto dbgNs = [](std::chrono::steady_clock::time_point a,
+                            std::chrono::steady_clock::time_point b) {
+                return static_cast<uint64_t>(
+                    std::chrono::duration_cast<std::chrono::nanoseconds>(b - a).count());
+            };
+            std::chrono::steady_clock::time_point t_token_end, t_young_start, t_trace_start;
             const bool dbg_profile = std::getenv("PROTOCORE_GC_PROFILE") != nullptr;
 #endif
             // The collector takes part in grace periods (it reads the global
@@ -339,6 +367,10 @@ namespace proto {
                 });
                 if (space->state == SPACE_STATE_ENDING) break;
                 multispace::cycleActive = true;
+#ifdef PROTOCORE_GC_INSTRUMENT
+                t_token_end = std::chrono::steady_clock::now();
+                dbg_ns_token += dbgNs(t_phase1_start, t_token_end);
+#endif
                 // The adaptive heap controller's trace reports the cycle's
                 // duration from here (a no-op unless it is enabled).
                 adaptive::onCycleStart(space);
@@ -378,6 +410,7 @@ namespace proto {
                 }
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase2_start = std::chrono::steady_clock::now();
+                dbg_ns_quorum += dbgNs(t_token_end, stwStart);
                 dbg_total_phase1_us.fetch_add(
                     std::chrono::duration_cast<std::chrono::microseconds>(
                         t_phase2_start - t_phase1_start).count(),
@@ -710,6 +743,9 @@ namespace proto {
                 // P2 ends here, where the world resumes, so P1 + P2 is the
                 // stop-the-world pause.  Everything below counts as mark (P4).
                 auto t_phase4_start = std::chrono::steady_clock::now();
+                dbg_ns_stw += stwNanos;
+                if (stwNanos > dbg_ns_max_stw) dbg_ns_max_stw = stwNanos;
+                dbg_roots += workList.size();
                 dbg_total_phase2_us.fetch_add(
                     std::chrono::duration_cast<std::chrono::microseconds>(
                         t_phase4_start - t_phase2_start).count(),
@@ -757,9 +793,15 @@ namespace proto {
                 //   * a reference field is written once, at construction, so
                 //     a cell still being constructed at the capture is read
                 //     with either its initial null or its final value.
+#ifdef PROTOCORE_GC_INSTRUMENT
+                t_young_start = std::chrono::steady_clock::now();
+#endif
                 for (const Cell* head : youngChainHeads) {
                     struct YoungWalkState { std::vector<const Cell*>* wl; const Cell* parent; } yst = {&workList, head};
                     for (const Cell* scanCell = head; scanCell; scanCell = scanCell->getNext()) {
+#ifdef PROTOCORE_GC_INSTRUMENT
+                        ++dbg_young_cells;
+#endif
                         yst.parent = scanCell;
                         scanCell->processReferences(space->rootContext, &yst, [](ProtoContext* ctx, void* self, const Cell* ref) {
                             auto* s = static_cast<YoungWalkState*>(self);
@@ -835,6 +877,10 @@ namespace proto {
                 // the marks", so a single iteration of gcThreadLoop
                 // is self-contained — no cross-iteration state
                 // beyond the cell mark bits themselves.
+#ifdef PROTOCORE_GC_INSTRUMENT
+                t_trace_start = std::chrono::steady_clock::now();
+                dbg_ns_young += dbgNs(t_young_start, t_trace_start);
+#endif
                 std::vector<const Cell*> markedList;
                 while (!workList.empty()) {
                     const Cell* cell = workList.back();
@@ -875,6 +921,7 @@ namespace proto {
                 // below continues to run unlocked, as it always did.
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase5_start = std::chrono::steady_clock::now();
+                dbg_ns_trace += dbgNs(t_trace_start, t_phase5_start);
                 dbg_total_phase4_us.fetch_add(
                     std::chrono::duration_cast<std::chrono::microseconds>(
                         t_phase5_start - t_phase4_start).count(),
@@ -934,6 +981,9 @@ namespace proto {
 
                     while (cell) {
                         Cell* nextCell = cell->getNext();
+#ifdef PROTOCORE_GC_INSTRUMENT
+                        ++dbg_swept_cells;
+#endif
                         if (!cell->isMarked()) {
                             if (deferFree) {
                                 deadCells.push_back(cell);
@@ -1112,6 +1162,9 @@ namespace proto {
                         const_cast<Cell*>(m)->unmark();
                     }
                 }
+#ifdef PROTOCORE_GC_INSTRUMENT
+                dbg_ns_unmark += dbgNs(t_phase6_start, std::chrono::steady_clock::now());
+#endif
 
                 // --- PHASE 7: CLEAR MUTABLE SNAPSHOT ---
                 //
@@ -1197,6 +1250,31 @@ namespace proto {
                             (proto_ulong)dbg_total_cells_marked.load(),
                             (proto_ulong)dbg_total_segments_swept.load());
                     }
+                }
+                dbg_freed_cells += reclaimedThisCycle;
+                dbg_ns_busy += dbgNs(t_token_end, t_phase6_end);
+                if (dbg_profile) {
+                    // One line per cycle, cumulative, nanosecond totals in
+                    // microseconds.  mut_park/headroom are summed over all
+                    // mutator threads.
+                    std::fprintf(stderr,
+                        "[GC-PHASES] cycles=%" PROTO_FMT_U " busy=%" PROTO_FMT_U "us token=%" PROTO_FMT_U "us quorum=%" PROTO_FMT_U "us stw=%" PROTO_FMT_U "us stw_max=%" PROTO_FMT_U "us roots=%" PROTO_FMT_U
+                        " young=%" PROTO_FMT_U "us young_cells=%" PROTO_FMT_U " trace=%" PROTO_FMT_U "us marked=%" PROTO_FMT_U
+                        " sweep=%" PROTO_FMT_U "us swept_cells=%" PROTO_FMT_U " freed_cells=%" PROTO_FMT_U " rel=%" PROTO_FMT_U "us unmark=%" PROTO_FMT_U "us p6_7=%" PROTO_FMT_U "us"
+                        " mut_park=%" PROTO_FMT_U "us parks=%" PROTO_FMT_U " headroom_wait=%" PROTO_FMT_U "us headroom_waits=%" PROTO_FMT_U "\n",
+                        (proto_ulong)space->gcCycleCount.load(std::memory_order_relaxed),
+                        (proto_ulong)(dbg_ns_busy / 1000), (proto_ulong)(dbg_ns_token / 1000),
+                        (proto_ulong)(dbg_ns_quorum / 1000), (proto_ulong)(dbg_ns_stw / 1000),
+                        (proto_ulong)(dbg_ns_max_stw / 1000), (proto_ulong)dbg_roots,
+                        (proto_ulong)(dbg_ns_young / 1000), (proto_ulong)dbg_young_cells,
+                        (proto_ulong)(dbg_ns_trace / 1000), (proto_ulong)dbg_total_cells_marked.load(),
+                        (proto_ulong)dbg_total_phase5_us.load(), (proto_ulong)dbg_swept_cells,
+                        (proto_ulong)dbg_freed_cells, (proto_ulong)dbg_total_release_us.load(),
+                        (proto_ulong)(dbg_ns_unmark / 1000), (proto_ulong)dbg_total_phase6_us.load(),
+                        (proto_ulong)(gcprof::mutatorParkNs.load(std::memory_order_relaxed) / 1000),
+                        (proto_ulong)gcprof::mutatorParks.load(std::memory_order_relaxed),
+                        (proto_ulong)(gcprof::headroomWaitNs.load(std::memory_order_relaxed) / 1000),
+                        (proto_ulong)gcprof::headroomWaits.load(std::memory_order_relaxed));
                 }
 #endif
 
@@ -1766,6 +1844,13 @@ namespace proto {
         adaptive::recordMutatorWait(space, static_cast<std::uint64_t>(
             std::chrono::duration_cast<std::chrono::nanoseconds>(
                 std::chrono::steady_clock::now() - waitStart).count()));
+#ifdef PROTOCORE_GC_INSTRUMENT
+        gcprof::headroomWaitNs.fetch_add(static_cast<std::uint64_t>(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::steady_clock::now() - waitStart).count()),
+            std::memory_order_relaxed);
+        gcprof::headroomWaits.fetch_add(1, std::memory_order_relaxed);
+#endif
         // Rejoin the stop-the-world protocol: park if a stop-the-world began
         // while this thread was out of the running set.  Park ONLY, never
         // ProtoContext::safepoint().  This wait runs from the heap checkpoint

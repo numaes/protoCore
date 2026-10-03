@@ -10,6 +10,8 @@
 
 #include "protoCore.h"
 #include <thread>
+#include <atomic>
+#include <cstdint>
 #include <unordered_set>
 #include <memory>
 #include <string>
@@ -1490,6 +1492,24 @@ namespace proto {
     inline proto_ulong spaceIdOf(const ProtoSpace* space) {
         return space->nextMutableRef.load(std::memory_order_relaxed) >> kMutableRefSpaceShift;
     }
+
+#ifdef PROTOCORE_GC_INSTRUMENT
+    // Mutator-side counters of the GC profile (PROTOCORE_GC_PROFILE=1),
+    // compiled in only with -DPROTOCORE_GC_INSTRUMENT=ON.  Process-wide,
+    // summed over all mutator threads; defined in core/ProtoSpace.cpp.
+    namespace gcprof {
+        // Time mutator threads spent parked for a stop-the-world, from the
+        // moment each parked until the world resumed (includes waiting for
+        // the slowest thread to reach the quorum).
+        extern std::atomic<std::uint64_t> mutatorParkNs;
+        extern std::atomic<std::uint64_t> mutatorParks;
+        // Time mutator threads spent waiting for heap headroom
+        // (reclaimWaitLocked: soft-zone, controller checkpoint and hard-zone
+        // waits).
+        extern std::atomic<std::uint64_t> headroomWaitNs;
+        extern std::atomic<std::uint64_t> headroomWaits;
+    }
+#endif
 
     namespace multispace {
         // Registry of live spaces, guarded by ProtoSpace::globalMutex.
