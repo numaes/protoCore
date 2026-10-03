@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 2.11.0
+    VERSION 2.12.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -236,6 +236,10 @@ message(STATUS "Configured benchmark: cache_timing_benchmark")
 add_executable(adaptive_heap_benchmark performance/adaptive_heap_benchmark.cpp)
 target_link_libraries(adaptive_heap_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: adaptive_heap_benchmark")
+
+add_executable(sweep_contention_benchmark performance/sweep_contention_benchmark.cpp)
+target_link_libraries(sweep_contention_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: sweep_contention_benchmark")
 
 add_executable(mpsc_queue_benchmark performance/mpsc_queue_benchmark.cpp)
 target_link_libraries(mpsc_queue_benchmark PRIVATE protoCore)

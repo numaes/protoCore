@@ -51,8 +51,6 @@ TEST(AdaptiveHeapLaw, DefaultsAreTheCalibratedOnes) {
     EXPECT_DOUBLE_EQ(kDefaults.liveHeadroom, 3.0);
     EXPECT_DOUBLE_EQ(kDefaults.liveCap, 8.0);
     EXPECT_EQ(kDefaults.initialSoft, 2097152u);
-    EXPECT_GT(kTriggerFraction, 0.0);
-    EXPECT_LT(kTriggerFraction, 1.0);
     const AdaptiveHeapConfig c;
     const LawParams p = sanitizedParams(c);
     EXPECT_DOUBLE_EQ(p.liveHeadroom, c.liveHeadroom) << "header and law defaults disagree";

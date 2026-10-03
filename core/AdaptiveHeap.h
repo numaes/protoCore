@@ -46,9 +46,6 @@ namespace adaptive {
      * calibration.md).
      */
     constexpr double kLiveCapFactor = 8.0;
-    /** Pacing: the fraction of the headroom S - L consumed before the next
-     *  cycle is requested; the rest is the mutators' runway. */
-    constexpr double kTriggerFraction = 0.75;
 
     struct LawParams {
         double highPressure = 0.05;                    // p_high
@@ -77,6 +74,38 @@ namespace adaptive {
      *  max(kLiveCapFactor, k_live) and S0 is left at its default (the
      *  caller sets it). */
     LawParams sanitizedParams(const AdaptiveHeapConfig& config);
+
+    // --- 1b. Pacing: when a cycle starts -------------------------------------
+    //
+    // docs/specs/2026-10-03-collector-throughput-design.md, section 4.3.  One
+    // rule for fixed limits and for the controller: a cycle is requested when
+    // the cells left before the ceiling fall below the runway the mutators
+    // need while a cycle runs, r x C, so the cycle runs behind them instead
+    // of starting when they are already out of cells.
+
+    namespace pacing {
+        /** m: a quarter of a cycle of measurement error.  Structural, not
+         *  fitted to a workload. */
+        constexpr double kCycleSlack = 0.25;
+
+        /**
+         * The runway, in cells:
+         *
+         *     min(max(0, ceiling - retained), ceil(rate x cycleSeconds x (1 + slack)))
+         *
+         * `ceiling` is S under the controller and maxHeapSize under a fixed
+         * limit; `retained` is what the last cycle left unreclaimed (R);
+         * `rate` is the mutators' allocation rate while not waiting (cells per
+         * second) and `cycleSeconds` the cycle duration from request to
+         * completion.  0 when either measurement is missing (before the first
+         * cycle), which is the pre-pacing behaviour.  Never above the headroom
+         * `ceiling - retained`; monotone in `rate` and `cycleSeconds`.  A
+         * runway equal to the whole headroom means the collector cannot keep
+         * up at this ceiling: cycles then run back to back.
+         */
+        long long runway(long long ceiling, long long retained, double rate,
+                         double cycleSeconds, double slack = kCycleSlack);
+    }  // namespace pacing
 
     // --- 2. Memory limits ----------------------------------------------------
 
@@ -151,13 +180,61 @@ namespace adaptive {
 
     /**
      * Pacing (called by getFreeCells at every refill): request a cycle once
-     * the cells left before S -- the global freelist plus the room between
-     * heapSize and S -- fall below half of the headroom S - L the last cycle
-     * left.  The mutators then consume the other half while the collector
-     * runs concurrently; requesting only at S itself left no runway, and the
-     * stall grew with S (the sweep is proportional to the garbage).
+     * the cells left before the ceiling -- the global freelist plus the room
+     * between heapSize and the ceiling (S under the controller, maxHeapSize
+     * under a fixed limit) -- fall below the runway pacing::runway computed
+     * at the last cycle end.  Requesting only at the ceiling left the
+     * mutators no runway: they stopped for the whole cycle.
      */
     void pace(ProtoSpace* space);
+
+    /** Every space has a side state (created by its constructor), whatever
+     *  its limits: pacing and the wait accounting apply to fixed limits too. */
+    void registerSpace(ProtoSpace* space);
+    /** A cycle of `space` was requested (gcStarted set); the cycle duration C
+     *  runs from the first request to the completion. */
+    void noteCycleRequested(ProtoSpace* space);
+    /** Cycles completed by this space's collector, enabled or not. */
+    std::uint64_t cyclesCompleted(const ProtoSpace* space);
+
+    /**
+     * Waits for headroom that end when cells arrive (section 4.4).  A thread
+     * in reclaimWaitLocked is counted from waitBegin to waitEnd, both under
+     * globalMutex.  Every publication of free cells (cellsPublished, with
+     * globalMutex held) wakes one waiter while the count is non-zero, and the
+     * wait predicate accepts a non-empty freelist, so a waiter no longer
+     * polls the freelist on the 50 ms watchdog while the sweep publishes.
+     */
+    bool earlyWake(const ProtoSpace* space);
+    void waitBegin(ProtoSpace* space);
+    /** Why a headroom wait ended. */
+    enum class WakeReason {
+        Watchdog,  // the 50 ms timeout, with the predicate still false
+        Cells,     // cells were published to the freelist (early wake)
+        Cycle,     // a cycle started (fixed limits) or completed
+        Ending     // the space is being destroyed
+    };
+    void waitEnd(ProtoSpace* space, WakeReason reason);
+    /** Free cells were published to `space`'s freelist (globalMutex held). */
+    void cellsPublished(ProtoSpace* space);
+    /** A thread or a context returned `cells` unused cells to the freelist
+     *  (globalMutex held): counted for the allocation-rate estimate.  The
+     *  caller also calls cellsPublished. */
+    void cellsReturned(ProtoSpace* space, proto_ulong cells);
+
+    /** Wait and pacing counters of a space, for tests and the trace. */
+    struct WaitStats {
+        std::uint64_t waits = 0;            // reclaimWaitLocked calls
+        std::uint64_t watchdogWakes = 0;    // ended on the 50 ms watchdog
+        std::uint64_t cellWakes = 0;        // ended on a publication of cells
+        std::uint64_t cycleWakes = 0;       // ended on a cycle start or end
+        std::uint64_t pacedRequests = 0;    // cycles requested by pace()
+        long long runway = 0;               // the current runway, cells
+        std::uint64_t cyclesCompleted = 0;
+        double rate = 0.0;                  // last r, cells per second
+        double cycleSeconds = 0.0;          // last C
+    };
+    WaitStats waitStats(const ProtoSpace* space);
 
     /** Called after `space` grew its heap by `cells` (getFreeCells).  Keeps
      *  the process heap total, recomputes the per-space ceilings of enabled
@@ -169,8 +246,22 @@ namespace adaptive {
     void onCycleStart(ProtoSpace* space);
     /** Mutator stall: time a thread of `space` waited for a cycle. */
     void recordMutatorWait(const ProtoSpace* space, std::uint64_t nanos);
-    /** End of a cycle of `space`: apply the control law. */
-    void onCycleEnd(ProtoSpace* space, std::uint64_t stopTheWorldNanos);
+    /** What the collector measured in one cycle: three clock reads and a
+     *  per-cell counter in the sweep loop, always on (section 4.2). */
+    struct CycleMeasures {
+        std::uint64_t stwNanos = 0;     // the pause (Phase 1 quorum reached -> resume)
+        std::uint64_t markNanos = 0;    // resume -> sweep start (young walk + trace)
+        std::uint64_t sweepNanos = 0;   // Phase 5, the trailing chunk included
+        std::uint64_t busyNanos = 0;    // token taken -> cycle end
+        proto_ulong sweptCells = 0;     // candidates examined, survivors included
+        proto_ulong freedCells = 0;     // returned to the freelist
+        proto_ulong sweptSegments = 0;
+    };
+    /** End of a cycle of `space`: the pacing signals, and the control law
+     *  when the controller is enabled. */
+    void onCycleEnd(ProtoSpace* space, const CycleMeasures& measures);
+    /** The measures of `space`'s last completed cycle (globalMutex held). */
+    CycleMeasures lastCycleMeasures(const ProtoSpace* space);
     /**
      * Section 3.4, condition 1, for an enabled space: after a completed
      * cycle, the cells that cycle left unreclaimed in `space`, plus every

@@ -71,6 +71,20 @@ namespace adaptive {
         return p;
     }
 
+    // --- 1b. Pacing -----------------------------------------------------------
+
+    namespace pacing {
+        long long runway(long long ceiling, long long retained, double rate,
+                         double cycleSeconds, double slack) {
+            const long long headroom = std::max(0LL, ceiling - retained);
+            if (!(rate > 0.0) || !(cycleSeconds > 0.0)) return 0;
+            if (!(slack >= 0.0)) slack = 0.0;
+            const double need = std::ceil(rate * cycleSeconds * (1.0 + slack));
+            if (need >= static_cast<double>(headroom)) return headroom;
+            return static_cast<long long>(need);
+        }
+    }  // namespace pacing
+
     // --- 2. Memory limits ----------------------------------------------------
 
     namespace {
@@ -289,16 +303,39 @@ namespace adaptive {
             Clock::time_point lastCycleEnd;
             // When the collector began the current cycle (the trace's Tc).
             Clock::time_point cycleStart;
+            // Cycles completed while the controller was enabled.
             std::uint64_t cycles = 0;
             double lastPressure = 0.0;
             // A refill went past S without waiting; cleared at cycle end.
             bool pending = false;
-            // pace(): a cycle is requested when the cells left before S
-            // fall below this (half of S - L after the last cycle).
-            long long triggerRunway = 0;
             // Cells the last cycle left unreclaimed: heapSize minus the
             // global freelist, right after the sweep published its cells.
             proto_ulong retainedLastCycle = 0;
+
+            // --- Pacing and waits (every space, enabled or not) ---
+            // PROTOCORE_GC_PACING=0 turns pacing and the early wake off for
+            // this space (read at registration): the 2.11 behaviour.
+            bool pacing = true;
+            // pace(): a cycle is requested when the cells left before the
+            // ceiling fall below this (pacing::runway at the last cycle end).
+            long long runway = 0;
+            std::uint64_t completed = 0;
+            CycleMeasures last;
+            // The first request of the cycle in flight (C runs from here).
+            bool requested = false;
+            Clock::time_point requestedAt;
+            // heapSize - freeCellsCount at the last cycle end (-1: none yet),
+            // and cells returned unused since: with the cells the cycle
+            // reclaimed they give the cells handed out in the interval.
+            long long occupiedLastEnd = -1;
+            proto_ulong returnedSinceEnd = 0;
+            Clock::time_point intervalStart;
+            // The last two cycles' r and C; pacing uses the larger of each.
+            double rate[2] = {0.0, 0.0};
+            double cycleSeconds[2] = {0.0, 0.0};
+            // Threads in reclaimWaitLocked now.
+            int waiters = 0;
+            WaitStats stats;
         };
 
         // Guarded by ProtoSpace::globalMutex.  States live as long as their
@@ -352,11 +389,35 @@ namespace adaptive {
                 softWaitPending.fetch_sub(1, std::memory_order_relaxed);
             }
         }
-        void requestCycle(ProtoSpace* space) {
+        void noteRequest(SpaceState* s) {
+            if (s && !s->requested) {
+                s->requested = true;
+                s->requestedAt = Clock::now();
+            }
+        }
+        void requestCycle(ProtoSpace* space, SpaceState* s) {
             if (!space->gcStarted) {
+                noteRequest(s);
                 space->gcStarted = true;
                 space->gcCV.notify_all();
             }
+        }
+        bool pacingDisabledByEnvironment() {
+            const char* v = std::getenv("PROTOCORE_GC_PACING");
+            return v && std::strcmp(v, "0") == 0;
+        }
+        SpaceState* ensureState(ProtoSpace* space) {
+            SpaceState* s = find(space);
+            if (!s) {
+                s = new SpaceState();
+                s->space = space;
+                s->pacing = !pacingDisabledByEnvironment();
+                s->lastCycleEnd = Clock::now();
+                s->intervalStart = s->lastCycleEnd;
+                s->cycleStart = s->lastCycleEnd;
+                registry().push_back(s);
+            }
+            return s;
         }
     }  // namespace
 
@@ -383,7 +444,7 @@ namespace adaptive {
             s->pending = true;
             softWaitPending.fetch_add(1, std::memory_order_relaxed);
         }
-        requestCycle(space);
+        requestCycle(space, s);
     }
 
     bool softWaitPendingFor(const ProtoSpace* space) {
@@ -392,20 +453,86 @@ namespace adaptive {
     }
 
 
-    namespace {
-        long long runwayFor(proto_ulong soft, proto_ulong live) {
-            const long long headroom = static_cast<long long>(soft) - static_cast<long long>(live);
-            return headroom > 0 ? static_cast<long long>(headroom * (1.0 - kTriggerFraction)) : 0;
+    void registerSpace(ProtoSpace* space) { (void) ensureState(space); }
+
+    void noteCycleRequested(ProtoSpace* space) { noteRequest(find(space)); }
+
+    std::uint64_t cyclesCompleted(const ProtoSpace* space) {
+        SpaceState* s = find(space);
+        return s ? s->completed : 0;
+    }
+
+    bool earlyWake(const ProtoSpace* space) {
+        SpaceState* s = find(space);
+        return s && s->pacing;
+    }
+
+    void waitBegin(ProtoSpace* space) {
+        if (SpaceState* s = find(space)) {
+            ++s->waiters;
+            ++s->stats.waits;
         }
     }
 
+    void waitEnd(ProtoSpace* space, WakeReason reason) {
+        SpaceState* s = find(space);
+        if (!s) return;
+        --s->waiters;
+        switch (reason) {
+            case WakeReason::Watchdog: ++s->stats.watchdogWakes; break;
+            case WakeReason::Cells: ++s->stats.cellWakes; break;
+            case WakeReason::Cycle: ++s->stats.cycleWakes; break;
+            case WakeReason::Ending: break;
+        }
+    }
+
+    void cellsPublished(ProtoSpace* space) {
+        SpaceState* s = find(space);
+        if (!s || !s->pacing) return;
+        if (s->waiters > 0) space->memoryReclaimedCV.notify_one();
+        // A soft-zone wait pending under the controller (a refill went past
+        // S without waiting) is for cells: they have arrived, so the next
+        // critical-section checkpoints need not wait.  Left set, every
+        // outermost checkpoint took globalMutex until the cycle ended and
+        // returned at once (the freelist satisfies the wait): about 2
+        // million empty waits per run on the single-threaded benchmark,
+        // contending with the sweep's publications.
+        clearPending(s);
+    }
+
+    void cellsReturned(ProtoSpace* space, proto_ulong cells) {
+        SpaceState* s = find(space);
+        if (!s) return;
+        s->returnedSinceEnd += cells;
+    }
+
+    WaitStats waitStats(const ProtoSpace* space) {
+        WaitStats r;
+        if (SpaceState* s = find(space)) {
+            r = s->stats;
+            r.runway = s->runway;
+            r.cyclesCompleted = s->completed;
+            r.rate = s->rate[0];
+            r.cycleSeconds = s->cycleSeconds[0];
+        }
+        return r;
+    }
+
     void pace(ProtoSpace* space) {
-        if (enabledCount == 0) return;
-        SpaceState* s = findEnabled(space);
-        if (!s || space->gcStarted) return;
+        if (space->gcStarted) return;
+        SpaceState* s = find(space);
+        if (!s || !s->pacing || s->runway <= 0) return;
+        // The ceiling: S under the controller, the hard limit otherwise.
+        const long long ceiling = s->enabled
+            ? static_cast<long long>(space->softHeapLimit)
+            : static_cast<long long>(relaxedLoad(space->maxHeapSize));
+        if (ceiling <= 0) return;
         const long long left = static_cast<long long>(space->freeCellsCount)
-            + std::max(0LL, static_cast<long long>(space->softHeapLimit) - space->heapSize);
-        if (left < s->triggerRunway) requestCycle(space);
+            + std::max(0LL, ceiling - static_cast<long long>(space->heapSize));
+        if (left < s->runway) {
+            ++s->stats.pacedRequests;
+            requestCycle(space, s);
+        }
     }
 
     void afterHeapGrowth(ProtoSpace* space, int cells) {
@@ -418,40 +545,108 @@ namespace adaptive {
         // waits for it: a thread inside a critical section, or one that has
         // already waited once in this refill, grows the heap without asking.
         if (space->softHeapLimit > 0 && space->heapSize >= space->softHeapLimit)
-            requestCycle(space);
+            requestCycle(space, s);
     }
 
     void onCycleStart(ProtoSpace* space) {
-        if (SpaceState* s = findEnabled(space)) s->cycleStart = Clock::now();
+        if (SpaceState* s = find(space)) {
+            s->cycleStart = Clock::now();
+            noteRequest(s);
+        }
     }
 
     void recordMutatorWait(const ProtoSpace* space, std::uint64_t nanos) {
-        if (SpaceState* s = findEnabled(space))
+        if (SpaceState* s = find(space))
             s->waitNanos.fetch_add(nanos, std::memory_order_relaxed);
     }
 
-    void onCycleEnd(ProtoSpace* space, std::uint64_t stopTheWorldNanos) {
-        SpaceState* s = findEnabled(space);
+    namespace {
+        // The pacing signals of the interval that ends with this cycle
+        // (section 4.2), and the runway for the next one.
+        void updatePacing(ProtoSpace* space, SpaceState* s, Clock::time_point now,
+                          std::uint64_t waits) {
+            const long long occupied = static_cast<long long>(space->heapSize)
+                                     - static_cast<long long>(space->freeCellsCount);
+            const double interval = std::chrono::duration<double>(now - s->intervalStart).count();
+            const double cycle = s->requested
+                ? std::chrono::duration<double>(now - s->requestedAt).count()
+                : std::chrono::duration<double>(now - s->cycleStart).count();
+            // Cells handed out in the interval: the change of the occupied
+            // cells plus what went back to the freelist meanwhile (the
+            // cycle's reclaimed cells and the unused batches returned).
+            const long long previous = s->occupiedLastEnd >= 0 ? s->occupiedLastEnd : 0;
+            const long long handed = occupied - previous
+                + static_cast<long long>(space->reclaimedLastCycle.load(std::memory_order_relaxed))
+                + static_cast<long long>(s->returnedSinceEnd);
+            // The mutators' time not spent waiting: the interval less the
+            // mean wait per thread, never below a tenth of the interval.
+            const double threads = static_cast<double>(
+                std::max(1, space->runningThreads.load() + s->waiters));
+            double active = interval - static_cast<double>(waits) / 1e9 / threads;
+            active = std::max(active, interval * 0.1);
+            const double r = (handed > 0 && active > 0.0) ? static_cast<double>(handed) / active : 0.0;
+            s->rate[1] = s->rate[0];
+            s->rate[0] = r;
+            s->cycleSeconds[1] = s->cycleSeconds[0];
+            s->cycleSeconds[0] = cycle;
+            s->occupiedLastEnd = occupied;
+            s->returnedSinceEnd = 0;
+            s->intervalStart = now;
+            s->requested = false;
+            ++s->completed;
+            const long long ceiling = s->enabled
+                ? static_cast<long long>(space->softHeapLimit)
+                : static_cast<long long>(relaxedLoad(space->maxHeapSize));
+            s->runway = ceiling > 0
+                ? pacing::runway(ceiling, std::max(0LL, occupied),
+                                 std::max(s->rate[0], s->rate[1]),
+                                 std::max(s->cycleSeconds[0], s->cycleSeconds[1]))
+                : 0;
+        }
+    }  // namespace
+
+    CycleMeasures lastCycleMeasures(const ProtoSpace* space) {
+        SpaceState* s = find(space);
+        return s ? s->last : CycleMeasures();
+    }
+
+    void onCycleEnd(ProtoSpace* space, const CycleMeasures& measures) {
+        const std::uint64_t stopTheWorldNanos = measures.stwNanos;
+        SpaceState* any = find(space);
+        const Clock::time_point now = Clock::now();
+        if (any) {
+            any->last = measures;
+            any->last.busyNanos = static_cast<std::uint64_t>(
+                std::chrono::duration_cast<std::chrono::nanoseconds>(now - any->cycleStart).count());
+        }
+        SpaceState* s = (any && any->enabled) ? any : nullptr;
         if (!s) {
+            const std::uint64_t waits = any ? any->waitNanos.exchange(0, std::memory_order_relaxed) : 0;
+            if (any) updatePacing(space, any, now, waits);
             // Fixed limits: PROTOCORE_HEAP_TRACE prints the cycle too, so a
             // fixed policy can be measured against the controller.
             const char* traceEnv = std::getenv("PROTOCORE_HEAP_TRACE");
             if (traceEnv && *traceEnv && std::strcmp(traceEnv, "0") != 0) {
                 std::fprintf(stderr,
                     "protoCore heap: space=%p fixed cycle=%llu L=%" PROTO_FMT_U
-                    " soft=%d hard=%d heap=%d stw=%.3fms\n",
+                    " soft=%d hard=%d heap=%d stw=%.3fms r=%.0f C=%.3fms runway=%lld"
+                    " waits=%llu watchdog=%llu paced=%llu\n",
                     static_cast<void*>(space),
                     static_cast<unsigned long long>(
                         space->gcCycleCount.load(std::memory_order_relaxed)),
                     static_cast<proto_ulong>(
                         space->liveCellsLastCycle.load(std::memory_order_relaxed)),
                     space->softHeapLimit, relaxedLoad(space->maxHeapSize),
-                    relaxedLoad(space->heapSize), stopTheWorldNanos / 1e6);
+                    relaxedLoad(space->heapSize), stopTheWorldNanos / 1e6,
+                    any ? any->rate[0] : 0.0, any ? any->cycleSeconds[0] * 1e3 : 0.0,
+                    any ? any->runway : 0LL,
+                    any ? static_cast<unsigned long long>(any->stats.waits) : 0ULL,
+                    any ? static_cast<unsigned long long>(any->stats.watchdogWakes) : 0ULL,
+                    any ? static_cast<unsigned long long>(any->stats.pacedRequests) : 0ULL);
                 std::fflush(stderr);
             }
             return;
         }
-        const Clock::time_point now = Clock::now();
         const double T = static_cast<double>(
             std::chrono::duration_cast<std::chrono::nanoseconds>(now - s->lastCycleEnd).count());
         const std::uint64_t waits = s->waitNanos.exchange(0, std::memory_order_relaxed);
@@ -465,7 +660,7 @@ namespace adaptive {
         const long long retained = static_cast<long long>(space->heapSize)
                                  - static_cast<long long>(space->freeCellsCount);
         s->retainedLastCycle = static_cast<proto_ulong>(std::max(0LL, retained));
-        s->triggerRunway = runwayFor(static_cast<proto_ulong>(space->softHeapLimit), L);
+        updatePacing(space, s, now, waits);
         s->lastCycleEnd = now;
         s->lastPressure = p;
         ++s->cycles;
@@ -476,11 +671,12 @@ namespace adaptive {
             std::fprintf(stderr,
                 "protoCore heap: space=%p cycle=%llu L=%" PROTO_FMT_U " T=%.3fms "
                 "P=%.3fms p=%.4f S=%" PROTO_FMT_U "->%d H=%" PROTO_FMT_U
-                " heap=%d retained=%" PROTO_FMT_U " Tc=%.3fms\n",
+                " heap=%d retained=%" PROTO_FMT_U " Tc=%.3fms r=%.0f C=%.3fms runway=%lld\n",
                 static_cast<void*>(space), static_cast<unsigned long long>(s->cycles),
                 L, T / 1e6, P / 1e6, p, before, space->softHeapLimit,
                 s->hardCells, space->heapSize, s->retainedLastCycle,
-                std::chrono::duration<double, std::milli>(now - s->cycleStart).count());
+                std::chrono::duration<double, std::milli>(now - s->cycleStart).count(),
+                s->rate[0], s->cycleSeconds[0] * 1e3, s->runway);
             std::fflush(stderr);
         }
     }
@@ -541,12 +737,7 @@ namespace adaptive {
             return;
         }
 
-        SpaceState* s = find(space);
-        if (!s) {
-            s = new SpaceState();
-            s->space = space;
-            registry().push_back(s);
-        }
+        SpaceState* s = ensureState(space);
         if (!s->enabled) {
             s->enabled = true;
             ++enabledCount;
@@ -566,7 +757,6 @@ namespace adaptive {
         for (SpaceState* other : registry())
             if (other->enabled) other->hardCells = H;
         space->softHeapLimit = static_cast<int>(S0);
-        s->triggerRunway = runwayFor(S0, space->liveCellsLastCycle.load(std::memory_order_relaxed));
         relaxedStore(space->maxHeapSize, static_cast<int>(H));
         recomputeCeilings();
     }

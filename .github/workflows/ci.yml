@@ -80,6 +80,12 @@ env:
   #                                                garbage once on macOS; since
   #                                                2.10.1 S is capped at 8 x L
   #                                                and the bound is half)
+  #   CollectorPacingRate.*                        a steady allocator below the
+  #                                                collector's capacity stops
+  #                                                waiting once cycles are
+  #                                                paced: whether the collector
+  #                                                keeps up is the machine's
+  #                                                speed (test/CollectorPacingTests.cpp)
   #   conformance.isolate.*                        three cases whose violation
   #                                                shows up as a deadlock, so the
   #                                                TIMEOUT 240 *is* the verdict.
@@ -96,7 +102,7 @@ env:
   #                                                intermittent, about 2 runs in
   #                                                10, in a sibling runtime
   #                                                (test/CMakeLists.txt:59-68)
-  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.SoftLimitSettlesWithinBoundedCycles|AdaptiveHeapSteady\.HeapStaysFarBelowTheGarbageVolume|conformance\.isolate\..*)$'
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.SoftLimitSettlesWithinBoundedCycles|AdaptiveHeapSteady\.HeapStaysFarBelowTheGarbageVolume|CollectorPacingRate\..*|conformance\.isolate\..*)$'
 
 jobs:
   test:

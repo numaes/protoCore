@@ -4,6 +4,81 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.12.0] - 2026-10-03
+
+No API or ABI change (SOVERSION 3), no change to the object model.  The
+collector-throughput design, milestones 1 and 2
+([spec](docs/specs/2026-10-03-collector-throughput-design.md), approved
+2026-10-03; [report](docs/reports/2026-10-03-collector-throughput.md)).
+Every number below is from synthetic workloads, median of 3.
+
+### Changed
+
+- **A wait for heap headroom ends when cells arrive.**  Every publication
+  of free cells wakes one waiting thread, and the wait also ends on a
+  non-empty freelist.  Before, a wait that began inside a running cycle
+  lasted until the 50 ms watchdog: the mean wait was 48.6-50.2 ms on every
+  multi-threaded run.
+- **Pacing under fixed limits and the controller.**  Every space measures,
+  at each cycle end, the mutators' allocation rate r and the cycle duration
+  C from request to completion; a refill requests a cycle once the cells
+  left before the ceiling fall below `min(headroom, r x C x 1.25)`.  A
+  fixed limit requested a cycle only at the ceiling, so the mutators stopped
+  for the whole cycle even when the collector kept up: on the protoJS
+  N = 6 runs at 40 M cells the wait share fell from 19-21 % to 3 %.  This
+  replaces the controller's fixed quarter of S - L.  Pacing starts cycles
+  with less garbage, so there are more of them (5 -> 8 on one workload,
+  where that ate the gain).  `PROTOCORE_GC_PACING=0` turns pacing and the
+  early wake off (diagnosis).
+- **The sweep walks 8 segment chains in lockstep, with prefetch.**  The
+  per-cell cost under concurrent allocation was memory latency: about one
+  serialized DRAM miss per swept cell (IPC 0.08 on the collector thread).
+  Sweep cost per cell: 139 -> 46 ns (protoClojure, 6 tasks),
+  84 -> 29 ns (protoJS `records`, 12 threads), 157 -> 91 ns (protoScala,
+  6 tasks); wall time -63 %, -43 %, -26 %.  On a quiet machine with
+  freshly built garbage the micro-benchmark shows about +2 ns per cell.
+- **The sweep hands processed segments back in batches** (one
+  compare-and-swap per 1,024 segments, and one per sweep for the survivor
+  pen, instead of one per segment of about 6 cells), **unmarks and relinks
+  a survivor with one store**, and **Phase 6 tests a mark bit before
+  clearing it**.  Together about 10 % of the per-cell cost.
+- The collector thread is named `protocore-gc` on Linux.
+- `PROTOCORE_HEAP_TRACE` prints the pacing signals (r, C, runway) and, for
+  fixed limits, the headroom-wait counters.
+
+### Fixed (before release)
+
+- With the early wake, the controller's soft-zone checkpoint returned at
+  once while its pending flag stayed set, so every outermost critical
+  section took `globalMutex` until the cycle ended: about 2 million empty
+  waits per run, the single-threaded adaptive benchmark 4.2 -> 14.5 s.  A
+  publication of cells now clears the flag (2.66 s).
+
+### Added
+
+- `test/CollectorPacingTests.cpp`: the pure runway function; a wait at the
+  ceiling ends on a publication of cells (wake-reason counters); fixed
+  limits request cycles before the ceiling; `PROTOCORE_GC_PACING=0`
+  restores the old behaviour, which is also how these cases were seen to
+  fail.  `CollectorPacingRate.*` (a steady allocator below capacity stops
+  waiting) is clock-dependent and joins `CLOCK_DEPENDENT_TESTS`.
+- `performance/sweep_contention_benchmark`: the sweep's ns per cell under
+  the conditions that separate the spec's hypotheses (loaded DRAM, the
+  shared segment pool, other cores' cache lines, readers of survivors,
+  fresh against recycled memory).  Self-verifying.
+- Always-on cycle measures (pause, mark, sweep, busy time, swept and freed
+  cells): three clock reads per cycle and a counter per swept cell.
+- The compiled-out per-phase instrumentation of `measure/gc-phases`
+  (`-DPROTOCORE_GC_INSTRUMENT=ON`, `[GC-PHASES]`).
+
+### Measured, not changed
+
+- Single-threaded protoCore benchmarks: identical instruction counts;
+  cycles -1.2 % to +1.8 % on four of six, `hash_quality` +3.5 to +6.8 %
+  (150 ms; its hot code is unchanged: layout).
+- The parallel sweep's gate (per-cell cost at 6-12 threads within 1.5x of
+  one thread) is not met (2-3x): the helper threads come next.
+
 ## [2.11.0] - 2026-10-03
 
 Additive API; no ABI break (SOVERSION 3), no change to the object model.
