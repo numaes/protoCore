@@ -91,4 +91,5 @@ about 33 MB per repetition (41 MB, 337 MB and 1.32 GB at 1, 10 and 40
 repetitions on Linux x64; the same on macOS): `~ProtoSpace` does not return
 its cell blocks to the operating system.  That does not affect a program
 with one space, but a process that creates and destroys many spaces keeps
-every heap it ever had.  Reported separately as a GitHub issue.
+every heap it ever had.  Reported as
+[numaes/protoCore#2](https://github.com/numaes/protoCore/issues/2).
