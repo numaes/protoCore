@@ -70,6 +70,12 @@ env:
   #                                                case asserts it falls below
   #                                                5 % within 60 cycles
   #                                                (test/AdaptiveHeapTests.cpp)
+  #   AdaptiveHeapSteady.HeapStaysFarBelowTheGarbageVolume
+  #                                                where the soft limit settles
+  #                                                depends on the allocation
+  #                                                rate against the collector's
+  #                                                speed (5,029,888 vs a
+  #                                                5,000,000 bound once on macOS)
   #   conformance.isolate.*                        three cases whose violation
   #                                                shows up as a deadlock, so the
   #                                                TIMEOUT 240 *is* the verdict.
@@ -86,7 +92,7 @@ env:
   #                                                intermittent, about 2 runs in
   #                                                10, in a sibling runtime
   #                                                (test/CMakeLists.txt:59-68)
-  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.PressureFallsWithinBoundedCycles|conformance\.isolate\..*)$'
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.PressureFallsWithinBoundedCycles|AdaptiveHeapSteady\.HeapStaysFarBelowTheGarbageVolume|conformance\.isolate\..*)$'
 
 jobs:
   test:

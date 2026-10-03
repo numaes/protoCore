@@ -273,36 +273,64 @@ TEST(AdaptiveHeap, CycleStartsAtSoftLimitWithoutAWaitingThread) {
 // --- Steady workload ---------------------------------------------------------
 
 // A small live set and a lot of garbage at an interpreter-like rate (some
-// work between allocations): the heap stays near S, which stays near
-// max(S0, k_live * L), far from H and far from the garbage volume.
+// work between allocations).
+namespace {
+struct SteadyRun {
+    AdaptiveHeapStats stats;
+    proto_ulong garbageCells = 0;
+    proto_ulong liveElements = 0;
+    bool softNeverDecreased = true;
+};
+
+SteadyRun runSteady(ProtoSpace& space) {
+    space.enableAdaptiveHeap();
+    RootedList live(space, 100000);   // ~300,000 live cells
+    constexpr int kRounds = 200;
+    constexpr int kPerRound = 50000;   // 10,000,000 objects of garbage in all
+    SteadyRun run;
+    proto_ulong lastSoft = 0;
+    for (int r = 0; r < kRounds; ++r) {
+        run.garbageCells += churn(space, kPerRound, 50);
+        const proto_ulong soft = space.adaptiveHeapStats().softCells;
+        if (soft < lastSoft) run.softNeverDecreased = false;
+        lastSoft = soft;
+    }
+    run.stats = space.adaptiveHeapStats();
+    run.liveElements = live.size(space);
+    const AdaptiveHeapStats& s = run.stats;
+    std::printf("[ steady ] L=%lu S=%lu heap=%lu cycles=%llu p=%.4f H=%lu garbage=%lu\n",
+                (unsigned long) s.liveCellsLastCycle, (unsigned long) s.softCells,
+                (unsigned long) s.heapCells, (unsigned long long) s.cycles,
+                s.lastPressure, (unsigned long) s.hardCells, (unsigned long) run.garbageCells);
+    return run;
+}
+}  // namespace
+
+// Gating, clock-free invariants: the live set survives, cycles run, S never
+// decreases, the heap follows S, and S does not run away towards H.
 TEST(AdaptiveHeap, SteadyWorkloadHeapFollowsTheSoftLimit) {
     CleanEnv env;
     ProtoSpace space;
-    space.enableAdaptiveHeap();
-    RootedList live(space, 100000);   // ~200,000 live cells
-
-    constexpr int kRounds = 200;
-    constexpr int kPerRound = 50000;   // 10,000,000 objects of garbage in all
-    proto_ulong lastSoft = 0;
-    proto_ulong garbageCells = 0;
-    for (int r = 0; r < kRounds; ++r) {
-        garbageCells += churn(space, kPerRound, 50);
-        const AdaptiveHeapStats s = space.adaptiveHeapStats();
-        ASSERT_GE(s.softCells, lastSoft) << "S decreased at round " << r;
-        lastSoft = s.softCells;
-    }
-    const AdaptiveHeapStats s = space.adaptiveHeapStats();
-    EXPECT_EQ(live.size(space), 100000u) << "the live set survived";
+    const SteadyRun run = runSteady(space);
+    const AdaptiveHeapStats& s = run.stats;
+    EXPECT_EQ(run.liveElements, 100000u) << "the live set did not survive";
     EXPECT_GT(s.cycles, 0u);
+    EXPECT_TRUE(run.softNeverDecreased);
     EXPECT_LT(s.softCells, s.hardCells / 4) << "S ran away towards H";
-    // The heap is S plus what grew while cycles ran (16 MiB blocks), and in
-    // any case a small fraction of the cells allocated.
+    // The heap is S plus what grew while cycles ran (16 MiB blocks).
     EXPECT_LT(s.heapCells, s.softCells + 4000000u);
-    EXPECT_LT(s.heapCells, garbageCells / 4) << garbageCells << " cells allocated";
-    std::printf("[ steady ] L=%lu S=%lu heap=%lu cycles=%llu p=%.4f H=%lu\n",
-                (unsigned long) s.liveCellsLastCycle, (unsigned long) s.softCells,
-                (unsigned long) s.heapCells, (unsigned long long) s.cycles,
-                s.lastPressure, (unsigned long) s.hardCells);
+}
+
+// Clock-dependent (listed in CLOCK_DEPENDENT_TESTS): where S settles depends
+// on the allocation rate against the collector's speed.  The heap ends far
+// below the garbage volume (a quarter of it; 1-5 M cells of 20 M measured on
+// Linux x86-64 and macOS arm64).
+TEST(AdaptiveHeapSteady, HeapStaysFarBelowTheGarbageVolume) {
+    CleanEnv env;
+    ProtoSpace space;
+    const SteadyRun run = runSteady(space);
+    EXPECT_LT(run.stats.heapCells, run.garbageCells / 4)
+        << run.garbageCells << " cells allocated";
 }
 
 // --- Storm workload ----------------------------------------------------------
