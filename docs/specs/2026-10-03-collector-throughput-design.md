@@ -1,7 +1,8 @@
-# Collector throughput: diagnosis, parallel sweep and pacing
+# Collector throughput and heap sizing: two complementary parts
 
-Status: **draft for review**.  Date: 2026-10-03.  Base: protoCore 2.10.2
-(master `294822fc`).  Author: Gustavo Marino, with Claude.
+Status: **draft for review**.  Both parts are to be reviewed by the
+maintainer before any implementation.  Date: 2026-10-03.  Base: protoCore
+2.10.2 (master `294822fc`).  Author: Gustavo Marino, with Claude.
 
 Inputs:
 [../reports/2026-10-03-gc-phase-breakdown.md](../reports/2026-10-03-gc-phase-breakdown.md)
@@ -13,44 +14,74 @@ Inputs:
 
 This is a design, not an implementation.  Nothing in it has been built or
 measured beyond what the phase report measured.  Every expected gain below is
-a bound or a hypothesis, and is labelled as such.
+a bound, an estimate or a hypothesis, and is labelled as such.  The phase
+report's workloads are synthetic benchmarks written for this platform.  This
+spec uses them as evidence about mechanisms, and does not fit its acceptance
+to them (section 9).
 
 ## 0. Summary
 
-1. **Diagnose first.**  The sweep's cost per cell triples with concurrent
-   allocators (40 -> 158 ns) while the collector stays on the CPU.  The cause
-   is unmeasured, and it decides whether more sweeping threads help.  Section 3
-   lists five hypotheses, the counters and differential benchmarks that
-   separate them, and seven cheap fixes.  Two of the fixes, batched segment
-   recycling and a multi-cursor sweep, may recover much of the cost on one
-   thread.
-2. **Parallel sweep** (section 4).  The sweep becomes a job that the space's
-   collector thread runs together with K helper threads from one process-wide
-   pool.  Sweepers claim runs of segments.  Each one builds its own free
-   chunks, survivor chain, recycled-segment chain, finalized-ref vector and
-   dead-cell vector, and publishes them in batches.  Phase 5b, the bulk
-   unmark, Phase 7 and the token release stay on the collector thread, after
-   the join.  Finalizers still run on collector-owned threads and never on
-   mutator threads.  Embedder callbacks (`ProtoExternalPointer`) stay serial
-   on the collector thread.  There are no barriers, no model change and no
-   ABI change.  K = 0 keeps today's behaviour.
-3. **Pacing** (section 5).  Under a fixed limit, a cycle should start before
-   the ceiling, at a runway equal to allocation rate x last cycle duration.
-   The wait should also stop being quantised by the 50 ms watchdog: in every
-   multi-threaded run of the phase report, the mean wait is 49-50 ms.  The
-   controller's pacing is unchanged in v1.  Section 5.4 explains its N = 12
-   result: more cycles, each re-marking the live set, on a collector that is
-   already saturated.
-4. **Mark stays serial** (section 6), with explicit triggers for revisiting
-   it.
-5. **Acceptance** (section 8): the phase report's workloads, median of 3,
-   self-verifying.  At N = 12 the sweep's throughput must at least double.
-   N = 1 must show no regression beyond noise.  TSan and ASan must be clean.
-   Deterministic tests are listed in section 9.
+Mutators wait for the collector in two different regimes.  This spec
+proposes one remedy for each.  The remedies are complementary, not
+alternatives.
+
+- **Regime 1: the collector keeps up** (reclamation throughput T at least
+  the allocation rate r).  The waits are a sizing and timing problem.  A
+  cycle requested early enough, with headroom of about r x cycle duration
+  inside a generous memory budget, removes them.  More headroom also lowers
+  the total collection work, because the live set is re-marked and the
+  survivors re-swept fewer times.
+- **Regime 2: allocation outruns the collector** (r > T).  Memory only
+  postpones the wait: headroom H lasts H / (r - T) seconds, unless the run's
+  whole garbage fits in the budget.  Only a faster collector helps, and a
+  faster collector shrinks regime 2.
+
+The parts:
+
+- **Part A, heap sizing** (section 4).
+  - **Objective:** *minimise time within a memory budget*, replacing the
+    2.10.x calibration's *minimise memory within a time tolerance*.  The
+    budget is the hard limit of the process sizing rule.  Memory is never
+    returned to the operating system, so memory inside the budget is there to
+    be used.
+  - **Pacing:** request a cycle when the cells left fall below
+    r x C (C: the measured cycle duration), under fixed limits and under the
+    controller alike.  The wait ends when cells arrive, not on the 50 ms
+    watchdog.
+  - **Soft limit:** set from the measured r, T and live set while r < T, and
+    grown while the growth measurably reduces waits.  Growth stops where a
+    larger S only lengthens cycles, which is the signature of regime 2.  The
+    fitted constants `k_live`, `k_cap` and `p_high` go away.
+- **Part B, collector throughput** (sections 5-7).
+  - **Diagnosis first** (section 5).  The sweep's per-cell cost triples with
+    concurrent allocators, and the cause is unmeasured: coherence, DRAM
+    latency, contended shared lines or finalizers.  The plan covers counters,
+    `perf c2c` and stall attribution, a differential microbenchmark, and
+    seven cheap fixes, including batched segment recycling and a multi-cursor
+    sweep.  A gate follows before any threading.
+  - **Parallel sweep** (section 6).  The collector thread plus K helpers
+    from one process-wide pool.  Segments are claimed in runs, each sweeper
+    keeps its own state and publishes in batches.  Phase 5b, the bulk unmark
+    and the token stay on the collector thread.  Embedder finalizers stay
+    serial on the collector thread.  There are no barriers, no model change
+    and no ABI change.
+  - **Mark stays serial** (section 7), with explicit triggers for revisiting
+    it.
+- **Acceptance as properties** (section 9):
+  - no mutator wait when the collector has spare capacity and the budget
+    allows the headroom;
+  - the budget is never exceeded;
+  - no out-of-memory while the live set fits;
+  - bounded convergence;
+  - no single-thread regression beyond noise.
+
+  A memory-as-only-variable experiment (limits from 10 M to 400 M cells)
+  classifies each synthetic workload's regime, reported as evidence.
 
 ## 1. Problem
 
-From the phase report (one run per configuration, AMD 6 cores / 12 threads):
+From the phase report (synthetic workloads, one run per configuration, AMD
+6 cores / 12 threads):
 
 - The sweep is 41-99 % of the collector's busy time (median 61 %) and the
   largest phase on 30 of 32 completed runs.  Stop-the-world is at most
@@ -96,9 +127,75 @@ therefore always lasts 50 ms.  The thread then re-checks the freelist
 Under the controller, the cycles are longer than 50 ms, so the watchdog fires
 first there too.  The mutators therefore poll the freelist every 50 ms while
 the sweep publishes chunks.  The share of the measured wait that is polling
-latency, rather than missing cells, is unmeasured (section 3.2, counter C6).
+latency, rather than missing cells, is unmeasured (section 5.2, counter C6).
 
-## 2. Constraints
+## 2. Two regimes
+
+Let r be the rate at which the mutators would produce garbage if they never
+waited.  Let T be the collector's reclamation throughput: cells reclaimed per
+second of collector busy time, mark included.  With headroom G (cells free or
+growable when a cycle starts), live set L and a cycle duration of about
+`C = (L + G) / T'` (T': cells processed per busy second; mark visits L, sweep
+visits the candidates):
+
+- **A cycle hides behind the mutators** when its runway lasts as long as the
+  cycle: `G >= r x C`.  Substituting C and writing `rho = r / T'`:
+
+  ```
+  G (1 - rho) >= rho x L        =>        G* = rho x L / (1 - rho)
+  ```
+
+  G* is finite only while `rho < 1`.  **Regime 1** is `rho < 1` with
+  `L + G* <= budget`: some headroom removes the waits, and it is found by
+  measurement, not tuning.
+- **As rho approaches 1, G* diverges.**  Each increase in headroom lengthens
+  the cycle almost as much as it lengthens the runway.  This is what the
+  calibration observed when its rate x cycle-time target "chased itself" and
+  2.10.0's S ran towards H.  It is a property of the regime, not of the
+  constants.
+- **Regime 2** is `rho >= 1`, or `L + G*` above the budget.  Headroom H then
+  lasts `H / (r - T)` seconds before the mutators are paced by the collector,
+  whatever the heap size.  The exception is a run whose total garbage fits in
+  the budget, so that it never needs a cycle that blocks: no cycle-time
+  argument applies to it.
+- **A larger heap also raises T.**  Every cycle re-marks the live set and,
+  with survivor re-inclusion, re-sweeps the survivors.  Fewer cycles mean
+  less of that fixed work per reclaimed cell.  Mark is 19-34 % of busy time
+  in the protoJS 40 M-cell N = 12 runs and 28 % in CAD.  The boundary
+  between the regimes therefore depends on S, which is why Part A measures
+  the marginal effect of growing S instead of predicting it.
+
+**Estimates from the phase report** (synthetic workloads, one run each).
+- *Demand* is cells freed / mutator floor (wall time minus waits per
+  thread); it approximates r, assuming the waits were spread evenly.
+- *Capacity* is cells freed / collector busy time; it approximates T at the
+  run's own heap size.
+
+| Run | Demand (M cells/s) | Capacity (M cells/s) | Regime at this heap size | Garbage freed (GB) |
+|---|---:|---:|---|---:|
+| js40_records_n6 | 13.7 | 16.2 | 1 | 11.2 |
+| js40_graph_n6 | 15.7 | 20.5 | 1 | 15.5 |
+| js40_wordfreq_n12 | 14.3 | 21.1 | 1 | 11.5 |
+| js40_records_n12 | 15.0 | 9.1 | 2 | 21.5 |
+| js40_graph_n12 | 17.1 | 9.3 | 2 | 33.6 |
+| jsad_records_n12 | 18.6 | 9.0 | 2 | 20.3 |
+| scala_tree_t6 | 6.5 | 3.9 | 2 | 20.4 |
+| clj_coll_t6 | 18.0 | 6.4 | 2 | 49.9 |
+
+Reading:
+- The regime-1 rows still waited 10-22 % (N = 6) and 17 % (`wordfreq`
+  N = 12).  The cycle started at the ceiling, which is a timing problem.
+- With a 40 M-cell limit at N = 1, four of five protoJS workloads ran no cycle
+  at all, so enough memory removed the collection entirely.
+- In regime 2, js40 `records` N = 12 frees about 400 M cells (21.5 GB at
+  64 bytes) in the whole run.  That fits in a budget of 75 % of this
+  machine's 62 GB (46 GB), so a budget-sized heap would remove its waits
+  without any collector speed-up.  `clj_coll_t6` (50 GB) would not fit.
+- The same numbers show why Part B matters.  Doubling T moves `records`,
+  `graph` and `scala_tree` N = 12 / t6 to `rho < 1`, but not `clj_coll_t6`
+  (rho = 2.8).
+
+## 3. Constraints
 
 - **No model change.**  The sweep stays a sweep of the segments captured in
   Phase 2.  There is no new cell kind, no new collector subsystem and no
@@ -126,10 +223,224 @@ latency, rather than missing cells, is unmeasured (section 3.2, counter C6).
   atomic-wait machinery and are not needed.
 - **Process sizing rule.**  The heap is still the sum of each space's peak.
   Helpers allocate no cells and no heap.
+- **Memory budget.**  Part A never lets the sum of the spaces' heaps
+  exceed the budget B, and it keeps the out-of-memory rule of 2.10.x.
 
-## 3. Diagnose before parallelising
+## 4. Part A: heap sizing (minimise time within a memory budget)
 
-### 3.1 What the sweep does per cell today
+### 4.1 Objective
+
+**Recommended objective:** minimise the time mutators lose to collection,
+subject to the sum of the spaces' heaps never exceeding the budget B.
+
+- **B** is the hard limit of the process sizing rule (perennials plus the sum
+  of each space's peak): the adaptive controller's H.  Its default is 75 % of
+  the smaller of physical memory and the process memory limit.  The embedder
+  or the operator (`PROTOCORE_HEAP_LIMIT_CELLS`) can set it.
+- **Why memory is there to be used.**  protoCore never returns memory to the
+  operating system.  A heap that stays well below B buys nothing for the
+  process; B is the agreement with the rest of the machine.  Within it, a
+  cell of headroom that removes a wait is worth having.
+- **Contrast with 2.10.x.**  The calibration minimised memory within a time
+  tolerance.  `p_high = 0.05` was the tolerance, and `k_live = 3` and
+  `k_cap = 8` bounded memory to a multiple of the live set.  Its own report
+  records the consequence: protoJS +12 % to +75 % in time against a policy
+  that collects less.  Under the recommended objective, the cap is B, and the
+  growth stops for a measured reason (4.5), not at a fitted multiple.
+- **The heap does not grow for nothing.**  S grows only while mutators wait
+  and growth reduces the waits.  A program with a low allocation rate needs
+  little runway and keeps a small heap, as it does today.
+
+This is a change of policy.  It is the maintainer's decision (section 13,
+question 1).
+
+### 4.2 Signals
+
+All signals are measured per space at cycle end, on the collector thread.
+None touches the allocation fast path.
+
+| Signal | Definition | Where |
+|---|---|---|
+| r | cells handed out by `getFreeCells` in the interval, divided by the time the mutators were *not* waiting: `T_int x (1 - w)`.  This is an estimate of the unthrottled rate. | counter under `globalMutex`, which the refill already holds |
+| C | cycle duration, from request to completion | `onCycleStart` / `onCycleEnd`, as for `Tc` in the trace today |
+| T | cells reclaimed per second of collector busy time | busy time per cycle (the phase report's `busy`, made permanent and cheap: two `steady_clock` reads per phase) |
+| w | wait share per thread, `P / (T_int x threads)` | the existing P, normalised.  This answers the calibration's open point 3: P summed over threads reached p = 4-5 with six mutators. |
+| u | collector utilisation, `busy / T_int` | as above |
+| L, R | live set; cells left unreclaimed | existing |
+
+### 4.3 Pacing: when a cycle starts
+
+One rule for fixed limits and for the controller.  The ceiling is S under the
+controller and `maxHeapSize` under a fixed limit.
+
+```
+left   = freeCellsCount + max(0, ceiling - heapSize)
+runway = min(max(0, ceiling - R),  r x C x (1 + m))
+request a cycle when left < runway (and none is requested or running)
+```
+
+- **The one constant.**  m is a structural slack fraction: one quarter of a
+  cycle of measurement error, m = 0.25.  It is not fitted to a workload.
+- **Conservative inputs.**  r and C are the larger of the last two cycles'
+  values, which avoids a smoothing constant.
+- **First cycle.**  Before it, `runway = 0`, which is today's behaviour.
+- **A full-headroom runway is information.**  When the runway equals the
+  whole headroom (`ceiling - R`), the cycle starts as soon as the previous
+  one ends: the collector cannot keep up at this ceiling.  That is the input
+  to 4.5.
+- **Implementation.**  The pure function `pacing::runway(...)` is
+  unit-tested.  It lives in the hook `adaptive::pace` already occupies
+  (`core/AdaptiveHeap.cpp:402`, called from `getFreeCells` under the lock).
+  The state lives in the side structure keyed by space, extended to
+  fixed-limit spaces.
+- **Replaces** the controller's fixed quarter of `S - L`
+  (`kTriggerFraction = 0.75`, `core/AdaptiveHeap.h:51`).
+
+**Today, for reference.**
+- `PROTOCORE_HEAP_LIMIT_CELLS=<hard>` (the phase report's js40/js10 runs)
+  sets `softHeapLimit = 0`.  A fixed-limit space then requests a cycle only
+  when a refill finds the heap at `maxHeapSize` with an empty freelist
+  (`getFreeCells`, `ProtoSpace.cpp:2081-2091`).  By then every mutator that
+  needs cells is about to wait.
+- With a soft limit, a refill at or above it waits for one cycle (the "soft
+  zone"), which is a wait as well.
+- At N = 6 with a 40 M-cell limit, the collector is idle most of the run, yet
+  the mutators wait 10-22 %.  The single-threaded `core_fixed640_live1M`
+  waits 1.25 s of a 3.6 s run (25 waits of 50 ms).
+
+**Costs.**
+- Cycles start with less garbage, so there are more of them, each paying a
+  mark of the live set.  The runway is at most the headroom, and it is
+  `r x C`, not a fixed fraction, so cycles are no more frequent than the
+  collector needs to keep up.
+- Mutators running at the request pay the stop-the-world quorum.  That is
+  near zero today, because waiting mutators are already out of the running
+  set.  Under the controller's pacing at N = 12 the quorum was 28-270 ms per
+  run and the parked time 0.4-2.7 s summed over 12 threads, below 1 % of
+  thread time.
+
+**This is not the calibration's rejected rate-aware target.**
+- That target *sized the soft limit* from rate x mark time.  Here r x C only
+  times the request.
+- Where S is sized (4.5), the divergence that defeated the rate-aware target
+  is detected and acted upon instead of chased.
+
+### 4.4 Waits that end when cells arrive
+
+The mean wait is about 50 ms in every multi-threaded run (section 1): the
+mutators poll the freelist on the watchdog.
+
+- **Fixed limits.**  `reclaimWaitLocked` keeps its predicate.  In addition,
+  the callers of `publishFreeChunk` call `notify_one` on
+  `memoryReclaimedCV` whenever a waiter count is non-zero.  The count is
+  changed around the wait, under `globalMutex`, which publication holds
+  anyway.  `waitForHeapHeadroom` re-checks the freelist after any wake
+  (line 1833), so the notify needs no new predicate.  It costs nothing when
+  no thread waits.
+- **Controller.**  Early wake was rejected in the calibration: 18-25 %
+  slower on the single-threaded 1 M-cell benchmark, mixed elsewhere.  It is
+  re-measured at N = 12 with counter C6 (section 5.2), which separates
+  polling latency from missing cells.  It is adopted if it reduces the wait
+  share without raising collector busy time.
+- **Out of memory.**  The OOM strike logic is unaffected.  A wake that finds
+  an empty freelist goes through the same "cycle completed?" check
+  (line 1839).
+
+### 4.5 The soft limit: sized from measurements, grown while it pays
+
+Under the controller, after each cycle (pure function
+`adaptive::nextSoftLimit`, extended):
+
+```
+rho = r / T
+if rho < 1:                      # regime 1 at the current S
+    G*     = rho x L / (1 - rho)
+    target = min(B, L + G* x (1 + m))
+    S'     = max(S, target)      # non-decreasing, as today
+else:                            # regime 2 at the current S
+    if w > 0 and growth not stopped:
+        S' = min(B, S x 2)       # probe: does a larger heap reduce waits?
+    else:
+        S' = S
+after each probe: if w did not fall below the previous cycle's w
+                  on two consecutive probes, stop growth (hold S)
+re-arm growth when L or r changes by a factor of 2 since the stop
+```
+
+- **Regime 1** gets the headroom that lets a cycle run behind the mutators.
+  The formula is the condition of section 2, not a fitted multiple.  Once
+  `S >= L + G*`, pacing (4.3) does the rest, and the expected wait is zero.
+- **Regime 2** gets probes.  A larger S cuts the per-cycle fixed work
+  (re-mark, survivor re-sweep), which raises T and may bring rho below 1.
+  It may also let a run's whole garbage fit (js40 `records` N = 12, section
+  2).  If two consecutive doublings did not reduce the wait share, a larger
+  heap is only lengthening cycles.  That is the regime-2 signature, and
+  growth stops there: memory is not spent where it buys no time.
+- **What stays from 2.10.x:**
+  - S is non-decreasing;
+  - S never exceeds B;
+  - S0 is kept as the starting point;
+  - the out-of-memory rule is kept (the cells left unreclaimed after a cycle,
+    plus the other spaces' heaps, exceed B less one batch per thread, on two
+    consecutive cycles).
+- **What goes:** `k_live`, `k_cap` and `p_high`.  The remaining constants are
+  structural:
+  - m = 0.25, the cycle slack;
+  - doubling, the fewest probes, at most `log2(B / S0)`: 9 from 128 MiB to
+    64 GiB;
+  - two non-improving probes, to absorb a single noisy cycle;
+  - a factor-2 change to re-arm.
+
+  None is chosen by fitting a benchmark.
+- **Convergence is bounded.**  At most `log2(B / S0)` doublings in total, and
+  no oscillation, because S never decreases.  Re-arming needs a factor-2
+  change in L or r, so it happens at most `log2` of the range of either.
+- **Fixed limits** (`setHeapLimits`) keep the embedder's S and H.  Only
+  pacing (4.3) and early wake (4.4) apply to them.
+
+### 4.6 Why the controller was slower at N = 12
+
+Same hard limit (40 M cells), fixed against controller, from the phase
+report:
+
+| Workload | Cycles | Mark s | Sweep s | Busy s | Wait s (sum) | Quorum ms |
+|---|---|---|---|---|---|---|
+| records | 10 -> 22 | 7.5 -> 8.7 | 27.0 -> 24.3 | 37.0 -> 35.1 | 231 -> 351 | 0.9 -> 57 |
+| join | 8 -> 17 | 10.0 -> 12.7 | 18.3 -> 20.9 | 29.9 -> 35.5 | 178 -> 208 | 10.5 -> 116 |
+| doctree | 6 -> 14 | 6.0 -> 9.2 | 13.4 -> 17.3 | 21.7 -> 29.3 | 121 -> 167 | 0.4 -> 28 |
+| wordfreq | 5 -> 24 | 1.7 -> 8.2 | 6.0 -> 10.7 | 8.5 -> 20.2 | 31 -> 191 | 1.9 -> 261 |
+| graph | 17 -> 21 | 15.5 -> 20.6 | 37.3 -> 35.9 | 56.3 -> 60.7 | 364 -> 396 | 2.0 -> 270 |
+
+- **More cycles on a saturated collector** (69-95 % busy).  The 2.10.1 cap
+  holds S at `8 L`, below H at these live sets.  Whether S actually sat at
+  the cap is not in the phase report; the `PROTOCORE_HEAP_TRACE` lines must
+  confirm it.
+- **Each extra cycle pays a fixed cost:** the mark of the live set and the
+  re-sweep of the survivors.  On `wordfreq` mark grows 4.8x for the same
+  work.  On a saturated collector that is mutator wait almost one for one.
+- **`wordfreq` N = 12 is regime 1 at the fixed limit** (section 2).  The
+  controller's smaller heap pushed it towards regime 2: busy time 8.5 ->
+  20.2 s.  This is the cost of minimising memory, and the case the
+  recommended objective changes: 4.5 would have kept growing S while waits
+  fell.
+- **The 2.10.1 signal could not see this.**  p is summed over threads and far
+  above `p_high` at every size, so it says only "grow to the cap".  The
+  marginal test (does the wait share fall when S doubles?) and rho
+  distinguish "too small" from "collector too slow".
+
+### 4.7 Several spaces
+
+- The budget B stays process-wide, enforced as today: each enabled space's
+  `maxHeapSize` is its heap plus what is left of the budget
+  (`adaptive::recomputeCeilings`).
+- Each space sizes its own S by 4.5.  Growth competes for the remaining
+  budget first come, first served, as heap growth does today.
+- A fairer split (for example in proportion to each space's wait reduction
+  per cell) is an open question, not part of v1.
+
+## 5. Part B, step 1: diagnose the per-cell cost before parallelising
+
+### 5.1 What the sweep does per cell today
 
 `gcThreadLoop`, Phase 5 (`core/ProtoSpace.cpp:918-1056`), for each segment of
 `segmentsToProcess` and each cell of its `cellChain`:
@@ -158,7 +469,7 @@ another core.  After the sweep, the cell goes into a free chunk that another
 mutator will write.  A survivor's line is read by mutators, and every
 collector write to it invalidates their copies.
 
-### 3.2 Hypotheses and how to tell them apart
+### 5.2 Hypotheses and how to tell them apart
 
 | # | Hypothesis | Predicts |
 |---|---|---|
@@ -222,11 +533,11 @@ each condition:
 Each scenario prints the sweep's ns per cell.  The pattern of the six numbers
 identifies the dominant hypothesis without any PMU support.
 
-### 3.3 Cheap fixes, each measured on its own
+### 5.3 Cheap fixes, each measured on its own
 
 Ordered by expected value per line of code.  Each fix is a separate commit
-with its own before/after numbers on S0-S5 and on two runtime workloads
-(`clj_coll_t6`, `js10_records_n12`).
+with its own before/after numbers on S0-S5 and on two synthetic runtime
+workloads (`clj_coll_t6`, `js10_records_n12`), reported as evidence.
 
 - **F1 Batch segment recycling (H3).**  Chain the processed segments locally
   and push the chain onto `dirtySegmentFreePool` with one CAS: at the end of
@@ -258,7 +569,7 @@ with its own before/after numbers on S0-S5 and on two runtime workloads
   It is also the inner loop the helpers will run.
 - **F5 Batched chunk publication (H3).**  Accumulate up to B = 4 chunks
   locally and publish them under one `globalMutex` acquisition.  If C6 shows
-  waiting mutators, publish immediately instead (section 5.3).
+  waiting mutators, publish immediately instead (section 4.4).
 - **F6 `DirtySegment` alignment (H3).**  If C2 or c2c shows false sharing on
   segment structs, align `DirtySegment` to 64 bytes.  It is internal and not
   installed.  It costs 48 bytes per segment.
@@ -268,7 +579,7 @@ with its own before/after numbers on S0-S5 and on two runtime workloads
 
 **Gate.**  The parallel sweep is implemented only after F1-F4 are measured.
 If F1 + F4 bring the per-cell cost at N = 12 to within 1.5x of N = 1, the
-report re-evaluates the Amdahl table (section 7) with the new sweep times
+report re-evaluates the Amdahl table (section 8) with the new sweep times
 before helpers are built.
 
 Out of scope here, recorded for completeness: a **side mark bitmap** would
@@ -278,9 +589,9 @@ fallback for perennial cells that live outside heap blocks (symbols from
 `posix_memalign`).  It is a larger change, justified only if H1/H5 dominate
 after F2/F3.
 
-## 4. Parallel sweep with collector helper threads
+## 6. Part B, step 2: parallel sweep with collector helper threads
 
-### 4.1 Shape
+### 6.1 Shape
 
 The sweep loop body becomes `sweepRun(SweepJob&, SweeperLocal&)`, with the
 F4 multi-cursor inner loop.  The collector thread and up to K helpers each
@@ -290,7 +601,7 @@ Everything before the sweep (Phases 1-4) and after it (5b, 6, 7, the token,
 the cycle-end bookkeeping at lines 1203-1222) stays on the space's collector
 thread, in today's order.
 
-### 4.2 Partitioning `segmentsToProcess`
+### 6.2 Partitioning `segmentsToProcess`
 
 `segmentsToProcess` is a singly linked list, private to the collector after
 the Phase-2 `exchange` (line 666) and the pen fold (line 781).
@@ -316,9 +627,9 @@ the Phase-2 `exchange` (line 666) and the pen fold (line 781).
   stacks would give a natural partition and remove mutator contention on the
   single `dirtySegments` head.  They need a side array keyed by space (the
   `dirtySegments` field is in the ABI), and their merit depends on C2.  That
-  is an open question (section 12).
+  is an open question (section 13).
 
-### 4.3 Per-sweeper state and merge
+### 6.3 Per-sweeper state and merge
 
 | State | Today (single thread) | Per sweeper | Merge |
 |---|---|---|---|
@@ -328,20 +639,20 @@ the Phase-2 `exchange` (line 666) and the pen fold (line 781).
 | recycled segments | CAS per segment onto `dirtySegmentFreePool` | own chain | one CAS per sweeper (or per 1,024 segments) |
 | finalized mutable refs | `space->gcFinalizedMutableRefs` | own `std::vector<proto_ulong>` | appended to `space->gcFinalizedMutableRefs` by the collector after the join, **before** Phase 5b sorts and deduplicates it |
 | dead cells (several spaces) | `deadCells` | own vector | concatenated by the collector before the grace period |
-| deferred embedder finalizations | none | own vector of `ProtoExternalPointer` cells (4.5) | run by the collector after the join |
+| deferred embedder finalizations | none | own vector of `ProtoExternalPointer` cells (6.5) | run by the collector after the join |
 
 Chunk order and pen order are irrelevant today (mutators take any chunk, and
 the pen is a set), so a different interleaving changes nothing observable.
 
-### 4.4 Cycle order with helpers
+### 6.4 Cycle order with helpers
 
 1. Phases 1-4 as today, on the collector thread.
 2. The collector publishes the `SweepJob` (space, list head, `deferFree`)
-   and sweeps.  The helpers join the job if they are woken (4.2).
+   and sweeps.  The helpers join the job if they are woken (6.2).
 3. **Join.**  The collector waits until `cursor == nullptr` and
    `activeSweepers == 0`.  It never waits for a helper to *arrive*, only for
    helpers that have claimed work to finish it.
-4. The collector merges the per-sweeper state (4.3) and runs the deferred
+4. The collector merges the per-sweeper state (6.3) and runs the deferred
    embedder finalizations.  It publishes those cells as one chunk, which
    counts towards `reclaimedThisCycle`.
 5. Phase 5b (`releaseFinalizedMutableEntries`), on the collector thread,
@@ -350,15 +661,15 @@ the pen is a set), so a different interleaving changes nothing observable.
    inside a cycle.
 6. Phase 6 on the collector thread with F3.  It parallelises trivially over
    index ranges of `markedList` through the same pool, but this is done only
-   if, after F3, it exceeds 5 % of busy time on a workload of the acceptance
-   set.  It is below that today.
+   if, after F3, it exceeds 5 % of busy time on a workload of the section 9
+   experiment.  It is below that today.
 7. Phase 7, token release, grace period (several spaces), cycle end: as
    today.
 
-### 4.5 Finalizers
+### 6.5 Finalizers
 
 The contract changes in one respect, which needs the maintainer's approval
-(section 12): **built-in finalizers may run concurrently with each other**, on
+(section 13): **built-in finalizers may run concurrently with each other**, on
 the collector thread and its helpers.
 
 - The built-in ones are safe:
@@ -371,12 +682,12 @@ the collector thread and its helpers.
 - **Embedder callbacks stay serial.**  A helper that meets a
   `ProtoExternalPointer` cell (`getType() == CellType::ExternalPointer`)
   records it instead of finalizing it.  The collector thread finalizes all
-  recorded cells, one at a time, after the join (4.4 step 4).  Runtimes'
+  recorded cells, one at a time, after the join (6.4 step 4).  Runtimes'
   callbacks were written for one finalizing thread, and this keeps them
   correct without an audit.  Allowing them to run concurrently is an open
   question.
 - **Never on a mutator thread.**  Helpers are collector-owned threads
-  (4.7).  No mutator ever runs `sweepRun`.  This rules out "sweep on the
+  (6.7).  No mutator ever runs `sweepRun`.  This rules out "sweep on the
   allocating core" through the mutators' refills, which the calibration
   report and the phase report mention as an option: it would move finalizers
   onto mutator threads and collection work onto the mutators.
@@ -388,7 +699,7 @@ GarbageCollector.md § 7 gets one paragraph stating the above.  The sentence
 "it runs on the single GC thread inside the sweep, so a wait there stalls
 collection for the whole space" becomes "on the collector's threads".
 
-### 4.6 Several spaces
+### 6.6 Several spaces
 
 - **One process-wide pool, not one per space.**  The cycle token
   (GarbageCollector.md § "Several spaces") already serialises cycles across
@@ -415,7 +726,7 @@ collection for the whole space" becomes "on the collector's threads".
   only candidate cells of the token holder's space, which no mutator can
   reach.
 
-### 4.7 Threads
+### 6.7 Threads
 
 Helpers are `std::thread`s created and owned by protoCore.  This is the
 precedent of the collector itself (`gcThread`, `ProtoSpace.cpp:1445`).
@@ -428,12 +739,12 @@ not fit collector threads, and a helper must **not** be a `ProtoThread`:
 - a helper would then count in every stop-the-world quorum and every grace
   period, and the collector would wait for its own helpers.
 
-### 4.8 Synchronisation
+### 6.8 Synchronisation
 
 | Purpose | Primitive |
 |---|---|
 | idle sleep and job start | `std::mutex` + `std::condition_variable`; the predicate is `jobGeneration != seen || stopping`; `notify_all` after every change, made under the mutex |
-| claims | the job's `std::mutex` (4.2) |
+| claims | the job's `std::mutex` (6.2) |
 | completion | `activeSweepers` and `cursor`, changed under the pool mutex; the collector waits on a second `std::condition_variable` with predicate `cursor == nullptr && activeSweepers == 0`; a sweeper notifies when it decrements to 0 |
 | publication | `ProtoSpace::globalMutex` for chunks (unchanged); CAS for the segment chains (unchanged algorithm, fewer operations) |
 
@@ -445,7 +756,7 @@ barrier.  The happens-before edges are as follows:
   collector through the completion handshake;
 - the free chunks reach the mutators through `globalMutex`, as today.
 
-### 4.9 Configuration
+### 6.9 Configuration
 
 - `PROTOCORE_GC_SWEEP_THREADS=<K>`, read when the pool is first needed.
   - Proposed default: `min(3, hardware_concurrency / 4)`, which gives 3 on
@@ -461,7 +772,7 @@ barrier.  The happens-before edges are as follows:
   question: engage helpers only while a mutator waits for headroom, or while
   the backlog of unclaimed segments exceeds a threshold.
 
-### 4.10 Lifecycle and teardown
+### 6.10 Lifecycle and teardown
 
 - **Start:** lazily, at the first sweep that wants helpers.  Never in static
   initialisation, which on Windows runs under the loader lock in `DllMain`.
@@ -478,7 +789,7 @@ barrier.  The happens-before edges are as follows:
   today.  Destroying a joinable `std::thread` would call `std::terminate`.
 - **Fork.**  Threads do not survive `fork`.  A `pthread_atfork` child handler
   marks the pool as having no threads.  Because the collector never waits for
-  a helper to arrive (4.4), a pool that has lost its threads cannot deadlock
+  a helper to arrive (6.4), a pool that has lost its threads cannot deadlock
   a sweep.
 - **The 2.10.0 teardown deadlock** (adaptive design § 6.10): a thread
   destroying a space joined its collector while that collector's grace
@@ -490,7 +801,7 @@ barrier.  The happens-before edges are as follows:
     finishes without waiting on anything except `globalMutex` (held briefly,
     never across a wait).
 
-### 4.11 Soundness
+### 6.11 Soundness
 
 - The candidate set is fixed at Phase 2, as today.  Claims partition it, so
   each segment, and therefore each cell, is processed by exactly one
@@ -506,7 +817,7 @@ barrier.  The happens-before edges are as follows:
 - The grace period still precedes every finalization and reuse on the
   multi-space path.
 
-### 4.12 What does not change
+### 6.12 What does not change
 
 - Stop-the-world, roots, the mutable snapshot, mark, Phase 5b, the token, the
   grace period, the young-generation rules and the heap accounting.
@@ -515,131 +826,7 @@ barrier.  The happens-before edges are as follows:
 - With `PROTOCORE_GC_SWEEP_THREADS=0` the code path is the serial sweep, with
   F1-F4 applied.
 
-## 5. Pacing
-
-### 5.1 Today
-
-- `PROTOCORE_HEAP_LIMIT_CELLS=<hard>` (the phase report's js40/js10 runs)
-  sets `softHeapLimit = 0`.  With no soft limit, a fixed-limit space requests
-  a cycle only when a refill finds the heap at `maxHeapSize` with an empty
-  freelist (`getFreeCells`, `ProtoSpace.cpp:2081-2091`).  By then every
-  mutator that needs cells is about to wait.
-- With a soft limit, a refill at or above it waits for one cycle (the
-  "soft zone").  That is a wait as well, not a trigger with runway.
-- The wait is quantised by the 50 ms watchdog (section 1).
-
-At N = 6 with a 40 M-cell limit, the collector is idle most of the run, yet
-the mutators wait 10-22 %.  The single-threaded `core_fixed640_live1M` waits
-1.25 s of a 3.6 s run (25 waits of 50 ms).
-
-### 5.2 Proposal: early requests under fixed limits
-
-At each refill, under `globalMutex` and off the per-cell fast path (the hook
-`adaptive::pace` already occupies, `core/AdaptiveHeap.cpp:402`):
-
-```
-left   = freeCellsCount + max(0, maxHeapSize - heapSize)
-runway = min(f_max * max(0, maxHeapSize - R),  m * r * Tc)
-if left < runway and no cycle requested or running: request a cycle
-```
-
-| Symbol | Meaning | Default |
-|---|---|---|
-| R | cells the last cycle left unreclaimed (`heapSize - freeCellsCount` right after its sweep; the controller's `retainedLastCycle`) | |
-| r | allocation rate: cells handed out by `getFreeCells` per second since the last cycle end (counted under the lock already held) | |
-| Tc | duration of the last cycle (already measured for `PROTOCORE_HEAP_TRACE`) | |
-| m | margin | 1.25 |
-| f_max | cap, so the trigger never runs cycles back to back | 0.5 |
-
-- Before the first cycle, `runway = 0`, which is today's behaviour.
-- The function `pacing::fixedRunway(R, max, r, Tc, params)` is pure and
-  unit-tested.
-- State lives in the side structure keyed by space, which is extended to
-  fixed-limit spaces.
-
-This is not the "rate-aware target" the calibration rejected.  That proposal
-*sized the soft limit* from rate x mark time and gave too little headroom.
-Here the limit is fixed by the embedder; only the moment a cycle starts
-moves.  The cost:
-- cycles start with less garbage, at most 2x as many cycles when f_max = 0.5
-  binds, each paying a mark of the live set;
-- mutators running at the request pay the stop-the-world quorum, which is
-  near zero today because waiting mutators are already out of the running
-  set.  Under the controller's pacing at N = 12 the quorum was 28-270 ms per
-  run and the parked time 0.4-2.7 s summed over 12 threads, below 1 % of
-  thread time.
-
-Default: on, with `PROTOCORE_GC_PACING=0` to disable, subject to the
-acceptance runs.  This is an open question.
-
-### 5.3 Waits that end when cells arrive
-
-- **Fixed limits.**  `reclaimWaitLocked` keeps its predicate.  In addition,
-  `publishFreeChunk`'s callers `notify_one` on `memoryReclaimedCV` when a
-  waiter count (incremented and decremented around the wait, under
-  `globalMutex`) is non-zero.  `waitForHeapHeadroom` then re-checks the
-  freelist, as it does after a watchdog wake, so the notify needs no new
-  predicate.  It costs nothing when no thread waits.
-- **Controller.**  Early wake was rejected in the calibration: 18-25 %
-  slower on the 1 M-cell single-threaded benchmark, mixed elsewhere.  It is
-  re-measured at N = 12 only after C6 shows how much of the wait is
-  watchdog latency, and only with the parallel sweep in place.
-- The OOM strike logic is unaffected.  A wake that finds an empty freelist
-  goes through the same "cycle completed?" check (line 1839).
-
-### 5.4 Why the controller was slower at N = 12
-
-Same hard limit (40 M cells), fixed against controller, from the phase report:
-
-| Workload | Cycles | Mark s | Sweep s | Busy s | Wait s (sum) | Quorum ms |
-|---|---|---|---|---|---|---|
-| records | 10 -> 22 | 7.5 -> 8.7 | 27.0 -> 24.3 | 37.0 -> 35.1 | 231 -> 351 | 0.9 -> 57 |
-| join | 8 -> 17 | 10.0 -> 12.7 | 18.3 -> 20.9 | 29.9 -> 35.5 | 178 -> 208 | 10.5 -> 116 |
-| doctree | 6 -> 14 | 6.0 -> 9.2 | 13.4 -> 17.3 | 21.7 -> 29.3 | 121 -> 167 | 0.4 -> 28 |
-| wordfreq | 5 -> 24 | 1.7 -> 8.2 | 6.0 -> 10.7 | 8.5 -> 20.2 | 31 -> 191 | 1.9 -> 261 |
-| graph | 17 -> 21 | 15.5 -> 20.6 | 37.3 -> 35.9 | 56.3 -> 60.7 | 364 -> 396 | 2.0 -> 270 |
-
-Reading:
-
-1. **The controller runs more cycles on a collector that is already
-   saturated** (69-95 % busy).  Its soft limit is capped at `8 L`, which is
-   below H at these live sets.  Whether S actually reached the cap in these
-   runs is not in the phase report; the `PROTOCORE_HEAP_TRACE` lines must
-   confirm it.
-2. **Each extra cycle pays a fixed cost:** the mark of the live set, and the
-   sweep of the survivors re-included every cycle (survivor stagger 1).  On
-   `wordfreq` the mark grows 4.8x for the same work.  On a saturated
-   collector, extra collector work becomes mutator wait almost one for one.
-3. **The calibration's premise does not hold here.**  The premise was that a
-   larger S only makes each cycle longer, because the sweep is proportional
-   to the garbage.  At N = 12 mark is 23-41 % of the controller's busy time,
-   and a larger S *does* reduce total work by running fewer marks.  The cap
-   trades this time for memory: peak RSS was 2-21 % lower on four of the
-   five workloads.
-4. **Pressure cannot see throughput.**  p is summed over threads and far
-   above `p_high`, so S grows to the cap and stays there.  The control law
-   has no signal that says the collector is the bottleneck.
-
-**Consequences for this design:**
-- A faster sweep shrinks reason 2's sweep half and lowers the saturation, so
-  the controller's gap should shrink with it.  This is a hypothesis, measured
-  in section 8.
-- The mark half is untouched by a parallel sweep.  After it, mark becomes a
-  larger share, and the cap trade-off sharpens.
-- **Proposed now:** add collector utilisation `u = busy / T` to the
-  controller's trace line (measurement only, no law change).
-- **Open question:** whether the cap should rise when `u` is high and mark is
-  a large share.  That is the "second signal" anticipated in the controller
-  design's open point 2.
-
-### 5.5 Controller pacing
-
-Unchanged in v1: request at a quarter of `S - L` (`kTriggerFraction = 0.75`,
-`core/AdaptiveHeap.h:51`).  Fixed-limit pacing (5.2) applies only to spaces
-without the controller.  The two rules are unified (one runway function, with
-`S` or `maxHeapSize` as the ceiling) only after both are measured.
-
-## 6. Mark: not parallelised now
+## 7. Mark: not parallelised now
 
 The data says mark is secondary:
 - 1-50 % of busy time;
@@ -652,13 +839,14 @@ Mark leads only near a full heap (`wordfreq` N = 12 and `graph` N = 1 at
 10 M cells, and the runs that ended out of memory).
 
 **Revisit when any of these holds:**
-- after the parallel sweep meets its target, mark exceeds 40 % of busy time
-  on a completed workload of the acceptance set;
+- with the parallel sweep in place, mark exceeds 40 % of busy time on a
+  completed workload of the section 9 experiment;
 - the collector is still more than 80 % busy at N = 12;
 - the maintainer prioritises workloads whose live set is above half the
   limit;
-- the controller question of 5.4 is answered with "keep the cap", which makes
-  mark the dominant cost of the extra cycles.
+- the maintainer keeps the 2.10.1 objective (minimise memory; section 13,
+  question 1), which keeps the extra cycles and makes mark their dominant
+  cost.
 
 **What a parallel mark would need**, as a sketch only:
 - per-thread work lists with stealing;
@@ -670,14 +858,24 @@ Mark leads only near a full heap (`wordfreq` N = 12 and `graph` N = 1 at
 No barrier and no change to the snapshot discipline: the graph traversed is
 immutable.
 
-## 7. Expected gains (bounds, not predictions)
+## 8. How the parts combine, and what they can gain
 
-From the phase report's Amdahl table.  The wall-time bound assumes:
+| Situation | Part A (sizing) | Part B (throughput) |
+|---|---|---|
+| Regime 1, cycle starts at the ceiling (js40 N = 6, `wordfreq` N = 12, `core_fixed640`) | removes the wait: pacing with runway r x C, early wake | not needed |
+| Regime 1 only because the heap is large enough | finds that heap (4.5) and keeps it within B | lowers the heap it needs (G* falls with rho) |
+| Regime 2, total garbage fits in B (js40 `records` N = 12) | probes may grow S to B, removing the waits at the cost of memory | removes the waits at a smaller heap |
+| Regime 2, garbage does not fit (`clj_coll_t6`) | memory only postpones the wait; growth stops (4.5) | the only remedy: raises T, lowers rho |
+
+**Bounds** from the phase report's Amdahl table (synthetic workloads, one
+run each).  They assume:
 - the collector fully overlaps the mutators;
 - the waits are spread evenly over the threads;
 - the CPU a parallel sweep takes is free.
 
-| Workload | Wall s | Bound, sweep x2 | Bound, sweep x4 | Zero-wait floor |
+They are upper bounds, not predictions.
+
+| Run | Wall s | Bound, sweep x2 | Bound, sweep x4 | Zero-wait floor |
 |---|---:|---:|---:|---:|
 | js40_records_n12 | 41.6 | 23.5 (-43 %) | 22.3 (-46 %) | 22.3 |
 | js40_graph_n12 | 61.2 | 37.6 (-38 %) | 30.8 (-50 %) | 30.8 |
@@ -685,75 +883,75 @@ From the phase report's Amdahl table.  The wall-time bound assumes:
 | jsad_records_n12 | 46.3 | 23.0 (-50 %) | 17.1 (-63 %) | 17.1 |
 | scala_tree_t6 | 89.6 | 49.3 (-45 %) | 49.3 (-45 %) | 49.3 |
 | clj_coll_t6 | 129.2 | 61.6 (-52 %) | 43.4 (-66 %) | 43.4 |
-| js40_*_n6 | 8.2-19.3 | no sweep speed-up needed | | -10 % to -22 % |
+| js40_*_n6 | 8.2-19.3 | (sizing case) | | -10 % to -22 % |
 
-- The N = 6, 40 M-cell rows need pacing (section 5), not a faster sweep.
-- `core_fixed640_live1M` is single-threaded and loses 35 % of its wall time
-  in waits (1.25 s of 3.6 s).  That is a pacing case too.
-- CAD 20k mixes single-threaded and N = 12 phases, and the phase report
-  gives no bound for it.  It is measured, not predicted.
 - **Whether the sweep scales is unproven.**
   - If the per-cell cost is latency (H1/H2 dependent misses), independent
     chains on K sweepers add memory-level parallelism, much as F4 does on one
-    thread, and should scale well below the bandwidth limit.  At 12-17 M
-    cells/s per sweeper the sweep moves under 1.1 GB/s of 64-byte lines.
+    thread, well below the bandwidth limit.  At 12-17 M cells/s per sweeper
+    the sweep moves under 1.1 GB/s of 64-byte lines.
   - If it is contention on shared lines (H3), more sweepers make it worse
     until F1/F5 remove it.
-  - Section 3's gate exists for this reason.
+  - Section 5's gate exists for this reason.
+- **The regime-1 rows** reach their floor through Part A alone, if pacing
+  works as designed.  This is a hypothesis, checked by property P1.
 
-## 8. Acceptance criteria and measurement plan
+## 9. Acceptance: properties, not benchmark targets
 
-**Workloads:** the phase report's, run with the same binaries method (the
-installed runtimes against the development library through
-`LD_LIBRARY_PATH`, checked with `ldd`):
-- protoJS structures `MODE=par` at 40 M cells (REPS 3) and at 10 M cells
-  (REPS 1), for N = 1, 6, 12, under fixed limits;
-- the same with `PROTOCORE_ADAPTIVE_HEAP=1` at N = 12;
-- protoScala `tree_alloc` (t1, t6) and protoClojure `coll_alloc` (t1, t6).
-  These two scripts are not committed yet; commit them, or a protoCore-side
-  equivalent, before measuring;
-- protoJS CAD 20k (`NS=1,12`);
-- protoCore `adaptive_heap_benchmark` with a 1 M live list (fixed 640 MB and
-  controller);
-- the new `sweep_contention_benchmark`.
+Acceptance is defined by properties of the policy and of the collector.  It
+is checked with deterministic tests where possible (section 10) and with
+controlled synthetic experiments otherwise.  The phase report's workloads are
+synthetic; they are used as evidence of mechanisms and regimes, reported as
+such, and **no threshold below is fitted to them**.
 
-**Run rules:**
-- **Median of 3**, each in `systemd-run --user --scope -p MemoryMax=<cap>
-  -p MemorySwapMax=0` under `/usr/bin/time`.
-- Sequential, on a machine with no other build or test running.
-- Every workload verifies itself: the `ok` lines and the checksums listed in
-  the phase report.  A run that does not self-verify is a failure, never a
-  data point.
+| # | Property | How it is checked |
+|---|---|---|
+| P1 | **No wait with spare capacity.**  When the collector has spare capacity (rho < 1 measured, u < 1) and the budget allows the headroom `L + G*`, mutators do not wait for headroom after convergence: wait share at the noise level, and no watchdog-ended waits. | Rate-controlled allocator test (10.2): a fixed allocation rate below a measured collector capacity, budget generous.  Then the memory-only experiment on the synthetic workloads classified as regime 1. |
+| P2 | **The budget is never exceeded.**  The sum of the spaces' `heapSize` is at most B at every instant, with one space or several. | Assertion in instrumented builds at every heap growth; tests with one and two spaces. |
+| P3 | **No out-of-memory while the live set fits.**  A live set with `L + one batch per thread <= B`, with any amount of garbage, completes. | Tests at 60 % and 90 % of B with heavy garbage. |
+| P4 | **Out-of-memory when it does not fit.**  A live set above B fails with the callback and then the abort, with the documented message. | Existing OOM tests, unchanged. |
+| P5 | **Bounded convergence.**  S changes at most `log2(B / S0)` times plus the re-arms, and never decreases. | Unit tests of the pure law over synthetic sequences of (L, r, T, w). |
+| P6 | **Regime 2 does not spend memory for nothing.**  When doubling S twice does not lower the wait share, S stops growing. | Unit test of the law; rate-controlled test with the allocation rate above capacity and a garbage total larger than B. |
+| P7 | **Single thread: no regression beyond noise.**  Wall time and peak RSS of single-threaded runs, median of 5, within the noise band measured on the same machine on the same day (the calibration report's "Noise" method). | Synthetic single-threaded runs: the phase report's N = 1 / t1 workloads, `core_fixed640`, CAD N = 1. |
+| P8 | **The pause is unchanged.**  Stop-the-world per cycle stays bounded by threads and stack depth (at most 0.25 ms on the phase report's runs). | `[GC-PHASES]` `stw_max`. |
+| P9 | **Parallel sweep equals serial sweep.**  K helpers free the same cells, release the same mutable entries and leave no mark bit, as K = 0 does.  K = 0 is today's code path. | Deterministic tests (10.1). |
+| P10 | **The sweep does not get slower with helpers.**  On the differential microbenchmark (S0-S5), ns per cell with K helpers is at most that with K = 0, for every K up to the default. | Microbenchmark, median of 3.  The scaling curve over K = 0, 1, 2, 3, 5 is reported in full. |
+| P11 | **Sanitizers and CI.**  The full ctest is green under TSan and ASan (sequential), and the Linux and cross-platform workflows are green, Windows included. | CI. |
 
-| Criterion | Threshold |
-|---|---|
-| Sweep throughput at N = 12 / t6 (cells/s, `[GC-PHASES]`) | at least 2x baseline on js40 `records` and `graph`, `scala_tree_t6`, `clj_coll_t6` |
-| Wall time at N = 12 / t6 | at least -25 % on js40 `records` and `graph`; at least -30 % on `clj_coll_t6` |
-| Headroom wait share at N = 6, 40 M cells (pacing) | at most half of baseline (10-22 % today) |
-| Single-thread wall time (js10 N = 1, scala t1, clj t1, `core_fixed640`, CAD N = 1) | no regression beyond the noise band of the calibration report's "Noise" section (re-measured: median of 5) |
-| Peak RSS | at most +5 % on any workload |
-| Stop-the-world maximum per cycle | unchanged (at most 0.25 ms) |
-| `PROTOCORE_GC_SWEEP_THREADS=0` | identical cycle counts and freed cells to the F1-F4 baseline on the deterministic tests |
-| Sanitizers | full ctest green under TSan and ASan, sequential, plus the new tests |
-| CI | Linux and cross-platform workflows green, Windows included (helpers are `std::thread`; no POSIX-only call outside `pthread_atfork`, guarded) |
+**The memory-as-only-variable experiment.**  This is evidence, not a
+criterion.
+- **Setup.**  Run each synthetic workload (protoJS structures N = 1, 6, 12;
+  protoScala `tree_alloc` t1/t6; protoClojure `coll_alloc` t1/t6; CAD 20k;
+  `adaptive_heap_benchmark`) under fixed limits of 10, 20, 40, 100, 200 and
+  400 M cells.  Collector, threads and binaries stay the same.
+- **Classification:**
+  - wait share falling to zero as the limit grows means regime 1 (or garbage
+    that fits);
+  - wait share flat while cycles lengthen means regime 2.
+- **Then:**
+  - run the same matrix with Part A (the law of 4.5) and with Part B (K = 3);
+  - report, per workload, the regime, the wait share, wall time, peak RSS and
+    cycles, labelled as synthetic;
+  - the Part A run should land near the fixed-limit curve's knee for regime-1
+    workloads (P1), and should stop growing for regime-2 workloads (P6).
+- **Run rules.**
+  - Each run in `systemd-run --user --scope -p MemoryMax=<cap>
+    -p MemorySwapMax=0` under `/usr/bin/time`.
+  - Sequential, with no concurrent build or test on the machine.
+  - Median of 3.
+  - Installed runtimes run against the development library through
+    `LD_LIBRARY_PATH`, checked with `ldd`.
+  - Every workload verifies itself (the `ok` lines and checksums of the phase
+    report).  A run that does not verify is a failure, never a data point.
+  - The 400 M-cell runs need a cap near 26 GB.  They run only with the
+    maintainer's agreement on DEV12's memory.
 
-**Measurement steps:**
-1. Baseline at the current master.
-2. Instrumentation C1-C6 and the microbenchmark.
-3. Diagnosis report.
-4. F1-F5, each with its own numbers.
-5. Gate decision.
-6. Parallel sweep, then K = 0, 1, 2, 3, 5 on the N = 12 and t6 workloads.
-   This gives the measured scaling curve, the whole curve and not one point.
-7. Pacing.
-8. Final matrix.
-
-Results go in `docs/reports/`, with every unproven claim marked as such.
-
-## 9. Test plan
+## 10. Test plan
 
 All tests are deterministic: they count, and never time.  Tests that need
 threads assert invariants on counts, not on interleavings.
+
+### 10.1 Parallel sweep (Part B)
 
 1. **Claiming partitions the list.**  A unit test drives the claim function
    over synthetic `DirtySegment` lists of length 0, 1, R-1, R, R+1 and 10^5,
@@ -768,7 +966,7 @@ threads assert invariants on counts, not on interleavings.
    `std::this_thread::get_id()`.  The test records the ids of every mutator
    thread.  It asserts that no finalizer id is a mutator id, and that every
    external-pointer finalizer ran on the space's collector thread (the serial
-   rule of 4.5).
+   rule of 6.5).
 4. **Embedder finalizers do not overlap.**  An in-flight counter inside the
    callback never exceeds 1, with K = 3 and 10^5 external pointers.
 5. **Mutable refs are merged before Phase 5b.**  The
@@ -795,82 +993,133 @@ threads assert invariants on counts, not on interleavings.
     a cycle with K configured.
 11. **Configuration.**  `PROTOCORE_GC_SWEEP_THREADS` values 0, 1, 64 and
     `abc`; invalid values fall back to the default.
-12. **Pacing.**
-    - Unit tests of `pacing::fixedRunway`: zero before the first cycle,
-      monotone in r and Tc, capped by f_max.
-    - Integration: under a fixed limit with a steady allocator, the second
-      and later cycles start with `heapSize < maxHeapSize`, as shown by the
-      `fixed` trace line.
-    - `AllocationLimitTests` and `HeapHeadroomWaitTests` still pass, and the
-      OOM tests still abort with the same message.
-    - Early wake: a waiter blocked at the ceiling returns before the 50 ms
-      watchdog once a chunk is published (asserted through a wake-reason
-      counter, not through time).
-13. **Stress.**  `GCStressTests` and `ConcurrentMarkSafetyTests` run with
+12. **Stress.**  `GCStressTests` and `ConcurrentMarkSafetyTests` run with
     K = 3, under TSan and ASan.
 
-## 10. Implementation steps
+### 10.2 Heap sizing (Part A)
 
-Each step is a separate commit and is measured on its own:
-1. Instrumentation C1-C6 and the microbenchmark, then the diagnosis report.
+1. **The law is a pure function.**  `adaptive::nextSoftLimit` (extended) and
+   `pacing::runway` are tested over synthetic sequences of
+   (L, r, T, w, S):
+   - regime 1 reaches `L + G*` in one step and holds;
+   - rho approaching 1 makes G* grow but never past B;
+   - in regime 2, two non-improving probes stop growth;
+   - a factor-2 change in L or r re-arms growth;
+   - S never decreases and never exceeds B;
+   - the number of changes stays within `log2(B / S0)` plus the re-arms (P5,
+     P6);
+   - the runway is 0 before the first cycle, monotone in r and C, and never
+     above the headroom.
+2. **Rate-controlled allocator** (new test helper).  A mutator allocates a
+   fixed number of short-lived cells per step, with a safepoint per step and
+   a step budget that sets the rate as a fraction of the collector's
+   measured capacity.  This is the only way to impose a regime without
+   depending on a benchmark.
+   - At half capacity, with a generous B, the waits after the first two
+     cycles end on the predicate or on a publication, never on the watchdog,
+     and their count is zero once S has converged (P1).
+   - Above capacity, with garbage larger than B, S stops growing within the
+     bounded number of probes (P6) and the run completes.
+   - The test asserts counts (wake reasons, waits, S changes), not durations.
+3. **Budget.**  An instrumented-build assertion, `sum(heapSize) <= B`,
+   checked at every growth with one and two spaces (P2).
+4. **Out of memory.**  Live sets at 60 % and 90 % of B with heavy garbage
+   complete (P3).  Existing OOM tests still abort with the same message (P4).
+5. **Fixed limits.**  Under a fixed limit with a steady allocator, the second
+   and later cycles start with `heapSize < maxHeapSize`, as shown by the
+   `fixed` trace line.  `AllocationLimitTests` and `HeapHeadroomWaitTests`
+   still pass.
+6. **Early wake.**  A waiter blocked at the ceiling returns on a publication
+   before the watchdog, asserted through a wake-reason counter.
+7. **Controller regression set.**  `AdaptiveHeapTests` and
+   `AdaptiveHeapControlTests` are updated to the new law.  Their expectations
+   tied to `k_live`, `k_cap` and `p_high` are replaced, and each replacement
+   is listed in the commit.
+
+## 11. Implementation steps
+
+Both parts are reviewed before any implementation.  After approval, the two
+parts are independent and each step is a separate commit with its own
+measurements.
+
+**Part B.**
+1. Instrumentation C1-C6 and the differential microbenchmark; diagnosis
+   report (per-cell cost, `perf c2c` / stall attribution).
 2. F1, F2, F3, F4 (and F5, F6, F7 only if the diagnosis calls for them).
 3. Gate review with the maintainer.
 4. The sweep refactored into `sweepRun` with per-sweeper state, K = 0 only.
-   No behaviour change; tests 2, 5 and 6 pass.
-5. The pool, claiming and the join; finalizer sink and serial embedder
-   finalizers; teardown and fork.  Tests 1-11.
-6. Pacing under fixed limits and early wake; tests 12.  Controller trace
-   gains `u`.
-7. Documentation: GarbageCollector.md (§ 7, Phase 5, Synchronisation,
-   Several spaces), README variable table, CHANGELOG; acceptance report.
+   No behaviour change; P9.
+5. The pool, claiming and the join; the finalizer sink and serial embedder
+   finalizers; teardown and fork.  Tests 10.1.
 
-## 11. Risks
+**Part A.**
+6. Signals r, C, T, w and u in the side state and in the trace.
+   Measurement only.
+7. Pacing (4.3) and early wake (4.4) for fixed limits and the controller.
+8. The new soft-limit law (4.5); tests 10.2.
+
+**Finally.**
+9. The memory-as-only-variable experiment and the acceptance report.
+10. Documentation: GarbageCollector.md (§ 7, Phase 5, Synchronisation,
+    Several spaces, Adaptive heap controller), the controller design (a new
+    section superseding § 7's law), the README variable table, and the
+    CHANGELOG.
+
+## 12. Risks
 
 - **The sweep does not scale** (memory-bound or contention-bound).  The
   diagnosis gate addresses this.  F4 may deliver the latency part without
   threads.
-- **CPU taken from mutators at saturation.**  The default K is small.  The
-  option to engage helpers only while mutators wait is an open question.
+- **The new sizing objective uses more memory.**
+  - It does so by design, within B, and only where waits fall.
+  - A host where B is set too high for its neighbours sees the process grow
+    to it.  The remedy is the budget (operator or embedder), not the
+    controller.
+  - The release notes must say this plainly.
+- **Signal noise.**  r and T are estimated from one or two cycles on a shared
+  machine.  The "two non-improving probes" rule and the conservative inputs
+  absorb single outliers, but a noisy probe can still stop growth early.
+  The cost is the 2.10.1 behaviour (a smaller heap), not a failure.
+- **CPU taken from mutators at saturation** by helpers.  The default K is
+  small; engaging helpers only while mutators wait is an open question.
 - **Finalizer concurrency.**  Built-in finalizers become concurrent with each
   other.  A future built-in finalizer must be thread-safe, and the contract
   says so.  Embedder callbacks stay serial.
 - **Teardown and fork deadlocks.**  These are addressed by the "never wait
-  for arrival or for the pool" rule and by tests 8 and 10.  They are the
-  class of bug most likely to escape a sequential test run: run the teardown
-  test 1,000 times under TSan.
-- **Pacing increases cycles** under fixed limits (at most 2x with
-  f_max = 0.5), and with them mark work and quorum time.  Measured; default
-  on only if the acceptance holds.
-- **Measurement noise on a shared machine.**  Median of 3, sequential, no
-  concurrent builds.  The phase report itself used single runs.
+  for arrival or for the pool" rule and tests 10.1.  Run the teardown test
+  1,000 times under TSan.
+- **More cycles from early requests.**  The runway is `r x C`, so cycles are
+  only as frequent as keeping up requires.  The quorum cost is measured
+  (P8).
 - **Windows.**  Pool creation must not happen under the loader lock (lazy
-  start).  MSVC's `std::thread` and condition variables are fine.
-  `pthread_atfork` is POSIX only.
+  start).  `pthread_atfork` is POSIX only.
 
-## 12. Open questions for the maintainer
+## 13. Open questions for the maintainer
 
-1. **Finalizer contract:** may built-in finalizers run concurrently with each
-   other on helper threads (4.5)?  And should embedder `ProtoExternalPointer`
-   callbacks stay serial on the collector thread (proposed) or become
-   concurrent after an audit of the runtimes?
-2. **Helper default and engagement:** `min(3, hw/4)` always available, or
-   engaged only while mutators wait for headroom or a backlog exists?  Is an
-   API (`setCollectorHelperThreads`) wanted, or the environment variable
-   only?
-3. **Fixed-limit pacing on by default?**  It changes when cycles start under
-   `setHeapLimits` and `PROTOCORE_HEAP_LIMIT_CELLS` (more, shorter cycles;
-   fewer waits).
-4. **Early wake under fixed limits** (5.3): accept a `notify_one` per
-   published chunk while waiters exist, given that the calibration rejected
-   early wake under the controller on single-threaded workloads?
-5. **Controller cap and collector utilisation** (5.4): should the cap rise
-   when `u` is high and mark is a large share (time over memory), or stay at
-   `8 L` (memory over time)?
-6. **Per-thread dirty-segment stacks** (4.2): worth pursuing if C2 shows
-   contention on the single `dirtySegments` head at context destruction?
-   This is mutator-side cost, outside the collector.
-7. **Side mark bitmap** (3.3): out of scope unless H1/H5 dominate after F2
+1. **Controller objective.**  Adopt "minimise time within the memory budget"
+   (4.1), replacing 2.10.1's "minimise memory within a time tolerance", and
+   with it drop `k_live`, `k_cap` and `p_high` for the measured law of 4.5?
+2. **Regime 2 with garbage that would fit.**  The probes may grow S to B when
+   waits keep falling.  Should the controller ever grow to B *speculatively*,
+   betting that the run's garbage fits, when the probes say no?  The proposal
+   is no: an embedder that knows its run fits can set S0 = B.
+3. **Collector CPU as a cost.**  The objective counts mutator wait only.
+   Should collector busy time (u) count too, when all cores are busy?
+4. **Budget split between spaces.**  Is first come, first served (4.7)
+   acceptable for v1?
+5. **Finalizer contract.**  May built-in finalizers run concurrently with
+   each other on helper threads (6.5)?  Should embedder
+   `ProtoExternalPointer` callbacks stay serial on the collector thread
+   (proposed), or become concurrent after an audit of the runtimes?
+6. **Helpers.**  Should the default be `min(3, hw/4)` always available, or
+   helpers engaged only while mutators wait or a backlog exists?  Is an API
+   wanted, or the environment variable only?
+7. **Pacing under fixed limits on by default?**  It changes when cycles
+   start under `setHeapLimits` and `PROTOCORE_HEAP_LIMIT_CELLS`.
+8. **Per-thread dirty-segment stacks** (6.2), if C2 shows contention on the
+   single `dirtySegments` head at context destruction.
+9. **Side mark bitmap** (5.3): out of scope unless H1/H5 dominate after F2
    and F3.  Agreed?
-8. **The two new runtime workloads** (`tree_alloc.scala`, `coll_alloc.clj`):
-   commit them to their runtimes' benchmark directories so that the
-   acceptance runs are reproducible?
+10. **Reproducibility.**  Commit the two new synthetic workloads
+    (`tree_alloc.scala`, `coll_alloc.clj`) to their runtimes so that the
+    experiment of section 9 can be repeated?
