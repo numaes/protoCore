@@ -353,6 +353,62 @@ Reading, per workload (synthetic evidence, not acceptance):
   (`PROTOCORE_ADAPTIVE_HEAP_START=budget` or `initialSoftCells >= H`):
   that is the large-fixed-limit column, by construction.
 
+## Hardware class
+
+**Every figure in this report comes from one notebook-class CPU**: an AMD
+Ryzen 5 5500U (Zen 2, "Lucienne"): 6 cores / 12 threads in two core
+complexes, 4 MB of L3 per complex (8 MB in all), two DDR4 channels, one
+NUMA node, 62 GB, a laptop power envelope.  A server differs in the
+directions that matter here: many more cores, much more L3, six to twelve
+memory channels (far more bandwidth and memory-level parallelism), and
+several NUMA nodes, where a cache line written on one socket is expensive
+to read on another.  The changes of this work fall into two classes:
+
+| Change | Class | Why | Expected on a large server (hypotheses, not results) |
+|---|---|---|---|
+| Early wake (M1) | hardware-robust | removes a fixed 50 ms polling latency | same benefit |
+| Pacing (M1) | hardware-robust | starts the cycle on time; its inputs (r, C) are measured on the machine | same benefit |
+| F1 batched segment recycling | hardware-robust | removes compare-and-swaps on a line every mutator writes | larger benefit: more cores contend for that line, and across sockets each transfer costs more |
+| F2 one store per survivor, F3 test before unmark | hardware-robust | remove locked writes to live lines | larger benefit across sockets (fewer invalidations of readers' copies) |
+| The control law (M3) | hardware-robust in form | its inputs are measured; no constant fitted to this machine | same behaviour; the regime boundary moves with T |
+| F4 multi-cursor walk (8 chains) | **hardware-sensitive** | trades bandwidth for latency: several misses in flight | more channels and MLP: likely more useful, and more chains may pay; across NUMA nodes the misses are slower, so overlap matters more |
+| F4 prefetch | **hardware-sensitive** | on a saturated two-channel memory (S1 above) it added traffic and was erratic | more bandwidth: less risk of saturation |
+| Helper count (M4) | **hardware-sensitive** | sweepers share one memory system | more channels: more helpers may scale; across sockets a helper sweeping another node's cells pays remote latency; the default keeps helpers to half of one node's cores |
+| Helper engagement (M4) | adapts by measurement | helpers are kept only while they shorten the sweep | the same rule decides there |
+
+So every hardware-sensitive parameter is configurable (since 2.14.0;
+environment and `ProtoSpace`'s static API): chains walked in lockstep,
+prefetch, helper count and helper engagement; and the defaults are derived
+conservatively from what is cheap to detect: physical cores and NUMA nodes
+(helpers = half the cores of one node).  The L3 size is detected and
+reported, not used: one machine does not show how it should be used.
+
+**A second data point, from shared CI virtual machines** (workflow
+`sweep-hardware.yml`, run 37143120002; noisy, read as a direction only),
+`sweep_contention_benchmark 1000000 3 3`, ns per swept cell, median of 3:
+
+| Runner | Scenario | 1 chain, no prefetch | 8 chains + prefetch (K = 0) | + 1 helper | + 2 | + 3 |
+|---|---|---:|---:|---:|---:|---:|
+| Linux arm64 (Neoverse-N2, 4 vCPU) | S0 quiet | 8.4 | 7.8 | 5.2 | 3.6 | 3.0 |
+| | S4 built by other threads | 23.1 | 16.0 | 9.3 | 6.6 | 5.2 |
+| | S1 loaded memory | 9.8 | 9.0 | 8.0 | 7.0 | 6.6 |
+| Linux x64 (EPYC 7763, 4 vCPU) | S0 | 7.1 | 8.4 | 5.4 | 4.9 | 4.3 |
+| | S4 | 29.1 | 14.8 | 9.6 | 8.1 | 7.4 |
+| | S1 | 19.6 | 28.0 | 22.6 | 19.5 | 11.4 |
+| macOS arm64 (3 vCPU) | S0 | 6.6 | 4.6 | 4.5 | 4.0 | 3.8 |
+| | S4 | 35.6 | 13.6 | 9.9 | 7.9 | 7.9 |
+| | S1 | 9.5 | 8.5 | 12.9 | 14.0 | 10.1 |
+
+- The multi-cursor walk helps wherever lines are far (S3 and S4: 1.4-2.6x
+  on every runner) and is neutral or slightly negative where they are near
+  (S0 on x64), as on DEV12.
+- Under loaded memory (S1) the direction differs by machine: on the x64
+  VM the 8-chain walk with prefetch was slower than one chain (28.0
+  against 19.6), on arm64 it was not; helpers made S1 worse on macOS at
+  K = 1-2 and better at K = 3.  This is the case the configurability and
+  the measured engagement exist for.
+- The deterministic tests (sweep, pacing, the law) passed on all three.
+
 ## Collector CPU (decision 3: measure first)
 
 User plus system CPU of the whole process, N = 12 / t6, base -> 2.12.0:
