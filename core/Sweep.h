@@ -100,9 +100,22 @@ namespace sweep {
         void finish();
     };
 
-    /** Sweep every segment of `list` (nullptr-terminated, owned by the
-     *  caller) into `L`. */
-    void sweepSegments(DirtySegment* list, SweeperLocal& L);
+    struct SegmentCursor;
+    /** Where one sweeper takes its segments: runs claimed from the cycle's
+     *  shared list (claimRun), handed out one segment at a time; `onClaim`
+     *  runs after each claim with whether segments remain. */
+    struct SegmentSource {
+        SegmentCursor* cursor = nullptr;
+        DirtySegment* run = nullptr;   // the rest of the current claimed run
+        void (*onClaim)(void*, bool) = nullptr;
+        void* onClaimArg = nullptr;
+        DirtySegment* next();
+    };
+
+    /** Sweep every segment `source` yields into `L`.  The cursors refill
+     *  from the source as their chains end, so all of them stay busy until
+     *  the shared list is exhausted. */
+    void sweepSegments(SegmentSource& source, SweeperLocal& L);
 
     // --- Partition ----------------------------------------------------------------
 

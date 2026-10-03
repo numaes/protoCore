@@ -136,7 +136,24 @@ namespace sweep {
     // misses in flight on one thread.  Each cursor keeps its own batch and
     // survivor chain, merged when its segment ends, so the result is the one
     // the single-chain walk produced.
-    void sweepSegments(DirtySegment* list, SweeperLocal& L) {
+    DirtySegment* SegmentSource::next() {
+        if (!run) {
+            bool more = false;
+            run = claimRun(*cursor, kClaimRun, &more);
+            if (!run) return nullptr;
+            if (onClaim) onClaim(onClaimArg, more);
+        }
+        DirtySegment* seg = run;
+        run = run->next;   // read before the segment is retired and relinked
+        return seg;
+    }
+
+    namespace {
+    // The loop, specialised on the two flags it tests per cell, with its
+    // per-cell counters kept in registers (finalize is a virtual call, so
+    // fields of L would be reloaded after every dead cell).
+    template <bool Helper, bool Prefetch, bool DeferFree>
+    void sweepLoop(SegmentSource& source, SweeperLocal& L, int cursors) {
         struct Cursor {
             DirtySegment* seg;
             Cell* cell;
@@ -146,15 +163,14 @@ namespace sweep {
             Cell* survHead;
         };
         Cursor cur[kMaxSweepCursors];
-        const int cursors = static_cast<int>(sweepCursors());
-        const bool prefetch = sweepPrefetch();
+        constexpr bool prefetch = Prefetch;
+        proto_ulong swept = 0;
         int active = 0;
-        DirtySegment* nextSeg = list;
         auto load = [&](Cursor& c) -> bool {
-            if (!nextSeg) return false;
-            c.seg = nextSeg;
-            nextSeg = nextSeg->next;
-            if (prefetch && nextSeg) PROTO_PREFETCH(nextSeg);
+            DirtySegment* seg = source.next();
+            if (!seg) return false;
+            c.seg = seg;
+            if (prefetch && source.run) PROTO_PREFETCH(source.run);
             c.cell = c.seg->cellChain;
             if (prefetch && c.cell) PROTO_PREFETCH(c.cell);
             c.batchHead = c.batchTail = nullptr;
@@ -178,11 +194,11 @@ namespace sweep {
                 const uintptr_t header = cell->next_and_flags.load(std::memory_order_acquire);
                 Cell* next = reinterpret_cast<Cell*>(header & ~PROTO_UL(0x3F));
                 if (prefetch && next) PROTO_PREFETCH(next);
-                ++L.swept;
+                ++swept;
                 if (!(header & PROTO_UL(0x1))) {
-                    if (L.deferFree) {
+                    if (DeferFree) {
                         L.deadCells->push_back(cell);
-                    } else if (L.helper && cell->getType() == CellType::ExternalPointer) {
+                    } else if (Helper && cell->getType() == CellType::ExternalPointer) {
                         // An embedder finalizer: the collector thread runs it
                         // after the join, serially (spec 6.5, decision 5).
                         // The cell is not freed before then.
@@ -215,6 +231,24 @@ namespace sweep {
                 c.cell = next;
                 ++i;
             }
+        }
+        L.swept += swept;
+    }
+    }  // namespace
+
+    void sweepSegments(SegmentSource& source, SweeperLocal& L) {
+        const int cursors = static_cast<int>(sweepCursors());
+        const bool prefetch = sweepPrefetch();
+        const int key = (L.helper ? 4 : 0) | (prefetch ? 2 : 0) | (L.deferFree ? 1 : 0);
+        switch (key) {
+            case 0: sweepLoop<false, false, false>(source, L, cursors); break;
+            case 1: sweepLoop<false, false, true>(source, L, cursors); break;
+            case 2: sweepLoop<false, true, false>(source, L, cursors); break;
+            case 3: sweepLoop<false, true, true>(source, L, cursors); break;
+            case 4: sweepLoop<true, false, false>(source, L, cursors); break;
+            case 5: sweepLoop<true, false, true>(source, L, cursors); break;
+            case 6: sweepLoop<true, true, false>(source, L, cursors); break;
+            default: sweepLoop<true, true, true>(source, L, cursors); break;
         }
     }
 
@@ -312,7 +346,9 @@ namespace sweep {
             std::vector<Cell*> dead;
             L.deadCells = &dead;
             tlRefSink = &L.finalizedRefs;
-            while (DirtySegment* run = claimRun(*j->cursor, kClaimRun)) sweepSegments(run, L);
+            SegmentSource source;
+            source.cursor = j->cursor;
+            sweepSegments(source, L);
             tlRefSink = nullptr;
             L.finish();
             Pool& p = *gPool;
@@ -522,18 +558,30 @@ namespace sweep {
         bool wanted = false;
 
         SweeperLocal L(space, deferFree, &deadCells);
-        bool moreLeft = false;
-        while (DirtySegment* run = claimRun(cursor, kClaimRun, &moreLeft)) {
-            sweepSegments(run, L);
-            // The collector starts alone: a cycle that one claim exhausts
-            // never touches the pool.  The helpers are offered the rest once
-            // mutators wait for headroom, which is when their CPU is free.
-            if (!engaged && moreLeft && helperCount() > 0
-                && (mode == Engagement::Always || mutatorsWait())) {
-                wanted = true;
-                if (!heldBack) engaged = tryStart(&job);
-            }
-        }
+        // The collector starts alone: a cycle that one claim exhausts never
+        // touches the pool.  At each claim that leaves segments behind, the
+        // helpers are offered the rest once mutators wait for headroom,
+        // which is when their CPU is free.  The collector's cursors refill
+        // from the shared list as their chains end, so they stay full until
+        // the list is exhausted, with or without helpers.
+        struct ClaimHook {
+            Job* job;
+            Engagement mode;
+            bool heldBack;
+            bool* wanted;
+            bool* engaged;
+        } hook{&job, mode, heldBack, &wanted, &engaged};
+        SegmentSource source;
+        source.cursor = &cursor;
+        source.onClaimArg = &hook;
+        source.onClaim = [](void* arg, bool moreLeft) {
+            auto* h = static_cast<ClaimHook*>(arg);
+            if (*h->engaged || !moreLeft || helperCount() == 0) return;
+            if (h->mode != Engagement::Always && !mutatorsWait()) return;
+            *h->wanted = true;
+            if (!h->heldBack) *h->engaged = tryStart(h->job);
+        };
+        sweepSegments(source, L);
         if (engaged) finishJob(&job);
         L.finish();
 

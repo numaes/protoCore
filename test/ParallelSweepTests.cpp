@@ -201,7 +201,15 @@ CycleResult oneCycle(unsigned helpers, unsigned cursors = 0, int prefetch = -1) 
 }
 }  // namespace
 
+// The freelist count after a cycle also counts the cells the main thread's
+// allocation batch holds, and the first space a test process builds after
+// other tests ended with a batch 32,768 cells larger (measured: the first
+// serial cycle of a run differed from every later one, serial or not).  One
+// discarded cycle first makes the comparison about the sweep.
+static void warmUp() { (void) oneCycle(0); }
+
 TEST(ParallelSweep, HelpersFreeTheSameCellsAsTheSerialSweep) {
+    warmUp();
     const std::uint64_t runs0 = sweep::poolStats().helperRuns;
     const CycleResult serial = oneCycle(0);
     EXPECT_EQ(sweep::poolStats().helperRuns, runs0) << "K = 0 used a helper";
@@ -218,6 +226,7 @@ TEST(ParallelSweep, HelpersFreeTheSameCellsAsTheSerialSweep) {
 // The hardware-sensitive knobs change how the sweep walks, never what it
 // frees: one chain, 32 chains, no prefetch, with and without helpers.
 TEST(ParallelSweep, CursorsAndPrefetchFreeTheSameCells) {
+    warmUp();
     const CycleResult reference = oneCycle(0, 1, 0);
     for (unsigned helpers : {0u, 3u}) {
         for (unsigned cursors : {1u, 2u, 8u, 32u}) {
