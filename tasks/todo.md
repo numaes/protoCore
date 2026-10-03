@@ -1,3 +1,47 @@
+# Adaptive heap calibration (fix/adaptive-heap-calibration, 2.10.1)
+
+Problem at release (2.10.0): on a fast allocator with a 1 M-cell live set S
+reached ~20 x L (1.2 GB against 672 MB under the 640 MB fixed limit).
+Acceptance: peak RSS <= today's fixed policy, wall time within +5 %, no OOM
+where today succeeds, bounded convergence; otherwise report the frontier.
+
+- [x] 1. PROTOCORE_ADAPTIVE_HEAP=1 diagnostic switch (+ fixed-limit trace
+      lines); measured runtime binaries against a dev library via
+      LD_LIBRARY_PATH (ldd-checked).
+- [x] 2. Workload matrix harness (scratch): protoCore benchmark 0/100k/1M/5M,
+      protoST, protoPython, protoClojure, protoScala, protoJS (copy of the
+      binary) structures + probe; self-verifying; MemoryMax scopes.
+- [x] 3. Candidates measured: rate-aware target (cycle time and mark time),
+      cap with a consecutive-pressure override, pure live cap, early wake on
+      swept chunks, k_live 2/3/4, S0 32/128/256 MiB, trigger 0.5/0.75/0.9,
+      p_high 0.2 with g 1.25.
+- [x] 4. Law: k_live 3, k_cap 8 (pure cap), S0 128 MiB, trigger 0.75;
+      unit tests rewritten, fast-allocator integration test (RED on 2.10.0:
+      S = 30.2 M vs cap 10.4 M), storm test reformulated (settles: calm or
+      cap), steady check loosened to half the garbage (measured 13.6 %).
+- [x] 5. Final matrix (3 runs), report, spec section 7, docs.
+- [x] 6. Local: Release 579/579 (clock-dependent included), ASan 570/570 and
+      TSan 570/570 (clock-dependent excluded, as CI; 0 TSan reports).  CI on
+      the branch: CI 37102700639 green; Cross-platform 37102703169 green on
+      its second attempt (first: see review).
+- [ ] 7. Merge to master, tag v2.10.1, GitHub release with the Linux .deb.
+
+## Review
+- The 2.10.0 runaway was not an equilibrium: the stall that grew S was the
+  collector's sweep throughput (cycle time grows with S), so the trace's
+  "settles at L + 2 x rate x Tc" was the program ending.  Lesson: before
+  reading a trace's last value as a fixed point, check that the quantity
+  driving it (here Tc) does not scale with the controlled variable.
+- No setting met both acceptance criteria everywhere; the frontier is in the
+  report.  The residual time cost is the single-threaded sweep (protoJS).
+- Cross-platform attempt 1 failed on macOS arm64 in
+  GCRootScope.AllocationDuringConcurrentMarkIsSafe (gThreadErrors = 1): a
+  fixed-limit test whose code path this branch does not change; it passed on
+  re-run and in 40 local runs.  A rare GC-correctness failure under
+  concurrent mark on arm64, pre-existing as far as can be told: open, to be
+  investigated separately.
+
+
 # Adaptive heap controller (feature/adaptive-heap, 2.10.0)
 
 Spec: docs/specs/2026-10-02-adaptive-heap-controller-design.md (approved
