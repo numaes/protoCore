@@ -4,6 +4,55 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.11.0] - 2026-10-03
+
+Additive API; no ABI break (SOVERSION 3), no change to the object model.
+
+### Added
+
+- **`ProtoObject::setAttributes(context, count, names, values)`**: a group of
+  attribute writes published as one version.  `o.f1 = a; o.f2 = b; o.f3 = c`
+  on a mutable object is three publications into the mutable table (three
+  snapshot cells, three shard-root path copies, three compare-and-swaps).
+  `setAttributes` is the same program in immutable style: read the current
+  snapshot once, derive the new version from it, publish it once.
+  - The result is what the chained `setAttribute` calls produce, in array
+    order: a later entry for the same name wins, a `nullptr` value removes
+    the name, a `nullptr` name is skipped, heap-string names are interned.
+  - Immutable receiver: answers the new version (identical to the chained
+    calls).  Mutable receiver: one compare-and-swap on the shard root,
+    answering `this`; on a lost race the whole group is reapplied onto the
+    newer snapshot (every entry is "set to value", so the retry is correct
+    and other writers' names are kept).  The group is atomic to other
+    threads: a reader sees all of it or none of it.
+  - The new attribute tree is built in one pass
+    (`sparse_avl::setSorted`, the update counterpart of the collector's
+    join-based `removeSorted`): each changed path is copied once, and keys
+    that land in an empty subtree are built into a balanced subtree
+    directly instead of through every intermediate tree.  Measured, attribute
+    tree plus the new object cell, on an immutable receiver:
+
+    | existing attributes | writes | chained `setAttribute` | one-pass `setAttributes` |
+    |---:|---:|---:|---:|
+    | 0 | 5 | 19 cells | 6 cells |
+    | 0 | 10 | 48 | 11 |
+    | 20 | 5 | 29 | 17 |
+    | 100 | 5 | 32 | 19 |
+
+    Building the same tree by chaining `implSetAt` inside the call (one
+    publication, intermediate trees kept) measured 18, 48, 23 and 28 cells
+    for those rows, so the one-pass build is kept.  On a mutable receiver
+    the saving adds one snapshot cell and one shard-root path copy per name
+    after the first: a fresh 5-field mutable object costs 52 cells written
+    field by field and 16 with one group.
+- `test/SetAttributesTests.cpp` (12 cases): equivalence with the chained
+  calls (including 1,500 random groups with removals and repeated names,
+  each checked against the AVL invariants), exactly one publication per
+  group, concurrent writers on one object from several protoCore threads
+  with snapshot readers (no lost update, no partial group seen; the
+  sequential form shows about 200,000 partial groups in the same test), and
+  fresh values surviving collection cycles forced during the calls.
+
 ## [2.10.2] - 2026-10-03
 
 Test-only release: the library is unchanged from 2.10.1 (SOVERSION 3).
