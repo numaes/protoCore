@@ -1,7 +1,8 @@
 # Collector throughput and heap sizing: two complementary parts
 
-Status: **draft for review**.  Both parts are to be reviewed by the
-maintainer before any implementation.  Date: 2026-10-03.  Base: protoCore
+Status: **approved 2026-10-03**, with the maintainer's decisions on the
+open questions recorded in section 14.  Where a decision differs from the
+text of sections 4-12, section 14 governs.  Date: 2026-10-03.  Base: protoCore
 2.10.2 (master `294822fc`).  Author: Gustavo Marino, with Claude.
 
 Inputs:
@@ -1123,3 +1124,38 @@ measurements.
 10. **Reproducibility.**  Commit the two new synthetic workloads
     (`tree_alloc.scala`, `coll_alloc.clj`) to their runtimes so that the
     experiment of section 9 can be repeated?
+
+## 14. Maintainer decisions (2026-10-03)
+
+The open questions of section 13, answered.  These decisions govern the
+implementation; the sections they amend are named.
+
+1. **Objective.**  Adopt "minimise time within the memory budget" (4.1).
+   The 2.10.1 fitted constants `k_live`, `k_cap` and `p_high` leave the
+   control law (4.5).  `AdaptiveHeapConfig` keeps its fields, because its
+   layout is ABI; the law no longer reads the three that configured them.
+2. **No speculative growth to the budget.**  The probes of 4.5 decide.  An
+   embedder that knows its run fits starts the soft limit at the budget:
+   `AdaptiveHeapConfig::initialSoftCells` at or above the hard limit (it is
+   clamped to it), or the environment.
+3. **Collector CPU as a cost when all cores are busy:** measure first,
+   decide later.  The measurement is reported; the objective counts
+   mutator wait only.
+4. **Budget split between spaces:** first come, first served (4.7), for
+   now.
+5. **Finalizers.**  Embedder `ProtoExternalPointer` callbacks stay serial
+   on the collector thread (6.5): the contract is unchanged for embedders.
+6. **Helpers** (amends 6.9).  Default count: physical cores / 2 (3 on the
+   6-core development machine).  Configurable through the environment
+   (`PROTOCORE_GC_SWEEP_THREADS`) and an ABI-additive static API; `0` gives
+   today's behaviour, with no pool.  Helpers engage only while mutators are
+   waiting for headroom.
+7. **Pacing under fixed limits:** on by default (4.3).
+8. **Per-thread dirty-segment stacks and a side mark-bit table:** only if
+   the diagnosis (section 5) calls for them.
+9. **Reproducibility.**  The Scala and Clojure workloads are committed with
+   the report data (`docs/reports/data/`), runnable as documented, rather
+   than to the runtimes' repositories.
+10. **Gate (5.3).**  The work runs unattended: the gate review of section
+    11, step 3, is the implementer's, recorded with its numbers in the
+    report, not a stop for the maintainer.
