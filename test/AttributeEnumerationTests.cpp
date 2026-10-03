@@ -343,6 +343,12 @@ const ProtoObject* walkWriter(ProtoContext* ctx, const ProtoObject*, const Paren
             gWalkObject->setAttribute(ctx, key, ctx->fromInteger(static_cast<long long>(1000 + n)));
             gWalkWrites.fetch_add(1, std::memory_order_relaxed);
         }
+        // Every allocation of setAttribute happens inside its critical
+        // section, where a thread never parks: without a safepoint the writer
+        // could not answer a stop-the-world, the walking thread parked for it
+        // at its own safepoint, and the writer allocated without a collection
+        // until the process was killed (macOS CI, 2.10.0 branch).
+        ctx->safepoint();
         ++n;
     }
     return PROTO_NONE;
