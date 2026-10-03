@@ -107,6 +107,12 @@ namespace sweep {
     struct SegmentSource {
         SegmentCursor* cursor = nullptr;
         DirtySegment* run = nullptr;   // the rest of the current claimed run
+        // The collector's source: while *shared is false no helper touches
+        // the list, so segments are taken from it directly, without a claim.
+        // The hook still runs every kClaimRun segments.
+        bool owner = false;
+        const bool* shared = nullptr;
+        unsigned sinceHook = 0;
         void (*onClaim)(void*, bool) = nullptr;
         void* onClaimArg = nullptr;
         DirtySegment* next();
