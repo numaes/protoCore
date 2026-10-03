@@ -378,10 +378,24 @@ of young cells.
   their dead cells (several spaces) and runs the embedder finalizers they
   left.  Phase 5b, the bulk unmark, the token and the cycle end stay on the
   collector thread.
-  - K defaults to half the physical cores (3 on a 6-core machine).
+  - K defaults to half the physical cores of one NUMA node
+    (`(cores / nodes) / 2`: 3 on a 6-core notebook).
     `PROTOCORE_GC_SWEEP_THREADS=<K>` (0..64) or
     `ProtoSpace::setCollectorHelperThreads(K)` sets it; 0 is the serial
     sweep, with no pool.
+  - **Measured engagement** (the default): helpers are kept only while they
+    shorten the sweep.  A sweep with helpers whose wall time per cell is not
+    below the last sweep without them holds the helpers back for the next
+    1, 2, 4 ... 64 sweeps that want them; the first of those is the new
+    comparison.  `waiting` engages them whenever a mutator waits, `always`
+    on every sweep (`PROTOCORE_GC_SWEEP_ENGAGE`,
+    `ProtoSpace::setCollectorHelperEngagement`).
+  - **Hardware-sensitive parameters are configurable**: the chains walked in
+    lockstep (`PROTOCORE_GC_SWEEP_CURSORS`, default 8), the prefetch
+    (`PROTOCORE_GC_SWEEP_PREFETCH`, default on), the helper count and the
+    engagement, by environment and by `ProtoSpace`'s static API.  The
+    defaults were measured on one notebook-class CPU only; see the report's
+    "Hardware class" section before relying on them elsewhere.
   - Helpers are `std::thread`s owned by protoCore, like the collector
     thread, and are not `ProtoThread`s: they take no part in stop-the-world
     quorums or grace periods (the collector would otherwise wait for its own
