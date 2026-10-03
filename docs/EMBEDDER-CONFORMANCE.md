@@ -354,9 +354,11 @@ before running the program it calls
 
 and deletes its own default (protoST's `configureHeap` constant, protoJS's
 640 MB or 75 % helper, and the limits protoScala, protoClojure and protoPython
-set).  `PROTOCORE_HEAP_LIMIT_CELLS` still overrides the hard limit, and the
-conformance cases that need a ceiling keep setting one with `setHeapLimits`,
-which disables the controller for their space.  The controller paces cycles
+set).  `PROTOCORE_HEAP_LIMIT_CELLS` still overrides the hard limit.  The
+conformance cases that need a ceiling (`heap.ceiling_progress`,
+`gc.host_stress`) still impose one with `setHeapLimits`, which disables the
+controller for the case, and give it back afterwards, resumed from the soft
+limit it had reached.  The controller paces cycles
 while the program runs, so it depends on rules 1 and 2: a young generation
 that is never submitted is live to it too, and a thread that reaches no
 safepoint turns every cycle into a stall, which the controller answers by

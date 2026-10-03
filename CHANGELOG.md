@@ -77,6 +77,13 @@ Documentation: docs/GarbageCollector.md § "Adaptive heap controller".
   example `getAttribute` from offset 48 to 0 within its cache line).
 - **Runtimes** adopt it with `space.enableAdaptiveHeap()` in place of
   their own default limit (docs/EMBEDDER-CONFORMANCE.md § "Heap sizing").
+- **Conformance.**  `heap.ceiling_progress` and `gc.host_stress` impose
+  their ceiling with `setHeapLimits` and used to restore the saved values
+  the same way, which on a controller-enabled space left fixed limits behind
+  and read the soft limit without the lock the collector writes it under.
+  They now save and restore through `adaptiveHeapStats()` and give the
+  controller back (`SavedHeapLimits`, conformance/CycleDriver.h).  Test:
+  `ConformanceSelfCheck.ACaseWithItsOwnCeilingRestoresTheAdaptiveHeap`.
 
 ### Fixed
 
