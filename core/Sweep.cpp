@@ -187,7 +187,11 @@ namespace sweep {
             if (!seg) return false;
             c.seg = seg;
             if (prefetch) {
-                DirtySegment* following = source.run ? source.run : (source.owner ? source.cursor->next : nullptr);
+                // The shared list's head is read only while it is still the
+                // collector's own (no helper engaged); afterwards only under
+                // the claim lock.
+                DirtySegment* following = source.run ? source.run
+                    : ((source.owner && !*source.shared) ? source.cursor->next : nullptr);
                 if (following) PROTO_PREFETCH(following);
             }
             c.cell = c.seg->cellChain;
