@@ -13,6 +13,8 @@
 #include "../headers/proto_internal.h"
 
 #include <atomic>
+#include <cstdio>
+#include <cstdlib>
 #include <chrono>
 #include <thread>
 #include <utility>
@@ -169,4 +171,49 @@ TEST(MultiSpaceThread, CollectionCyclesOfDifferentSpacesNeverOverlap) {
     gChurn = nullptr;
     EXPECT_EQ(c.done.load(), 4);
     EXPECT_EQ(multispace::cyclesHighWater(), 1) << "two collection cycles ran at once";
+}
+
+// A thread that destroys a space joins that space's collector.  When several
+// spaces are live, a cycle ends with a grace period that waits for every
+// registered thread of the process to pass a quiescent point -- including the
+// destroying thread, which is blocked in the join and never passes one: both
+// waited for ever (found by the adaptive heap's multi-space test, 2.10.0, about
+// one run in three).  The destructor now marks its thread out of grace periods
+// for the join.  Each round starts a cycle of B, lets its stop-the-world pass
+// at a safepoint, and destroys B at once, while the cycle sweeps and before it
+// can reach its grace period's end.  The watchdog is a hang detector, two
+// orders of magnitude above the time the loop takes.
+TEST(MultiSpaceTeardown, DestroyingASpaceWhileItsCollectorWaitsForAGracePeriod) {
+    ProtoSpace a;   // keeps the process multi-space, so cycles end with a grace period
+    std::atomic<bool> finished{false};
+    std::thread watchdog([&finished] {
+        for (int i = 0; i < 2400 && !finished.load(); ++i)
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        if (!finished.load()) {
+            std::fprintf(stderr, "MultiSpaceTeardown: space destruction deadlocked\n");
+            std::abort();
+        }
+    });
+    int cyclesCaught = 0;
+    for (int round = 0; round < 20; ++round) {
+        ProtoSpace b;
+        {
+            // Garbage, then a heap with fewer than 20 % free cells so that
+            // triggerGC starts a cycle.
+            ProtoContext garbage(&b, b.rootContext, nullptr, nullptr, nullptr, nullptr);
+            while (static_cast<long long>(relaxedLoad(b.freeCellsCount)) * 5
+                   >= relaxedLoad(b.heapSize))
+                (void) garbage.newObject(false);
+        }
+        const uint64_t before = b.getGCCycleCount();
+        b.triggerGC();
+        for (int i = 0; i < 200000 && b.getGCCycleCount() == before; ++i)
+            b.rootContext->safepoint();   // park for the stop-the-world
+        if (b.getGCCycleCount() != before) ++cyclesCaught;
+        // B's collector now marks, sweeps, and then waits for a grace period
+        // that includes this thread.
+    }
+    finished = true;
+    watchdog.join();
+    EXPECT_GT(cyclesCaught, 10) << "the rounds did not start B's cycles";
 }

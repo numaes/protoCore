@@ -1492,7 +1492,15 @@ namespace proto {
             this->stopTheWorldCV.notify_all();
         }
         if (gcThread && gcThread->joinable()) {
+            // While it joins, this thread passes no quiescent point.  With
+            // several spaces live, the collector being joined may be inside a
+            // cycle whose grace period waits for every registered thread of
+            // the process, this one included: mark it out of grace periods,
+            // as a parked thread is, for the join.  It holds no cell of any
+            // space across the join.
+            multispace::setQuiescenceOut(true);
             gcThread->join();
+            multispace::setQuiescenceOut(false);
         }
 
         // PROTOCORE_MUTABLE_CYCLE_CHECK -- the zero-code way to ask rule 13's
