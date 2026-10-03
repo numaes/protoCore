@@ -4,6 +4,91 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.10.0] - 2026-10-02
+
+The adaptive heap controller: one call, `ProtoSpace::enableAdaptiveHeap()`,
+lets protoCore size a space's heap instead of a fixed limit chosen by each
+runtime.  New API, additive; the ABI is unchanged (SOVERSION 3: two new
+structs, two new non-virtual members, no class layout changed).  Also a fix
+for a deadlock at space destruction with several spaces.
+
+### Adaptive heap controller
+
+Design: [docs/specs/2026-10-02-adaptive-heap-controller-design.md](docs/specs/2026-10-02-adaptive-heap-controller-design.md)
+(approved 2026-10-02; section 6 lists the implementation decisions).
+Documentation: docs/GarbageCollector.md § "Adaptive heap controller".
+
+- **API.**  `AdaptiveHeapConfig` (hard limit, initial soft limit, pressure
+  threshold, growth factor, live headroom; every field has a default),
+  `ProtoSpace::enableAdaptiveHeap(const AdaptiveHeapConfig& = {})`,
+  `AdaptiveHeapStats` and `ProtoSpace::adaptiveHeapStats()`.  Feature macro
+  `PROTOCORE_HAS_ADAPTIVE_HEAP`.  `setHeapLimits` keeps its meaning and
+  disables the controller of its space.  Without the call nothing changes.
+- **Soft limit S.**  Starts at 524,288 cells (32 MiB).  At the end of every
+  cycle the collector applies the control law: S grows by 1.5x when the
+  mutators lost more than 5 % of the interval since the previous cycle to
+  collection (stop-the-world pause plus waits for a cycle), never falls
+  below 1.5x the live set, never decreases, never exceeds H.  The law is a
+  pure function (`core/AdaptiveHeap.cpp`) with deterministic unit tests.
+- **Hard limit H.**  A safety cap on the sum of all spaces' heaps: 75 % of
+  the smaller of physical memory and the process memory limit (cgroup v2
+  `memory.max` / v1 `memory.limit_in_bytes` of the process's cgroup and its
+  ancestors on Linux; the job object's limits on Windows; physical memory
+  on macOS), clamped to `INT_MAX` cells (128 GiB) because cell counts are
+  `int` in ABI 3.  `PROTOCORE_HEAP_LIMIT_CELLS` overrides it.
+- **Pacing.**  A cycle is requested when the cells left before S fall below
+  half of `S - L`, so the mutators keep a runway while the collector runs,
+  and whenever the heap grows to S.  At S with an empty freelist a refill
+  waits for the pending cycle, or, inside a critical section, takes one
+  batch and waits at the thread's next critical-section checkpoint.
+- **Out of memory** only when, after a full cycle, the cells it could not
+  reclaim (plus the other spaces' heaps) exceed H less one refill batch per
+  running thread, twice in a row; the callback and the controlled abort are
+  unchanged.  Fixed limits keep the "two cycles reclaimed nothing" rule.
+- **Environment.**  `PROTOCORE_HEAP_LIMIT_CELLS` sets H (and, with a soft
+  part, S0) when the controller is enabled; `PROTOCORE_HEAP_TRACE=1` prints
+  one line per cycle (`L`, `T`, `P`, `p`, S before and after, H,
+  `heapSize`); `PROTOCORE_ADAPTIVE_HEAP=0` applies H as a fixed limit.
+- **Tests.**  `AdaptiveHeapControlTests.cpp` (control law: steady, growing
+  and storm sequences, monotonicity and the H bound over random sequences;
+  cgroup v1/v2 parsing from a fake root, ancestors, containers, hybrid; the
+  default H; a Windows job object, in a child process) and
+  `AdaptiveHeapTests.cpp` (configuration and environment, a cycle at S with
+  no waiting thread, steady and storm workloads, true out-of-memory, a
+  retained set at 60 % of H with heavy garbage, the process budget across
+  spaces and its return when a space dies).
+  `AdaptiveHeapStorm.PressureFallsWithinBoundedCycles` asserts a ratio of
+  measured times and joins the clock-dependent list in CI.
+- **Measured** (`adaptive_heap_benchmark`, Release, Linux x86-64, three
+  runs): with a 100,000-element live list and 200,000 calls of 100 objects,
+  maximum RSS 237 MB, 30-31 cycles, 1.28-1.40 s with the controller, against
+  646 MB, 5 cycles, 2.01-2.13 s under the 640 MB fixed limit runtimes used;
+  with no live set 35 MB against 644 MB.  With a 1,000,000-element list the
+  controller used more, 1.21-1.26 GB against 672 MB (2.5 s against 3.9 s):
+  building the list stalled the program for 13-58 % of several intervals,
+  so S grew to 20 x L.  Six benchmarks (`microbenchmark_final`,
+  `mutable_access_benchmark`, `cache_timing_benchmark`,
+  `hash_quality_benchmark`, `object_access_benchmark`,
+  `immutable_sharing_benchmark`; `perf stat -r 3`, Release, against 2.9.6):
+  user-space instructions +0.00 % on all six.  Cycles moved from -4.2 % to
+  +5.8 % in both directions; an interleaved re-run put `mutable_access` and
+  `cache_timing` at +3.5 % and `hash_quality` within noise.  With identical
+  instruction counts this is code layout: every hot function moved (for
+  example `getAttribute` from offset 48 to 0 within its cache line).
+- **Runtimes** adopt it with `space.enableAdaptiveHeap()` in place of
+  their own default limit (docs/EMBEDDER-CONFORMANCE.md § "Heap sizing").
+
+### Fixed
+
+- **Destroying a space no longer deadlocks with its collector when another
+  space is live.**  `~ProtoSpace` joins its collector thread; with several
+  spaces, a cycle ends with a grace period that waits for every registered
+  thread of the process, including the destroying thread blocked in the
+  join.  The thread is now marked out of grace periods for the join.
+  Found by the controller's multi-space test (about one run in three hung).
+  Test: `MultiSpaceTeardown.DestroyingASpaceWhileItsCollectorWaitsForAGracePeriod`
+  (hung 3 runs out of 3 before the fix).
+
 ## [2.9.6] - 2026-10-02
 
 An allocation fix; the ABI is unchanged (SOVERSION 3, no class layout changed).

@@ -339,6 +339,30 @@ python3 <protoCore>/scripts/conformance/check_static.py --repo <embedder>
 that hangs is indistinguishable from a conformance failure that hangs, and
 rules 2, 2b, 8 and 11 are exactly the rules whose failure mode *is* a hang.
 
+## Heap sizing: one call (2.10.0)
+
+A runtime no longer picks a heap limit.  After constructing its space and
+before running the program it calls
+
+```cpp
+#if defined(PROTOCORE_HAS_ADAPTIVE_HEAP)
+    space->enableAdaptiveHeap();
+#else
+    space->setHeapLimits(0, legacyHardCells);   // protoCore < 2.10
+#endif
+```
+
+and deletes its own default (protoST's `configureHeap` constant, protoJS's
+640 MB or 75 % helper, and the limits protoScala, protoClojure and protoPython
+set).  `PROTOCORE_HEAP_LIMIT_CELLS` still overrides the hard limit, and the
+conformance cases that need a ceiling keep setting one with `setHeapLimits`,
+which disables the controller for their space.  The controller paces cycles
+while the program runs, so it depends on rules 1 and 2: a young generation
+that is never submitted is live to it too, and a thread that reaches no
+safepoint turns every cycle into a stall, which the controller answers by
+growing the heap.  Mechanism, defaults and measurements:
+[GarbageCollector.md](GarbageCollector.md) § "Adaptive heap controller".
+
 ## What a status means
 
 | Status | Meaning |

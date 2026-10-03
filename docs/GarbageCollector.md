@@ -655,10 +655,12 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   terms.
 - Threads request batches of cells from `ProtoSpace` (`getFreeCells`).
 - Allocation alone does not start a collection unless a heap limit is
-  configured with `ProtoSpace::setHeapLimits`.  Without a limit (the
-  default), a cycle starts when `ProtoSpace::triggerGC()` is called and
-  fewer than 20% of the heap's cells are free; the comment on the GC
-  trigger sources in `core/ProtoSpace.cpp` lists every path.
+  configured with `ProtoSpace::setHeapLimits`, or the adaptive heap
+  controller is enabled (`ProtoSpace::enableAdaptiveHeap`, see
+  "Adaptive heap controller" below).  Without either (the default), a
+  cycle starts when `ProtoSpace::triggerGC()` is called and fewer than 20%
+  of the heap's cells are free; the comment on the GC trigger sources in
+  `core/ProtoSpace.cpp` lists every path.
 - **Concurrent Allocation**: threads can continue to allocate memory from
   the OS (growing the heap) even if a GC cycle is currently running.
   This ensures that a high allocation rate does not stall the entire
@@ -714,6 +716,174 @@ that `blocksToAllocate * sizeof(BigCell)` does not exceed 16 MiB.  This
 limits the size of a single `posix_memalign` call and avoids excessively
 long critical sections when chaining cells under the global lock.
 
+## Adaptive heap controller
+
+Since 2.10.0.  Design and decisions:
+[specs/2026-10-02-adaptive-heap-controller-design.md](specs/2026-10-02-adaptive-heap-controller-design.md).
+Code: `core/AdaptiveHeap.h`, `core/AdaptiveHeap.cpp`, and the hooks in
+`core/ProtoSpace.cpp` and `ProtoContext::heapLimitCheckpoint`.
+
+A fixed limit is a guess about the program's working set: too tight gives
+collection storms or a false out-of-memory, too loose lets a small program
+grow its resident size to the limit before its first cycle.  With
+
+```cpp
+space.enableAdaptiveHeap();          // AdaptiveHeapConfig{} defaults
+```
+
+the working set is discovered at run time instead, the same way for every
+runtime.
+
+**Two limits.**
+
+- The **hard limit H** is a safety cap, in cells, on the sum of the heaps
+  of all spaces of the process.  Default: 75 % of the smaller of physical
+  memory and the process memory limit, divided by the 64-byte cell.  The
+  process limit is the cgroup v2 `memory.max` or v1
+  `memory.limit_in_bytes` of the process's cgroup and its ancestors on
+  Linux, the job object's process or job memory limit on Windows; macOS
+  has none, so physical memory applies.  Cell counts are `int` in ABI 3,
+  so H is clamped to `INT_MAX` cells (128 GiB) until the next SOVERSION.
+  `PROTOCORE_HEAP_LIMIT_CELLS` overrides it (and `AdaptiveHeapConfig::
+  hardCells`).
+- The **soft limit S** starts at 32 MiB worth of cells (524,288; or H if
+  smaller) and is kept in `softHeapLimit`, where the allocator already
+  reads it.  S never decreases and never exceeds H.
+
+**Measurement.**  At the end of each cycle the collector takes the live set
+L (`liveCellsLastCycle`), the wall time T since the previous cycle's end,
+and the mutator stall P in that interval: the stop-the-world pause, from
+the moment every thread is parked to the resume, plus every wait of a
+mutator thread for a cycle (`reclaimWaitLocked`, which serves the soft-zone
+wait, the controller's checkpoint wait and the hard-zone wait of
+`waitForHeapHeadroom`).  Each is one `steady_clock` pair per wait, never on
+the allocation fast path; the waits are summed per space, so with several
+threads waiting P counts each thread's wait.  Concurrent mark and sweep are
+not in P: they cost the collector thread CPU, not the mutators time.  The
+pressure is `p = P / T`.
+
+**Control law** (a pure function, `adaptive::nextSoftLimit`):
+
+```
+floor = ceil(k_live * L)                  k_live = 1.5
+p > p_high:  S = min(H, max(floor, ceil(S * g)))   p_high = 0.05, g = 1.5
+otherwise:   S = min(H, max(S, floor))
+```
+
+Because S never decreases, it converges after at most `log_g(H / S0)`
+growth steps (about 20 for 64 GiB).  A stall of fixed length matters less
+as S grows, because T grows with it: the law is self-limiting against
+isolated scheduling noise.
+
+**When cycles run.**
+
+- *Pacing.*  At every refill the allocator compares the cells left before
+  S (the global freelist plus the room between `heapSize` and S) with half
+  of the headroom `S - L` the last cycle left; below it, a cycle is
+  requested.  The mutators consume the other half while the collector
+  marks and sweeps concurrently.  Requesting the cycle only when the heap
+  reached S left no runway: every cycle stalled the mutators for its whole
+  length, the stall grew with S (the sweep is proportional to the garbage)
+  and S ran away to H.  Measured on `adaptive_heap_benchmark`: S settled at
+  20 M cells with p = 0.31 without pacing, at 2.6-4 M cells with
+  p = 0.0003 with it.
+- A cycle is also requested whenever a refill grows the heap to S or
+  beyond, whether or not a thread waits.
+- *At S with an empty freelist*, a refill waits for the cycle requested or
+  running; if none is pending (one was waited for and the freelist is still
+  empty), it grows the heap by one OS block.  A refill inside a critical
+  section cannot wait: it takes one batch and marks a wait pending, and the
+  thread waits at its next outermost critical-section checkpoint
+  (`ProtoContext::heapLimitCheckpoint`).  The checkpoint's extra cost is
+  one relaxed load of a process-wide counter, made only by spaces with a
+  hard limit and only while their heap is below it.
+- Under the controller a wait ends when a cycle *completes*.  The
+  fixed-limit predicate (a change of `gcCycleCount`, which counts cycle
+  starts) waited for the 50 ms watchdog when the wait began inside a cycle,
+  because a request made during a cycle is cleared at its end.
+
+**Out of memory.**  With the controller, a thread at the ceiling with an
+empty freelist after a completed cycle counts a strike when the cells that
+cycle left unreclaimed in its space (`heapSize - freeCellsCount` right
+after the sweep: live data, young generations of live contexts and cells
+held in threads' batches), plus the whole heaps of the other spaces, exceed
+H minus one refill batch per running thread.  Two consecutive strikes —
+the second after one more cycle — call `outOfMemoryCallback` once, and two
+more abort with
+
+```
+protoCore: adaptive heap hard limit <H> cells (process budget) reached;
+<n> cells not reclaimable after a full cycle (live set <L> cells) — out of memory
+```
+
+The other spaces count with their whole heap, not their live set, because
+memory never moves between spaces: a space cannot use another's free
+cells.  With fixed limits (`setHeapLimits`) the rule is unchanged: two
+consecutive cycles that reclaim nothing.
+
+**Several spaces.**  Each space has its own controller and its own S; H is
+the process budget.  Whenever any space's heap grows, each enabled space's
+ceiling (`maxHeapSize`) becomes its own heap plus what is left of the
+budget, so all the existing ceiling paths enforce the budget unchanged.  A
+destroyed space returns its share.  With one space the ceiling is H and
+the bookkeeping is one addition per OS allocation.
+
+**Fixed limits still work.**  `setHeapLimits(soft, hard)` disables the
+controller of that space and restores the fixed-limit behaviour, including
+its out-of-memory rule.
+
+**Environment.**
+
+| Variable | Effect with the controller |
+|---|---|
+| `PROTOCORE_HEAP_LIMIT_CELLS=<hard>` or `<soft>,<hard>` | H, and S0 when a soft part is given; takes precedence over `AdaptiveHeapConfig` |
+| `PROTOCORE_HEAP_TRACE=1` | one line per cycle on stderr: `L`, `T`, `P`, `p`, S before and after, H, `heapSize`, cells left unreclaimed |
+| `PROTOCORE_ADAPTIVE_HEAP=0` | `enableAdaptiveHeap` applies H as a fixed hard limit (`setHeapLimits(0, H)`), for diagnosis |
+
+A trace line:
+
+```
+protoCore heap: space=0x7ffc208fb6c0 cycle=26 L=100306 T=53.070ms P=0.017ms p=0.0003 S=3981312->3981312 H=782404224 heap=3973120 retained=2749348
+```
+
+**For runtimes.**  Replace the runtime's own default limit with one call
+after constructing the space, before running the program:
+
+```cpp
+#if defined(PROTOCORE_HAS_ADAPTIVE_HEAP)
+    space->enableAdaptiveHeap();
+#else
+    space->setHeapLimits(0, legacyHardCells);   // protoCore < 2.10
+#endif
+```
+
+An explicit `PROTOCORE_HEAP_LIMIT_CELLS` keeps working.  The controller
+relies on the mutators reaching safepoints (`ProtoContext::safepoint()`
+between bytecodes, as every runtime already does for the stop-the-world):
+a cycle requested while the mutators run can only stop the world there,
+and a mutator that reaches none turns every cycle into a wait.
+`adaptiveHeapStats()` returns S, H, L, `heapSize`, the cycles completed
+and the last pressure.
+
+**Measured** (`adaptive_heap_benchmark`: a live list in a root set, then
+200,000 calls of 100 objects each with a safepoint between calls, about
+30 M cells/s; Release, Linux x86-64, 62 GB machine, so H = 782 M cells;
+three runs, ranges):
+
+| Live list | Controller: max RSS, cycles, time | Fixed 640 MB limit: max RSS, cycles, time |
+|---|---|---|
+| none | 35 MB, 192, 1.13-1.16 s (S stays at S0) | 644 MB, 4, 1.90-1.96 s |
+| 100,000 elements (L = 100,306 cells) | 237 MB, 30-31, 1.28-1.40 s (S = 4.0 M cells) | 646 MB, 5, 2.01-2.13 s |
+| 1,000,000 elements (L = 1,000,306 cells) | 1,213-1,261 MB, 15, 2.49-2.53 s (S = 20.2 M cells) | 672 MB, 7, 3.88 s |
+
+The controller trades memory for time exactly as its law says: S settles
+where the runway covers a cycle at the program's allocation rate, not at
+`k_live * L + S0`.  With the large list, building it (path copies at about
+20 cells per append while the live set grows) produced cycles with 13-58 %
+of the time lost to waiting, and S grew to 20 L; a program that allocates
+slowly ends near `max(S0, 1.5 L)`.  `p_high` and `g` are the calibration
+knobs (design, section 5).
+
 ## Optimization Features
 
 - **Inline Caching**: per-thread attribute caches
@@ -739,8 +909,10 @@ long critical sections when chaining cells under the global lock.
 ## How to use
 
 Collection runs on the GC thread; embedders request cycles with
-`triggerGC()` or configure a heap limit (see "Memory Allocation"
-above).  **Without a heap limit, no cycle starts by itself.**  A limit can
+`triggerGC()`, configure a heap limit (see "Memory Allocation"
+above), or enable the adaptive heap controller
+(`space.enableAdaptiveHeap()`, see "Adaptive heap controller").
+**Without a heap limit or the controller, no cycle starts by itself.**  A limit can
 be set in code with `ProtoSpace::setHeapLimits(soft, hard)`, or without
 changing code through the environment variable
 `PROTOCORE_HEAP_LIMIT_CELLS=<hard>` or `<soft>,<hard>` (cells), read when

@@ -203,6 +203,12 @@ no-ops, so embedders need not guard their call sites.
 
 ### The Heap Allocation Limit and Out-of-Memory Detection
 
+*Since 2.10.0 the limits can be set by protoCore itself:
+`ProtoSpace::enableAdaptiveHeap()` adjusts the soft limit at the end of every
+cycle and treats the hard limit as a process-wide budget, with its own
+out-of-memory rule (docs/GarbageCollector.md § "Adaptive heap controller").
+What follows is the fixed-limit contract, which `setHeapLimits` keeps.*
+
 By default protoCore grows its `Cell` heap without bound — `getFreeCells` keeps
 calling `posix_memalign` and only fails once the OS itself is exhausted. An
 embedder can instead impose a budget with `ProtoSpace::setHeapLimits(softCells,

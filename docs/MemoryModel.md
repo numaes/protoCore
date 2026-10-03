@@ -95,6 +95,15 @@ consecutive cycles that reclaim nothing escalate to the out-of-memory path.
 The full contract is in [../DESIGN.md](../DESIGN.md) § "The Heap Allocation
 Limit and Out-of-Memory Detection".
 
+Since 2.10.0 the ceiling need not be guessed: `ProtoSpace::enableAdaptiveHeap()`
+makes the soft limit follow the program (its high-water mark is the working
+set plus the headroom its allocation rate needs) under a hard limit that is a
+process budget across spaces, 75 % of physical memory or of the process memory
+limit by default.  It changes how the peak of step 2 below is reached, not the
+rule: memory is still never returned, so resident size still converges to the
+peak.  See [GarbageCollector.md](GarbageCollector.md) § "Adaptive heap
+controller".
+
 A limit bounds one term of the rule and no other:
 
 * it bounds that space's cell heap;

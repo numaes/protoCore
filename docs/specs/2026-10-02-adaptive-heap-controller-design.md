@@ -1,6 +1,8 @@
 # Adaptive heap controller
 
-Status: **draft for review** (2026-10-02). Author: Gustavo Marino, with Claude.
+Status: **approved 2026-10-02**; implemented in protoCore 2.10.0 (section 6
+records the decisions taken during implementation). Author: Gustavo Marino,
+with Claude.
 
 ## 1. Problem
 
@@ -192,3 +194,89 @@ An explicit `PROTOCORE_HEAP_LIMIT_CELLS` keeps working.
    measurements show it matters.
 3. **The 128 GiB ceiling** from `int` cell counters, until the next ABI
    version.
+
+## 6. Implementation decisions (2.10.0)
+
+The design above is implemented as written except where this section says
+otherwise.  Each item gives the reason.
+
+1. **Pacing replaces "a cycle is requested when `heapSize` reaches S".**
+   Implemented literally, every cycle began when the freelist was already
+   exhausted, so the mutators waited for the whole cycle.  The sweep is
+   proportional to the garbage, and the garbage per cycle to S, so the stall
+   grew with S, the pressure never fell (p = 0.2-0.4 on
+   `adaptive_heap_benchmark`) and S ran away towards H (20 M cells for a
+   100,000-cell live set).  A cycle is now requested at each refill when the
+   cells left before S (global freelist plus the room between `heapSize` and
+   S) fall below half of the headroom `S - L` the last cycle left: the
+   mutators use the other half while the collector runs concurrently.  The
+   same benchmark then settles at S = 2.6-4.0 M cells with p = 0.0003.  The
+   request when a growth reaches S is kept.
+2. **The soft zone, under the controller.**  The existing soft zone waited
+   only for a refill at critical-section depth 0, and nearly every allocation
+   happens at depth 1 (inside `newObject` and the other constructors), so it
+   almost never waited.  Under the controller a refill that finds the heap at
+   or above S and the freelist empty waits for the cycle requested or running
+   when it can (depth 0, once per refill); otherwise it takes one batch and
+   marks a wait pending, and the thread waits at its next outermost
+   critical-section checkpoint.  With no cycle pending it grows by one OS
+   block ("one cycle's wait, then growth").  The checkpoint pays one relaxed
+   load of a process-wide counter, only for spaces with a hard limit.
+3. **A wait ends when a cycle completes.**  `reclaimWaitLocked` waited for a
+   change of `gcCycleCount`, which counts cycle *starts*; a wait that began
+   inside a cycle lasted the 50 ms watchdog, because the request it made was
+   cleared at that cycle's end.  The controller read that as pressure.
+   Controller spaces now wait for a completed cycle; fixed limits keep the
+   historical predicate.
+4. **The stop-the-world pause in P runs from the quorum to the resume.**
+   Measured from the raised flag it included the time the last threads took
+   to reach a safepoint, during which they were running.
+5. **P sums each thread's waits.**  With n threads waiting, P can exceed T
+   and p can exceed 1.  Normalising by the thread count was not done: the
+   design defines P as the sum, and a high p only makes S grow sooner.
+6. **The out-of-memory measure is the cells a cycle left unreclaimed**
+   (`heapSize - freeCellsCount` right after the sweep), not
+   `liveCellsLastCycle`: young generations of live contexts and cells in
+   threads' batches are never marked, yet cannot be reclaimed (the reason the
+   fixed-limit rule used reclamation).  With several spaces, the other spaces
+   count with their whole heap rather than their live set, because a space
+   cannot use another's free cells: memory is never moved between spaces.
+   The margin is the batch cap times the running threads,
+   `threads x clamp(H / (8 x threads), 512, 65536)`.  Two consecutive strikes
+   call the callback; two more abort, as with fixed limits.
+7. **Configuration precedence.**  `PROTOCORE_HEAP_LIMIT_CELLS` takes
+   precedence over `AdaptiveHeapConfig` (an operator's override beats an
+   embedder's default); its soft part, when given, is S0.
+   `PROTOCORE_ADAPTIVE_HEAP=0` makes `enableAdaptiveHeap` apply H as a fixed
+   hard limit with no soft watermark.  Invalid `highPressure`,
+   `growthFactor` or `liveHeadroom` values are replaced by the defaults.
+   The controller is opt-in: a space without the call behaves as before.
+8. **Limits detection.**  On Linux the cgroup v2 `memory.max` and the v1
+   `memory.limit_in_bytes` of the process's cgroup and of every ancestor up
+   to the mount point are read, and the smallest wins; walking up also finds
+   the limit in a container whose cgroup namespace hides the host path.
+   `memory.high` is not used (it throttles, it does not kill).  A v1 value of
+   2^60 bytes or more means unlimited.  With nothing detected, H is 8 GiB
+   worth of cells.  `AdaptiveHeapStats` also reports `enabled`.
+9. **The process budget** is the sum of the live spaces' `heapSize`; a
+   destroyed space returns its share (its memory stays with the process, as
+   before).  It is enforced by setting each enabled space's `maxHeapSize` to
+   its heap plus what is left of the budget whenever a heap grows, so every
+   existing ceiling path applies unchanged.  With one space the cost is one
+   addition per OS allocation.
+10. **A pre-existing teardown deadlock** surfaced in the multi-space test: a
+    thread destroying a space joined its collector while that collector's
+    grace period waited for the same thread.  `~ProtoSpace` now marks the
+    thread out of grace periods for the join (separate commit, test
+    `MultiSpaceTeardown.DestroyingASpaceWhileItsCollectorWaitsForAGracePeriod`).
+11. **Expectation corrected.**  Section 4 expected a steady workload to end
+    near `k_live * L + S0`.  That holds when the allocation rate is modest.
+    For a fast allocator S settles where the runway covers a cycle, about
+    `L + 2 x allocation rate x cycle time`: on `adaptive_heap_benchmark`
+    (about 30 M cells/s) S settles at 4.0 M cells for a 100,000-cell live
+    set, 237 MB of RSS against 646 MB under the 640 MB fixed limit, and at
+    20.2 M cells for a 1,000,000-cell live set built by path-copying appends
+    (1.2 GB against 672 MB, 35 % faster), the build phase having lost
+    13-58 % of its time to waits.  Calibration of `p_high` and `g` (open
+    point 1) is where this trade is set.
+
