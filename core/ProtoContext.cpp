@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include "AdaptiveHeap.h"
 #include <stdexcept>
 #include <vector>
 #include <cstdlib>
@@ -433,7 +434,16 @@ namespace proto
         if (!sp) return;
         const int limit = relaxedLoad(sp->maxHeapSize);
         if (limit <= 0) return;
-        if (relaxedLoad(sp->heapSize) < limit) return;
+        if (relaxedLoad(sp->heapSize) < limit) {
+            // Below the ceiling.  The adaptive heap controller may still want
+            // this thread to wait for a cycle (a refill inside a critical
+            // section grew the heap past the soft limit without waiting): one
+            // relaxed load of a process-wide counter, zero unless some
+            // controller-enabled space has such a wait pending.
+            if (adaptive::softWaitPending.load(std::memory_order_relaxed) == 0) return;
+            adaptive::softZoneCheckpoint(sp, this);
+            return;
+        }
         // At the ceiling — block here, at criticalSectionDepth == 0, where the
         // thread holds no half-built tree and can safely yield to the GC.
         sp->waitForHeapHeadroom(this);

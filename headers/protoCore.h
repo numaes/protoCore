@@ -2177,6 +2177,52 @@ namespace proto
         std::string summary() const;
     };
 
+    /**
+     * @brief Configuration of the adaptive heap controller
+     *        (ProtoSpace::enableAdaptiveHeap).  Since 2.10.0; test for it with
+     *        PROTOCORE_HAS_ADAPTIVE_HEAP.
+     *
+     * Every field has a working default, so `space.enableAdaptiveHeap()` with
+     * no argument is the intended call.  See docs/GarbageCollector.md
+     * § "Adaptive heap controller".
+     */
+    struct AdaptiveHeapConfig
+    {
+        /**
+         * Hard limit H, in cells: a process-wide safety cap on the sum of all
+         * spaces' heaps.  0 selects the automatic value: 75 % of the smaller
+         * of physical memory and the process memory limit (cgroup v1/v2 on
+         * Linux, job object on Windows), divided by the 64-byte cell.
+         * PROTOCORE_HEAP_LIMIT_CELLS, when set, takes precedence.  Clamped to
+         * INT_MAX cells (128 GiB) because cell counts are `int` in ABI 3.
+         */
+        proto_ulong hardCells = 0;
+        /** Initial soft limit S0, in cells.  0 selects 524,288 (32 MiB). */
+        proto_ulong initialSoftCells = 0;
+        /** p_high: the soft limit grows when collection stalls the mutators
+         *  for more than this fraction of the interval between cycles. */
+        double highPressure = 0.05;
+        /** g: the factor by which the soft limit grows under high pressure. */
+        double growthFactor = 1.5;
+        /** k_live: the soft limit never falls below k_live x the live set. */
+        double liveHeadroom = 1.5;
+    };
+
+    /** @brief A snapshot of a space's heap controller (adaptiveHeapStats). */
+    struct AdaptiveHeapStats
+    {
+        bool        enabled = false;          ///< the controller drives the limits
+        proto_ulong softCells = 0;            ///< current soft limit S
+        proto_ulong hardCells = 0;            ///< hard limit H (process budget)
+        proto_ulong liveCellsLastCycle = 0;   ///< L of the last completed cycle
+        proto_ulong heapCells = 0;            ///< this space's heap (heapSize)
+        uint64_t    cycles = 0;               ///< cycles completed while enabled
+        double      lastPressure = 0.0;       ///< p = P / T of the last cycle
+    };
+
+// ProtoSpace::enableAdaptiveHeap and adaptiveHeapStats exist (2.10.0+).
+#define PROTOCORE_HAS_ADAPTIVE_HEAP 1
+
     class ProtoSpace
     {
     public:
@@ -2351,8 +2397,41 @@ namespace proto
          * ProtoContext::heapLimitCheckpoint); an allocation that exhausts the
          * cell pool *inside* a critical section may overshoot by at most one
          * OS batch, since it cannot block there.
+         *
+         * Fixed limits: a call disables the adaptive heap controller
+         * (enableAdaptiveHeap) of this space.
          */
         void setHeapLimits(int softCells, int hardCells);
+
+        /**
+         * @brief Let protoCore size this space's heap (since 2.10.0).
+         *
+         * The soft limit S, which triggers collections, starts small
+         * (`initialSoftCells`, 32 MiB by default) and is adjusted by the
+         * collector at the end of every cycle: it grows by `growthFactor`
+         * while collection stalls the mutators for more than `highPressure`
+         * of the time, never falls below `liveHeadroom` x the live set, and
+         * never decreases.  The hard limit H is a process-wide safety cap on
+         * the sum of all spaces' heaps; out of memory is declared only when
+         * the data a full cycle could not reclaim does not fit under it.
+         *
+         * One call at start-up replaces a runtime's fixed limit:
+         * @code
+         *   space.enableAdaptiveHeap();
+         * @endcode
+         *
+         * Environment: PROTOCORE_HEAP_LIMIT_CELLS=<hard> or <soft>,<hard>
+         * overrides H (and S0); PROTOCORE_HEAP_TRACE=1 prints one line per
+         * cycle to stderr; PROTOCORE_ADAPTIVE_HEAP=0 applies the hard limit as
+         * a fixed one instead (setHeapLimits(0, H)), for diagnosis.
+         *
+         * Thread-safe.  Memory is never returned to the operating system.
+         * See docs/GarbageCollector.md § "Adaptive heap controller".
+         */
+        void enableAdaptiveHeap(const AdaptiveHeapConfig& config = AdaptiveHeapConfig());
+
+        /** @brief The controller's current state (thread-safe snapshot). */
+        AdaptiveHeapStats adaptiveHeapStats() const;
 
         /**
          * @brief Block until the heap has room to satisfy an allocation, or

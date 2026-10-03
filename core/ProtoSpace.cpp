@@ -7,6 +7,7 @@
 
 #include "../headers/proto_internal.h"
 #include "ModuleCache.h"
+#include "AdaptiveHeap.h"
 #include <algorithm>
 #include <iostream>
 #include <cstdlib>
@@ -355,6 +356,11 @@ namespace proto {
                     return space->parkedThreads.load() >= space->runningThreads.load() || space->state == SPACE_STATE_ENDING;
                 });
                 GC_LOCK_TRACE("gcLoop ACQ(parked)");
+                // The adaptive heap controller counts the stop-the-world as
+                // mutator stall from here, where the world IS stopped, to the
+                // resume below.  The time to reach the quorum is not counted:
+                // until the last thread parks, that thread is still running.
+                const auto stwStart = std::chrono::steady_clock::now();
                 if (space->state == SPACE_STATE_ENDING) {
                     // Lower the flag raised above: a thread parked for it, of
                     // this space or of another one it belongs to, would
@@ -692,6 +698,9 @@ namespace proto {
                 space->stwFlag.store(false);
                 multispace::attention.fetch_sub(1);
                 space->stopTheWorldCV.notify_all();
+                const std::uint64_t stwNanos = static_cast<std::uint64_t>(
+                    std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        std::chrono::steady_clock::now() - stwStart).count());
                 GC_LOCK_TRACE("gcLoop REL(mark)");
                 lock.unlock(); // Mark, sweep, and bulk-unmark all run unlocked.
 #ifdef PROTOCORE_GC_INSTRUMENT
@@ -1203,6 +1212,9 @@ namespace proto {
                                                 std::memory_order_relaxed);
                 space->liveCellsLastCycle.store(markedList.size(),
                                                 std::memory_order_relaxed);
+                // The adaptive heap controller, when enabled, sets the next
+                // soft limit from this cycle's live set and pressure.
+                adaptive::onCycleEnd(space, stwNanos);
                 space->memoryReclaimedCV.notify_all();
                 space->gcCV.notify_all();
             }
@@ -1448,29 +1460,12 @@ namespace proto {
         // with a value up to INT_MAX; a hard part of 0 means no limit.  Any
         // other value is ignored silently, like the other PROTOCORE_*
         // variables read here.
-        if (const char* envLimit = std::getenv("PROTOCORE_HEAP_LIMIT_CELLS")) {
-            auto parseCells = [](const char* begin, const char* end, int& out) {
-                if (begin == end) return false;
-                long long value = 0;
-                for (const char* p = begin; p != end; ++p) {
-                    if (*p < '0' || *p > '9') return false;
-                    value = value * 10 + (*p - '0');
-                    if (value > INT_MAX) return false;
-                }
-                out = static_cast<int>(value);
-                return true;
-            };
-            const char* end = envLimit;
-            const char* comma = nullptr;
-            for (; *end; ++end) {
-                if (*end == ',' && !comma) comma = end;
-            }
+        {
             int softCells = 0;
             int hardCells = 0;
-            const bool valid = comma
-                ? parseCells(envLimit, comma, softCells) && parseCells(comma + 1, end, hardCells)
-                : parseCells(envLimit, end, hardCells);
-            if (valid && hardCells > 0) {
+            if (adaptive::parseHeapLimitCells(std::getenv("PROTOCORE_HEAP_LIMIT_CELLS"),
+                                              softCells, hardCells)
+                && hardCells > 0) {
                 this->setHeapLimits(softCells, hardCells);
             }
         }
@@ -1501,6 +1496,11 @@ namespace proto {
             multispace::setQuiescenceOut(true);
             gcThread->join();
             multispace::setQuiescenceOut(false);
+        }
+        {
+            // Out of the process heap total and the controller registry.
+            std::lock_guard<std::recursive_mutex> lock(globalMutex);
+            adaptive::forgetSpace(this);
         }
 
         // PROTOCORE_MUTABLE_CYCLE_CHECK -- the zero-code way to ask rule 13's
@@ -1717,6 +1717,14 @@ namespace proto {
                                   ProtoContext* ctx) {
         const uint64_t startCycle =
             space->gcCycleCount.load(std::memory_order_relaxed);
+        // Under the adaptive heap controller the wait ends when a cycle
+        // COMPLETES, including one already in flight.  gcCycleCount counts
+        // cycle starts, and a request made during a cycle is cleared at its
+        // end, so waiting for a change of gcCycleCount from inside a cycle
+        // lasted until the 50 ms watchdog: a stall the controller would read
+        // as collection pressure.  Fixed limits keep the historical predicate.
+        const bool byCompletion = adaptive::isEnabled(space);
+        const uint64_t startCompleted = adaptive::completedCycles(space);
         // Make sure a collection will actually run.
         if (!space->gcStarted) space->gcStarted = true;
         space->gcCV.notify_all();
@@ -1731,13 +1739,21 @@ namespace proto {
             space->runningThreads.fetch_sub(1, std::memory_order_acq_rel);
         }
         space->gcCV.notify_all();
+        const auto waitStart = std::chrono::steady_clock::now();
         space->memoryReclaimedCV.wait_for(
             lock, std::chrono::milliseconds(50),
-            [space, startCycle] {
+            [space, startCycle, byCompletion, startCompleted] {
+                if (space->state == SPACE_STATE_ENDING) return true;
+                if (byCompletion)
+                    return adaptive::completedCycles(space) != startCompleted;
                 return space->gcCycleCount.load(std::memory_order_relaxed)
-                           != startCycle
-                    || space->state == SPACE_STATE_ENDING;
+                           != startCycle;
             });
+        // Mutator stall for the adaptive heap controller (a no-op unless it
+        // is enabled for this space).  globalMutex is held again here.
+        adaptive::recordMutatorWait(space, static_cast<std::uint64_t>(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::steady_clock::now() - waitStart).count()));
         // Rejoin the stop-the-world protocol: park if a stop-the-world began
         // while this thread was out of the running set.  Park ONLY, never
         // ProtoContext::safepoint().  This wait runs from the heap checkpoint
@@ -1819,9 +1835,24 @@ namespace proto {
             // context's un-submitted young generation fills the heap without
             // ever entering markedList.  Two consecutive zero-reclaim cycles
             // confirm it, absorbing a single cycle's timing races.
+            //
+            // Under the adaptive heap controller the condition is the one of
+            // its design (section 3.4): the cells the last cycle left
+            // unreclaimed in this space, plus every other space's heap, do
+            // not fit under the process budget H less one refill batch per
+            // running thread.  Two consecutive cycles confirm it, the second
+            // being the "one more cycle" after which the pending allocation
+            // still cannot be served.  With fixed limits (setHeapLimits) the
+            // rule is unchanged.
+            bool controllerKnows = false;
+            proto_ulong occupiedCells = 0;
+            proto_ulong budgetCells = 0;
+            const bool exceeds = adaptive::liveSetExceedsBudget(
+                this, controllerKnows, occupiedCells, budgetCells);
             proto_ulong reclaimed =
                 this->reclaimedLastCycle.load(std::memory_order_relaxed);
-            if (reclaimed == 0) {
+            const bool strike = controllerKnows ? exceeds : reclaimed == 0;
+            if (strike) {
                 if (++oomStrikes >= 2) {
                     if (!oomCallbackUsed && this->outOfMemoryCallback) {
                         // Give the embedder one chance to free its caches.
@@ -1834,19 +1865,43 @@ namespace proto {
                         // Confirmed, unrecoverable out of memory.
                         proto_ulong live = this->liveCellsLastCycle.load(
                             std::memory_order_relaxed);
+                        const int ceiling = this->maxHeapSize;
                         lock.unlock();
-                        std::fprintf(stderr,
-                            "protoCore: heap hard limit %d cells reached; "
-                            "live set %" PROTO_FMT_U " cells, last cycle reclaimed 0 — "
-                            "out of memory\n", this->maxHeapSize, live);
+                        if (controllerKnows) {
+                            std::fprintf(stderr,
+                                "protoCore: adaptive heap hard limit %" PROTO_FMT_U " cells "
+                                "(process budget) reached; %" PROTO_FMT_U " cells not "
+                                "reclaimable after a full cycle (live set %" PROTO_FMT_U
+                                " cells) — out of memory\n", budgetCells, occupiedCells, live);
+                        } else {
+                            std::fprintf(stderr,
+                                "protoCore: heap hard limit %d cells reached; "
+                                "live set %" PROTO_FMT_U " cells, last cycle reclaimed 0 — "
+                                "out of memory\n", ceiling, live);
+                        }
                         std::fflush(stderr);
                         std::abort();
                     }
                 }
             } else {
-                oomStrikes = 0;  // the GC freed cells — reclamation works
+                oomStrikes = 0;  // the GC freed cells, or the data fits
             }
         }
+    }
+
+    // The adaptive controller's soft-zone wait at a critical-section
+    // checkpoint (adaptive::softZoneCheckpoint): a refill inside a critical
+    // section went past S without waiting, so the thread waits here, at depth
+    // 0, for the cycle in flight.  One reclaimWaitLocked (bounded by its 50 ms
+    // watchdog); the next checkpoint waits again if the cycle is still running.
+    void adaptive::softZoneCheckpoint(ProtoSpace* space, ProtoContext* ctx) {
+        if (!ctx || ctx->criticalSectionDepth != 0) return;
+        if (space->gcThread &&
+            std::this_thread::get_id() == space->gcThread->get_id()) return;
+        std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        if (space->state == SPACE_STATE_ENDING) return;
+        if (!adaptive::softWaitPendingFor(space)) return;
+        reclaimWaitLocked(space, lock, ctx);
     }
 
     Cell* ProtoSpace::getFreeCells(ProtoContext* ctx) {
@@ -1868,6 +1923,10 @@ namespace proto {
         // One-shot soft-zone wait: the soft watermark biases toward
         // reclamation once per getFreeCells call, never blocking past it.
         bool softWaited = false;
+
+        // Adaptive heap controller: request a cycle while there is still
+        // runway before S (a no-op unless the controller is enabled).
+        adaptive::pace(this);
 
         for (;;) {
             // Effective batch size — larger when multiple threads run so each
@@ -2030,14 +2089,35 @@ namespace proto {
                 } else {
                     if (this->softHeapLimit > 0
                         && this->heapSize >= this->softHeapLimit
-                        && !softWaited
-                        && !limitExempt
-                        && ctx->criticalSectionDepth == 0) {
-                        // SOFT zone: prefer reclamation over growth.  Wait one
-                        // cycle, then re-check; grow only if that did not help.
-                        softWaited = true;
-                        reclaimWaitLocked(this, lock, ctx);
-                        continue;
+                        && !limitExempt) {
+                        const adaptive::SoftZone zone = adaptive::softZoneDecision(this);
+                        if (zone == adaptive::SoftZone::Fixed) {
+                            // SOFT zone, fixed limits: prefer reclamation over
+                            // growth.  Wait one cycle, then re-check; grow only
+                            // if that did not help.
+                            if (!softWaited && ctx->criticalSectionDepth == 0) {
+                                softWaited = true;
+                                reclaimWaitLocked(this, lock, ctx);
+                                continue;
+                            }
+                        } else if (zone == adaptive::SoftZone::Wait) {
+                            // SOFT zone, adaptive controller: a cycle is
+                            // requested or running.  Wait for it at depth 0
+                            // (once per refill).  A
+                            // caller that cannot wait (inside a critical
+                            // section) or has waited already gets one batch, and
+                            // its next critical-section checkpoint waits
+                            // (ProtoContext::heapLimitCheckpoint).
+                            if (!softWaited && ctx->criticalSectionDepth == 0) {
+                                softWaited = true;
+                                reclaimWaitLocked(this, lock, ctx);
+                                continue;
+                            }
+                            adaptive::markSoftWaitPending(this);
+                            if (blocksToAllocate > batchSize) blocksToAllocate = batchSize;
+                        }
+                        // SoftZone::Grow: no cycle pending -- after one cycle's
+                        // wait the freelist is still empty: grow.
                     }
                     // Clamp the OS request so heapSize never crosses
                     // maxHeapSize.
@@ -2091,6 +2171,10 @@ namespace proto {
             // Atomic so the unlocked heuristic read in heapLimitCheckpoint is
             // not a data race; the value is re-validated under globalMutex.
             relaxedFetchAdd(this->heapSize, blocksToAllocate);
+            // Process heap total, per-space ceilings under the process
+            // budget, and the cycle request at the soft limit -- all no-ops
+            // beyond one addition unless the adaptive controller is enabled.
+            adaptive::afterHeapGrowth(this, blocksToAllocate);
 
             // Partition the remainder into CELL_CHUNK_SIZE chunks so the next
             // getFreeCells lands in the O(1) chunked fast path.
@@ -2120,8 +2204,20 @@ namespace proto {
         // A soft watermark above the hard ceiling is meaningless — clamp it.
         if (softCells > 0 && hardCells > 0 && softCells > hardCells)
             softCells = hardCells;
+        // Fixed limits: the adaptive controller no longer drives this space.
+        adaptive::disable(this);
         this->softHeapLimit = softCells;
         relaxedStore(this->maxHeapSize, hardCells);
+    }
+
+    void ProtoSpace::enableAdaptiveHeap(const AdaptiveHeapConfig& config) {
+        std::lock_guard<std::recursive_mutex> lock(globalMutex);
+        adaptive::enable(this, config);
+    }
+
+    AdaptiveHeapStats ProtoSpace::adaptiveHeapStats() const {
+        std::lock_guard<std::recursive_mutex> lock(globalMutex);
+        return adaptive::stats(this);
     }
 
     proto_ulong returnUnusedCellBatch(ProtoSpace* space, Cell* head) {

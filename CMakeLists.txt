@@ -87,6 +87,7 @@ add_library(protoCore SHARED
     core/Integer.cpp
     core/MutableCycles.cpp
     core/MultiSpace.cpp
+    core/AdaptiveHeap.cpp
 )
 
 # The ABI version of libprotoCore. It is the single source of truth for the
@@ -231,6 +232,10 @@ message(STATUS "Configured benchmark: string_concat_benchmark")
 add_executable(cache_timing_benchmark performance/cache_timing_benchmark.cpp)
 target_link_libraries(cache_timing_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: cache_timing_benchmark")
+
+add_executable(adaptive_heap_benchmark performance/adaptive_heap_benchmark.cpp)
+target_link_libraries(adaptive_heap_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: adaptive_heap_benchmark")
 
 add_executable(mpsc_queue_benchmark performance/mpsc_queue_benchmark.cpp)
 target_link_libraries(mpsc_queue_benchmark PRIVATE protoCore)
