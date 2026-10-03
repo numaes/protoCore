@@ -81,7 +81,12 @@ struct CleanEnv {
 // as the allocator goes (several GB/s), a rate no interpreter reaches.
 // Returns the number of cells allocated.
 volatile std::uint64_t g_sink = 0;
-proto_ulong churn(ProtoSpace& space, int count, int work = 0) {
+//
+// Without `safepoints` the thread reaches none: a requested cycle can stop
+// the world only once this thread waits for memory, so every cycle stalls it
+// for the cycle's whole length, whatever the relative speed of the mutator
+// and the collector (a sanitizer slows them differently).
+proto_ulong churn(ProtoSpace& space, int count, int work = 0, bool safepoints = true) {
     proto_ulong cells = 0;
     for (int done = 0; done < count; done += 100) {
         {
@@ -94,7 +99,7 @@ proto_ulong churn(ProtoSpace& space, int count, int work = 0) {
             }
             cells += sub.allocatedCellsCount;
         }
-        space.rootContext->safepoint();
+        if (safepoints) space.rootContext->safepoint();
     }
     return cells;
 }
@@ -312,9 +317,9 @@ struct StormRun {
     uint64_t cyclesToCalm = 0;   // 0: pressure never fell below p_high
 };
 
-// A large live set with k_live = 1, so S starts at the live set itself and
-// every refill above it waits for a whole cycle.
-StormRun runStorm(ProtoSpace& space, int maxRounds, bool stopWhenCalm) {
+// A large live set with k_live = 1, so S starts at the live set itself.
+// With `safepoints` false every cycle is a stall (see churn).
+StormRun runStorm(ProtoSpace& space, int maxRounds, bool stopWhenCalm, bool safepoints) {
     AdaptiveHeapConfig c;
     c.liveHeadroom = 1.0;
     space.enableAdaptiveHeap(c);
@@ -322,7 +327,7 @@ StormRun runStorm(ProtoSpace& space, int maxRounds, bool stopWhenCalm) {
     StormRun run;
     uint64_t seen = space.adaptiveHeapStats().cycles;
     for (int r = 0; r < maxRounds; ++r) {
-        churn(space, 100000);
+        churn(space, 100000, 0, safepoints);
         const AdaptiveHeapStats s = space.adaptiveHeapStats();
         if (s.cycles != seen) {
             seen = s.cycles;
@@ -347,21 +352,25 @@ StormRun runStorm(ProtoSpace& space, int maxRounds, bool stopWhenCalm) {
 }  // namespace
 
 // Gating: under a storm (pressure far above p_high) S grows past the floor.
+// The mutator reaches no safepoint, so every cycle stalls it: the verdict
+// does not depend on the machine's speed.
 TEST(AdaptiveHeapStorm, SoftLimitRisesUnderStall) {
     CleanEnv env;
     ProtoSpace space;
-    const StormRun run = runStorm(space, 150, false);
+    const StormRun run = runStorm(space, 60, false, false);
     EXPECT_GT(run.maxPressure, 0.05) << "the storm produced no stall";
     EXPECT_GT(run.finalSoft, run.floor * 5 / 4)
         << "S never grew beyond max(S0, L)";
 }
 
-// Clock-dependent (listed in CLOCK_DEPENDENT_TESTS): after the storm,
-// pressure falls below p_high within a bounded number of cycles.
+// Clock-dependent (listed in CLOCK_DEPENDENT_TESTS): with safepoints, after
+// the storm, pressure falls below p_high within a bounded number of cycles.
+// Whether the start is a storm at all depends on the relative speed of the
+// mutator and the collector, hence not a gate.
 TEST(AdaptiveHeapStorm, PressureFallsWithinBoundedCycles) {
     CleanEnv env;
     ProtoSpace space;
-    const StormRun run = runStorm(space, 3000, true);
+    const StormRun run = runStorm(space, 3000, true, true);
     ASSERT_GT(run.maxPressure, 0.05) << "the storm produced no stall";
     EXPECT_GT(run.cyclesToCalm, 0u) << "pressure never fell below p_high";
     EXPECT_LE(run.cyclesToCalm, 60u);

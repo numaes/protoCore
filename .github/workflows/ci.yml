@@ -64,6 +64,12 @@ env:
   #   that ASan (31 cycles) and MSVC Debug (61) failed with no defect involved.
   #   Since 2.9.3 each phase runs until it has seen 50 cycles, under a 300 s
   #   hang detector, so it gates in every job, ASan included.
+  #   AdaptiveHeapStorm.PressureFallsWithinBoundedCycles
+  #                                                the controller's pressure is a
+  #                                                ratio of measured times; this
+  #                                                case asserts it falls below
+  #                                                5 % within 60 cycles
+  #                                                (test/AdaptiveHeapTests.cpp)
   #   conformance.isolate.*                        three cases whose violation
   #                                                shows up as a deadlock, so the
   #                                                TIMEOUT 240 *is* the verdict.
@@ -80,7 +86,7 @@ env:
   #                                                intermittent, about 2 runs in
   #                                                10, in a sibling runtime
   #                                                (test/CMakeLists.txt:59-68)
-  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|conformance\.isolate\..*)$'
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.PressureFallsWithinBoundedCycles|conformance\.isolate\..*)$'
 
 jobs:
   test:
