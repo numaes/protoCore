@@ -513,9 +513,11 @@ StormRun runStorm(ProtoSpace& space, int maxRounds, bool safepoints) {
     AdaptiveHeapConfig c;
     c.hardCells = 32000000;   // 2 GB
     space.enableAdaptiveHeap(c);
-    RootedList live(space, 300000);   // ~900,000 live cells
     StormRun run;
+    // S before the live set is built: on a slow build (MSVC Debug) the
+    // build's own cycles may already have grown it.
     run.initialSoft = space.adaptiveHeapStats().softCells;
+    RootedList live(space, 300000);   // ~900,000 live cells
     proto_ulong soft = run.initialSoft;
     uint64_t seen = space.adaptiveHeapStats().cycles;
     for (int r = 0; r < maxRounds; ++r) {
