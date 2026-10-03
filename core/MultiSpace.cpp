@@ -221,6 +221,9 @@ void setOut(int delta) {
 // Waits out `space`'s stop-the-world, counted in its quorum.
 void parkIn(ProtoSpace* space) {
     setOut(+1);
+#ifdef PROTOCORE_GC_INSTRUMENT
+    const auto parkStart = std::chrono::steady_clock::now();
+#endif
     space->parkedThreads++;
     {
         std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
@@ -228,6 +231,13 @@ void parkIn(ProtoSpace* space) {
         space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
     }
     space->parkedThreads--;
+#ifdef PROTOCORE_GC_INSTRUMENT
+    gcprof::mutatorParkNs.fetch_add(static_cast<std::uint64_t>(
+        std::chrono::duration_cast<std::chrono::nanoseconds>(
+            std::chrono::steady_clock::now() - parkStart).count()),
+        std::memory_order_relaxed);
+    gcprof::mutatorParks.fetch_add(1, std::memory_order_relaxed);
+#endif
     setOut(-1);
 }
 
