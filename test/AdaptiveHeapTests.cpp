@@ -242,6 +242,35 @@ TEST(AdaptiveHeap, SetHeapLimitsDisablesTheController) {
     EXPECT_EQ(ceilingOf(space), 3000000);
 }
 
+// PROTOCORE_ADAPTIVE_HEAP=1, the diagnostic switch: a space runs the
+// controller from its creation, and an embedder's fixed limits do not turn
+// it off, so an existing binary can be measured under the controller.
+TEST(AdaptiveHeap, AdaptiveOnEnablesTheControllerAtCreation) {
+    CleanEnv env;
+    ScopedEnv on("PROTOCORE_ADAPTIVE_HEAP", "1");
+    ProtoSpace space;
+    AdaptiveHeapStats s = space.adaptiveHeapStats();
+    EXPECT_TRUE(s.enabled);
+    EXPECT_EQ(s.softCells, static_cast<proto_ulong>(adaptive::kDefaultInitialSoftCells));
+    space.setHeapLimits(0, 3000000);   // what a runtime does today
+    s = space.adaptiveHeapStats();
+    EXPECT_TRUE(s.enabled) << "setHeapLimits disabled the forced controller";
+    EXPECT_EQ(s.softCells, static_cast<proto_ulong>(adaptive::kDefaultInitialSoftCells));
+    EXPECT_NE(ceilingOf(space), 3000000);
+}
+
+// With the switch, PROTOCORE_HEAP_LIMIT_CELLS still gives H and S0.
+TEST(AdaptiveHeap, AdaptiveOnHonoursTheLimitVariable) {
+    CleanEnv env;
+    ScopedEnv on("PROTOCORE_ADAPTIVE_HEAP", "1");
+    ScopedEnv limit("PROTOCORE_HEAP_LIMIT_CELLS", "700000,8000000");
+    ProtoSpace space;
+    const AdaptiveHeapStats s = space.adaptiveHeapStats();
+    EXPECT_TRUE(s.enabled);
+    EXPECT_EQ(s.hardCells, 8000000u);
+    EXPECT_EQ(s.softCells, 700000u);
+}
+
 // --- Cycle request at S ------------------------------------------------------
 
 // A thread inside a critical section never waits in the soft zone, so before

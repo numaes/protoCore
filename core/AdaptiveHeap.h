@@ -162,6 +162,14 @@ namespace adaptive {
     /** Remove `space` (its destructor, after the collector has joined). */
     void forgetSpace(ProtoSpace* space);
 
+    /**
+     * PROTOCORE_ADAPTIVE_HEAP, a diagnostic switch: 1 when it is "1" (every
+     * space enables the controller when it is created, and setHeapLimits
+     * leaves it enabled), 0 when it is "0" (enableAdaptiveHeap applies H as
+     * a fixed limit), -1 when unset or any other value.
+     */
+    int environmentMode();
+
     // Used by ProtoSpace::enableAdaptiveHeap / setHeapLimits / stats.
     void enable(ProtoSpace* space, const AdaptiveHeapConfig& config);
     void disable(ProtoSpace* space);

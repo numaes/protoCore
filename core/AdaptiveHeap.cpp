@@ -427,7 +427,25 @@ namespace adaptive {
 
     void onCycleEnd(ProtoSpace* space, std::uint64_t stopTheWorldNanos) {
         SpaceState* s = findEnabled(space);
-        if (!s) return;
+        if (!s) {
+            // Fixed limits: PROTOCORE_HEAP_TRACE prints the cycle too, so a
+            // fixed policy can be measured against the controller.
+            const char* traceEnv = std::getenv("PROTOCORE_HEAP_TRACE");
+            if (traceEnv && *traceEnv && std::strcmp(traceEnv, "0") != 0) {
+                std::fprintf(stderr,
+                    "protoCore heap: space=%p fixed cycle=%llu L=%" PROTO_FMT_U
+                    " soft=%d hard=%d heap=%d stw=%.3fms\n",
+                    static_cast<void*>(space),
+                    static_cast<unsigned long long>(
+                        space->gcCycleCount.load(std::memory_order_relaxed)),
+                    static_cast<proto_ulong>(
+                        space->liveCellsLastCycle.load(std::memory_order_relaxed)),
+                    space->softHeapLimit, relaxedLoad(space->maxHeapSize),
+                    relaxedLoad(space->heapSize), stopTheWorldNanos / 1e6);
+                std::fflush(stderr);
+            }
+            return;
+        }
         const Clock::time_point now = Clock::now();
         const double T = static_cast<double>(
             std::chrono::duration_cast<std::chrono::nanoseconds>(now - s->lastCycleEnd).count());
@@ -482,6 +500,14 @@ namespace adaptive {
         return occupied > H - margin;
     }
 
+    int environmentMode() {
+        const char* v = std::getenv("PROTOCORE_ADAPTIVE_HEAP");
+        if (!v) return -1;
+        if (std::strcmp(v, "1") == 0) return 1;
+        if (std::strcmp(v, "0") == 0) return 0;
+        return -1;
+    }
+
     void enable(ProtoSpace* space, const AdaptiveHeapConfig& config) {
         // H: the environment, then the configuration, then automatic.
         int envSoft = 0;
@@ -504,11 +530,9 @@ namespace adaptive {
 
         // PROTOCORE_ADAPTIVE_HEAP=0: diagnosis without the controller -- the
         // same H as a fixed hard limit, no soft watermark.
-        if (const char* off = std::getenv("PROTOCORE_ADAPTIVE_HEAP")) {
-            if (std::strcmp(off, "0") == 0) {
-                space->setHeapLimits(0, static_cast<int>(H));
-                return;
-            }
+        if (environmentMode() == 0) {
+            space->setHeapLimits(0, static_cast<int>(H));
+            return;
         }
 
         SpaceState* s = find(space);
