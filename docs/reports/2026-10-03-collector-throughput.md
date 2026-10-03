@@ -1,0 +1,275 @@
+# Collector throughput: pacing, early wake and a faster sweep
+
+Date: 2026-10-03.  protoCore 2.11.0 (master `69b56afe`) against the
+implementation of
+[the collector-throughput design](../specs/2026-10-03-collector-throughput-design.md)
+(approved 2026-10-03; "the spec" below).  Author: Gustavo Marino, with
+Claude.
+
+This report covers milestones M1 (pacing and early wake, spec 4.3-4.4) and
+M2 (diagnosis of the sweep's per-cell cost and the cheap fixes, spec 5),
+released together as 2.12.0.  Later milestones append their sections.
+
+**Every workload here is synthetic**: benchmarks written for this platform
+(the phase report's set), used as evidence about mechanisms.  Nothing is
+fitted to them.  Numbers are medians of 3 runs on one machine (AMD Ryzen,
+Zen 2, 6 cores / 12 threads, 62 GB), which other agents shared during the
+measurements: each run started only when no compiler or test suite was
+running, but a job could start during a run.  Run-to-run spread is in the
+raw records.
+
+## Verdict
+
+- **The sweep's per-cell cost under concurrent allocation was memory
+  latency, not lock or CAS contention.**  The collector thread's demand
+  fills per swept cell, protoClojure `coll_alloc` with 6 tasks: 1.11 from
+  DRAM and 0.29 from other cores' caches, at an IPC of 0.08 (426 cycles per
+  cell).  One dependent miss per cell, one miss in flight.
+- **The multi-cursor sweep (F4) removes most of it.**  Walking 8 segment
+  chains in lockstep with prefetch: 139 -> 46 ns per swept cell on
+  `clj_coll_t6`, 84 -> 29 on protoJS `records` N = 12 (10 M cells),
+  157 -> 91 on protoScala `tree_alloc` t6.  The collector's demand DRAM
+  fills fell from 1.11 to 0.12 per cell and its IPC rose from 0.08 to 0.37.
+  F1-F3 (batched segment recycling, one write per survivor, test before
+  unmark) together gave 139 -> 122 and 84 -> 80.
+- **Wall time** (2.11.0 -> 2.12.0, fixed limits): `clj_coll_t6` 40.1 ->
+  15.0 s (-63 %), `js10_records_n12` 19.5 -> 11.2 s (-43 %),
+  `scala_tree_t6` 26.0 -> 19.2 s (-26 %), `js40_records_n6` 15.7 -> 12.5 s
+  (-20 %), `js40_graph_n6` 18.8 -> 15.7 s (-16 %), the single-threaded
+  640 MB core benchmark 3.49 -> 2.66 s (-24 %).  `js40_wordfreq_n12` did
+  not improve (13.9 -> 14.5 s): its waits fell (17.6 -> 7.9 %) but it ran
+  more cycles (5 -> 8) and its collector was busier.
+- **Under the adaptive controller** (12 threads, H = 40 M cells):
+  `jsad_records` 44.4 -> 23.6 s, `jsad_wordfreq` 24.9 -> 15.6 s; the
+  single-threaded adaptive benchmark 4.24 -> 2.66 s.  Peak RSS rose on
+  `jsad_wordfreq` (1.86 -> 2.58 GB) and `jsad_records` (2.11 -> 2.58 GB).
+- **Waits no longer end on the watchdog.**  The mean headroom wait was
+  48.6-50.2 ms on every multi-threaded baseline run (the 50 ms watchdog);
+  with M1 alone it is 5-19 ms, with 2.12.0 10-46 ms (fewer, longer waits:
+  the remaining ones span a mark), and with 2.12.0 the wait share fell on
+  every multi-threaded workload, for example 64.6 -> 14.3 % (`clj_coll_t6`),
+  21.4 -> 3.0 % (`js40_records_n6`, regime 1: it waited only because the
+  cycle started at the ceiling).
+- **A regression found and fixed before release**: with the early wake,
+  the controller's soft-zone checkpoint returned at once while its pending
+  flag stayed set, and every critical-section entry took `globalMutex`:
+  about 2 million empty waits per run, the adaptive benchmark 3x slower
+  (4.2 -> 14.5 s).  A publication of cells now clears the flag.
+- **Single-threaded micro-benchmarks**: identical instruction counts;
+  cycles within -1.2 % to +1.8 % on four of six; `hash_quality` +3.5 to
+  +6.8 % on a 150 ms run whose hot code (`getAttribute`, `isInteger`) did
+  not change (code layout); `immutable_sharing` +3.5 % in the first run,
+  -1 % in two reruns.
+- **The gate of spec 5.3** (per-cell cost at N = 12 within 1.5x of
+  N = 1 after F1 + F4) is **not met**: 46 against 23 ns (`clj_coll`, 2.0x),
+  91 against 30 ns (`scala_tree`, 3.0x).  The parallel sweep (M4) goes
+  ahead.
+
+## Method
+
+**Builds.**  Release with `-DPROTOCORE_GC_INSTRUMENT=ON`, the compiled-out
+instrumentation of branch `measure/gc-phases` (now merged), one library per
+step:
+
+| Label | What |
+|---|---|
+| base, base2 | master before the work (2.10.2 / 2.11.0 sweep, identical collector) plus the instrumentation; base2 re-ran the four N = 12 protoJS workloads whose records base had truncated (below) |
+| m1 | + pacing and early wake |
+| f123 | + F1, F2, F3 |
+| m2 | + F4 (multi-cursor sweep) |
+| m2b | + the controller fix; the 2.12.0 code.  It differs from m2 only on the controller's soft-zone path and the collector thread's name, so the fixed-limit rows of m2 stand for 2.12.0 |
+
+**Runtimes.**  The installed Release `protojs`, `protoscala` and `protoclj`
+(SOVERSION 3), run with `LD_LIBRARY_PATH` set to each library; `ldd` showed
+each resolving `libprotoCore.so.3` to it, and every collecting run printed
+the instrumented library's `[GC-PHASES]` line.
+
+**Runs.**  `runner.py` (data directory), sequential, each in
+`systemd-run --user --scope -p MemoryMax=<cap> -p MemorySwapMax=0` under
+`/usr/bin/time`.  Every run verifies itself: protoJS prints `"ok":true` and
+per-task checksums, which must be identical in every run of a workload
+(they were); protoScala `checksum=540451801`; protoClojure the closed-form
+checksum; the core benchmark `verified=yes`.  The first baseline pass kept
+only the last 400 characters of standard output, which cut the JSON line of
+the N = 12 protoJS runs, so those rows are marked unverified and were run
+again (base2) with the whole line kept.
+
+Workloads (the phase report's, scaled down to keep the matrix short):
+`core_fixed640_live1M` / `core_adaptive_live1M` (`adaptive_heap_benchmark`,
+1 thread); protoJS `structures` `records`, `graph`, `wordfreq` with N
+Deferreds at 40 M or 10 M cells, and under the controller (`jsad`, H = 40 M);
+protoScala `tree_alloc` with 30 batches; protoClojure `coll_alloc` with 500
+rounds (2 M-cell limit for both).
+
+## M1: pacing and early wake
+
+What changed (spec 4.3-4.4): a refill requests a cycle once the cells left
+before the ceiling fall below `min(headroom, r x C x 1.25)`; a wait for
+headroom ends when cells are published, not on the watchdog.
+
+| Workload | Wall s base -> m1 -> 2.12.0 | Wait share | Waits | Mean wait ms | Cycles |
+|---|---|---|---|---|---|
+| core_fixed640_live1M (1 thread) | 3.49 -> 3.28 -> 2.66 | 35.9 -> 28.2 -> 5.4 % | 25 -> 25 -> 11 | 50.1 -> 36.9 -> 13.3 | 7 -> 10 -> 11 |
+| js40_records_n6 | 15.65 -> 13.95 -> 12.50 | 21.4 -> 13.7 -> 3.0 % | 398 -> 908 -> 48 | 50.1 -> 12.7 -> 46.2 | 5 -> 6 -> 9 |
+| js40_graph_n6 | 18.81 -> 17.71 -> 15.74 | 19.4 -> 11.8 -> 3.3 % | 436 -> 737 -> 72 | 50.1 -> 16.8 -> 45.1 | 7 -> 10 -> 13 |
+| js40_wordfreq_n12 | 13.90 -> 13.14 -> 14.50 | 17.6 -> 11.0 -> 7.9 % | 584 -> 921 -> 406 | 50.2 -> 18.9 -> 33.9 | 5 -> 6 -> 8 |
+| js10_records_n12 | 19.46 -> 18.70 -> 11.19 | 56.6 -> 67.0 -> 30.1 % | 2697 -> 9431 -> 1014 | 50.2 -> 16.1 -> 40.0 | 15 -> 15 -> 16 |
+| scala_tree_t6 | 26.01 -> 22.73 -> 19.18 | 44.6 -> 47.1 -> 35.2 % | 1379 -> 7180 -> 1210 | 50.1 -> 9.2 -> 33.5 | 59 -> 60 -> 78 |
+| clj_coll_t6 | 40.11 -> 33.78 -> 14.98 | 64.6 -> 68.0 -> 14.3 % | 3104 -> 28897 -> 923 | 50.1 -> 4.8 -> 14.1 | 120 -> 115 -> 140 |
+
+- The watchdog no longer sets the wait: every baseline mean is 50 ms; after
+  M1 the mean is the time until cells arrive.
+- On the regime-1 rows (N = 6, 40 M cells: the collector keeps up) the
+  wait share fell from 19-21 % to 3 %: the cycle now starts before the
+  ceiling.  It does not reach zero: the first cycle still starts at the
+  ceiling (no measured r and C yet), and r x C is taken from the last two
+  cycles.
+- On the regime-2 rows (N = 12 at 10 M cells, the t6 runs) M1 alone moved
+  little: the collector could not keep up, so the waits only became more
+  numerous and shorter.  The sweep fix (M2) is what moved them.
+- More cycles: pacing starts cycles with less garbage.  Each costs a mark
+  of the live set; on `js40_wordfreq_n12` (5 -> 8 cycles) that cost ate the
+  gain.
+
+**Wake reasons**, from the deterministic tests (test/CollectorPacingTests.cpp,
+Release, one thread, 600,000-cell fixed limit): with pacing, 1 wait in
+6 M allocated objects, ended by a publication of cells, 20 cycles of which
+20 were requested by pacing; with `PROTOCORE_GC_PACING=0`, 7 waits, all
+ended by a cycle, none by cells, none paced.
+
+## M2: why the sweep slows down, and the fixes
+
+### Differential micro-benchmark
+
+`performance/sweep_contention_benchmark` (new; spec 5.2): 3 M objects
+(6 M cells) of garbage in segments of about 6 cells, one cycle per
+scenario, the sweep's ns per swept cell from the collector's own measures.
+Median of 3 (raw: `sweep-contention-m2.log`).
+
+| Scenario | m1 | + F1-F3 | + F4 |
+|---|---:|---:|---:|
+| S0 nothing else running | 9.0 | 9.0 | 10.8 |
+| S1 6 threads streaming private memory (loaded DRAM) | 38.3 | 37.3 | 69.0 (36.7-74.3) |
+| S2 6 threads submitting and destroying contexts (segment pool) | 19.9 | 10.3 | 12.2 |
+| S3b survivors in the candidate set | 22.4 | 21.6 | 18.3 |
+| S3 the same, 6 threads reading the survivors | 30.6 | 31.9 | 22.9 |
+| S4 garbage built by 6 other threads | 20.2 | 19.2 | 16.3 |
+| S5 fresh memory | 9.2 | 9.7 | 11.1 |
+
+- Loaded DRAM (S1) quadruples the cost; contention on the segment pool (S2)
+  doubles it, and F1 removes that; other cores' caches (S4) and readers of
+  the survivors (S3 - S3b) add about 10 ns.
+- F4 costs about 2 ns per cell where every line is already near (S0, S5:
+  freshly built garbage in a quiet machine) and helps where lines are far
+  (S3, S4).  Under saturated bandwidth (S1) it is erratic: 36.7, 69.0 and
+  74.3 ns in three repetitions; prefetches add traffic to a memory system
+  six streaming threads already saturate.
+- The micro-benchmark over-weights S2: its threads do nothing but destroy
+  contexts.  The runtime workloads below say which effect matters there.
+
+### Collector-thread counters
+
+`perf stat -p <pid> --per-thread` on `clj_coll_t6` (500 rounds), the
+collector thread only.  AMD Zen 2 `ls_refills_from_sys` counts demand fills
+by source (`lcl_l2`: this core's L2; `lcl_cache`: another core's cache;
+`lcl_dram`: DRAM).  Per cell visited (swept plus marked):
+
+| Build | Cycles (G) | IPC | Cycles / cell | DRAM fills / cell | Other-core fills / cell | Sweep s |
+|---|---:|---:|---:|---:|---:|---:|
+| base | 113.1 | 0.08 | 426 | 1.11 | 0.29 | 33.7 |
+| + F1-F3 | 106.2 | 0.09 | 401 | 1.05 | 0.23 | 32.6 |
+| + F4 (2.12.0) | 37.8 | 0.37 | 141 | 0.12 | 0.03 | 12.0 |
+
+- Before: about one DRAM miss per cell, serialized (IPC 0.08), plus a
+  cross-core transfer every three or four cells.  Hypotheses H1 (coherence)
+  and H2 (loaded DRAM latency) of spec 5.2 both act; both are latencies of
+  dependent loads.
+- After F4 the demand fills drop tenfold: the lines arrive through the
+  software prefetches, several in flight.
+- `perf c2c record` ran (IBS on this kernel) but recorded no sample for the
+  process at `perf_event_paranoid=1`; the counters above and the
+  micro-benchmark stand in for it, as the spec allows.
+
+### Runtime workloads, per fix
+
+| Workload | Sweep ns / cell base -> F1-F3 -> F4 | Wall s base -> F1-F3 -> F4 | Collector busy s |
+|---|---|---|---|
+| clj_coll_t6 | 139.0 -> 122.3 -> 46.3 | 40.1 -> 32.9 -> 15.0 | 37.1 -> 32.7 -> 13.2 |
+| js10_records_n12 | 83.9 -> 80.2 -> 29.2 | 19.5 -> 18.6 -> 11.2 | 17.2 -> 16.8 -> 9.1 |
+
+F1-F3 are measured together (one commit), not one by one.  F2 and F3 save a
+locked instruction per survivor and are not separable by these numbers; F1
+is what moved S2.
+
+### Single-threaded workloads
+
+| Workload | Wall s base -> 2.12.0 | Sweep ns / cell |
+|---|---|---|
+| core_fixed640_live1M | 3.49 -> 2.66 | 18.7 -> 10.4 |
+| core_adaptive_live1M | 4.24 -> 2.66 | 24.2 -> 10.9 |
+| scala_tree_t1 | 4.52 -> 4.31 | 47.1 -> 30.4 |
+| clj_coll_t1 | 3.27 -> 3.46 | 24.7 -> 23.3 |
+
+`clj_coll_t1` ran 30 cycles against 22 (pacing) for +6 % wall time with a
+slightly cheaper sweep; its waits fell from 28.7 % to 0.1 % of the run, so
+the time went to the extra cycles' marks and to the collector's CPU next to
+the mutator.  It is one run of three per side on a shared machine; read it as
+"no gain" rather than as a measured regression.
+
+`perf stat -r 3`, the six single-threaded protoCore benchmarks (no heap
+limit, no collection), 2.11.0 against 2.12.0 (`single-thread/`):
+
+| Benchmark | instructions:u | cycles:u |
+|---|---|---|
+| microbenchmark_final | 7.97 G = | +0.0 % |
+| mutable_access_benchmark | 16.2 G = | -0.3 % |
+| cache_timing_benchmark | 4.31 G = | +1.8 % |
+| hash_quality_benchmark | 1.60 G = | +6.8 % (reruns: +3.5 %, +6.6 %) |
+| object_access_benchmark | 60.2 G = | -1.2 % |
+| immutable_sharing_benchmark | 4.57 G = | +3.5 % (reruns: -0.8 %, -1.1 %) |
+
+The instruction counts are identical: these benchmarks never allocate past
+a refill that 2.12.0 changed.  `hash_quality`'s profile is
+`getAttribute` (56-61 %) and `isInteger` (12-20 %), neither touched; the
+difference moves between them from build to build, the signature of code
+layout, not of work.  It is reported, not explained away: a 3-7 % cycle
+difference on a 150 ms run.
+
+### The controller fix
+
+| Workload | Wall s base -> m2 -> m2b | Waits | Peak RSS MB |
+|---|---|---|---|
+| core_adaptive_live1M | 4.24 -> 13.60 -> 2.66 | 53 -> 1,907,169 -> 25 | 575 -> 591 -> 531 |
+| jsad_wordfreq_n12 | 24.91 -> 18.95 -> 15.62 | 3,447 -> 358,881 -> 1,200 | 1860 -> 1877 -> 2580 |
+| jsad_records_n12 | 44.44 -> 26.89 -> 23.60 | 6,921 -> 718,772 -> 1,526 | 2110 -> 2560 -> 2578 |
+
+## Collector CPU (decision 3: measure first)
+
+User plus system CPU of the whole process, N = 12 / t6, base -> 2.12.0:
+`clj_coll_t6` 112.8 -> 86.5 s; `js10_records_n12` 65.3 -> 59.7 s;
+`scala_tree_t6` 98.0 -> 83.5 s; `jsad_records_n12` 152.8 -> 153.6 s;
+`js40_wordfreq_n12` 91.1 -> 98.1 s.  The collector thread's own CPU
+(`cpu_busy`) fell on all but `js40_wordfreq_n12` (7.5 -> 10.4 s, the extra
+cycles).  No decision is taken here; M4's helpers are where the question
+becomes sharp.
+
+## What this does not show
+
+- No workload in the paradigm's own production style: these are the phase
+  report's synthetic benchmarks.
+- Peak RSS under the controller rose on two of three workloads; pacing
+  changes when cycles start, and the 2.10.1 control law is unchanged until
+  M3.
+- The F4 slowdown on a quiet machine with near lines (S0, +20 % on the
+  micro-benchmark) is real and small in absolute terms (about 2 ns per
+  cell); no runtime workload measured here is in that regime long enough to
+  show it.
+
+## Data
+
+[data/2026-10-03-collector-throughput/](data/2026-10-03-collector-throughput/):
+`m1-m2-runs.jsonl` (every run: label, workload, verification, wall time, RSS,
+CPU, the last `[GC-PHASES]` line), `runner.py` and `tab.py` (the runner
+reads `PROTO_BIN`, `PROTO_JS_BENCH` and the workloads in `workloads/`),
+`sweep-contention-m2.log`, `pmu/` (per-thread counters and their script),
+`single-thread/` (perf stat output and `st6.sh`).

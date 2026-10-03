@@ -330,13 +330,30 @@ of young cells.
 
 ### Phase 5 — Sweep (concurrent)
 - Iterates through `segmentsToProcess` (captured atomically in Phase 2).
-- For each cell in a segment:
+- For each cell in a segment, one load of its header word gives the link
+  and the mark bit:
   - If it was **not** marked, it is finalized and chained into a free
-    chunk; chunks are published to the global free pool in batches.
-  - If it was marked, the mark bit is cleared.  The cell is either
-    re-chained onto the next cycle's `dirtySegments` directly, or — when
-    `PROTOCORE_GC_REINCLUDE_SURVIVORS` is on with `survivorStagger > 1`
-    — pushed onto the survivor pen for delayed re-inclusion.
+    chunk; a chunk is published to the space's freelist when it reaches
+    `CELL_CHUNK_SIZE` (8,192) cells, and the trailing one at the end.
+  - If it was marked, it is unmarked and prepended to its segment's
+    survivor chain with **one** release store of the header word (the
+    collector is the only writer of a candidate's link during sweep).  The
+    segment then goes to the survivor pen, folded back into the next
+    cycle's candidates (every cycle with `survivorStagger == 1`, every Nth
+    otherwise).
+- **Multi-cursor walk** (since 2.12.0).  A segment's chain is a dependent
+  pointer chase with one cache miss in flight.  The sweep walks 8 chains
+  in lockstep, each prefetching its next cell before the others are
+  processed, so several misses are in flight on one thread.  Each cursor
+  keeps its own batch and survivor chain, merged when its segment ends: the
+  cells freed and re-chained are the ones a single-chain walk produces.
+- **Batched segment recycling** (since 2.12.0).  Processed segments are
+  chained locally and handed back with one compare-and-swap per 1,024
+  segments (the free pool) or per sweep (the survivor pen), instead of one
+  per segment of about 6 cells: the free pool's head is the line every
+  mutator pops at each context destruction.
+- The sweep's code is `sweepSegments` and `SweeperLocal` in
+  `core/ProtoSpace.cpp` (`core/Sweep.cpp` from 2.13.0).
 - New dirty segments pushed by workers after Phase 2's exchange are
   ignored this cycle and processed in the next.
 - Finalizers follow the finalizer contract (§ 7 above).  The only finalizer
@@ -429,7 +446,9 @@ for every other cell.
 
 ### Phase 6 — Bulk unmark
 - Walks the `markedList` from Phase 4 and clears the mark bit on every
-  entry.
+  entry that still carries it.  It tests before it writes (since 2.12.0):
+  a survivor the sweep already unmarked is only read, so the mutators'
+  shared copies of its cache line stay valid.
 - This restores the tricolour invariant for the next cycle without
   paying the old pre-mark unmark pass's cost.
 - Safe to run concurrent with mutators: `unmark()` is a single atomic
@@ -691,6 +710,29 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   make those cells candidates while nothing references them, and a later
   cycle would free them.  Young generations are submitted only when a
   context is destroyed or at a `safepoint()` the embedder calls.
+- **Pacing: a cycle starts before the ceiling** (since 2.12.0).  Every
+  space measures, at each cycle end, the mutators' allocation rate *r*
+  (cells handed out per second of mutator time not spent waiting) and the
+  cycle duration *C* from request to completion.  A refill requests a
+  cycle when the cells left before the ceiling -- the freelist plus the
+  room between the heap and the hard limit (the soft limit S under the
+  adaptive controller) -- fall below the runway
+  `min(headroom, r × C × 1.25)`, *r* and *C* being the larger of the last
+  two cycles' values.  The cycle then runs behind the mutators instead of
+  starting when they are out of cells.  Before the first cycle the runway is
+  0, the earlier behaviour.  `pacing::runway` in `core/AdaptiveHeap.cpp` is
+  the pure function; `PROTOCORE_GC_PACING=0` turns pacing and the early
+  wake below off (design: docs/specs/2026-10-03-collector-throughput-design.md
+  § 4.3).
+- **A wait for headroom ends when cells arrive** (since 2.12.0).  Every
+  publication of free cells (the sweep's chunks, a returned batch, an OS
+  refill's surplus) wakes one waiting thread while any waits, and the wait
+  also ends on a non-empty freelist.  Before, a wait ended at the next cycle
+  start (fixed limits) or completion (controller), or on a 50 ms watchdog:
+  a thread that began waiting inside a running cycle slept the whole 50 ms
+  while the sweep published cells (the mean wait measured 50.2 ms on every
+  multi-threaded run of the phase report).  The watchdog remains, as a
+  bound on a missed notification.
 - **Refill batches adapt to a heap limit.**  A thread allocates from a
   private freelist that `getFreeCells` refills in batches.  Those cells
   count against the heap limit as soon as they are handed out, but no cycle
@@ -999,10 +1041,33 @@ From [reports/2026-10-03-adaptive-heap-calibration.md](reports/2026-10-03-adapti
   does not affect a program that keeps one space, but a test or a host that
   creates and destroys many spaces grows by each space's peak.
 
-The design that follows from points 2–5 (diagnose the per-cell cost, a
-parallel sweep on collector-owned helper threads, pacing under fixed limits)
-is being drafted as a design specification for review; nothing of it is
-implemented yet.
+The design that follows from points 2–5 is
+[specs/2026-10-03-collector-throughput-design.md](specs/2026-10-03-collector-throughput-design.md)
+(approved 2026-10-03).
+
+### After 2.12.0: pacing, early wake and the multi-cursor sweep
+
+From [reports/2026-10-03-collector-throughput.md](reports/2026-10-03-collector-throughput.md)
+(synthetic workloads, median of 3):
+
+- **The per-cell cost under concurrent allocation was memory latency.**
+  The collector thread took about one DRAM miss per swept cell, one at a
+  time (IPC 0.08, about 1.1 demand DRAM fills and 0.3 fills from other
+  cores' caches per cell on protoClojure with 6 tasks).  Contention on
+  shared lines (the segment pool, `globalMutex`) was a minor part:
+  batching the segment recycling moved the per-cell cost by about 10 %.
+- **Walking 8 chains at once fixes most of it.**  The multi-cursor sweep
+  keeps several misses in flight: 139 -> 46 ns per swept cell
+  (protoClojure, 6 tasks), 84 -> 29 (protoJS `records`, 12 threads),
+  157 -> 91 (protoScala, 6 tasks); wall time -63 %, -43 %, -26 %.  On one
+  thread it is neutral to slightly positive.
+- **Waits end when cells arrive** (the mean wait was the 50 ms watchdog on
+  every multi-threaded run) and **fixed limits pace their cycles**: on the
+  N = 6 runs where the collector keeps up, the wait share fell from about
+  20 % to 3 %.
+- **Not yet**: the cost per cell at 6-12 threads is still 2-3 times the
+  single-threaded one, so the sweep's helper threads (spec section 6) are
+  the next step; the control law is still 2.10.1's.
 
 ## Optimization Features
 

@@ -311,9 +311,17 @@ holds the raw per-run records (`results.jsonl`, one JSON object per run with
 the last `[GC-PHASES]` line parsed; `cpu-rerun.jsonl`, the collector-CPU
 subset; `graph-reproducibility.jsonl`), the runner (`runner.py`), the
 tabulator (`tab.py`) and the two new workloads (`workloads/tree_alloc.scala`,
-`workloads/coll_alloc.clj`).  Machine-specific paths in the records are
+`workloads/coll_alloc.clj.in`).  `coll_alloc.clj.in` is the measured
+protoClojure workload: a template whose `@ROUNDS@` and `@TASKS@` the runner
+replaces (1,500 rounds; `[0]` or `[0 1 2 3 4 5]`), run with
+`PROTOCORE_HEAP_LIMIT_CELLS=2000000`; it prints the checksum
+`6001000 R + 1000 R (R - 1)` and `ok`.  (Before 2.12.0 the directory held
+`coll_alloc.clj`, a futures-based variant that was not the one measured; it
+is kept as `coll_alloc_futures_variant.clj`.)  `tree_alloc.scala` reads `T`
+(Futures per batch) and `BATCHES` from the environment and must print
+`checksum=540451801` and `ok`.  Machine-specific paths in the records are
 replaced by `<workspace>` and `<scratch>`.  The branch `measure/gc-phases`
-holds the instrumentation.  To reproduce a row: build that branch with
+holds the instrumentation (merged, compiled out, in 2.12.0).  To reproduce a row: build that branch with
 `-DPROTOCORE_GC_INSTRUMENT=ON`, run the binary with `LD_LIBRARY_PATH`
 pointing at the build and `PROTOCORE_GC_PROFILE=1`, and read the last
 `[GC-PHASES]` line.
