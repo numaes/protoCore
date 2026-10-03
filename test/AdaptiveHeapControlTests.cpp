@@ -142,6 +142,22 @@ TEST(AdaptiveHeapLaw, ASingleNoisyProbeDoesNotStopGrowth) {
     EXPECT_EQ(S, 8 * kS0);
 }
 
+// Measured on protoJS records N = 12 (H = 40 M cells): the probes fell at a
+// phase change of the program (build -> twelve parallel tasks, r x 5), the
+// waits rose with the load, two probes counted as non-improving, and S sat
+// at 8 M cells for 12 cycles with a third of the mutators' time waiting.
+TEST(AdaptiveHeapLaw, AProbeAcrossAWorkloadChangeDoesNotCount) {
+    LawState st;
+    proto_ulong S = kS0;
+    S = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.1), st);   // probe
+    S = nextSoftLimit(inputs(S, 1000000, 9e7, 1e7, 0.3), st);   // r x 4.5: void
+    S = nextSoftLimit(inputs(S, 2100000, 9e7, 1e7, 0.4), st);   // L x 2.1: void
+    EXPECT_FALSE(st.stopped);
+    EXPECT_EQ(st.voidProbes, 2u);
+    EXPECT_EQ(st.nonImproving, 0);
+    EXPECT_EQ(S, 8 * kS0);
+}
+
 TEST(AdaptiveHeapLaw, AFactorOfTwoInLiveOrRateRearmsGrowth) {
     for (int which = 0; which < 4; ++which) {
         LawState st;

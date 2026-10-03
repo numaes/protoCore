@@ -58,10 +58,19 @@ namespace adaptive {
                 ++st.rearms;
             }
         }
-        // The verdict on the last probe.
+        // The verdict on the last probe.  A probe compares the wait share
+        // before and after a doubling of S; if the workload itself changed
+        // meanwhile (L or r by a factor of 2, the re-arm rule), the
+        // comparison says nothing about S and the probe does not count.
         if (st.probePending) {
             st.probePending = false;
-            if (w < st.waitBeforeProbe) {
+            const double lp = static_cast<double>(st.liveAtProbe);
+            const bool moved = (L >= kRearmFactor * lp && L > 0.0) || (lp >= kRearmFactor * L && lp > 0.0)
+                            || (r >= kRearmFactor * st.rateAtProbe && r > 0.0)
+                            || (st.rateAtProbe >= kRearmFactor * r && st.rateAtProbe > 0.0);
+            if (moved) {
+                ++st.voidProbes;
+            } else if (w < st.waitBeforeProbe) {
                 st.nonImproving = 0;
             } else if (++st.nonImproving >= kNonImprovingProbesToStop) {
                 st.stopped = true;
@@ -85,6 +94,8 @@ namespace adaptive {
             next = std::min(static_cast<double>(B), 2.0 * static_cast<double>(std::max<proto_ulong>(S, 1)));
             st.probePending = true;
             st.waitBeforeProbe = w;
+            st.liveAtProbe = in.liveCells;
+            st.rateAtProbe = r;
             ++st.probes;
         }
         next = std::min(next, static_cast<double>(B));

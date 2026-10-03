@@ -59,7 +59,9 @@ namespace adaptive {
      *   After a probe, a wait share that did not fall below the one before
      *   the probe counts as a non-improving probe; two in a row stop growth
      *   (S is held: a larger heap only lengthens cycles).  A change of L or
-     *   r by a factor of 2 since the stop re-arms growth.
+     *   r by a factor of 2 since the stop re-arms growth; the same change
+     *   between a probe and its verdict voids the verdict (the workload
+     *   moved, not S).
      *
      * S never decreases and never exceeds B.  The constants are structural:
      * m = kCycleSlack, doubling, two probes, a factor of 2.
@@ -86,8 +88,11 @@ namespace adaptive {
         proto_ulong liveAtStop = 0;
         double rateAtStop = 0.0;
         std::uint64_t changes = 0;     // times S changed
+        proto_ulong liveAtProbe = 0;
+        double rateAtProbe = 0.0;
         std::uint64_t probes = 0;
         std::uint64_t rearms = 0;
+        std::uint64_t voidProbes = 0;  // verdicts discarded: the workload moved
     };
 
     /** The soft limit after a cycle; updates `state`.  Pure: no clock, no
