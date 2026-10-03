@@ -23,6 +23,15 @@ An update such as `setAttribute` on a mutable object:
 
 Threads that update objects in different shards do not conflict. For an attribute-level compare-and-set, read the current value with `getOwnAttributeDirect` and write with `setAttributeIfEqual` in a retry loop.
 
+### Writing several attributes at once
+
+`setAttributes(context, count, names, values)` (since 2.11.0) applies a group of writes to one object as a single update: step 2 derives the new state from the current one with every write of the group applied, and step 3 publishes it once. It is the immutable-style form of a run of mutable writes, `tmp = current(o); tmp = tmp with f1 := a; tmp = tmp with f2 := b; publish(o, tmp)`, and it changes nothing in the model: the object is still a mutable identity whose states are immutable values.
+
+- The result equals the chained `setAttribute` calls in array order: a later entry for a name wins, a `nullptr` value removes the name.
+- A retry after a lost compare-and-swap reapplies the whole group onto the newer state. Every entry sets a value rather than deriving one from the old value, so the retry is correct and keeps what the other writer published.
+- The group is atomic: a thread that reads the object sees every write of the group or none of them.
+- The new attribute tree is built in one pass, copying each changed path once. A run of `n` writes therefore costs one state object and one shard-path copy, not `n` of each.
+
 This lock-free path covers updates of mutable objects. Other runtime structures, such as the thread list and the collector's bookkeeping, are protected by `ProtoSpace::globalMutex`.
 
 ## Reading Mutable State

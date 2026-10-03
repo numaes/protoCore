@@ -215,6 +215,41 @@ namespace proto
         const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
         const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const;
         /**
+         * @brief Writes a group of attributes as ONE new version (since 2.11.0).
+         *
+         * The result is exactly what `count` chained `setAttribute` calls
+         * produce, in array order: `names[i] := values[i]`, a later entry for
+         * the same name wins, a `nullptr` value removes the name, a `nullptr`
+         * name is skipped, and heap-string names are interned as
+         * `setAttribute` interns them.
+         *
+         * - **Immutable receiver**: answers the new immutable version; the
+         *   receiver is untouched (identical to the chained calls).
+         * - **Mutable receiver**: reads the current snapshot once, derives
+         *   the new version from it, and publishes that version into the
+         *   mutable table with ONE compare-and-swap on the shard root,
+         *   answering `this`.  If another writer publishes first, the whole
+         *   group is reapplied onto the newer snapshot and published again:
+         *   every entry is "set to value", so a retry is always correct and
+         *   writes by other threads to other names are never lost.  The
+         *   group is atomic to other threads: a reader sees all of it or
+         *   none of it, never a prefix.
+         *
+         * This is the immutable-style form of `o.f1 = a; o.f2 = b; ...`:
+         * `tmp = current(o); tmp = tmp.f1 := a; tmp = tmp.f2 := b; publish(o,
+         * tmp)`.  It changes no part of the object model; it only spares the
+         * intermediate publications (one snapshot cell and one shard-root
+         * path copy per name).
+         *
+         * `names` and `values` must each hold `count` entries; `count == 0`
+         * is a no-op that answers `this` without allocating.  Values that
+         * are reachable only from the caller's arrays must be reachable from
+         * a live context (EMBEDDER-CONFORMANCE rule 3), as for `setAttribute`.
+         */
+        const ProtoObject* setAttributes(ProtoContext* context, unsigned count,
+                                         const ProtoString* const* names,
+                                         const ProtoObject* const* values) const;
+        /**
          * @brief Atomic compare-and-swap on an own-attribute.
          *
          * Writes `newValue` to `name` only if the receiver's current OWN

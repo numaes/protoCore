@@ -15,13 +15,14 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 | Item | Value |
 |------|-------|
-| Version | 2.10.2 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
+| Version | 2.11.0 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
 | Status | Open for review; not production ready |
 | Test suite | GoogleTest, counted with `ctest -N` in your build directory — 499 cases as of 2026-09-25. Count it rather than quoting this line: it grows with every fix. |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
 
+- **Grouped attribute writes** *(October 2026, 2.11.0)*: `ProtoObject::setAttributes(context, count, names, values)` writes a group of attributes as one new version: one snapshot read and one mutable-table publication for a mutable receiver, atomic to other threads, with the attribute tree built in one pass. Runtimes use it to compile a run of writes to the same object (`o.x = a; o.y = b`) into immutable updates published once. See [the mutability model](docs/Structural%20description/architecture/02_mutability_model.md).
 - **Adaptive heap controller** *(October 2026, 2.10.0; calibrated in 2.10.1)*: `ProtoSpace::enableAdaptiveHeap()` replaces a runtime's fixed heap limit. The soft limit that triggers collections starts at 128 MiB, rises while collection stalls the program for more than 5 % of the time but only up to 8 x the live set, never falls below 3 x the live set and never decreases; the hard limit is a process-wide safety cap at 75 % of physical memory or the process memory limit (cgroup, job object). See [docs/GarbageCollector.md](docs/GarbageCollector.md) § "Adaptive heap controller".
 - **Concurrent mark** *(May 2026)*: mark, sweep and bulk unmark run outside the stop-the-world window. During the stop-the-world phase the collector copies the 256 mutable-shard roots into a per-cycle snapshot; the marker then traverses that snapshot while application threads keep running. See [docs/GarbageCollector.md](docs/GarbageCollector.md).
 - **Inline small sparse lists** *(May 2026)*: `ProtoSparseListSmallImplementation` stores up to three (key, value) pairs in a single 64-byte cell; larger sparse lists use the AVL form. The public `ProtoSparseList` API is unchanged.

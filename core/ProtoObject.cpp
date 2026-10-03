@@ -9,6 +9,8 @@
  */
 
 #include "../headers/proto_internal.h"
+#include "SparseListAlgorithms.h"
+#include <algorithm>
 #include <cmath>
 #include <compare>
 #include <cstdio>
@@ -1125,6 +1127,141 @@ namespace proto
             oc->attributes->implSetAt(context, (uintptr_t)name, value);
         const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         return result;
+    }
+
+    const ProtoObject* ProtoObject::setAttributes(ProtoContext* context, unsigned count,
+                                                  const ProtoString* const* names,
+                                                  const ProtoObject* const* values) const {
+        if (!this || count == 0 || !names || !values) return this;
+        if (!proto::isObjectFast(this)) return this;
+
+        // The group as (key, value) pairs: names interned exactly as
+        // setAttribute interns them (the attribute tree is keyed by the
+        // symbol's pointer), nullptr names skipped, and this thread's
+        // attribute cache dropped for every (this, name) the group writes.
+        // A group of up to kInline names stays on the stack.
+        struct Write { proto_ulong key; const ProtoObject* value; };
+        constexpr unsigned kInline = 16;
+        Write inlineWrites[kInline];
+        std::vector<Write> heapWrites;
+        Write* writes = inlineWrites;
+        if (count > kInline) {
+            heapWrites.resize(count);
+            writes = heapWrites.data();
+        }
+
+        AttributeCacheEntry* attrCache = nullptr;
+        if (context->thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+            if (threadImpl->extension) attrCache = threadImpl->extension->attributeCache;
+        }
+        unsigned n = 0;
+        for (unsigned i = 0; i < count; ++i) {
+            const ProtoString* name = names[i];
+            if (!name) continue;
+            ProtoObjectPointer pa{};
+            pa.oid = reinterpret_cast<const ProtoObject*>(name);
+            if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                name = reinterpret_cast<const ProtoString*>(context->space->symbolTable->intern(
+                    context, reinterpret_cast<const ProtoObject*>(name)));
+            }
+            if (attrCache) {
+                const proto_ulong h = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
+                                       (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
+                if (attrCache[h].object == this && attrCache[h].name == name)
+                    attrCache[h] = {nullptr, nullptr, nullptr, nullptr};
+            }
+            writes[n++] = {reinterpret_cast<uintptr_t>(name), values[i]};
+        }
+        if (n == 0) return this;
+
+        // Sort by key, keeping array order among equal keys, and keep only
+        // the LAST write of each key: the outcome of the sequential calls.
+        // The surviving keys and values are compacted into two parallel
+        // arrays, the shape setSorted takes.
+        std::stable_sort(writes, writes + n,
+                         [](const Write& a, const Write& b) { return a.key < b.key; });
+        proto_ulong inlineKeys[kInline];
+        const ProtoObject* inlineValues[kInline];
+        std::vector<proto_ulong> heapKeys;
+        std::vector<const ProtoObject*> heapValues;
+        proto_ulong* sortedKeys = inlineKeys;
+        const ProtoObject** sortedValues = inlineValues;
+        if (n > kInline) {
+            heapKeys.resize(n);
+            heapValues.resize(n);
+            sortedKeys = heapKeys.data();
+            sortedValues = heapValues.data();
+        }
+        size_t m = 0;
+        for (unsigned i = 0; i < n; ++i) {
+            if (m > 0 && sortedKeys[m - 1] == writes[i].key) {
+                sortedValues[m - 1] = writes[i].value;      // later write wins
+            } else {
+                sortedKeys[m] = writes[i].key;
+                sortedValues[m] = writes[i].value;
+                ++m;
+            }
+        }
+
+        // The new attribute tree from `attrs`, built in one pass.  Answers
+        // `attrs` itself when the group changes nothing.
+        auto applyGroup = [&](const ProtoSparseListImplementation* attrs)
+                -> const ProtoSparseListImplementation* {
+            const ProtoSparseListImplementation* r =
+                sparse_avl::setSorted(context, attrs, sortedKeys, sortedValues, 0, m);
+            return r ? r : sparse_avl::makeEmpty<ProtoSparseListImplementation>(context);
+        };
+
+        auto* oc = toImpl<const ProtoObjectCell>(this);
+
+        // Every iteration below allocates a new attribute tree, a new
+        // ProtoObjectCell and (mutable case) a new shard-root tree that are
+        // reachable from no root until they are returned or published:
+        // same critical-section discipline as setAttribute.
+        ProtoContext::CriticalSection cs(context);
+
+        if (oc->mutable_ref == 0) {
+            const ProtoSparseListImplementation* newAttributes = applyGroup(oc->attributes);
+            return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
+        }
+
+        // Mutable: one snapshot read, one new version, one publication.  A
+        // lost CAS means another writer published first; every entry of the
+        // group is "set to value", so reapplying the whole group onto the
+        // newer snapshot is correct and keeps the other writer's names.
+        const int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+        int casIteration = 0;
+        while (true) {
+            ++casIteration;
+            const ProtoObject* currentObjState = this;
+            ProtoSparseList* oldRoot = nullptr;
+            const ProtoObject* storedState = nullptr;
+            resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+            if (storedState != nullptr) currentObjState = storedState;
+            if (!proto::isObjectFast(currentObjState)) return this;
+            auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+
+            const ProtoSparseListImplementation* newAttributes = applyGroup(currentOc->attributes);
+            if (newAttributes == currentOc->attributes) {
+                return this;   // every name already holds its value: nothing to publish
+            }
+            auto* newState = (new(context) ProtoObjectCell(
+                context, currentOc->parent, newAttributes, 0))->asObject(context);
+
+            const ProtoSparseList* oldRootSL =
+                (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
+            ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
+                oldRootSL->setAt(context, oc->mutable_ref, newState));
+            ProtoSparseList* expected = oldRoot;
+            if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
+                refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
+                return this;
+            }
+            if ((casIteration & 31) == 0) {
+                std::this_thread::yield();
+            }
+        }
     }
 
     bool ProtoObject::setAttributeIfEqual(ProtoContext* context, const ProtoString* name,

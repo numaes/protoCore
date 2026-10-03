@@ -248,6 +248,62 @@ namespace {
         return sparse_avl::join(context, l, node->key, node->value, r);
     }
 
+    //--- Bulk update (join-based) ----------------------------------------
+    //
+    // setSorted applies a sorted, duplicate-free run of (key, value) writes
+    // in one pass, the update counterpart of removeSorted: a nullptr value
+    // removes its key, any other value sets it. A subtree that none of the
+    // writes reaches is kept as it is, keys that land in an empty subtree
+    // are built into a balanced subtree directly, and the changed parts are
+    // joined back. One setAt per key path-copies the tree once per key (and
+    // a run of inserts into a fresh tree copies every intermediate tree);
+    // this copies each changed path once. ProtoObject::setAttributes uses it
+    // to derive a group's new version from the current one.
+
+    // A balanced tree over the non-null entries of [begin, end); nullptr
+    // when there are none.
+    template<class Node>
+    const Node* buildSorted(ProtoContext* context, const typename Node::KeyType* keys,
+                            const ProtoObject* const* values, size_t begin, size_t end) {
+        // Skip removals at both ends so a run of them builds nothing.
+        while (begin < end && values[begin] == nullptr) ++begin;
+        while (end > begin && values[end - 1] == nullptr) --end;
+        if (begin == end) return nullptr;
+        size_t mid = begin + (end - begin) / 2;
+        // The pivot must be a real entry; removals in the middle are skipped
+        // towards the nearest real entry (one exists: values[begin] != nullptr).
+        while (values[mid] == nullptr) --mid;
+        const Node* l = sparse_avl::buildSorted<Node>(context, keys, values, begin, mid);
+        const Node* r = sparse_avl::buildSorted<Node>(context, keys, values, mid + 1, end);
+        return sparse_avl::join(context, l, keys[mid], values[mid], r);
+    }
+
+    // Applies the writes in [begin, end) (sorted by keyWord, no duplicates)
+    // to `node`. Answers `node` itself when nothing changes, and nullptr when
+    // nothing is left.
+    template<class Node>
+    const Node* setSorted(ProtoContext* context, const Node* node,
+                          const typename Node::KeyType* keys, const ProtoObject* const* values,
+                          size_t begin, size_t end) {
+        if (begin == end) return node;
+        if (sparse_avl::isNone(node))
+            return sparse_avl::buildSorted<Node>(context, keys, values, begin, end);
+        const uintptr_t w = sparse_avl::keyWord(node->key);
+        const auto* at = std::lower_bound(keys + begin, keys + end, node->key,
+            [](typename Node::KeyType a, typename Node::KeyType b) {
+                return sparse_avl::keyWord(a) < sparse_avl::keyWord(b);
+            });
+        const size_t split = static_cast<size_t>(at - keys);
+        const bool hit = split != end && sparse_avl::keyWord(keys[split]) == w;
+        const Node* l = sparse_avl::setSorted(context, node->previous, keys, values, begin, split);
+        const Node* r = sparse_avl::setSorted(context, node->next, keys, values,
+                                              hit ? split + 1 : split, end);
+        if (hit && values[split] == nullptr) return sparse_avl::join2(context, l, r);
+        const ProtoObject* v = hit ? values[split] : node->value;
+        if (l == node->previous && r == node->next && v == node->value) return node;
+        return sparse_avl::join(context, l, node->key, v, r);
+    }
+
     // In-order walk; allocates nothing, so it needs no critical section.
     template<class Node, class Fn>
     void inorder(const Node* node, Fn& fn) {
