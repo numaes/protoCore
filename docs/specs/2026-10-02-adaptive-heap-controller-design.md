@@ -1,5 +1,13 @@
 # Adaptive heap controller
 
+> **Superseded in part (2.13.0).**  The control law of § 7 (and its 2.10.1
+> calibration: `k_live`, `k_cap`, `p_high`) is replaced by the law of
+> [2026-10-03-collector-throughput-design.md](2026-10-03-collector-throughput-design.md)
+> § 4.5 (objective: minimise time within the budget), and the pacing of this
+> design by § 4.3 there.  The rest (two limits, the process budget, the
+> out-of-memory rule, several spaces, memory-limit detection) stands.
+
+
 Status: **approved 2026-10-02**; implemented in protoCore 2.10.0 (section 6
 records the decisions taken during implementation) and calibrated in 2.10.1
 (section 7). Author: Gustavo Marino, with Claude.

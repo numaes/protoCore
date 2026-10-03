@@ -2233,16 +2233,18 @@ namespace proto
          */
         proto_ulong hardCells = 0;
         /** Initial soft limit S0, in cells.  0 selects 2,097,152 (128 MiB;
-         *  32 MiB in 2.10.0). */
+         *  32 MiB in 2.10.0).  A value at or above the hard limit starts at
+         *  the budget (clamped to H): for an embedder that knows its run fits
+         *  (since 2.13.0 the controller never grows to the budget on
+         *  speculation). */
         proto_ulong initialSoftCells = 0;
-        /** p_high: the soft limit grows when collection stalls the mutators
-         *  for more than this fraction of the interval between cycles. */
+        /** Ignored since 2.13.0 (the 2.10.1 law's p_high; the control law has
+         *  no fitted constant now).  Kept: the layout of this struct is ABI. */
         double highPressure = 0.05;
-        /** g: the factor by which the soft limit grows under high pressure,
-         *  up to 8 x the live set (or k_live x, if larger), or S0. */
+        /** Ignored since 2.13.0 (the 2.10.1 law's growth factor g; the law
+         *  doubles S while doubling reduces the mutators' waits). */
         double growthFactor = 1.5;
-        /** k_live: the soft limit never falls below k_live x the live set
-         *  (3 since 2.10.1; 1.5 in 2.10.0). */
+        /** Ignored since 2.13.0 (the 2.10.1 law's k_live). */
         double liveHeadroom = 3.0;
     };
 
@@ -2255,7 +2257,10 @@ namespace proto
         proto_ulong liveCellsLastCycle = 0;   ///< L of the last completed cycle
         proto_ulong heapCells = 0;            ///< this space's heap (heapSize)
         uint64_t    cycles = 0;               ///< cycles completed while enabled
-        double      lastPressure = 0.0;       ///< p = P / T of the last cycle
+        /** The mutators' wait share w of the last interval (time waiting
+         *  for headroom per thread over the interval; since 2.13.0.  Before,
+         *  p = (stop-the-world + waits) / interval, summed over threads). */
+        double      lastPressure = 0.0;
     };
 
 // ProtoSpace::enableAdaptiveHeap and adaptiveHeapStats exist (2.10.0+).
@@ -2444,14 +2449,19 @@ namespace proto
         /**
          * @brief Let protoCore size this space's heap (since 2.10.0).
          *
-         * The soft limit S, which triggers collections, starts small
-         * (`initialSoftCells`, 128 MiB by default) and is adjusted by the
-         * collector at the end of every cycle: it grows by `growthFactor`
-         * while collection stalls the mutators for more than `highPressure`
-         * of the time, up to 8 x the live set; it never falls below
-         * `liveHeadroom` x the live set, and never decreases.  The hard limit H is a process-wide safety cap on
-         * the sum of all spaces' heaps; out of memory is declared only when
-         * the data a full cycle could not reclaim does not fit under it.
+         * Objective (since 2.13.0): minimise the time the mutators lose
+         * waiting for the collector, within the budget H.  The soft limit S,
+         * which triggers collections, starts at `initialSoftCells` (128 MiB
+         * by default) and is set by the collector at the end of every cycle,
+         * from measurements only: while the mutators wait and the collector
+         * keeps up (allocation rate r below its throughput T), S becomes the
+         * headroom a cycle needs to run behind them, L + G* with
+         * G* = rho L / (1 - rho), rho = r / T; while they wait and it does
+         * not keep up, S doubles as long as each doubling reduces the waits,
+         * and stops after two that do not.  S never decreases and never
+         * exceeds H.  The hard limit H is a process-wide budget on the sum of
+         * all spaces' heaps; out of memory is declared only when the data a
+         * full cycle could not reclaim does not fit under it.
          *
          * One call at start-up replaces a runtime's fixed limit:
          * @code
@@ -2459,7 +2469,8 @@ namespace proto
          * @endcode
          *
          * Environment: PROTOCORE_HEAP_LIMIT_CELLS=<hard> or <soft>,<hard>
-         * overrides H (and S0); PROTOCORE_HEAP_TRACE=1 prints one line per
+         * overrides H (and S0); PROTOCORE_ADAPTIVE_HEAP_START=budget starts
+         * S at H (since 2.13.0); PROTOCORE_HEAP_TRACE=1 prints one line per
          * cycle to stderr; PROTOCORE_ADAPTIVE_HEAP=0 applies the hard limit as
          * a fixed one instead (setHeapLimits(0, H)), for diagnosis;
          * PROTOCORE_ADAPTIVE_HEAP=1 enables the controller in every space at
