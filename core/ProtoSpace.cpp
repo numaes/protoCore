@@ -1521,6 +1521,7 @@ namespace proto {
             // The last space stops the sweep's helper threads; a later space
             // starts a new pool.  No collector of this space exists any more.
             sweep::shutdownPoolIfNoSpaces();
+            sweep::forgetSpace(this);
             multispace::setQuiescenceOut(false);
         }
         {
@@ -2311,6 +2312,13 @@ namespace proto {
     unsigned ProtoSpace::collectorHelperThreads() {
         return sweep::helperCount();
     }
+
+    void ProtoSpace::setCollectorHelperEngagement(int mode) { sweep::setEngagement(mode); }
+    int ProtoSpace::collectorHelperEngagement() { return static_cast<int>(sweep::engagement()); }
+    void ProtoSpace::setSweepCursors(unsigned count) { sweep::setSweepCursors(count); }
+    unsigned ProtoSpace::sweepCursors() { return sweep::sweepCursors(); }
+    void ProtoSpace::setSweepPrefetch(int on) { sweep::setSweepPrefetch(on); }
+    bool ProtoSpace::sweepPrefetch() { return sweep::sweepPrefetch(); }
 
     void ProtoSpace::enableAdaptiveHeap(const AdaptiveHeapConfig& config) {
         std::lock_guard<std::recursive_mutex> lock(globalMutex);

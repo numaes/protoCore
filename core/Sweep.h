@@ -51,8 +51,10 @@ namespace sweep {
 
     /** Segments a sweeper hands back in one compare-and-swap per batch. */
     constexpr proto_ulong kSegmentRecycleBatch = 1024;
-    /** Segment chains one sweeper walks in lockstep. */
-    constexpr int kSweepCursors = 8;
+    /** The most segment chains one sweeper walks in lockstep. */
+    constexpr int kMaxSweepCursors = 32;
+    /** The default number of chains walked in lockstep (sweepCursors()). */
+    constexpr unsigned kDefaultSweepCursors = 8;
 
     /**
      * A LIFO chain of processed DirtySegments, private to its sweeper until
@@ -143,8 +145,58 @@ namespace sweep {
                           std::vector<Cell*>& deadCells);
 
     // --- Configuration and lifecycle ----------------------------------------------
+    //
+    // Every hardware-sensitive parameter is configurable (environment and
+    // ProtoSpace's static API); the defaults were measured on one
+    // notebook-class CPU only (docs/reports/2026-10-03-collector-throughput.md,
+    // "Hardware class").
 
-    /** The default helper count: physical cores / 2 (0 on a single core). */
+    /** Chains walked in lockstep (1 = the single-chain walk): the API, else
+     *  PROTOCORE_GC_SWEEP_CURSORS (1..32), else 8. */
+    unsigned sweepCursors();
+    void setSweepCursors(unsigned count);   // 0 restores the default
+    /** Prefetch the next cell of each chain: the API, else
+     *  PROTOCORE_GC_SWEEP_PREFETCH (0 or 1), else on. */
+    bool sweepPrefetch();
+    void setSweepPrefetch(int on);          // -1 restores the default
+
+    /** When the helpers are offered a sweep. */
+    enum class Engagement {
+        Measured = 0,      // while a mutator waits, and only while that pays (default)
+        WhileWaiting = 1,  // while a mutator waits
+        Always = 2         // every sweep (diagnosis, tests)
+    };
+    /** The API, else PROTOCORE_GC_SWEEP_ENGAGE (measured | waiting |
+     *  always), else Measured. */
+    Engagement engagement();
+    void setEngagement(int mode);           // -1 restores the default
+
+    /** The measured engagement's state of one space (Engagement::Measured). */
+    struct EngageState {
+        double soloNsPerCell = 0.0;   // the last sweep without helpers
+        unsigned backoff = 0;         // sweeps held back after the last failure
+        unsigned skip = 0;            // sweeps still to hold back
+    };
+    constexpr proto_ulong kMinCellsToMeasure = 100000;
+    constexpr unsigned kMaxEngageBackoff = 64;
+    /** One sweep's verdict (pure): `engaged` -- helpers swept; `heldBack` --
+     *  helpers were wanted but held back; `swept` cells in `nanos` of the
+     *  sweep's wall time.  A sweep with helpers no faster per cell than the
+     *  last one without them doubles the backoff (1, 2, 4 ... 64 sweeps); a
+     *  faster one resets it.  Sweeps under kMinCellsToMeasure cells are not
+     *  measured. */
+    void noteSweep(EngageState& state, bool engaged, bool heldBack, proto_ulong swept, double nanos);
+
+    /** Physical cores, NUMA nodes and the L3 size of this machine (1, 1 and
+     *  0 when unknown). */
+    unsigned numaNodeCount();
+    std::uint64_t l3CacheBytes();
+    /** Drop `space`'s engagement measurements (~ProtoSpace). */
+    void forgetSpace(const ProtoSpace* space);
+
+    /** The default helper count: half the physical cores of one NUMA node
+     *  ((physical cores / NUMA nodes) / 2; 0 on a single core): helpers then
+     *  stay within a node's worth of cores on a multi-socket machine. */
     unsigned defaultHelperCount();
     /** Physical cores of this machine (1 when unknown). */
     unsigned physicalCoreCount();
@@ -170,8 +222,8 @@ namespace sweep {
     /** Run `fn` with this thread marked as a helper (the getFreeCells guard
      *  death test). */
     void runAsHelperForTest(void (*fn)(void*), void* arg);
-    /** Engage the helpers on every cycle, not only while mutators wait
-     *  (also PROTOCORE_GC_SWEEP_ENGAGE=always). */
+    /** Engage the helpers on every cycle (setEngagement(Always) /
+     *  setEngagement(-1)). */
     void setEngageAlways(bool always);
     struct PoolStats {
         std::uint64_t jobs = 0;            // sweeps the helpers were offered
@@ -180,6 +232,7 @@ namespace sweep {
         std::uint64_t concurrentJobsMax = 0;
         unsigned threads = 0;              // helper threads alive
         std::uint64_t starts = 0;          // pools started
+        std::uint64_t heldBack = 0;        // sweeps not offered: helpers did not pay
     };
     PoolStats poolStats();
 

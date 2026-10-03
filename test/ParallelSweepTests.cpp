@@ -178,8 +178,10 @@ struct CycleResult {
     bool intact;
 };
 
-CycleResult oneCycle(unsigned helpers) {
+CycleResult oneCycle(unsigned helpers, unsigned cursors = 0, int prefetch = -1) {
     EngagedHelpers h(helpers);
+    ProtoSpace::setSweepCursors(cursors);
+    ProtoSpace::setSweepPrefetch(prefetch);
     ProtoSpace space;
     LiveList live(space, 30000);
     runCycle(space);          // the live list's build garbage
@@ -193,6 +195,8 @@ CycleResult oneCycle(unsigned helpers) {
         r.freeCells = space.freeCellsCount;
     }
     r.intact = live.intact(space, 30000);
+    ProtoSpace::setSweepCursors(0);
+    ProtoSpace::setSweepPrefetch(-1);
     return r;
 }
 }  // namespace
@@ -209,6 +213,24 @@ TEST(ParallelSweep, HelpersFreeTheSameCellsAsTheSerialSweep) {
     EXPECT_EQ(parallel.live, serial.live);
     EXPECT_EQ(parallel.freeCells, serial.freeCells);
     EXPECT_GE(parallel.reclaimed, 1200000u);
+}
+
+// The hardware-sensitive knobs change how the sweep walks, never what it
+// frees: one chain, 32 chains, no prefetch, with and without helpers.
+TEST(ParallelSweep, CursorsAndPrefetchFreeTheSameCells) {
+    const CycleResult reference = oneCycle(0, 1, 0);
+    for (unsigned helpers : {0u, 3u}) {
+        for (unsigned cursors : {1u, 2u, 8u, 32u}) {
+            for (int prefetch : {0, 1}) {
+                const CycleResult r = oneCycle(helpers, cursors, prefetch);
+                EXPECT_TRUE(r.intact);
+                EXPECT_EQ(r.reclaimed, reference.reclaimed)
+                    << helpers << " helpers, " << cursors << " cursors, prefetch " << prefetch;
+                EXPECT_EQ(r.live, reference.live);
+                EXPECT_EQ(r.freeCells, reference.freeCells);
+            }
+        }
+    }
 }
 
 // After a cycle with helpers, no reachable cell carries a mark bit: the next
@@ -494,11 +516,69 @@ TEST(ParallelSweepConfig, ParseHelperCount) {
     EXPECT_FALSE(sweep::parseHelperCount(nullptr, k));
 }
 
-TEST(ParallelSweepConfig, DefaultIsHalfThePhysicalCores) {
-    EXPECT_EQ(sweep::defaultHelperCount(), sweep::physicalCoreCount() / 2);
+TEST(ParallelSweepConfig, DefaultIsHalfThePhysicalCoresOfANode) {
+    EXPECT_EQ(sweep::defaultHelperCount(),
+              (sweep::physicalCoreCount() / sweep::numaNodeCount()) / 2);
     EXPECT_GE(sweep::physicalCoreCount(), 1u);
     std::printf("[ config ] physical cores %u, default helpers %u\n",
                 sweep::physicalCoreCount(), sweep::defaultHelperCount());
+}
+
+TEST(ParallelSweepConfig, CursorsPrefetchAndEngagementAreConfigurable) {
+    EXPECT_EQ(sweep::kDefaultSweepCursors, 8u);
+    ProtoSpace::setSweepCursors(1);
+    EXPECT_EQ(ProtoSpace::sweepCursors(), 1u);
+    ProtoSpace::setSweepCursors(100);
+    EXPECT_EQ(ProtoSpace::sweepCursors(), 32u);
+    ProtoSpace::setSweepCursors(0);
+    EXPECT_GE(ProtoSpace::sweepCursors(), 1u);
+    ProtoSpace::setSweepPrefetch(0);
+    EXPECT_FALSE(ProtoSpace::sweepPrefetch());
+    ProtoSpace::setSweepPrefetch(1);
+    EXPECT_TRUE(ProtoSpace::sweepPrefetch());
+    ProtoSpace::setSweepPrefetch(-1);
+    for (int mode : {0, 1, 2}) {
+        ProtoSpace::setCollectorHelperEngagement(mode);
+        EXPECT_EQ(ProtoSpace::collectorHelperEngagement(), mode);
+    }
+    ProtoSpace::setCollectorHelperEngagement(7);   // invalid: the default
+    ProtoSpace::setCollectorHelperEngagement(-1);
+    std::printf("[ hardware ] physical cores %u, NUMA nodes %u, L3 %llu KiB; defaults: %u helpers, "
+                "%u cursors, prefetch %d, engagement %d\n",
+                sweep::physicalCoreCount(), sweep::numaNodeCount(),
+                (unsigned long long) (sweep::l3CacheBytes() >> 10), sweep::defaultHelperCount(),
+                ProtoSpace::sweepCursors(), ProtoSpace::sweepPrefetch() ? 1 : 0,
+                ProtoSpace::collectorHelperEngagement());
+}
+
+// The measured engagement, as a pure rule: helpers that do not shorten the
+// sweep are held back for 1, 2, 4 ... 64 sweeps; helpers that do are kept.
+TEST(ParallelSweepConfig, MeasuredEngagementBacksOffWhenHelpersDoNotPay) {
+    sweep::EngageState st;
+    const proto_ulong n = 1000000;
+    sweep::noteSweep(st, false, false, n, 20.0 * n);   // solo: 20 ns per cell
+    EXPECT_DOUBLE_EQ(st.soloNsPerCell, 20.0);
+    sweep::noteSweep(st, true, false, n, 12.0 * n);    // helpers faster: keep them
+    EXPECT_EQ(st.skip, 0u);
+    EXPECT_EQ(st.backoff, 0u);
+    unsigned expected = 1;
+    for (int failure = 0; failure < 9; ++failure) {
+        sweep::noteSweep(st, true, false, n, 25.0 * n);   // helpers slower
+        EXPECT_EQ(st.backoff, expected);
+        EXPECT_EQ(st.skip, expected);
+        // The held-back sweeps run alone and give the next comparison.
+        const unsigned held = st.skip;
+        for (unsigned k = 0; k < held; ++k) sweep::noteSweep(st, false, true, n, 20.0 * n);
+        EXPECT_EQ(st.skip, 0u);
+        expected = std::min(expected * 2, sweep::kMaxEngageBackoff);
+    }
+    EXPECT_EQ(st.backoff, sweep::kMaxEngageBackoff);
+    sweep::noteSweep(st, true, false, n, 10.0 * n);    // helpers pay again
+    EXPECT_EQ(st.backoff, 0u);
+    // A small sweep says nothing.
+    sweep::EngageState small;
+    sweep::noteSweep(small, false, false, 1000, 1e9);
+    EXPECT_DOUBLE_EQ(small.soloNsPerCell, 0.0);
 }
 
 TEST(ParallelSweepConfig, TheApiOverridesAndZeroMeansNoPool) {

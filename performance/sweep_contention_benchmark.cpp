@@ -21,6 +21,9 @@
  *
  *   sweep_contention_benchmark [garbageObjects] [threads] [reps] [helpers]
  *
+ * PROTOCORE_GC_SWEEP_CURSORS and PROTOCORE_GC_SWEEP_PREFETCH select the
+ * sweep's walk (hardware-sensitive; see ProtoSpace::setSweepCursors).
+ *
  * `helpers`, a comma-separated list of helper counts K (for example
  * 0,1,2,3,5), runs every scenario once per K with the helpers engaged on
  * every cycle (spec 9, P10: the scaling curve); without it the helper count
@@ -224,6 +227,10 @@ int main(int argc, char** argv) {
     const int garbage = argc > 1 ? std::atoi(argv[1]) : 3000000;
     const int threads = argc > 2 ? std::atoi(argv[2]) : 6;
     const int reps = argc > 3 ? std::atoi(argv[3]) : 3;
+    std::printf("hardware: physical cores %u, NUMA nodes %u, L3 %llu KiB (cpu0's); sweep cursors %u, "
+                "prefetch %d\n", sweep::physicalCoreCount(), sweep::numaNodeCount(),
+                (unsigned long long) (sweep::l3CacheBytes() >> 10), ProtoSpace::sweepCursors(),
+                ProtoSpace::sweepPrefetch() ? 1 : 0);
     if (argc > 4) {
         sweep::setEngageAlways(true);
         std::string list = argv[4];

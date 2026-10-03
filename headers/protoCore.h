@@ -2505,6 +2505,36 @@ namespace proto
         static unsigned collectorHelperThreads();
 
         /**
+         * @brief When the helpers are offered a sweep (process-wide).
+         *
+         * 0 (default, "measured"): while a mutator waits for heap headroom,
+         * and only while that shortens the sweep -- a sweep with helpers that
+         * is not faster per cell than the last one without them holds them
+         * back for the next 1, 2, 4 ... 64 sweeps.  1 ("waiting"): while a
+         * mutator waits.  2 ("always"): every sweep (diagnosis).  -1 restores
+         * the default.  PROTOCORE_GC_SWEEP_ENGAGE=measured|waiting|always sets
+         * it without code.  Since 2.14.0.
+         */
+        static void setCollectorHelperEngagement(int mode);
+        static int collectorHelperEngagement();
+
+        /**
+         * @brief How many segment chains the sweep walks in lockstep, and
+         *        whether it prefetches their next cells (process-wide).
+         *
+         * Hardware-sensitive: several chains keep several cache misses in
+         * flight on one thread; the default (8 chains, prefetch on) was
+         * measured on one notebook-class CPU only.  1..32 chains; 0 restores
+         * the default.  Prefetch: 1 on, 0 off, -1 the default.
+         * PROTOCORE_GC_SWEEP_CURSORS and PROTOCORE_GC_SWEEP_PREFETCH set them
+         * without code.  Since 2.14.0.
+         */
+        static void setSweepCursors(unsigned count);
+        static unsigned sweepCursors();
+        static void setSweepPrefetch(int on);
+        static bool sweepPrefetch();
+
+        /**
          * @brief Block until the heap has room to satisfy an allocation, or
          *        escalate to out-of-memory handling.
          *

@@ -7,6 +7,7 @@
 #include "AdaptiveHeap.h"
 
 #include <algorithm>
+#include <chrono>
 #include <condition_variable>
 #include <cstdio>
 #include <cstdlib>
@@ -130,7 +131,7 @@ namespace sweep {
     // one store.
     //
     // Multi-cursor: a chain is a dependent pointer chase with one miss in
-    // flight.  kSweepCursors chains walked in lockstep, each prefetching its
+    // flight.  sweepCursors() chains walked in lockstep, each prefetching its
     // next cell (write intent) before the others are processed, keep several
     // misses in flight on one thread.  Each cursor keeps its own batch and
     // survivor chain, merged when its segment ends, so the result is the one
@@ -144,23 +145,25 @@ namespace sweep {
             proto_ulong batchCount;
             Cell* survHead;
         };
-        Cursor cur[kSweepCursors];
+        Cursor cur[kMaxSweepCursors];
+        const int cursors = static_cast<int>(sweepCursors());
+        const bool prefetch = sweepPrefetch();
         int active = 0;
         DirtySegment* nextSeg = list;
         auto load = [&](Cursor& c) -> bool {
             if (!nextSeg) return false;
             c.seg = nextSeg;
             nextSeg = nextSeg->next;
-            if (nextSeg) PROTO_PREFETCH(nextSeg);
+            if (prefetch && nextSeg) PROTO_PREFETCH(nextSeg);
             c.cell = c.seg->cellChain;
-            if (c.cell) PROTO_PREFETCH(c.cell);
+            if (prefetch && c.cell) PROTO_PREFETCH(c.cell);
             c.batchHead = c.batchTail = nullptr;
             c.batchCount = 0;
             c.survHead = nullptr;
             ++L.segments;
             return true;
         };
-        while (active < kSweepCursors && load(cur[active])) ++active;
+        while (active < cursors && load(cur[active])) ++active;
         ProtoContext* const ctx = L.space->rootContext;
         while (active > 0) {
             for (int i = 0; i < active;) {
@@ -174,7 +177,7 @@ namespace sweep {
                 }
                 const uintptr_t header = cell->next_and_flags.load(std::memory_order_acquire);
                 Cell* next = reinterpret_cast<Cell*>(header & ~PROTO_UL(0x3F));
-                if (next) PROTO_PREFETCH(next);
+                if (prefetch && next) PROTO_PREFETCH(next);
                 ++L.swept;
                 if (!(header & PROTO_UL(0x1))) {
                     if (L.deferFree) {
@@ -256,7 +259,10 @@ namespace sweep {
             std::vector<Cell*> external;
         };
 
-        std::atomic<bool> gEngageAlways{false};
+        // The API's settings; -1: not set (environment, then default).
+        std::atomic<int> gCursors{-1};
+        std::atomic<int> gPrefetch{-1};
+        std::atomic<int> gEngagement{-1};
         // setHelperCount: -1 = not set (environment, then default).
         std::atomic<int> gConfiguredCount{-1};
 
@@ -382,22 +388,117 @@ namespace sweep {
             p.job = nullptr;
         }
 
-        // PROTOCORE_GC_SWEEP_ENGAGE=always: a diagnostic and test switch
-        // that offers every cycle's sweep to the helpers.
-        bool engageAlwaysFromEnvironment() {
-            static const bool always = [] {
-                const char* v = std::getenv("PROTOCORE_GC_SWEEP_ENGAGE");
-                return v && std::strcmp(v, "always") == 0;
-            }();
-            return always;
+        // --- Measured engagement ---------------------------------------
+        //
+        // Helpers take CPU from the mutators and add memory traffic; on a
+        // machine whose memory system is already saturated they can make the
+        // sweep slower.  Engagement::Measured keeps them only while they
+        // shorten the sweep: the sweep's wall time per cell with helpers is
+        // compared with the last sweep without them; when it is not shorter,
+        // the next 1, 2, 4 ... 64 sweeps that want helpers run alone (the
+        // first of them is the new comparison), then helpers are tried again.
+        // Per space, on the collector thread; a mutex guards the map.
+        std::mutex gEngageMutex;
+        std::vector<std::pair<const ProtoSpace*, EngageState>>& engageStates() {
+            static auto* v = new std::vector<std::pair<const ProtoSpace*, EngageState>>();
+            return *v;
+        }
+        EngageState& engageStateOf(const ProtoSpace* space) {
+            for (auto& e : engageStates()) if (e.first == space) return e.second;
+            engageStates().emplace_back(space, EngageState());
+            return engageStates().back().second;
         }
 
-        bool helpersWanted() {
-            return gEngageAlways.load(std::memory_order_relaxed)
-                || engageAlwaysFromEnvironment()
-                || adaptive::headroomWaitersTotal.load(std::memory_order_relaxed) > 0;
+        bool mutatorsWait() {
+            return adaptive::headroomWaitersTotal.load(std::memory_order_relaxed) > 0;
         }
     }  // namespace
+
+    void noteSweep(EngageState& st, bool engaged, bool heldBack, proto_ulong swept, double nanos) {
+        if (swept >= kMinCellsToMeasure) {
+            const double perCell = nanos / static_cast<double>(swept);
+            if (engaged) {
+                if (st.soloNsPerCell > 0.0 && perCell >= st.soloNsPerCell) {
+                    // Helpers did not shorten the sweep: hold them back.
+                    st.backoff = std::min(kMaxEngageBackoff, std::max(1u, st.backoff * 2));
+                    st.skip = st.backoff;
+                } else {
+                    st.backoff = 0;
+                }
+            } else {
+                st.soloNsPerCell = perCell;
+            }
+        }
+        if (heldBack && st.skip > 0) --st.skip;
+    }
+
+    unsigned sweepCursors() {
+        const int set = gCursors.load(std::memory_order_relaxed);
+        if (set > 0) return static_cast<unsigned>(set);
+        static const unsigned fromEnv = [] {
+            const char* v = std::getenv("PROTOCORE_GC_SWEEP_CURSORS");
+            unsigned k = 0;
+            if (v && *v) {
+                for (const char* p = v; *p; ++p) {
+                    if (*p < '0' || *p > '9') return 0u;
+                    k = k * 10 + static_cast<unsigned>(*p - '0');
+                    if (k > static_cast<unsigned>(kMaxSweepCursors)) return 0u;
+                }
+            }
+            return k;
+        }();
+        return fromEnv >= 1 ? fromEnv : kDefaultSweepCursors;
+    }
+
+    void setSweepCursors(unsigned count) {
+        gCursors.store(count == 0 ? -1 : static_cast<int>(std::min<unsigned>(count, kMaxSweepCursors)),
+                       std::memory_order_relaxed);
+    }
+
+    bool sweepPrefetch() {
+        const int set = gPrefetch.load(std::memory_order_relaxed);
+        if (set >= 0) return set != 0;
+        static const int fromEnv = [] {
+            const char* v = std::getenv("PROTOCORE_GC_SWEEP_PREFETCH");
+            if (v && std::strcmp(v, "0") == 0) return 0;
+            if (v && std::strcmp(v, "1") == 0) return 1;
+            return -1;
+        }();
+        return fromEnv != 0;
+    }
+
+    void setSweepPrefetch(int on) {
+        gPrefetch.store(on < 0 ? -1 : (on ? 1 : 0), std::memory_order_relaxed);
+    }
+
+    Engagement engagement() {
+        const int set = gEngagement.load(std::memory_order_relaxed);
+        if (set >= 0) return static_cast<Engagement>(set);
+        static const int fromEnv = [] {
+            const char* v = std::getenv("PROTOCORE_GC_SWEEP_ENGAGE");
+            if (!v) return -1;
+            if (std::strcmp(v, "measured") == 0) return 0;
+            if (std::strcmp(v, "waiting") == 0) return 1;
+            if (std::strcmp(v, "always") == 0) return 2;
+            return -1;
+        }();
+        return fromEnv >= 0 ? static_cast<Engagement>(fromEnv) : Engagement::Measured;
+    }
+
+    void setEngagement(int mode) {
+        gEngagement.store(mode < 0 || mode > 2 ? -1 : mode, std::memory_order_relaxed);
+    }
+
+    void forgetSpace(const ProtoSpace* space) {
+        std::lock_guard<std::mutex> lock(gEngageMutex);
+        auto& v = engageStates();
+        for (std::size_t i = 0; i < v.size(); ++i) {
+            if (v[i].first == space) {
+                v.erase(v.begin() + static_cast<std::ptrdiff_t>(i));
+                return;
+            }
+        }
+    }
 
     CycleSweep sweepCycle(ProtoSpace* space, DirtySegment* list, bool deferFree,
                           std::vector<Cell*>& deadCells) {
@@ -410,6 +511,16 @@ namespace sweep {
         job.cursor = &cursor;
         bool engaged = false;
 
+        const auto start = std::chrono::steady_clock::now();
+        const Engagement mode = helperCount() == 0 ? Engagement::WhileWaiting : engagement();
+        // Measured engagement: is this cycle held back from the helpers?
+        bool heldBack = false;
+        if (mode == Engagement::Measured) {
+            std::lock_guard<std::mutex> lock(gEngageMutex);
+            heldBack = engageStateOf(space).skip > 0;
+        }
+        bool wanted = false;
+
         SweeperLocal L(space, deferFree, &deadCells);
         bool moreLeft = false;
         while (DirtySegment* run = claimRun(cursor, kClaimRun, &moreLeft)) {
@@ -417,10 +528,30 @@ namespace sweep {
             // The collector starts alone: a cycle that one claim exhausts
             // never touches the pool.  The helpers are offered the rest once
             // mutators wait for headroom, which is when their CPU is free.
-            if (!engaged && moreLeft && helpersWanted()) engaged = tryStart(&job);
+            if (!engaged && moreLeft && helperCount() > 0
+                && (mode == Engagement::Always || mutatorsWait())) {
+                wanted = true;
+                if (!heldBack) engaged = tryStart(&job);
+            }
         }
         if (engaged) finishJob(&job);
         L.finish();
+
+        if (mode == Engagement::Measured) {
+            const proto_ulong swept = L.swept + job.swept;
+            const double ns = static_cast<double>(
+                std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    std::chrono::steady_clock::now() - start).count());
+            std::lock_guard<std::mutex> lock(gEngageMutex);
+            EngageState& st = engageStateOf(space);
+            noteSweep(st, engaged, heldBack && wanted, swept, ns);
+            if (heldBack && wanted) {
+                if (gPool) {
+                    std::lock_guard<std::mutex> plock(gPool->m);
+                    ++gPool->stats.heldBack;
+                }
+            }
+        }
 
         result.reclaimed = L.reclaimed + job.reclaimed;
         result.swept = L.swept + job.swept;
@@ -487,8 +618,71 @@ namespace sweep {
 #endif
     }
 
+    unsigned numaNodeCount() {
+#if defined(__linux__)
+        unsigned nodes = 0;
+        for (unsigned n = 0; n < 1024; ++n) {
+            std::ifstream in("/sys/devices/system/node/node" + std::to_string(n) + "/cpulist");
+            if (!in) break;
+            ++nodes;
+        }
+        return nodes ? nodes : 1;
+#elif defined(_WIN32)
+        ULONG highest = 0;
+        if (GetNumaHighestNodeNumber(&highest)) return static_cast<unsigned>(highest) + 1;
+        return 1;
+#else
+        return 1;
+#endif
+    }
+
+    std::uint64_t l3CacheBytes() {
+#if defined(__linux__)
+        for (unsigned idx = 0; idx < 8; ++idx) {
+            const std::string base = "/sys/devices/system/cpu/cpu0/cache/index" + std::to_string(idx);
+            std::ifstream lvl(base + "/level");
+            int level = 0;
+            if (!(lvl >> level)) break;
+            if (level != 3) continue;
+            std::ifstream sz(base + "/size");
+            std::string text;
+            if (!(sz >> text) || text.empty()) return 0;
+            std::uint64_t value = 0;
+            std::size_t i = 0;
+            while (i < text.size() && text[i] >= '0' && text[i] <= '9')
+                value = value * 10 + static_cast<std::uint64_t>(text[i++] - '0');
+            if (i < text.size() && (text[i] == 'K' || text[i] == 'k')) value <<= 10;
+            else if (i < text.size() && (text[i] == 'M' || text[i] == 'm')) value <<= 20;
+            return value;
+        }
+        return 0;
+#elif defined(__APPLE__)
+        std::uint64_t bytes = 0;
+        size_t len = sizeof(bytes);
+        if (sysctlbyname("hw.l3cachesize", &bytes, &len, nullptr, 0) == 0) return bytes;
+        return 0;
+#elif defined(_WIN32)
+        DWORD len = 0;
+        GetLogicalProcessorInformationEx(RelationCache, nullptr, &len);
+        if (len == 0) return 0;
+        std::vector<char> buf(len);
+        if (!GetLogicalProcessorInformationEx(RelationCache,
+                reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(buf.data()), &len))
+            return 0;
+        for (DWORD off = 0; off < len;) {
+            auto* info = reinterpret_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX>(buf.data() + off);
+            if (info->Relationship == RelationCache && info->Cache.Level == 3)
+                return static_cast<std::uint64_t>(info->Cache.CacheSize);
+            off += info->Size;
+        }
+        return 0;
+#else
+        return 0;
+#endif
+    }
+
     unsigned defaultHelperCount() {
-        static const unsigned count = physicalCoreCount() / 2;
+        static const unsigned count = (physicalCoreCount() / numaNodeCount()) / 2;
         return count;
     }
 
@@ -545,7 +739,7 @@ namespace sweep {
         tlHelper = was;
     }
 
-    void setEngageAlways(bool always) { gEngageAlways.store(always, std::memory_order_relaxed); }
+    void setEngageAlways(bool always) { setEngagement(always ? 2 : -1); }
 
     PoolStats poolStats() {
         if (!gPool) return PoolStats();
