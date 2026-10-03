@@ -337,6 +337,19 @@ namespace proto {
                     std::chrono::duration_cast<std::chrono::nanoseconds>(b - a).count());
             };
             std::chrono::steady_clock::time_point t_token_end, t_young_start, t_trace_start;
+            // CPU time of the collector thread itself (Linux): tells a slow
+            // phase that ran on the CPU from one that waited for it.
+            auto dbgCpuNs = []() -> uint64_t {
+#if defined(__linux__)
+                struct timespec ts;
+                clock_gettime(CLOCK_THREAD_CPUTIME_ID, &ts);
+                return static_cast<uint64_t>(ts.tv_sec) * 1000000000ull + static_cast<uint64_t>(ts.tv_nsec);
+#else
+                return 0;
+#endif
+            };
+            static uint64_t dbg_cpu_mark = 0, dbg_cpu_sweep = 0, dbg_cpu_busy = 0;
+            uint64_t c_token_end = 0, c_young_start = 0, c_sweep_start = 0;
             const bool dbg_profile = std::getenv("PROTOCORE_GC_PROFILE") != nullptr;
 #endif
             // The collector takes part in grace periods (it reads the global
@@ -369,6 +382,7 @@ namespace proto {
                 multispace::cycleActive = true;
 #ifdef PROTOCORE_GC_INSTRUMENT
                 t_token_end = std::chrono::steady_clock::now();
+                c_token_end = dbgCpuNs();
                 dbg_ns_token += dbgNs(t_phase1_start, t_token_end);
 #endif
                 // The adaptive heap controller's trace reports the cycle's
@@ -795,6 +809,7 @@ namespace proto {
                 //     with either its initial null or its final value.
 #ifdef PROTOCORE_GC_INSTRUMENT
                 t_young_start = std::chrono::steady_clock::now();
+                c_young_start = dbgCpuNs();
 #endif
                 for (const Cell* head : youngChainHeads) {
                     struct YoungWalkState { std::vector<const Cell*>* wl; const Cell* parent; } yst = {&workList, head};
@@ -922,6 +937,8 @@ namespace proto {
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase5_start = std::chrono::steady_clock::now();
                 dbg_ns_trace += dbgNs(t_trace_start, t_phase5_start);
+                c_sweep_start = dbgCpuNs();
+                dbg_cpu_mark += c_sweep_start - c_young_start;
                 dbg_total_phase4_us.fetch_add(
                     std::chrono::duration_cast<std::chrono::microseconds>(
                         t_phase5_start - t_phase4_start).count(),
@@ -1107,6 +1124,7 @@ namespace proto {
 
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_release_start = std::chrono::steady_clock::now();
+                dbg_cpu_sweep += dbgCpuNs() - c_sweep_start;
                 dbg_total_phase5_us.fetch_add(
                     std::chrono::duration_cast<std::chrono::microseconds>(
                         t_release_start - t_phase5_start).count(),
@@ -1253,6 +1271,7 @@ namespace proto {
                 }
                 dbg_freed_cells += reclaimedThisCycle;
                 dbg_ns_busy += dbgNs(t_token_end, t_phase6_end);
+                dbg_cpu_busy += dbgCpuNs() - c_token_end;
                 if (dbg_profile) {
                     // One line per cycle, cumulative, nanosecond totals in
                     // microseconds.  mut_park/headroom are summed over all
@@ -1261,7 +1280,8 @@ namespace proto {
                         "[GC-PHASES] cycles=%" PROTO_FMT_U " busy=%" PROTO_FMT_U "us token=%" PROTO_FMT_U "us quorum=%" PROTO_FMT_U "us stw=%" PROTO_FMT_U "us stw_max=%" PROTO_FMT_U "us roots=%" PROTO_FMT_U
                         " young=%" PROTO_FMT_U "us young_cells=%" PROTO_FMT_U " trace=%" PROTO_FMT_U "us marked=%" PROTO_FMT_U
                         " sweep=%" PROTO_FMT_U "us swept_cells=%" PROTO_FMT_U " freed_cells=%" PROTO_FMT_U " rel=%" PROTO_FMT_U "us unmark=%" PROTO_FMT_U "us p6_7=%" PROTO_FMT_U "us"
-                        " mut_park=%" PROTO_FMT_U "us parks=%" PROTO_FMT_U " headroom_wait=%" PROTO_FMT_U "us headroom_waits=%" PROTO_FMT_U "\n",
+                        " mut_park=%" PROTO_FMT_U "us parks=%" PROTO_FMT_U " headroom_wait=%" PROTO_FMT_U "us headroom_waits=%" PROTO_FMT_U
+                        " cpu_busy=%" PROTO_FMT_U "us cpu_mark=%" PROTO_FMT_U "us cpu_sweep=%" PROTO_FMT_U "us\n",
                         (proto_ulong)space->gcCycleCount.load(std::memory_order_relaxed),
                         (proto_ulong)(dbg_ns_busy / 1000), (proto_ulong)(dbg_ns_token / 1000),
                         (proto_ulong)(dbg_ns_quorum / 1000), (proto_ulong)(dbg_ns_stw / 1000),
@@ -1274,7 +1294,9 @@ namespace proto {
                         (proto_ulong)(gcprof::mutatorParkNs.load(std::memory_order_relaxed) / 1000),
                         (proto_ulong)gcprof::mutatorParks.load(std::memory_order_relaxed),
                         (proto_ulong)(gcprof::headroomWaitNs.load(std::memory_order_relaxed) / 1000),
-                        (proto_ulong)gcprof::headroomWaits.load(std::memory_order_relaxed));
+                        (proto_ulong)gcprof::headroomWaits.load(std::memory_order_relaxed),
+                        (proto_ulong)(dbg_cpu_busy / 1000), (proto_ulong)(dbg_cpu_mark / 1000),
+                        (proto_ulong)(dbg_cpu_sweep / 1000));
                 }
 #endif
 
