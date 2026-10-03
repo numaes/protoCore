@@ -1,3 +1,30 @@
+# Adaptive heap controller (feature/adaptive-heap, 2.10.0)
+
+Spec: docs/specs/2026-10-02-adaptive-heap-controller-design.md (approved
+2026-10-02; section 6 = implementation decisions).
+
+- [x] 1. Control law as a pure function + unit tests (AdaptiveHeapLaw.*).
+- [x] 2. Limits detection: cgroup v1/v2 from an injectable root, job object,
+      sysctl; default H; INT_MAX clamp (AdaptiveHeapLimits.*, AdaptiveHeapCgroup.*).
+- [x] 3. Side-structure state, P/T/L measurement, S applied at cycle end,
+      process budget across spaces, OOM rule under the controller.
+- [x] 4. Cycle at S without a waiter (CycleStartsAtSoftLimit... RED->GREEN).
+- [x] 5. Pacing at half the headroom; checkpoint soft wait; completion-based
+      waits (found by tracing: S ran away to 20 M cells without them).
+- [x] 6. Teardown deadlock with several spaces (MultiSpaceTeardown RED 3/3 -> GREEN).
+- [x] 7. Conformance cases restore the controller (self-check RED -> GREEN).
+- [x] 8. Local: Release 570/570; ASan and TSan suites; six benchmarks
+      (instructions +0.00 %); adaptive_heap_benchmark vs fixed 640 MB.
+- [x] 9. Docs, CHANGELOG, version 2.10.0.
+- [ ] 10. CI green on the branch, merge, tag, release.
+
+## Review
+- The literal trigger of the design (a cycle only when the heap reaches S)
+  makes every cycle a full stall and S runs away; pacing fixed it.  Recorded
+  in the spec, section 6.
+- Fast allocators settle at S = L + 2 x rate x cycle time, not
+  k_live x L + S0: the expectation in section 4 was corrected with numbers.
+
 # Global mutable table (feature/global-mutable-table)
 
 Spec: docs/GLOBAL_MUTABLE_TABLE.md. Decision by the author 2026-09-29: global
