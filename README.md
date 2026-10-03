@@ -15,13 +15,14 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 | Item | Value |
 |------|-------|
-| Version | 2.12.0 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
+| Version | 2.13.0 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
 | Status | Open for review; not production ready |
 | Test suite | GoogleTest, counted with `ctest -N` in your build directory — 499 cases as of 2026-09-25. Count it rather than quoting this line: it grows with every fix. |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
 
+- **Heap sizing that minimises waits** *(October 2026, 2.13.0)*: the adaptive heap controller grows the soft limit only while the mutators wait and the growth reduces the waits, within the budget, from measured allocation rate and collector throughput; no fitted constant. See [the report](docs/reports/2026-10-03-collector-throughput.md).
 - **Collector pacing and a faster sweep** *(October 2026, 2.12.0)*: a cycle is requested before the heap limit is reached (allocation rate × cycle duration, measured), a thread waiting for headroom wakes when cells are published, and the sweep walks several segment chains at once so its cache misses overlap: 2.7–3× cheaper per cell under concurrent allocation. See [the report](docs/reports/2026-10-03-collector-throughput.md).
 - **Grouped attribute writes** *(October 2026, 2.11.0)*: `ProtoObject::setAttributes(context, count, names, values)` writes a group of attributes as one new version: one snapshot read and one mutable-table publication for a mutable receiver, atomic to other threads, with the attribute tree built in one pass. Runtimes use it to compile a run of writes to the same object (`o.x = a; o.y = b`) into immutable updates published once. See [the mutability model](docs/Structural%20description/architecture/02_mutability_model.md).
 - **Adaptive heap controller** *(October 2026, 2.10.0; calibrated in 2.10.1)*: `ProtoSpace::enableAdaptiveHeap()` replaces a runtime's fixed heap limit. The soft limit that triggers collections starts at 128 MiB, rises while collection stalls the program for more than 5 % of the time but only up to 8 x the live set, never falls below 3 x the live set and never decreases; the hard limit is a process-wide safety cap at 75 % of physical memory or the process memory limit (cgroup, job object). See [docs/GarbageCollector.md](docs/GarbageCollector.md) § "Adaptive heap controller".

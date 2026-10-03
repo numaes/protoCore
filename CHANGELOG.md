@@ -4,6 +4,59 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.13.0] - 2026-10-03
+
+No ABI change (SOVERSION 3).  Milestone 3 of the collector-throughput
+design ([spec](docs/specs/2026-10-03-collector-throughput-design.md) § 4.5
+and the decisions of § 14;
+[report](docs/reports/2026-10-03-collector-throughput.md), "M3").
+
+### Changed
+
+- **The adaptive heap controller minimises the mutators' waits within the
+  budget**, from measurements only, and the 2.10.1 fitted constants
+  `k_live`, `k_cap` and `p_high` are gone.  At each cycle end: the live set
+  L, the allocation rate r while not waiting, the collector's reclamation
+  throughput T and the wait share w.  While the mutators wait and
+  rho = r / T < 1, S becomes `L + rho L / (1 - rho) x 1.25`, the headroom a
+  cycle needs to run behind them; while they wait and rho >= 1, S doubles as
+  long as each doubling reduces the waits and stops after two that do not; a
+  change of L or r by a factor of 2 re-arms growth, and voids a probe whose
+  verdict it straddles.  The first cycle under the controller is not used.
+  S never decreases and never exceeds H.  Without waits S does not change.
+- **Measured** (synthetic, median of 3): under the controller the wait
+  share fell to a third on two protoJS N = 12 workloads (24 -> 9 %) and the
+  wall time stayed within +0.4 to +7 %: the time went to collector CPU.
+  Against fixed limits of 10-200 M cells (one run per point) the controller
+  uses 0.55-1.4 GB where large limits take 4-13 GB and matches the fixed
+  limit at its knee; it is slower (up to 40 %) only where a large fixed heap
+  never collects.  **The controller may now use more memory than 2.10.1's**
+  (the single-threaded benchmark: 531 -> 858 MB): memory below the budget
+  that removes a wait is used.
+- `AdaptiveHeapStats::lastPressure` reports the wait share w.
+  `AdaptiveHeapConfig::highPressure`, `growthFactor` and `liveHeadroom`
+  are ignored (kept: the struct's layout is ABI).
+
+### Added
+
+- Start at the budget, for a run known to fit (decision 2: the controller
+  never grows there on speculation):
+  `AdaptiveHeapConfig::initialSoftCells` at or above H, or
+  `PROTOCORE_ADAPTIVE_HEAP_START=budget`.
+- `PROTOCORE_HEAP_TRACE` prints w, r, T, rho, the probes and whether growth
+  stopped.
+- Tests: the law as a pure function (regime 1 in one step; rho towards 1
+  bounded by H; doubling while waits fall; two non-improving probes stop
+  growth, one does not; a probe across a workload change is void; a factor
+  of 2 re-arms; 200 random runs never decrease, never exceed H and change
+  at most log2(H / S0) + 1 times); on real spaces, the budget at every heap
+  growth with two spaces (a new peak tracker), bounded changes under a fast
+  allocator and a storm, start at the budget.  The expectations tied to the
+  removed constants are replaced (listed in the commit).
+  `AdaptiveHeapRate.SteadyAllocatorBelowCapacityStopsWaiting` (P1) is
+  clock-dependent.
+- The memory-as-only-variable experiment (`docs/reports/data/.../matrix.py`).
+
 ## [2.12.0] - 2026-10-03
 
 No API or ABI change (SOVERSION 3), no change to the object model.  The

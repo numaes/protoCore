@@ -1070,7 +1070,22 @@ From [reports/2026-10-03-collector-throughput.md](reports/2026-10-03-collector-t
   20 % to 3 %.
 - **Not yet**: the cost per cell at 6-12 threads is still 2-3 times the
   single-threaded one, so the sweep's helper threads (spec section 6) are
-  the next step; the control law is still 2.10.1's.
+  the next step.
+
+### After 2.13.0: the control law minimises waits within the budget
+
+Same report, section M3 (synthetic, one run per point in the matrix):
+
+- Under the controller the mutators' wait share fell to a third (24 -> 9 %
+  on two protoJS N = 12 workloads), but wall time did not improve (+0.4 to
+  +7 %): the time went to the collector's CPU beside the mutators.  The
+  objective counts waits only.
+- Against fixed limits of 10-200 M cells the controller holds 0.55-1.4 GB
+  where large fixed limits take 4-13 GB, is within noise of the fixed limit
+  at the knee, and is slower (up to 40 %) only where a large fixed limit
+  lets the whole run's garbage fit and never collects: the controller does
+  not grow to the budget on speculation (an embedder that knows its run
+  fits starts at the budget).
 
 ## Optimization Features
 

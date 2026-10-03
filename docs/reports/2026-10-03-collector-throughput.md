@@ -8,7 +8,8 @@ Claude.
 
 This report covers milestones M1 (pacing and early wake, spec 4.3-4.4) and
 M2 (diagnosis of the sweep's per-cell cost and the cheap fixes, spec 5),
-released together as 2.12.0.  Later milestones append their sections.
+released together as 2.12.0, and M3 (the control law, spec 4.5), released
+as 2.13.0.  Later milestones append their sections.
 
 **Every workload here is synthetic**: benchmarks written for this platform
 (the phase report's set), used as evidence about mechanisms.  Nothing is
@@ -243,6 +244,115 @@ difference on a 150 ms run.
 | jsad_wordfreq_n12 | 24.91 -> 18.95 -> 15.62 | 3,447 -> 358,881 -> 1,200 | 1860 -> 1877 -> 2580 |
 | jsad_records_n12 | 44.44 -> 26.89 -> 23.60 | 6,921 -> 718,772 -> 1,526 | 2110 -> 2560 -> 2578 |
 
+## M3: the control law (2.13.0)
+
+What changed (spec 4.5 and decision 1): the controller minimises the
+mutators' wait within the budget H, from measurements only.  While they
+wait and the collector keeps up (rho = r / T < 1), S becomes
+`L + rho L / (1 - rho) x 1.25`; while they wait and it does not, S
+doubles as long as each doubling reduces the waits, and stops after two
+that do not.  `k_live`, `k_cap` and `p_high` are gone.
+
+**Two corrections found by measuring, before release.**
+- The first cycle under the controller is not evidence about S (it starts
+  with no measured runway, and its interval includes the program's
+  start-up): the law starts at the second.  Without it, one early wait on a
+  steady 300,000-cell workload sent S to 12.5 M cells.
+- A probe across a workload change does not count.  On protoJS `records`
+  N = 12 the first probes fell where the program went from its build to
+  twelve parallel tasks (r x 5); the waits rose with the load, both probes
+  counted as non-improving, and S sat at 8 M cells for 12 cycles with a
+  third of the mutators' time waiting.  A verdict is now void when L or r
+  moved by the re-arm factor (2) between probe and verdict; the same run
+  then reaches H at cycle 14 instead of 23.
+
+**Under the controller, 2.12.0 (2.10.1 law) -> 2.13.0** (median of 3):
+
+| Workload | Wall s | Peak RSS MB | Wait share | Cycles |
+|---|---|---|---|---|
+| core_adaptive_live1M (1 thread) | 2.66 -> 2.67 | 531 -> 858 | 26.2 -> 4.2 % | 19 -> 15 |
+| jsad_wordfreq_n12 | 15.62 -> 16.71 | 2580 -> 2761 | 24.3 -> 8.6 % | 22 -> 18 |
+| jsad_records_n12 | 23.60 -> 24.17 | 2578 -> 2567 | 21.7 -> 8.5 % | 23 -> 22 |
+
+The new law does what its objective says -- the waits fall to a third --
+and does not make the programs faster: the wall time is within +0.4 % to
++7 %.  The time the mutators no longer wait went to the collector's own
+CPU next to them, and to more memory (the single-threaded benchmark keeps
+858 MB instead of 531).  The objective counts waits only (decision 3); this
+is the measurement that question asked for.
+
+### The memory-as-only-variable experiment
+
+Spec section 9: each workload under fixed limits of 10, 20, 40, 100 and
+200 M cells, and under the controller with H equal to that limit; same
+binaries, same library (2.13.0 code; fixed limits do not reach the law).
+**One run per point** (the spec asks for a median of 3; the matrix had to
+fit beside other agents' jobs), so differences under about 10 % are noise.
+The 400 M-cell column was not run: it needs a 26 GB cap and the shared
+machine had 24 GB available.  Workloads as above, scaled: protoJS N = 12
+(REPS = 1), protoScala 30 batches, protoClojure 500 rounds, the core
+benchmark with 1 M live cells.
+
+| Workload | Limit / H (M cells) | Fixed limit: wall s, peak RSS MB, cycles, wait share | Controller 2.13.0 (H = the limit): wall s, peak RSS MB, cycles, wait share |
+|---|---:|---|---|
+| core | 10 | 2.84, 642, 12, 6.9 % | 2.56, 634, 17, 6.8 % |
+| core | 20 | 3.02, 1242, 6, 3.0 % | 2.54, 907, 15, 4.6 % |
+| core | 40 | 3.76, 2464, 2, 2.2 % | 2.34, 906, 14, 4.2 % |
+| core | 100 | 4.40, 4458, 0, 0.0 % | 2.65, 859, 16, 5.3 % |
+| core | 200 | 5.32, 4458, 0, 0.0 % | 2.69, 891, 14, 3.4 % |
+| js_records | 10 | 12.32, 716, 16, 30.2 % | 11.39, 736, 23, 33.7 % |
+| js_records | 20 | 9.16, 1362, 8, 15.1 % | 9.01, 1315, 16, 17.7 % |
+| js_records | 40 | 8.54, 2578, 4, 5.7 % | 7.82, 2561, 13, 7.8 % |
+| js_records | 100 | 8.65, 6284, 1, 10.1 % | 8.55, 3251, 13, 3.4 % |
+| js_records | 200 | 8.80, 7886, 0, 0.0 % | 9.36, 3252, 13, 4.6 % |
+| js_wordfreq | 10 | 7.12, 924, 10, 30.2 % | 7.99, 874, 15, 36.8 % |
+| js_wordfreq | 20 | 5.49, 1413, 5, 2.5 % | 5.46, 1233, 12, 6.9 % |
+| js_wordfreq | 40 | 5.19, 2621, 2, 4.1 % | 6.71, 1302, 13, 2.9 % |
+| js_wordfreq | 100 | 4.75, 4112, 0, 0.0 % | 5.63, 1372, 12, 4.1 % |
+| js_wordfreq | 200 | 4.59, 4148, 0, 0.0 % | 6.85, 1286, 13, 6.9 % |
+| scala | 10 | 11.82, 718, 19, 0.1 % | 10.58, 552, 30, 0.4 % |
+| scala | 20 | 10.56, 1420, 7, 0.2 % | 10.65, 943, 25, 1.4 % |
+| scala | 40 | 9.48, 2797, 3, 0.4 % | 12.33, 566, 27, 1.5 % |
+| scala | 100 | 8.60, 6693, 0, 0.0 % | 11.72, 862, 26, 1.1 % |
+| scala | 200 | 8.59, 6693, 0, 0.0 % | 12.10, 587, 26, 0.7 % |
+| clj | 10 | 14.86, 658, 41, 1.2 % | 12.48, 663, 49, 1.4 % |
+| clj | 20 | 11.89, 1305, 23, 0.1 % | 12.58, 1107, 44, 1.4 % |
+| clj | 40 | 10.79, 2600, 12, 0.1 % | 10.99, 1395, 40, 0.8 % |
+| clj | 100 | 11.48, 6473, 4, 0.2 % | 11.31, 916, 45, 0.1 % |
+| clj | 200 | 11.06, 12935, 1, 0.5 % | 12.76, 1433, 44, 0.1 % |
+
+Reading, per workload (synthetic evidence, not acceptance):
+
+- **Regimes under fixed limits.**  `js_records` and `js_wordfreq` wait
+  30 % at 10 M cells and 0-10 % from 40 M: regime 1 above the knee, and at
+  100-200 M the run's whole garbage nearly fits (0-1 cycles).  `scala` and
+  `clj` wait at most 1.5 % at every limit since 2.12.0's sweep: regime 1
+  everywhere at this scale (they were regime 2 in the phase report, before
+  the multi-cursor sweep).
+- **Memory.**  The controller holds 0.55-1.4 GB where the large fixed
+  limits take 4-13 GB.  At the knee it is at or below the fixed limit's
+  memory (`js_records` 40 M: 2.56 against 2.58 GB; `js_wordfreq` 20 M:
+  1.23 against 1.41 GB).
+- **Time.**  The controller is within noise of the fixed limit at and
+  below the knee, and faster than every fixed limit on the core benchmark
+  (2.3-2.7 s against 2.8-5.3 s: a large fixed heap is touched for the first
+  time once per cell, which costs page faults the controller's reused heap
+  does not pay).  It is **slower than the large fixed limits where those
+  never collect**: `scala` 10.6-12.3 s against 8.6 s, `js_wordfreq`
+  5.5-6.9 s against 4.6 s.  There the controller collects 12-30 times with
+  waits of 1-7 %, because without waits it does not grow (decision 2: no
+  speculative growth to the budget); the time is the collector's CPU beside
+  six or twelve mutator threads on six cores.
+- **P1** (no wait with spare capacity) is met to 1.5 % for `scala` and
+  `clj` and to 3-7 % for the protoJS workloads, not to zero.
+- **P6** (regime 2 does not spend memory for nothing): the probes grew S to
+  H on `js_records` at 10 M, where the fixed curve says memory helps; no
+  workload here showed two non-improving probes holding S below H after the
+  fix above.
+- An embedder whose run fits starts at the budget instead
+  (`PROTOCORE_ADAPTIVE_HEAP_START=budget` or `initialSoftCells >= H`):
+  that is the large-fixed-limit column, by construction.
+
 ## Collector CPU (decision 3: measure first)
 
 User plus system CPU of the whole process, N = 12 / t6, base -> 2.12.0:
@@ -272,4 +382,7 @@ becomes sharp.
 CPU, the last `[GC-PHASES]` line), `runner.py` and `tab.py` (the runner
 reads `PROTO_BIN`, `PROTO_JS_BENCH` and the workloads in `workloads/`),
 `sweep-contention-m2.log`, `pmu/` (per-thread counters and their script),
-`single-thread/` (perf stat output and `st6.sh`).
+`single-thread/` (perf stat output and `st6.sh`); M3: `m3-runs.jsonl`,
+`matrix-fixed-and-first-law.jsonl` (the fixed-limit columns; its controller
+rows are the law before the two corrections), `matrix-controller-2.13.0.jsonl`,
+`matrix.py` (the experiment) and `mxjoin.py` (the table).
