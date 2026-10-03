@@ -38,6 +38,14 @@ namespace proto {
         std::atomic<std::uint64_t> mutatorParks{0};
         std::atomic<std::uint64_t> headroomWaitNs{0};
         std::atomic<std::uint64_t> headroomWaits{0};
+        std::atomic<std::uint64_t> refillFreshCells{0};
+        std::atomic<std::uint64_t> refillRecycledCells{0};
+        // Free chunks carved from a fresh OS block (globalMutex held): a pop
+        // from one of these hands out fresh, contiguous cells.
+        std::unordered_set<const void*>& freshChunks() {
+            static auto* set = new std::unordered_set<const void*>();
+            return *set;
+        }
     }
 #endif
 
@@ -1176,7 +1184,8 @@ namespace proto {
                         " young=%" PROTO_FMT_U "us young_cells=%" PROTO_FMT_U " trace=%" PROTO_FMT_U "us marked=%" PROTO_FMT_U
                         " sweep=%" PROTO_FMT_U "us swept_cells=%" PROTO_FMT_U " freed_cells=%" PROTO_FMT_U " rel=%" PROTO_FMT_U "us unmark=%" PROTO_FMT_U "us p6_7=%" PROTO_FMT_U "us"
                         " mut_park=%" PROTO_FMT_U "us parks=%" PROTO_FMT_U " headroom_wait=%" PROTO_FMT_U "us headroom_waits=%" PROTO_FMT_U
-                        " cpu_busy=%" PROTO_FMT_U "us cpu_mark=%" PROTO_FMT_U "us cpu_sweep=%" PROTO_FMT_U "us\n",
+                        " cpu_busy=%" PROTO_FMT_U "us cpu_mark=%" PROTO_FMT_U "us cpu_sweep=%" PROTO_FMT_U "us"
+                        " refill_fresh=%" PROTO_FMT_U " refill_recycled=%" PROTO_FMT_U " helper_runs=%" PROTO_FMT_U "\n",
                         (proto_ulong)space->gcCycleCount.load(std::memory_order_relaxed),
                         (proto_ulong)(dbg_ns_busy / 1000), (proto_ulong)(dbg_ns_token / 1000),
                         (proto_ulong)(dbg_ns_quorum / 1000), (proto_ulong)(dbg_ns_stw / 1000),
@@ -1191,7 +1200,10 @@ namespace proto {
                         (proto_ulong)(gcprof::headroomWaitNs.load(std::memory_order_relaxed) / 1000),
                         (proto_ulong)gcprof::headroomWaits.load(std::memory_order_relaxed),
                         (proto_ulong)(dbg_cpu_busy / 1000), (proto_ulong)(dbg_cpu_mark / 1000),
-                        (proto_ulong)(dbg_cpu_sweep / 1000));
+                        (proto_ulong)(dbg_cpu_sweep / 1000),
+                        (proto_ulong)gcprof::refillFreshCells.load(std::memory_order_relaxed),
+                        (proto_ulong)gcprof::refillRecycledCells.load(std::memory_order_relaxed),
+                        (proto_ulong)sweep::poolStats().helperRuns);
                 }
 #endif
 
@@ -2019,6 +2031,9 @@ namespace proto {
                 // chunk is handed out whole.  Under a limit, split only a
                 // chunk larger than the cap: when the cap does not bind (a
                 // generous limit) the chunk is still handed out whole.
+#ifdef PROTOCORE_GC_INSTRUMENT
+                const bool freshChunk = gcprof::freshChunks().count(chunk) != 0;
+#endif
                 if (limitedBatches && chunk->count > static_cast<proto_ulong>(limitCap)) {
                     // Hand out only batchSize cells of this chunk: cut its
                     // chain after batchSize cells and leave the remainder
@@ -2030,12 +2045,21 @@ namespace proto {
                     chunk->count -= static_cast<proto_ulong>(batchSize);
                     last->internalSetNextRaw(nullptr);
                     relaxedFetchAdd(this->freeCellsCount, -batchSize);
+#ifdef PROTOCORE_GC_INSTRUMENT
+                    (freshChunk ? gcprof::refillFreshCells : gcprof::refillRecycledCells)
+                        .fetch_add(static_cast<std::uint64_t>(batchSize), std::memory_order_relaxed);
+#endif
                     GC_LOCK_TRACE("getFreeCells REL(chunk-split)");
                     return batchHead;
                 }
                 this->freeChunks = chunk->next;
                 Cell* batchHead = chunk->head;
                 relaxedFetchAdd(this->freeCellsCount, -static_cast<int>(chunk->count));
+#ifdef PROTOCORE_GC_INSTRUMENT
+                (freshChunk ? gcprof::refillFreshCells : gcprof::refillRecycledCells)
+                    .fetch_add(chunk->count, std::memory_order_relaxed);
+                if (freshChunk) gcprof::freshChunks().erase(chunk);
+#endif
                 recycleFreeChunk(this, chunk);
                 GC_LOCK_TRACE("getFreeCells REL(chunk)");
                 return batchHead;
@@ -2048,6 +2072,10 @@ namespace proto {
                     Cell* batchHead = this->freeCells;
                     this->freeCells = nullptr;
                     this->freeCellsTail = nullptr;
+#ifdef PROTOCORE_GC_INSTRUMENT
+                    gcprof::refillRecycledCells.fetch_add(
+                        static_cast<std::uint64_t>(std::max(0, this->freeCellsCount)), std::memory_order_relaxed);
+#endif
                     relaxedStore(this->freeCellsCount, 0);
                     GC_LOCK_TRACE("getFreeCells REL(flat-all)");
                     return batchHead;
@@ -2064,6 +2092,9 @@ namespace proto {
                 this->freeCells = current->getNext();
                 current->setNext(nullptr);
                 relaxedFetchAdd(this->freeCellsCount, -count);
+#ifdef PROTOCORE_GC_INSTRUMENT
+                gcprof::refillRecycledCells.fetch_add(static_cast<std::uint64_t>(count), std::memory_order_relaxed);
+#endif
                 if (!this->freeCells) this->freeCellsTail = nullptr;
                 GC_LOCK_TRACE("getFreeCells REL(flat-partial)");
                 return batchHead;
@@ -2242,9 +2273,15 @@ namespace proto {
                 chunkTail->internalSetNextRaw(nullptr);
                 publishFreeChunk(this, chunkHead, chunkTail,
                                  static_cast<proto_ulong>(chunkSize));
+#ifdef PROTOCORE_GC_INSTRUMENT
+                gcprof::freshChunks().insert(this->freeChunks);
+#endif
                 remainderStart += chunkSize;
             }
 
+#ifdef PROTOCORE_GC_INSTRUMENT
+            gcprof::refillFreshCells.fetch_add(static_cast<std::uint64_t>(batchSize), std::memory_order_relaxed);
+#endif
             GC_LOCK_TRACE("getFreeCells REL(return OS)");
             return batchHead;
         }

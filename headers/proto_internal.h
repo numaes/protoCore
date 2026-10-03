@@ -1508,6 +1508,12 @@ namespace proto {
         // waits).
         extern std::atomic<std::uint64_t> headroomWaitNs;
         extern std::atomic<std::uint64_t> headroomWaits;
+        // Cells handed out by getFreeCells, by origin: fresh from an OS block
+        // (the caller's batch or a chunk carved from the block's remainder:
+        // contiguous) or recycled (chunks a sweep or a returned batch
+        // published: cells in whatever order the sweep met them).
+        extern std::atomic<std::uint64_t> refillFreshCells;
+        extern std::atomic<std::uint64_t> refillRecycledCells;
     }
 #endif
 
