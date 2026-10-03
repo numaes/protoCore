@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.SoftLimitSettlesWithinBoundedCycles|AdaptiveHeapSteady\.HeapStaysFarBelowTheGarbageVolume|CollectorPacingRate\..*|conformance\.isolate\..*)$'
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.SoftLimitSettlesWithinBoundedCycles|AdaptiveHeapSteady\.HeapStaysFarBelowTheGarbageVolume|CollectorPacingRate\..*|AdaptiveHeapRate\..*|conformance\.isolate\..*)$'
 
 jobs:
   test:

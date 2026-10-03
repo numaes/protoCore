@@ -38,37 +38,71 @@ namespace adaptive {
 
     // --- 1. Control law ------------------------------------------------------
 
-    proto_ulong nextSoftLimit(proto_ulong softCells, proto_ulong hardCells,
-                              proto_ulong liveCells, double pressure,
-                              const LawParams& params) {
-        // Doubles hold every value involved exactly enough: cell counts are
-        // below 2^31, far inside the 53-bit mantissa.
-        const double soft = static_cast<double>(softCells);
-        const double live = static_cast<double>(liveCells);
-        const double floorCells = std::ceil(params.liveHeadroom * live);
-        double next = std::max(soft, floorCells);
-        if (pressure > params.highPressure) {
-            // Growth under pressure, bounded by the live set: past k_cap x L
-            // the stall is the collector's throughput, not the headroom.
-            const double cap = std::max({static_cast<double>(params.initialSoft),
-                                         std::ceil(params.liveCap * live), floorCells});
-            const double grown = std::ceil(params.growthFactor * soft);
-            next = std::max(next, std::min(grown, cap));
-        }
-        next = std::min(static_cast<double>(hardCells), next);
-        return static_cast<proto_ulong>(next);
-    }
+    proto_ulong nextSoftLimit(const LawInputs& in, LawState& st) {
+        const proto_ulong S = in.softCells;
+        const proto_ulong B = in.budgetCells;
+        const double L = static_cast<double>(in.liveCells);
+        const double r = in.rate;
+        const double w = in.waitShare;
 
-    LawParams sanitizedParams(const AdaptiveHeapConfig& config) {
-        LawParams p;
-        if (config.highPressure > 0.0 && config.highPressure <= 1.0)
-            p.highPressure = config.highPressure;
-        if (config.growthFactor > 1.0 && config.growthFactor <= 16.0)
-            p.growthFactor = config.growthFactor;
-        if (config.liveHeadroom >= 1.0 && config.liveHeadroom <= 16.0)
-            p.liveHeadroom = config.liveHeadroom;
-        p.liveCap = std::max(kLiveCapFactor, p.liveHeadroom);
-        return p;
+        // Re-arm: the workload changed by a factor of 2 since the stop.
+        if (st.stopped) {
+            const double l0 = static_cast<double>(st.liveAtStop);
+            const bool liveMoved = (L >= kRearmFactor * l0 && L > 0.0) || (l0 >= kRearmFactor * L && l0 > 0.0);
+            const bool rateMoved = (r >= kRearmFactor * st.rateAtStop && r > 0.0)
+                                || (st.rateAtStop >= kRearmFactor * r && st.rateAtStop > 0.0);
+            if (liveMoved || rateMoved) {
+                st.stopped = false;
+                st.nonImproving = 0;
+                st.probePending = false;
+                ++st.rearms;
+            }
+        }
+        // The verdict on the last probe.  A probe compares the wait share
+        // before and after a doubling of S; if the workload itself changed
+        // meanwhile (L or r by a factor of 2, the re-arm rule), the
+        // comparison says nothing about S and the probe does not count.
+        if (st.probePending) {
+            st.probePending = false;
+            const double lp = static_cast<double>(st.liveAtProbe);
+            const bool moved = (L >= kRearmFactor * lp && L > 0.0) || (lp >= kRearmFactor * L && lp > 0.0)
+                            || (r >= kRearmFactor * st.rateAtProbe && r > 0.0)
+                            || (st.rateAtProbe >= kRearmFactor * r && st.rateAtProbe > 0.0);
+            if (moved) {
+                ++st.voidProbes;
+            } else if (w < st.waitBeforeProbe) {
+                st.nonImproving = 0;
+            } else if (++st.nonImproving >= kNonImprovingProbesToStop) {
+                st.stopped = true;
+                st.liveAtStop = in.liveCells;
+                st.rateAtStop = r;
+            }
+        }
+
+        double next = static_cast<double>(S);
+        const bool measured = r > 0.0 && in.throughput > 0.0;
+        if (measured && r < in.throughput && w > 0.0) {
+            // Regime 1: the headroom that lets a cycle run behind the
+            // mutators -- only while they wait (4.1: the heap does not grow
+            // for nothing; with no wait, pacing already hides the cycles).
+            const double rho = r / in.throughput;
+            const double gStar = rho * L / (1.0 - rho);
+            const double target = std::min(static_cast<double>(B), std::ceil(L + gStar * (1.0 + kCycleSlack)));
+            next = std::max(next, target);
+        } else if (measured && w > 0.0 && !st.stopped && S < B) {
+            // Regime 2: does a larger heap reduce the waits?
+            next = std::min(static_cast<double>(B), 2.0 * static_cast<double>(std::max<proto_ulong>(S, 1)));
+            st.probePending = true;
+            st.waitBeforeProbe = w;
+            st.liveAtProbe = in.liveCells;
+            st.rateAtProbe = r;
+            ++st.probes;
+        }
+        next = std::min(next, static_cast<double>(B));
+        proto_ulong result = static_cast<proto_ulong>(next);
+        if (result < S) result = S <= B ? S : B;   // never decreases; never above B
+        if (result != S) ++st.changes;
+        return result;
     }
 
     // --- 1b. Pacing -----------------------------------------------------------
@@ -296,7 +330,8 @@ namespace adaptive {
             ProtoSpace* space = nullptr;
             bool enabled = false;
             bool trace = false;
-            LawParams params;
+            LawState law;
+            double lastThroughput = 0.0;
             proto_ulong hardCells = 0;
             // Mutator waits since the last cycle end, in nanoseconds.
             std::atomic<std::uint64_t> waitNanos{0};
@@ -333,6 +368,8 @@ namespace adaptive {
             // The last two cycles' r and C; pacing uses the larger of each.
             double rate[2] = {0.0, 0.0};
             double cycleSeconds[2] = {0.0, 0.0};
+            // The mutators' wait share over the last interval.
+            double waitShare = 0.0;
             // Threads in reclaimWaitLocked now.
             int waiters = 0;
             WaitStats stats;
@@ -349,6 +386,8 @@ namespace adaptive {
         // The sum of every live space's heapSize, and the process budget H
         // (0 until a space enables the controller).
         long long processHeapCells = 0;
+        // The largest processHeapCells seen at a growth (P2, tests).
+        long long processHeapPeak = 0;
         proto_ulong processBudgetCells = 0;
 
         SpaceState* find(const ProtoSpace* space) {
@@ -537,6 +576,7 @@ namespace adaptive {
 
     void afterHeapGrowth(ProtoSpace* space, int cells) {
         processHeapCells += cells;
+        if (processHeapCells > processHeapPeak) processHeapPeak = processHeapCells;
         if (enabledCount == 0) return;
         recomputeCeilings();
         SpaceState* s = findEnabled(space);
@@ -594,16 +634,33 @@ namespace adaptive {
             s->intervalStart = now;
             s->requested = false;
             ++s->completed;
+            s->waitShare = interval > 0.0
+                ? static_cast<double>(waits) / 1e9 / (interval * threads) : 0.0;
+        }
+
+        // The runway for the next interval, from the ceiling in force now.
+        void setRunway(ProtoSpace* space, SpaceState* s) {
             const long long ceiling = s->enabled
                 ? static_cast<long long>(space->softHeapLimit)
                 : static_cast<long long>(relaxedLoad(space->maxHeapSize));
             s->runway = ceiling > 0
-                ? pacing::runway(ceiling, std::max(0LL, occupied),
+                ? pacing::runway(ceiling, std::max(0LL, s->occupiedLastEnd),
                                  std::max(s->rate[0], s->rate[1]),
                                  std::max(s->cycleSeconds[0], s->cycleSeconds[1]))
                 : 0;
         }
     }  // namespace
+
+    long long processHeapPeakCells(bool reset) {
+        const long long peak = processHeapPeak;
+        if (reset) processHeapPeak = processHeapCells;
+        return peak;
+    }
+
+    LawState lawState(const ProtoSpace* space) {
+        SpaceState* s = findEnabled(space);
+        return s ? s->law : LawState();
+    }
 
     CycleMeasures lastCycleMeasures(const ProtoSpace* space) {
         SpaceState* s = find(space);
@@ -622,7 +679,10 @@ namespace adaptive {
         SpaceState* s = (any && any->enabled) ? any : nullptr;
         if (!s) {
             const std::uint64_t waits = any ? any->waitNanos.exchange(0, std::memory_order_relaxed) : 0;
-            if (any) updatePacing(space, any, now, waits);
+            if (any) {
+                updatePacing(space, any, now, waits);
+                setRunway(space, any);
+            }
             // Fixed limits: PROTOCORE_HEAP_TRACE prints the cycle too, so a
             // fixed policy can be measured against the controller.
             const char* traceEnv = std::getenv("PROTOCORE_HEAP_TRACE");
@@ -647,36 +707,49 @@ namespace adaptive {
             }
             return;
         }
-        const double T = static_cast<double>(
-            std::chrono::duration_cast<std::chrono::nanoseconds>(now - s->lastCycleEnd).count());
         const std::uint64_t waits = s->waitNanos.exchange(0, std::memory_order_relaxed);
-        const double P = static_cast<double>(stopTheWorldNanos + waits);
-        const double p = T > 0.0 ? P / T : 0.0;
+        updatePacing(space, s, now, waits);
         const proto_ulong L = space->liveCellsLastCycle.load(std::memory_order_relaxed);
         const proto_ulong before = static_cast<proto_ulong>(std::max(0, space->softHeapLimit));
-        const proto_ulong after = nextSoftLimit(before, s->hardCells, L, p, s->params);
+        LawInputs in;
+        in.softCells = before;
+        in.budgetCells = s->hardCells;
+        in.liveCells = L;
+        in.rate = std::max(s->rate[0], s->rate[1]);
+        const double busy = static_cast<double>(s->last.busyNanos) / 1e9;
+        in.throughput = busy > 0.0 ? static_cast<double>(measures.freedCells) / busy : 0.0;
+        in.waitShare = s->waitShare;
+        // The first cycle under the controller is not evidence about S: it
+        // starts with no measured runway (pacing needs one cycle of r and C),
+        // so its wait is the one every run pays, and its interval includes
+        // the program's start-up.
+        const proto_ulong after = s->cycles == 0 ? before : nextSoftLimit(in, s->law);
         space->softHeapLimit = static_cast<int>(std::min<proto_ulong>(after, kMaxCells));
+        s->lastThroughput = in.throughput;
 
         const long long retained = static_cast<long long>(space->heapSize)
                                  - static_cast<long long>(space->freeCellsCount);
         s->retainedLastCycle = static_cast<proto_ulong>(std::max(0LL, retained));
-        updatePacing(space, s, now, waits);
+        setRunway(space, s);
         s->lastCycleEnd = now;
-        s->lastPressure = p;
+        s->lastPressure = s->waitShare;
         ++s->cycles;
         // The cycle a pending soft-zone wait was for has completed.
         clearPending(s);
 
         if (s->trace) {
             std::fprintf(stderr,
-                "protoCore heap: space=%p cycle=%llu L=%" PROTO_FMT_U " T=%.3fms "
-                "P=%.3fms p=%.4f S=%" PROTO_FMT_U "->%d H=%" PROTO_FMT_U
-                " heap=%d retained=%" PROTO_FMT_U " Tc=%.3fms r=%.0f C=%.3fms runway=%lld\n",
+                "protoCore heap: space=%p cycle=%llu L=%" PROTO_FMT_U " w=%.4f r=%.0f T=%.0f"
+                " rho=%.3f S=%" PROTO_FMT_U "->%d H=%" PROTO_FMT_U " heap=%d retained=%" PROTO_FMT_U
+                " Tc=%.3fms C=%.3fms runway=%lld probes=%llu stopped=%d stw=%.3fms\n",
                 static_cast<void*>(space), static_cast<unsigned long long>(s->cycles),
-                L, T / 1e6, P / 1e6, p, before, space->softHeapLimit,
-                s->hardCells, space->heapSize, s->retainedLastCycle,
+                L, in.waitShare, in.rate, in.throughput,
+                in.throughput > 0.0 ? in.rate / in.throughput : 0.0,
+                before, space->softHeapLimit, s->hardCells, space->heapSize, s->retainedLastCycle,
                 std::chrono::duration<double, std::milli>(now - s->cycleStart).count(),
-                s->rate[0], s->cycleSeconds[0] * 1e3, s->runway);
+                s->cycleSeconds[0] * 1e3, s->runway,
+                static_cast<unsigned long long>(s->law.probes), s->law.stopped ? 1 : 0,
+                stopTheWorldNanos / 1e6);
             std::fflush(stderr);
         }
     }
@@ -728,6 +801,12 @@ namespace adaptive {
         if (fromEnv && envSoft > 0) S0 = static_cast<proto_ulong>(envSoft);
         else if (config.initialSoftCells > 0) S0 = config.initialSoftCells;
         else S0 = kDefaultInitialSoftCells;
+        // An embedder or operator that knows the run fits starts at the
+        // budget (no speculative growth otherwise): initialSoftCells at or
+        // above H, or PROTOCORE_ADAPTIVE_HEAP_START=budget.
+        if (const char* start = std::getenv("PROTOCORE_ADAPTIVE_HEAP_START")) {
+            if (std::strcmp(start, "budget") == 0) S0 = H;
+        }
         if (S0 > H) S0 = H;
 
         // PROTOCORE_ADAPTIVE_HEAP=0: diagnosis without the controller -- the
@@ -742,8 +821,7 @@ namespace adaptive {
             s->enabled = true;
             ++enabledCount;
         }
-        s->params = sanitizedParams(config);
-        s->params.initialSoft = S0;
+        s->law = LawState();
         s->hardCells = H;
         const char* traceEnv = std::getenv("PROTOCORE_HEAP_TRACE");
         s->trace = traceEnv && std::strcmp(traceEnv, "0") != 0 && *traceEnv;

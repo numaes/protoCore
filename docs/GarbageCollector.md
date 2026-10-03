@@ -792,58 +792,67 @@ runtime.
   if smaller; 32 MiB in 2.10.0) and is kept in `softHeapLimit`, where the
   allocator already reads it.  S never decreases and never exceeds H.
 
-**Measurement.**  At the end of each cycle the collector takes the live set
-L (`liveCellsLastCycle`), the wall time T since the previous cycle's end,
-and the mutator stall P in that interval: the stop-the-world pause, from
-the moment every thread is parked to the resume, plus every wait of a
-mutator thread for a cycle (`reclaimWaitLocked`, which serves the soft-zone
-wait, the controller's checkpoint wait and the hard-zone wait of
-`waitForHeapHeadroom`).  Each is one `steady_clock` pair per wait, never on
-the allocation fast path; the waits are summed per space, so with several
-threads waiting P counts each thread's wait.  Concurrent mark and sweep are
-not in P: they cost the collector thread CPU, not the mutators time.  The
-pressure is `p = P / T`.
+**Objective** (since 2.13.0; design:
+[specs/2026-10-03-collector-throughput-design.md](specs/2026-10-03-collector-throughput-design.md)
+§ 4 and the decisions of § 14): minimise the time the mutators lose to
+collection, within the budget H.  2.10.x minimised memory within a time
+tolerance, with three fitted constants (`k_live = 3`, `k_cap = 8`,
+`p_high = 0.05`); they are gone.  Memory is never returned to the
+operating system, so memory below H that removes a wait is worth using;
+the heap does not grow for nothing: S changes only while the mutators wait.
 
-**Control law** (a pure function, `adaptive::nextSoftLimit`; calibrated in
-2.10.1, see
-[reports/2026-10-03-adaptive-heap-calibration.md](reports/2026-10-03-adaptive-heap-calibration.md)):
+**Measurement** (per space, at each cycle end, on the collector thread;
+nothing on the allocation path):
+
+| Signal | Meaning |
+|---|---|
+| L | live set (`liveCellsLastCycle`) |
+| r | the mutators' allocation rate while not waiting: cells handed out in the interval (from the occupied-cell accounting), divided by the interval less the mean wait per thread |
+| T | the collector's reclamation throughput: cells freed per second of collector busy time (token taken to cycle end) |
+| w | the wait share: time in `reclaimWaitLocked` summed over threads, over the interval times the threads (`AdaptiveHeapStats::lastPressure` since 2.13.0) |
+| C | the cycle duration from request to completion (pacing) |
+
+**Control law** (a pure function, `adaptive::nextSoftLimit`, over
+`LawInputs` and a `LawState`):
 
 ```
-floor = ceil(k_live * L)                       k_live = 3
-cap   = max(S0, ceil(k_cap * L), floor)        k_cap = 8
-p > p_high:  S = min(H, max(S, floor, min(ceil(S * g), cap)))
-                                               p_high = 0.05, g = 1.5
-otherwise:   S = min(H, max(S, floor))
+rho = r / T
+if w > 0 and rho < 1:            regime 1: the collector keeps up at this size
+    G*     = rho L / (1 - rho)   the runway a cycle needs to run behind the mutators
+    S'     = max(S, min(H, L + G* (1 + m)))          m = 0.25
+if w > 0 and rho >= 1 and growth not stopped:
+    S'     = min(H, 2 S)          regime 2: a probe
+after a probe: a wait share not below the one before the probe is a
+    non-improving probe; two in a row stop growth (S is held)
+a change of L or r by a factor of 2 since the stop re-arms growth
 ```
 
-The cap is what 2.10.1 added.  A stall that comes back at every soft limit
-is the collector's sweep throughput falling short of the allocation rate:
-the sweep is proportional to the garbage, so a larger S only makes each
-cycle longer.  2.10.0 grew S by g at each such stall and, on a fast
-allocator, reached 20-30 x the live set before the program ended.  Past
-`k_cap * L` the stall is accepted: the mutator is paced by the collector,
-as under a fixed limit, and memory stays proportional to the live set.
-
-Because S never decreases, it converges after at most `log_g(H / S0)`
-growth steps (about 20 for 64 GiB).  A stall of fixed length matters less
-as S grows, because T grows with it: the law is self-limiting against
-isolated scheduling noise.
+- **Regime 1** gets the headroom of the condition `G (1 - rho) >= rho L`
+  (spec § 2), not a fitted multiple; pacing then starts each cycle with
+  that runway.  As rho approaches 1, G* diverges, and H bounds it.
+- **Regime 2** gets probes: a larger heap cuts the fixed work per cycle
+  (the mark of the live set, the re-sweep of survivors), which may bring
+  rho below 1, or lets the whole run's garbage fit.  Two doublings that do
+  not reduce the waits are the signature of a collector slower than the
+  allocation: growth stops, and memory is not spent where it buys no time.
+- **Bounded convergence.**  S never decreases and never exceeds H; it
+  changes at most `log2(H / S0)` times by doubling, plus regime-1 jumps
+  after a change of the inputs, plus re-arms (at most `log2` of the range of
+  L or r).  The constants are structural: m, doubling, two probes, a factor
+  of 2.
+- **No speculative growth to the budget.**  An embedder that knows its run
+  fits starts S at H: `AdaptiveHeapConfig::initialSoftCells` at or above
+  H, or `PROTOCORE_ADAPTIVE_HEAP_START=budget`.
+- `highPressure`, `growthFactor` and `liveHeadroom` of
+  `AdaptiveHeapConfig` are ignored since 2.13.0 (the struct's layout is
+  ABI).
 
 **When cycles run.**
 
-- *Pacing.*  At every refill the allocator compares the cells left before
-  S (the global freelist plus the room between `heapSize` and S) with a
-  quarter of the headroom `S - L` the last cycle left (half in 2.10.0);
-  below it, a cycle is requested.  The mutators consume that quarter while
-  the collector marks and sweeps concurrently.  Requesting the cycle only
-  when the heap reached S left no runway: every cycle stalled the mutators
-  for its whole length, the stall grew with S (the sweep is proportional to
-  the garbage) and S ran away to H.  Measured on `adaptive_heap_benchmark`:
-  S settled at 20 M cells with p = 0.31 without pacing, at 2.6-4 M cells
-  with p = 0.0003 with it.  With `k_live = 3` the headroom is at least 2 L,
-  so a quarter of it still covers a mark of L; requesting at half the
-  headroom ran the collector nearly back to back (cycle time equal to the
-  interval), more cycles for the same garbage.
+- *Pacing*, as for fixed limits ("Memory Allocation"): a refill requests a
+  cycle when the cells left before S fall below the runway
+  `min(S - R, r × C × 1.25)`.  (2.10.1 used a quarter of `S - L`, 2.10.0
+  half of it.)
 - A cycle is also requested whenever a refill grows the heap to S or
   beyond, whether or not a thread waits.
 - *At S with an empty freelist*, a refill waits for the cycle requested or
@@ -854,10 +863,9 @@ isolated scheduling noise.
   (`ProtoContext::heapLimitCheckpoint`).  The checkpoint's extra cost is
   one relaxed load of a process-wide counter, made only by spaces with a
   hard limit and only while their heap is below it.
-- Under the controller a wait ends when a cycle *completes*.  The
-  fixed-limit predicate (a change of `gcCycleCount`, which counts cycle
-  starts) waited for the 50 ms watchdog when the wait began inside a cycle,
-  because a request made during a cycle is cleared at its end.
+- Under the controller a wait ends when a cycle *completes* or cells are
+  published (since 2.12.0); a publication also clears a pending
+  checkpoint wait.
 
 **Out of memory.**  With the controller, a thread at the ceiling with an
 empty freelist after a completed cycle counts a strike when the cells that
@@ -894,15 +902,10 @@ its out-of-memory rule.
 | Variable | Effect with the controller |
 |---|---|
 | `PROTOCORE_HEAP_LIMIT_CELLS=<hard>` or `<soft>,<hard>` | H, and S0 when a soft part is given; takes precedence over `AdaptiveHeapConfig` |
-| `PROTOCORE_HEAP_TRACE=1` | one line per cycle on stderr: `L`, `T`, `P`, `p`, S before and after, H, `heapSize`, cells left unreclaimed, the cycle's duration `Tc`; spaces with fixed limits print a `fixed` line (cycle, L, limits, `heapSize`, pause) |
+| `PROTOCORE_ADAPTIVE_HEAP_START=budget` | S starts at H (since 2.13.0) |
+| `PROTOCORE_HEAP_TRACE=1` | one line per cycle on stderr: `L`, `w`, `r`, `T`, `rho`, S before and after, H, `heapSize`, cells left unreclaimed, the cycle's duration from the token `Tc` and from the request `C`, the runway, the probes so far and whether growth stopped, the pause; spaces with fixed limits print a `fixed` line (cycle, L, limits, `heapSize`, pause, pacing signals, wait counters) |
 | `PROTOCORE_ADAPTIVE_HEAP=0` | `enableAdaptiveHeap` applies H as a fixed hard limit (`setHeapLimits(0, H)`), for diagnosis |
 | `PROTOCORE_ADAPTIVE_HEAP=1` | diagnosis: every space enables the controller (default configuration) when it is created, and `setHeapLimits` leaves it enabled, so an existing runtime binary is measured under the controller without rebuilding it (run it against the library under test with `LD_LIBRARY_PATH`, and check with `ldd` that it is the one loaded) |
-
-A trace line:
-
-```
-protoCore heap: space=0x7ffd4f1c2a30 cycle=15 L=1000306 T=433.416ms P=219.511ms p=0.5065 S=8962296->8962296 H=782404224 heap=9035776 retained=3000990 Tc=298.310ms
-```
 
 **For runtimes.**  Replace the runtime's own default limit with one call
 after constructing the space, before running the program:
@@ -1067,7 +1070,22 @@ From [reports/2026-10-03-collector-throughput.md](reports/2026-10-03-collector-t
   20 % to 3 %.
 - **Not yet**: the cost per cell at 6-12 threads is still 2-3 times the
   single-threaded one, so the sweep's helper threads (spec section 6) are
-  the next step; the control law is still 2.10.1's.
+  the next step.
+
+### After 2.13.0: the control law minimises waits within the budget
+
+Same report, section M3 (synthetic, one run per point in the matrix):
+
+- Under the controller the mutators' wait share fell to a third (24 -> 9 %
+  on two protoJS N = 12 workloads), but wall time did not improve (+0.4 to
+  +7 %): the time went to the collector's CPU beside the mutators.  The
+  objective counts waits only.
+- Against fixed limits of 10-200 M cells the controller holds 0.55-1.4 GB
+  where large fixed limits take 4-13 GB, is within noise of the fixed limit
+  at the knee, and is slower (up to 40 %) only where a large fixed limit
+  lets the whole run's garbage fit and never collects: the controller does
+  not grow to the budget on speculation (an embedder that knows its run
+  fits starts at the budget).
 
 ## Optimization Features
 

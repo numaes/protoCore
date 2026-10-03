@@ -35,45 +35,69 @@ namespace adaptive {
     constexpr proto_ulong kDefaultInitialSoftCells = 2097152;
     /** Largest hard limit: cell counts are `int` in ABI 3 (128 GiB). */
     constexpr proto_ulong kMaxCells = 2147483647UL;
-    /** k_live when none is configured: S never falls below 3 x L. */
-    constexpr double kDefaultLiveHeadroom = 3.0;
-    /**
-     * Pressure grows S only up to this multiple of the live set (or S0, or
-     * the floor, whichever is larger).  Past it, a stall is the collector's
-     * throughput falling short of the allocation rate, which no soft limit
-     * removes: measured, S then ran to 20 x L and beyond while the stall
-     * reappeared at every size (docs/reports/2026-10-03-adaptive-heap-
-     * calibration.md).
-     */
-    constexpr double kLiveCapFactor = 8.0;
 
-    struct LawParams {
-        double highPressure = 0.05;                    // p_high
-        double growthFactor = 1.5;                     // g
-        double liveHeadroom = kDefaultLiveHeadroom;    // k_live
-        double liveCap = kLiveCapFactor;               // k_cap >= k_live
-        proto_ulong initialSoft = kDefaultInitialSoftCells;  // S0
+    /**
+     * The control law (docs/specs/2026-10-03-collector-throughput-design.md,
+     * section 4.5; it replaces the 2.10.1 law and its fitted constants
+     * k_live, k_cap and p_high).  Objective: minimise the time mutators lose
+     * to collection within the budget B (the hard limit H).
+     *
+     * Inputs, measured at each cycle end: the live set L, the mutators'
+     * allocation rate r (cells per second while not waiting), the collector's
+     * reclamation throughput T (cells freed per second of collector busy
+     * time) and the mutators' wait share w (wait time per thread over the
+     * interval).
+     *
+     *   rho = r / T
+     *   rho < 1 (regime 1: the collector keeps up at this size) and the
+     *   mutators waited (w > 0; without waits S is kept):
+     *       G*     = rho x L / (1 - rho)   the runway a cycle needs to hide
+     *       target = min(B, L + G* x (1 + m))
+     *       S'     = max(S, target)
+     *   rho >= 1 (regime 2): a probe -- S' = min(B, 2 S) -- while the
+     *       mutators wait (w > 0) and growth is not stopped.
+     *   After a probe, a wait share that did not fall below the one before
+     *   the probe counts as a non-improving probe; two in a row stop growth
+     *   (S is held: a larger heap only lengthens cycles).  A change of L or
+     *   r by a factor of 2 since the stop re-arms growth; the same change
+     *   between a probe and its verdict voids the verdict (the workload
+     *   moved, not S).
+     *
+     * S never decreases and never exceeds B.  The constants are structural:
+     * m = kCycleSlack, doubling, two probes, a factor of 2.
+     */
+    constexpr double kCycleSlack = 0.25;
+    constexpr int kNonImprovingProbesToStop = 2;
+    constexpr double kRearmFactor = 2.0;
+
+    struct LawInputs {
+        proto_ulong softCells = 0;     // S
+        proto_ulong budgetCells = 0;   // B
+        proto_ulong liveCells = 0;     // L
+        double rate = 0.0;             // r, cells per second
+        double throughput = 0.0;       // T, cells per second of busy time
+        double waitShare = 0.0;        // w
     };
 
-    /**
-     * The soft limit after a cycle (spec section 3.3, as calibrated in 2.10.1):
-     *
-     *     floor = ceil(k_live * L)
-     *     cap   = max(S0, ceil(k_cap * L), floor)
-     *     p > p_high:  S' = min(H, max(S, floor, min(ceil(S * g), cap)))
-     *     otherwise:   S' = min(H, max(S, floor))
-     *
-     * Never below S while S <= H, never above H.
-     */
-    proto_ulong nextSoftLimit(proto_ulong softCells, proto_ulong hardCells,
-                              proto_ulong liveCells, double pressure,
-                              const LawParams& params);
+    /** The law's memory between cycles. */
+    struct LawState {
+        bool stopped = false;
+        int nonImproving = 0;
+        bool probePending = false;
+        double waitBeforeProbe = 0.0;
+        proto_ulong liveAtStop = 0;
+        double rateAtStop = 0.0;
+        std::uint64_t changes = 0;     // times S changed
+        proto_ulong liveAtProbe = 0;
+        double rateAtProbe = 0.0;
+        std::uint64_t probes = 0;
+        std::uint64_t rearms = 0;
+        std::uint64_t voidProbes = 0;  // verdicts discarded: the workload moved
+    };
 
-    /** The parameters of a configuration, invalid values replaced by the
-     *  defaults (p_high in (0, 1], g > 1, k_live >= 1); k_cap is
-     *  max(kLiveCapFactor, k_live) and S0 is left at its default (the
-     *  caller sets it). */
-    LawParams sanitizedParams(const AdaptiveHeapConfig& config);
+    /** The soft limit after a cycle; updates `state`.  Pure: no clock, no
+     *  space. */
+    proto_ulong nextSoftLimit(const LawInputs& in, LawState& state);
 
     // --- 1b. Pacing: when a cycle starts -------------------------------------
     //
@@ -86,7 +110,7 @@ namespace adaptive {
     namespace pacing {
         /** m: a quarter of a cycle of measurement error.  Structural, not
          *  fitted to a workload. */
-        constexpr double kCycleSlack = 0.25;
+        constexpr double kCycleSlack = adaptive::kCycleSlack;
 
         /**
          * The runway, in cells:
@@ -260,6 +284,12 @@ namespace adaptive {
     /** End of a cycle of `space`: the pacing signals, and the control law
      *  when the controller is enabled. */
     void onCycleEnd(ProtoSpace* space, const CycleMeasures& measures);
+    /** The largest sum of all spaces' heaps seen at a heap growth since the
+     *  last reset; `reset` restarts it from the current sum (globalMutex
+     *  held).  The budget property P2 of the spec. */
+    long long processHeapPeakCells(bool reset);
+    /** The control law's state of an enabled `space` (globalMutex held). */
+    LawState lawState(const ProtoSpace* space);
     /** The measures of `space`'s last completed cycle (globalMutex held). */
     CycleMeasures lastCycleMeasures(const ProtoSpace* space);
     /**

@@ -32,205 +32,202 @@ using namespace proto::adaptive;
 
 namespace {
 
-const LawParams kDefaults;              // p_high 0.05, g 1.5, k_live 3, k_cap 8, S0 128 MiB
 constexpr proto_ulong kS0 = kDefaultInitialSoftCells;   // 2,097,152 cells (128 MiB)
-constexpr proto_ulong kH = 100000000;   // 6.4 GB of cells
+constexpr proto_ulong kB = 100000000;   // 6.4 GB of cells
 
-proto_ulong ceilTimes(double k, proto_ulong cells) {
-    return static_cast<proto_ulong>(std::ceil(k * static_cast<double>(cells)));
+LawInputs inputs(proto_ulong S, proto_ulong L, double r, double T, double w, proto_ulong B = kB) {
+    LawInputs in;
+    in.softCells = S;
+    in.budgetCells = B;
+    in.liveCells = L;
+    in.rate = r;
+    in.throughput = T;
+    in.waitShare = w;
+    return in;
 }
 
 }  // namespace
 
-// --- Control law -------------------------------------------------------------
+// --- Control law (collector-throughput spec, 4.5) ------------------------------
+//
+// Replaces the 2.10.1 law: k_live, k_cap and p_high are gone.  Each case
+// feeds a synthetic sequence of (L, r, T, w) and checks the properties of
+// section 9 (P5: bounded convergence, never decreasing; P6: regime 2 does not
+// spend memory for nothing) and of 10.2.1.
 
-TEST(AdaptiveHeapLaw, DefaultsAreTheCalibratedOnes) {
-    // docs/reports/2026-10-03-adaptive-heap-calibration.md
-    EXPECT_DOUBLE_EQ(kDefaults.highPressure, 0.05);
-    EXPECT_DOUBLE_EQ(kDefaults.growthFactor, 1.5);
-    EXPECT_DOUBLE_EQ(kDefaults.liveHeadroom, 3.0);
-    EXPECT_DOUBLE_EQ(kDefaults.liveCap, 8.0);
-    EXPECT_EQ(kDefaults.initialSoft, 2097152u);
-    const AdaptiveHeapConfig c;
-    const LawParams p = sanitizedParams(c);
-    EXPECT_DOUBLE_EQ(p.liveHeadroom, c.liveHeadroom) << "header and law defaults disagree";
-    EXPECT_DOUBLE_EQ(p.highPressure, c.highPressure);
-    EXPECT_DOUBLE_EQ(p.growthFactor, c.growthFactor);
+TEST(AdaptiveHeapLaw, ConstantsAreStructural) {
+    EXPECT_DOUBLE_EQ(kCycleSlack, 0.25);
+    EXPECT_EQ(kNonImprovingProbesToStop, 2);
+    EXPECT_DOUBLE_EQ(kRearmFactor, 2.0);
+    EXPECT_DOUBLE_EQ(pacing::kCycleSlack, kCycleSlack);
 }
 
-TEST(AdaptiveHeapLaw, SteadyWorkingSetConvergesAndStays) {
-    // L = 1,000,000 cells, low pressure: S jumps to the floor 3 L once and
-    // then never moves.
-    proto_ulong S = kS0;
-    for (int cycle = 0; cycle < 50; ++cycle) {
-        S = nextSoftLimit(S, kH, 1000000, 0.01, kDefaults);
-        EXPECT_EQ(S, 3000000u) << "cycle " << cycle;
+TEST(AdaptiveHeapLaw, RegimeOneReachesTheTargetInOneStepAndHolds) {
+    // rho = 0.5: G* = L, target = L + 1.25 L.
+    LawState st;
+    const proto_ulong L = 4000000;
+    proto_ulong S = nextSoftLimit(inputs(kS0, L, 5e6, 1e7, 0.2), st);
+    EXPECT_EQ(S, static_cast<proto_ulong>(std::ceil(L + 1.25 * L)));
+    for (int i = 0; i < 50; ++i) {
+        const proto_ulong next = nextSoftLimit(inputs(S, L, 5e6, 1e7, 0.0), st);
+        EXPECT_EQ(next, S) << "S moved on a steady regime-1 workload";
     }
+    EXPECT_EQ(st.changes, 1u);
+    EXPECT_EQ(st.probes, 0u);
 }
 
-TEST(AdaptiveHeapLaw, SmallSteadyWorkingSetKeepsTheInitialLimit) {
+TEST(AdaptiveHeapLaw, RegimeOneWithoutWaitsKeepsS) {
+    // The heap does not grow for nothing (4.1): no wait, no growth.
+    LawState st;
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 4000000, 5e6, 1e7, 0.0), st), kS0);
+    EXPECT_EQ(st.changes, 0u);
+}
+
+TEST(AdaptiveHeapLaw, RegimeOneNeverShrinksALargerS) {
+    LawState st;
+    EXPECT_EQ(nextSoftLimit(inputs(50000000, 1000000, 1e6, 1e7, 0.0), st), 50000000u);
+}
+
+TEST(AdaptiveHeapLaw, RhoApproachingOneGrowsGStarButNeverPastB) {
+    LawState st;
+    proto_ulong last = 0;
+    for (double rho = 0.1; rho < 1.0; rho += 0.05) {
+        LawState fresh;
+        const proto_ulong S = nextSoftLimit(inputs(kS0, 5000000, rho * 1e7, 1e7, 0.1), fresh);
+        EXPECT_GE(S, last);
+        EXPECT_LE(S, kB);
+        last = S;
+    }
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 5000000, 0.9999 * 1e7, 1e7, 0.1), st), kB);
+}
+
+TEST(AdaptiveHeapLaw, RegimeTwoDoublesWhileTheWaitsFall) {
+    LawState st;
     proto_ulong S = kS0;
-    for (int cycle = 0; cycle < 20; ++cycle)
-        S = nextSoftLimit(S, kH, 100000, 0.0, kDefaults);
-    EXPECT_EQ(S, kS0) << "a live set far below S0 / k_live must not move S";
-}
-
-TEST(AdaptiveHeapLaw, FloorFollowsTheLiveSet) {
-    EXPECT_EQ(nextSoftLimit(kS0, kH, 2000000, 0.0, kDefaults), 6000000u);
-    // ceil(3 * 1,000,001) = 3,000,003
-    EXPECT_EQ(nextSoftLimit(kS0, kH, 1000001, 0.0, kDefaults), 3000003u);
-    LawParams tight = kDefaults;
-    tight.liveHeadroom = 1.0;
-    EXPECT_EQ(nextSoftLimit(kS0, kH, 2000000, 0.0, tight), 2097152u) << "S0 stays";
-    EXPECT_EQ(nextSoftLimit(kS0, kH, 3000000, 0.0, tight), 3000000u);
-}
-
-TEST(AdaptiveHeapLaw, GrowingWorkingSetGrowsSInBoundedSteps) {
-    // The live set doubles every 5 cycles; S tracks 3 L, and each cycle's
-    // step is exactly the floor's (bounded by k_live times the growth of L).
-    proto_ulong S = kS0;
-    proto_ulong L = 400000;
-    for (int cycle = 0; cycle < 40; ++cycle) {
-        if (cycle % 5 == 4) L *= 2;
-        const proto_ulong next = nextSoftLimit(S, kH, L, 0.0, kDefaults);
-        EXPECT_EQ(next, std::min<proto_ulong>(kH, std::max(S, ceilTimes(3.0, L)))) << "cycle " << cycle;
+    double w = 0.5;
+    for (int i = 0; i < 5; ++i) {
+        const proto_ulong next = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, w), st);
+        EXPECT_EQ(next, std::min<proto_ulong>(kB, 2 * S));
         S = next;
+        w *= 0.7;   // each doubling reduced the waits
     }
-    EXPECT_EQ(S, kH) << "a live set beyond H / k_live pins S at H";
+    EXPECT_FALSE(st.stopped);
+    EXPECT_EQ(st.probes, 5u);
 }
 
-TEST(AdaptiveHeapLaw, StormRaisesSUntilPressureFalls) {
-    // A synthetic storm: pressure is high while S is below 6x the live set,
-    // as it would be when the headroom S - L is too small for the allocation
-    // rate.  S must grow by g each cycle and stop as soon as pressure falls.
-    const proto_ulong L = 1000000;
+TEST(AdaptiveHeapLaw, RegimeTwoStopsAfterTwoNonImprovingProbes) {
+    LawState st;
     proto_ulong S = kS0;
-    int growthSteps = 0;
-    for (int cycle = 0; cycle < 100; ++cycle) {
-        const double p = (S < 6 * L) ? 0.40 : 0.01;
-        const proto_ulong next = nextSoftLimit(S, kH, L, p, kDefaults);
-        if (p > kDefaults.highPressure) {
-            const proto_ulong grown = ceilTimes(1.5, S);
-            EXPECT_EQ(next, std::max<proto_ulong>(3 * L, std::min<proto_ulong>(grown, 8 * L)));
-            ++growthSteps;
+    // Probe 1 (w = 0.5), then the waits do not fall: probe 2 is non-improving
+    // #1, probe 3's verdict is non-improving #2, growth stops.
+    S = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.5), st);
+    EXPECT_EQ(S, 2 * kS0);
+    S = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.5), st);
+    EXPECT_EQ(S, 4 * kS0);
+    EXPECT_FALSE(st.stopped);
+    const proto_ulong held = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.55), st);
+    EXPECT_TRUE(st.stopped);
+    EXPECT_EQ(held, S) << "growth did not stop after two non-improving probes";
+    for (int i = 0; i < 100; ++i)
+        EXPECT_EQ(nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.6), st), S);
+}
+
+TEST(AdaptiveHeapLaw, ASingleNoisyProbeDoesNotStopGrowth) {
+    LawState st;
+    proto_ulong S = kS0;
+    S = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.5), st);
+    S = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.6), st);   // worse once
+    S = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.3), st);   // better again
+    EXPECT_FALSE(st.stopped);
+    EXPECT_EQ(S, 8 * kS0);
+}
+
+// Measured on protoJS records N = 12 (H = 40 M cells): the probes fell at a
+// phase change of the program (build -> twelve parallel tasks, r x 5), the
+// waits rose with the load, two probes counted as non-improving, and S sat
+// at 8 M cells for 12 cycles with a third of the mutators' time waiting.
+TEST(AdaptiveHeapLaw, AProbeAcrossAWorkloadChangeDoesNotCount) {
+    LawState st;
+    proto_ulong S = kS0;
+    S = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.1), st);   // probe
+    S = nextSoftLimit(inputs(S, 1000000, 9e7, 1e7, 0.3), st);   // r x 4.5: void
+    S = nextSoftLimit(inputs(S, 2100000, 9e7, 1e7, 0.4), st);   // L x 2.1: void
+    EXPECT_FALSE(st.stopped);
+    EXPECT_EQ(st.voidProbes, 2u);
+    EXPECT_EQ(st.nonImproving, 0);
+    EXPECT_EQ(S, 8 * kS0);
+}
+
+TEST(AdaptiveHeapLaw, AFactorOfTwoInLiveOrRateRearmsGrowth) {
+    for (int which = 0; which < 4; ++which) {
+        LawState st;
+        proto_ulong S = kS0;
+        for (int i = 0; i < 3; ++i) S = nextSoftLimit(inputs(S, 1000000, 2e7, 1e7, 0.5), st);
+        ASSERT_TRUE(st.stopped);
+        const proto_ulong L = which == 0 ? 2000000 : which == 1 ? 500000 : 1000000;
+        const double r = which == 2 ? 4e7 : which == 3 ? 1.2e7 /* still above T */ : 2e7;
+        const proto_ulong next = nextSoftLimit(inputs(S, L, r, 1e7, 0.5), st);
+        if (which == 3) {
+            EXPECT_TRUE(st.stopped) << "a rate change below a factor of 2 re-armed growth";
+            EXPECT_EQ(next, S);
         } else {
-            EXPECT_EQ(next, S) << "S must stop rising once pressure falls";
-        }
-        S = next;
-    }
-    EXPECT_GE(S, 6 * L);
-    EXPECT_LE(S, 8 * L) << "pressure never takes S past k_cap x L";
-    // From the floor 3 L: log_1.5(6 / 3) rounded up, plus the first step.
-    EXPECT_LE(growthSteps, 3);
-}
-
-// A permanent storm is what a collector slower than the allocation rate
-// produces: the stall comes back at every soft limit.  S stops at k_cap x L
-// (2.10.0 took S to H, and measured 20 x L and beyond before a run ended).
-TEST(AdaptiveHeapLaw, PermanentStormStopsAtTheLiveCap) {
-    const proto_ulong L = 1000000;
-    proto_ulong S = kS0;
-    int steps = 0;
-    for (int cycle = 0; cycle < 200; ++cycle) {
-        const proto_ulong next = nextSoftLimit(S, kH, L, 1.0, kDefaults);
-        if (next != S) ++steps;
-        S = next;
-    }
-    EXPECT_EQ(S, 8 * L);
-    // 3 L first (the floor), then log_1.5(8 / 3) rounded up.
-    EXPECT_LE(steps, 4);
-}
-
-TEST(AdaptiveHeapLaw, LiveCapIsNeverBelowS0NorTheFloor) {
-    // No live set: pressure cannot take S past S0.
-    EXPECT_EQ(nextSoftLimit(kS0, kH, 0, 1.0, kDefaults), kS0);
-    // A tiny live set: the cap is S0, not 8 L.
-    EXPECT_EQ(nextSoftLimit(1000000, kH, 1000, 1.0, kDefaults), 1500000u);
-    EXPECT_EQ(nextSoftLimit(1500000, kH, 1000, 1.0, kDefaults), kS0);
-    // k_live above k_cap: the cap follows the floor (sanitizedParams also
-    // raises k_cap to k_live).
-    LawParams wide = kDefaults;
-    wide.liveHeadroom = 10.0;
-    EXPECT_EQ(nextSoftLimit(kS0, kH, 1000000, 1.0, wide), 10000000u);
-    EXPECT_EQ(nextSoftLimit(10000000, kH, 1000000, 1.0, wide), 10000000u);
-}
-
-TEST(AdaptiveHeapLaw, StormWithALargeLiveSetReachesH) {
-    // k_cap x L beyond H: H binds, in log steps.
-    const proto_ulong H = 50000000;
-    const proto_ulong L = 10000000;
-    proto_ulong S = kS0;
-    int steps = 0;
-    while (S < H) {
-        S = nextSoftLimit(S, H, L, 1.0, kDefaults);
-        ++steps;
-        ASSERT_LE(steps, 64);
-    }
-    EXPECT_EQ(S, H);
-    EXPECT_LE(steps, 3) << "the floor 3 L, then log_1.5(H / 3 L) rounded up";
-}
-
-TEST(AdaptiveHeapLaw, NeverDecreasesAndNeverExceedsH) {
-    std::mt19937_64 rng(20261002);
-    std::uniform_int_distribution<proto_ulong> live(0, 2 * kH / 3);
-    std::uniform_real_distribution<double> pressure(0.0, 0.2);
-    const proto_ulong H = 50000000;
-    for (int run = 0; run < 100; ++run) {
-        proto_ulong S = kS0;
-        for (int cycle = 0; cycle < 200; ++cycle) {
-            const proto_ulong next = nextSoftLimit(S, H, live(rng) % H, pressure(rng), kDefaults);
-            ASSERT_GE(next, S) << "S decreased (run " << run << ", cycle " << cycle << ")";
-            ASSERT_LE(next, H) << "S above H (run " << run << ", cycle " << cycle << ")";
-            S = next;
+            EXPECT_FALSE(st.stopped) << "case " << which;
+            EXPECT_EQ(next, 2 * S) << "case " << which;
+            EXPECT_EQ(st.rearms, 1u);
         }
     }
 }
 
-TEST(AdaptiveHeapLaw, NeverExceedsTheLiveCapThroughPressure) {
-    // Whatever the pressure, S' <= max(S, floor, cap): pressure alone never
-    // takes S past max(S0, 8 L).
+TEST(AdaptiveHeapLaw, NoWaitsNoGrowthInRegimeTwo) {
+    LawState st;
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 1000000, 2e7, 1e7, 0.0), st), kS0);
+    EXPECT_EQ(st.probes, 0u);
+}
+
+TEST(AdaptiveHeapLaw, UnmeasuredInputsKeepS) {
+    LawState st;
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 1000000, 0.0, 1e7, 0.9), st), kS0);
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 1000000, 1e7, 0.0, 0.9), st), kS0);
+}
+
+// P5 and P6 over random sequences: S never decreases, never exceeds B, and
+// changes at most log2(B / S0) times per armed period plus the regime-1
+// jumps that follow a change of the inputs.
+TEST(AdaptiveHeapLaw, NeverDecreasesNeverExceedsBAndConvergesBoundedly) {
     std::mt19937_64 rng(20261003);
-    std::uniform_int_distribution<proto_ulong> live(0, 5000000);
-    std::uniform_real_distribution<double> pressure(0.0, 2.0);
-    for (int run = 0; run < 100; ++run) {
-        proto_ulong S = kS0;
-        for (int cycle = 0; cycle < 100; ++cycle) {
-            const proto_ulong L = live(rng);
-            const proto_ulong next = nextSoftLimit(S, kH, L, pressure(rng), kDefaults);
-            const proto_ulong bound = std::max({S, kS0, ceilTimes(8.0, L)});
-            ASSERT_LE(next, bound) << "run " << run << ", cycle " << cycle;
+    for (int run = 0; run < 200; ++run) {
+        LawState st;
+        const proto_ulong B = 1000000 + rng() % 400000000;
+        proto_ulong S = std::min<proto_ulong>(kS0, B);
+        // A steady workload: fixed L, r, T, with noisy waits.
+        const proto_ulong L = rng() % (B / 2 + 1);
+        const double T = 1e6 + static_cast<double>(rng() % 50000000);
+        const double r = T * (0.2 + static_cast<double>(rng() % 300) / 100.0);
+        std::uniform_real_distribution<double> wd(0.0, 0.6);
+        for (int i = 0; i < 400; ++i) {
+            const proto_ulong next = nextSoftLimit(inputs(S, L, r, T, wd(rng), B), st);
+            ASSERT_GE(next, S);
+            ASSERT_LE(next, B);
             S = next;
         }
+        const double bound = std::ceil(std::log2(static_cast<double>(B) / static_cast<double>(std::min<proto_ulong>(kS0, B)))) + 1;
+        EXPECT_LE(static_cast<double>(st.changes), bound) << "run " << run;
+        EXPECT_EQ(st.rearms, 0u);
     }
 }
 
-TEST(AdaptiveHeapLaw, PressureExactlyAtThresholdDoesNotGrow) {
-    const proto_ulong L = 1000000;    // floor 3 M, cap 8 M
-    EXPECT_EQ(nextSoftLimit(4000000, kH, L, 0.05, kDefaults), 4000000u);
-    EXPECT_EQ(nextSoftLimit(4000000, kH, L, 0.0500001, kDefaults), 6000000u);
-}
-
-TEST(AdaptiveHeapLaw, SanitizedParamsRejectsNonsense) {
-    AdaptiveHeapConfig c;
-    c.highPressure = 0.0;
-    c.growthFactor = 1.0;
-    c.liveHeadroom = 0.5;
-    LawParams p = sanitizedParams(c);
-    EXPECT_DOUBLE_EQ(p.highPressure, 0.05);
-    EXPECT_DOUBLE_EQ(p.growthFactor, 1.5);
-    EXPECT_DOUBLE_EQ(p.liveHeadroom, 3.0);
-    EXPECT_DOUBLE_EQ(p.liveCap, 8.0);
-    c.highPressure = 0.02;
-    c.growthFactor = 2.0;
-    c.liveHeadroom = 1.0;
-    p = sanitizedParams(c);
-    EXPECT_DOUBLE_EQ(p.highPressure, 0.02);
-    EXPECT_DOUBLE_EQ(p.growthFactor, 2.0);
-    EXPECT_DOUBLE_EQ(p.liveHeadroom, 1.0);
-    EXPECT_DOUBLE_EQ(p.liveCap, 8.0);
-    c.liveHeadroom = 12.0;
-    p = sanitizedParams(c);
-    EXPECT_DOUBLE_EQ(p.liveCap, 12.0) << "k_cap is never below k_live";
+// The budget is hard: a doubling stops at B.
+TEST(AdaptiveHeapLaw, ProbesStopAtTheBudget) {
+    LawState st;
+    const proto_ulong B = 3 * kS0;
+    proto_ulong S = kS0;
+    double w = 0.9;
+    for (int i = 0; i < 10; ++i) {
+        S = nextSoftLimit(inputs(S, 100000, 2e7, 1e7, w, B), st);
+        EXPECT_LE(S, B);
+        w *= 0.5;
+    }
+    EXPECT_EQ(S, B);
 }
 
 // --- Default hard limit ------------------------------------------------------
