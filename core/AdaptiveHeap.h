@@ -231,6 +231,9 @@ namespace adaptive {
      */
     bool earlyWake(const ProtoSpace* space);
     void waitBegin(ProtoSpace* space);
+    /** Threads of any space in reclaimWaitLocked now (relaxed; the parallel
+     *  sweep engages its helpers while this is non-zero). */
+    extern std::atomic<int> headroomWaitersTotal;
     /** Why a headroom wait ended. */
     enum class WakeReason {
         Watchdog,  // the 50 ms timeout, with the predicate still false

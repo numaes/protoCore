@@ -19,7 +19,13 @@
  *   S5  garbage in fresh memory (the space's first cells)    H2: contiguity
  *       against S0's recycled memory
  *
- *   sweep_contention_benchmark [garbageCells] [threads] [reps]
+ *   sweep_contention_benchmark [garbageObjects] [threads] [reps] [helpers]
+ *
+ * `helpers`, a comma-separated list of helper counts K (for example
+ * 0,1,2,3,5), runs every scenario once per K with the helpers engaged on
+ * every cycle (spec 9, P10: the scaling curve); without it the helper count
+ * in force applies and the helpers engage only while mutators wait (never,
+ * here).
  *
  * Defaults: 3,000,000 objects, 6 threads, 3 repetitions (median reported).
  * Self-verifying: every measured cycle must have swept and freed at least the
@@ -29,6 +35,7 @@
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
 #include "../core/AdaptiveHeap.h"
+#include "../core/Sweep.h"
 
 #include <algorithm>
 #include <atomic>
@@ -211,11 +218,36 @@ Result measure(const char* name, const adaptive::CycleMeasures& m, proto_ulong g
 
 }  // namespace
 
+int runAll(int garbage, int threads, int reps);
+
 int main(int argc, char** argv) {
     const int garbage = argc > 1 ? std::atoi(argv[1]) : 3000000;
     const int threads = argc > 2 ? std::atoi(argv[2]) : 6;
     const int reps = argc > 3 ? std::atoi(argv[3]) : 3;
-    std::printf("sweep_contention_benchmark garbage=%d threads=%d reps=%d\n", garbage, threads, reps);
+    if (argc > 4) {
+        sweep::setEngageAlways(true);
+        std::string list = argv[4];
+        std::size_t pos = 0;
+        while (pos <= list.size()) {
+            const std::size_t comma = list.find(',', pos);
+            const std::string item = list.substr(pos, comma == std::string::npos ? std::string::npos : comma - pos);
+            const unsigned k = static_cast<unsigned>(std::atoi(item.c_str()));
+            ProtoSpace::setCollectorHelperThreads(k);
+            std::printf("helpers K=%u\n", k);
+            runAll(garbage, threads, reps);
+            if (comma == std::string::npos) break;
+            pos = comma + 1;
+        }
+    } else {
+        runAll(garbage, threads, reps);
+    }
+    std::printf("\n%s\n", gFailed ? "verified=no" : "verified=yes");
+    return gFailed ? 1 : 0;
+}
+
+int runAll(int garbage, int threads, int reps) {
+    std::printf("sweep_contention_benchmark garbage=%d threads=%d reps=%d helpers=%u\n", garbage, threads,
+                reps, ProtoSpace::collectorHelperThreads());
     std::map<std::string, std::vector<double>> ns;
 
     for (int rep = 0; rep < reps; ++rep) {
@@ -293,6 +325,6 @@ int main(int argc, char** argv) {
         std::sort(v.begin(), v.end());
         std::printf(" %s=%.1f", k, v.empty() ? 0.0 : v[v.size() / 2]);
     }
-    std::printf("\n%s\n", gFailed ? "verified=no" : "verified=yes");
-    return gFailed ? 1 : 0;
+    std::printf("\n");
+    return 0;
 }

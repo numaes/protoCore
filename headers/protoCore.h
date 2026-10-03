@@ -2265,6 +2265,8 @@ namespace proto
 
 // ProtoSpace::enableAdaptiveHeap and adaptiveHeapStats exist (2.10.0+).
 #define PROTOCORE_HAS_ADAPTIVE_HEAP 1
+// ProtoSpace::setCollectorHelperThreads / collectorHelperThreads exist (2.13.0+).
+#define PROTOCORE_HAS_COLLECTOR_HELPERS 1
 
     class ProtoSpace
     {
@@ -2484,6 +2486,23 @@ namespace proto
 
         /** @brief The controller's current state (thread-safe snapshot). */
         AdaptiveHeapStats adaptiveHeapStats() const;
+
+        /**
+         * @brief Set the number of collector helper threads (process-wide).
+         *
+         * While mutators wait for heap headroom, up to this many helper
+         * threads sweep alongside the collector thread
+         * (docs/GarbageCollector.md § "Parallel sweep").  0 sweeps on the
+         * collector thread alone, as before 2.13.0.  The default is half the
+         * machine's physical cores; PROTOCORE_GC_SWEEP_THREADS sets it
+         * without code (0..64), and this call overrides both.  At most 64.
+         * Helpers are created when a sweep first wants them and stopped when
+         * the last ProtoSpace is destroyed.  Since 2.13.0; test for it with
+         * PROTOCORE_HAS_COLLECTOR_HELPERS.
+         */
+        static void setCollectorHelperThreads(unsigned count);
+        /** @brief The collector helper thread count in force. */
+        static unsigned collectorHelperThreads();
 
         /**
          * @brief Block until the heap has room to satisfy an allocation, or

@@ -10,6 +10,7 @@
 
 #include "../headers/proto_internal.h"
 #include "SparseListAlgorithms.h"
+#include "Sweep.h"
 #include <algorithm>
 #include <cmath>
 #include <compare>
@@ -517,7 +518,13 @@ namespace proto
     void ProtoObjectCell::finalize(ProtoContext* context) const
     {
         if (this->mutable_ref > 0 && context && context->space) {
-            context->space->gcFinalizedMutableRefs.push_back(this->mutable_ref);
+            // On a sweep helper thread the ref goes to that sweeper's own
+            // vector, merged by the collector thread before Phase 5b reads
+            // the space's (core/Sweep.h).
+            if (std::vector<proto_ulong>* sink = sweep::finalizedRefSink())
+                sink->push_back(this->mutable_ref);
+            else
+                context->space->gcFinalizedMutableRefs.push_back(this->mutable_ref);
         }
     }
 

@@ -88,6 +88,7 @@ add_library(protoCore SHARED
     core/MutableCycles.cpp
     core/MultiSpace.cpp
     core/AdaptiveHeap.cpp
+    core/Sweep.cpp
 )
 
 # The ABI version of libprotoCore. It is the single source of truth for the

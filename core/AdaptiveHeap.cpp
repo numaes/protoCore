@@ -506,7 +506,10 @@ namespace adaptive {
         return s && s->pacing;
     }
 
+    std::atomic<int> headroomWaitersTotal{0};
+
     void waitBegin(ProtoSpace* space) {
+        headroomWaitersTotal.fetch_add(1, std::memory_order_relaxed);
         if (SpaceState* s = find(space)) {
             ++s->waiters;
             ++s->stats.waits;
@@ -514,6 +517,7 @@ namespace adaptive {
     }
 
     void waitEnd(ProtoSpace* space, WakeReason reason) {
+        headroomWaitersTotal.fetch_sub(1, std::memory_order_relaxed);
         SpaceState* s = find(space);
         if (!s) return;
         --s->waiters;
