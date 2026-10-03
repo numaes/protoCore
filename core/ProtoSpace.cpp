@@ -24,6 +24,7 @@
 #include <thread>
 #include <cstring>
 #if defined(__linux__)
+#include <pthread.h>
 #include <sys/syscall.h>
 #include <unistd.h>
 #endif
@@ -557,6 +558,10 @@ namespace proto {
             static uint64_t dbg_cpu_mark = 0, dbg_cpu_sweep = 0, dbg_cpu_busy = 0;
             uint64_t c_token_end = 0, c_young_start = 0, c_sweep_start = 0;
             const bool dbg_profile = std::getenv("PROTOCORE_GC_PROFILE") != nullptr;
+#endif
+#if defined(__linux__)
+            // A name for profilers (perf --per-thread, top -H); 15 bytes max.
+            pthread_setname_np(pthread_self(), "protocore-gc");
 #endif
             // The collector takes part in grace periods (it reads the global
             // mutable table in Phase 5b) but is quiescent everywhere else.
@@ -2129,6 +2134,9 @@ namespace proto {
         std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
         if (space->state == SPACE_STATE_ENDING) return;
         if (!adaptive::softWaitPendingFor(space)) return;
+        // Cells in the freelist: the refill that comes next is served
+        // without growing the heap past S, so there is nothing to wait for.
+        if (adaptive::earlyWake(space) && (space->freeChunks || space->freeCells)) return;
         reclaimWaitLocked(space, lock, ctx);
     }
 

@@ -488,7 +488,16 @@ namespace adaptive {
 
     void cellsPublished(ProtoSpace* space) {
         SpaceState* s = find(space);
-        if (s && s->waiters > 0 && s->pacing) space->memoryReclaimedCV.notify_one();
+        if (!s || !s->pacing) return;
+        if (s->waiters > 0) space->memoryReclaimedCV.notify_one();
+        // A soft-zone wait pending under the controller (a refill went past
+        // S without waiting) is for cells: they have arrived, so the next
+        // critical-section checkpoints need not wait.  Left set, every
+        // outermost checkpoint took globalMutex until the cycle ended and
+        // returned at once (the freelist satisfies the wait): about 2
+        // million empty waits per run on the single-threaded benchmark,
+        // contending with the sweep's publications.
+        clearPending(s);
     }
 
     void cellsReturned(ProtoSpace* space, proto_ulong cells) {
