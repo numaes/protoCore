@@ -2103,10 +2103,10 @@ namespace proto {
                         } else if (zone == adaptive::SoftZone::Wait) {
                             // SOFT zone, adaptive controller: a cycle is
                             // requested or running.  Wait for it at depth 0
-                            // (once per refill).  A
-                            // caller that cannot wait (inside a critical
-                            // section) or has waited already gets one batch, and
-                            // its next critical-section checkpoint waits
+                            // (once per refill).  A caller that cannot wait
+                            // (inside a critical section) or has waited
+                            // already gets one batch, and its next
+                            // critical-section checkpoint waits
                             // (ProtoContext::heapLimitCheckpoint).
                             if (!softWaited && ctx->criticalSectionDepth == 0) {
                                 softWaited = true;

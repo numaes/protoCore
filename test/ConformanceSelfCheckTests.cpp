@@ -346,3 +346,23 @@ TEST(ConformanceSelfCheck, JoinInsideCriticalSectionStillJoinsAndDoesNotPark)
                "CriticalSection, which trades a deadlock for memory corruption";
     }
 }
+
+// A runtime that enabled the adaptive heap controller runs the cases on its
+// own space.  The cases that impose a ceiling with setHeapLimits (which
+// disables the controller) must give the controller back, resumed from the
+// soft limit it had reached, rather than leave the space under fixed limits
+// (2.10.0).
+TEST(ConformanceSelfCheck, ACaseWithItsOwnCeilingRestoresTheAdaptiveHeap)
+{
+    proto::conformance::SelfHost host;
+    proto::ProtoSpace& space = *host.mainContext()->space;
+    space.enableAdaptiveHeap();
+    const proto::AdaptiveHeapStats before = space.adaptiveHeapStats();
+    ASSERT_TRUE(before.enabled);
+    const CaseResult r = runOne(host, "gc.host_stress");
+    EXPECT_EQ(r.status, Status::Pass) << r.detail;
+    const proto::AdaptiveHeapStats after = space.adaptiveHeapStats();
+    EXPECT_TRUE(after.enabled) << "the case left the space under fixed limits";
+    EXPECT_GE(after.softCells, before.softCells);
+    EXPECT_EQ(after.hardCells, before.hardCells);
+}

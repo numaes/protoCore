@@ -47,8 +47,7 @@ CaseResult caseCeilingProgress(Host& host)
         return {kId, 8, Status::Fail, "Host::mainContext() returned no usable context"};
     ProtoSpace& space = *ctx->space;
 
-    const int savedSoft = space.softHeapLimit;
-    const int savedHard = space.maxHeapSize;
+    SavedHeapLimits savedLimits(space);
     ProtoObject* (*savedOom)(ProtoContext*) = space.outOfMemoryCallback;
 
     g_oomFired.store(0);
@@ -83,7 +82,7 @@ CaseResult caseCeilingProgress(Host& host)
     const bool completed = host.runProducerConsumer(200000);
     const HeapSample after = sample(space);
 
-    space.setHeapLimits(savedSoft, savedHard);
+    savedLimits.restore();
     space.outOfMemoryCallback = savedOom;
 
     const std::string common =

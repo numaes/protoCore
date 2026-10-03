@@ -133,6 +133,31 @@ std::string checkWorkloadLargeEnough(const CycleReport& r,
 /// Human-readable, always emitted -- on pass as well as on fail.
 std::string describe(const CycleReport& r, proto::proto_ulong declaredByHost);
 
+/// The heap limits of a space, saved before a case imposes its own ceiling
+/// with setHeapLimits and restored after it.  A space whose runtime enabled
+/// the adaptive heap controller gets the controller back, resumed from the
+/// soft limit it had reached (S never decreases); otherwise the fixed limits
+/// are restored.  Read through adaptiveHeapStats(), under the space's lock:
+/// with the controller the collector thread writes the soft limit.
+struct SavedHeapLimits {
+    explicit SavedHeapLimits(ProtoSpace& space)
+        : space_(space), saved_(space.adaptiveHeapStats()) {}
+    void restore() {
+        if (saved_.enabled) {
+            AdaptiveHeapConfig c;
+            c.hardCells = saved_.hardCells;
+            c.initialSoftCells = saved_.softCells;
+            space_.enableAdaptiveHeap(c);
+        } else {
+            space_.setHeapLimits(static_cast<int>(saved_.softCells),
+                                 static_cast<int>(saved_.hardCells));
+        }
+    }
+private:
+    ProtoSpace& space_;
+    AdaptiveHeapStats saved_;
+};
+
 }}  // namespace proto::conformance
 
 #endif  // PROTO_CORE_CONFORMANCE_CYCLE_DRIVER_H

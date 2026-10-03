@@ -153,8 +153,7 @@ CaseResult caseHostStress(Host& host)
     // A tight ceiling makes every batch trigger real reclamation, so the window
     // between a construction and its rooting is open on every iteration instead
     // of once in a thousand runs.
-    const int savedSoft = space.softHeapLimit;
-    const int savedHard = space.maxHeapSize;
+    SavedHeapLimits savedLimits(space);
 
     const unsigned kRounds = 20;
     unsigned completed = 0;
@@ -168,7 +167,7 @@ CaseResult caseHostStress(Host& host)
         CycleReport r = driveCycles(space, ctx, /*maxCycles=*/1, /*deadlineMs=*/4000);
         reclaimedSum += r.reclaimedSum;
     }
-    space.setHeapLimits(savedSoft, savedHard);
+    savedLimits.restore();
 
     const unsigned long long cyclesRun = space.getGCCycleCount() - cyclesBefore;
 
