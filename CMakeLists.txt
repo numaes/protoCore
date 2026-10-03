@@ -237,6 +237,10 @@ add_executable(adaptive_heap_benchmark performance/adaptive_heap_benchmark.cpp)
 target_link_libraries(adaptive_heap_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: adaptive_heap_benchmark")
 
+add_executable(sweep_contention_benchmark performance/sweep_contention_benchmark.cpp)
+target_link_libraries(sweep_contention_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: sweep_contention_benchmark")
+
 add_executable(mpsc_queue_benchmark performance/mpsc_queue_benchmark.cpp)
 target_link_libraries(mpsc_queue_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: mpsc_queue_benchmark")
