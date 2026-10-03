@@ -1,8 +1,8 @@
 # Adaptive heap controller
 
 Status: **approved 2026-10-02**; implemented in protoCore 2.10.0 (section 6
-records the decisions taken during implementation). Author: Gustavo Marino,
-with Claude.
+records the decisions taken during implementation) and calibrated in 2.10.1
+(section 7). Author: Gustavo Marino, with Claude.
 
 ## 1. Problem
 
@@ -279,4 +279,64 @@ otherwise.  Each item gives the reason.
     (1.2 GB against 672 MB, 35 % faster), the build phase having lost
     13-58 % of its time to waits.  Calibration of `p_high` and `g` (open
     point 1) is where this trade is set.
+
+## 7. Calibration (2.10.1)
+
+Measured on the runtimes' own programs (protoST, protoPython, protoClojure,
+protoScala, protoJS) and on `adaptive_heap_benchmark`, each binary run
+unchanged against a development library with `PROTOCORE_ADAPTIVE_HEAP=1`
+(a diagnostic switch added for this); report with every table:
+[../reports/2026-10-03-adaptive-heap-calibration.md](../reports/2026-10-03-adaptive-heap-calibration.md).
+
+1. **Why 2.10.0 used up to 20 x the live set.**  The stall that drove S up
+   was, on fast allocators, the collector's sweep throughput falling short
+   of the allocation rate.  The sweep is proportional to the garbage, so a
+   larger S makes every cycle longer and the stall comes back at every size;
+   each one grew S by g.  On `adaptive_heap_benchmark` with a 1 M-cell live
+   set the cycle time grew with S (50 ms at 1.8 M cells, 350 ms at 20 M) and
+   S stopped only because the program ended.  Section 6.11's "S settles at
+   L + 2 x rate x cycle time" was that end effect, not an equilibrium.
+2. **The law.**  Pressure still grows S by g, but only up to
+   `cap = max(S0, k_cap x L, floor)`:
+
+   ```
+   floor = ceil(k_live * L)                          k_live = 3   (1.5)
+   cap   = max(S0, ceil(k_cap * L), floor)           k_cap  = 8   (new)
+   p > p_high:  S' = min(H, max(S, floor, min(ceil(S * g), cap)))
+   otherwise:   S' = min(H, max(S, floor))
+   S0 = 2,097,152 cells (128 MiB; was 32 MiB), p_high = 0.05, g = 1.5
+   ```
+
+   Past the cap the mutator is paced by the collector, as it is under a
+   fixed limit, and memory stays proportional to the live set.  S is still
+   non-decreasing and bounded by H; convergence is at most
+   `1 + log_g(k_cap / k_live)` growth steps once L is stable.
+3. **Pacing** requests the next cycle when a quarter of the headroom
+   `S - L` is left (half in 2.10.0).  With `k_live = 3` the headroom is at
+   least 2 L, enough to cover a mark; requesting at half ran the collector
+   back to back (cycle time equal to the interval).
+4. **Rejected, with numbers in the report:** an allocation-rate-aware target
+   `S = L + m x rate x mark time` (too small a headroom: 2.5-3 x slower on
+   protoJS `join` and parallel `records`; with the whole cycle time it was
+   not run, since that time grows with S and the target would chase itself
+   as 2.10.0 did); a
+   relative cap lifted after several consecutive high-pressure cycles
+   (pressure on a throughput-bound collector is persistent, so the override
+   always fired and S reached 19 M cells again); waking a waiting mutator
+   as soon as the sweep publishes cells (more collector CPU, 18-25 % slower
+   on the 1 M-cell benchmark, mixed elsewhere); p_high = 0.2 with g = 1.25
+   (no gain); k_cap = 12
+   (+31 % RSS over the 640 MB fixed limit on the 1 M-cell benchmark);
+   S0 = 256 MiB (fewer cycles, but a growing live set paid one more long
+   cycle at a larger heap).
+5. **What the calibration does not reach** (acceptance: RSS at or below
+   today's fixed policy and wall time within +5 %).  Allocation faster than
+   the single collector thread can sweep loses time against a policy that
+   collects less: `adaptive_heap_benchmark` with a 1 M-cell live set, and
+   protoJS structure benchmarks run in parallel Deferreds, where today's
+   protoJS default (75 % of memory) never collects.  A program whose live
+   set grows to a few hundred MB without garbage pays one futile cycle that
+   a 640 MB fixed limit never starts (protoST `fib.st`).  These are listed
+   per workload in the report; closing them needs collector throughput
+   (parallel sweep), not a soft limit.
 

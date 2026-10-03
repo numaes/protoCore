@@ -339,6 +339,9 @@ namespace proto {
                 });
                 if (space->state == SPACE_STATE_ENDING) break;
                 multispace::cycleActive = true;
+                // The adaptive heap controller's trace reports the cycle's
+                // duration from here (a no-op unless it is enabled).
+                adaptive::onCycleStart(space);
 
                 // --- PHASE 1: STOP THE WORLD ---
                 multispace::noteCycleStart();
@@ -1469,6 +1472,15 @@ namespace proto {
                 this->setHeapLimits(softCells, hardCells);
             }
         }
+        // PROTOCORE_ADAPTIVE_HEAP=1, a diagnostic switch: every space runs the
+        // adaptive heap controller from its creation, with the default
+        // configuration (PROTOCORE_HEAP_LIMIT_CELLS, when set, gives H and
+        // S0), and setHeapLimits leaves it enabled.  It measures an existing
+        // embedder under the controller without rebuilding it.
+        if (adaptive::environmentMode() == 1) {
+            std::lock_guard<std::recursive_mutex> lock(globalMutex);
+            adaptive::enable(this, AdaptiveHeapConfig());
+        }
     }
 
     ProtoSpace::~ProtoSpace() {
@@ -2204,6 +2216,10 @@ namespace proto {
         // A soft watermark above the hard ceiling is meaningless — clamp it.
         if (softCells > 0 && hardCells > 0 && softCells > hardCells)
             softCells = hardCells;
+        // PROTOCORE_ADAPTIVE_HEAP=1 (diagnosis): the controller the
+        // environment enabled at creation keeps driving this space; the
+        // embedder's fixed limits are ignored.
+        if (adaptive::environmentMode() == 1 && adaptive::isEnabled(this)) return;
         // Fixed limits: the adaptive controller no longer drives this space.
         adaptive::disable(this);
         this->softHeapLimit = softCells;

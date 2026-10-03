@@ -43,18 +43,19 @@ namespace adaptive {
                               const LawParams& params) {
         // Doubles hold every value involved exactly enough: cell counts are
         // below 2^31, far inside the 53-bit mantissa.
-        const double hard = static_cast<double>(hardCells);
-        const double floorCells =
-            std::ceil(params.liveHeadroom * static_cast<double>(liveCells));
-        double next;
+        const double soft = static_cast<double>(softCells);
+        const double live = static_cast<double>(liveCells);
+        const double floorCells = std::ceil(params.liveHeadroom * live);
+        double next = std::max(soft, floorCells);
         if (pressure > params.highPressure) {
-            const double grown =
-                std::ceil(params.growthFactor * static_cast<double>(softCells));
-            next = std::max(floorCells, grown);
-        } else {
-            next = std::max(static_cast<double>(softCells), floorCells);
+            // Growth under pressure, bounded by the live set: past k_cap x L
+            // the stall is the collector's throughput, not the headroom.
+            const double cap = std::max({static_cast<double>(params.initialSoft),
+                                         std::ceil(params.liveCap * live), floorCells});
+            const double grown = std::ceil(params.growthFactor * soft);
+            next = std::max(next, std::min(grown, cap));
         }
-        next = std::min(hard, next);
+        next = std::min(static_cast<double>(hardCells), next);
         return static_cast<proto_ulong>(next);
     }
 
@@ -66,6 +67,7 @@ namespace adaptive {
             p.growthFactor = config.growthFactor;
         if (config.liveHeadroom >= 1.0 && config.liveHeadroom <= 16.0)
             p.liveHeadroom = config.liveHeadroom;
+        p.liveCap = std::max(kLiveCapFactor, p.liveHeadroom);
         return p;
     }
 
@@ -285,6 +287,8 @@ namespace adaptive {
             // Mutator waits since the last cycle end, in nanoseconds.
             std::atomic<std::uint64_t> waitNanos{0};
             Clock::time_point lastCycleEnd;
+            // When the collector began the current cycle (the trace's Tc).
+            Clock::time_point cycleStart;
             std::uint64_t cycles = 0;
             double lastPressure = 0.0;
             // A refill went past S without waiting; cleared at cycle end.
@@ -387,9 +391,6 @@ namespace adaptive {
         return s && s->pending;
     }
 
-    /** The fraction of the headroom S - L consumed before the next cycle
-     *  is requested; the rest is the mutators' runway during the cycle. */
-    constexpr double kTriggerFraction = 0.5;
 
     namespace {
         long long runwayFor(proto_ulong soft, proto_ulong live) {
@@ -420,6 +421,10 @@ namespace adaptive {
             requestCycle(space);
     }
 
+    void onCycleStart(ProtoSpace* space) {
+        if (SpaceState* s = findEnabled(space)) s->cycleStart = Clock::now();
+    }
+
     void recordMutatorWait(const ProtoSpace* space, std::uint64_t nanos) {
         if (SpaceState* s = findEnabled(space))
             s->waitNanos.fetch_add(nanos, std::memory_order_relaxed);
@@ -427,7 +432,25 @@ namespace adaptive {
 
     void onCycleEnd(ProtoSpace* space, std::uint64_t stopTheWorldNanos) {
         SpaceState* s = findEnabled(space);
-        if (!s) return;
+        if (!s) {
+            // Fixed limits: PROTOCORE_HEAP_TRACE prints the cycle too, so a
+            // fixed policy can be measured against the controller.
+            const char* traceEnv = std::getenv("PROTOCORE_HEAP_TRACE");
+            if (traceEnv && *traceEnv && std::strcmp(traceEnv, "0") != 0) {
+                std::fprintf(stderr,
+                    "protoCore heap: space=%p fixed cycle=%llu L=%" PROTO_FMT_U
+                    " soft=%d hard=%d heap=%d stw=%.3fms\n",
+                    static_cast<void*>(space),
+                    static_cast<unsigned long long>(
+                        space->gcCycleCount.load(std::memory_order_relaxed)),
+                    static_cast<proto_ulong>(
+                        space->liveCellsLastCycle.load(std::memory_order_relaxed)),
+                    space->softHeapLimit, relaxedLoad(space->maxHeapSize),
+                    relaxedLoad(space->heapSize), stopTheWorldNanos / 1e6);
+                std::fflush(stderr);
+            }
+            return;
+        }
         const Clock::time_point now = Clock::now();
         const double T = static_cast<double>(
             std::chrono::duration_cast<std::chrono::nanoseconds>(now - s->lastCycleEnd).count());
@@ -453,10 +476,11 @@ namespace adaptive {
             std::fprintf(stderr,
                 "protoCore heap: space=%p cycle=%llu L=%" PROTO_FMT_U " T=%.3fms "
                 "P=%.3fms p=%.4f S=%" PROTO_FMT_U "->%d H=%" PROTO_FMT_U
-                " heap=%d retained=%" PROTO_FMT_U "\n",
+                " heap=%d retained=%" PROTO_FMT_U " Tc=%.3fms\n",
                 static_cast<void*>(space), static_cast<unsigned long long>(s->cycles),
                 L, T / 1e6, P / 1e6, p, before, space->softHeapLimit,
-                s->hardCells, space->heapSize, s->retainedLastCycle);
+                s->hardCells, space->heapSize, s->retainedLastCycle,
+                std::chrono::duration<double, std::milli>(now - s->cycleStart).count());
             std::fflush(stderr);
         }
     }
@@ -482,6 +506,14 @@ namespace adaptive {
         return occupied > H - margin;
     }
 
+    int environmentMode() {
+        const char* v = std::getenv("PROTOCORE_ADAPTIVE_HEAP");
+        if (!v) return -1;
+        if (std::strcmp(v, "1") == 0) return 1;
+        if (std::strcmp(v, "0") == 0) return 0;
+        return -1;
+    }
+
     void enable(ProtoSpace* space, const AdaptiveHeapConfig& config) {
         // H: the environment, then the configuration, then automatic.
         int envSoft = 0;
@@ -504,11 +536,9 @@ namespace adaptive {
 
         // PROTOCORE_ADAPTIVE_HEAP=0: diagnosis without the controller -- the
         // same H as a fixed hard limit, no soft watermark.
-        if (const char* off = std::getenv("PROTOCORE_ADAPTIVE_HEAP")) {
-            if (std::strcmp(off, "0") == 0) {
-                space->setHeapLimits(0, static_cast<int>(H));
-                return;
-            }
+        if (environmentMode() == 0) {
+            space->setHeapLimits(0, static_cast<int>(H));
+            return;
         }
 
         SpaceState* s = find(space);
@@ -522,11 +552,13 @@ namespace adaptive {
             ++enabledCount;
         }
         s->params = sanitizedParams(config);
+        s->params.initialSoft = S0;
         s->hardCells = H;
         const char* traceEnv = std::getenv("PROTOCORE_HEAP_TRACE");
         s->trace = traceEnv && std::strcmp(traceEnv, "0") != 0 && *traceEnv;
         s->waitNanos.store(0, std::memory_order_relaxed);
         s->lastCycleEnd = Clock::now();
+        s->cycleStart = s->lastCycleEnd;
         s->lastPressure = 0.0;
         s->retainedLastCycle = static_cast<proto_ulong>(std::max(0, space->heapSize));
 

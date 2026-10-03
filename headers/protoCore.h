@@ -2197,15 +2197,18 @@ namespace proto
          * INT_MAX cells (128 GiB) because cell counts are `int` in ABI 3.
          */
         proto_ulong hardCells = 0;
-        /** Initial soft limit S0, in cells.  0 selects 524,288 (32 MiB). */
+        /** Initial soft limit S0, in cells.  0 selects 2,097,152 (128 MiB;
+         *  32 MiB in 2.10.0). */
         proto_ulong initialSoftCells = 0;
         /** p_high: the soft limit grows when collection stalls the mutators
          *  for more than this fraction of the interval between cycles. */
         double highPressure = 0.05;
-        /** g: the factor by which the soft limit grows under high pressure. */
+        /** g: the factor by which the soft limit grows under high pressure,
+         *  up to 8 x the live set (or k_live x, if larger), or S0. */
         double growthFactor = 1.5;
-        /** k_live: the soft limit never falls below k_live x the live set. */
-        double liveHeadroom = 1.5;
+        /** k_live: the soft limit never falls below k_live x the live set
+         *  (3 since 2.10.1; 1.5 in 2.10.0). */
+        double liveHeadroom = 3.0;
     };
 
     /** @brief A snapshot of a space's heap controller (adaptiveHeapStats). */
@@ -2407,11 +2410,11 @@ namespace proto
          * @brief Let protoCore size this space's heap (since 2.10.0).
          *
          * The soft limit S, which triggers collections, starts small
-         * (`initialSoftCells`, 32 MiB by default) and is adjusted by the
+         * (`initialSoftCells`, 128 MiB by default) and is adjusted by the
          * collector at the end of every cycle: it grows by `growthFactor`
          * while collection stalls the mutators for more than `highPressure`
-         * of the time, never falls below `liveHeadroom` x the live set, and
-         * never decreases.  The hard limit H is a process-wide safety cap on
+         * of the time, up to 8 x the live set; it never falls below
+         * `liveHeadroom` x the live set, and never decreases.  The hard limit H is a process-wide safety cap on
          * the sum of all spaces' heaps; out of memory is declared only when
          * the data a full cycle could not reclaim does not fit under it.
          *
@@ -2423,7 +2426,10 @@ namespace proto
          * Environment: PROTOCORE_HEAP_LIMIT_CELLS=<hard> or <soft>,<hard>
          * overrides H (and S0); PROTOCORE_HEAP_TRACE=1 prints one line per
          * cycle to stderr; PROTOCORE_ADAPTIVE_HEAP=0 applies the hard limit as
-         * a fixed one instead (setHeapLimits(0, H)), for diagnosis.
+         * a fixed one instead (setHeapLimits(0, H)), for diagnosis;
+         * PROTOCORE_ADAPTIVE_HEAP=1 enables the controller in every space at
+         * its creation and makes setHeapLimits leave it on, to measure an
+         * existing embedder under it (diagnosis, since 2.10.1).
          *
          * Thread-safe.  Memory is never returned to the operating system.
          * See docs/GarbageCollector.md § "Adaptive heap controller".
