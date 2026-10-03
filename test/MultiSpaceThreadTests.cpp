@@ -197,17 +197,24 @@ TEST(MultiSpaceTeardown, DestroyingASpaceWhileItsCollectorWaitsForAGracePeriod) 
     int cyclesCaught = 0;
     for (int round = 0; round < 20; ++round) {
         ProtoSpace b;
-        {
-            // Garbage, then a heap with fewer than 20 % free cells so that
-            // triggerGC starts a cycle.
-            ProtoContext garbage(&b, b.rootContext, nullptr, nullptr, nullptr, nullptr);
-            while (static_cast<long long>(relaxedLoad(b.freeCellsCount)) * 5
-                   >= relaxedLoad(b.heapSize))
-                (void) garbage.newObject(false);
+        // Garbage, until the heap has fewer than 20 % free cells once the
+        // garbage context is gone (destroying it returns its unused batch),
+        // so that triggerGC starts a cycle.
+        for (int tries = 0; tries < 64; ++tries) {
+            {
+                ProtoContext garbage(&b, b.rootContext, nullptr, nullptr, nullptr, nullptr);
+                while (static_cast<long long>(relaxedLoad(b.freeCellsCount)) * 5
+                       >= relaxedLoad(b.heapSize))
+                    (void) garbage.newObject(false);
+            }
+            if (static_cast<long long>(relaxedLoad(b.freeCellsCount)) * 5
+                < relaxedLoad(b.heapSize))
+                break;
         }
         const uint64_t before = b.getGCCycleCount();
         b.triggerGC();
-        for (int i = 0; i < 200000 && b.getGCCycleCount() == before; ++i)
+        const auto until = std::chrono::steady_clock::now() + std::chrono::seconds(5);
+        while (b.getGCCycleCount() == before && std::chrono::steady_clock::now() < until)
             b.rootContext->safepoint();   // park for the stop-the-world
         if (b.getGCCycleCount() != before) ++cyclesCaught;
         // B's collector now marks, sweeps, and then waits for a grace period
@@ -215,5 +222,5 @@ TEST(MultiSpaceTeardown, DestroyingASpaceWhileItsCollectorWaitsForAGracePeriod) 
     }
     finished = true;
     watchdog.join();
-    EXPECT_GT(cyclesCaught, 10) << "the rounds did not start B's cycles";
+    EXPECT_GE(cyclesCaught, 15) << "the rounds did not start B's cycles";
 }
