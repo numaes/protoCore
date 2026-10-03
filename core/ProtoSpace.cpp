@@ -217,6 +217,37 @@ namespace proto {
             workList->push_back(ref);
         }
 
+        /** Segments the sweep hands back in one compare-and-swap per batch. */
+        constexpr proto_ulong kSegmentRecycleBatch = 1024;
+
+        // A LIFO chain of processed DirtySegments, private to the sweeping
+        // thread until pushAllOnto publishes it with one compare-and-swap
+        // (release, so the segments' contents are visible to the popper).
+        struct SegmentChain {
+            DirtySegment* head = nullptr;
+            DirtySegment* tail = nullptr;
+            proto_ulong count = 0;
+
+            void push(DirtySegment* seg) {
+                seg->next = head;
+                if (!tail) tail = seg;
+                head = seg;
+                ++count;
+            }
+
+            void pushAllOnto(std::atomic<DirtySegment*>& list) {
+                if (!head) return;
+                DirtySegment* expected = list.load(std::memory_order_relaxed);
+                do {
+                    tail->next = expected;
+                } while (!list.compare_exchange_weak(expected, head,
+                                                     std::memory_order_release,
+                                                     std::memory_order_relaxed));
+                head = tail = nullptr;
+                count = 0;
+            }
+        };
+
         // Phase 5b: removes from the mutables tree the entries of the mutable
         // objects whose handles this cycle's sweep finalized.  Runs on the GC
         // thread after sweep, unlocked, concurrently with the mutators.
@@ -992,6 +1023,17 @@ namespace proto {
                 const bool deferFree = multispace::liveSpaceCount() > 1;
                 std::vector<Cell*> deadCells;
 
+                // Processed segments are chained locally and handed back with
+                // one compare-and-swap per batch instead of one per segment
+                // (about 6 cells): the free pool's head is the line every
+                // mutator pops at each context destruction.  The free chain
+                // goes back every kSegmentRecycleBatch segments, so the
+                // mutators are not starved of segments during a long sweep;
+                // the survivor chain goes to the pen once, at the end (the
+                // pen is folded only under a later stop-the-world).
+                SegmentChain freeSegs;
+                SegmentChain penSegs;
+
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
                     Cell* cell = currentSeg->cellChain;
@@ -1011,12 +1053,16 @@ namespace proto {
 
                     ++sweptSegments;
                     while (cell) {
-                        Cell* nextCell = cell->getNext();
+                        // One load of the header word gives the link and the
+                        // mark bit.
+                        const uintptr_t header =
+                            cell->next_and_flags.load(std::memory_order_acquire);
+                        Cell* nextCell = reinterpret_cast<Cell*>(header & ~PROTO_UL(0x3F));
                         ++sweptCells;
 #ifdef PROTOCORE_GC_INSTRUMENT
                         ++dbg_swept_cells;
 #endif
-                        if (!cell->isMarked()) {
+                        if (!(header & PROTO_UL(0x1))) {
                             if (deferFree) {
                                 deadCells.push_back(cell);
                             } else {
@@ -1028,17 +1074,22 @@ namespace proto {
                                 batchCount++;
                             }
                         } else {
-                            cell->unmark();
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                            // Prepend to the survivor chain.  Use setNext
-                            // (not internalSetNextRaw) so the cached
-                            // cellType bits in next_and_flags survive — the
-                            // cell stays live and queryable.  The old next
-                            // pointer is no longer needed: we already saved
-                            // the iteration cursor in `nextCell` above and
-                            // currentSeg->cellChain is being torn down.
-                            cell->setNext(survHead);
+                            // Unmark and prepend to the survivor chain in one
+                            // store: the collector is the only writer of a
+                            // candidate's next_and_flags during sweep
+                            // (Cell::setNext), so the read-modify-write of an
+                            // unmark followed by a second store is not
+                            // needed.  Flag bits 1..5 are kept as they are
+                            // (always zero).  The old link is no longer
+                            // needed: the cursor is in `nextCell`.
+                            cell->next_and_flags.store(
+                                (reinterpret_cast<uintptr_t>(survHead) & ~PROTO_UL(0x3F))
+                                    | (header & PROTO_UL(0x3E)),
+                                std::memory_order_release);
                             survHead = cell;
+#else
+                            cell->unmark();
 #endif
                         }
                         cell = nextCell;
@@ -1080,51 +1131,30 @@ namespace proto {
                     DirtySegment* nextSeg = currentSeg->next;
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
                     if (survHead) {
-                        // Repurpose currentSeg as a survivor segment and
-                        // push it to the survivor pen.  When stagger == 1
-                        // (default) the pen is folded back into
-                        // dirtySegments at the start of every cycle, so
-                        // this is equivalent to the previous direct push
-                        // to dirtySegments — only one extra atomic-list
-                        // hop on the cold path.  When stagger > 1 the pen
-                        // is folded only every Nth cycle, so survivors
-                        // skip mark cost in the meantime (at the price of
-                        // delayed reclamation; see survivorStagger doc).
+                        // Repurpose currentSeg as a survivor segment for the
+                        // survivor pen.  When stagger == 1 (default) the pen
+                        // is folded back into dirtySegments at the start of
+                        // every cycle.  When stagger > 1 it is folded only
+                        // every Nth cycle, so survivors skip mark cost in the
+                        // meantime (at the price of delayed reclamation; see
+                        // survivorStagger doc).
                         currentSeg->cellChain = survHead;
-                        currentSeg->next = space->survivorPen.load(std::memory_order_relaxed);
-                        while (!space->survivorPen.compare_exchange_weak(
-                                currentSeg->next, currentSeg,
-                                std::memory_order_release,
-                                std::memory_order_relaxed)) {
-                            // currentSeg->next updated by compare_exchange_weak on failure
-                        }
+                        penSegs.push(currentSeg);
                     } else {
-                        // No survivors: recycle to the free pool as before.
                         currentSeg->cellChain = nullptr;
-                        currentSeg->next = space->dirtySegmentFreePool.load(std::memory_order_relaxed);
-                        while (!space->dirtySegmentFreePool.compare_exchange_weak(
-                                currentSeg->next, currentSeg,
-                                std::memory_order_release,
-                                std::memory_order_relaxed)) {
-                            // currentSeg->next updated by compare_exchange_weak on failure
-                        }
+                        freeSegs.push(currentSeg);
                     }
 #else
-                    // Return the segment to the lock-free free pool so the
-                    // next submitYoungGeneration() can recycle it.  The GC
-                    // is the sole consumer here and the only thread that
-                    // pushes during sweep, so a single CAS is enough.
                     currentSeg->cellChain = nullptr;
-                    currentSeg->next = space->dirtySegmentFreePool.load(std::memory_order_relaxed);
-                    while (!space->dirtySegmentFreePool.compare_exchange_weak(
-                            currentSeg->next, currentSeg,
-                            std::memory_order_release,
-                            std::memory_order_relaxed)) {
-                        // currentSeg->next updated by compare_exchange_weak on failure
-                    }
+                    freeSegs.push(currentSeg);
 #endif
+                    if (freeSegs.count >= kSegmentRecycleBatch)
+                        freeSegs.pushAllOnto(space->dirtySegmentFreePool);
                     currentSeg = nextSeg;
                 }
+
+                freeSegs.pushAllOnto(space->dirtySegmentFreePool);
+                penSegs.pushAllOnto(space->survivorPen);
 
                 // Publish the trailing partial chunk (count < CELL_CHUNK_SIZE).
                 // Common at end of sweep when the last few segments did not
@@ -1195,8 +1225,12 @@ namespace proto {
                 // with mark=0, so they are unaffected.  unmark() is
                 // a single atomic fetch_and, safe regardless of
                 // contention with mutator threads.
+                // Test before writing: a survivor the sweep already
+                // unmarked is only read, so the mutators' shared copies of
+                // its line stay valid; a cell marked outside the segments
+                // (perennial, young, interned) is still cleared.
                 for (const Cell* m : markedList) {
-                    if (m && (reinterpret_cast<uintptr_t>(m) & 0x3F) == 0) {
+                    if (m && (reinterpret_cast<uintptr_t>(m) & 0x3F) == 0 && m->isMarked()) {
                         const_cast<Cell*>(m)->unmark();
                     }
                 }
