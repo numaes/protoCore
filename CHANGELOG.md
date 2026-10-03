@@ -4,6 +4,33 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.10.2] - 2026-10-03
+
+Test-only release: the library is unchanged from 2.10.1 (SOVERSION 3).
+Report: [docs/reports/2026-10-03-gcrootscope-macos-flake.md](docs/reports/2026-10-03-gcrootscope-macos-flake.md).
+
+### Fixed
+
+- **`GCRootScope.AllocationDuringConcurrentMarkIsSafe` failed about once in
+  110 runs on macOS arm64** with one data mismatch.  The test, not the
+  collector, was wrong: it built the young list that references the old
+  list after the old list's context had died, so for the length of that
+  allocation the old list was a candidate held only by a C++ local, which
+  EMBEDDER-CONFORMANCE rule 3 forbids, and a cycle whose stop-the-world fell
+  there freed it.  A probe that forces a cycle in that window fails on
+  macOS arm64, Linux arm64, Linux x64 and under ThreadSanitizer, and passes
+  on all four once the young list is built first.  The test, and
+  `ObjectReachableOnlyThroughAYoungCellSurvives`, which had the same shape,
+  now build the young list while the old list's context is alive: 0
+  failures in 3,600 repetitions where macOS failed 9 times in 1,000.
+
+### Added
+
+- `GCRootScope.CandidateReachableOnlyFromAYoungCellSurvivesACycleForcedAtOnce`:
+  the deterministic form of that test.  Two threads each force a whole
+  cycle right after the context of an old list dies, so every old list is a
+  candidate of a cycle that can reach it only through a young chain.
+
 ## [2.10.1] - 2026-10-03
 
 Calibration of the adaptive heap controller on the runtimes' own programs.
