@@ -87,6 +87,8 @@ namespace sweep {
         proto_ulong reclaimed = 0;
         proto_ulong swept = 0;
         proto_ulong segments = 0;
+        proto_ulong wideSegments = 0;     // taken while the walk was wide
+        proto_ulong narrowSegments = 0;   // taken while it was one chain
         SegmentChain freeSegs;
         SegmentChain penSegs;
         std::vector<proto_ulong> finalizedRefs;     // helpers: the finalizer sink
@@ -179,7 +181,7 @@ namespace sweep {
     bool sweepPrefetch();
     void setSweepPrefetch(int on);          // -1 restores the default
 
-    /** When the helpers are offered a sweep. */
+    /** When the helpers are offered a sweep, and when its walk is wide. */
     enum class Engagement {
         Measured = 0,      // while a mutator waits, and only while that pays (default)
         WhileWaiting = 1,  // while a mutator waits
@@ -190,9 +192,31 @@ namespace sweep {
     Engagement engagement();
     void setEngagement(int mode);           // -1 restores the default
 
+    /**
+     * The chains a sweeper walks in lockstep now (since 2.14.2): `maxCursors`
+     * (sweepCursors()) while a mutator waits for headroom, or always under
+     * Engagement::Always; one otherwise.  A sweep nobody waits for gains
+     * nothing from finishing early, and one that runs far ahead of the
+     * mutators' consumption leaves the cells it frees to go cold, or to sit
+     * modified in the collector's cache, before they are reused: protoClojure
+     * coll_alloc with one task ran 26 % slower with eight chains than with one
+     * (2026-10-04 re-measurement), whatever the cores the two threads ran on.
+     * Checked at every segment a cursor takes, so a sweep widens as soon as a
+     * mutator starts to wait and narrows when none does.
+     */
+    unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool mutatorsWait);
+
+    /** Segments taken by a cursor of a wide walk (more than one chain) and
+     *  of a one-chain walk, process-wide, since the start. */
+    struct WalkStats {
+        std::uint64_t wideSegments = 0;
+        std::uint64_t narrowSegments = 0;
+    };
+    WalkStats walkStats();
+
     /** The measured engagement's state of one space (Engagement::Measured). */
     struct EngageState {
-        double soloNsPerCell = 0.0;   // the last sweep without helpers
+        double soloNsPerCell = 0.0;   // the last wide sweep without helpers
         unsigned backoff = 0;         // sweeps held back after the last failure
         unsigned skip = 0;            // sweeps still to hold back
     };
@@ -200,11 +224,17 @@ namespace sweep {
     constexpr unsigned kMaxEngageBackoff = 64;
     /** One sweep's verdict (pure): `engaged` -- helpers swept; `heldBack` --
      *  helpers were wanted but held back; `swept` cells in `nanos` of the
-     *  sweep's wall time.  A sweep with helpers no faster per cell than the
-     *  last one without them doubles the backoff (1, 2, 4 ... 64 sweeps); a
-     *  faster one resets it.  Sweeps under kMinCellsToMeasure cells are not
-     *  measured. */
-    void noteSweep(EngageState& state, bool engaged, bool heldBack, proto_ulong swept, double nanos);
+     *  sweep's wall time; `wide` -- the walk was wide (a mutator waited).  A
+     *  sweep with helpers no faster per cell than the last wide one without
+     *  them doubles the backoff (1, 2, 4 ... 64 sweeps); a faster one resets
+     *  it.  Only a wide solo sweep is the comparison (since 2.14.2): helpers
+     *  join only while mutators wait, when the walk is wide too.  Sweeps
+     *  under kMinCellsToMeasure cells are not measured. */
+    void noteSweep(EngageState& state, bool engaged, bool heldBack, proto_ulong swept, double nanos,
+                   bool wide);
+    /** No comparison yet: the next sweep that wants helpers runs without
+     *  them and becomes it (pure). */
+    bool holdBackForComparison(const EngageState& state);
 
     /** Physical cores, NUMA nodes and the L3 size of this machine (1, 1 and
      *  0 when unknown). */

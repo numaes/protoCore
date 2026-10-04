@@ -37,6 +37,8 @@ namespace proto {
 namespace sweep {
 
     namespace {
+        // WalkStats, added by each sweeper when it finishes.
+        std::atomic<std::uint64_t> gWide{0}, gNarrow{0};
         thread_local bool tlHelper = false;
         thread_local std::vector<proto_ulong>* tlRefSink = nullptr;
     }
@@ -169,7 +171,7 @@ namespace sweep {
     // per-cell counters kept in registers (finalize is a virtual call, so
     // fields of L would be reloaded after every dead cell).
     template <bool Helper, bool Prefetch, bool DeferFree>
-    void sweepLoop(SegmentSource& source, SweeperLocal& L, int cursors) {
+    void sweepLoop(SegmentSource& source, SweeperLocal& L, unsigned maxCursors, Engagement mode) {
         struct Cursor {
             DirtySegment* seg;
             Cell* cell;
@@ -182,6 +184,13 @@ namespace sweep {
         constexpr bool prefetch = Prefetch;
         proto_ulong swept = 0;
         int active = 0;
+        // The width in force (cursorsFor), re-read at every segment a cursor
+        // ends: wide while a mutator waits for headroom, one chain otherwise.
+        auto width = [&]() -> int {
+            return static_cast<int>(cursorsFor(maxCursors, mode,
+                adaptive::headroomWaitersTotal.load(std::memory_order_relaxed) > 0));
+        };
+        int want = width();
         auto load = [&](Cursor& c) -> bool {
             DirtySegment* seg = source.next();
             if (!seg) return false;
@@ -200,9 +209,10 @@ namespace sweep {
             c.batchCount = 0;
             c.survHead = nullptr;
             ++L.segments;
+            ++(want > 1 ? L.wideSegments : L.narrowSegments);
             return true;
         };
-        while (active < cursors && load(cur[active])) ++active;
+        while (active < want && load(cur[active])) ++active;
         ProtoContext* const ctx = L.space->rootContext;
         while (active > 0) {
             for (int i = 0; i < active;) {
@@ -211,7 +221,9 @@ namespace sweep {
                 if (!cell) {
                     L.addBatch(c.batchHead, c.batchTail, c.batchCount);
                     L.retire(c.seg, c.survHead);
-                    if (!load(c)) cur[i] = cur[--active];
+                    want = width();
+                    // Narrowing: a cursor whose segment ended is dropped.
+                    if (active > want || !load(c)) cur[i] = cur[--active];
                     continue;
                 }
                 const uintptr_t header = cell->next_and_flags.load(std::memory_order_acquire);
@@ -254,25 +266,42 @@ namespace sweep {
                 c.cell = next;
                 ++i;
             }
+            // Widening: a mutator started to wait.
+            while (active < want && load(cur[active])) ++active;
         }
         L.swept += swept;
     }
     }  // namespace
 
     void sweepSegments(SegmentSource& source, SweeperLocal& L) {
-        const int cursors = static_cast<int>(sweepCursors());
+        const unsigned cursors = sweepCursors();
+        const Engagement mode = engagement();
         const bool prefetch = sweepPrefetch();
         const int key = (L.helper ? 4 : 0) | (prefetch ? 2 : 0) | (L.deferFree ? 1 : 0);
         switch (key) {
-            case 0: sweepLoop<false, false, false>(source, L, cursors); break;
-            case 1: sweepLoop<false, false, true>(source, L, cursors); break;
-            case 2: sweepLoop<false, true, false>(source, L, cursors); break;
-            case 3: sweepLoop<false, true, true>(source, L, cursors); break;
-            case 4: sweepLoop<true, false, false>(source, L, cursors); break;
-            case 5: sweepLoop<true, false, true>(source, L, cursors); break;
-            case 6: sweepLoop<true, true, false>(source, L, cursors); break;
-            default: sweepLoop<true, true, true>(source, L, cursors); break;
+            case 0: sweepLoop<false, false, false>(source, L, cursors, mode); break;
+            case 1: sweepLoop<false, false, true>(source, L, cursors, mode); break;
+            case 2: sweepLoop<false, true, false>(source, L, cursors, mode); break;
+            case 3: sweepLoop<false, true, true>(source, L, cursors, mode); break;
+            case 4: sweepLoop<true, false, false>(source, L, cursors, mode); break;
+            case 5: sweepLoop<true, false, true>(source, L, cursors, mode); break;
+            case 6: sweepLoop<true, true, false>(source, L, cursors, mode); break;
+            default: sweepLoop<true, true, true>(source, L, cursors, mode); break;
         }
+        gWide.fetch_add(L.wideSegments, std::memory_order_relaxed);
+        gNarrow.fetch_add(L.narrowSegments, std::memory_order_relaxed);
+    }
+
+    unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool mutatorsWait) {
+        const unsigned widest = std::max(1u, maxCursors);
+        return (mode == Engagement::Always || mutatorsWait) ? widest : 1u;
+    }
+
+    WalkStats walkStats() {
+        WalkStats w;
+        w.wideSegments = gWide.load(std::memory_order_relaxed);
+        w.narrowSegments = gNarrow.load(std::memory_order_relaxed);
+        return w;
     }
 
     // --- Partition ----------------------------------------------------------------
@@ -473,7 +502,10 @@ namespace sweep {
         }
     }  // namespace
 
-    void noteSweep(EngageState& st, bool engaged, bool heldBack, proto_ulong swept, double nanos) {
+    bool holdBackForComparison(const EngageState& st) { return !(st.soloNsPerCell > 0.0); }
+
+    void noteSweep(EngageState& st, bool engaged, bool heldBack, proto_ulong swept, double nanos,
+                   bool wide) {
         if (swept >= kMinCellsToMeasure) {
             const double perCell = nanos / static_cast<double>(swept);
             if (engaged) {
@@ -484,7 +516,9 @@ namespace sweep {
                 } else {
                     st.backoff = 0;
                 }
-            } else {
+            } else if (wide) {
+                // The comparison: a sweep without helpers whose walk was
+                // wide, as the walk of a sweep with helpers is.
                 st.soloNsPerCell = perCell;
             }
         }
@@ -576,7 +610,8 @@ namespace sweep {
         bool heldBack = false;
         if (mode == Engagement::Measured) {
             std::lock_guard<std::mutex> lock(gEngageMutex);
-            heldBack = engageStateOf(space).skip > 0;
+            const EngageState& st = engageStateOf(space);
+            heldBack = st.skip > 0 || holdBackForComparison(st);
         }
         bool wanted = false;
 
@@ -618,7 +653,8 @@ namespace sweep {
                     std::chrono::steady_clock::now() - start).count());
             std::lock_guard<std::mutex> lock(gEngageMutex);
             EngageState& st = engageStateOf(space);
-            noteSweep(st, engaged, heldBack && wanted, swept, ns);
+            noteSweep(st, engaged, heldBack && wanted, swept, ns,
+                      L.wideSegments > L.narrowSegments);
             if (heldBack && wanted) {
                 if (gPool) {
                     std::lock_guard<std::mutex> plock(gPool->m);

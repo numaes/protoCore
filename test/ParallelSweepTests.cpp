@@ -565,29 +565,106 @@ TEST(ParallelSweepConfig, CursorsPrefetchAndEngagementAreConfigurable) {
 TEST(ParallelSweepConfig, MeasuredEngagementBacksOffWhenHelpersDoNotPay) {
     sweep::EngageState st;
     const proto_ulong n = 1000000;
-    sweep::noteSweep(st, false, false, n, 20.0 * n);   // solo: 20 ns per cell
+    sweep::noteSweep(st, false, false, n, 20.0 * n, true);   // solo: 20 ns per cell
     EXPECT_DOUBLE_EQ(st.soloNsPerCell, 20.0);
-    sweep::noteSweep(st, true, false, n, 12.0 * n);    // helpers faster: keep them
+    sweep::noteSweep(st, true, false, n, 12.0 * n, true);    // helpers faster: keep them
     EXPECT_EQ(st.skip, 0u);
     EXPECT_EQ(st.backoff, 0u);
     unsigned expected = 1;
     for (int failure = 0; failure < 9; ++failure) {
-        sweep::noteSweep(st, true, false, n, 25.0 * n);   // helpers slower
+        sweep::noteSweep(st, true, false, n, 25.0 * n, true);   // helpers slower
         EXPECT_EQ(st.backoff, expected);
         EXPECT_EQ(st.skip, expected);
         // The held-back sweeps run alone and give the next comparison.
         const unsigned held = st.skip;
-        for (unsigned k = 0; k < held; ++k) sweep::noteSweep(st, false, true, n, 20.0 * n);
+        for (unsigned k = 0; k < held; ++k) sweep::noteSweep(st, false, true, n, 20.0 * n, true);
         EXPECT_EQ(st.skip, 0u);
         expected = std::min(expected * 2, sweep::kMaxEngageBackoff);
     }
     EXPECT_EQ(st.backoff, sweep::kMaxEngageBackoff);
-    sweep::noteSweep(st, true, false, n, 10.0 * n);    // helpers pay again
+    sweep::noteSweep(st, true, false, n, 10.0 * n, true);    // helpers pay again
     EXPECT_EQ(st.backoff, 0u);
     // A small sweep says nothing.
     sweep::EngageState small;
-    sweep::noteSweep(small, false, false, 1000, 1e9);
+    sweep::noteSweep(small, false, false, 1000, 1e9, true);
     EXPECT_DOUBLE_EQ(small.soloNsPerCell, 0.0);
+    // A solo sweep walked one chain (nobody waited) is not the comparison:
+    // helpers engage only while mutators wait, when the walk is wide.
+    sweep::EngageState narrow;
+    sweep::noteSweep(narrow, false, false, n, 60.0 * n, false);
+    EXPECT_DOUBLE_EQ(narrow.soloNsPerCell, 0.0);
+    // Without a comparison, the first sweep that wants helpers is held back
+    // and becomes it.
+    EXPECT_TRUE(sweep::holdBackForComparison(narrow));
+    sweep::noteSweep(narrow, false, true, n, 20.0 * n, true);
+    EXPECT_DOUBLE_EQ(narrow.soloNsPerCell, 20.0);
+    EXPECT_FALSE(sweep::holdBackForComparison(narrow));
+}
+
+// --- Multi-cursor walk only while it pays (2.14.2) -------------------------------
+//
+// The 2026-10-04 re-measurement found protoClojure coll_alloc with one task
+// 26 % slower than on 2.10.2 with the 8-chain walk, and as fast with one
+// chain: a sweep that runs far ahead of the mutators' consumption leaves the
+// cells it frees to go cold (or to sit modified in another core's cache)
+// before they are reused, and every allocation then misses.  The mutator
+// spent 10 G more cycles initialising new cells (perf, IBS).  The sweep's
+// speed only buys time while a mutator waits for it, so the chains are
+// walked in lockstep only then -- the rule that already engages the helpers.
+
+TEST(ParallelSweepConfig, CursorsAreWideOnlyWhileAMutatorWaits) {
+    using sweep::Engagement;
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::Measured, false), 1u);
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::Measured, true), 8u);
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::WhileWaiting, false), 1u);
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::WhileWaiting, true), 8u);
+    // Diagnosis and tests: every sweep at the configured width.
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::Always, false), 8u);
+    EXPECT_EQ(sweep::cursorsFor(32, Engagement::Always, true), 32u);
+    // One configured chain is one chain.
+    EXPECT_EQ(sweep::cursorsFor(1, Engagement::Measured, true), 1u);
+    EXPECT_EQ(sweep::cursorsFor(0, Engagement::Measured, true), 1u);
+}
+
+// No mutator waits: the cycle's segments are walked one chain at a time.
+TEST(ParallelSweep, ACycleNobodyWaitsForWalksOneChain) {
+    ProtoSpace::setCollectorHelperEngagement(-1);
+    ProtoSpace space;
+    garbage(space, 300000);
+    const sweep::WalkStats before = sweep::walkStats();
+    runCycle(space);
+    const sweep::WalkStats after = sweep::walkStats();
+    std::printf("[ walk ] narrow %llu wide %llu segments\n",
+                (unsigned long long) (after.narrowSegments - before.narrowSegments),
+                (unsigned long long) (after.wideSegments - before.wideSegments));
+    EXPECT_GT(after.narrowSegments, before.narrowSegments);
+    EXPECT_EQ(after.wideSegments, before.wideSegments) << "a sweep nobody waited for walked several chains";
+}
+
+// A mutator waiting at the ceiling: the sweep it waits for walks wide.
+TEST(ParallelSweep, ASweepAMutatorWaitsForWalksWide) {
+    ProtoSpace::setCollectorHelperEngagement(-1);
+    ProtoSpace space;
+    space.setHeapLimits(0, relaxedLoad(space.heapSize) + 600000);
+    const sweep::WalkStats before = sweep::walkStats();
+    garbage(space, 3000000);
+    const sweep::WalkStats after = sweep::walkStats();
+    std::printf("[ walk ] narrow %llu wide %llu segments\n",
+                (unsigned long long) (after.narrowSegments - before.narrowSegments),
+                (unsigned long long) (after.wideSegments - before.wideSegments));
+    EXPECT_GT(after.wideSegments, before.wideSegments) << "no sweep walked several chains while a mutator waited";
+}
+
+// Engagement::Always (diagnosis, tests): every sweep walks wide.
+TEST(ParallelSweep, AlwaysEngagedWalksWide) {
+    EngagedHelpers h(0);
+    ProtoSpace space;
+    garbage(space, 300000);
+    const sweep::WalkStats before = sweep::walkStats();
+    runCycle(space);
+    const sweep::WalkStats after = sweep::walkStats();
+    EXPECT_GT(after.wideSegments, before.wideSegments);
+    EXPECT_EQ(after.narrowSegments, before.narrowSegments);
 }
 
 TEST(ParallelSweepConfig, TheApiOverridesAndZeroMeansNoPool) {
