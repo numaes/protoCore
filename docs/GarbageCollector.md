@@ -1137,6 +1137,23 @@ From [reports/2026-10-03-collector-throughput.md](reports/2026-10-03-collector-t
   single-threaded one, so the sweep's helper threads (spec section 6) are
   the next step.
 
+### After 2.14.0: helper threads, and fresh against recycled memory
+
+Same report, section M4 (synthetic, median of 3, one session):
+
+- Helpers (K = 3, engaged while mutators wait and only while they pay) cut
+  the sweep's cost per cell 2.3-2.6x where the sweep is the bottleneck, and
+  the wall time 6-18 % on the protoJS N = 12 workloads; they hardly help
+  the protoClojure and protoScala t6 workloads (-4 % / +6 %) and cost up to
+  11 % more process CPU.  K = 0 is 2.12.0's serial sweep within noise.
+- After their first heap turn the multi-threaded workloads allocate almost
+  only from recycled chunks; the per-cell sweep cost on that aged heap is
+  2-25 % above the run's average, and the gains hold there.  Heaps aged for
+  hours are not measured.
+- All of this is from one notebook-class CPU (6 cores, 8 MB L3, two
+  channels).  The walk's width and prefetch, the helper count and the
+  engagement are configurable for other hardware.
+
 ### After 2.13.0: the control law minimises waits within the budget
 
 Same report, section M3 (synthetic, one run per point in the matrix):

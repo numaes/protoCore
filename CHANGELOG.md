@@ -4,6 +4,73 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.0] - 2026-10-03
+
+Additive API; no ABI break (SOVERSION 3).  Milestone 4 of the
+collector-throughput design ([spec](docs/specs/2026-10-03-collector-throughput-design.md)
+§ 6 and decisions 5-6; [report](docs/reports/2026-10-03-collector-throughput.md),
+"M4" and "Hardware class").  Synthetic workloads, median of 3, one
+notebook-class CPU.
+
+### Added
+
+- **Helper threads for the sweep.**  While mutators wait for heap
+  headroom, up to K helper threads of one process-wide pool sweep beside
+  the collector thread, claiming runs of 128 segments; each sweeper keeps
+  and publishes its own chunk, segment chains and finalized refs; the
+  collector merges the refs before Phase 5b and runs the embedder
+  (`ProtoExternalPointer`) finalizers the helpers left, one at a time on
+  its own thread.  Built-in finalizers may run on helpers.  Helpers are
+  protoCore-owned `std::thread`s (not `ProtoThread`s), never allocate,
+  start lazily, stop with the last space, and a forked child gets a fresh
+  pool.  One sweep at a time; a collector that finds the pool busy sweeps
+  alone.  Mutex and condition variables only.
+  - K defaults to half the physical cores of one NUMA node (3 on a 6-core
+    notebook); `PROTOCORE_GC_SWEEP_THREADS` (0..64) and
+    `ProtoSpace::setCollectorHelperThreads` set it; 0 is the serial sweep
+    with no pool.
+  - **Measured engagement** (default): helpers are kept only while they
+    shorten the sweep; otherwise held back for 1, 2, 4 ... 64 sweeps.
+    `PROTOCORE_GC_SWEEP_ENGAGE=measured|waiting|always`,
+    `ProtoSpace::setCollectorHelperEngagement`.
+  - **Hardware-sensitive parameters configurable**: the chains walked in
+    lockstep (`PROTOCORE_GC_SWEEP_CURSORS`, default 8,
+    `ProtoSpace::setSweepCursors`) and the prefetch
+    (`PROTOCORE_GC_SWEEP_PREFETCH`, `ProtoSpace::setSweepPrefetch`).
+  - `PROTOCORE_HAS_COLLECTOR_HELPERS`.
+- **Measured**: with K = 3, the sweep's cost per cell fell 2.3-2.6x where
+  the sweep is the bottleneck (protoJS `records` N = 12: 29 -> 12.5 ns),
+  wall time -6 to -18 % on protoJS N = 12 workloads, -4 % / +6 % on
+  protoClojure / protoScala t6, single-threaded unchanged; process CPU -2
+  to +11 %.  K = 0 is 2.12.0's sweep within noise.  On aged heaps (all
+  recycled memory): protoJS `records` N = 12 71.0 s (2.11.0) -> 31.0 s,
+  protoClojure t6 117.1 -> 46.4 s.
+- `test/ParallelSweepTests.cpp` (20 cases: claiming, equivalence with the
+  serial sweep for every width/prefetch/helper setting, no mark bit left,
+  embedder finalizers on the collector thread and never overlapping,
+  mutable refs merged before Phase 5b, a helper that allocates aborts,
+  teardown during a sweep, both destruction orders, pool stop and restart,
+  exit with a live space, several spaces, fork, configuration, the
+  engagement rule), and the GC suites re-run as ctest entries with three
+  helpers engaged on every sweep.
+- `.github/workflows/sweep-hardware.yml`: the sweep's tests and benchmark
+  on arm64 Linux, macOS arm64 and x64 runners (informational).
+- Compiled-out instrumentation: cells handed out from fresh OS blocks
+  against recycled chunks.
+
+### Fixed (before release)
+
+- With K = 0 the first version of the parallel sweep was 8-70 % slower
+  than 2.12.0's (its cursors drained at every claimed run; a claim walked
+  128 links in a row); and ThreadSanitizer found an unlocked read of the
+  shared list's head.  All three fixed and measured (report, M4).
+
+### Changed
+
+- `AdaptiveHeapFastAllocator.SoftLimitGrowthIsBoundedByTheBudgetAndTheProbes`
+  gates on invariants only and prints the change count (it depended on
+  sample noise).
+
 ## [2.13.0] - 2026-10-03
 
 No ABI change (SOVERSION 3).  Milestone 3 of the collector-throughput

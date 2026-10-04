@@ -9,7 +9,8 @@ Claude.
 This report covers milestones M1 (pacing and early wake, spec 4.3-4.4) and
 M2 (diagnosis of the sweep's per-cell cost and the cheap fixes, spec 5),
 released together as 2.12.0, and M3 (the control law, spec 4.5), released
-as 2.13.0.  Later milestones append their sections.
+as 2.13.0, and M4 (the sweep's helper threads, spec 6), released as
+2.14.0.
 
 **Every workload here is synthetic**: benchmarks written for this platform
 (the phase report's set), used as evidence about mechanisms.  Nothing is
@@ -20,6 +21,25 @@ running, but a job could start during a run.  Run-to-run spread is in the
 raw records.
 
 ## Verdict
+
+**Across the four milestones** (synthetic workloads, this notebook-class
+machine; details in each section):
+
+- 2.11.0 -> 2.14.0 on the aged runs (the heap cycled many times, all
+  allocation from recycled memory): protoJS `records` N = 12 at 10 M cells
+  71.0 -> 31.0 s, protoClojure `coll_alloc` with 6 tasks 117.1 -> 46.4 s.
+  Almost all of it is 2.12.0's multi-cursor sweep (the per-cell cost was
+  memory latency); the helpers of 2.14.0 add 6-18 % on the protoJS N = 12
+  workloads and little on the protoClojure and protoScala t6 ones.
+- Waits no longer end on a 50 ms watchdog, and fixed limits pace their
+  cycles (2.12.0).  The controller minimises waits within the budget with no
+  fitted constant (2.13.0): waits fall to a third, wall time does not move,
+  the time goes to collector CPU.
+- The hardware-sensitive parts (the walk's width and prefetch, the helper
+  count and engagement) are configurable; their defaults are measured on one
+  CPU only (section "Hardware class").
+
+**M1 and M2 (2.12.0):**
 
 - **The sweep's per-cell cost under concurrent allocation was memory
   latency, not lock or CAS contention.**  The collector thread's demand
@@ -384,30 +404,178 @@ conservatively from what is cheap to detect: physical cores and NUMA nodes
 reported, not used: one machine does not show how it should be used.
 
 **A second data point, from shared CI virtual machines** (workflow
-`sweep-hardware.yml`, run 37143120002; noisy, read as a direction only),
-`sweep_contention_benchmark 1000000 3 3`, ns per swept cell, median of 3:
+`sweep-hardware.yml`; noisy, read as a direction only: the same cell moved by
+up to 50 % between run 37143120002 and run 37156579508), 2.14.0 code (run
+37156579508), `sweep_contention_benchmark 1000000 3 3`, ns per swept cell,
+median of 3, helpers engaged on every sweep:
 
 | Runner | Scenario | 1 chain, no prefetch | 8 chains + prefetch (K = 0) | + 1 helper | + 2 | + 3 |
 |---|---|---:|---:|---:|---:|---:|
-| Linux arm64 (Neoverse-N2, 4 vCPU) | S0 quiet | 8.4 | 7.8 | 5.2 | 3.6 | 3.0 |
-| | S4 built by other threads | 23.1 | 16.0 | 9.3 | 6.6 | 5.2 |
-| | S1 loaded memory | 9.8 | 9.0 | 8.0 | 7.0 | 6.6 |
-| Linux x64 (EPYC 7763, 4 vCPU) | S0 | 7.1 | 8.4 | 5.4 | 4.9 | 4.3 |
-| | S4 | 29.1 | 14.8 | 9.6 | 8.1 | 7.4 |
-| | S1 | 19.6 | 28.0 | 22.6 | 19.5 | 11.4 |
-| macOS arm64 (3 vCPU) | S0 | 6.6 | 4.6 | 4.5 | 4.0 | 3.8 |
-| | S4 | 35.6 | 13.6 | 9.9 | 7.9 | 7.9 |
-| | S1 | 9.5 | 8.5 | 12.9 | 14.0 | 10.1 |
+| Linux arm64 (Neoverse-N2, 4 vCPU) | S0 quiet | 8.6 | 7.0 | 4.7 | 3.4 | 2.7 |
+| | S4 built by other threads | 23.6 | 16.2 | 9.1 | 6.3 | 5.1 |
+| | S1 loaded memory | 10.1 | 7.8 | 6.9 | 6.8 | 5.8 |
+| Linux x64 (EPYC 7763, 4 vCPU) | S0 | 6.2 | 6.4 | 4.9 | 4.6 | 4.0 |
+| | S4 | 25.6 | 11.2 | 7.9 | 7.1 | 6.4 |
+| | S1 | 18.2 | 18.6 | 15.8 | 11.9 | 11.7 |
+| macOS arm64 (3 vCPU) | S0 | 5.7 | 8.3 | 5.8 | 6.5 | 4.1 |
+| | S4 | 25.9 | 12.4 | 11.8 | 8.4 | 10.2 |
+| | S1 | 12.8 | 12.1 | 11.9 | 19.4 | 16.4 |
 
-- The multi-cursor walk helps wherever lines are far (S3 and S4: 1.4-2.6x
-  on every runner) and is neutral or slightly negative where they are near
-  (S0 on x64), as on DEV12.
-- Under loaded memory (S1) the direction differs by machine: on the x64
-  VM the 8-chain walk with prefetch was slower than one chain (28.0
-  against 19.6), on arm64 it was not; helpers made S1 worse on macOS at
-  K = 1-2 and better at K = 3.  This is the case the configurability and
-  the measured engagement exist for.
+- The multi-cursor walk helps wherever lines are far (S4: 1.5-2.3x on every
+  runner; S3 similarly) and is neutral or negative where they are near
+  (S0: +45 % on the macOS VM in this run, -19 % on arm64 Linux).
+- Helpers scale on the arm64 Linux VM (S0 7.0 -> 2.7 with three) and the
+  x64 VM, and are erratic on the 3-vCPU macOS VM, where three helpers plus
+  three mutator threads oversubscribe the machine (S1 12.1 -> 16.4 with
+  three, worse with two).  The default engagement (measured) exists for this
+  case; the micro-benchmark engages helpers on every sweep, so it shows the
+  raw effect.
 - The deterministic tests (sweep, pacing, the law) passed on all three.
+
+## M4: the sweep's helper threads (2.14.0)
+
+What changed (spec 6 and decisions 5-6): while mutators wait for headroom,
+up to K helper threads (default: half the physical cores of one NUMA node,
+3 here) sweep beside the collector, claiming runs of 128 segments; embedder
+finalizers stay on the collector thread; helpers are kept only while they
+shorten the sweep (measured engagement); K = 0 is the serial sweep.
+
+**Two regressions found and fixed before release, both with K = 0**, by
+measuring in the same session against 2.12.0's sweep: (1) the collector
+called the multi-cursor walk once per claimed run of 128 segments, so its 8
+chains drained to one at the end of every run (`clj_coll_t6` 79 ns per cell
+against 46); the cursors now refill across runs.  (2) A claim walks 128
+segment links in a row under the claim lock, a dependent miss each (4.5 % of
+a protoClojure run); until a helper joins, the collector now takes segments
+straight from the list.  ThreadSanitizer then found a read of the list's
+head for a prefetch after helpers had joined (harmless on the hardware, a
+data race in the C++ model): fixed.
+
+### Runtime workloads, K = 0 against K = 3
+
+One session, interleaved run by run (2.11.0's collector, 2.12.0's sweep,
+2.14.0 with K = 0 and with K = 3), median of 3, synthetic.  The machine was
+shared and loaded (load average 3-6 from other work during these runs); each
+run started below a load of 6.
+
+| Workload | Wall s: 2.11.0 / 2.12.0 / 2.14.0 K=0 / K=3 | Sweep ns per cell | Wait share | Process CPU s (user+sys), K=0 -> K=3 |
+|---|---|---|---|---|
+| js10_records_n12 | - / 10.93 / 10.96 / 10.23 | - / 29.0 / 29.2 / 12.5 | 31 / 32 / 19 % | 57.2 -> 60.2 |
+| js40_wordfreq_n12 | - / 14.57 / 15.15 / 12.39 | - / 20.7 / 20.7 / 15.9 | 8.5 / 7.4 / 8.1 % | 95.5 -> 93.7 |
+| jsad_records_n12 (controller) | - / 22.99 / 22.43 / 20.91 | - / 28.6 / 27.0 / 19.4 | 22 / 15 / 8 % | 156.5 -> 157.2 |
+| jsad_wordfreq_n12 (controller) | - / 15.68 / 13.95 / 12.80 | - / 27.8 / 22.0 / 18.6 | 21 / 10 / 7 % | 91.8 -> 91.5 |
+| clj_coll_t6 | - / 14.74 / 15.19 / 14.60 | - / 45.5 / 47.0 / 43.2 | 15 / 18 / 10 % | 84.4 -> 93.6 |
+| scala_tree_t6 | - / - / 18.65 / 19.76 | - / - / 93.7 / 95.9 | 35 / 37 % | 80.5 -> 85.6 |
+| aged_js10_records_n12 | 71.02 / 33.50 / 32.80 / 30.99 | 118.3 / 36.4 / 36.7 / 14.1 | 69 / 35 / 34 / 22 % | 189.8 -> 202.2 |
+| aged_clj_coll_t6 | 117.13 / 46.04 / 47.13 / 46.38 | 135.7 / 47.4 / 48.7 / 46.2 | 67 / 17 / 18 / 11 % | 263.5 -> 291.1 |
+| single-threaded (core, scala t1, clj t1) | - / - / 2.37-3.91 / 2.40-3.91 | about 10-31, unchanged | < 5 % | unchanged |
+
+- **K = 0 is 2.12.0's sweep** within noise (-2 to +4 % wall; the
+  controller rows differ because 2.13.0's law is in both 2.14.0 columns).
+- **Helpers cut the sweep's cost per cell 2.3-2.6x where the sweep is the
+  bottleneck and lines are far** (`js10_records`, aged or not), and the
+  wall time 6-18 % on the protoJS N = 12 workloads.  The wall gain is far
+  smaller than the sweep gain because the collector is no longer the only
+  limit: mark, Phase 5b and the mutators' own work remain.
+- **They hardly help the protoClojure and protoScala t6 workloads**
+  (-4 % and +6 % wall; sweep per cell -8 % and +2 %).  These run 6 mutator
+  threads on 6 cores with many short cycles of 2 M cells; the helpers took
+  CPU (process CPU +10 % on `clj_coll_t6`, +6 % on `scala_tree_t6`) and the
+  measured engagement kept them (helper runs: 309 in 155 cycles for clj).
+  Whether the engagement rule should weigh the mutators' CPU is the
+  question of decision 3, now with data: helpers cost -2 to +11 % process
+  CPU for -18 to +6 % wall time.
+- Peak RSS is unchanged.
+
+### Micro-benchmark: K and the walk (one session)
+
+`sweep_contention_benchmark 3000000 6 3`, release builds, ns per swept cell:
+
+| Build | S0 | S1 | S2 | S3b | S3 | S4 | S5 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 2.12.0 (serial) | 10.9 | 66.7 | 12.4 | 17.9 | 23.6 | 15.7 | 11.1 |
+| 2.14.0, K = 0 | 11.6 | 45.6 | 12.7 | 19.4 | 21.7 | 17.9 | 11.9 |
+| 2.14.0, K = 3 (every sweep) | 6.5 | 25.2 | 10.1 | 11.3 | 15.5 | 10.4 | 6.1 |
+
+Scaling over K (an earlier session of the same day, K = 0, 1, 2, 3, 5,
+helpers on every sweep), S0: 13.4, 9.6, 8.2, 7.0, 6.1; S4: 20.5, 14.7,
+12.6, 10.8, 9.2; S1: 45.2, 39.4, 27.3, 23.5, 24.3.  **P10 holds on this
+machine**: no scenario got slower with helpers, up to K = 5.  (On the 3-vCPU
+macOS VM above it did not hold for S1.)
+
+Chains and prefetch (K = 0, 2.14.0, one session whose load rose from 2.6
+to 7 midway; `micro-final-cursors.log`):
+
+| Chains, prefetch | S0 | S1 | S3 | S4 |
+|---|---:|---:|---:|---:|
+| 1, off | 10.1 | 34.4 | 32.8 | 27.4 |
+| 1, on | 13.5 | 43.3 | 37.9 | 29.2 |
+| 2, off | 18.6 | 173.5 | 32.1 | 30.2 |
+| 2, on | 11.2 | 32.6 | 23.5 | 21.1 |
+| 4, off | 20.0 | 95.7 | 34.0 | 22.1 |
+| 4, on | 13.0 | 35.7 | 21.5 | 17.3 |
+| 8, off | 18.9 | 77.1 | 33.2 | 24.3 |
+| 8, on (default) | 11.5 | 47.0 | 24.6 | 17.9 |
+| 16, on | 13.5 | 53.7 | 36.1 | 23.7 |
+
+Several chains without prefetch are worse than one chain (the bookkeeping
+without the overlap); with prefetch, 2-8 chains are within the noise of
+each other and 30-40 % below one chain where lines are far (S3, S4); 16 is
+worse.  A single chain is best only where lines are near (S0) or memory is
+saturated (S1 at 1 chain without prefetch: 34 ns).  8 is kept; on this CPU
+4 would do as well.  The same scan on the pre-fix M4 code
+(`micro-m4-cursors-prefix.log`) gave the same ordering.
+
+### Fresh against recycled memory, and the aged heap
+
+Cells handed out by origin (instrumented builds count them): from a fresh OS
+block (contiguous) or from chunks the sweep published (recycled, in the
+order the sweep met them).
+
+| Workload | Fresh share of cells handed out (whole run) | Sweep ns per cell, whole run | Same, aged window | Fresh share in the aged window |
+|---|---:|---:|---:|---:|
+| js40_records_n6 (K = 0) | 22 % | 20.9 | 26.1 | 0 % |
+| js10_records_n12 (K = 0 / 3) | 9 % | 29.2 / 12.5 | 32.1 / 13.5 | 0 % |
+| jsad_records_n12 (K = 0 / 3) | 11 % | 27.0 / 19.4 | 31.0 / 22.2 | 0 % |
+| scala_tree_t6 (K = 0) | 2 % | 93.7 | 97.2 | 0 % |
+| clj_coll_t6 (K = 0 / 3) | 1 % | 47.0 / 43.2 | 47.7 / 43.8 | 0 % |
+| aged_js10_records_n12 (K = 0 / 3) | 3 % | 36.7 / 14.1 | 38.2 / 14.5 | 0 % |
+| aged_clj_coll_t6 (K = 0 / 3) | 0 % | 48.7 / 46.2 | 48.9 / 46.4 | 0 % |
+| core_fixed640 (1 thread) | 14 % | 10.5 | n/a | n/a |
+
+The aged window is the part of the run after the collector had freed three
+times the heap limit (the heap cycled three times): the last `[GC-PHASES]`
+counters minus those at that point.  The aged runs are the same workloads,
+longer (protoJS REPS = 3, protoClojure 1,500 rounds).
+
+What holds, and what is not established:
+
+- **Established on recycled memory (aged heaps)**: every multi-threaded
+  workload here allocates almost only from recycled chunks after its first
+  heap turn (0 % fresh in the aged windows).  The per-cell sweep cost there
+  is 2-25 % above the whole-run average (the young part of a run is
+  cheaper), and the gains measured hold in the aged window: the multi-cursor
+  sweep (2.11.0 -> 2.12.0: 118 -> 36 and 136 -> 47 ns per cell on the aged
+  runs) and the helpers (36.7 -> 14.1 on aged protoJS records).
+- **Established on mostly fresh memory only by the micro-benchmark**: S5
+  (fresh) and S0 (recycled) cost the same there, but S0's recycled cells
+  come from one quiet sweep of contiguously built garbage, which is close to
+  fresh.  No runtime workload here ran mostly on fresh memory long enough
+  to measure it (the highest fresh share is 22 %).
+- **Not established**: how the cost evolves on a heap that has aged for
+  hours (fragmentation of the recycled chunks across many cycles and
+  threads); the longest aged window here is about 400 cycles of a 2 M-cell
+  heap (protoClojure) and 40 of a 10 M-cell heap (protoJS).  Short runs on a
+  young heap over-represent fresh memory, and the phase report's and this
+  report's short runs should be read with that bias.
+
+### The memory matrix with helpers
+
+The fixed-limit columns of the memory-only experiment again with K = 3 (one
+run per point, a different session from the K = 0 matrix, so compare only
+large differences): at 10 M cells, `js_records` 12.3 -> 10.8 s (waits
+30 -> 18 %); elsewhere within the noise of one run.
+`matrix-helpers-2.14.0.jsonl`.
 
 ## Collector CPU (decision 3: measure first)
 
@@ -420,6 +588,20 @@ cycles).  No decision is taken here; M4's helpers are where the question
 becomes sharp.
 
 ## What this does not show
+
+- Any machine but this notebook-class CPU, except the noisy CI VM runs of
+  "Hardware class".
+- Heaps aged for hours (see "Fresh against recycled memory").
+- Two informational, clock-dependent cases failed once each during this
+  work on CI: `MPSCQueueGC.LargeDrainDoesNotBlockStopTheWorld` (macOS, run
+  37137054874, a pause ratio; Windows, run 37158683120: no cycle landed
+  during a drain) and, in a runtime's CI that runs this
+  suite, `AdaptiveHeapStorm.SoftLimitSettlesWithinBoundedCycles` (2.12.0).
+  Not investigated beyond their timing nature; the latter's replacement
+  (2.13.0) is still clock-dependent and listed as such, and the gating
+  fast-allocator case now asserts invariants only (2.14.0).
+- A ThreadSanitizer report in `GCRootScope.CandidateReachableOnlyFromAYoungCellSurvivesACycleForcedAtOnce`,
+  intermittent (3 in 40) and present on 2.11.0 at the same rate: issue #3.
 
 - No workload in the paradigm's own production style: these are the phase
   report's synthetic benchmarks.
