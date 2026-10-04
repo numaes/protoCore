@@ -370,6 +370,37 @@ of young cells.
   processed, so several misses are in flight on one thread.  Each cursor
   keeps its own batch and survivor chain, merged when its segment ends: the
   cells freed and re-chained are the ones a single-chain walk produces.
+  - **One chain for a single allocating thread that has its runway**
+    (since 2.14.2, `sweep::cursorsFor` and `sweep::mutatorsShort`).  The
+    walk is wide (all the chains) while a thread waits for heap headroom;
+    when more than one thread of the space allocated since its last cycle
+    end (`getFreeCells` notes the thread of every refill,
+    `adaptive::noteRefill`; the collector reads it at sweep start); when
+    the cells left before the ceiling -- the freelist plus the room below
+    the soft limit, or the hard limit without one -- are below pacing's
+    runway or two free chunks per running thread; and always with
+    `PROTOCORE_GC_SWEEP_ENGAGE=always`.  Otherwise it walks one chain.  The
+    width is re-read at every segment a cursor ends.  A wide sweep that
+    nobody needs soon runs far ahead of a single mutator and leaves the
+    cells it frees to go cold, or modified in the collector's cache, before
+    they are reused: protoClojure `coll_alloc` with one task ran 26 % slower
+    with eight chains than with one on 2.14.1, on any pair of cores (same
+    core, same core complex, the other complex: +28, +26 and +54 %), and
+    its mutator spent the extra cycles initialising new cells.  The mutator
+    takes the chunk published last first, so a walk just ahead of it hands
+    it cells the sweep has just touched.  But the one-chain walk takes about
+    twice the CPU time per cell and frees cells about as fast as one
+    mutator takes them: several mutators outrun it (protoJS `records` with
+    six threads, 4-16 % slower with it), and a walk paced to one mutator
+    ends with most of its cells already taken, so the next cycle would start
+    without its runway -- hence the conditions.  A cycle whose sweep walked
+    one chain for most of its segments measured the mutator's pace, not
+    the collector's capacity: the adaptive controller then keeps the
+    throughput T of the last wide sweep.  The one-chain walk keeps its
+    prefetch.  `sweep::walkStats()` counts the segments taken by wide and by
+    one-chain walks, and the instrumented build prints them
+    (`wide_segments`, `narrow_segments`).  Measured in
+    [the adjustments report](reports/2026-10-04-collector-adjustments.md).
 - **Batched segment recycling** (since 2.12.0).  Processed segments are
   chained locally and handed back with one compare-and-swap per 1,024
   segments (the free pool) or per sweep (the survivor pen), instead of one
@@ -398,7 +429,12 @@ of young cells.
     shorten the sweep.  A sweep with helpers whose wall time per cell is not
     below the last sweep without them holds the helpers back for the next
     1, 2, 4 ... 64 sweeps that want them; the first of those is the new
-    comparison.  `waiting` engages them whenever a mutator waits, `always`
+    comparison.  Since 2.14.2 the comparison is a wide sweep without
+    helpers (helpers join only while mutators wait, when the walk is wide
+    too): a one-chain sweep is slower per cell and would make any helper
+    look worth keeping.  With no comparison yet, the first sweep that wants
+    helpers runs without them and becomes it.  `waiting` engages them
+    whenever a mutator waits, `always`
     on every sweep (`PROTOCORE_GC_SWEEP_ENGAGE`,
     `ProtoSpace::setCollectorHelperEngagement`).
   - **Hardware-sensitive parameters are configurable**: the chains walked in
@@ -799,7 +835,13 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   0, the earlier behaviour.  `pacing::runway` in `core/AdaptiveHeap.cpp` is
   the pure function; `PROTOCORE_GC_PACING=0` turns pacing and the early
   wake below off (design: docs/specs/2026-10-03-collector-throughput-design.md
-  § 4.3).
+  § 4.3).  Pacing roughly doubles the cycles of a run whose runway is half
+  its headroom (protoJS with six threads at 40 M cells: 2 -> 4).  The
+  2.14.2 work measured that this pays: with no early start (the early wake
+  kept) those runs were 4-18 % slower, and a shorter runway (the time until
+  the sweep's first cells are back instead of the whole cycle) ran 25-40 %
+  fewer cycles but was up to 13 % slower, from the waits it let back in.
+  The runway is unchanged ([the adjustments report](reports/2026-10-04-collector-adjustments.md), A2).
 - **A wait for headroom ends when cells arrive** (since 2.12.0).  Every
   publication of free cells (the sweep's chunks, a returned batch, an OS
   refill's surplus) wakes one waiting thread while any waits, and the wait
@@ -884,7 +926,7 @@ nothing on the allocation path):
 |---|---|
 | L | live set (`liveCellsLastCycle`) |
 | r | the mutators' allocation rate while not waiting: cells handed out in the interval (from the occupied-cell accounting), divided by the interval less the mean wait per thread |
-| T | the collector's reclamation throughput: cells freed per second of collector busy time (token taken to cycle end) |
+| T | the collector's reclamation throughput: cells freed per second of collector busy time (token taken to cycle end); since 2.14.2, after a sweep that walked one chain for most segments, the T of the last wide sweep |
 | w | the wait share: time in `reclaimWaitLocked` summed over threads, over the interval times the threads (`AdaptiveHeapStats::lastPressure` since 2.13.0) |
 | C | the cycle duration from request to completion (pacing) |
 
@@ -901,7 +943,25 @@ if w > 0 and rho >= 1 and growth not stopped:
 after a probe: a wait share not below the one before the probe is a
     non-improving probe; two in a row stop growth (S is held)
 a change of L or r by a factor of 2 since the stop re-arms growth
+after a cycle that reclaimed fewer cells than L, the first included (since 2.14.2):
+    if S' < min(H, 2 L + runway):  S' = min(H, max(2 L + runway, 2 S))
 ```
+
+- **The live-set floor** (since 2.14.2, `adaptive::liveSetFloor`).  A cycle
+  paced to start `runway` cells before S finds `S - runway - L` cells of
+  garbage; below `S = 2 L + runway` it marks the whole live set to reclaim
+  less than the live set.  The floor applies after a cycle that reclaimed
+  fewer cells than its live set -- the evidence -- with or without waits,
+  and to the first cycle, which the law otherwise skips: a
+  program whose start-up live set sits just below S0 (protoST, about 1.7 M
+  cells against S0 = 2 M) ran its first cycle at once, kept S at S0, and
+  ran the next one after a thin slice of allocation; pacing hid those
+  cycles from the waits, so rule 4.1 (no wait, no growth) alone never
+  raised S.  The factor is structural: the point where a cycle reclaims as
+  many cells as it marks.  The runway is the one pacing uses, before the
+  ceiling caps it; it is measured and noisy, so S is raised to the floor
+  by at least a doubling, and the floor's changes count with the probes'
+  in the bound below.
 
 - **Regime 1** gets the headroom of the condition `G (1 - rho) >= rho L`
   (spec § 2), not a fitted multiple; pacing then starts each cycle with
@@ -912,9 +972,9 @@ a change of L or r by a factor of 2 since the stop re-arms growth
   not reduce the waits are the signature of a collector slower than the
   allocation: growth stops, and memory is not spent where it buys no time.
 - **Bounded convergence.**  S never decreases and never exceeds H; it
-  changes at most `log2(H / S0)` times by doubling, plus regime-1 jumps
-  after a change of the inputs, plus re-arms (at most `log2` of the range of
-  L or r).  The constants are structural: m, doubling, two probes, a factor
+  changes at most `log2(H / S0)` times by doubling (probes and live-set
+  floor raises together), plus regime-1 jumps after a change of the
+  inputs, plus re-arms (at most `log2` of the range of L or r).  The constants are structural: m, doubling, two probes, a factor
   of 2.
 - **No speculative growth to the budget.**  An embedder that knows its run
   fits starts S at H: `AdaptiveHeapConfig::initialSoftCells` at or above

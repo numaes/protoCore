@@ -4,6 +4,64 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.2] - 2026-10-04
+
+No public API change; ABI compatible (SOVERSION 3).  The four collector
+adjustments approved after the [final re-measurement](docs/reports/2026-10-04-final-remeasurement.md)
+(its section 6); evidence and data in
+[docs/reports/2026-10-04-collector-adjustments.md](docs/reports/2026-10-04-collector-adjustments.md).
+Synthetic workloads, medians of 3, one notebook-class CPU (Ryzen 5 5500U).
+
+### Changed
+
+- **The sweep walks one chain for a single allocating thread that has its
+  runway** (A1).  On 2.14.1 the 8-chain walk made protoClojure
+  `coll_alloc` with one task 29 % slower than on 2.10.2 (11.25 -> 14.52 s
+  in this session): the sweep ran far ahead of the lone mutator, whose
+  allocations then wrote cells that had gone cold or sat modified in the
+  collector's cache (11 G more mutator cycles and 33 M more DRAM fills;
+  +26 to +54 % on every placement of the two threads).  The walk is now
+  wide while a thread waits for headroom, when more than one thread
+  allocated since the last cycle (`getFreeCells` notes the thread of each
+  refill), when the cells left before the ceiling are below pacing's
+  runway or two free chunks per running thread, or with
+  `PROTOCORE_GC_SWEEP_ENGAGE=always`; one chain otherwise
+  (`sweep::cursorsFor`, `sweep::mutatorsShort`).  `coll_alloc` with one
+  task: 14.52 -> 11.99 s (2.10.2: 11.25).  Multi-threaded workloads walk
+  wide as before.  The measured engagement of the helpers compares against
+  a wide sweep without them, and a cycle whose sweep walked one chain
+  leaves the adaptive controller the throughput of the last wide sweep.
+  The instrumented build prints `wide_segments` and `narrow_segments`.
+- **Adaptive controller: the live-set floor** (A3).  After a cycle that
+  reclaimed fewer cells than its live set -- the first cycle included,
+  which the law otherwise skips -- the soft limit is raised to at least
+  `min(H, 2 L + runway)`, by at least a doubling (`adaptive::liveSetFloor`).
+  A program whose start-up live set sits just below S0 (protoST: 1.7 M
+  cells against 2 M) ran a futile first cycle, kept S at S0, and ran the
+  next one after a thin slice of allocation.  protoST `fib.st` under the
+  controller: see the report (it remains slower than with protoST's fixed
+  limit: the start-up cycle and a cycle waited for at exit).
+
+### Fixed
+
+- `softHeapLimit` is stored with a relaxed atomic store (`setHeapLimits`,
+  the controller): the sweep now reads it without the lock.
+
+### Not changed, with evidence
+
+- **Pacing** (A2).  The re-measurement attributed +1-6 % at six threads
+  and 40 M cells to pacing's early starts.  In this session 2.14.1 was not
+  slower than 2.10.2 there (`doctree` 9.85 -> 9.69 s, `wordfreq` 7.60 ->
+  7.29 s), removing the early starts made those runs 2-12 % slower, and a
+  shorter runway (until the sweep's first cells are back) ran 25-40 % fewer
+  cycles but was up to 13 % slower and let waits back in on a CI runner.
+  The runway is 2.14.1's.
+- **`immutable_sharing_benchmark` +8.5 % cycles** (A4) is code layout: the
+  same 4.574 G instructions, the hot functions identical in size and moved
+  across 64-byte boundaries, 41 times more switches between the op cache
+  and the decoder; with every function aligned to 64 bytes 2.14.1 runs in
+  2.996 G cycles against 2.10.2's 3.023 G.  No code change.
+
 ## [2.14.1] - 2026-10-03
 
 No public API change; ABI compatible (SOVERSION 3).  One test-only symbol

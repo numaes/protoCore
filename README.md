@@ -15,7 +15,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 | Item | Value |
 |------|-------|
-| Version | 2.14.1 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
+| Version | 2.14.2 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
 | Status | Open for review; not production ready |
 | Test suite | GoogleTest, counted with `ctest -N` in your build directory — 499 cases as of 2026-09-25. Count it rather than quoting this line: it grows with every fix. |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
