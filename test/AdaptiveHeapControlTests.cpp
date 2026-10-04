@@ -133,8 +133,8 @@ TEST(AdaptiveHeapLaw, ASoftLimitBelowTwiceTheLiveSetIsRaisedWithoutWaits) {
     LawState fresh;
     EXPECT_EQ(nextSoftLimit(inputs(kS0, L, 0.0, 0.0, 0.0), fresh), std::max<proto_ulong>(2 * L, 2 * kS0));
     // A floor well above S is reached in one step.
-    LawState far;
-    EXPECT_EQ(nextSoftLimit(inputs(kS0, 4000000, 0.0, 0.0, 0.0), far), 8000000u);
+    LawState distant;   // not `far`: <windows.h> defines it as a macro
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 4000000, 0.0, 0.0, 0.0), distant), 8000000u);
 }
 
 TEST(AdaptiveHeapLaw, AFloorThatCreepsWithTheRunwayChangesSBoundedly) {

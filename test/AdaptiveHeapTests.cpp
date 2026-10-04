@@ -539,9 +539,7 @@ StormRun runStorm(ProtoSpace& space, int maxRounds, bool safepoints) {
     }
     const AdaptiveHeapStats s = space.adaptiveHeapStats();
     // The last cycle too: one that completed during the last round is not
-    // seen by the loop.  Since 2.14.2 the live-set floor raises S after the
-    // first cycle, so a slow build (ThreadSanitizer) may run only three
-    // cycles in all, and the loop saw none of the two that waited.
+    // seen by the loop.
     run.maxWait = std::max(run.maxWait, s.lastPressure);
     run.finalSoft = s.softCells;
     run.budget = s.hardCells;
@@ -564,7 +562,10 @@ StormRun runStorm(ProtoSpace& space, int maxRounds, bool safepoints) {
 TEST(AdaptiveHeapStorm, SoftLimitRisesUnderStall) {
     CleanEnv env;
     ProtoSpace space;
-    const StormRun run = runStorm(space, 60, false);
+    // 30 M objects: since 2.14.2 the live-set floor raises S above twice the
+    // live set from the first cycle, and 6 M (the storm of 2.10-2.14.1) then
+    // fitted under S, so no cycle ran during the storm and nothing stalled.
+    const StormRun run = runStorm(space, 300, false);
     EXPECT_GT(run.maxWait, 0.0) << "the storm produced no wait";
     EXPECT_GT(run.finalSoft, run.initialSoft) << "S never grew under the stall";
     EXPECT_LE(run.finalSoft, run.budget);
