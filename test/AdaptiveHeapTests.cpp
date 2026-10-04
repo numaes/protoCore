@@ -638,51 +638,60 @@ TEST(AdaptiveHeap, RetainedSetAtSixtyPercentOfHWithHeavyGarbageCompletes) {
 // --- Start-up live set near S0 (2.14.2) -------------------------------------------
 
 // The pattern of protoST under the controller (2026-10-04 re-measurement,
-// fib.st 3.4 times slower): the program's start-up live set grows to just
-// below the initial soft limit, so the first cycle starts at once and frees
-// almost nothing, and S stayed at S0 after it (the law skips the first cycle),
-// so the next cycle followed after a thin slice of allocation.  Since 2.14.2
-// every cycle end, the first included, keeps S >= min(H, 2 L).
-// Gating: the invariant is read under globalMutex (adaptiveHeapStats), where
-// the collector publishes L and S together, after every chunk of the
-// start-up build and of the garbage that follows.
-TEST(AdaptiveHeapStartUp, EveryCycleLeavesSAtLeastTwiceTheLiveSet) {
+// fib.st 3.4 times slower): the program's start-up live set sits just below
+// the initial soft limit, so a cycle starts at once and frees little, and S
+// stayed at S0 after it (the law skips the first cycle; later ones grow S
+// only on waits), so the next cycle followed after a thin slice of
+// allocation.  Since 2.14.2 a cycle that reclaimed less than it marked, the
+// first included, leaves S >= min(H, 2 L + runway).  Gating: L, S and the
+// cycle's reclamation are read together under globalMutex after every chunk
+// of garbage; at least one such cycle must be seen.
+TEST(AdaptiveHeapStartUp, ACycleThatReclaimsLessThanItMarksLeavesSAtLeastTwiceTheLiveSet) {
     CleanEnv env;
     ProtoSpace space;
-    // Start-up: a live set of about 500,000 cells -- a chain of objects, each
-    // holding the previous one in an attribute, rooted at the end -- built
-    // before the controller is enabled, so no cycle reclaims it on the way.
-    constexpr int kLiveObjects = 250000;
-    ProtoRootSet* rs = space.createRootSet("start-up-live-set");
-    ProtoRootSet::Handle h = ProtoRootSet::kNullHandle;
-    {
-        ProtoContext sub(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
-        const ProtoString* next = ProtoString::createSymbol(&sub, "startUpNext");
-        const ProtoObject* chain = PROTO_NONE;
-        for (int i = 0; i < kLiveObjects; ++i)
-            chain = sub.newObject(false)->setAttribute(&sub, next, chain);
-        h = rs->add(chain);
-    }
-    // S0 15 % above the live set (two cells per object: the object and its
-    // attribute list), below the heap the start-up left with its garbage:
-    // the first cycle starts at once and reclaims only that garbage.
+    // The controller from the start, S0 = 600,000 cells.
     AdaptiveHeapConfig c;
     c.hardCells = 16000000;   // 1 GB
-    c.initialSoftCells = 2 * static_cast<proto_ulong>(kLiveObjects) * 115 / 100;
+    c.initialSoftCells = 600000;
     space.enableAdaptiveHeap(c);
     const proto_ulong s0 = softOf(space);
     int observed = 0;
+    int futile = 0;
     std::uint64_t firstChecked = 0;
     auto check = [&](const char* phase) {
-        const AdaptiveHeapStats st = space.adaptiveHeapStats();
+        AdaptiveHeapStats st;
+        proto_ulong reclaimed = 0;
+        {
+            // L, S and the cycle's reclamation are published together under
+            // globalMutex at the cycle end.
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            st = space.adaptiveHeapStats();
+            reclaimed = space.reclaimedLastCycle.load();
+        }
         if (st.cycles == 0) return true;
         if (observed++ == 0) firstChecked = st.cycles;
+        if (reclaimed >= st.liveCellsLastCycle) return true;
+        ++futile;   // a cycle that reclaimed less than it marked
         const proto_ulong floor = std::min<proto_ulong>(st.hardCells, 2 * st.liveCellsLastCycle);
         EXPECT_GE(st.softCells, floor)
-            << phase << ": after " << st.cycles << " cycle(s) S = " << st.softCells
-            << " cells is below twice the live set (L = " << st.liveCellsLastCycle << ")";
+            << phase << ": after " << st.cycles << " cycle(s) that reclaimed " << reclaimed
+            << " cells, S = " << st.softCells << " cells is below twice the live set (L = "
+            << st.liveCellsLastCycle << ")";
         return st.softCells >= floor;
     };
+    // Start-up: 700,000 objects, each rooted in a root set (whose slots are
+    // not cells), so the start-up allocates almost nothing but live cells and
+    // the first cycle, at S0, finds almost no garbage.
+    constexpr int kLiveObjects = 700000;
+    ProtoRootSet* rs = space.createRootSet("start-up-live-set");
+    for (int done = 0; done < kLiveObjects; done += 1000) {
+        {
+            ProtoContext sub(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
+            for (int i = 0; i < 1000; ++i) (void) rs->add(sub.newObject(false));
+        }
+        space.rootContext->safepoint();
+        ASSERT_TRUE(check("start-up"));
+    }
     // The program proper: garbage at an interpreter-like rate.
     proto_ulong garbage = 0;
     for (int r = 0; r < 300; ++r) {
@@ -690,19 +699,12 @@ TEST(AdaptiveHeapStartUp, EveryCycleLeavesSAtLeastTwiceTheLiveSet) {
         ASSERT_TRUE(check("run"));
     }
     const AdaptiveHeapStats st = space.adaptiveHeapStats();
-    std::printf("[ start-up ] S0=%lu L=%lu S=%lu cycles=%llu first-checked=%llu garbage=%lu\n",
+    std::printf("[ start-up ] S0=%lu L=%lu S=%lu cycles=%llu first-checked=%llu futile-seen=%d garbage=%lu\n",
                 (unsigned long) s0, (unsigned long) st.liveCellsLastCycle,
                 (unsigned long) st.softCells, (unsigned long long) st.cycles,
-                (unsigned long long) firstChecked, (unsigned long) garbage);
+                (unsigned long long) firstChecked, futile, (unsigned long) garbage);
     EXPECT_GT(observed, 0);
-    {
-        // The whole chain survived.
-        ProtoContext sub(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
-        const ProtoString* next = ProtoString::createSymbol(&sub, "startUpNext");
-        int length = 0;
-        for (const ProtoObject* o = rs->resolve(h); o != PROTO_NONE; o = o->getAttribute(&sub, next)) ++length;
-        EXPECT_EQ(length, kLiveObjects) << "the live set did not survive";
-    }
+    EXPECT_GT(futile, 0) << "no cycle reclaimed less than it marked: the case does not reproduce the pattern";
     EXPECT_GT(st.liveCellsLastCycle, s0 / 2)
         << "the live set is not near S0: the case does not reproduce the pattern";
 }

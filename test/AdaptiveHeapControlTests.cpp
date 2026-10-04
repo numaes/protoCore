@@ -105,6 +105,18 @@ TEST(AdaptiveHeapLaw, LiveSetFloorIsTwiceTheLiveSetPlusTheRunwayWithinTheBudget)
     EXPECT_DOUBLE_EQ(kLiveSetFloorFactor, 2.0);
 }
 
+TEST(AdaptiveHeapLaw, TheFloorAppliesOnlyAfterACycleThatReclaimedLessThanItMarked) {
+    // L = 1.7 M cells, S = 2 M: the floor (3.4 M) is above S.  A cycle that
+    // reclaimed 2 M cells (more than L) is no evidence for a larger heap;
+    // one that reclaimed 0.4 M is.
+    LawState st;
+    LawInputs in = inputs(kS0, 1700000, 5e6, 1e7, 0.0);
+    in.reclaimedCells = 2000000;
+    EXPECT_EQ(nextSoftLimit(in, st), kS0);
+    in.reclaimedCells = 400000;
+    EXPECT_EQ(nextSoftLimit(in, st), std::max<proto_ulong>(2 * 1700000, 2 * kS0));
+}
+
 TEST(AdaptiveHeapLaw, TheFloorMakesRoomForPacingsRunway) {
     // A paced cycle starts `runway` cells before S: S = 2 L + runway leaves it
     // L of garbage to find.

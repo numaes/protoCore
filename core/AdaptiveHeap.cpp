@@ -107,11 +107,12 @@ namespace adaptive {
             st.rateAtProbe = r;
             ++st.probes;
         }
-        // The live-set floor: a cycle reclaims at least as many cells as it
-        // marks, whatever the waits.  Raised to it by at least a doubling, so
+        // The live-set floor, after a cycle that reclaimed fewer cells than
+        // it marked, whatever the waits.  Raised to it by at least a doubling, so
         // that a floor that creeps with the measured runway changes S no more
         // often than the probes do (bounded convergence).
-        next = raiseToFloor(next, S, in.liveCells, in.runwayCells, B);
+        if (in.reclaimedCells < in.liveCells)
+            next = raiseToFloor(next, S, in.liveCells, in.runwayCells, B);
         next = std::min(next, static_cast<double>(B));
         proto_ulong result = static_cast<proto_ulong>(next);
         if (result < S) result = S <= B ? S : B;   // never decreases; never above B
@@ -397,6 +398,8 @@ namespace adaptive {
             // whether another one did too.
             const void* refiller = nullptr;
             bool severalRefillers = false;
+            // T of the last cycle whose sweep walked wide for most segments.
+            double wideThroughput = 0.0;
             WaitStats stats;
         };
 
@@ -761,7 +764,15 @@ namespace adaptive {
         in.rate = std::max(s->rate[0], s->rate[1]);
         const double busy = static_cast<double>(s->last.busyNanos) / 1e9;
         in.throughput = busy > 0.0 ? static_cast<double>(measures.freedCells) / busy : 0.0;
+        // A sweep that walked one chain for most of its segments ran just
+        // ahead of a single mutator on purpose (sweep::mutatorsShort): its
+        // time measures the mutator's pace, not the collector's capacity.
+        // The law keeps the throughput of the last wide sweep (none yet:
+        // unmeasured, S is kept).
+        if (measures.narrowSegments > measures.wideSegments) in.throughput = s->wideThroughput;
+        else s->wideThroughput = in.throughput;
         in.waitShare = s->waitShare;
+        in.reclaimedCells = measures.freedCells;
         // Pacing's runway for the next interval, before the ceiling caps it.
         in.runwayCells = static_cast<double>(pacing::runway(
             static_cast<long long>(kMaxCells), 0, in.rate,
@@ -774,8 +785,10 @@ namespace adaptive {
         // start-up live set sits just below S0 would otherwise run its next
         // cycle after a thin slice of allocation.
         const proto_ulong after = s->cycles == 0
-            ? static_cast<proto_ulong>(raiseToFloor(static_cast<double>(before), before, L,
-                                                    in.runwayCells, s->hardCells))
+            ? (in.reclaimedCells < L
+                   ? static_cast<proto_ulong>(raiseToFloor(static_cast<double>(before), before, L,
+                                                           in.runwayCells, s->hardCells))
+                   : before)
             : nextSoftLimit(in, s->law);
         // Stored relaxed: the sweep reads it without the lock (sweep::mutatorsShort).
         relaxedStore(space->softHeapLimit, static_cast<int>(std::min<proto_ulong>(after, kMaxCells)));

@@ -166,25 +166,28 @@ namespace sweep {
         return seg;
     }
 
-    bool mutatorsShort(ProtoSpace* space, bool several) {
+    bool mutatorsShort(ProtoSpace* space, bool several, long long runway) {
         if (adaptive::headroomWaitersTotal.load(std::memory_order_relaxed) > 0) return true;
         // Several allocating threads: they consume faster than a one-chain
         // walk frees, and its CPU time (about twice the wide walk's per cell)
         // competes with them.  The one-chain walk is for one mutator.
         if (several) return true;
-        // About to wait: the cells left before the ceiling -- the freelist
-        // plus the room below the soft limit, or below the hard limit
-        // without one -- hold less than two free chunks per running thread,
-        // the refill each thread takes now and the next one.  Without a
-        // limit a thread grows the heap instead of waiting.
+        // The cells left before the ceiling -- the freelist plus the room
+        // below the soft limit, or below the hard limit without one -- must
+        // hold pacing's runway (the next cycle's), and at least two free
+        // chunks per running thread (the refill each thread takes now and the
+        // next one).  Below that the mutator would catch up with a one-chain
+        // walk and wait, or start its next cycle with no runway, and the walk
+        // widens.  Without a limit only the freelist counts.
+        const long long need = std::max(runway,
+            2LL * std::max(1, space->runningThreads.load(std::memory_order_relaxed))
+                * static_cast<long long>(ProtoSpace::CELL_CHUNK_SIZE));
         const int soft = relaxedLoad(space->softHeapLimit);
         const int hard = relaxedLoad(space->maxHeapSize);
         const long long ceiling = soft > 0 ? soft : hard;
-        if (ceiling <= 0) return false;
-        const long long left = static_cast<long long>(relaxedLoad(space->freeCellsCount))
-            + std::max(0LL, ceiling - static_cast<long long>(relaxedLoad(space->heapSize)));
-        const long long need = 2LL * std::max(1, space->runningThreads.load(std::memory_order_relaxed))
-            * static_cast<long long>(ProtoSpace::CELL_CHUNK_SIZE);
+        long long left = static_cast<long long>(relaxedLoad(space->freeCellsCount));
+        if (ceiling > 0)
+            left += std::max(0LL, ceiling - static_cast<long long>(relaxedLoad(space->heapSize)));
         return left < need;
     }
 
@@ -211,7 +214,7 @@ namespace sweep {
         // otherwise.
         auto width = [&]() -> int {
             return static_cast<int>(cursorsFor(maxCursors, mode,
-                                               mutatorsShort(L.space, L.severalAllocators)));
+                                               mutatorsShort(L.space, L.severalAllocators, L.runway)));
         };
         int want = width();
         auto load = [&](Cursor& c) -> bool {
@@ -357,6 +360,7 @@ namespace sweep {
             ProtoSpace* space = nullptr;
             bool deferFree = false;
             bool severalAllocators = true;
+            long long runway = 0;
             SegmentCursor* cursor = nullptr;
             bool closed = false;
             unsigned active = 0;
@@ -364,6 +368,8 @@ namespace sweep {
             proto_ulong reclaimed = 0;
             proto_ulong swept = 0;
             proto_ulong segments = 0;
+            proto_ulong wideSegments = 0;
+            proto_ulong narrowSegments = 0;
             std::vector<proto_ulong> refs;
             std::vector<Cell*> dead;
             std::vector<Cell*> external;
@@ -420,6 +426,7 @@ namespace sweep {
         void helperWork(Job* j) {
             SweeperLocal L(j->space, j->deferFree, nullptr, /*helper=*/true);
             L.severalAllocators = j->severalAllocators;
+            L.runway = j->runway;
             std::vector<Cell*> dead;
             L.deadCells = &dead;
             tlRefSink = &L.finalizedRefs;
@@ -433,6 +440,8 @@ namespace sweep {
             j->reclaimed += L.reclaimed;
             j->swept += L.swept;
             j->segments += L.segments;
+            j->wideSegments += L.wideSegments;
+            j->narrowSegments += L.narrowSegments;
             j->refs.insert(j->refs.end(), L.finalizedRefs.begin(), L.finalizedRefs.end());
             j->dead.insert(j->dead.end(), dead.begin(), dead.end());
             j->external.insert(j->external.end(), L.deferredExternal.begin(), L.deferredExternal.end());
@@ -644,8 +653,10 @@ namespace sweep {
         {
             std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             L.severalAllocators = adaptive::severalAllocators(space);
+            L.runway = adaptive::waitStats(space).runway;
         }
         job.severalAllocators = L.severalAllocators;
+        job.runway = L.runway;
         // The collector starts alone: a cycle that one claim exhausts never
         // touches the pool.  At each claim that leaves segments behind, the
         // helpers are offered the rest once mutators wait for headroom,
@@ -697,6 +708,8 @@ namespace sweep {
         result.swept = L.swept + job.swept;
         result.segments = L.segments + job.segments;
         result.helpersJoined = job.joined;
+        result.wideSegments = L.wideSegments + job.wideSegments;
+        result.narrowSegments = L.narrowSegments + job.narrowSegments;
         if (!job.refs.empty())
             space->gcFinalizedMutableRefs.insert(space->gcFinalizedMutableRefs.end(),
                                                  job.refs.begin(), job.refs.end());

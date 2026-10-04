@@ -1024,6 +1024,8 @@ namespace proto {
                         std::chrono::steady_clock::now() - sweepStart).count());
                 measures.sweptCells = sweeper.swept;
                 measures.sweptSegments = sweeper.segments;
+                measures.wideSegments = sweeper.wideSegments;
+                measures.narrowSegments = sweeper.narrowSegments;
 
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_release_start = std::chrono::steady_clock::now();

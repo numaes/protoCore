@@ -632,8 +632,10 @@ TEST(ParallelSweepConfig, CursorsAreWideOnlyWhileAMutatorWaits) {
 // records with six threads was 4-16 % slower with the one-chain walk).
 TEST(ParallelSweepConfig, SeveralAllocatingThreadsWidenTheWalk) {
     ProtoSpace space;   // no limit, nobody waits
-    EXPECT_FALSE(sweep::mutatorsShort(&space, false));
-    EXPECT_TRUE(sweep::mutatorsShort(&space, true));
+    EXPECT_FALSE(sweep::mutatorsShort(&space, false, 0));
+    EXPECT_TRUE(sweep::mutatorsShort(&space, true, 0));
+    // A runway larger than the freelist (no limit: the freelist alone counts).
+    EXPECT_TRUE(sweep::mutatorsShort(&space, false, 1LL << 40));
     // The refills since the last cycle end say how many threads allocate.
     runCycle(space);   // the count restarts at a cycle end
     {
