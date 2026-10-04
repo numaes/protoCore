@@ -816,7 +816,11 @@ namespace proto {
                 // candidates of this cycle nor marked; the references they
                 // hold are pushed so mark reaches every object a young cell
                 // refers to.  The walk runs while the mutators run, over a
-                // stable view:
+                // stable view.  Every chain was captured from a thread that
+                // was parked or out of the running set at the capture: a
+                // thread is in `space->threads` only while it counts in the
+                // quorum (thread_main leaves both in one globalMutex section,
+                // GitHub issue #3).  Then:
                 //   * a chain grows only by prepending (addCell2Context sets
                 //     the new cell's next to the current head, then publishes
                 //     the new cell as head), so cells allocated after the

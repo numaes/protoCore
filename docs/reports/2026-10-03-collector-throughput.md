@@ -601,7 +601,9 @@ becomes sharp.
   (2.13.0) is still clock-dependent and listed as such, and the gating
   fast-allocator case now asserts invariants only (2.14.0).
 - A ThreadSanitizer report in `GCRootScope.CandidateReachableOnlyFromAYoungCellSurvivesACycleForcedAtOnce`,
-  intermittent (3 in 40) and present on 2.11.0 at the same rate: issue #3.
+  intermittent (3 in 40) and present on 2.11.0 at the same rate: issue #3,
+  fixed in 2.14.1 (an exiting thread left the stop-the-world quorum before it
+  left the threads list; see docs/GarbageCollector.md, Known issues).
 
 - No workload in the paradigm's own production style: these are the phase
   report's synthetic benchmarks.

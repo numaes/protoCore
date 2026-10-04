@@ -186,6 +186,17 @@ this project real debugging time:
 checks: the cases `stw.quorum_completes` and `join.parks`, and the static check
 `blocking_join_unbracketed`.
 
+**A thread counts in the quorum for as long as it is in `space->threads`.**
+Phase 2 scans the context of every thread in that list, so a thread in it must
+be parked when the world is stopped.  A managed thread therefore increments
+`runningThreads` when its OS thread starts, before it allocates, and decrements
+it on exit in the same `globalMutex` critical section that publishes the
+threads list without it — after the rebuild of that list, whose allocations
+poll for a stop-the-world like any other.  Until 2.14.0 the decrement came
+before the rebuild, and a cycle could stop the world and walk the exiting
+thread's context while that thread was still constructing cells in it
+(GitHub issue #3; `test/ThreadExitQuorumTests.cpp`).
+
 ### Phase 2 — Root collection + mutable-shard snapshot
 While the world is stopped, the GC:
 
@@ -1424,6 +1435,26 @@ operates under.
   stopped, and a thread cannot join itself.  A thread that is never joined
   still leaks its `std::thread`; that is the embedder's side of the contract.
   Regression cover: `test/ThreadExitReleaseTests.cpp`.
+
+- ~~**An exiting thread left the stop-the-world quorum before the threads
+  list.**~~  Fixed in 2.14.1 (GitHub issue #3).  `thread_main` decremented
+  `runningThreads` as soon as the thread's body returned, then rebuilt
+  `space->threads` without the thread, allocating cells in its root context.
+  For that window the thread was in the list but not in the quorum, so a cycle
+  could reach `parkedThreads >= runningThreads` without it, scan its context in
+  Phase 2 and capture its young-chain head while it ran; the concurrent Phase 4
+  young walk then read cells the rebuild was still constructing (vtable pointer
+  and fields of a `ProtoSparseListSmallImplementation`).  ThreadSanitizer saw it
+  in about 3 of 40 runs of
+  `GCRootScope.CandidateReachableOnlyFromAYoungCellSurvivesACycleForcedAtOnce`,
+  on 2.11.0 as on 2.14.0.  A second consequence of the same window: an
+  allocation there could still park the thread (`parkIn` counts it into
+  `parkedThreads`), so an uncounted thread could stand in for a counted one that
+  was still running.  The decrement now happens in the critical section that
+  publishes the list without the thread.  Regression cover:
+  `test/ThreadExitQuorumTests.cpp`, which uses the test-only `threadExitHook`
+  (`proto_internal.h`) to watch a requested stop-the-world from inside the
+  window and failed on every run before the fix.
 
 ## Future Research: Further bounding the STW pause
 

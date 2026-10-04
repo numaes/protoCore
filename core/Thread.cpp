@@ -14,6 +14,10 @@
 
 namespace proto {
 
+    // Test-only intervention point (proto_internal.h).  Null in every build;
+    // one relaxed load per thread exit.
+    std::atomic<ThreadExitHook> threadExitHook{nullptr};
+
     namespace {
         /**
          * The current `space->threads`, read under ProtoSpace::globalMutex.
@@ -169,12 +173,28 @@ namespace proto {
                     std::cerr << "Uncaught exception in thread: " << e.what() << std::endl;
                 }
             }
-            context->space->runningThreads--;
-            multispace::setWorkerSpace(nullptr, nullptr);
-            // Rebuild the immutable threads list OUTSIDE the global
-            // mutex, then swap inside — see ProtoThreadImplementation
-            // constructor for the recursive_mutex / park deadlock this
-            // pattern avoids.
+            if (const ThreadExitHook hook = threadExitHook.load(std::memory_order_relaxed))
+                hook(context);
+            // Leave the threads list, and only then the stop-the-world quorum
+            // (GitHub issue #3).  While this thread is in `space->threads`,
+            // every cycle's Phase 2 scans its context and captures its young-
+            // chain head, which is sound only if the thread is parked - so it
+            // must still count in `runningThreads`, or the collector could
+            // reach its quorum and stop the world while this thread runs the
+            // rebuild below, allocating cells in that very context.  It was
+            // decremented before the rebuild until 2.14.0: ThreadSanitizer saw
+            // the concurrent young walk read cells this rebuild was still
+            // constructing, and an allocation in the window could even park
+            // the uncounted thread and let it stand in for a running one.
+            //
+            // Rebuild the immutable threads list OUTSIDE the global mutex,
+            // then swap inside - see ProtoThreadImplementation constructor for
+            // the recursive_mutex / park deadlock this pattern avoids.  The
+            // rebuild's allocations poll for a stop-the-world as any mutator's
+            // do.  The decrement is made in the same critical section as the
+            // swap: Phase 2 reads the list under globalMutex, so no cycle can
+            // observe the thread in the list and out of the quorum.  Nothing
+            // after it allocates or parks.
             proto_ulong threadId = reinterpret_cast<uintptr_t>(context->thread);
             while (true) {
                 const ProtoSparseList* oldThreads = snapshotThreads(context->space);
@@ -183,9 +203,13 @@ namespace proto {
                 std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
                 if (context->space->threads == oldThreads) {
                     context->space->threads = const_cast<ProtoSparseList*>(newThreads);
+                    context->space->runningThreads--;
+                    // A collector already waiting for the quorum re-evaluates it.
+                    context->space->gcCV.notify_all();
                     break;
                 }
             }
+            multispace::setWorkerSpace(nullptr, nullptr);
             // Everything this thread owns goes back now, on this thread.  After
             // this call `context` is a dangling pointer, so nothing below may
             // touch it - hence the saved `space`.

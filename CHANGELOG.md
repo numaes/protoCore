@@ -4,6 +4,31 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.1] - 2026-10-03
+
+No public API change; ABI compatible (SOVERSION 3).  One test-only symbol
+is added to the internal header.
+
+### Fixed
+
+- **An exiting thread could be walked by a stop-the-world it was not part
+  of** (GitHub issue #3).  `thread_main` left the stop-the-world quorum
+  (`runningThreads`) as soon as the thread's body returned, and only then
+  rebuilt `space->threads` without the thread, allocating in its root
+  context.  In that window a cycle could stop the world without the thread,
+  scan its context and capture its young chain while it ran, and the
+  concurrent young-chain walk read cells the rebuild was still constructing;
+  an allocation in the window could also park the uncounted thread and let
+  it stand in for a running one in the quorum count.  ThreadSanitizer
+  reported it in about 3 of 40 runs of
+  `GCRootScope.CandidateReachableOnlyFromAYoungCellSurvivesACycleForcedAtOnce`
+  since at least 2.11.0.  The thread now leaves the quorum in the same
+  `globalMutex` critical section that publishes the threads list without
+  it.  New test `ThreadExitQuorum.AThreadStillInTheThreadsListHoldsTheStopTheWorld`
+  (failed on every run before the fix) drives the window through a
+  test-only hook in the internal header, `threadExitHook`, null in every
+  build.
+
 ## [2.14.0] - 2026-10-03
 
 Additive API; no ABI break (SOVERSION 3).  Milestone 4 of the
