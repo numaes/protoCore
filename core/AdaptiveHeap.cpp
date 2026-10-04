@@ -393,6 +393,10 @@ namespace adaptive {
             double waitShare = 0.0;
             // Threads in reclaimWaitLocked now.
             int waiters = 0;
+            // The first thread that refilled since the last cycle end, and
+            // whether another one did too.
+            const void* refiller = nullptr;
+            bool severalRefillers = false;
             WaitStats stats;
         };
 
@@ -599,6 +603,18 @@ namespace adaptive {
         }
     }
 
+    void noteRefill(ProtoSpace* space, const void* who) {
+        SpaceState* s = find(space);
+        if (!s || s->severalRefillers) return;
+        if (!s->refiller) s->refiller = who;
+        else if (s->refiller != who) s->severalRefillers = true;
+    }
+
+    bool severalAllocators(const ProtoSpace* space) {
+        SpaceState* s = find(space);
+        return !s || s->severalRefillers;
+    }
+
     void afterHeapGrowth(ProtoSpace* space, int cells) {
         processHeapCells += cells;
         if (processHeapCells > processHeapPeak) processHeapPeak = processHeapCells;
@@ -656,6 +672,8 @@ namespace adaptive {
             s->cycleSeconds[0] = cycle;
             s->occupiedLastEnd = occupied;
             s->returnedSinceEnd = 0;
+            s->refiller = nullptr;
+            s->severalRefillers = false;
             s->intervalStart = now;
             s->requested = false;
             ++s->completed;

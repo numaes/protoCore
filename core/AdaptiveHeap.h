@@ -235,6 +235,17 @@ namespace adaptive {
      */
     void pace(ProtoSpace* space);
 
+    /**
+     * A refill of `space` by `who` (its thread, or its context without one;
+     * getFreeCells, globalMutex held): counts whether more than one thread
+     * allocated since the last cycle end (since 2.14.2).
+     */
+    void noteRefill(ProtoSpace* space, const void* who);
+    /** More than one thread of `space` allocated since its last cycle end;
+     *  true when unknown (globalMutex held).  The sweep walks one chain only
+     *  for a single allocating thread (sweep::mutatorsShort). */
+    bool severalAllocators(const ProtoSpace* space);
+
     /** Every space has a side state (created by its constructor), whatever
      *  its limits: pacing and the wait accounting apply to fixed limits too. */
     void registerSpace(ProtoSpace* space);

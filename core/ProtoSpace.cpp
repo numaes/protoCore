@@ -1189,7 +1189,8 @@ namespace proto {
                         " sweep=%" PROTO_FMT_U "us swept_cells=%" PROTO_FMT_U " freed_cells=%" PROTO_FMT_U " rel=%" PROTO_FMT_U "us unmark=%" PROTO_FMT_U "us p6_7=%" PROTO_FMT_U "us"
                         " mut_park=%" PROTO_FMT_U "us parks=%" PROTO_FMT_U " headroom_wait=%" PROTO_FMT_U "us headroom_waits=%" PROTO_FMT_U
                         " cpu_busy=%" PROTO_FMT_U "us cpu_mark=%" PROTO_FMT_U "us cpu_sweep=%" PROTO_FMT_U "us"
-                        " refill_fresh=%" PROTO_FMT_U " refill_recycled=%" PROTO_FMT_U " helper_runs=%" PROTO_FMT_U "\n",
+                        " refill_fresh=%" PROTO_FMT_U " refill_recycled=%" PROTO_FMT_U " helper_runs=%" PROTO_FMT_U
+                        " wide_segments=%" PROTO_FMT_U " narrow_segments=%" PROTO_FMT_U "\n",
                         (proto_ulong)space->gcCycleCount.load(std::memory_order_relaxed),
                         (proto_ulong)(dbg_ns_busy / 1000), (proto_ulong)(dbg_ns_token / 1000),
                         (proto_ulong)(dbg_ns_quorum / 1000), (proto_ulong)(dbg_ns_stw / 1000),
@@ -1207,7 +1208,9 @@ namespace proto {
                         (proto_ulong)(dbg_cpu_sweep / 1000),
                         (proto_ulong)gcprof::refillFreshCells.load(std::memory_order_relaxed),
                         (proto_ulong)gcprof::refillRecycledCells.load(std::memory_order_relaxed),
-                        (proto_ulong)sweep::poolStats().helperRuns);
+                        (proto_ulong)sweep::poolStats().helperRuns,
+                        (proto_ulong)sweep::walkStats().wideSegments,
+                        (proto_ulong)sweep::walkStats().narrowSegments);
                 }
 #endif
 
@@ -1997,6 +2000,9 @@ namespace proto {
         // Adaptive heap controller: request a cycle while there is still
         // runway before S (a no-op unless the controller is enabled).
         adaptive::pace(this);
+        adaptive::noteRefill(this, ctx ? (ctx->thread ? static_cast<const void*>(ctx->thread)
+                                                      : static_cast<const void*>(ctx))
+                                       : nullptr);
 
         for (;;) {
             // Effective batch size — larger when multiple threads run so each

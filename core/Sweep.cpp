@@ -166,13 +166,12 @@ namespace sweep {
         return seg;
     }
 
-    bool mutatorsShort(ProtoSpace* space) {
+    bool mutatorsShort(ProtoSpace* space, bool several) {
         if (adaptive::headroomWaitersTotal.load(std::memory_order_relaxed) > 0) return true;
-        // No physical core left beside the running threads for a one-chain
-        // walk, which takes about twice the CPU time per cell: the mutators
-        // would pay for it.
-        static const int cores = static_cast<int>(physicalCoreCount());
-        if (space->runningThreads.load(std::memory_order_relaxed) + 1 > cores) return true;
+        // Several allocating threads: they consume faster than a one-chain
+        // walk frees, and its CPU time (about twice the wide walk's per cell)
+        // competes with them.  The one-chain walk is for one mutator.
+        if (several) return true;
         // About to wait: the cells left before the ceiling -- the freelist
         // plus the room below the soft limit, or below the hard limit
         // without one -- hold less than two free chunks per running thread,
@@ -211,7 +210,8 @@ namespace sweep {
         // ends: wide while the mutators run short (mutatorsShort), one chain
         // otherwise.
         auto width = [&]() -> int {
-            return static_cast<int>(cursorsFor(maxCursors, mode, mutatorsShort(L.space)));
+            return static_cast<int>(cursorsFor(maxCursors, mode,
+                                               mutatorsShort(L.space, L.severalAllocators)));
         };
         int want = width();
         auto load = [&](Cursor& c) -> bool {
@@ -356,6 +356,7 @@ namespace sweep {
         struct Job {
             ProtoSpace* space = nullptr;
             bool deferFree = false;
+            bool severalAllocators = true;
             SegmentCursor* cursor = nullptr;
             bool closed = false;
             unsigned active = 0;
@@ -418,6 +419,7 @@ namespace sweep {
 
         void helperWork(Job* j) {
             SweeperLocal L(j->space, j->deferFree, nullptr, /*helper=*/true);
+            L.severalAllocators = j->severalAllocators;
             std::vector<Cell*> dead;
             L.deadCells = &dead;
             tlRefSink = &L.finalizedRefs;
@@ -639,6 +641,11 @@ namespace sweep {
         bool wanted = false;
 
         SweeperLocal L(space, deferFree, &deadCells);
+        {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            L.severalAllocators = adaptive::severalAllocators(space);
+        }
+        job.severalAllocators = L.severalAllocators;
         // The collector starts alone: a cycle that one claim exhausts never
         // touches the pool.  At each claim that leaves segments behind, the
         // helpers are offered the rest once mutators wait for headroom,

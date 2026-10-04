@@ -87,6 +87,7 @@ namespace sweep {
         proto_ulong reclaimed = 0;
         proto_ulong swept = 0;
         proto_ulong segments = 0;
+        bool severalAllocators = true;    // since the last cycle (adaptive::severalAllocators)
         proto_ulong wideSegments = 0;     // taken while the walk was wide
         proto_ulong narrowSegments = 0;   // taken while it was one chain
         SegmentChain freeSegs;
@@ -195,9 +196,8 @@ namespace sweep {
     /**
      * The chains a sweeper walks in lockstep now (since 2.14.2): `maxCursors`
      * (sweepCursors()) when `short_` (mutatorsShort: a mutator waits for
-     * headroom or is about to, or the running threads leave no physical core
-     * for the collector), or always under Engagement::Always; one chain
-     * otherwise.  A sweep nobody needs soon gains nothing from finishing
+     * headroom or is about to, or several threads allocate), or always under
+     * Engagement::Always; one chain otherwise.  A sweep nobody needs soon gains nothing from finishing
      * early, and one that runs far ahead of the mutators' consumption leaves
      * the cells it frees to go cold, or modified in the collector's cache,
      * before they are reused: protoClojure coll_alloc with one task ran 26 %
@@ -207,14 +207,16 @@ namespace sweep {
      */
     unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool short_);
 
-    /** The sweep of `space` is needed soon or must not cost CPU (relaxed
-     *  reads; no lock; since 2.14.2): a mutator waits for heap headroom; or is
-     *  about to -- the cells left before its ceiling (the freelist plus the
-     *  room below the soft limit, or the hard limit without one) hold less
-     *  than two free chunks per running thread; or the running threads leave
-     *  no physical core beside them for the collector, whose one-chain walk
-     *  takes about twice the CPU time per cell. */
-    bool mutatorsShort(ProtoSpace* space);
+    /** The sweep of `space` should walk wide (relaxed reads; no lock; since
+     *  2.14.2): a mutator of any space waits for heap headroom; or more than
+     *  one thread of `space` allocated since its last cycle (`several`:
+     *  several mutators consume faster than a one-chain walk frees, and its
+     *  CPU time -- about twice the wide walk's per cell -- competes with
+     *  them); or the mutators are about to wait: the cells left before the
+     *  ceiling (the freelist plus the room below the soft limit, or the hard
+     *  limit without one) hold less than two free chunks per running
+     *  thread. */
+    bool mutatorsShort(ProtoSpace* space, bool several);
 
     /** Segments taken by a cursor of a wide walk (more than one chain) and
      *  of a one-chain walk, process-wide, since the start. */
