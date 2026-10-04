@@ -2639,6 +2639,25 @@ namespace proto {
      */
     extern PROTOCORE_DATA std::atomic<PmqTakeAllWindowHook> pmqTakeAllWindowHook;
 
+    using ThreadExitHook = void (*)(ProtoContext* context);
+
+    /**
+     * @brief TEST ONLY.  Called on an exiting managed thread after its body
+     *        returned and before the thread leaves `space->threads`.
+     *
+     * protoCore never installs it and it is null in every build.  It exists
+     * because the defect it reproduces (GitHub issue #3: the thread left the
+     * stop-the-world quorum before it left the threads list, so a cycle could
+     * stop the world and walk its context while it still ran) lives in a
+     * window a few allocations wide, which a race hits about 3 times in 40
+     * runs.  A hook body may wait, bounded, for the collector; it must not
+     * join, allocate, or hold ProtoSpace::globalMutex across a wait.
+     * test/ThreadExitQuorumTests.cpp installs it.
+     *
+     * Declared in the internal header only: an embedder cannot reach it.
+     */
+    extern PROTOCORE_DATA std::atomic<ThreadExitHook> threadExitHook;
+
     // Definition of the tag-dispatched raw-lookup helper declared above.
     // Placed here so both impl classes are fully visible; fully inlinable
     // since this header is internal to protoCore.
