@@ -536,10 +536,7 @@ namespace sweep {
         }
     }  // namespace
 
-    bool holdBackForComparison(const EngageState& st) { return !(st.soloNsPerCell > 0.0); }
-
-    void noteSweep(EngageState& st, bool engaged, bool heldBack, proto_ulong swept, double nanos,
-                   bool wide) {
+    void noteSweep(EngageState& st, bool engaged, bool heldBack, proto_ulong swept, double nanos) {
         if (swept >= kMinCellsToMeasure) {
             const double perCell = nanos / static_cast<double>(swept);
             if (engaged) {
@@ -550,9 +547,7 @@ namespace sweep {
                 } else {
                     st.backoff = 0;
                 }
-            } else if (wide) {
-                // The comparison: a sweep without helpers whose walk was
-                // wide, as the walk of a sweep with helpers is.
+            } else {
                 st.soloNsPerCell = perCell;
             }
         }
@@ -644,8 +639,7 @@ namespace sweep {
         bool heldBack = false;
         if (mode == Engagement::Measured) {
             std::lock_guard<std::mutex> lock(gEngageMutex);
-            const EngageState& st = engageStateOf(space);
-            heldBack = st.skip > 0 || holdBackForComparison(st);
+            heldBack = engageStateOf(space).skip > 0;
         }
         bool wanted = false;
 
@@ -694,8 +688,7 @@ namespace sweep {
                     std::chrono::steady_clock::now() - start).count());
             std::lock_guard<std::mutex> lock(gEngageMutex);
             EngageState& st = engageStateOf(space);
-            noteSweep(st, engaged, heldBack && wanted, swept, ns,
-                      L.wideSegments > L.narrowSegments);
+            noteSweep(st, engaged, heldBack && wanted, swept, ns);
             if (heldBack && wanted) {
                 if (gPool) {
                     std::lock_guard<std::mutex> plock(gPool->m);

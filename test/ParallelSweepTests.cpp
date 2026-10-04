@@ -565,40 +565,29 @@ TEST(ParallelSweepConfig, CursorsPrefetchAndEngagementAreConfigurable) {
 TEST(ParallelSweepConfig, MeasuredEngagementBacksOffWhenHelpersDoNotPay) {
     sweep::EngageState st;
     const proto_ulong n = 1000000;
-    sweep::noteSweep(st, false, false, n, 20.0 * n, true);   // solo: 20 ns per cell
+    sweep::noteSweep(st, false, false, n, 20.0 * n);   // solo: 20 ns per cell
     EXPECT_DOUBLE_EQ(st.soloNsPerCell, 20.0);
-    sweep::noteSweep(st, true, false, n, 12.0 * n, true);    // helpers faster: keep them
+    sweep::noteSweep(st, true, false, n, 12.0 * n);    // helpers faster: keep them
     EXPECT_EQ(st.skip, 0u);
     EXPECT_EQ(st.backoff, 0u);
     unsigned expected = 1;
     for (int failure = 0; failure < 9; ++failure) {
-        sweep::noteSweep(st, true, false, n, 25.0 * n, true);   // helpers slower
+        sweep::noteSweep(st, true, false, n, 25.0 * n);   // helpers slower
         EXPECT_EQ(st.backoff, expected);
         EXPECT_EQ(st.skip, expected);
         // The held-back sweeps run alone and give the next comparison.
         const unsigned held = st.skip;
-        for (unsigned k = 0; k < held; ++k) sweep::noteSweep(st, false, true, n, 20.0 * n, true);
+        for (unsigned k = 0; k < held; ++k) sweep::noteSweep(st, false, true, n, 20.0 * n);
         EXPECT_EQ(st.skip, 0u);
         expected = std::min(expected * 2, sweep::kMaxEngageBackoff);
     }
     EXPECT_EQ(st.backoff, sweep::kMaxEngageBackoff);
-    sweep::noteSweep(st, true, false, n, 10.0 * n, true);    // helpers pay again
+    sweep::noteSweep(st, true, false, n, 10.0 * n);    // helpers pay again
     EXPECT_EQ(st.backoff, 0u);
     // A small sweep says nothing.
     sweep::EngageState small;
-    sweep::noteSweep(small, false, false, 1000, 1e9, true);
+    sweep::noteSweep(small, false, false, 1000, 1e9);
     EXPECT_DOUBLE_EQ(small.soloNsPerCell, 0.0);
-    // A solo sweep walked one chain (nobody waited) is not the comparison:
-    // helpers engage only while mutators wait, when the walk is wide.
-    sweep::EngageState narrow;
-    sweep::noteSweep(narrow, false, false, n, 60.0 * n, false);
-    EXPECT_DOUBLE_EQ(narrow.soloNsPerCell, 0.0);
-    // Without a comparison, the first sweep that wants helpers is held back
-    // and becomes it.
-    EXPECT_TRUE(sweep::holdBackForComparison(narrow));
-    sweep::noteSweep(narrow, false, true, n, 20.0 * n, true);
-    EXPECT_DOUBLE_EQ(narrow.soloNsPerCell, 20.0);
-    EXPECT_FALSE(sweep::holdBackForComparison(narrow));
 }
 
 // --- Multi-cursor walk only while it pays (2.14.2) -------------------------------

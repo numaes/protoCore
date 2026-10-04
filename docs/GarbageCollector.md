@@ -429,12 +429,7 @@ of young cells.
     shorten the sweep.  A sweep with helpers whose wall time per cell is not
     below the last sweep without them holds the helpers back for the next
     1, 2, 4 ... 64 sweeps that want them; the first of those is the new
-    comparison.  Since 2.14.2 the comparison is a wide sweep without
-    helpers (helpers join only while mutators wait, when the walk is wide
-    too): a one-chain sweep is slower per cell and would make any helper
-    look worth keeping.  With no comparison yet, the first sweep that wants
-    helpers runs without them and becomes it.  `waiting` engages them
-    whenever a mutator waits, `always`
+    comparison.  `waiting` engages them whenever a mutator waits, `always`
     on every sweep (`PROTOCORE_GC_SWEEP_ENGAGE`,
     `ProtoSpace::setCollectorHelperEngagement`).
   - **Hardware-sensitive parameters are configurable**: the chains walked in

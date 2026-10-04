@@ -28,9 +28,8 @@ Synthetic workloads, medians of 3, one notebook-class CPU (Ryzen 5 5500U).
   `PROTOCORE_GC_SWEEP_ENGAGE=always`; one chain otherwise
   (`sweep::cursorsFor`, `sweep::mutatorsShort`).  `coll_alloc` with one
   task: 14.52 -> 11.99 s (2.10.2: 11.25).  Multi-threaded workloads walk
-  wide as before.  The measured engagement of the helpers compares against
-  a wide sweep without them, and a cycle whose sweep walked one chain
-  leaves the adaptive controller the throughput of the last wide sweep.
+  wide as before.  A cycle whose sweep walked one chain leaves the
+  adaptive controller the throughput of the last wide sweep.
   The instrumented build prints `wide_segments` and `narrow_segments`.
 - **Adaptive controller: the live-set floor** (A3).  After a cycle that
   reclaimed fewer cells than its live set -- the first cycle included,

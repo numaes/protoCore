@@ -234,7 +234,7 @@ namespace sweep {
 
     /** The measured engagement's state of one space (Engagement::Measured). */
     struct EngageState {
-        double soloNsPerCell = 0.0;   // the last wide sweep without helpers
+        double soloNsPerCell = 0.0;   // the last sweep without helpers
         unsigned backoff = 0;         // sweeps held back after the last failure
         unsigned skip = 0;            // sweeps still to hold back
     };
@@ -242,17 +242,11 @@ namespace sweep {
     constexpr unsigned kMaxEngageBackoff = 64;
     /** One sweep's verdict (pure): `engaged` -- helpers swept; `heldBack` --
      *  helpers were wanted but held back; `swept` cells in `nanos` of the
-     *  sweep's wall time; `wide` -- the walk was wide (a mutator waited).  A
-     *  sweep with helpers no faster per cell than the last wide one without
-     *  them doubles the backoff (1, 2, 4 ... 64 sweeps); a faster one resets
-     *  it.  Only a wide solo sweep is the comparison (since 2.14.2): helpers
-     *  join only while mutators wait, when the walk is wide too.  Sweeps
-     *  under kMinCellsToMeasure cells are not measured. */
-    void noteSweep(EngageState& state, bool engaged, bool heldBack, proto_ulong swept, double nanos,
-                   bool wide);
-    /** No comparison yet: the next sweep that wants helpers runs without
-     *  them and becomes it (pure). */
-    bool holdBackForComparison(const EngageState& state);
+     *  sweep's wall time.  A sweep with helpers no faster per cell than the
+     *  last one without them doubles the backoff (1, 2, 4 ... 64 sweeps); a
+     *  faster one resets it.  Sweeps under kMinCellsToMeasure cells are not
+     *  measured. */
+    void noteSweep(EngageState& state, bool engaged, bool heldBack, proto_ulong swept, double nanos);
 
     /** Physical cores, NUMA nodes and the L3 size of this machine (1, 1 and
      *  0 when unknown). */
