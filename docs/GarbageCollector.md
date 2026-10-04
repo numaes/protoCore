@@ -1026,8 +1026,10 @@ single collector thread's sweep of every garbage cell.
 
 ## Measured behaviour (October 2026)
 
-This section keeps the conclusions of three measurement reports where the
-design is described, so they are not lost in dated files.  The reports hold
+This section keeps the conclusions of the measurement reports where the
+design is described, so they are not lost in dated files.  The last
+subsection, "The final picture", is the current state; the earlier ones
+record how it was reached.  The reports hold
 the method, every table and the raw data
 ([reports/README.md](reports/README.md)).
 
@@ -1179,6 +1181,50 @@ Same report, section M3 (synthetic, one run per point in the matrix):
   lets the whole run's garbage fit and never collects: the controller does
   not grow to the budget on speculation (an embedder that knows its run
   fits starts at the budget).
+
+### The final picture (2.14.1, October 2026)
+
+From [reports/2026-10-04-final-remeasurement.md](reports/2026-10-04-final-remeasurement.md):
+the 2026-10-03 runtime binaries on 2.10.2 against the runtime masters of
+2026-10-04 (with write coalescing) on 2.14.1, interleaved in one session,
+medians of 3.  **Synthetic workloads, one notebook-class machine** (Ryzen 5
+5500U: 6 cores, 8 MB L3, two memory channels); no server was measured.
+
+| Workload (threads) | Wall s | Mutator wait share | Sweep ns per cell |
+|---|---|---|---|
+| protoClojure `coll_alloc` (6) | 117.8 -> 45.1 | 66.6 -> 10.0 % | 136 -> 45 |
+| protoScala `tree_alloc` (6) | 88.9 -> 57.7 | 46.3 -> 35.8 % | 162 -> 122 |
+| protoJS `records` (12), 40 M cells | 37.4 -> 21.5 | 47.2 -> 5.6 % | 59 -> 20 |
+| protoJS `records` (12), controller | 46.4 -> 21.7 | 61.6 -> 7.7 % | 66 -> 21 |
+| protoJS CAD model, 20 k parts | 234 -> 145 | 23.6 -> 14.6 % | 121 -> 21 |
+| protoClojure `coll_alloc` (1) | 11.4 -> 14.4 | 27.5 -> 0 % | 40 -> 33 |
+
+1. **The collector is no longer the bottleneck it was.**  27 of 32
+   collecting workloads got faster (median about 20 %, up to 62 %); the
+   sweep costs 2-7 times less per cell at 6-12 threads, and the gain holds
+   on aged heaps, where 95-100 % of refills come from recycled memory.
+   What remains: waits of 19-36 % at 12 threads on a 10 M-cell heap and
+   for protoScala with 6 tasks, whose sweep is still the most expensive
+   per cell (122 ns).
+2. **Pacing costs cycles.**  Most workloads now run 30-100 % more cycles
+   (protoScala 14 % fewer) and mark more; where the collector already kept
+   up (6 threads, 40 M cells) that is a net cost of 1-6 % wall time.
+3. **The multi-cursor walk can slow a lone mutator.**  On a one-task
+   workload the 8-chain sweep made the run 26 % slower although each swept
+   cell is cheaper; one chain restores the old time.  The chain count is
+   hardware-sensitive and configurable; engaging the walk only when it pays
+   is an open item.
+4. **Write coalescing** (`setAttributes`) removes 25-69 % of the cells of
+   the operations it targets and nothing else changed on those paths.
+5. **Stop-the-world stays below 0.2 ms** in every run.
+6. **The adaptive controller** is now faster than or equal to the fixed
+   limit with the same budget at 12 threads, and bounds the runtimes that
+   set no limit (protoScala and protoClojure with six tasks exceed 16 GB
+   without it).  Its cost remains on sequential programs that the default
+   never collects (+13 to +36 % on protoJS's sequential structure
+   benchmarks) and on very short programs whose start-up live set sits near
+   its initial soft limit (protoST `fib.st` 3.4x slower).  The report gives
+   the per-runtime recommendation; no runtime has adopted it.
 
 ## Optimization Features
 

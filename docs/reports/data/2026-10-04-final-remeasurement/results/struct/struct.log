@@ -1,0 +1,240 @@
+== records before quiet=(4.60693359375, ['300 ps', '98.0 code', 'busy_cpus=1.90']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/base/lib210/libprotoCore.so.3
+records  node    seq N=1  median      12 ms  build    53 ms  rss    67 MB
+records  node    par N=1  median     176 ms  build    44 ms  rss   152 MB  post 58 clone 159 compute 17
+records  protojs seq N=1  median    1739 ms  build  1441 ms  rss  2217 MB  gc 0
+records  protojs par N=1  median    1858 ms  build  1468 ms  rss  2244 MB  gc 0
+records  node    seq N=2  median      21 ms  build    55 ms  rss    76 MB
+records  node    par N=2  median     248 ms  build    47 ms  rss   231 MB  post 117 clone 173 compute 21
+records  protojs seq N=2  median    3375 ms  build  1533 ms  rss  2534 MB  gc 1
+records  protojs par N=2  median    1962 ms  build  1433 ms  rss  2536 MB  gc 1
+records  node    seq N=4  median      37 ms  build    46 ms  rss    77 MB
+records  node    par N=4  median     377 ms  build    51 ms  rss   404 MB  post 254 clone 198 compute 27
+records  protojs seq N=4  median    6956 ms  build  1495 ms  rss  2567 MB  gc 3
+records  protojs par N=4  median    2857 ms  build  1444 ms  rss  2571 MB  gc 3
+records  node    seq N=6  median      81 ms  build    72 ms  rss    76 MB
+records  node    par N=6  median     539 ms  build    60 ms  rss   551 MB  post 410 clone 215 compute 33
+records  protojs seq N=6  median   10581 ms  build  1468 ms  rss  2567 MB  gc 5
+records  protojs par N=6  median    4286 ms  build  1471 ms  rss  2576 MB  gc 5
+records  node    seq N=12 median      99 ms  build    45 ms  rss    76 MB
+records  node    par N=12 median     909 ms  build    78 ms  rss  1027 MB  post 780 clone 226 compute 26
+records  protojs seq N=12 median   23135 ms  build  1510 ms  rss  2567 MB  gc 10
+records  protojs par N=12 median   12363 ms  build  1454 ms  rss  2674 MB  gc 10
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_before.jsonl
+rc=0
+== records after quiet=(6.3603515625, ['98.0 code', '10.6 chrome', 'busy_cpus=1.92']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/new/lib2141/libprotoCore.so.3
+records  node    seq N=1  median      12 ms  build    50 ms  rss    68 MB
+records  node    par N=1  median     177 ms  build    47 ms  rss   152 MB  post 58 clone 159 compute 22
+records  protojs seq N=1  median    1737 ms  build  1654 ms  rss  2217 MB  gc 0
+records  protojs par N=1  median    1842 ms  build  1451 ms  rss  2244 MB  gc 0
+records  node    seq N=2  median      20 ms  build    50 ms  rss    77 MB
+records  node    par N=2  median     252 ms  build    42 ms  rss   230 MB  post 123 clone 181 compute 24
+records  protojs seq N=2  median    3319 ms  build  1448 ms  rss  2534 MB  gc 1
+records  protojs par N=2  median    1936 ms  build  1456 ms  rss  2536 MB  gc 1
+records  node    seq N=4  median      36 ms  build    50 ms  rss    76 MB
+records  node    par N=4  median     357 ms  build    51 ms  rss   394 MB  post 234 clone 179 compute 21
+records  protojs seq N=4  median    6083 ms  build  1475 ms  rss  2571 MB  gc 3
+records  protojs par N=4  median    2451 ms  build  1434 ms  rss  2575 MB  gc 5
+records  node    seq N=6  median      51 ms  build    59 ms  rss    77 MB
+records  node    par N=6  median     531 ms  build    54 ms  rss   549 MB  post 408 clone 206 compute 24
+records  protojs seq N=6  median   10000 ms  build  1587 ms  rss  2575 MB  gc 6
+records  protojs par N=6  median    3059 ms  build  1502 ms  rss  2582 MB  gc 8
+records  node    seq N=12 median      99 ms  build    48 ms  rss    77 MB
+records  node    par N=12 median     939 ms  build    51 ms  rss  1020 MB  post 798 clone 232 compute 27
+records  protojs seq N=12 median   22361 ms  build  1508 ms  rss  2580 MB  gc 12
+records  protojs par N=12 median    6098 ms  build  1439 ms  rss  2596 MB  gc 14
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_after.jsonl
+rc=0
+== join before quiet=(6.78076171875, ['98.0 code', '20.0 chrome', 'busy_cpus=1.96']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/base/lib210/libprotoCore.so.3
+join     node    seq N=1  median      28 ms  build    19 ms  rss    54 MB
+join     node    par N=1  median      87 ms  build    21 ms  rss    88 MB  post 19 clone 58 compute 31
+join     protojs seq N=1  median    1663 ms  build   551 ms  rss  1473 MB  gc 0
+join     protojs par N=1  median    1707 ms  build   542 ms  rss  1492 MB  gc 0
+join     node    seq N=2  median      41 ms  build    19 ms  rss    59 MB
+join     node    par N=2  median     118 ms  build    19 ms  rss   126 MB  post 38 clone 65 compute 38
+join     protojs seq N=2  median    3349 ms  build   526 ms  rss  2550 MB  gc 1
+join     protojs par N=2  median    2100 ms  build   537 ms  rss  2573 MB  gc 1
+join     node    seq N=4  median     123 ms  build    21 ms  rss    69 MB
+join     node    par N=4  median     161 ms  build    21 ms  rss   218 MB  post 81 clone 80 compute 46
+join     protojs seq N=4  median    6529 ms  build   542 ms  rss  2625 MB  gc 2
+join     protojs par N=4  median    2614 ms  build   530 ms  rss  2637 MB  gc 2
+join     node    seq N=6  median     118 ms  build    20 ms  rss    77 MB
+join     node    par N=6  median     219 ms  build    19 ms  rss   306 MB  post 136 clone 82 compute 53
+join     protojs seq N=6  median   10157 ms  build   531 ms  rss  2629 MB  gc 3
+join     protojs par N=6  median    4348 ms  build   635 ms  rss  2658 MB  gc 3
+join     node    seq N=12 median     232 ms  build    22 ms  rss    90 MB
+join     node    par N=12 median     386 ms  build    21 ms  rss   538 MB  post 305 clone 90 compute 56
+join     protojs seq N=12 median   21089 ms  build   627 ms  rss  2630 MB  gc 7
+join     protojs par N=12 median   10408 ms  build   531 ms  rss  2874 MB  gc 8
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_before.jsonl
+rc=0
+== join after quiet=(6.3740234375, ['98.0 code', '10.6 chrome', 'busy_cpus=1.85']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/new/lib2141/libprotoCore.so.3
+join     node    seq N=1  median      21 ms  build    20 ms  rss    54 MB
+join     node    par N=1  median      97 ms  build    19 ms  rss    85 MB  post 19 clone 61 compute 32
+join     protojs seq N=1  median    1653 ms  build   539 ms  rss  1473 MB  gc 0
+join     protojs par N=1  median    1680 ms  build   519 ms  rss  1492 MB  gc 0
+join     node    seq N=2  median      68 ms  build    18 ms  rss    66 MB
+join     node    par N=2  median     117 ms  build    20 ms  rss   130 MB  post 37 clone 61 compute 36
+join     protojs seq N=2  median    3284 ms  build   526 ms  rss  2550 MB  gc 1
+join     protojs par N=2  median    1968 ms  build   544 ms  rss  2576 MB  gc 1
+join     node    seq N=4  median      87 ms  build    20 ms  rss    76 MB
+join     node    par N=4  median     164 ms  build    22 ms  rss   213 MB  post 84 clone 76 compute 42
+join     protojs seq N=4  median    6398 ms  build   549 ms  rss  2589 MB  gc 2
+join     protojs par N=4  median    2455 ms  build   532 ms  rss  2572 MB  gc 3
+join     node    seq N=6  median     122 ms  build    21 ms  rss    76 MB
+join     node    par N=6  median     225 ms  build    21 ms  rss   300 MB  post 138 clone 80 compute 49
+join     protojs seq N=6  median    9980 ms  build   538 ms  rss  2639 MB  gc 4
+join     protojs par N=6  median    3229 ms  build   525 ms  rss  2716 MB  gc 5
+join     node    seq N=12 median     224 ms  build    21 ms  rss    88 MB
+join     node    par N=12 median     395 ms  build    22 ms  rss   546 MB  post 306 clone 104 compute 53
+join     protojs seq N=12 median   20892 ms  build   537 ms  rss  2640 MB  gc 8
+join     protojs par N=12 median    7014 ms  build   553 ms  rss  2825 MB  gc 14
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_after.jsonl
+rc=0
+== doctree before quiet=(6.00390625, ['98.0 code', '10.5 chrome', 'busy_cpus=1.95']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/base/lib210/libprotoCore.so.3
+doctree  node    seq N=1  median      20 ms  build    23 ms  rss    55 MB
+doctree  node    par N=1  median      46 ms  build    21 ms  rss    74 MB  post 7 clone 22 compute 24
+doctree  protojs seq N=1  median    1396 ms  build   767 ms  rss  1061 MB  gc 0
+doctree  protojs par N=1  median    1366 ms  build   761 ms  rss  1092 MB  gc 0
+doctree  node    seq N=2  median      14 ms  build    23 ms  rss    55 MB
+doctree  node    par N=2  median      59 ms  build    25 ms  rss   109 MB  post 19 clone 25 compute 26
+doctree  protojs seq N=2  median    2706 ms  build   754 ms  rss  2046 MB  gc 0
+doctree  protojs par N=2  median    1479 ms  build   721 ms  rss  2105 MB  gc 0
+doctree  node    seq N=4  median      32 ms  build    22 ms  rss    69 MB
+doctree  node    par N=4  median      86 ms  build    21 ms  rss   179 MB  post 35 clone 26 compute 31
+doctree  protojs seq N=4  median    6132 ms  build   741 ms  rss  2541 MB  gc 1
+doctree  protojs par N=4  median    2214 ms  build   884 ms  rss  2541 MB  gc 1
+doctree  node    seq N=6  median      42 ms  build    21 ms  rss    70 MB
+doctree  node    par N=6  median     121 ms  build    22 ms  rss   240 MB  post 58 clone 34 compute 36
+doctree  protojs seq N=6  median    8454 ms  build   780 ms  rss  2573 MB  gc 2
+doctree  protojs par N=6  median    2909 ms  build   743 ms  rss  2582 MB  gc 2
+doctree  node    seq N=12 median      64 ms  build    23 ms  rss    69 MB
+doctree  node    par N=12 median     195 ms  build    26 ms  rss   426 MB  post 128 clone 35 compute 64
+doctree  protojs seq N=12 median   17702 ms  build   778 ms  rss  2638 MB  gc 6
+doctree  protojs par N=12 median    7958 ms  build   721 ms  rss  2676 MB  gc 6
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_before.jsonl
+rc=0
+== doctree after quiet=(5.15234375, ['200 ps', '98.0 code', 'busy_cpus=2.04']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/new/lib2141/libprotoCore.so.3
+doctree  node    seq N=1  median      18 ms  build    21 ms  rss    55 MB
+doctree  node    par N=1  median      48 ms  build    22 ms  rss    75 MB  post 9 clone 22 compute 25
+doctree  protojs seq N=1  median    1337 ms  build   738 ms  rss  1061 MB  gc 0
+doctree  protojs par N=1  median    1390 ms  build   747 ms  rss  1092 MB  gc 0
+doctree  node    seq N=2  median      13 ms  build    25 ms  rss    55 MB
+doctree  node    par N=2  median      54 ms  build    23 ms  rss   108 MB  post 15 clone 23 compute 27
+doctree  protojs seq N=2  median    2706 ms  build   755 ms  rss  2045 MB  gc 0
+doctree  protojs par N=2  median    1471 ms  build   736 ms  rss  2101 MB  gc 0
+doctree  node    seq N=4  median      29 ms  build    24 ms  rss    70 MB
+doctree  node    par N=4  median      80 ms  build    21 ms  rss   180 MB  post 34 clone 29 compute 36
+doctree  protojs seq N=4  median    5633 ms  build   769 ms  rss  2541 MB  gc 1
+doctree  protojs par N=4  median    1811 ms  build   767 ms  rss  2578 MB  gc 2
+doctree  node    seq N=6  median      41 ms  build    21 ms  rss    68 MB
+doctree  node    par N=6  median     115 ms  build    21 ms  rss   248 MB  post 56 clone 29 compute 48
+doctree  protojs seq N=6  median    8299 ms  build   751 ms  rss  2577 MB  gc 3
+doctree  protojs par N=6  median    3302 ms  build   730 ms  rss  2582 MB  gc 4
+doctree  node    seq N=12 median      63 ms  build    22 ms  rss    69 MB
+doctree  node    par N=12 median     203 ms  build    24 ms  rss   435 MB  post 127 clone 49 compute 63
+doctree  protojs seq N=12 median   17435 ms  build   817 ms  rss  2637 MB  gc 8
+doctree  protojs par N=12 median    5223 ms  build   745 ms  rss  2655 MB  gc 9
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_after.jsonl
+rc=0
+== wordfreq before quiet=(5.01318359375, ['98.0 code', '10.5 chrome', 'busy_cpus=1.88']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/base/lib210/libprotoCore.so.3
+wordfreq node    seq N=1  median      18 ms  build    21 ms  rss    37 MB
+wordfreq node    par N=1  median      19 ms  build    22 ms  rss    53 MB  post 0 clone 1 compute 18
+wordfreq protojs seq N=1  median    1126 ms  build  1033 ms  rss  1106 MB  gc 0
+wordfreq protojs par N=1  median    1252 ms  build  1056 ms  rss  1129 MB  gc 0
+wordfreq node    seq N=2  median      36 ms  build    22 ms  rss    39 MB
+wordfreq node    par N=2  median      22 ms  build    20 ms  rss    73 MB  post 1 clone 1 compute 20
+wordfreq protojs seq N=2  median    2273 ms  build  1079 ms  rss  2070 MB  gc 0
+wordfreq protojs par N=2  median    1233 ms  build  1060 ms  rss  2130 MB  gc 0
+wordfreq node    seq N=4  median      67 ms  build    21 ms  rss    45 MB
+wordfreq node    par N=4  median      36 ms  build    20 ms  rss   113 MB  post 3 clone 2 compute 33
+wordfreq protojs seq N=4  median    4575 ms  build  1068 ms  rss  2500 MB  gc 1
+wordfreq protojs par N=4  median    1392 ms  build  1022 ms  rss  2498 MB  gc 1
+wordfreq node    seq N=6  median     102 ms  build    20 ms  rss    50 MB
+wordfreq node    par N=6  median      36 ms  build    19 ms  rss   151 MB  post 4 clone 2 compute 31
+wordfreq protojs seq N=6  median    7913 ms  build  1030 ms  rss  2564 MB  gc 2
+wordfreq protojs par N=6  median    1979 ms  build  1067 ms  rss  2567 MB  gc 2
+wordfreq node    seq N=12 median     215 ms  build    21 ms  rss    54 MB
+wordfreq node    par N=12 median      59 ms  build    20 ms  rss   265 MB  post 8 clone 4 compute 52
+wordfreq protojs seq N=12 median   13490 ms  build  1066 ms  rss  2564 MB  gc 5
+wordfreq protojs par N=12 median    4142 ms  build   999 ms  rss  2584 MB  gc 5
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_before.jsonl
+rc=0
+== wordfreq after quiet=(6.333984375, ['300 ps', '98.0 code', 'busy_cpus=1.97']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/new/lib2141/libprotoCore.so.3
+wordfreq node    seq N=1  median      19 ms  build    22 ms  rss    39 MB
+wordfreq node    par N=1  median      19 ms  build    19 ms  rss    53 MB  post 0 clone 1 compute 18
+wordfreq protojs seq N=1  median    1116 ms  build  1077 ms  rss  1106 MB  gc 0
+wordfreq protojs par N=1  median    1122 ms  build  1018 ms  rss  1128 MB  gc 0
+wordfreq node    seq N=2  median      38 ms  build    22 ms  rss    39 MB
+wordfreq node    par N=2  median      23 ms  build    20 ms  rss    72 MB  post 1 clone 2 compute 20
+wordfreq protojs seq N=2  median    2363 ms  build  1047 ms  rss  2070 MB  gc 0
+wordfreq protojs par N=2  median    1246 ms  build  1049 ms  rss  2130 MB  gc 0
+wordfreq node    seq N=4  median      70 ms  build    20 ms  rss    46 MB
+wordfreq node    par N=4  median      26 ms  build    21 ms  rss   112 MB  post 3 clone 2 compute 23
+wordfreq protojs seq N=4  median    4459 ms  build  1027 ms  rss  2500 MB  gc 1
+wordfreq protojs par N=4  median    1371 ms  build  1008 ms  rss  2505 MB  gc 2
+wordfreq node    seq N=6  median     115 ms  build    24 ms  rss    51 MB
+wordfreq node    par N=6  median      39 ms  build    22 ms  rss   153 MB  post 4 clone 2 compute 35
+wordfreq protojs seq N=6  median    6351 ms  build  1183 ms  rss  2530 MB  gc 2
+wordfreq protojs par N=6  median    1958 ms  build  1014 ms  rss  2625 MB  gc 4
+wordfreq node    seq N=12 median     219 ms  build    21 ms  rss    54 MB
+wordfreq node    par N=12 median      58 ms  build    19 ms  rss   261 MB  post 8 clone 5 compute 52
+wordfreq protojs seq N=12 median   13240 ms  build  1210 ms  rss  2547 MB  gc 6
+wordfreq protojs par N=12 median    3556 ms  build  1021 ms  rss  2699 MB  gc 9
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_after.jsonl
+rc=0
+== graph before quiet=(5.138671875, ['300 ps', '98.0 code', 'busy_cpus=1.94']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/base/lib210/libprotoCore.so.3
+graph    node    seq N=1  median      19 ms  build    25 ms  rss    48 MB
+graph    node    par N=1  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=1  median    2525 ms  build   430 ms  rss  2485 MB  gc 1
+graph    protojs par N=1  median    2377 ms  build   445 ms  rss  2488 MB  gc 1
+graph    node    seq N=2  median      31 ms  build    27 ms  rss    54 MB
+graph    node    par N=2  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=2  median    4865 ms  build   427 ms  rss  2530 MB  gc 2
+graph    protojs par N=2  median    3036 ms  build   429 ms  rss  2535 MB  gc 2
+graph    node    seq N=4  median      55 ms  build    29 ms  rss    54 MB
+graph    node    par N=4  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=4  median    9587 ms  build   433 ms  rss  2525 MB  gc 4
+graph    protojs par N=4  median    4110 ms  build   435 ms  rss  2601 MB  gc 4
+graph    node    seq N=6  median      92 ms  build    25 ms  rss    55 MB
+graph    node    par N=6  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=6  median   14394 ms  build   444 ms  rss  2521 MB  gc 6
+graph    protojs par N=6  median    5502 ms  build   419 ms  rss  2615 MB  gc 7
+graph    node    seq N=12 median     211 ms  build    42 ms  rss    56 MB
+graph    node    par N=12 did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=12 median   34078 ms  build   506 ms  rss  2530 MB  gc 14
+graph    protojs par N=12 median   18092 ms  build   432 ms  rss  2764 MB  gc 17
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_before.jsonl
+rc=0
+== graph after quiet=(6.63720703125, ['300 ps', '98.0 code', 'busy_cpus=2.03']) lib=libprotoCore.so.3 => <workspace>/.agent_scratch/final-oct04/new/lib2141/libprotoCore.so.3
+graph    node    seq N=1  median      21 ms  build    26 ms  rss    49 MB
+graph    node    par N=1  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=1  median    2342 ms  build   444 ms  rss  2486 MB  gc 1
+graph    protojs par N=1  median    2333 ms  build   428 ms  rss  2488 MB  gc 1
+graph    node    seq N=2  median      36 ms  build    25 ms  rss    53 MB
+graph    node    par N=2  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=2  median    4895 ms  build   446 ms  rss  2531 MB  gc 2
+graph    protojs par N=2  median    2958 ms  build   431 ms  rss  2544 MB  gc 2
+graph    node    seq N=4  median      50 ms  build    24 ms  rss    54 MB
+graph    node    par N=4  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=4  median    9199 ms  build   449 ms  rss  2518 MB  gc 5
+graph    protojs par N=4  median    3728 ms  build   425 ms  rss  2631 MB  gc 8
+graph    node    seq N=6  median     101 ms  build    27 ms  rss    54 MB
+graph    node    par N=6  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=6  median   14017 ms  build   445 ms  rss  2532 MB  gc 8
+graph    protojs par N=6  median    4956 ms  build   434 ms  rss  2638 MB  gc 13
+graph    node    seq N=12 median     173 ms  build    27 ms  rss    57 MB
+graph    node    par N=12 did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=12 median   34393 ms  build   484 ms  rss  2519 MB  gc 17
+graph    protojs par N=12 median   14242 ms  build   431 ms  rss  2842 MB  gc 25
+
+Tables: python3 tabulate.py <workspace>/.agent_scratch/final-oct04/res/struct/structures_after.jsonl
+rc=0
