@@ -166,6 +166,29 @@ namespace sweep {
         return seg;
     }
 
+    bool mutatorsShort(ProtoSpace* space) {
+        if (adaptive::headroomWaitersTotal.load(std::memory_order_relaxed) > 0) return true;
+        // No physical core left beside the running threads for a one-chain
+        // walk, which takes about twice the CPU time per cell: the mutators
+        // would pay for it.
+        static const int cores = static_cast<int>(physicalCoreCount());
+        if (space->runningThreads.load(std::memory_order_relaxed) + 1 > cores) return true;
+        // About to wait: the cells left before the ceiling -- the freelist
+        // plus the room below the soft limit, or below the hard limit
+        // without one -- hold less than two free chunks per running thread,
+        // the refill each thread takes now and the next one.  Without a
+        // limit a thread grows the heap instead of waiting.
+        const int soft = relaxedLoad(space->softHeapLimit);
+        const int hard = relaxedLoad(space->maxHeapSize);
+        const long long ceiling = soft > 0 ? soft : hard;
+        if (ceiling <= 0) return false;
+        const long long left = static_cast<long long>(relaxedLoad(space->freeCellsCount))
+            + std::max(0LL, ceiling - static_cast<long long>(relaxedLoad(space->heapSize)));
+        const long long need = 2LL * std::max(1, space->runningThreads.load(std::memory_order_relaxed))
+            * static_cast<long long>(ProtoSpace::CELL_CHUNK_SIZE);
+        return left < need;
+    }
+
     namespace {
     // The loop, specialised on the two flags it tests per cell, with its
     // per-cell counters kept in registers (finalize is a virtual call, so
@@ -185,10 +208,10 @@ namespace sweep {
         proto_ulong swept = 0;
         int active = 0;
         // The width in force (cursorsFor), re-read at every segment a cursor
-        // ends: wide while a mutator waits for headroom, one chain otherwise.
+        // ends: wide while the mutators run short (mutatorsShort), one chain
+        // otherwise.
         auto width = [&]() -> int {
-            return static_cast<int>(cursorsFor(maxCursors, mode,
-                adaptive::headroomWaitersTotal.load(std::memory_order_relaxed) > 0));
+            return static_cast<int>(cursorsFor(maxCursors, mode, mutatorsShort(L.space)));
         };
         int want = width();
         auto load = [&](Cursor& c) -> bool {
@@ -292,9 +315,9 @@ namespace sweep {
         gNarrow.fetch_add(L.narrowSegments, std::memory_order_relaxed);
     }
 
-    unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool mutatorsWait) {
+    unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool short_) {
         const unsigned widest = std::max(1u, maxCursors);
-        return (mode == Engagement::Always || mutatorsWait) ? widest : 1u;
+        return (mode == Engagement::Always || short_) ? widest : 1u;
     }
 
     WalkStats walkStats() {

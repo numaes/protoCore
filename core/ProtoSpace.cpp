@@ -995,9 +995,6 @@ namespace proto {
                 // actual count.  This converts getFreeCells from an O(N)
                 // walk-and-cut into an O(1) chunk pop.
                 const auto sweepStart = std::chrono::steady_clock::now();
-                measures.sweepStartNanos = static_cast<std::uint64_t>(
-                    std::chrono::duration_cast<std::chrono::nanoseconds>(
-                        sweepStart.time_since_epoch()).count());
                 measures.markNanos = static_cast<std::uint64_t>(
                     std::chrono::duration_cast<std::chrono::nanoseconds>(sweepStart - markStart).count());
                 // With other spaces live, a thread of another space may still
@@ -1008,7 +1005,6 @@ namespace proto {
                 // docs/GLOBAL_MUTABLE_TABLE.md); sweep must not even rewrite
                 // their header.  With one space they are freed in place.
                 const bool deferFree = multispace::liveSpaceCount() > 1;
-                measures.freedAfterSweep = deferFree;
                 std::vector<Cell*> deadCells;
 
                 // The collector thread sweeps; while mutators wait for
@@ -2309,7 +2305,9 @@ namespace proto {
         if (adaptive::environmentMode() == 1 && adaptive::isEnabled(this)) return;
         // Fixed limits: the adaptive controller no longer drives this space.
         adaptive::disable(this);
-        this->softHeapLimit = softCells;
+        // Both stored relaxed: the sweep reads them without the lock
+        // (sweep::mutatorsShort).
+        relaxedStore(this->softHeapLimit, softCells);
         relaxedStore(this->maxHeapSize, hardCells);
     }
 

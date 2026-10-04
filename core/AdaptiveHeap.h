@@ -114,6 +114,10 @@ namespace adaptive {
      * re-measurement), and pacing hides those cycles from the waits, so rule
      * 4.1 (no wait, no growth) alone never raises S.  The factor is
      * structural: the point where a cycle reclaims as many cells as it marks.
+     * A soft limit below the floor is raised to max(floor, 2 S), within B:
+     * the runway is measured and noisy, and a floor that creeps with it would
+     * otherwise change S at every cycle.  So the floor's changes are
+     * doublings at least, counted with the probes' in the bound on changes.
      */
     constexpr double kLiveSetFloorFactor = 2.0;
     proto_ulong liveSetFloor(proto_ulong liveCells, double runwayCells, proto_ulong budgetCells);
@@ -145,49 +149,9 @@ namespace adaptive {
          * `ceiling - retained`; monotone in `rate` and `cycleSeconds`.  A
          * runway equal to the whole headroom means the collector cannot keep
          * up at this ceiling: cycles then run back to back.
-         *
-         * `granuleCells` (since 2.14.2) is added, unscaled, to a measured
-         * runway: the cells the mutators take at once -- two free chunks per
-         * running thread, the one the refill that requests the cycle takes
-         * and the one its next refill needs before the sweep publishes any.
-         * Without it a runway shorter than a chunk left the thread that
-         * requested the cycle a partial chunk and a wait.
          */
         long long runway(long long ceiling, long long retained, double rate,
-                         double cycleSeconds, double slack = kCycleSlack,
-                         long long granuleCells = 0);
-
-        /**
-         * The time, from a cycle's request, until the cells it reclaims are
-         * back for the mutators (since 2.14.2): the `cycleSeconds` of
-         * runway().  Since 2.12.0 the sweep publishes its free cells chunk by
-         * chunk and a waiting mutator wakes on each publication, so the
-         * mutators need cells only for the time before the sweep starts
-         * (`preSweepSeconds`: request, token, stop-the-world, mark), plus,
-         * when the sweep hands cells back more slowly than they allocate
-         * (`freedCells / sweepSeconds < rate`), the time its deficit lasts:
-         *
-         *     preSweep + max(0, sweep - freedCells / rate)
-         *
-         * 2.12.0-2.14.1 used the whole cycle, sweep and the phases after it
-         * included, which with a collector that keeps up roughly doubled the
-         * runway and the number of cycles (the 2026-10-04 re-measurement, 6
-         * threads at 40 M cells).  With no measured rate: preSweep + sweep.
-         */
-        double cellsBackSeconds(double preSweepSeconds, double sweepSeconds,
-                                double freedCells, double rate);
-
-        /**
-         * How long before its cells are needed a cycle is requested (since
-         * 2.14.2): the time until its cells come back (cellsBackSeconds), plus
-         * the slack m of a whole cycle C -- the measurement error 2.12.0 allowed
-         * for, a quarter of a cycle, kept in absolute terms: when the cells are
-         * back early in a cycle, how early varies with the whole cycle's work
-         * (the order of the segments, the quorum, the mark).  The runway is
-         * runway(ceiling, retained, r, leadSeconds(...), 0, granule).
-         */
-        double leadSeconds(double cellsBackSeconds, double cycleSeconds,
-                           double slack = kCycleSlack);
+                         double cycleSeconds, double slack = kCycleSlack);
     }  // namespace pacing
 
     // --- 2. Memory limits ----------------------------------------------------
@@ -319,7 +283,6 @@ namespace adaptive {
         std::uint64_t cyclesCompleted = 0;
         double rate = 0.0;                  // last r, cells per second
         double cycleSeconds = 0.0;          // last C
-        double leadSeconds = 0.0;           // the current lead (pacing::leadSeconds)
     };
     WaitStats waitStats(const ProtoSpace* space);
 
@@ -343,12 +306,6 @@ namespace adaptive {
         proto_ulong sweptCells = 0;     // candidates examined, survivors included
         proto_ulong freedCells = 0;     // returned to the freelist
         proto_ulong sweptSegments = 0;
-        // steady_clock time of the sweep's start, in nanoseconds since the
-        // clock's epoch (0: not measured); and whether the dead cells were
-        // freed only after the sweep (several spaces: a grace period), in
-        // which case no cell comes back during the sweep.
-        std::uint64_t sweepStartNanos = 0;
-        bool freedAfterSweep = false;
     };
     /** End of a cycle of `space`: the pacing signals, and the control law
      *  when the controller is enabled. */

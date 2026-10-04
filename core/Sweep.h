@@ -194,17 +194,27 @@ namespace sweep {
 
     /**
      * The chains a sweeper walks in lockstep now (since 2.14.2): `maxCursors`
-     * (sweepCursors()) while a mutator waits for headroom, or always under
-     * Engagement::Always; one otherwise.  A sweep nobody waits for gains
-     * nothing from finishing early, and one that runs far ahead of the
-     * mutators' consumption leaves the cells it frees to go cold, or to sit
-     * modified in the collector's cache, before they are reused: protoClojure
-     * coll_alloc with one task ran 26 % slower with eight chains than with one
-     * (2026-10-04 re-measurement), whatever the cores the two threads ran on.
-     * Checked at every segment a cursor takes, so a sweep widens as soon as a
-     * mutator starts to wait and narrows when none does.
+     * (sweepCursors()) when `short_` (mutatorsShort: a mutator waits for
+     * headroom or is about to, or the running threads leave no physical core
+     * for the collector), or always under Engagement::Always; one chain
+     * otherwise.  A sweep nobody needs soon gains nothing from finishing
+     * early, and one that runs far ahead of the mutators' consumption leaves
+     * the cells it frees to go cold, or modified in the collector's cache,
+     * before they are reused: protoClojure coll_alloc with one task ran 26 %
+     * slower with eight chains than with one (2026-10-04 re-measurement),
+     * whatever the cores the two threads ran on.  Re-read at every segment a
+     * cursor ends, so a sweep widens as soon as a mutator runs short.
      */
-    unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool mutatorsWait);
+    unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool short_);
+
+    /** The sweep of `space` is needed soon or must not cost CPU (relaxed
+     *  reads; no lock; since 2.14.2): a mutator waits for heap headroom; or is
+     *  about to -- the cells left before its ceiling (the freelist plus the
+     *  room below the soft limit, or the hard limit without one) hold less
+     *  than two free chunks per running thread; or the running threads leave
+     *  no physical core beside them for the collector, whose one-chain walk
+     *  takes about twice the CPU time per cell. */
+    bool mutatorsShort(ProtoSpace* space);
 
     /** Segments taken by a cursor of a wide walk (more than one chain) and
      *  of a one-chain walk, process-wide, since the start. */

@@ -122,16 +122,35 @@ TEST(AdaptiveHeapLaw, TheFloorMakesRoomForPacingsRunway) {
 
 TEST(AdaptiveHeapLaw, ASoftLimitBelowTwiceTheLiveSetIsRaisedWithoutWaits) {
     // L = 1.7 M cells against S = 2 M (the protoST start-up pattern), no
-    // wait: S rises to 2 L at once, then holds.
+    // wait: S rises to the floor 2 L by at least a doubling, then holds.
     LawState st;
     const proto_ulong L = 1700000;
     proto_ulong S = nextSoftLimit(inputs(kS0, L, 5e6, 1e7, 0.0), st);
-    EXPECT_EQ(S, 2 * L);
+    EXPECT_EQ(S, std::max<proto_ulong>(2 * L, 2 * kS0));
     for (int i = 0; i < 20; ++i) EXPECT_EQ(nextSoftLimit(inputs(S, L, 5e6, 1e7, 0.0), st), S);
     EXPECT_EQ(st.changes, 1u);
     // Unmeasured r or T (the first cycles): the floor still applies.
     LawState fresh;
-    EXPECT_EQ(nextSoftLimit(inputs(kS0, L, 0.0, 0.0, 0.0), fresh), 2 * L);
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, L, 0.0, 0.0, 0.0), fresh), std::max<proto_ulong>(2 * L, 2 * kS0));
+    // A floor well above S is reached in one step.
+    LawState far;
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 4000000, 0.0, 0.0, 0.0), far), 8000000u);
+}
+
+TEST(AdaptiveHeapLaw, AFloorThatCreepsWithTheRunwayChangesSBoundedly) {
+    // The runway is measured: noisy.  A floor creeping just above S at every
+    // cycle must not change S at every cycle.
+    LawState st;
+    proto_ulong S = kS0;
+    const proto_ulong L = 1000000;
+    for (int i = 0; i < 200; ++i) {
+        LawInputs in = inputs(S, L, 5e6, 1e7, 0.0);
+        in.runwayCells = 100000.0 + 1000.0 * i;   // the floor creeps by 2,000 cells a cycle
+        const proto_ulong next = nextSoftLimit(in, st);
+        ASSERT_GE(next, S);
+        S = next;
+    }
+    EXPECT_LE(st.changes, 2u) << "S changed at " << st.changes << " cycles";
 }
 
 TEST(AdaptiveHeapLaw, TheFloorNeverLowersALargerTargetOrPassesTheBudget) {

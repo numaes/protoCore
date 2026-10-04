@@ -626,6 +626,20 @@ TEST(ParallelSweepConfig, CursorsAreWideOnlyWhileAMutatorWaits) {
     EXPECT_EQ(sweep::cursorsFor(0, Engagement::Measured, true), 1u);
 }
 
+// The walk is wide when the running threads leave no physical core beside
+// them for the collector, whose one-chain walk takes about twice the CPU time
+// per cell (the 2026-10-04 adjustments report: at six threads on six cores the
+// one-chain walk made protoJS records 4-16 % slower).
+TEST(ParallelSweepConfig, NoSpareCoreForTheCollectorWidensTheWalk) {
+    ProtoSpace space;   // no limit, nobody waits
+    EXPECT_FALSE(sweep::mutatorsShort(&space));
+    const int cores = static_cast<int>(sweep::physicalCoreCount());
+    space.runningThreads.fetch_add(cores);   // as many running threads as cores
+    EXPECT_TRUE(sweep::mutatorsShort(&space));
+    space.runningThreads.fetch_sub(cores);
+    EXPECT_FALSE(sweep::mutatorsShort(&space));
+}
+
 // No mutator waits: the cycle's segments are walked one chain at a time.
 TEST(ParallelSweep, ACycleNobodyWaitsForWalksOneChain) {
     ProtoSpace::setCollectorHelperEngagement(-1);

@@ -38,6 +38,15 @@ namespace adaptive {
 
     // --- 1. Control law ------------------------------------------------------
 
+    namespace {
+        double raiseToFloor(double next, proto_ulong S, proto_ulong L, double runway, proto_ulong B) {
+            const double floor = static_cast<double>(liveSetFloor(L, runway, B));
+            if (next >= floor) return next;
+            return std::min(static_cast<double>(B),
+                            std::max(floor, 2.0 * static_cast<double>(std::max<proto_ulong>(S, 1))));
+        }
+    }  // namespace
+
     proto_ulong nextSoftLimit(const LawInputs& in, LawState& st) {
         const proto_ulong S = in.softCells;
         const proto_ulong B = in.budgetCells;
@@ -99,8 +108,10 @@ namespace adaptive {
             ++st.probes;
         }
         // The live-set floor: a cycle reclaims at least as many cells as it
-        // marks, whatever the waits.
-        next = std::max(next, static_cast<double>(liveSetFloor(in.liveCells, in.runwayCells, B)));
+        // marks, whatever the waits.  Raised to it by at least a doubling, so
+        // that a floor that creeps with the measured runway changes S no more
+        // often than the probes do (bounded convergence).
+        next = raiseToFloor(next, S, in.liveCells, in.runwayCells, B);
         next = std::min(next, static_cast<double>(B));
         proto_ulong result = static_cast<proto_ulong>(next);
         if (result < S) result = S <= B ? S : B;   // never decreases; never above B
@@ -119,30 +130,13 @@ namespace adaptive {
 
     namespace pacing {
         long long runway(long long ceiling, long long retained, double rate,
-                         double cycleSeconds, double slack, long long granuleCells) {
+                         double cycleSeconds, double slack) {
             const long long headroom = std::max(0LL, ceiling - retained);
             if (!(rate > 0.0) || !(cycleSeconds > 0.0)) return 0;
             if (!(slack >= 0.0)) slack = 0.0;
-            const double need = std::ceil(rate * cycleSeconds * (1.0 + slack))
-                              + static_cast<double>(std::max(0LL, granuleCells));
+            const double need = std::ceil(rate * cycleSeconds * (1.0 + slack));
             if (need >= static_cast<double>(headroom)) return headroom;
             return static_cast<long long>(need);
-        }
-
-        double cellsBackSeconds(double preSweepSeconds, double sweepSeconds,
-                                double freedCells, double rate) {
-            const double pre = preSweepSeconds > 0.0 ? preSweepSeconds : 0.0;
-            const double sweep = sweepSeconds > 0.0 ? sweepSeconds : 0.0;
-            if (!(rate > 0.0)) return pre + sweep;
-            const double freed = freedCells > 0.0 ? freedCells : 0.0;
-            return pre + std::max(0.0, sweep - freed / rate);
-        }
-
-        double leadSeconds(double cellsBackSeconds, double cycleSeconds, double slack) {
-            const double back = cellsBackSeconds > 0.0 ? cellsBackSeconds : 0.0;
-            const double cycle = cycleSeconds > 0.0 ? cycleSeconds : 0.0;
-            if (!(slack >= 0.0)) slack = 0.0;
-            return back + slack * cycle;
         }
     }  // namespace pacing
 
@@ -395,13 +389,6 @@ namespace adaptive {
             // The last two cycles' r and C; pacing uses the larger of each.
             double rate[2] = {0.0, 0.0};
             double cycleSeconds[2] = {0.0, 0.0};
-            // The last two cycles' time before the sweep, the sweep's length
-            // and the cells it freed (pacing::cellsBackSeconds); a negative
-            // pre-sweep time marks a cycle whose cells came back only at its
-            // end (its whole C counts).
-            double preSweepSeconds[2] = {0.0, 0.0};
-            double sweepSeconds[2] = {0.0, 0.0};
-            double sweepFreed[2] = {0.0, 0.0};
             // The mutators' wait share over the last interval.
             double waitShare = 0.0;
             // Threads in reclaimWaitLocked now.
@@ -491,24 +478,6 @@ namespace adaptive {
                 registry().push_back(s);
             }
             return s;
-        }
-    }  // namespace
-
-    namespace {
-        // The lead for the next interval (pacing::leadSeconds): the larger of
-        // the last two cycles', at the rate pacing uses (the larger of the
-        // last two).
-        double lead(const SpaceState* s) {
-            const double r = std::max(s->rate[0], s->rate[1]);
-            double worst = 0.0;
-            for (int i = 0; i < 2; ++i) {
-                const double back = s->preSweepSeconds[i] < 0.0
-                    ? s->cycleSeconds[i]
-                    : pacing::cellsBackSeconds(s->preSweepSeconds[i], s->sweepSeconds[i],
-                                               s->sweepFreed[i], r);
-                worst = std::max(worst, pacing::leadSeconds(back, s->cycleSeconds[i]));
-            }
-            return worst;
         }
     }  // namespace
 
@@ -609,7 +578,6 @@ namespace adaptive {
             r.cyclesCompleted = s->completed;
             r.rate = s->rate[0];
             r.cycleSeconds = s->cycleSeconds[0];
-            r.leadSeconds = lead(s);
         }
         return r;
     }
@@ -661,7 +629,7 @@ namespace adaptive {
         // The pacing signals of the interval that ends with this cycle
         // (section 4.2), and the runway for the next one.
         void updatePacing(ProtoSpace* space, SpaceState* s, Clock::time_point now,
-                          std::uint64_t waits, const CycleMeasures& m) {
+                          std::uint64_t waits) {
             const long long occupied = static_cast<long long>(space->heapSize)
                                      - static_cast<long long>(space->freeCellsCount);
             const double interval = std::chrono::duration<double>(now - s->intervalStart).count();
@@ -686,19 +654,6 @@ namespace adaptive {
             s->rate[0] = r;
             s->cycleSeconds[1] = s->cycleSeconds[0];
             s->cycleSeconds[0] = cycle;
-            // The part of C before the sweep: C less the time from the
-            // sweep's start to now.
-            const std::uint64_t nowNanos = static_cast<std::uint64_t>(
-                std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count());
-            double pre = cycle;
-            if (m.sweepStartNanos > 0 && nowNanos > m.sweepStartNanos)
-                pre = std::max(0.0, cycle - static_cast<double>(nowNanos - m.sweepStartNanos) / 1e9);
-            s->preSweepSeconds[1] = s->preSweepSeconds[0];
-            s->sweepSeconds[1] = s->sweepSeconds[0];
-            s->sweepFreed[1] = s->sweepFreed[0];
-            s->preSweepSeconds[0] = (m.freedAfterSweep || m.sweepStartNanos == 0) ? -1.0 : pre;
-            s->sweepSeconds[0] = static_cast<double>(m.sweepNanos) / 1e9;
-            s->sweepFreed[0] = static_cast<double>(m.freedCells);
             s->occupiedLastEnd = occupied;
             s->returnedSinceEnd = 0;
             s->intervalStart = now;
@@ -708,14 +663,6 @@ namespace adaptive {
                 ? static_cast<double>(waits) / 1e9 / (interval * threads) : 0.0;
         }
 
-        // pacing::runway's granule: two free chunks per running thread -- the
-        // one the refill that requests the cycle takes, and the one its next
-        // refill needs before the sweep has published any.
-        long long granule(const ProtoSpace* space) {
-            return 2LL * static_cast<long long>(std::max(1, space->runningThreads.load()))
-                 * static_cast<long long>(ProtoSpace::CELL_CHUNK_SIZE);
-        }
-
         // The runway for the next interval, from the ceiling in force now.
         void setRunway(ProtoSpace* space, SpaceState* s) {
             const long long ceiling = s->enabled
@@ -723,8 +670,8 @@ namespace adaptive {
                 : static_cast<long long>(relaxedLoad(space->maxHeapSize));
             s->runway = ceiling > 0
                 ? pacing::runway(ceiling, std::max(0LL, s->occupiedLastEnd),
-                                 std::max(s->rate[0], s->rate[1]), lead(s), 0.0,
-                                 granule(space))
+                                 std::max(s->rate[0], s->rate[1]),
+                                 std::max(s->cycleSeconds[0], s->cycleSeconds[1]))
                 : 0;
         }
     }  // namespace
@@ -758,7 +705,7 @@ namespace adaptive {
         if (!s) {
             const std::uint64_t waits = any ? any->waitNanos.exchange(0, std::memory_order_relaxed) : 0;
             if (any) {
-                updatePacing(space, any, now, waits, measures);
+                updatePacing(space, any, now, waits);
                 setRunway(space, any);
             }
             // Fixed limits: PROTOCORE_HEAP_TRACE prints the cycle too, so a
@@ -767,7 +714,7 @@ namespace adaptive {
             if (traceEnv && *traceEnv && std::strcmp(traceEnv, "0") != 0) {
                 std::fprintf(stderr,
                     "protoCore heap: space=%p fixed cycle=%llu L=%" PROTO_FMT_U
-                    " soft=%d hard=%d heap=%d stw=%.3fms r=%.0f C=%.3fms lead=%.3fms runway=%lld"
+                    " soft=%d hard=%d heap=%d stw=%.3fms r=%.0f C=%.3fms runway=%lld"
                     " waits=%llu watchdog=%llu paced=%llu\n",
                     static_cast<void*>(space),
                     static_cast<unsigned long long>(
@@ -777,7 +724,7 @@ namespace adaptive {
                     space->softHeapLimit, relaxedLoad(space->maxHeapSize),
                     relaxedLoad(space->heapSize), stopTheWorldNanos / 1e6,
                     any ? any->rate[0] : 0.0, any ? any->cycleSeconds[0] * 1e3 : 0.0,
-                    any ? lead(any) * 1e3 : 0.0, any ? any->runway : 0LL,
+                    any ? any->runway : 0LL,
                     any ? static_cast<unsigned long long>(any->stats.waits) : 0ULL,
                     any ? static_cast<unsigned long long>(any->stats.watchdogWakes) : 0ULL,
                     any ? static_cast<unsigned long long>(any->stats.pacedRequests) : 0ULL);
@@ -786,7 +733,7 @@ namespace adaptive {
             return;
         }
         const std::uint64_t waits = s->waitNanos.exchange(0, std::memory_order_relaxed);
-        updatePacing(space, s, now, waits, measures);
+        updatePacing(space, s, now, waits);
         const proto_ulong L = space->liveCellsLastCycle.load(std::memory_order_relaxed);
         const proto_ulong before = static_cast<proto_ulong>(std::max(0, space->softHeapLimit));
         LawInputs in;
@@ -799,7 +746,8 @@ namespace adaptive {
         in.waitShare = s->waitShare;
         // Pacing's runway for the next interval, before the ceiling caps it.
         in.runwayCells = static_cast<double>(pacing::runway(
-            static_cast<long long>(kMaxCells), 0, in.rate, lead(s), 0.0, granule(space)));
+            static_cast<long long>(kMaxCells), 0, in.rate,
+            std::max(s->cycleSeconds[0], s->cycleSeconds[1])));
         // The first cycle under the controller is not evidence about S: it
         // starts with no measured runway (pacing needs one cycle of r and C),
         // so its wait is the one every run pays, and its interval includes
@@ -808,10 +756,11 @@ namespace adaptive {
         // start-up live set sits just below S0 would otherwise run its next
         // cycle after a thin slice of allocation.
         const proto_ulong after = s->cycles == 0
-            ? std::max(before, std::min<proto_ulong>(liveSetFloor(L, in.runwayCells, s->hardCells),
-                                                     s->hardCells))
+            ? static_cast<proto_ulong>(raiseToFloor(static_cast<double>(before), before, L,
+                                                    in.runwayCells, s->hardCells))
             : nextSoftLimit(in, s->law);
-        space->softHeapLimit = static_cast<int>(std::min<proto_ulong>(after, kMaxCells));
+        // Stored relaxed: the sweep reads it without the lock (sweep::mutatorsShort).
+        relaxedStore(space->softHeapLimit, static_cast<int>(std::min<proto_ulong>(after, kMaxCells)));
         s->lastThroughput = in.throughput;
 
         const long long retained = static_cast<long long>(space->heapSize)
@@ -828,13 +777,13 @@ namespace adaptive {
             std::fprintf(stderr,
                 "protoCore heap: space=%p cycle=%llu L=%" PROTO_FMT_U " w=%.4f r=%.0f T=%.0f"
                 " rho=%.3f S=%" PROTO_FMT_U "->%d H=%" PROTO_FMT_U " heap=%d retained=%" PROTO_FMT_U
-                " Tc=%.3fms C=%.3fms lead=%.3fms runway=%lld probes=%llu stopped=%d stw=%.3fms\n",
+                " Tc=%.3fms C=%.3fms runway=%lld probes=%llu stopped=%d stw=%.3fms\n",
                 static_cast<void*>(space), static_cast<unsigned long long>(s->cycles),
                 L, in.waitShare, in.rate, in.throughput,
                 in.throughput > 0.0 ? in.rate / in.throughput : 0.0,
                 before, space->softHeapLimit, s->hardCells, space->heapSize, s->retainedLastCycle,
                 std::chrono::duration<double, std::milli>(now - s->cycleStart).count(),
-                s->cycleSeconds[0] * 1e3, lead(s) * 1e3, s->runway,
+                s->cycleSeconds[0] * 1e3, s->runway,
                 static_cast<unsigned long long>(s->law.probes), s->law.stopped ? 1 : 0,
                 stopTheWorldNanos / 1e6);
             std::fflush(stderr);
@@ -921,7 +870,7 @@ namespace adaptive {
         processBudgetCells = H;
         for (SpaceState* other : registry())
             if (other->enabled) other->hardCells = H;
-        space->softHeapLimit = static_cast<int>(S0);
+        relaxedStore(space->softHeapLimit, static_cast<int>(S0));
         relaxedStore(space->maxHeapSize, static_cast<int>(H));
         recomputeCeilings();
     }

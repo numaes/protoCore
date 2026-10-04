@@ -538,6 +538,11 @@ StormRun runStorm(ProtoSpace& space, int maxRounds, bool safepoints) {
         }
     }
     const AdaptiveHeapStats s = space.adaptiveHeapStats();
+    // The last cycle too: one that completed during the last round is not
+    // seen by the loop.  Since 2.14.2 the live-set floor raises S after the
+    // first cycle, so a slow build (ThreadSanitizer) may run only three
+    // cycles in all, and the loop saw none of the two that waited.
+    run.maxWait = std::max(run.maxWait, s.lastPressure);
     run.finalSoft = s.softCells;
     run.budget = s.hardCells;
     run.cycles = s.cycles;
