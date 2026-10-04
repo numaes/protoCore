@@ -629,6 +629,78 @@ TEST(AdaptiveHeap, RetainedSetAtSixtyPercentOfHWithHeavyGarbageCompletes) {
     EXPECT_GT(space.adaptiveHeapStats().cycles, 0u);
 }
 
+// --- Start-up live set near S0 (2.14.2) -------------------------------------------
+
+// The pattern of protoST under the controller (2026-10-04 re-measurement,
+// fib.st 3.4 times slower): the program's start-up live set grows to just
+// below the initial soft limit, so the first cycle starts at once and frees
+// almost nothing, and S stayed at S0 after it (the law skips the first cycle),
+// so the next cycle followed after a thin slice of allocation.  Since 2.14.2
+// every cycle end, the first included, keeps S >= min(H, 2 L).
+// Gating: the invariant is read under globalMutex (adaptiveHeapStats), where
+// the collector publishes L and S together, after every chunk of the
+// start-up build and of the garbage that follows.
+TEST(AdaptiveHeapStartUp, EveryCycleLeavesSAtLeastTwiceTheLiveSet) {
+    CleanEnv env;
+    ProtoSpace space;
+    // Start-up: a live set of about 500,000 cells -- a chain of objects, each
+    // holding the previous one in an attribute, rooted at the end -- built
+    // before the controller is enabled, so no cycle reclaims it on the way.
+    constexpr int kLiveObjects = 250000;
+    ProtoRootSet* rs = space.createRootSet("start-up-live-set");
+    ProtoRootSet::Handle h = ProtoRootSet::kNullHandle;
+    {
+        ProtoContext sub(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
+        const ProtoString* next = ProtoString::createSymbol(&sub, "startUpNext");
+        const ProtoObject* chain = PROTO_NONE;
+        for (int i = 0; i < kLiveObjects; ++i)
+            chain = sub.newObject(false)->setAttribute(&sub, next, chain);
+        h = rs->add(chain);
+    }
+    // S0 15 % above the live set (two cells per object: the object and its
+    // attribute list), below the heap the start-up left with its garbage:
+    // the first cycle starts at once and reclaims only that garbage.
+    AdaptiveHeapConfig c;
+    c.hardCells = 16000000;   // 1 GB
+    c.initialSoftCells = 2 * static_cast<proto_ulong>(kLiveObjects) * 115 / 100;
+    space.enableAdaptiveHeap(c);
+    const proto_ulong s0 = softOf(space);
+    int observed = 0;
+    std::uint64_t firstChecked = 0;
+    auto check = [&](const char* phase) {
+        const AdaptiveHeapStats st = space.adaptiveHeapStats();
+        if (st.cycles == 0) return true;
+        if (observed++ == 0) firstChecked = st.cycles;
+        const proto_ulong floor = std::min<proto_ulong>(st.hardCells, 2 * st.liveCellsLastCycle);
+        EXPECT_GE(st.softCells, floor)
+            << phase << ": after " << st.cycles << " cycle(s) S = " << st.softCells
+            << " cells is below twice the live set (L = " << st.liveCellsLastCycle << ")";
+        return st.softCells >= floor;
+    };
+    // The program proper: garbage at an interpreter-like rate.
+    proto_ulong garbage = 0;
+    for (int r = 0; r < 300; ++r) {
+        garbage += churn(space, 10000, 20);
+        ASSERT_TRUE(check("run"));
+    }
+    const AdaptiveHeapStats st = space.adaptiveHeapStats();
+    std::printf("[ start-up ] S0=%lu L=%lu S=%lu cycles=%llu first-checked=%llu garbage=%lu\n",
+                (unsigned long) s0, (unsigned long) st.liveCellsLastCycle,
+                (unsigned long) st.softCells, (unsigned long long) st.cycles,
+                (unsigned long long) firstChecked, (unsigned long) garbage);
+    EXPECT_GT(observed, 0);
+    {
+        // The whole chain survived.
+        ProtoContext sub(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
+        const ProtoString* next = ProtoString::createSymbol(&sub, "startUpNext");
+        int length = 0;
+        for (const ProtoObject* o = rs->resolve(h); o != PROTO_NONE; o = o->getAttribute(&sub, next)) ++length;
+        EXPECT_EQ(length, kLiveObjects) << "the live set did not survive";
+    }
+    EXPECT_GT(st.liveCellsLastCycle, s0 / 2)
+        << "the live set is not near S0: the case does not reproduce the pattern";
+}
+
 // --- Several spaces ----------------------------------------------------------
 
 // H is a process budget: a space's growth is limited by what the others

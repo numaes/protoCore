@@ -94,11 +94,11 @@ adaptive::WaitStats statsOf(ProtoSpace& space) {
 
 void print(const char* what, const adaptive::WaitStats& s) {
     std::printf("[ %s ] waits=%llu cells=%llu cycle=%llu watchdog=%llu paced=%llu "
-                "cycles=%llu runway=%lld r=%.0f C=%.3fms\n", what,
+                "cycles=%llu runway=%lld r=%.0f C=%.3fms lead=%.3fms\n", what,
                 (unsigned long long) s.waits, (unsigned long long) s.cellWakes,
                 (unsigned long long) s.cycleWakes, (unsigned long long) s.watchdogWakes,
                 (unsigned long long) s.pacedRequests, (unsigned long long) s.cyclesCompleted,
-                s.runway, s.rate, s.cycleSeconds * 1e3);
+                s.runway, s.rate, s.cycleSeconds * 1e3, s.leadSeconds * 1e3);
 }
 
 }  // namespace
@@ -118,6 +118,15 @@ TEST(PacingRunway, IsRateTimesCycleWithTheSlack) {
     EXPECT_EQ(adaptive::pacing::runway(10000000, 0, 1e6, 0.1), 125000);
     EXPECT_EQ(adaptive::pacing::runway(10000000, 0, 1e6, 0.1, 0.0), 100000);
     EXPECT_DOUBLE_EQ(adaptive::pacing::kCycleSlack, 0.25);
+}
+
+TEST(PacingRunway, TheGranuleIsAddedUnscaledToAMeasuredRunway) {
+    // r = 1 M cells/s, C = 0.1 s, m = 0.25, two threads' chunks of 8,192.
+    EXPECT_EQ(adaptive::pacing::runway(10000000, 0, 1e6, 0.1, 0.25, 16384), 125000 + 16384);
+    // Nothing measured: no runway, granule or not.
+    EXPECT_EQ(adaptive::pacing::runway(10000000, 0, 0.0, 0.1, 0.25, 16384), 0);
+    // Still never above the headroom.
+    EXPECT_EQ(adaptive::pacing::runway(100000, 0, 1e6, 0.1, 0.25, 16384), 100000);
 }
 
 TEST(PacingRunway, NeverAboveTheHeadroom) {
@@ -144,6 +153,46 @@ TEST(PacingRunway, MonotoneInRateAndCycleTime) {
         EXPECT_GE(w, last);
         last = w;
     }
+}
+
+// --- pacing::cellsBackSeconds (2.14.2) ------------------------------------------
+
+TEST(PacingCellsBack, ASweepFasterThanTheMutatorsCountsOnlyTheTimeBeforeIt) {
+    // 0.6 s before the sweep, a 0.4 s sweep freeing 20 M cells (50 M/s)
+    // against mutators allocating 12 M/s: the cells come back as fast as they
+    // are needed once the sweep runs.
+    EXPECT_DOUBLE_EQ(adaptive::pacing::cellsBackSeconds(0.6, 0.4, 20e6, 12e6), 0.6);
+}
+
+TEST(PacingCellsBack, ASlowerSweepAddsTheTimeItsDeficitLasts) {
+    // The sweep frees 2 M cells in 0.4 s (5 M/s) against 10 M/s: the
+    // mutators run short by 4 M cells, 0.2 s of their allocation.
+    EXPECT_NEAR(adaptive::pacing::cellsBackSeconds(0.1, 0.4, 2e6, 10e6), 0.3, 1e-12);
+    // Nothing freed: the whole sweep counts.
+    EXPECT_DOUBLE_EQ(adaptive::pacing::cellsBackSeconds(0.1, 0.4, 0.0, 10e6), 0.5);
+}
+
+TEST(PacingCellsBack, NoMeasuredRateCountsTheWholeSweepAndNegativesAreZero) {
+    EXPECT_DOUBLE_EQ(adaptive::pacing::cellsBackSeconds(0.1, 0.4, 1e6, 0.0), 0.5);
+    EXPECT_DOUBLE_EQ(adaptive::pacing::cellsBackSeconds(-1.0, -1.0, 1e6, 1e6), 0.0);
+}
+
+TEST(PacingCellsBack, NeverAboveThePreSweepTimePlusTheSweep) {
+    for (double r = 1e3; r < 1e10; r *= 3.1)
+        for (double f = 0.0; f < 1e9; f = f * 7.0 + 1000.0) {
+            const double back = adaptive::pacing::cellsBackSeconds(0.25, 0.5, f, r);
+            EXPECT_GE(back, 0.25);
+            EXPECT_LE(back, 0.75);
+        }
+}
+
+TEST(PacingLead, IsTheTimeUntilCellsArePlusAQuarterOfTheCycle) {
+    EXPECT_DOUBLE_EQ(adaptive::pacing::leadSeconds(0.6, 1.2), 0.6 + 0.25 * 1.2);
+    EXPECT_DOUBLE_EQ(adaptive::pacing::leadSeconds(0.6, 1.2, 0.0), 0.6);
+    EXPECT_DOUBLE_EQ(adaptive::pacing::leadSeconds(-1.0, -1.0), 0.0);
+    // Never above 2.12.0's C x (1 + m) when the cells are back by the end.
+    for (double back = 0.0; back <= 1.0; back += 0.125)
+        EXPECT_LE(adaptive::pacing::leadSeconds(back, 1.0), 1.25);
 }
 
 // --- Early wake (4.4) --------------------------------------------------------
@@ -213,4 +262,36 @@ TEST(CollectorPacingRate, SteadyAllocatorBelowCapacityStopsWaiting) {
     ASSERT_GT(after.cyclesCompleted, before.cyclesCompleted) << "no cycle in the measured window";
     EXPECT_EQ(after.waits - before.waits, 0u)
         << "the allocator still waited for headroom after the cycles were paced";
+}
+
+// Clock-dependent (CLOCK_DEPENDENT_TESTS): a collector that keeps up, with
+// ample headroom, whose cycles are mostly sweep (no live set, a large heap of
+// garbage, an allocator as fast as the allocator goes).  Since 2.12.0 the sweep publishes its cells as it goes, so
+// the mutators need a runway only until the first cells come back, not until
+// the cycle ends; 2.12.0-2.14.1 paced on the whole cycle and ran about 1.5-2
+// times the cycles of the unpaced collector here (the 2026-10-04
+// re-measurement: 6 threads at 40 M cells, twice the cycles and 1-6 % of wall
+// time).  Same allocator and garbage with pacing on and off.
+TEST(CollectorPacingRate, AmpleHeadroomDoesNotMultiplyTheCycles) {
+    auto run = [](bool pacing) {
+        CleanEnv env;
+        ScopedEnv sw("PROTOCORE_GC_PACING", pacing ? nullptr : "0");
+        ProtoSpace space;
+        space.setHeapLimits(0, relaxedLoad(space.heapSize) + 6000000);
+        churn(space, 12000000);   // converge: r and C measured
+        const adaptive::WaitStats before = statsOf(space);
+        churn(space, 36000000);
+        const adaptive::WaitStats after = statsOf(space);
+        print(pacing ? "ample, paced" : "ample, unpaced", after);
+        return after.cyclesCompleted - before.cyclesCompleted;
+    };
+    const std::uint64_t unpaced = run(false);
+    const std::uint64_t paced = run(true);
+    std::printf("[ ample ] cycles unpaced=%llu paced=%llu\n",
+                (unsigned long long) unpaced, (unsigned long long) paced);
+    ASSERT_GE(unpaced, 4u) << "too few cycles to compare";
+    // 2.14.1 on Linux x86-64 (Ryzen 5 5500U): 12 cycles unpaced, 16 paced;
+    // 2.14.2: 12-13.
+    EXPECT_LE(static_cast<double>(paced), 1.15 * static_cast<double>(unpaced) + 0.5)
+        << "pacing multiplied the cycles of a run the collector keeps up with";
 }

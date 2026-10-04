@@ -84,7 +84,13 @@ env:
   #                                                waiting once cycles are
   #                                                paced: whether the collector
   #                                                keeps up is the machine's
-  #                                                speed (test/CollectorPacingTests.cpp)
+  #                                                speed; and pacing does not
+  #                                                multiply the cycles of a run
+  #                                                the collector keeps up with
+  #                                                (2.14.2; cycles counted with
+  #                                                pacing on and off, a ratio
+  #                                                of measured times)
+  #                                                (test/CollectorPacingTests.cpp)
   #   AdaptiveHeapRate.*                           the same property under the
   #                                                adaptive controller (spec P1)
   #   conformance.isolate.*                        three cases whose violation
