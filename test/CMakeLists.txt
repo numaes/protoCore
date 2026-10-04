@@ -67,3 +67,29 @@ foreach(_case heap.ceiling_progress join.parks stw.quorum_completes)
     set_tests_properties(conformance.isolate.${_case}
                          PROPERTIES TIMEOUT 240 RUN_SERIAL TRUE)
 endforeach()
+
+# The collector-throughput spec (10.1, items 5, 6, 9 and 12): the GC suites
+# again, with three sweep helpers engaged on every cycle.  The helpers
+# normally engage only while mutators wait for headroom, which these suites
+# rarely do, so PROTOCORE_GC_SWEEP_ENGAGE=always offers them every sweep.
+foreach(_suite GCSurvivorTest GCStressTest GCMark GCRootScope ConcurrentMarkSafety
+               MutableRootReclaim MultiSpaceThread MultiSpaceTeardown)
+    add_test(NAME ParallelSweep.Suite.${_suite}
+             COMMAND proto_tests --gtest_filter=${_suite}.*)
+    set_tests_properties(ParallelSweep.Suite.${_suite} PROPERTIES
+        ENVIRONMENT "PROTOCORE_GC_SWEEP_THREADS=3;PROTOCORE_GC_SWEEP_ENGAGE=always"
+        TIMEOUT 1500)
+endforeach()
+# GCSurvivorTest with the survivor pen staggered (10.1, item 6).  With
+# stagger 4, LongLivedSurvivorFreedWhenReferenceDropped is left out, with or
+# without helpers: it expects the dropped cell back after ONE cycle, and a
+# staggered pen re-examines its cells only every 4th cycle (by design).
+set(_stagger_filter_1 "GCSurvivorTest.*")
+set(_stagger_filter_4 "GCSurvivorTest.*:-GCSurvivorTest.LongLivedSurvivorFreedWhenReferenceDropped")
+foreach(_stagger 1 4)
+    add_test(NAME ParallelSweep.Suite.GCSurvivorTest.Stagger${_stagger}
+             COMMAND proto_tests --gtest_filter=${_stagger_filter_${_stagger}})
+    set_tests_properties(ParallelSweep.Suite.GCSurvivorTest.Stagger${_stagger} PROPERTIES
+        ENVIRONMENT "PROTOCORE_GC_SWEEP_THREADS=3;PROTOCORE_GC_SWEEP_ENGAGE=always;PROTOCORE_GC_SURVIVOR_STAGGER=${_stagger}"
+        TIMEOUT 1500)
+endforeach()

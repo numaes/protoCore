@@ -2265,6 +2265,8 @@ namespace proto
 
 // ProtoSpace::enableAdaptiveHeap and adaptiveHeapStats exist (2.10.0+).
 #define PROTOCORE_HAS_ADAPTIVE_HEAP 1
+// ProtoSpace::setCollectorHelperThreads / collectorHelperThreads exist (2.13.0+).
+#define PROTOCORE_HAS_COLLECTOR_HELPERS 1
 
     class ProtoSpace
     {
@@ -2484,6 +2486,53 @@ namespace proto
 
         /** @brief The controller's current state (thread-safe snapshot). */
         AdaptiveHeapStats adaptiveHeapStats() const;
+
+        /**
+         * @brief Set the number of collector helper threads (process-wide).
+         *
+         * While mutators wait for heap headroom, up to this many helper
+         * threads sweep alongside the collector thread
+         * (docs/GarbageCollector.md § "Parallel sweep").  0 sweeps on the
+         * collector thread alone, as before 2.13.0.  The default is half the
+         * machine's physical cores; PROTOCORE_GC_SWEEP_THREADS sets it
+         * without code (0..64), and this call overrides both.  At most 64.
+         * Helpers are created when a sweep first wants them and stopped when
+         * the last ProtoSpace is destroyed.  Since 2.13.0; test for it with
+         * PROTOCORE_HAS_COLLECTOR_HELPERS.
+         */
+        static void setCollectorHelperThreads(unsigned count);
+        /** @brief The collector helper thread count in force. */
+        static unsigned collectorHelperThreads();
+
+        /**
+         * @brief When the helpers are offered a sweep (process-wide).
+         *
+         * 0 (default, "measured"): while a mutator waits for heap headroom,
+         * and only while that shortens the sweep -- a sweep with helpers that
+         * is not faster per cell than the last one without them holds them
+         * back for the next 1, 2, 4 ... 64 sweeps.  1 ("waiting"): while a
+         * mutator waits.  2 ("always"): every sweep (diagnosis).  -1 restores
+         * the default.  PROTOCORE_GC_SWEEP_ENGAGE=measured|waiting|always sets
+         * it without code.  Since 2.14.0.
+         */
+        static void setCollectorHelperEngagement(int mode);
+        static int collectorHelperEngagement();
+
+        /**
+         * @brief How many segment chains the sweep walks in lockstep, and
+         *        whether it prefetches their next cells (process-wide).
+         *
+         * Hardware-sensitive: several chains keep several cache misses in
+         * flight on one thread; the default (8 chains, prefetch on) was
+         * measured on one notebook-class CPU only.  1..32 chains; 0 restores
+         * the default.  Prefetch: 1 on, 0 off, -1 the default.
+         * PROTOCORE_GC_SWEEP_CURSORS and PROTOCORE_GC_SWEEP_PREFETCH set them
+         * without code.  Since 2.14.0.
+         */
+        static void setSweepCursors(unsigned count);
+        static unsigned sweepCursors();
+        static void setSweepPrefetch(int on);
+        static bool sweepPrefetch();
 
         /**
          * @brief Block until the heap has room to satisfy an allocation, or

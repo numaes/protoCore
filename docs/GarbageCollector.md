@@ -111,8 +111,20 @@ The `ProtoExternalPointer` callbacks passed to
 contract.  Work that needs allocation runs in a collector phase with its own
 context instead (see Phase 5b).
 
-A finalizer must also not **block**: it runs on the single GC thread inside the
-sweep, so a wait there stalls collection for the whole space.  The finalizer is
+A finalizer must also not **block**: it runs on the collector's threads inside
+the sweep, so a wait there stalls collection for the whole space.
+
+**Which thread** (since 2.14.0, with the sweep's helper threads).  Built-in
+finalizers (external buffers, byte buffers, a mutable object's handle) may
+run on any of the collector's threads -- the collector thread and its sweep
+helpers -- concurrently with each other; they are thread-safe (`alignedFree`,
+`delete[]`, and a mutable handle's ref goes to its sweeper's own vector,
+merged by the collector thread before Phase 5b).  A future built-in
+finalizer must be thread-safe too.  **Embedder finalizers**
+(`ProtoExternalPointer` callbacks) still run on the space's collector
+thread, one at a time: a helper that meets one leaves it, and the collector
+runs it after the sweep, before the cell is reused.  Finalizers never run
+on a mutator thread.  The finalizer is
 the most protoCore can offer for memory it does not manage, and
 [MemoryModel.md](MemoryModel.md) § 5 states that boundary — what an external
 buffer or wrapped pointer costs, why protoCore cannot account it, and what the
@@ -352,8 +364,51 @@ of young cells.
   segments (the free pool) or per sweep (the survivor pen), instead of one
   per segment of about 6 cells: the free pool's head is the line every
   mutator pops at each context destruction.
-- The sweep's code is `sweepSegments` and `SweeperLocal` in
-  `core/ProtoSpace.cpp` (`core/Sweep.cpp` from 2.13.0).
+- **Helper threads** (since 2.14.0).  While mutators wait for heap
+  headroom, up to K helper threads of one process-wide pool sweep alongside
+  the collector thread.  The segment list captured in Phase 2 is claimed in
+  runs of 128 segments under a mutex, so each segment (and each cell) is
+  swept by exactly one sweeper; each sweeper keeps its own free chunk,
+  segment chains, counters and finalizer sink, and publishes them itself.
+  The collector starts alone and offers the rest of the list to the pool
+  only when a claim leaves segments behind and a mutator is waiting: a
+  small cycle, or a cycle nobody waits for, never touches the pool.  It
+  never waits for a helper to arrive, only for helpers that claimed work to
+  finish it; then it merges their finalized mutable refs (before Phase 5b),
+  their dead cells (several spaces) and runs the embedder finalizers they
+  left.  Phase 5b, the bulk unmark, the token and the cycle end stay on the
+  collector thread.
+  - K defaults to half the physical cores of one NUMA node
+    (`(cores / nodes) / 2`: 3 on a 6-core notebook).
+    `PROTOCORE_GC_SWEEP_THREADS=<K>` (0..64) or
+    `ProtoSpace::setCollectorHelperThreads(K)` sets it; 0 is the serial
+    sweep, with no pool.
+  - **Measured engagement** (the default): helpers are kept only while they
+    shorten the sweep.  A sweep with helpers whose wall time per cell is not
+    below the last sweep without them holds the helpers back for the next
+    1, 2, 4 ... 64 sweeps that want them; the first of those is the new
+    comparison.  `waiting` engages them whenever a mutator waits, `always`
+    on every sweep (`PROTOCORE_GC_SWEEP_ENGAGE`,
+    `ProtoSpace::setCollectorHelperEngagement`).
+  - **Hardware-sensitive parameters are configurable**: the chains walked in
+    lockstep (`PROTOCORE_GC_SWEEP_CURSORS`, default 8), the prefetch
+    (`PROTOCORE_GC_SWEEP_PREFETCH`, default on), the helper count and the
+    engagement, by environment and by `ProtoSpace`'s static API.  The
+    defaults were measured on one notebook-class CPU only; see the report's
+    "Hardware class" section before relying on them elsewhere.
+  - Helpers are `std::thread`s owned by protoCore, like the collector
+    thread, and are not `ProtoThread`s: they take no part in stop-the-world
+    quorums or grace periods (the collector would otherwise wait for its own
+    helpers), hold no cell between sweeps, and never allocate
+    (`getFreeCells` aborts on a helper).  They are created when a sweep first
+    wants them, never during static initialisation, and stopped by the
+    destructor of the last `ProtoSpace`; a later space starts a new pool.  A
+    forked child starts with no helper (`pthread_atfork`).
+  - One job at a time: a collector that finds the pool busy with another
+    space's sweep sweeps alone and never waits for the pool, so the pool adds
+    no wait between collectors.
+- The sweep's code is `sweepSegments`, `SweeperLocal`, `claimRun` and
+  `sweepCycle` in `core/Sweep.cpp`.
 - New dirty segments pushed by workers after Phase 2's exchange are
   ignored this cycle and processed in the next.
 - Finalizers follow the finalizer contract (§ 7 above).  The only finalizer
@@ -644,6 +699,10 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   its safepoints and leaves every member quorum while unmanaged or waiting for
   heap.  The allocation poll reads `multispace::attention`, one process-wide
   counter, instead of its own space's flag.
+- **One helper pool.** The sweep's helpers serve every space, one sweep at
+  a time (the cycle token already serialises cycles); a collector that finds
+  them busy sweeps alone.  Helpers have no quiescence record, so a grace
+  period never waits for them.
 - **Grace period.** With more than one space live, Phase 5 only collects the
   dead cells.  After the token is released the collector waits until every
   registered thread has passed a safepoint outside a critical section, or is
@@ -663,7 +722,13 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   parked workers.
 - `stopTheWorldCV`: condition variable workers wait on while parked.
 - `memoryReclaimedCV`: condition variable workers wait on when blocked
-  by `waitForHeapHeadroom` waiting for sweep to refill the freelist.
+  by `waitForHeapHeadroom` waiting for sweep to refill the freelist;
+  notified once per publication of free cells while a thread waits (2.12.0).
+- The sweep's helper pool (2.14.0): one `std::mutex` and two
+  `std::condition_variable`s (job start, job completion), and a mutex per
+  sweep for claiming segment runs.  No spinning, no timed wait, and no
+  `std::counting_semaphore`, `std::latch` or `std::barrier` (libstdc++ 13
+  loses wakeups in the semaphore).
 
 ## Memory Allocation
 
@@ -1071,6 +1136,23 @@ From [reports/2026-10-03-collector-throughput.md](reports/2026-10-03-collector-t
 - **Not yet**: the cost per cell at 6-12 threads is still 2-3 times the
   single-threaded one, so the sweep's helper threads (spec section 6) are
   the next step.
+
+### After 2.14.0: helper threads, and fresh against recycled memory
+
+Same report, section M4 (synthetic, median of 3, one session):
+
+- Helpers (K = 3, engaged while mutators wait and only while they pay) cut
+  the sweep's cost per cell 2.3-2.6x where the sweep is the bottleneck, and
+  the wall time 6-18 % on the protoJS N = 12 workloads; they hardly help
+  the protoClojure and protoScala t6 workloads (-4 % / +6 %) and cost up to
+  11 % more process CPU.  K = 0 is 2.12.0's serial sweep within noise.
+- After their first heap turn the multi-threaded workloads allocate almost
+  only from recycled chunks; the per-cell sweep cost on that aged heap is
+  2-25 % above the run's average, and the gains hold there.  Heaps aged for
+  hours are not measured.
+- All of this is from one notebook-class CPU (6 cores, 8 MB L3, two
+  channels).  The walk's width and prefetch, the helper count and the
+  engagement are configurable for other hardware.
 
 ### After 2.13.0: the control law minimises waits within the budget
 

@@ -10,7 +10,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # PROTO_BIN: the directory holding protojs, protoscala and protoclj (the
 # installed Release runtimes, run against <lib_dir> through LD_LIBRARY_PATH;
 # check with ldd).  PROTO_JS_BENCH: protoJS's benchmarks/structures directory
-# (measured at protoJS b493dc270).  Workloads: ./workloads.
+# (measured at protoJS b493dc270).  Workloads: ./workloads.  Each run waits
+# until no compiler or test suite runs and the load average is below
+# MAX_LOAD (default 6).
 BIN = os.environ.get("PROTO_BIN", "/usr/bin")
 JS = os.environ.get("PROTO_JS_BENCH", os.path.join(os.environ.get("PROTO_WORKSPACE", "."), "protoJS/benchmarks/structures"))
 WL = os.environ.get("PROTO_WL", os.path.join(HERE, "workloads"))
@@ -28,7 +30,11 @@ def parse_phases(err):
 
 def busy_machine():
     out = subprocess.run(["ps", "-eo", "comm"], capture_output=True, text=True).stdout.split()
-    return [c for c in out if c in ("cc1plus", "ctest", "proto_tests", "ld", "make", "ninja")]
+    busy = [c for c in out if c in ("cc1plus", "ctest", "proto_tests", "ld", "make", "ninja")]
+    # Other agents' benchmarks are not compilers: gate on the load too.
+    if os.getloadavg()[0] > float(os.environ.get("MAX_LOAD", "6.0")):
+        busy.append("load=%.1f" % os.getloadavg()[0])
+    return busy
 
 def run(lib, label, res, name, cmd, env_extra, mem, cwd, check, rep):
     while True:
@@ -51,6 +57,18 @@ def run(lib, label, res, name, cmd, env_extra, mem, cwd, check, rep):
         rec.update(wall_s=float(m.group(1)), user_s=float(m.group(2)), sys_s=float(m.group(3)), rss_kb=int(m.group(4)))
     rec["ok"] = bool(p.returncode == 0 and check(p.stdout, p.stderr))
     rec["gc"] = parse_phases(p.stderr)
+    # The aged-heap window: the cumulative counters at the first cycle by
+    # which the collector had freed WARM x the heap limit (the heap cycled
+    # WARM times).  last - warm is the run's steady state on an aged heap.
+    limit = int(env_extra.get("PROTOCORE_HEAP_LIMIT_CELLS", 0) or 0)
+    if limit:
+        warm = 3 * limit
+        for line in p.stderr.splitlines():
+            if line.startswith("[GC-PHASES]"):
+                d = dict((k, int(v)) for k, v in re.findall(r"(\w+)=(\d+)", line))
+                if d.get("freed_cells", 0) >= warm:
+                    rec["gc_warm"] = d
+                    break
     rec["lib_loaded"] = "[GC-PHASES]" in p.stderr or "[GC-PROFILE]" in p.stderr
     rec["stdout_tail"] = p.stdout[-400:]
     rec["json"] = [l for l in p.stdout.splitlines() if l.startswith("{")][-1:]
@@ -114,6 +132,16 @@ def main():
         js("js10_records_n12", "records", 12, 1, 10000000, "4G")
     if "js10r12" in groups:
         js("js10_records_n12", "records", 12, 1, 10000000, "4G")
+    if "aged" in groups:
+        js("aged_js10_records_n12", "records", 12, 3, 10000000, "4G")
+        Ra = 1500
+        expect = 6001000 * Ra + 1000 * Ra * (Ra - 1)
+        oka = lambda o, e: ("checksum %d" % expect) in o and o.strip().endswith("ok")
+        src = open(WL + "/coll_alloc.clj.in").read().replace("@ROUNDS@", str(Ra)).replace(
+            "@TASKS@", "[0 1 2 3 4 5]")
+        path = WL + "/coll_alloc_r%d_t6.clj" % Ra
+        open(path, "w").write(src)
+        R("aged_clj_coll_t6", [BIN + "/protoclj", path], {"PROTOCORE_HEAP_LIMIT_CELLS": 2000000}, "4G", WL, oka)
     if "js1" in groups:
         js("js10_records_n1", "records", 1, 1, 10000000, "4G")
     if "jsad" in groups:

@@ -8,6 +8,7 @@
 #include "../headers/proto_internal.h"
 #include "ModuleCache.h"
 #include "AdaptiveHeap.h"
+#include "Sweep.h"
 #include <algorithm>
 #include <iostream>
 #include <cstdlib>
@@ -37,8 +38,60 @@ namespace proto {
         std::atomic<std::uint64_t> mutatorParks{0};
         std::atomic<std::uint64_t> headroomWaitNs{0};
         std::atomic<std::uint64_t> headroomWaits{0};
+        std::atomic<std::uint64_t> refillFreshCells{0};
+        std::atomic<std::uint64_t> refillRecycledCells{0};
+        // Free chunks carved from a fresh OS block (globalMutex held): a pop
+        // from one of these hands out fresh, contiguous cells.
+        std::unordered_set<const void*>& freshChunks() {
+            static auto* set = new std::unordered_set<const void*>();
+            return *set;
+        }
     }
 #endif
+
+    namespace sweep {
+        // Acquire a FreeChunk struct (from pool, or fresh allocation).
+        // Caller holds globalMutex.
+        ProtoSpace::FreeChunk* takeFreeChunk(ProtoSpace* space) {
+            if (space->freeChunkPool) {
+                ProtoSpace::FreeChunk* c = space->freeChunkPool;
+                space->freeChunkPool = c->next;
+                return c;
+            }
+            return new ProtoSpace::FreeChunk();
+        }
+
+        // Return a FreeChunk struct to the pool for reuse.  Caller holds globalMutex.
+        void recycleFreeChunk(ProtoSpace* space, ProtoSpace::FreeChunk* chunk) {
+            chunk->head = nullptr;
+            chunk->tail = nullptr;
+            chunk->count = 0;
+            chunk->next = space->freeChunkPool;
+            space->freeChunkPool = chunk;
+        }
+
+        // Publish an accumulated chunk of dead cells to the global freeChunks
+        // list.  Caller MUST hold globalMutex.  The chunk's tail must already
+        // have its `next` pointing at nullptr (terminator).
+        void publishFreeChunk(ProtoSpace* space, Cell* head, Cell* tail, proto_ulong count) {
+            if (!head || !tail || count == 0) return;
+            tail->internalSetNextRaw(nullptr);
+            ProtoSpace::FreeChunk* chunk = takeFreeChunk(space);
+            chunk->head = head;
+            chunk->tail = tail;
+            chunk->count = count;
+            chunk->next = space->freeChunks;
+            space->freeChunks = chunk;
+            // freeCellsCount is an int field of ProtoSpace (its layout is part
+            // of the ABI).  It counts cells of one heap; 2^31 cells would be
+            // 128 GiB, so a chunk's count fits it exactly.
+            relaxedFetchAdd(space->freeCellsCount, static_cast<int>(count));
+            // A thread waiting for headroom takes these cells now, not at
+            // its 50 ms watchdog (a no-op when no thread waits).
+            adaptive::cellsPublished(space);
+        }
+
+    }  // namespace sweep
 
     namespace {
         /** Maximum bytes to request from the OS in a single getFreeCells allocation (16 MiB). */
@@ -101,46 +154,8 @@ namespace proto {
             return chain;
         }
 
-        // Acquire a FreeChunk struct (from pool, or fresh allocation).
-        // Caller holds globalMutex.
-        ProtoSpace::FreeChunk* takeFreeChunk(ProtoSpace* space) {
-            if (space->freeChunkPool) {
-                ProtoSpace::FreeChunk* c = space->freeChunkPool;
-                space->freeChunkPool = c->next;
-                return c;
-            }
-            return new ProtoSpace::FreeChunk();
-        }
-
-        // Return a FreeChunk struct to the pool for reuse.  Caller holds globalMutex.
-        void recycleFreeChunk(ProtoSpace* space, ProtoSpace::FreeChunk* chunk) {
-            chunk->head = nullptr;
-            chunk->tail = nullptr;
-            chunk->count = 0;
-            chunk->next = space->freeChunkPool;
-            space->freeChunkPool = chunk;
-        }
-
-        // Publish an accumulated chunk of dead cells to the global freeChunks
-        // list.  Caller MUST hold globalMutex.  The chunk's tail must already
-        // have its `next` pointing at nullptr (terminator).
-        void publishFreeChunk(ProtoSpace* space, Cell* head, Cell* tail, proto_ulong count) {
-            if (!head || !tail || count == 0) return;
-            tail->internalSetNextRaw(nullptr);
-            ProtoSpace::FreeChunk* chunk = takeFreeChunk(space);
-            chunk->head = head;
-            chunk->tail = tail;
-            chunk->count = count;
-            chunk->next = space->freeChunks;
-            space->freeChunks = chunk;
-            // freeCellsCount is an int field of ProtoSpace (its layout is part
-            // of the ABI).  It counts cells of one heap; 2^31 cells would be
-            // 128 GiB, so a chunk's count fits it exactly.
-            relaxedFetchAdd(space->freeCellsCount, static_cast<int>(count));
-            // A thread waiting for headroom takes these cells now, not at
-            // its 50 ms watchdog (a no-op when no thread waits).
-            adaptive::cellsPublished(space);
-        }
+        using sweep::publishFreeChunk;
+        using sweep::recycleFreeChunk;
 
         const char* cellTypeName(CellType type) {
             switch (type) {
@@ -216,209 +231,6 @@ namespace proto {
             }
 #endif
             workList->push_back(ref);
-        }
-
-        /** Segments the sweep hands back in one compare-and-swap per batch. */
-        constexpr proto_ulong kSegmentRecycleBatch = 1024;
-
-        // A LIFO chain of processed DirtySegments, private to the sweeping
-        // thread until pushAllOnto publishes it with one compare-and-swap
-        // (release, so the segments' contents are visible to the popper).
-        struct SegmentChain {
-            DirtySegment* head = nullptr;
-            DirtySegment* tail = nullptr;
-            proto_ulong count = 0;
-
-            void push(DirtySegment* seg) {
-                seg->next = head;
-                if (!tail) tail = seg;
-                head = seg;
-                ++count;
-            }
-
-            void pushAllOnto(std::atomic<DirtySegment*>& list) {
-                if (!head) return;
-                DirtySegment* expected = list.load(std::memory_order_relaxed);
-                do {
-                    tail->next = expected;
-                } while (!list.compare_exchange_weak(expected, head,
-                                                     std::memory_order_release,
-                                                     std::memory_order_relaxed));
-                head = tail = nullptr;
-                count = 0;
-            }
-        };
-
-        // --- Phase 5, the sweep -------------------------------------------
-        //
-        // The state one sweeping thread owns while it sweeps: the free chunk
-        // under construction, its counters, the processed-segment chains
-        // and, when the cells are freed only after a grace period, its
-        // vector of dead cells.  Published by finish().
-        struct SweeperLocal {
-            ProtoSpace* space;
-            bool deferFree;
-            std::vector<Cell*>* deadCells;
-            Cell* chunkHead = nullptr;
-            Cell* chunkTail = nullptr;
-            proto_ulong chunkCount = 0;
-            proto_ulong reclaimed = 0;
-            proto_ulong swept = 0;
-            proto_ulong segments = 0;
-            SegmentChain freeSegs;
-            SegmentChain penSegs;
-
-            SweeperLocal(ProtoSpace* s, bool defer, std::vector<Cell*>* dead)
-                : space(s), deferFree(defer), deadCells(dead) {}
-
-            // Merge one segment's dead cells into the running chunk, and
-            // publish the chunk once it reaches CELL_CHUNK_SIZE.
-            void addBatch(Cell* head, Cell* tail, proto_ulong count) {
-                if (!head) return;
-                // Prepend: the batch's tail points at the previous chunk
-                // head.  Order does not matter for the freelist; the final
-                // terminator is set by publishFreeChunk.
-                if (chunkHead) tail->internalSetNextRaw(chunkHead);
-                else chunkTail = tail;
-                chunkHead = head;
-                chunkCount += count;
-                reclaimed += count;
-                if (chunkCount >= ProtoSpace::CELL_CHUNK_SIZE) {
-                    GC_LOCK_TRACE("gcLoop ACQ(chunk)");
-                    std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
-                    publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
-                    chunkHead = chunkTail = nullptr;
-                    chunkCount = 0;
-                    GC_LOCK_TRACE("gcLoop REL(chunk)");
-                }
-            }
-
-            // A segment is done: survivors re-chained in it go to the pen,
-            // an empty one back to the free pool -- both through local
-            // chains published in batches (see SegmentChain).
-            void retire(DirtySegment* seg, Cell* survivors) {
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                if (survivors) {
-                    // When stagger == 1 (default) the pen is folded back into
-                    // dirtySegments at the start of every cycle; with
-                    // stagger > 1 only every Nth cycle (survivorStagger).
-                    seg->cellChain = survivors;
-                    penSegs.push(seg);
-                    return;
-                }
-#else
-                (void) survivors;
-#endif
-                seg->cellChain = nullptr;
-                freeSegs.push(seg);
-                if (freeSegs.count >= kSegmentRecycleBatch)
-                    freeSegs.pushAllOnto(space->dirtySegmentFreePool);
-            }
-
-            // Publish everything still private: the segment chains and the
-            // trailing partial chunk.
-            void finish() {
-                freeSegs.pushAllOnto(space->dirtySegmentFreePool);
-                penSegs.pushAllOnto(space->survivorPen);
-                if (chunkHead) {
-                    GC_LOCK_TRACE("gcLoop ACQ(chunk-tail)");
-                    std::lock_guard<std::recursive_mutex> chunkLock(ProtoSpace::globalMutex);
-                    publishFreeChunk(space, chunkHead, chunkTail, chunkCount);
-                    chunkHead = chunkTail = nullptr;
-                    chunkCount = 0;
-                    GC_LOCK_TRACE("gcLoop REL(chunk-tail)");
-                }
-            }
-        };
-
-        // How many segment chains one sweeping thread walks in lockstep.
-        constexpr int kSweepCursors = 8;
-
-        // Sweep every segment of `list` (nullptr-terminated, private to the
-        // caller).  Each cell: one load of its header word; a dead cell is
-        // finalized and chained into its segment's batch (or recorded for a
-        // deferred free); a survivor is unmarked and prepended to its
-        // segment's survivor chain with one store.
-        //
-        // Multi-cursor: a chain is a dependent pointer chase with one miss in
-        // flight.  kSweepCursors chains walked in lockstep, each prefetching
-        // its next cell (write intent) before the others are processed, keep
-        // several misses in flight on one thread.  Each cursor keeps its own
-        // batch and survivor chain, merged when its segment ends, so the
-        // result is the one the single-chain walk produced.
-        void sweepSegments(DirtySegment* list, SweeperLocal& L) {
-            struct Cursor {
-                DirtySegment* seg;
-                Cell* cell;
-                Cell* batchHead;
-                Cell* batchTail;
-                proto_ulong batchCount;
-                Cell* survHead;
-            };
-            Cursor cur[kSweepCursors];
-            int active = 0;
-            DirtySegment* nextSeg = list;
-            auto load = [&](Cursor& c) -> bool {
-                if (!nextSeg) return false;
-                c.seg = nextSeg;
-                nextSeg = nextSeg->next;
-                if (nextSeg) PROTO_PREFETCH(nextSeg);
-                c.cell = c.seg->cellChain;
-                if (c.cell) PROTO_PREFETCH(c.cell);
-                c.batchHead = c.batchTail = nullptr;
-                c.batchCount = 0;
-                c.survHead = nullptr;
-                ++L.segments;
-                return true;
-            };
-            while (active < kSweepCursors && load(cur[active])) ++active;
-            ProtoContext* const ctx = L.space->rootContext;
-            while (active > 0) {
-                for (int i = 0; i < active;) {
-                    Cursor& c = cur[i];
-                    Cell* cell = c.cell;
-                    if (!cell) {
-                        L.addBatch(c.batchHead, c.batchTail, c.batchCount);
-                        L.retire(c.seg, c.survHead);
-                        if (!load(c)) cur[i] = cur[--active];
-                        continue;
-                    }
-                    const uintptr_t header = cell->next_and_flags.load(std::memory_order_acquire);
-                    Cell* next = reinterpret_cast<Cell*>(header & ~PROTO_UL(0x3F));
-                    if (next) PROTO_PREFETCH(next);
-                    ++L.swept;
-                    if (!(header & PROTO_UL(0x1))) {
-                        if (L.deferFree) {
-                            L.deadCells->push_back(cell);
-                        } else {
-                            cell->finalize(ctx);
-                            cell->internalSetNextRaw(c.batchHead);
-                            if (!c.batchTail) c.batchTail = cell;
-                            c.batchHead = cell;
-                            ++c.batchCount;
-                        }
-                    } else {
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                        // Unmark and prepend to the survivor chain in one
-                        // store: the collector is the only writer of a
-                        // candidate's next_and_flags during sweep
-                        // (Cell::setNext), so an unmark (a locked
-                        // read-modify-write) followed by a second store is
-                        // not needed.  Flag bits 1..5 are kept (always zero).
-                        // The old link is in `next` already.
-                        cell->next_and_flags.store(
-                            (reinterpret_cast<uintptr_t>(c.survHead) & ~PROTO_UL(0x3F))
-                                | (header & PROTO_UL(0x3E)),
-                            std::memory_order_release);
-                        c.survHead = cell;
-#else
-                        cell->unmark();
-#endif
-                    }
-                    c.cell = next;
-                    ++i;
-                }
-            }
         }
 
         // Phase 5b: removes from the mutables tree the entries of the mutable
@@ -1191,9 +1003,12 @@ namespace proto {
                 const bool deferFree = multispace::liveSpaceCount() > 1;
                 std::vector<Cell*> deadCells;
 
-                SweeperLocal sweeper(space, deferFree, &deadCells);
-                sweepSegments(segmentsToProcess, sweeper);
-                sweeper.finish();
+                // The collector thread sweeps; while mutators wait for
+                // headroom, the helpers of the process-wide pool claim runs
+                // of segments too (core/Sweep.h).  On return everything is
+                // published and the helpers' finalized refs are merged.
+                const sweep::CycleSweep sweeper =
+                    sweep::sweepCycle(space, segmentsToProcess, deferFree, deadCells);
                 // Total cells reclaimed this cycle, across all published
                 // chunks — the out-of-memory signal (see reclaimedLastCycle).
                 proto_ulong reclaimedThisCycle = sweeper.reclaimed;
@@ -1369,7 +1184,8 @@ namespace proto {
                         " young=%" PROTO_FMT_U "us young_cells=%" PROTO_FMT_U " trace=%" PROTO_FMT_U "us marked=%" PROTO_FMT_U
                         " sweep=%" PROTO_FMT_U "us swept_cells=%" PROTO_FMT_U " freed_cells=%" PROTO_FMT_U " rel=%" PROTO_FMT_U "us unmark=%" PROTO_FMT_U "us p6_7=%" PROTO_FMT_U "us"
                         " mut_park=%" PROTO_FMT_U "us parks=%" PROTO_FMT_U " headroom_wait=%" PROTO_FMT_U "us headroom_waits=%" PROTO_FMT_U
-                        " cpu_busy=%" PROTO_FMT_U "us cpu_mark=%" PROTO_FMT_U "us cpu_sweep=%" PROTO_FMT_U "us\n",
+                        " cpu_busy=%" PROTO_FMT_U "us cpu_mark=%" PROTO_FMT_U "us cpu_sweep=%" PROTO_FMT_U "us"
+                        " refill_fresh=%" PROTO_FMT_U " refill_recycled=%" PROTO_FMT_U " helper_runs=%" PROTO_FMT_U "\n",
                         (proto_ulong)space->gcCycleCount.load(std::memory_order_relaxed),
                         (proto_ulong)(dbg_ns_busy / 1000), (proto_ulong)(dbg_ns_token / 1000),
                         (proto_ulong)(dbg_ns_quorum / 1000), (proto_ulong)(dbg_ns_stw / 1000),
@@ -1384,7 +1200,10 @@ namespace proto {
                         (proto_ulong)(gcprof::headroomWaitNs.load(std::memory_order_relaxed) / 1000),
                         (proto_ulong)gcprof::headroomWaits.load(std::memory_order_relaxed),
                         (proto_ulong)(dbg_cpu_busy / 1000), (proto_ulong)(dbg_cpu_mark / 1000),
-                        (proto_ulong)(dbg_cpu_sweep / 1000));
+                        (proto_ulong)(dbg_cpu_sweep / 1000),
+                        (proto_ulong)gcprof::refillFreshCells.load(std::memory_order_relaxed),
+                        (proto_ulong)gcprof::refillRecycledCells.load(std::memory_order_relaxed),
+                        (proto_ulong)sweep::poolStats().helperRuns);
                 }
 #endif
 
@@ -1699,6 +1518,10 @@ namespace proto {
             // space across the join.
             multispace::setQuiescenceOut(true);
             gcThread->join();
+            // The last space stops the sweep's helper threads; a later space
+            // starts a new pool.  No collector of this space exists any more.
+            sweep::shutdownPoolIfNoSpaces();
+            sweep::forgetSpace(this);
             multispace::setQuiescenceOut(false);
         }
         {
@@ -2141,6 +1964,13 @@ namespace proto {
     }
 
     Cell* ProtoSpace::getFreeCells(ProtoContext* ctx) {
+        // The sweep's helper threads never allocate (spec 6.5): they hold no
+        // context and take no part in stop-the-world.
+        if (sweep::isHelperThread()) {
+            std::fprintf(stderr, "protoCore: a collector helper thread tried to allocate cells\n");
+            std::fflush(stderr);
+            std::abort();
+        }
         std::unique_lock<std::recursive_mutex> lock(globalMutex);
         GC_LOCK_TRACE("getFreeCells ACQ");
 
@@ -2202,6 +2032,9 @@ namespace proto {
                 // chunk is handed out whole.  Under a limit, split only a
                 // chunk larger than the cap: when the cap does not bind (a
                 // generous limit) the chunk is still handed out whole.
+#ifdef PROTOCORE_GC_INSTRUMENT
+                const bool freshChunk = gcprof::freshChunks().count(chunk) != 0;
+#endif
                 if (limitedBatches && chunk->count > static_cast<proto_ulong>(limitCap)) {
                     // Hand out only batchSize cells of this chunk: cut its
                     // chain after batchSize cells and leave the remainder
@@ -2213,12 +2046,21 @@ namespace proto {
                     chunk->count -= static_cast<proto_ulong>(batchSize);
                     last->internalSetNextRaw(nullptr);
                     relaxedFetchAdd(this->freeCellsCount, -batchSize);
+#ifdef PROTOCORE_GC_INSTRUMENT
+                    (freshChunk ? gcprof::refillFreshCells : gcprof::refillRecycledCells)
+                        .fetch_add(static_cast<std::uint64_t>(batchSize), std::memory_order_relaxed);
+#endif
                     GC_LOCK_TRACE("getFreeCells REL(chunk-split)");
                     return batchHead;
                 }
                 this->freeChunks = chunk->next;
                 Cell* batchHead = chunk->head;
                 relaxedFetchAdd(this->freeCellsCount, -static_cast<int>(chunk->count));
+#ifdef PROTOCORE_GC_INSTRUMENT
+                (freshChunk ? gcprof::refillFreshCells : gcprof::refillRecycledCells)
+                    .fetch_add(chunk->count, std::memory_order_relaxed);
+                if (freshChunk) gcprof::freshChunks().erase(chunk);
+#endif
                 recycleFreeChunk(this, chunk);
                 GC_LOCK_TRACE("getFreeCells REL(chunk)");
                 return batchHead;
@@ -2231,6 +2073,10 @@ namespace proto {
                     Cell* batchHead = this->freeCells;
                     this->freeCells = nullptr;
                     this->freeCellsTail = nullptr;
+#ifdef PROTOCORE_GC_INSTRUMENT
+                    gcprof::refillRecycledCells.fetch_add(
+                        static_cast<std::uint64_t>(std::max(0, this->freeCellsCount)), std::memory_order_relaxed);
+#endif
                     relaxedStore(this->freeCellsCount, 0);
                     GC_LOCK_TRACE("getFreeCells REL(flat-all)");
                     return batchHead;
@@ -2247,6 +2093,9 @@ namespace proto {
                 this->freeCells = current->getNext();
                 current->setNext(nullptr);
                 relaxedFetchAdd(this->freeCellsCount, -count);
+#ifdef PROTOCORE_GC_INSTRUMENT
+                gcprof::refillRecycledCells.fetch_add(static_cast<std::uint64_t>(count), std::memory_order_relaxed);
+#endif
                 if (!this->freeCells) this->freeCellsTail = nullptr;
                 GC_LOCK_TRACE("getFreeCells REL(flat-partial)");
                 return batchHead;
@@ -2425,9 +2274,15 @@ namespace proto {
                 chunkTail->internalSetNextRaw(nullptr);
                 publishFreeChunk(this, chunkHead, chunkTail,
                                  static_cast<proto_ulong>(chunkSize));
+#ifdef PROTOCORE_GC_INSTRUMENT
+                gcprof::freshChunks().insert(this->freeChunks);
+#endif
                 remainderStart += chunkSize;
             }
 
+#ifdef PROTOCORE_GC_INSTRUMENT
+            gcprof::refillFreshCells.fetch_add(static_cast<std::uint64_t>(batchSize), std::memory_order_relaxed);
+#endif
             GC_LOCK_TRACE("getFreeCells REL(return OS)");
             return batchHead;
         }
@@ -2449,6 +2304,21 @@ namespace proto {
         this->softHeapLimit = softCells;
         relaxedStore(this->maxHeapSize, hardCells);
     }
+
+    void ProtoSpace::setCollectorHelperThreads(unsigned count) {
+        sweep::setHelperCount(count);
+    }
+
+    unsigned ProtoSpace::collectorHelperThreads() {
+        return sweep::helperCount();
+    }
+
+    void ProtoSpace::setCollectorHelperEngagement(int mode) { sweep::setEngagement(mode); }
+    int ProtoSpace::collectorHelperEngagement() { return static_cast<int>(sweep::engagement()); }
+    void ProtoSpace::setSweepCursors(unsigned count) { sweep::setSweepCursors(count); }
+    unsigned ProtoSpace::sweepCursors() { return sweep::sweepCursors(); }
+    void ProtoSpace::setSweepPrefetch(int on) { sweep::setSweepPrefetch(on); }
+    bool ProtoSpace::sweepPrefetch() { return sweep::sweepPrefetch(); }
 
     void ProtoSpace::enableAdaptiveHeap(const AdaptiveHeapConfig& config) {
         std::lock_guard<std::recursive_mutex> lock(globalMutex);
