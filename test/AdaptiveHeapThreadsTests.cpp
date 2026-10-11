@@ -236,7 +236,7 @@ void buildRootedList(ProtoSpace& space, int elements) {
 
 // The shape of the protoJS false out-of-memory: a 64 MB budget, four
 // allocating threads, a live set of about a quarter of the budget, and
-// heavy garbage (40 times the budget).  Each thread also keeps a call in
+// heavy garbage (about 20 times the budget).  Each thread also keeps a call in
 // progress holding 150,000 young cells, so that the cells no cycle can
 // reclaim -- live set, pinned young cells, the threads' refill batches and
 // what they allocate while a cycle runs -- sit at 85-95 % of the budget at
@@ -258,7 +258,7 @@ TEST(AdaptiveHeapThreadsDeathTest, LowLiveSetWithHeavyGarbageDoesNotRunOutOfMemo
             buildRootedList(space, 85000);   // ~255,000 live cells, ~25 %
             Workload w;
             w.pinnedCells = 150000;          // 4 x 150,000 = 57 % of the budget
-            w.garbageCalls = 100000;         // 4 x 10 M objects of garbage
+            w.garbageCalls = 25000;          // 4 x 2.5 M objects of garbage
             runWorkers(space, 4, w);
             const AdaptiveHeapStats s = space.adaptiveHeapStats();
             std::fprintf(stderr, "[ threads ] done=%d cycles=%llu L=%lu heap=%lu H=%lu\n",

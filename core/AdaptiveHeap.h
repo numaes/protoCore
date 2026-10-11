@@ -148,8 +148,15 @@ namespace adaptive {
     /**
      * Whether a completed cycle is a strike towards out of memory; two
      * consecutive strikes, the second after one more cycle, are the
-     * out-of-memory condition of section 3.4.  The rule of
-     * liveSetExceedsBudget, as a pure function.  Pure.
+     * out-of-memory condition of section 3.4.  A strike is
+     *
+     *   L + others > H - outOfMemoryMargin(H, threads)   the live data does not fit
+     *   or reclaimed == 0                                 no progress at the ceiling
+     *
+     * The cells the cycle left unreclaimed (retainedCells) are reported, not
+     * tested: they include the threads' refill batches, the young
+     * generations of calls in progress and the cycle's own allocations
+     * (2.14.4; until 2.14.3 they were the test).  Pure.
      */
     bool outOfMemoryStrike(const OutOfMemoryInputs& in);
 
@@ -365,15 +372,14 @@ namespace adaptive {
     /** The measures of `space`'s last completed cycle (globalMutex held). */
     CycleMeasures lastCycleMeasures(const ProtoSpace* space);
     /**
-     * Section 3.4, condition 1, for an enabled space: after a completed
-     * cycle, the cells that cycle left unreclaimed in `space`, plus every
-     * other space's whole heap (memory is never moved between spaces), exceed
-     * H minus one refill batch per running thread.  Sets `known` to false
-     * when the controller is not enabled for `space` (the caller then keeps
-     * the fixed-limit rule).
+     * The out-of-memory inputs of an enabled `space` after a completed cycle
+     * (section 3.4): its live set, what the cycle left unreclaimed and
+     * reclaimed, every other space's whole heap (memory is never moved
+     * between spaces), the budget H and the running threads.  Returns false,
+     * leaving `in` untouched, when the controller is not enabled for `space`
+     * (the caller then keeps the fixed-limit rule).  globalMutex held.
      */
-    bool liveSetExceedsBudget(const ProtoSpace* space, bool& known,
-                              proto_ulong& occupiedCells, proto_ulong& budgetCells);
+    bool outOfMemoryInputs(const ProtoSpace* space, OutOfMemoryInputs& in);
     /** Remove `space` (its destructor, after the collector has joined). */
     void forgetSpace(ProtoSpace* space);
 

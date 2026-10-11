@@ -1870,8 +1870,15 @@ namespace proto {
         std::unique_lock<std::recursive_mutex> lock(globalMutex);
         int  oomStrikes      = 0;
         bool oomCallbackUsed = false;
-        uint64_t lastSeenCycle =
-            this->gcCycleCount.load(std::memory_order_relaxed);
+        // Under the controller a strike is counted once per COMPLETED cycle:
+        // gcCycleCount counts cycle starts, and a check made while the next
+        // cycle runs would read the previous cycle's figures a second time.
+        auto cyclesSeen = [this]() -> uint64_t {
+            return adaptive::isEnabled(this)
+                ? adaptive::cyclesCompleted(this)
+                : this->gcCycleCount.load(std::memory_order_relaxed);
+        };
+        uint64_t lastSeenCycle = cyclesSeen();
         for (;;) {
             if (this->state == SPACE_STATE_ENDING) return;
             // Room left to grow the heap, or recycled cells already waiting in
@@ -1889,7 +1896,7 @@ namespace proto {
             // completed yet" (reclaimWaitLocked returned on its 50 ms
             // timeout) from "a cycle completed and reclaimed nothing".  Only
             // the latter is evidence of out of memory.
-            uint64_t cycle = this->gcCycleCount.load(std::memory_order_relaxed);
+            uint64_t cycle = cyclesSeen();
             if (cycle == lastSeenCycle) continue;  // collection still pending
             lastSeenCycle = cycle;
 
@@ -1902,21 +1909,24 @@ namespace proto {
             // confirm it, absorbing a single cycle's timing races.
             //
             // Under the adaptive heap controller the condition is the one of
-            // its design (section 3.4): the cells the last cycle left
-            // unreclaimed in this space, plus every other space's heap, do
-            // not fit under the process budget H less one refill batch per
-            // running thread.  Two consecutive cycles confirm it, the second
-            // being the "one more cycle" after which the pending allocation
-            // still cannot be served.  With fixed limits (setHeapLimits) the
-            // rule is unchanged.
-            bool controllerKnows = false;
-            proto_ulong occupiedCells = 0;
-            proto_ulong budgetCells = 0;
-            const bool exceeds = adaptive::liveSetExceedsBudget(
-                this, controllerKnows, occupiedCells, budgetCells);
+            // its design (section 3.4, adaptive::outOfMemoryStrike): the live
+            // set the cycle marked, plus every other space's heap, does not
+            // fit under the process budget H less one refill batch per
+            // running thread -- or the cycle reclaimed nothing at all.  The
+            // cells the cycle left unreclaimed are not the test: they include
+            // the threads' batches, the young generations of calls in
+            // progress and the cycle's own allocations (until 2.14.3 they
+            // were, and small budgets with several threads came close to a
+            // false out of memory).  Two consecutive cycles confirm it, the
+            // second being the "one more cycle" after which the pending
+            // allocation still cannot be served.  With fixed limits
+            // (setHeapLimits) the rule is unchanged.
+            adaptive::OutOfMemoryInputs oom;
+            const bool controllerKnows = adaptive::outOfMemoryInputs(this, oom);
             proto_ulong reclaimed =
                 this->reclaimedLastCycle.load(std::memory_order_relaxed);
-            const bool strike = controllerKnows ? exceeds : reclaimed == 0;
+            const bool strike = controllerKnows ? adaptive::outOfMemoryStrike(oom)
+                                                : reclaimed == 0;
             if (strike) {
                 if (++oomStrikes >= 2) {
                     if (!oomCallbackUsed && this->outOfMemoryCallback) {
@@ -1935,9 +1945,12 @@ namespace proto {
                         if (controllerKnows) {
                             std::fprintf(stderr,
                                 "protoCore: adaptive heap hard limit %" PROTO_FMT_U " cells "
-                                "(process budget) reached; %" PROTO_FMT_U " cells not "
-                                "reclaimable after a full cycle (live set %" PROTO_FMT_U
-                                " cells) — out of memory\n", budgetCells, occupiedCells, live);
+                                "(process budget) reached; live set %" PROTO_FMT_U " cells "
+                                "after a full cycle, other spaces %" PROTO_FMT_U " cells, "
+                                "%" PROTO_FMT_U " cells not reclaimed, last cycle reclaimed %"
+                                PROTO_FMT_U " — out of memory\n",
+                                oom.budgetCells, oom.liveCells, oom.otherSpacesCells,
+                                oom.retainedCells, oom.reclaimedCells);
                         } else {
                             std::fprintf(stderr,
                                 "protoCore: heap hard limit %d cells reached; "
