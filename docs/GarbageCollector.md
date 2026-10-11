@@ -1281,6 +1281,28 @@ medians of 3.  **Synthetic workloads, one notebook-class machine** (Ryzen 5
    its initial soft limit (protoST `fib.st` 3.4x slower).  The report gives
    the per-runtime recommendation; no runtime has adopted it.
 
+### After 2.14.2: the four adjustments
+
+From [reports/2026-10-04-collector-adjustments.md](reports/2026-10-04-collector-adjustments.md),
+2.14.1 against 2.14.2, interleaved, medians of 3, synthetic, the same
+notebook-class machine:
+
+- **The sweep walks one chain for a single allocating thread that holds
+  pacing's runway** (Phase 5, "Multi-cursor walk").  protoClojure
+  `coll_alloc` with one task 14.90 -> 11.82 s (2.10.2: 11.25); every
+  multi-threaded workload walks wide as before, within -6 to +5 %.
+- **Pacing is unchanged**: at six threads and 40 M cells its early starts
+  pay (without them 2-12 % slower), and the re-measurement's +1-6 % did not
+  reproduce.  With one mutator they cost: `coll_alloc` with one task runs
+  twice the cycles of an unpaced run, the 5-7 % it still lags 2.10.2.
+- **The controller's live-set floor** raises S after a futile cycle:
+  protoST `fib.st` 1.56 -> 1.29 s (still 3x its fixed limit: a start-up
+  cycle and a cycle waited for at exit); where cycles reclaim less than
+  they mark it buys memory (`py/binary_trees` 340 -> 553 MB).
+- **`immutable_sharing_benchmark`'s +8.5 % cycles are code layout**
+  (identical instructions; op-cache/decoder switches x41; gone with every
+  function aligned to 64 bytes).
+
 ## Optimization Features
 
 - **Inline Caching**: per-thread attribute caches

@@ -17,7 +17,7 @@ Synthetic workloads, medians of 3, one notebook-class CPU (Ryzen 5 5500U).
 - **The sweep walks one chain for a single allocating thread that has its
   runway** (A1).  On 2.14.1 the 8-chain walk made protoClojure
   `coll_alloc` with one task 29 % slower than on 2.10.2 (11.25 -> 14.52 s
-  in this session): the sweep ran far ahead of the lone mutator, whose
+  in one session of this work): the sweep ran far ahead of the lone mutator, whose
   allocations then wrote cells that had gone cold or sat modified in the
   collector's cache (11 G more mutator cycles and 33 M more DRAM fills;
   +26 to +54 % on every placement of the two threads).  The walk is now
@@ -27,8 +27,8 @@ Synthetic workloads, medians of 3, one notebook-class CPU (Ryzen 5 5500U).
   runway or two free chunks per running thread, or with
   `PROTOCORE_GC_SWEEP_ENGAGE=always`; one chain otherwise
   (`sweep::cursorsFor`, `sweep::mutatorsShort`).  `coll_alloc` with one
-  task: 14.52 -> 11.99 s (2.10.2: 11.25).  Multi-threaded workloads walk
-  wide as before.  A cycle whose sweep walked one chain leaves the
+  task: 14.90 -> 11.82 s (2.10.2: 11.25).  Multi-threaded workloads walk
+  wide as before (within -6 to +5 %, the run-to-run spread).  A cycle whose sweep walked one chain leaves the
   adaptive controller the throughput of the last wide sweep.
   The instrumented build prints `wide_segments` and `narrow_segments`.
 - **Adaptive controller: the live-set floor** (A3).  After a cycle that
@@ -38,8 +38,9 @@ Synthetic workloads, medians of 3, one notebook-class CPU (Ryzen 5 5500U).
   A program whose start-up live set sits just below S0 (protoST: 1.7 M
   cells against 2 M) ran a futile first cycle, kept S at S0, and ran the
   next one after a thin slice of allocation.  protoST `fib.st` under the
-  controller: see the report (it remains slower than with protoST's fixed
-  limit: the start-up cycle and a cycle waited for at exit).
+  controller: 1.56 -> 1.29 s (protoST's fixed limit: 0.42 s; the start-up
+  cycle and a cycle waited for at exit remain).  Where cycles reclaim less
+  than they mark the floor buys memory (`py/binary_trees` 340 -> 553 MB).
 
 ### Fixed
 
