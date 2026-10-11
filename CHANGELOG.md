@@ -4,6 +4,36 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.3] - 2026-10-11
+
+No library code change; ABI compatible (SOVERSION 3).  The header changes
+only in documentation.
+
+### Fixed
+
+- **`check_static.py` told a runtime that calls `enableAdaptiveHeap` that it
+  never sets a heap limit.**  The `heap_policy` note looked only for
+  `setHeapLimits`; `enableAdaptiveHeap` (2.10.0) is the documented way to bound
+  the heap ([EMBEDDER-CONFORMANCE.md](docs/EMBEDDER-CONFORMANCE.md), "Heap
+  sizing").  Either call now counts.  `--self-test` covers the note with four
+  fixtures; with the old condition it fails.
+
+### Documentation
+
+- **`ProtoContext::safepoint()` states its rooting obligation.**  Call it only
+  where every cell the context allocated and still uses is reachable from a
+  root, and never on a context another activation is using.  Until the
+  submission, the young chain protects a cell held only in a C++ local; from
+  the submission on, nothing does.  protoPython's call frame was held this way:
+  a nested function lost its enclosing variables once collections ran
+  (`NameError`, 4-9 runs in 24 under pacing; fixed in protoPython, not here).
+  Rule 3 and checklist C3 in
+  [EMBEDDER-CONFORMANCE.md](docs/EMBEDDER-CONFORMANCE.md) now name the
+  safepoint as well as the allocation, and
+  [FIELD-NOTES.md](docs/FIELD-NOTES.md) case 15 records the investigation.
+  It also corrects the release bisection that pointed at 2.12.0's pacing: the
+  same protoPython binary fails 10 of 12 runs against 2.11.0 too.
+
 ## [2.14.2] - 2026-10-04
 
 No public API change; ABI compatible (SOVERSION 3).  The four collector
