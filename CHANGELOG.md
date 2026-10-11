@@ -44,6 +44,12 @@ the runtimes adopting the adaptive heap controller.
   uninitialized.  Tests: `ProcessExitDeathTest.RegistriesTheCollectorReachesOutliveStaticDestruction`
   (deterministic, SIGSEGV 6/6 before) and `ProcessExitDeathTest.ExitWhileCollectorsRun`
   (stress: 15 of 20 exits crashed before, 0 of 50 after).
+- **A data race on the heap ceiling under the controller with several
+  spaces.**  `waitForHeapHeadroom` read `maxHeapSize` before taking
+  `globalMutex`, while another space's growth rewrote it
+  (`recomputeCeilings`).  ThreadSanitizer reported it in
+  `ProcessExitDeathTest.ExitWhileCollectorsRun` (CI run 38119125416); the
+  read is now relaxed, like every other unlocked read of the ceiling.
 
 ### Tests
 
