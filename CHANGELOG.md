@@ -4,6 +4,45 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.5] - 2026-10-11
+
+No public API change; ABI compatible (SOVERSION 3).  An embedder exits
+LeakSanitizer-clean.
+
+### Fixed
+
+- **LeakSanitizer reported leaks at exit in every embedder.**  The reports
+  were attributed to 2.14.4, which made four process-wide collector
+  structures immortal; they were not from those (each is held by a static
+  pointer, which LeakSanitizer scans), and 2.14.3 reports the same leaks plus
+  one more (the controller's state of a space alive at exit, whose registry
+  2.14.3 destroyed).  A minimal embedder under ASan with `detect_leaks=1`
+  showed three sources, all older:
+  - *every new symbol left an unreferenced copy of its spelling* -- a real
+    leak.  `ProtoString::createSymbol` built a perennial string from the
+    bytes and `SymbolTable::intern` built a second one and kept that.  The new
+    internal `SymbolTable::internUTF8` builds one copy.  A candidate that
+    loses a concurrent intern race is now kept reachable as well.
+  - *a destroyed space's heap blocks were referenced by nothing.*  The cell
+    heap is never returned to the system, by design (docs/MemoryModel.md
+    section 1), but the base pointers were dropped; they are now recorded in
+    a process-wide list that is never destroyed.  The memory retained is
+    unchanged: retained now means reachable.
+  - *the 256 perennial initial roots of the global mutable table* became
+    unreferenced once a shard was first written; they are held in an array.
+  `~ProtoSpace` also deletes its free-chunk descriptors, which it never did.
+
+### Tests
+
+- **`embedder.exit_leak_clean.{alive,destroyed,respawn}`** (`test/embedder_exit/`):
+  an embedder that keeps its space to the end, one that destroys it, and one
+  that creates and destroys several, each as its own process with
+  `detect_leaks=1` on Linux.  All three fail against 2.14.4 (23808, 24800
+  and 92480 bytes leaked).  The CI ASan job now runs the whole suite with
+  leak detection on; before the race fix one case,
+  `GlobalInterning.ConcurrentInterningAcrossSpacesAgreesOnOnePointer`,
+  reported the lost candidate.
+
 ## [2.14.4] - 2026-10-11
 
 No public API change; ABI compatible (SOVERSION 3).  Three issues found by

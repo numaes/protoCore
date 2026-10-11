@@ -49,12 +49,14 @@ no sawtooth, no decay, no trimming.  Three facts in the code make this exact:
 * `heapSize` — the count of `Cell`s obtained from the OS — is incremented in
   exactly one place, when `getFreeCells` grows the heap
   (`core/ProtoSpace.cpp:1797`).  Nothing ever decrements it.
-* The base pointer of each OS allocation is not retained.  `getFreeCells`
-  calls `posix_memalign` for `blocksToAllocate * sizeof(BigCell)`, chains the
-  block into cells and keeps only the cell chain
-  (`core/ProtoSpace.cpp:1766-1793`).  After that call returns, the allocation
-  cannot be freed even in principle, because no code holds the pointer
-  `free` would need.
+* No code frees an OS allocation.  `getFreeCells` calls `posix_memalign` for
+  `blocksToAllocate * sizeof(BigCell)` and chains the block into cells.  Since
+  2.14.5 it also records the block's base address in a process-wide list that
+  is never destroyed (`retainedHeapBlocks` in `core/ProtoSpace.cpp`), so that
+  retained memory is reachable memory: a runtime's AddressSanitizer run with
+  leak detection reports its own leaks, not protoCore's heap
+  ([TESTING.md](TESTING.md) § "LeakSanitizer").  Before 2.14.5 only the cell
+  chain was kept, and a destroyed space's blocks were referenced by nothing.
 * `ProtoSpace::~ProtoSpace` (`core/ProtoSpace.cpp:1325`) deletes bookkeeping —
   root sets, the GC and root contexts, the symbol table, the tuple interner,
   the `DirtySegment` nodes — and frees no cell memory.  Destroying a space does
