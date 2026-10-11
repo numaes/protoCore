@@ -171,12 +171,18 @@ jobs:
       - name: Build
         run: cmake --build build_asan --parallel "$(nproc)"
 
-      - name: Test suite under ASan
+      - name: Test suite under ASan, with leak detection
         # The clock-dependent cases are excluded here for a second reason on top
         # of the first: ASan multiplies every runtime, so a wall-clock budget
         # measured in an optimised build means nothing in this one.
+        #
+        # Leak detection is on since 2.14.5: what protoCore retains on purpose
+        # (perennial symbols, the never-returned cell heap) is reachable from
+        # process-wide structures, so LeakSanitizer reports a real leak only.
+        # embedder.exit_leak_clean.* (test/embedder_exit) check the same from
+        # an embedder's point of view and set detect_leaks=1 themselves.
         env:
-          ASAN_OPTIONS: detect_leaks=0:abort_on_error=0
+          ASAN_OPTIONS: detect_leaks=1:abort_on_error=0
         run: ctest --test-dir build_asan -j2 --output-on-failure -E "$CLOCK_DEPENDENT_TESTS" < /dev/null
 
   tsan:
