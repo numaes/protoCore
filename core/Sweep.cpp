@@ -212,9 +212,13 @@ namespace sweep {
         // The width in force (cursorsFor), re-read at every segment a cursor
         // ends: wide while the mutators run short (mutatorsShort), one chain
         // otherwise.
+        // Several allocating threads (or Engagement::Always): wide for the
+        // whole sweep, with no per-segment check.
+        const bool alwaysWide = mode == Engagement::Always || L.severalAllocators;
         auto width = [&]() -> int {
+            if (alwaysWide) return static_cast<int>(std::max(1u, maxCursors));
             return static_cast<int>(cursorsFor(maxCursors, mode,
-                                               mutatorsShort(L.space, L.severalAllocators, L.runway)));
+                                               mutatorsShort(L.space, false, L.runway)));
         };
         int want = width();
         auto load = [&](Cursor& c) -> bool {
