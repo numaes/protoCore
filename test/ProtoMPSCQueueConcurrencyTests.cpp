@@ -12,6 +12,7 @@
 // That would make this test weaker, not stronger (decision D10).
 
 #include <gtest/gtest.h>
+#include "ClockDependent.h"
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
 
@@ -133,6 +134,7 @@ const ProtoObject* producerEntry(ProtoContext* ctx,
 }  // namespace
 
 TEST(MPSCQueueConcurrency, EightProducersOneConsumerLoseNothingAndDuplicateNothing) {
+    PROTOCORE_CLOCK_DEPENDENT();
     const proto::proto_long kPushes = pushesPerProducer();
 
     ProtoSpace space;

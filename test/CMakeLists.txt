@@ -41,6 +41,11 @@ if(PROTOCORE_GC_INSTRUMENT)
     target_compile_definitions(proto_tests PRIVATE PROTOCORE_GC_INSTRUMENT)
 endif()
 
+# Clock-dependent cases skip themselves unless requested (test/ClockDependent.h).
+if(NOT PROTOCORE_CLOCK_DEPENDENT_TESTS)
+    target_compile_definitions(proto_tests PRIVATE PROTOCORE_SKIP_CLOCK_DEPENDENT_TESTS)
+endif()
+
 # Coverage instrumentation when COVERAGE=ON (set in parent CMakeLists.txt)
 if(COVERAGE AND DEFINED COVERAGE_FLAGS)
     target_compile_options(proto_tests PRIVATE ${COVERAGE_FLAGS})

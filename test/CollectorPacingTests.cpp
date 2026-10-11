@@ -19,6 +19,7 @@
 // CLOCK_DEPENDENT_TESTS (.github/workflows/ci.yml).
 
 #include <gtest/gtest.h>
+#include "ClockDependent.h"
 #include "../headers/protoCore.h"
 #include "../core/AdaptiveHeap.h"
 #include "../headers/proto_internal.h"
@@ -200,6 +201,7 @@ TEST(CollectorPacing, FixedLimitRequestsCyclesBeforeTheCeiling) {
 // behind the mutator and it stops waiting for headroom.  Asserts counts, but
 // whether the collector keeps up is the machine's speed.
 TEST(CollectorPacingRate, SteadyAllocatorBelowCapacityStopsWaiting) {
+    PROTOCORE_CLOCK_DEPENDENT();
     CleanEnv env;
     ProtoSpace space;
     space.setHeapLimits(0, relaxedLoad(space.heapSize) + 3000000);

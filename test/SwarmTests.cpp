@@ -4,6 +4,7 @@
  */
 
 #include <gtest/gtest.h>
+#include "ClockDependent.h"
 #include "../headers/protoCore.h"
 #include <chrono>
 #include <cstring>
@@ -28,6 +29,7 @@ constexpr proto::proto_ulong EXTERNAL_BUFFER_SIZE = 4096;
 // suite-wide DEV12 8 GB cap (set externally via the systemd-run wrapper) and
 // a generous wall-clock ceiling that comfortably accommodates ASan builds.
 TEST(SwarmTest, OneMillionConcats) {
+    PROTOCORE_CLOCK_DEPENDENT();
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;
 

@@ -271,6 +271,19 @@ function(protocore_msvc_werror)
 endfunction()
 
 # 5. Configure the test suite
+# Clock-dependent test cases (test/ClockDependent.h): informational in
+# protoCore's own CI, where a separate job runs them and never gates.  A
+# project that adds protoCore with add_subdirectory runs this suite in its own
+# ctest, where every case gates, so there they skip themselves by default.
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    set(_protocore_top_level ON)
+else()
+    set(_protocore_top_level OFF)
+endif()
+option(PROTOCORE_CLOCK_DEPENDENT_TESTS
+       "Run protoCore's clock-dependent test cases (default: ON only when protoCore is the top-level project)"
+       ${_protocore_top_level})
+
 # The 'enable_testing()' command allows the use of ctest.
 enable_testing()
 add_subdirectory(test)
