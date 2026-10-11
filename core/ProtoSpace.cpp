@@ -1863,7 +1863,10 @@ namespace proto {
     void ProtoSpace::waitForHeapHeadroom(ProtoContext* ctx) {
         // No limit configured, the GC thread itself, or a contextless caller:
         // nothing to enforce — these cannot, or need not, wait for the GC.
-        if (this->maxHeapSize <= 0 || !ctx) return;
+        // Read outside globalMutex: under the adaptive controller another
+        // space's growth rewrites this ceiling (recomputeCeilings, under the
+        // mutex), so the read is relaxed, as every unlocked read of it is.
+        if (relaxedLoad(this->maxHeapSize) <= 0 || !ctx) return;
         if (this->gcThread &&
             std::this_thread::get_id() == this->gcThread->get_id()) return;
 
