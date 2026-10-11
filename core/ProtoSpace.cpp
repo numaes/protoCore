@@ -93,11 +93,51 @@ namespace proto {
 
     }  // namespace sweep
 
+    // The perennial empty root of each shard of the global mutable table (see
+    // retainedHeapBlocks in the namespace below for why retained memory must
+    // stay reachable).  External linkage on purpose: the array is only ever
+    // written, and an internal one is removed by the optimiser together with
+    // its stores.  Written under globalMutex, once per shard.
+    extern const ProtoSparseList* initialMutableShardRoots[ProtoSpace::MUTABLE_ROOT_SHARDS];
+    const ProtoSparseList* initialMutableShardRoots[ProtoSpace::MUTABLE_ROOT_SHARDS] = {};
+
     namespace {
         /** Maximum bytes to request from the OS in a single getFreeCells allocation (16 MiB). */
         constexpr proto_ulong kMaxBytesPerOSAllocation = 16u * 1024u * 1024u;
         /** Maximum number of blocks (BigCells) per OS request. */
         constexpr int kMaxBlocksPerOSAllocation = static_cast<int>(kMaxBytesPerOSAllocation / sizeof(BigCell));
+
+        /**
+         * The base address of every OS block of every space's cell heap.
+         *
+         * protoCore never returns cell memory to the system, not even when a
+         * space is destroyed (docs/MemoryModel.md section 1): cells of a dead
+         * space may still be reached from the process-wide tables (a module
+         * another space adopted, for one).  Until 2.14.5 the base pointers
+         * were dropped once the block was chained into cells, so a destroyed
+         * space left blocks that nothing in the process pointed at, and
+         * LeakSanitizer reported them at exit.  Recording them states the
+         * retention in the code: the blocks are reachable for the life of
+         * the process, which is what the design says they are.  One push per
+         * OS block (at most 16 MiB of cells), under globalMutex.
+         *
+         * Never destroyed, like the other process-wide structures a collector
+         * reaches: a process may exit while a collector grows a heap.
+         */
+        std::vector<void*>& retainedHeapBlocks() {   // guarded by globalMutex
+            static auto* blocks = new std::vector<void*>();
+            return *blocks;
+        }
+
+        /**
+         * The perennial empty list each shard of the global mutable table
+         * starts with.  The first mutable object stored in a shard replaces
+         * its root with a heap tree, and nothing referenced the perennial
+         * empty any more: 256 cells per process that LeakSanitizer reported
+         * at exit.  Perennial means reachable for the life of the process, so
+         * they are held in initialMutableShardRoots (below, outside this
+         * namespace).
+         */
         /**
          * Under a hard heap limit, all running threads' refill batches
          * together use at most maxHeapSize / kLimitBatchFraction cells: each
@@ -1423,8 +1463,9 @@ namespace proto {
                 if (globalMutableShards[s].root.load() == nullptr) {
                     auto* emptyRaw = new(static_cast<ProtoContext*>(nullptr))
                         ProtoSparseListImplementation(nullptr, 0, PROTO_NONE, nullptr, nullptr, true);
+                    initialMutableShardRoots[s] = emptyRaw->asSparseList(nullptr);
                     globalMutableShards[s].root.store(
-                        const_cast<ProtoSparseList*>(emptyRaw->asSparseList(nullptr)));
+                        const_cast<ProtoSparseList*>(initialMutableShardRoots[s]));
                 }
             }
         }
@@ -1634,6 +1675,24 @@ namespace proto {
         this->dirtySegments.store(nullptr, std::memory_order_relaxed);
         this->dirtySegmentFreePool.store(nullptr, std::memory_order_relaxed);
         this->survivorPen.store(nullptr, std::memory_order_relaxed);
+
+        // The free-chunk descriptors, published and pooled.  Bookkeeping, not
+        // cell memory: the cells they describe stay in the retained heap
+        // blocks.  Only this space's collector and threads touch them, and
+        // both are gone.  Until 2.14.5 they were never deleted (LeakSanitizer
+        // reported them for every destroyed space).
+        {
+            std::lock_guard<std::recursive_mutex> lock(globalMutex);
+            for (FreeChunk* head : { this->freeChunks, this->freeChunkPool }) {
+                while (head) {
+                    FreeChunk* next = head->next;
+                    delete head;
+                    head = next;
+                }
+            }
+            this->freeChunks = nullptr;
+            this->freeChunkPool = nullptr;
+        }
     }
 
     const ProtoObject* ProtoSpace::getResolutionChain() const {
@@ -2284,6 +2343,7 @@ namespace proto {
             // Atomic so the unlocked heuristic read in heapLimitCheckpoint is
             // not a data race; the value is re-validated under globalMutex.
             relaxedFetchAdd(this->heapSize, blocksToAllocate);
+            retainedHeapBlocks().push_back(newMemory);
             // Process heap total, per-space ceilings under the process
             // budget, and the cycle request at the soft limit -- all no-ops
             // beyond one addition unless the adaptive controller is enabled.
