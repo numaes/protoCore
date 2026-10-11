@@ -27,6 +27,8 @@
 
 #include "proto_internal.h"
 #include <cstring>
+#include <mutex>
+#include <vector>
 
 namespace proto {
 
@@ -189,8 +191,8 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     // context and thread that references it (symbols are attribute names,
     // language keywords, protoCore-side cached literals), and being perpetual
     // also removes any per-GC-cycle cost of protecting symbol Cells. The
-    // candidate that loses the insert race below is likewise perpetual — it
-    // simply becomes unreferenced; there is no Cell for the GC to reclaim.
+    // candidate that loses the insert race in insertCandidate is likewise
+    // perpetual, and kept reachable there.
     const ProtoStringImplementation* normalized =
         normalizeForSymbol(ctx, strObj);
     const ProtoObject* symbol_candidate = reinterpret_cast<const ProtoObject*>(
@@ -204,20 +206,45 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
 //
 // The re-check runs under the shard lock: another thread may have interned
 // the same spelling while the caller built its candidate.  The losing
-// candidate is perennial and simply becomes unreferenced (one string's cells,
-// only under that race).
+// candidate is perennial like every symbol string, and is kept reachable in
+// a never-destroyed list (one string per lost race): retained memory must be
+// reachable, or LeakSanitizer reports it at exit
+// (GlobalInterning.ConcurrentInterningAcrossSpacesAgreesOnOnePointer did).
+// The list has its own mutex, taken after the shard lock is released, so the
+// shard lock stays a leaf lock.
 // ---------------------------------------------------------------------------
+namespace {
+std::mutex& lostCandidatesMutex() {
+    static auto* m = new std::mutex();
+    return *m;
+}
+std::vector<const ProtoObject*>& lostCandidates() {   // guarded by lostCandidatesMutex
+    static auto* v = new std::vector<const ProtoObject*>();
+    return *v;
+}
+}  // namespace
+
 const ProtoObject* SymbolTable::insertCandidate(ProtoContext* ctx, uint64_t hash,
                                                  const ProtoObject* candidate) {
     Shard& shard = shards[shardIndex(hash)];
-    std::lock_guard<std::mutex> lock(shard.mutex);
-    for (Bucket* b = shard.head; b; b = b->next) {
-        if (b->content_hash == hash && contentEqual(ctx, b->symbol, candidate))
-            return b->symbol;
+    const ProtoObject* winner = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(shard.mutex);
+        for (Bucket* b = shard.head; b; b = b->next) {
+            if (b->content_hash == hash && contentEqual(ctx, b->symbol, candidate)) {
+                winner = b->symbol;
+                break;
+            }
+        }
+        if (!winner) {
+            Bucket* bucket = new Bucket{ hash, candidate, shard.head };
+            shard.head = bucket;
+            return candidate;
+        }
     }
-    Bucket* bucket = new Bucket{ hash, candidate, shard.head };
-    shard.head = bucket;
-    return candidate;
+    std::lock_guard<std::mutex> lock(lostCandidatesMutex());
+    lostCandidates().push_back(candidate);
+    return winner;
 }
 
 // ---------------------------------------------------------------------------
