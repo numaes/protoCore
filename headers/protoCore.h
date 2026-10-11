@@ -2477,8 +2477,11 @@ namespace proto
          * not keep up, S doubles as long as each doubling reduces the waits,
          * and stops after two that do not.  S never decreases and never
          * exceeds H.  The hard limit H is a process-wide budget on the sum of
-         * all spaces' heaps; out of memory is declared only when the data a
-         * full cycle could not reclaim does not fit under it.
+         * all spaces' heaps; out of memory is declared only when the live
+         * set a full cycle marked (plus the other spaces' heaps) does not fit
+         * under it, or when cycles at the ceiling reclaim nothing (since
+         * 2.14.4; before, the cells a cycle left unreclaimed, which include
+         * threads' batches and calls in progress, were the test).
          *
          * One call at start-up replaces a runtime's fixed limit:
          * @code
@@ -2829,8 +2832,10 @@ namespace proto
 
         /**
          * @brief Cells found reachable by the most recently completed GC
-         * cycle's mark phase.  Published by the GC thread at end of cycle;
-         * used only for the diagnostic message of the out-of-memory abort.
+         * cycle's mark phase.  Published by the GC thread at end of cycle.
+         * Under the adaptive heap controller it is the live set L of the
+         * out-of-memory rule (since 2.14.4); with fixed limits it only
+         * appears in the abort's diagnostic message.
          */
         std::atomic<proto_ulong> liveCellsLastCycle;
 
@@ -2839,8 +2844,9 @@ namespace proto
          * recently completed GC cycle.  Published by the GC thread at end of
          * cycle.
          *
-         * This is the authoritative out-of-memory signal for the heap-limit
-         * path (ProtoSpace::waitForHeapHeadroom): once the heap is at its
+         * This is the authoritative out-of-memory signal for the fixed-limit
+         * path (ProtoSpace::waitForHeapHeadroom), and the no-progress backstop
+         * under the adaptive heap controller: once the heap is at its
          * ceiling, two consecutive completed cycles that each reclaim zero
          * cells mean no collection can free space — genuine, unrecoverable
          * OOM.  Reclamation, not mark-phase reachability, is the metric:

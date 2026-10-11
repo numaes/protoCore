@@ -19,6 +19,7 @@
 // prove nothing about tracing.
 
 #include <gtest/gtest.h>
+#include "ClockDependent.h"
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
 
@@ -591,6 +592,7 @@ static void runDrainPauseProbe(proto::proto_long kBatch, DrainPauseProbe* out) {
 // the SHAPE of the curve, not its height.  Linear growth blows through it;
 // noise on a loaded machine does not.
 TEST(MPSCQueueGC, LargeDrainDoesNotBlockStopTheWorld) {
+    PROTOCORE_CLOCK_DEPENDENT();
     // Overridable so the same probe can be swept over other sizes by hand.
     proto::proto_long kBatch = 200000;
     if (const char* e = std::getenv("PMQ_PAUSE_BATCH")) { proto::proto_long v = std::atol(e); if (v > 0) kBatch = v; }

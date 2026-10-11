@@ -219,6 +219,21 @@ Run CTest tests matching a regular expression:
 ctest --test-dir build -R 'PrimitivesTest' -j$(nproc) --output-on-failure
 ```
 
+## Clock-dependent cases
+
+A few cases assert a measurement -- a throughput, a pause time, an
+elapsed-time budget, where the adaptive heap controller settles, whether a
+paced allocator stops waiting -- so on a loaded machine they can fail with no
+defect.  protoCore's CI runs them in a separate job that never gates
+(`CLOCK_DEPENDENT_TESTS` in `.github/workflows/ci.yml`, with the reason for
+each).  Each such GoogleTest case starts with `PROTOCORE_CLOCK_DEPENDENT()`
+(`test/ClockDependent.h`).
+
+Since 2.14.4, when protoCore is built as a subproject of another CMake
+project (`add_subdirectory`), whose ctest gates on every case, those cases
+skip themselves with a message.  `-DPROTOCORE_CLOCK_DEPENDENT_TESTS=ON` runs
+them; it is the default when protoCore is the top-level project.
+
 ## ThreadSanitizer
 
 The whole suite runs clean under ThreadSanitizer, and CI keeps it that way

@@ -17,6 +17,7 @@
 // Every test restores the environment variables it changes.
 
 #include <gtest/gtest.h>
+#include "ClockDependent.h"
 #include "../headers/protoCore.h"
 #include "../core/AdaptiveHeap.h"
 #include "../headers/proto_internal.h"
@@ -308,6 +309,7 @@ TEST(AdaptiveHeap, StartAtTheBudgetByConfigurationOrEnvironment) {
 // law and pacing have converged the mutator does not wait for headroom.
 // Asserts counts, but whether the collector keeps up is the machine's speed.
 TEST(AdaptiveHeapRate, SteadyAllocatorBelowCapacityStopsWaiting) {
+    PROTOCORE_CLOCK_DEPENDENT();
     CleanEnv env;
     ProtoSpace space;
     AdaptiveHeapConfig c;
@@ -376,11 +378,11 @@ struct SteadyRun {
     bool softNeverDecreased = true;
 };
 
-SteadyRun runSteady(ProtoSpace& space) {
+SteadyRun runSteady(ProtoSpace& space, proto_ulong budgetCells = 16000000) {
     // An explicit budget: since 2.12 the law may use the budget where the
     // mutators wait, and the default one is 75 % of physical memory.
     AdaptiveHeapConfig c;
-    c.hardCells = 16000000;   // 1 GB
+    c.hardCells = budgetCells;   // 16,000,000 cells: 1 GB
     space.enableAdaptiveHeap(c);
     RootedList live(space, 100000);   // ~300,000 live cells
     constexpr int kRounds = 200;
@@ -419,21 +421,32 @@ TEST(AdaptiveHeap, SteadyWorkloadHeapFollowsTheSoftLimit) {
     EXPECT_LT(s.heapCells, s.softCells + 4000000u);
 }
 
-// Clock-dependent (listed in CLOCK_DEPENDENT_TESTS): how far the heap grows
-// past S while cycles run depends on the allocation rate against the
-// collector's speed.  The heap ends far below the garbage volume.  2.10.0
-// asserted a quarter of it and was flaky: S itself ran to 1-5 M cells of 20 M.
-// 2.10.1 capped S at max(S0, 8 x L), 2.4 M cells here (heap 2.71 M cells,
-// 13.6 %, in ten runs on Linux x86-64).  Since 2.13.0 S grows only while the
-// mutator waits and the growth reduces the waits; with pacing this workload
-// rarely waits, and the heap measured 2.1 M cells.  Half the garbage volume
-// leaves room for a slow collector (sanitizers, loaded CI machines) without
-// losing the point of the check.
+// Gating since 2.14.4, on an invariant the machine's speed cannot move: the
+// heap of a steady workload stays far below its garbage volume because the
+// garbage is collected.  The budget is set at a fifth of the garbage volume
+// (4 M cells against 20 M), and the heap may pass the budget only by the
+// bounded overshoot of a refill inside a critical section, so a quarter of
+// the garbage volume holds on any machine; without collection the run could
+// not complete inside the budget at all.
+//
+// Until 2.14.3 the budget was 16 M cells and the bound half the garbage
+// volume, a clock-dependent verdict: how far S grows depends on the
+// mutator's waits, which depend on the collector's speed against the
+// mutator's.  On a loaded CI runner the law took S to the budget in four
+// cycles (rho >= 1: probes, as designed) and the heap reached 15.2 M cells
+// (protoPython CI 38104389529 and 38113972723, first attempts).  That S stays
+// near S0 when the mutator does not wait is the law's property, asserted
+// deterministically on the pure law (AdaptiveHeapLaw.RegimeOneWithoutWaitsKeepsS,
+// AdaptiveHeapLaw.NoWaitsNoGrowthInRegimeTwo), not here.
 TEST(AdaptiveHeapSteady, HeapStaysFarBelowTheGarbageVolume) {
     CleanEnv env;
     ProtoSpace space;
-    const SteadyRun run = runSteady(space);
-    EXPECT_LT(run.stats.heapCells, run.garbageCells / 2)
+    const proto_ulong budget = 4000000;
+    const SteadyRun run = runSteady(space, budget);
+    EXPECT_EQ(run.liveElements, 100000u) << "the live set did not survive";
+    EXPECT_GT(run.stats.cycles, 0u);
+    EXPECT_LE(run.stats.heapCells, budget + 400000u) << "the heap passed the budget";
+    EXPECT_LT(run.stats.heapCells, run.garbageCells / 4)
         << run.garbageCells << " cells allocated";
 }
 
@@ -576,8 +589,15 @@ TEST(AdaptiveHeapStorm, SoftLimitRisesUnderStall) {
 // (the headroom was what stalled the mutator) or two probes that did not
 // reduce them stop the growth (the collector's throughput is what stalls it,
 // which no soft limit removes).  Which one happens, and when, depends on the
-// relative speed of the mutator and the collector, hence not a gate.
+// relative speed of the mutator and the collector, hence not a gate: on a
+// loaded runner S last changed at cycle 75 (protoPython CI 38115542237, first
+// attempt).  No deterministic form exists: even the number of changes rests
+// on noisy samples (a regime-1 target is recomputed from measured r and T),
+// and the bound on changes is asserted on the pure law
+// (AdaptiveHeapLaw.NeverDecreasesNeverExceedsBAndConvergesBoundedly).  Since
+// 2.14.4 it skips itself when protoCore is a subproject (ClockDependent.h).
 TEST(AdaptiveHeapStorm, SoftLimitSettlesWithinBoundedCycles) {
+    PROTOCORE_CLOCK_DEPENDENT();
     CleanEnv env;
     ProtoSpace space;
     const StormRun run = runStorm(space, 3000, true);

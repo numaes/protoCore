@@ -127,6 +127,39 @@ namespace adaptive {
     constexpr double kLiveSetFloorFactor = 2.0;
     proto_ulong liveSetFloor(proto_ulong liveCells, double runwayCells, proto_ulong budgetCells);
 
+    // --- 1a. Out of memory (spec section 3.4) ---------------------------------
+
+    /** What a thread at the ceiling with an empty freelist knows after a
+     *  completed cycle of its space. */
+    struct OutOfMemoryInputs {
+        proto_ulong budgetCells = 0;       // H, the process budget
+        proto_ulong liveCells = 0;         // L: cells the cycle marked
+        proto_ulong retainedCells = 0;     // heapSize - freelist right after the sweep
+        proto_ulong otherSpacesCells = 0;  // the other spaces' whole heaps
+        proto_ulong reclaimedCells = 0;    // what the cycle freed
+        int runningThreads = 0;            // threads in the space's running set
+    };
+
+    /** One refill batch per running thread: the cap of getFreeCells under a
+     *  limit, budget / (8 x threads) within [512, 65536], times the threads
+     *  (at least one). */
+    proto_ulong outOfMemoryMargin(proto_ulong budgetCells, int runningThreads);
+
+    /**
+     * Whether a completed cycle is a strike towards out of memory; two
+     * consecutive strikes, the second after one more cycle, are the
+     * out-of-memory condition of section 3.4.  A strike is
+     *
+     *   L + others > H - outOfMemoryMargin(H, threads)   the live data does not fit
+     *   or reclaimed == 0                                 no progress at the ceiling
+     *
+     * The cells the cycle left unreclaimed (retainedCells) are reported, not
+     * tested: they include the threads' refill batches, the young
+     * generations of calls in progress and the cycle's own allocations
+     * (2.14.4; until 2.14.3 they were the test).  Pure.
+     */
+    bool outOfMemoryStrike(const OutOfMemoryInputs& in);
+
     // --- 1b. Pacing: when a cycle starts -------------------------------------
     //
     // docs/specs/2026-10-03-collector-throughput-design.md, section 4.3.  One
@@ -339,15 +372,14 @@ namespace adaptive {
     /** The measures of `space`'s last completed cycle (globalMutex held). */
     CycleMeasures lastCycleMeasures(const ProtoSpace* space);
     /**
-     * Section 3.4, condition 1, for an enabled space: after a completed
-     * cycle, the cells that cycle left unreclaimed in `space`, plus every
-     * other space's whole heap (memory is never moved between spaces), exceed
-     * H minus one refill batch per running thread.  Sets `known` to false
-     * when the controller is not enabled for `space` (the caller then keeps
-     * the fixed-limit rule).
+     * The out-of-memory inputs of an enabled `space` after a completed cycle
+     * (section 3.4): its live set, what the cycle left unreclaimed and
+     * reclaimed, every other space's whole heap (memory is never moved
+     * between spaces), the budget H and the running threads.  Returns false,
+     * leaving `in` untouched, when the controller is not enabled for `space`
+     * (the caller then keeps the fixed-limit rule).  globalMutex held.
      */
-    bool liveSetExceedsBudget(const ProtoSpace* space, bool& known,
-                              proto_ulong& occupiedCells, proto_ulong& budgetCells);
+    bool outOfMemoryInputs(const ProtoSpace* space, OutOfMemoryInputs& in);
     /** Remove `space` (its destructor, after the collector has joined). */
     void forgetSpace(ProtoSpace* space);
 

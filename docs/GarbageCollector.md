@@ -752,6 +752,19 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   to the freelist and runs Phase 5b.  Threads clear their caches at that point
   when the process-wide epoch (`multispace::gcEpoch`, advanced in Phase 2 of
   every cycle) has moved.
+- **Process exit with a live space.**  A process may exit while a space is
+  alive (a worker's space pinned by a thread that is never joined, a space in
+  a static, `exit()` from a callback); its collector and the sweep helpers
+  keep running while `exit()` runs the static destructors, until the OS
+  kills them.  So the process-wide structures they reach are never
+  destroyed: the sweep helper pool, the multi-space registry and
+  destroyed-space list, the cycle token's condition variable
+  (`multispace::cycleCV()`) and, since 2.14.4, the adaptive controller's
+  registry of space states.  Until 2.14.3 the last four were ordinary
+  statics, and a collector that published swept cells
+  (`adaptive::cellsPublished`) after their destruction crashed the exit
+  (`ProcessExitDeathTest.*`).  Destroying the space before exit is still the
+  clean shutdown: it joins the collector and runs the finalizers.
 
 ## Synchronization Mechanisms
 
@@ -998,19 +1011,40 @@ after a cycle that reclaimed fewer cells than L, the first included (since 2.14.
   published (since 2.12.0); a publication also clears a pending
   checkpoint wait.
 
-**Out of memory.**  With the controller, a thread at the ceiling with an
-empty freelist after a completed cycle counts a strike when the cells that
-cycle left unreclaimed in its space (`heapSize - freeCellsCount` right
-after the sweep: live data, young generations of live contexts and cells
-held in threads' batches), plus the whole heaps of the other spaces, exceed
-H minus one refill batch per running thread.  Two consecutive strikes —
-the second after one more cycle — call `outOfMemoryCallback` once, and two
-more abort with
+**Out of memory** (spec section 3.4; the rule since 2.14.4).  With the
+controller, a thread at the ceiling with an empty freelist after a
+completed cycle counts a strike when either
+
+- the live data does not fit: the cells the cycle *marked* in its space
+  (L), plus the whole heaps of the other spaces, exceed H minus one refill
+  batch per running thread; or
+- the cycle reclaimed nothing (no progress: the fixed-limit rule, kept as a
+  backstop).
+
+Two consecutive strikes -- the second after one more completed cycle --
+call `outOfMemoryCallback` once, and two more abort with
 
 ```
-protoCore: adaptive heap hard limit <H> cells (process budget) reached;
-<n> cells not reclaimable after a full cycle (live set <L> cells) — out of memory
+protoCore: adaptive heap hard limit <H> cells (process budget) reached; live set <L> cells
+after a full cycle, other spaces <O> cells, <U> cells not reclaimed, last cycle reclaimed <R> — out of memory
 ```
+
+The cells a cycle leaves unreclaimed in its space (`heapSize -
+freeCellsCount` right after the sweep, U above) are reported but are not
+the test.  Besides the live set they hold the threads' refill batches, the
+young generations of calls still in progress and the cells the mutators
+allocated while the cycle ran -- none of them live data.  Until 2.14.3
+they were the test: with a 64 MB budget and a few allocating threads they
+reached 75-90 % of the budget while the live set was about 25 %, and the
+rule declared a false out of memory on Windows and macOS
+(`AdaptiveHeapThreadsDeathTest.LowLiveSetWithHeavyGarbageDoesNotRunOutOfMemory`,
+fail-first in CI run 38118654569; on Linux it did not trip locally).  The
+no-progress backstop covers the case the marked set cannot see: young
+generations are pinned by their contexts and never marked, so calls in
+progress can fill the heap with a small live set, and no cycle reclaims
+their cells until a call returns -- which the waiting threads cannot do.
+Strikes are counted per *completed* cycle (before 2.14.4, per cycle start,
+so a check during the next cycle could read one cycle's figures twice).
 
 The other spaces count with their whole heap, not their live set, because
 memory never moves between spaces: a space cannot use another's free

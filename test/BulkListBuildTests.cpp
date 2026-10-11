@@ -29,6 +29,7 @@
 // the collector scans (ProtoContext::pendingRoot) instead.
 
 #include <gtest/gtest.h>
+#include "ClockDependent.h"
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
 
@@ -318,6 +319,7 @@ TEST(BulkListBuild, PendingRootKeepsASubmittedValueReachable) {
 // builder the collector cannot interrupt also stops it from reclaiming, and
 // a free-running loop of 100,000-element builds exhausts the machine.
 TEST(BulkListBuild, LargeBuildDoesNotBlockStopTheWorld) {
+    PROTOCORE_CLOCK_DEPENDENT();
     constexpr unsigned kBuildSize = 100000;
     constexpr int kSamples = 9;
     // Floor under the pause bound below; see the bound for why no realistic host

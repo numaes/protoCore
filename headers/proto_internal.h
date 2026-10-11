@@ -1577,7 +1577,7 @@ namespace proto {
         // unmark, so two markers never share the one mark bit of a cell.
         // Guarded by ProtoSpace::globalMutex.
         extern bool cycleActive;
-        extern std::condition_variable_any cycleCV;
+        std::condition_variable_any& cycleCV();   // never destroyed
 
         // Diagnostics read by tests: cycles running now, and the most ever
         // observed at once in this process.

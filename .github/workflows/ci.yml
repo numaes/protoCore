@@ -70,15 +70,17 @@ env:
   #                                                within 60 cycles; the waits
   #                                                are measured times
   #                                                (test/AdaptiveHeapTests.cpp)
-  #   AdaptiveHeapSteady.HeapStaysFarBelowTheGarbageVolume
-  #                                                how far the heap grows past S
-  #                                                while cycles run depends on
-  #                                                the allocation rate against
-  #                                                the collector's speed (2.10.0
-  #                                                missed a quarter of the
-  #                                                garbage once on macOS; the
-  #                                                bound is half; since 2.13.0
-  #                                                S grows only while waits fall)
+  #   AdaptiveHeapSteady.HeapStaysFarBelowTheGarbageVolume USED to be listed
+  #   here: its bound depended on how far the law grew S, which depends on the
+  #   collector's speed against the mutator's (a loaded runner took S to the
+  #   budget and the heap to 15.2 M cells against a 10 M bound).  Since 2.14.4
+  #   its budget is a fifth of the garbage volume, so the bound (a quarter)
+  #   holds on any machine, and it gates.
+  #
+  #   Every case listed here also calls PROTOCORE_CLOCK_DEPENDENT()
+  #   (test/ClockDependent.h): when protoCore is built as a subproject of a
+  #   runtime, whose ctest gates on every case, they skip themselves unless
+  #   -DPROTOCORE_CLOCK_DEPENDENT_TESTS=ON.  Keep the two lists in step.
   #   CollectorPacingRate.*                        a steady allocator below the
   #                                                collector's capacity stops
   #                                                waiting once cycles are
@@ -103,7 +105,7 @@ env:
   #                                                intermittent, about 2 runs in
   #                                                10, in a sibling runtime
   #                                                (test/CMakeLists.txt:59-68)
-  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.SoftLimitSettlesWithinBoundedCycles|AdaptiveHeapSteady\.HeapStaysFarBelowTheGarbageVolume|CollectorPacingRate\..*|AdaptiveHeapRate\..*|conformance\.isolate\..*)$'
+  CLOCK_DEPENDENT_TESTS: '^(SwarmTest\.OneMillionConcats|BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld|MPSCQueueGC\.LargeDrainDoesNotBlockStopTheWorld|MPSCQueueConcurrency\.EightProducersOneConsumerLoseNothingAndDuplicateNothing|AdaptiveHeapStorm\.SoftLimitSettlesWithinBoundedCycles|CollectorPacingRate\..*|AdaptiveHeapRate\..*|conformance\.isolate\..*)$'
 
 jobs:
   test:

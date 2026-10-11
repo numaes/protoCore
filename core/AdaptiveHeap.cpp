@@ -127,6 +127,40 @@ namespace adaptive {
         return static_cast<proto_ulong>(floor);
     }
 
+    // --- 1a. Out of memory -----------------------------------------------------
+
+    proto_ulong outOfMemoryMargin(proto_ulong budgetCells, int runningThreads) {
+        const long long threads = std::max(1, runningThreads);
+        long long batch = static_cast<long long>(budgetCells) / (8 * threads);
+        batch = std::max(512LL, std::min(65536LL, batch));
+        return static_cast<proto_ulong>(threads * batch);
+    }
+
+    bool outOfMemoryStrike(const OutOfMemoryInputs& in) {
+        // Condition 1 of section 3.4: the live data -- the cells the cycle
+        // marked, plus the other spaces' whole heaps -- does not fit under H
+        // less one refill batch per running thread.  The cells the cycle
+        // left unreclaimed (in.retainedCells) are not the test: besides the
+        // live set they hold the threads' refill batches, the young
+        // generations of calls in progress and what was allocated while the
+        // cycle ran, none of which is live data; with a small budget and a
+        // few allocating threads they reached 75-90 % of it with a live set
+        // of 25 % (2.14.3).
+        const long long H = static_cast<long long>(in.budgetCells);
+        const long long margin =
+            static_cast<long long>(outOfMemoryMargin(in.budgetCells, in.runningThreads));
+        const long long live = static_cast<long long>(in.liveCells)
+                             + static_cast<long long>(in.otherSpacesCells);
+        if (live > H - margin) return true;
+        // No progress: a thread waits at the ceiling and the cycle reclaimed
+        // nothing.  Young generations are pinned by their contexts and never
+        // marked, so calls in progress can fill the heap with a small live
+        // set; no cycle reclaims their cells until a call returns, which the
+        // waiting threads cannot do.  The fixed-limit rule, kept as the
+        // backstop.
+        return in.reclaimedCells == 0;
+    }
+
     // --- 1b. Pacing -----------------------------------------------------------
 
     namespace pacing {
@@ -405,10 +439,14 @@ namespace adaptive {
 
         // Guarded by ProtoSpace::globalMutex.  States live as long as their
         // space (a waiting thread may hold one across a wait), so disabling
-        // only clears the flag.
+        // only clears the flag.  Never destroyed by a static destructor (as
+        // the sweep helper pool): a process that exits with a live space
+        // leaves its collector running during static destruction, and every
+        // chunk its sweep publishes reaches this registry
+        // (cellsPublished); a destroyed vector there crashed protoJS at exit.
         std::vector<SpaceState*>& registry() {
-            static std::vector<SpaceState*> states;
-            return states;
+            static std::vector<SpaceState*>* states = new std::vector<SpaceState*>();
+            return *states;
         }
         int enabledCount = 0;
         // The sum of every live space's heapSize, and the process budget H
@@ -821,25 +859,17 @@ namespace adaptive {
         }
     }
 
-    bool liveSetExceedsBudget(const ProtoSpace* space, bool& known,
-                              proto_ulong& occupiedCells, proto_ulong& budgetCells) {
+    bool outOfMemoryInputs(const ProtoSpace* space, OutOfMemoryInputs& in) {
         SpaceState* s = findEnabled(space);
-        known = s != nullptr;
         if (!s) return false;
-        const long long H = static_cast<long long>(processBudgetCells);
-        const long long others =
-            std::max(0LL, processHeapCells - static_cast<long long>(space->heapSize));
-        const long long occupied = static_cast<long long>(s->retainedLastCycle) + others;
-        // One refill batch per running thread: the cells threads hold in
-        // their private freelists, beyond any collector's reach (the batch
-        // cap of getFreeCells: H / (8 x threads), within [512, 65536]).
-        const long long threads = std::max(1, space->runningThreads.load());
-        long long batch = H / (8 * threads);
-        batch = std::max(512LL, std::min(65536LL, batch));
-        const long long margin = threads * batch;
-        occupiedCells = static_cast<proto_ulong>(occupied);
-        budgetCells = static_cast<proto_ulong>(H);
-        return occupied > H - margin;
+        in.budgetCells = processBudgetCells;
+        in.liveCells = space->liveCellsLastCycle.load(std::memory_order_relaxed);
+        in.retainedCells = s->retainedLastCycle;
+        in.otherSpacesCells = static_cast<proto_ulong>(
+            std::max(0LL, processHeapCells - static_cast<long long>(space->heapSize)));
+        in.reclaimedCells = space->reclaimedLastCycle.load(std::memory_order_relaxed);
+        in.runningThreads = space->runningThreads.load();
+        return true;
     }
 
     int environmentMode() {
