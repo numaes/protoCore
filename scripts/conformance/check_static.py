@@ -535,17 +535,29 @@ def check_blocking_join(rel, lines, rules, findings):
 # Informational: rule 8's and rule 11's preconditions
 # ---------------------------------------------------------------------------
 def check_heap_policy(repo, subdirs, findings):
-    seen = {"setHeapLimits": False, "outOfMemoryCallback": False}
-    for rel, lines in iter_sources(repo, subdirs):
+    scan_heap_policy((lines for _rel, lines in iter_sources(repo, subdirs)),
+                     findings)
+
+
+def scan_heap_policy(sources, findings):
+    """`sources` yields one list of source lines per file."""
+    # enableAdaptiveHeap (protoCore 2.10.0) is the documented way to bound
+    # the heap: it sets the hard limit to the controller's budget and paces
+    # cycles inside it, so a runtime that calls it has a heap limit even if
+    # it never names setHeapLimits (EMBEDDER-CONFORMANCE.md, "Heap sizing").
+    seen = {"setHeapLimits": False, "enableAdaptiveHeap": False,
+            "outOfMemoryCallback": False}
+    for lines in sources:
         for raw in lines:
             line = strip_comment(raw)
             for k in seen:
                 if k in line:
                     seen[k] = True
-    if not seen["setHeapLimits"]:
+    if not seen["setHeapLimits"] and not seen["enableAdaptiveHeap"]:
         findings.append(Finding(
             "heap_policy", "<repository>", 0, "", "info",
-            "this runtime never calls ProtoSpace::setHeapLimits, so maxHeapSize "
+            "this runtime never calls ProtoSpace::enableAdaptiveHeap or "
+            "ProtoSpace::setHeapLimits, so maxHeapSize "
             "is 0, the ceiling is disabled and waitForHeapHeadroom returns "
             "immediately.  Two consequences: rule 8 is UNREACHABLE in this "
             "runtime as configured -- the finding is latent, not fixed -- and "
@@ -872,6 +884,28 @@ def self_test(rules):
                   "every reader to ignore it:\n  %s" % (check, hits[0]))
         else:
             print("ok   %-26s stays quiet on correct code" % check)
+    # heap_policy scans a whole repository, not one file, so its fixtures
+    # are lists of files.  The "never sets a heap limit" note must fire for a
+    # runtime that sets none and stay quiet for either documented way of
+    # setting one.
+    def never_sets_limit(src):
+        findings = []
+        scan_heap_policy([src.split("\n")], findings)
+        return any("never calls" in f.message for f in findings)
+    heap_cases = [
+        ("no heap limit", "space = new proto::ProtoSpace();", True),
+        ("enableAdaptiveHeap", "space->enableAdaptiveHeap();", False),
+        ("setHeapLimits", "space->setHeapLimits(0, cells);", False),
+        ("only in a comment", "// space->enableAdaptiveHeap();", True),
+    ]
+    for name, src, expected in heap_cases:
+        if never_sets_limit(src) != expected:
+            ok = False
+            print("SELF-TEST FAIL: heap_policy %s the missing heap limit for "
+                  "%s:\n  %s" % ("missed" if expected else "reported", name, src))
+        else:
+            print("ok   %-26s %s (%s)" % ("heap_policy",
+                  "fires" if expected else "stays quiet", name))
     print("\n%s" % ("self-test PASSED" if ok else "self-test FAILED"))
     return 0 if ok else 1
 
