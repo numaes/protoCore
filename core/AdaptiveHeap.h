@@ -127,6 +127,32 @@ namespace adaptive {
     constexpr double kLiveSetFloorFactor = 2.0;
     proto_ulong liveSetFloor(proto_ulong liveCells, double runwayCells, proto_ulong budgetCells);
 
+    // --- 1a. Out of memory (spec section 3.4) ---------------------------------
+
+    /** What a thread at the ceiling with an empty freelist knows after a
+     *  completed cycle of its space. */
+    struct OutOfMemoryInputs {
+        proto_ulong budgetCells = 0;       // H, the process budget
+        proto_ulong liveCells = 0;         // L: cells the cycle marked
+        proto_ulong retainedCells = 0;     // heapSize - freelist right after the sweep
+        proto_ulong otherSpacesCells = 0;  // the other spaces' whole heaps
+        proto_ulong reclaimedCells = 0;    // what the cycle freed
+        int runningThreads = 0;            // threads in the space's running set
+    };
+
+    /** One refill batch per running thread: the cap of getFreeCells under a
+     *  limit, budget / (8 x threads) within [512, 65536], times the threads
+     *  (at least one). */
+    proto_ulong outOfMemoryMargin(proto_ulong budgetCells, int runningThreads);
+
+    /**
+     * Whether a completed cycle is a strike towards out of memory; two
+     * consecutive strikes, the second after one more cycle, are the
+     * out-of-memory condition of section 3.4.  The rule of
+     * liveSetExceedsBudget, as a pure function.  Pure.
+     */
+    bool outOfMemoryStrike(const OutOfMemoryInputs& in);
+
     // --- 1b. Pacing: when a cycle starts -------------------------------------
     //
     // docs/specs/2026-10-03-collector-throughput-design.md, section 4.3.  One

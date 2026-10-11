@@ -127,6 +127,24 @@ namespace adaptive {
         return static_cast<proto_ulong>(floor);
     }
 
+    // --- 1a. Out of memory -----------------------------------------------------
+
+    proto_ulong outOfMemoryMargin(proto_ulong budgetCells, int runningThreads) {
+        const long long threads = std::max(1, runningThreads);
+        long long batch = static_cast<long long>(budgetCells) / (8 * threads);
+        batch = std::max(512LL, std::min(65536LL, batch));
+        return static_cast<proto_ulong>(threads * batch);
+    }
+
+    bool outOfMemoryStrike(const OutOfMemoryInputs& in) {
+        const long long H = static_cast<long long>(in.budgetCells);
+        const long long margin =
+            static_cast<long long>(outOfMemoryMargin(in.budgetCells, in.runningThreads));
+        const long long occupied = static_cast<long long>(in.retainedCells)
+                                 + static_cast<long long>(in.otherSpacesCells);
+        return occupied > H - margin;
+    }
+
     // --- 1b. Pacing -----------------------------------------------------------
 
     namespace pacing {
