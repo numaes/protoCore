@@ -1,4 +1,4 @@
-# Field notes: fourteen defects, 2026-09-23 to 2026-09-25
+# Field notes: fifteen defects, 2026-09-23 to 2026-10-10
 
 This document records real defects found in protoCore and the five runtimes built
 on it, over three days. For each one it states the symptom as it appeared, what
@@ -1456,6 +1456,73 @@ longer be silently substituted — it would be "not found".
 **Lesson.** A version print is part of the diagnostic, because a stale library
 with a matching soname is invisible to `ldd` and visible only at the first call
 into it.
+
+# 15. A frame lost at the runtime's own safepoint
+
+**Symptom.** Once collections ran, a protoPython nested function intermittently
+raised `NameError: name 'target' is not defined` on a variable of its enclosing
+function. `protopy_list_rewrite_threads` failed on macOS CI and in about 1 local
+run of 5; a single-threaded reproduction (`def race(n): target = [0]; def worker():
+... target.append(i) ...; return worker()`, five calls with n = 20000, under
+`PROTOCORE_HEAP_LIMIT_CELLS=1500000`) failed 8 of 24 runs.
+
+**What was believed.** A bisection over protoCore releases, with the same
+protoPython binary and 24 runs each, gave 0 failures against 2.11.0, 4-9 against
+2.12.0 to 2.14.2, and 0 with `PROTOCORE_GC_PACING=0`. So collection pacing (new in
+2.12.0) was suspected of breaking an invariant, or of reaching a protoPython
+rooting gap that nothing else reached. Which one was left open, correctly.
+
+**What disproved the protoCore hypothesis.**
+
+1. *A detector for the obvious protoCore-side failure.* A mutable handle that
+   the collector finalized and a mutator still used would lose its state in
+   exactly this way: its table entry is released, so reads see an empty object.
+   A build that recorded every finalized `mutable_ref` and aborted on any later
+   resolution of one ran the reproduction to `NameError` 4 times in 12 with no
+   report. Refs are never reused, so the check is exact. The dead object was not
+   a mutable handle.
+2. *The variable that controls the window.* `PROTOCORE_GC_CONTEXT_THRESHOLD=200`
+   made the reproduction fail on 24 of 24 runs. Disabling threshold submission
+   (`4000000000`, with a 30 M-cell limit so the heap does not run out) gave 0 of
+   12. So the object dies when the context's young chain is submitted, which only
+   the embedder's own `ctx->safepoint()` does mid-activation.
+3. *What the failing instruction saw.* At the failing `LOAD_DEREF` the "frame"
+   had `f_code` None, no parents and no closure attribute: a reused cell.
+4. *The bisection did not hold.* Against protoCore 2.11.0's library, the same
+   binary at default settings failed 10 of 12 runs. Pacing changed how often a
+   cycle fell inside the window; it did not open the window.
+
+**Cause.** The frame of a running Python call was referenced only from C++ (the
+`frame` locals of `runUserFunctionCall` and `executeBytecodeRange`, and a
+thread-local). That was safe while the frame stayed in its context's young
+chain. It stopped being safe at the interpreter's own safepoint, every 64
+opcodes, which submits the chain once the context has allocated 10,000 cells.
+Rule 3 as it was worded ("across an allocation") does not name this window: the
+frame survived every allocation and was lost at the runtime's own safepoint.
+
+**Reproduction.**
+
+```bash
+cd protoPython
+PROTOCORE_GC_CONTEXT_THRESHOLD=200 PROTOCORE_HEAP_LIMIT_CELLS=1500000 \
+  build_release/src/runtime/protopy test/regression/frame_survives_collection.py
+```
+
+**Fix.** protoPython `1b2f15b6`: `executeBytecodeRange` anchors the frame in its
+context's last automatic slot and refreshes it before every safepoint. The test
+failed 10 of 10 runs before and 0 of 20 after; the reproduction failed 0 of 24
+after. On the protoCore side, 2.14.3 states the obligation in `safepoint()`'s
+header documentation and in rule 3.
+
+**Unproven.** The same shape exists in protoPython's experimental AOT compiler,
+protopyc: compiled code calls `safepoint()` on its caller's context while it
+holds values in C++ locals, and it crashes under a heap limit (protoPython issue
+#2, not fixed). No other runtime has been audited for locals held across its
+own safepoint.
+
+**Lesson.** Bisecting over the collector's versions finds where a defect becomes
+*frequent*, not where it begins. Before attributing it, find the variable that
+makes it deterministic.
 
 ---
 
