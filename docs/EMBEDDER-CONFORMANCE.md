@@ -28,6 +28,7 @@ loudly**.
 | protoST `MailboxCursor::adopt` | the same rule — `unique_ptr::reset` releases a live pin | **unreachable until S15 was fixed**; 848 passing tests could not reach it |
 | protoClojure's four blocking joins | a blocking join must not hold the stop-the-world quorum | a 90-second hang; the apparent live set was 90.8× the real one |
 | protoCore's own `GCRootScope` test (2026-10) | rule 3 — a nested context's result held in a C++ local across the allocation of the list meant to reference it | about 1 run in 110, macOS arm64 only; 40 local Linux runs green |
+| protoPython's call frame (2026-10) | rule 3 — the frame of a running call held only in C++ locals across the interpreter's own `safepoint()`, which submits the young chain that was protecting it | a nested function's `NameError` on its enclosing variable, 4–9 runs in 24, only once collections ran; deterministic with `PROTOCORE_GC_CONTEXT_THRESHOLD=200` |
 
 Two of those entries are a count and a ratio, so this is where each comes from.
 protoST's suite was **848/848** when S15 was measured (`protoST/docs/STATUS.md`,
@@ -55,7 +56,7 @@ they would have been reading a program in which the collector never ran.
 | 1 | **The young generation must be submitted.** A context's young chain reaches the collector only through `ProtoContext::safepoint()` or the context's destruction. | R | An unsubmitted chain is live by construction. The heap grows; nothing errors; `gcCycleCount` still advances, so instrumentation that counts *cycles* looks healthy. | `gc.young_submitted` |
 | 2 | **Every registered protoCore thread must park.** A thread that blocks does so inside `ProtoContext::UnmanagedScope`. | R + S | STW Phase 1 waits for `parkedThreads >= runningThreads` forever. No collection completes, so the symptom is a hang under load, not a failure. | `stw.quorum_completes`, `blocking_join_unbracketed` |
 | 2b | **A blocking join must not hold the quorum.** `ProtoThread::join` brackets itself as of 2026-09-25; a direct `std::thread::join` or `pthread_join` on a registered thread does not. | R + S | See rule 2. The joined thread usually cannot finish either, because it needs memory that only a cycle would free. | `join.parks`, `blocking_join_unbracketed` |
-| 3 | **No `ProtoObject*` may be held across an allocation only in a C++ local.** | **J**, with R stress + S for named shapes | The window is one GC cycle wide. Without pressure it never opens; with pressure it is a use-after-free that ASan sees and a green suite does not. | `gc.host_stress` (R), checklist C3 (J) |
+| 3 | **No `ProtoObject*` may be held across an allocation, or across the context's own `safepoint()`, only in a C++ local.** | **J**, with R stress + S for named shapes | The window is one GC cycle wide. Without pressure it never opens; with pressure it is a use-after-free that ASan sees and a green suite does not. A young cell is protected by its context's chain until `safepoint()` submits that chain, so a local that survives every allocation is still lost at the safepoint. | `gc.host_stress` (R), checklist C3 (J) |
 | 4 | **Attribute keys come from `ProtoString::createSymbol`, never `fromUTF8String`.** | R + S, **split by destination** | `setAttribute` auto-interns and `getAttribute` falls back to content, so both are merely slow. **`getOwnAttributeDirect` does neither and silently misses** — and it is the Phase-6 fast path. Names of ≤ 6 ASCII bytes are inline in the pointer word and match by accident, so short keys work and long ones do not. | `symbol.fast_path_key_hits` (R), `symbol_key_source` (S) |
 | 5 | **`ProtoTuple` is never used for transient data** — every tuple node is interned and perennial. | R (measured, not grepped) | Perennial cells are never swept, so the leak is invisible to every reclamation metric. It looks like a working program with a large heap. | `gc.transient_reclaimed` |
 | 6 | **The absent-value sentinel is per function.** | S, per-function table | Comparing against the wrong sentinel yields a branch that can never be taken, or one taken for every object. | `attr_sentinel` |
@@ -270,7 +271,8 @@ checker that claimed to do it would produce a false-negative rate nobody could
 estimate — which is worse than a checklist, because it would be *believed*.
 
 **Answer by:** naming every path in this runtime that (a) holds a
-`ProtoObject*` in a C++ local and (b) allocates or CASes while holding it, and
+`ProtoObject*` in a C++ local and (b) allocates or CASes, or calls
+`safepoint()` on the context that allocated it, while holding it, and
 stating for each how it is rooted — `setAutomaticLocal`, `pendingRoot`,
 `ProtoRootSet`, a `CriticalSection`, or an argument that no allocation occurs.
 

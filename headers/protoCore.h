@@ -1891,6 +1891,21 @@ namespace proto
          *
          * See `docs/EMBEDDER-CONFORMANCE.md` rule 1 and conformance case
          * `gc.young_submitted`.
+         *
+         * **The obligation that comes with it: call it only where every cell
+         * this context allocated and still uses is reachable from a root**
+         * (automatic locals, a `ProtoRootSet`, the mutables table, a
+         * prototype).  Until the submission, the young chain protects a cell
+         * held only in a C++ local across any number of allocations; from the
+         * submission on, nothing does, and the next cycle frees it.  So the
+         * window opens at the embedder's own safepoint, not at an allocation,
+         * and code that is correct by rule 3's usual reading still breaks.
+         * protoPython's call frame was held this way for its whole history,
+         * and a nested function lost its enclosing variables once cycles ran
+         * (rule 3, `docs/EMBEDDER-CONFORMANCE.md`).  Never call it on a
+         * context another activation is using, such as a caller's context
+         * passed down to generated code: that activation's C++ locals are not
+         * anchored at your call.
          */
         void safepoint();
 
