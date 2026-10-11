@@ -398,7 +398,7 @@ namespace proto {
                 // bit of those cells (docs/GLOBAL_MUTABLE_TABLE.md).  The wait
                 // releases globalMutex, so the mutators of this space keep
                 // running, and it is uncontended with a single space.
-                multispace::cycleCV.wait(lock, [space] {
+                multispace::cycleCV().wait(lock, [space] {
                     return !multispace::cycleActive || space->state == SPACE_STATE_ENDING;
                 });
                 if (space->state == SPACE_STATE_ENDING) break;
@@ -442,7 +442,7 @@ namespace proto {
                     space->stopTheWorldCV.notify_all();
                     multispace::noteCycleEnd();
                     multispace::cycleActive = false;   // globalMutex is held here
-                    multispace::cycleCV.notify_all();
+                    multispace::cycleCV().notify_all();
                     break;
                 }
 #ifdef PROTOCORE_GC_INSTRUMENT
@@ -1115,7 +1115,7 @@ namespace proto {
                     std::lock_guard<std::recursive_mutex> token(ProtoSpace::globalMutex);
                     multispace::cycleActive = false;
                 }
-                multispace::cycleCV.notify_all();
+                multispace::cycleCV().notify_all();
 
                 if (deferFree) {
                     // Grace period: every registered thread of the process
@@ -1515,7 +1515,7 @@ namespace proto {
             multispace::recordDestroyedSpace(spaceIdOf(this));
             this->gcCV.notify_all();
             // Its collector may be waiting for the cycle token.
-            multispace::cycleCV.notify_all();
+            multispace::cycleCV().notify_all();
             this->stopTheWorldCV.notify_all();
         }
         if (gcThread && gcThread->joinable()) {

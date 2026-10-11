@@ -37,7 +37,16 @@ namespace multispace {
 std::atomic<int> attention{0};
 std::atomic<uint64_t> gcEpoch{0};
 bool cycleActive = false;
-std::condition_variable_any cycleCV;
+// Never destroyed by a static destructor: a collector may wait on it while
+// the process exits, and destroying a condition variable with a waiter is
+// undefined behaviour (glibc's pthread_cond_destroy may block on it).  A
+// function, not a namespace-scope object: a space constructed by another
+// translation unit's static initializer starts its collector before this
+// file's initializers may have run.
+std::condition_variable_any& cycleCV() {
+    static std::condition_variable_any* cv = new std::condition_variable_any();
+    return *cv;
+}
 
 namespace {
 std::atomic<int> cyclesNow{0};
@@ -59,9 +68,12 @@ proto_ulong countMutableEntriesOfSpace(ProtoContext* context, proto_ulong spaceI
 }
 
 namespace {
-std::vector<proto_ulong>& destroyedIds() {   // guarded by globalMutex
-    static std::vector<proto_ulong> ids;
-    return ids;
+// Guarded by globalMutex.  Never destroyed by a static destructor, like the
+// registry below: a collector still running while the process exits takes it
+// in Phase 5b.
+std::vector<proto_ulong>& destroyedIds() {
+    static std::vector<proto_ulong>* ids = new std::vector<proto_ulong>();
+    return *ids;
 }
 
 // Every key of a shard tree, without allocating.
@@ -127,10 +139,12 @@ struct Entry {
     proto_ulong id;
 };
 
-// Guarded by ProtoSpace::globalMutex.
+// Guarded by ProtoSpace::globalMutex.  Never destroyed by a static
+// destructor: a process may exit while a space's collector (or a thread of
+// it) still runs, and both reach this registry.
 std::vector<Entry>& registry() {
-    static std::vector<Entry> entries;
-    return entries;
+    static std::vector<Entry>* entries = new std::vector<Entry>();
+    return *entries;
 }
 proto_ulong nextSpaceId = 0;
 

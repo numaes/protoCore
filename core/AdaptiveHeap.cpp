@@ -439,10 +439,14 @@ namespace adaptive {
 
         // Guarded by ProtoSpace::globalMutex.  States live as long as their
         // space (a waiting thread may hold one across a wait), so disabling
-        // only clears the flag.
+        // only clears the flag.  Never destroyed by a static destructor (as
+        // the sweep helper pool): a process that exits with a live space
+        // leaves its collector running during static destruction, and every
+        // chunk its sweep publishes reaches this registry
+        // (cellsPublished); a destroyed vector there crashed protoJS at exit.
         std::vector<SpaceState*>& registry() {
-            static std::vector<SpaceState*> states;
-            return states;
+            static std::vector<SpaceState*>* states = new std::vector<SpaceState*>();
+            return *states;
         }
         int enabledCount = 0;
         // The sum of every live space's heapSize, and the process budget H
