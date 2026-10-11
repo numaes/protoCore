@@ -77,10 +77,102 @@ TEST(AdaptiveHeapLaw, RegimeOneReachesTheTargetInOneStepAndHolds) {
 }
 
 TEST(AdaptiveHeapLaw, RegimeOneWithoutWaitsKeepsS) {
-    // The heap does not grow for nothing (4.1): no wait, no growth.
+    // The heap does not grow for nothing (4.1): no wait, no growth -- above
+    // the live-set floor (S >= 2 L; see LiveSetFloor* below).
     LawState st;
-    EXPECT_EQ(nextSoftLimit(inputs(kS0, 4000000, 5e6, 1e7, 0.0), st), kS0);
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 1000000, 5e6, 1e7, 0.0), st), kS0);
     EXPECT_EQ(st.changes, 0u);
+}
+
+// --- The live-set floor (2.14.2) ------------------------------------------------
+//
+// A soft limit below twice the live set makes every cycle mark the whole live
+// set to reclaim less than it: with the program's start-up live set just
+// below S0 (protoST's 1.7 M cells against 2 M in the 2026-10-04
+// re-measurement), the first cycle starts at once, frees almost nothing, and
+// the next one follows after a few hundred thousand cells.  Pacing hides those
+// cycles from the waits, so rule 4.1 (no wait, no growth) never raised S.
+// The floor S >= min(B, 2 L) applies at every cycle end, the first included,
+// with or without waits.
+
+TEST(AdaptiveHeapLaw, LiveSetFloorIsTwiceTheLiveSetPlusTheRunwayWithinTheBudget) {
+    EXPECT_EQ(liveSetFloor(0, 0.0, kB), 0u);
+    EXPECT_EQ(liveSetFloor(1000000, 0.0, kB), 2000000u);
+    EXPECT_EQ(liveSetFloor(1000000, 750000.0, kB), 2750000u);
+    EXPECT_EQ(liveSetFloor(1000000, -5.0, kB), 2000000u);
+    EXPECT_EQ(liveSetFloor(60000000, 0.0, kB), kB) << "the floor exceeded the budget";
+    EXPECT_EQ(liveSetFloor(40000000, 30000000.0, kB), kB) << "the floor exceeded the budget";
+    EXPECT_DOUBLE_EQ(kLiveSetFloorFactor, 2.0);
+}
+
+TEST(AdaptiveHeapLaw, TheFloorAppliesOnlyAfterACycleThatReclaimedLessThanItMarked) {
+    // L = 1.7 M cells, S = 2 M: the floor (3.4 M) is above S.  A cycle that
+    // reclaimed 2 M cells (more than L) is no evidence for a larger heap;
+    // one that reclaimed 0.4 M is.
+    LawState st;
+    LawInputs in = inputs(kS0, 1700000, 5e6, 1e7, 0.0);
+    in.reclaimedCells = 2000000;
+    EXPECT_EQ(nextSoftLimit(in, st), kS0);
+    in.reclaimedCells = 400000;
+    EXPECT_EQ(nextSoftLimit(in, st), std::max<proto_ulong>(2 * 1700000, 2 * kS0));
+}
+
+TEST(AdaptiveHeapLaw, TheFloorMakesRoomForPacingsRunway) {
+    // A paced cycle starts `runway` cells before S: S = 2 L + runway leaves it
+    // L of garbage to find.
+    LawState st;
+    LawInputs in;
+    in.softCells = kS0;
+    in.budgetCells = kB;
+    in.liveCells = 1700000;
+    in.rate = 4.5e6;
+    in.throughput = 1e5;
+    in.waitShare = 0.0;
+    in.runwayCells = 1750000.0;
+    EXPECT_EQ(nextSoftLimit(in, st), 2u * 1700000u + 1750000u);
+}
+
+TEST(AdaptiveHeapLaw, ASoftLimitBelowTwiceTheLiveSetIsRaisedWithoutWaits) {
+    // L = 1.7 M cells against S = 2 M (the protoST start-up pattern), no
+    // wait: S rises to the floor 2 L by at least a doubling, then holds.
+    LawState st;
+    const proto_ulong L = 1700000;
+    proto_ulong S = nextSoftLimit(inputs(kS0, L, 5e6, 1e7, 0.0), st);
+    EXPECT_EQ(S, std::max<proto_ulong>(2 * L, 2 * kS0));
+    for (int i = 0; i < 20; ++i) EXPECT_EQ(nextSoftLimit(inputs(S, L, 5e6, 1e7, 0.0), st), S);
+    EXPECT_EQ(st.changes, 1u);
+    // Unmeasured r or T (the first cycles): the floor still applies.
+    LawState fresh;
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, L, 0.0, 0.0, 0.0), fresh), std::max<proto_ulong>(2 * L, 2 * kS0));
+    // A floor well above S is reached in one step.
+    LawState distant;   // not `far`: <windows.h> defines it as a macro
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 4000000, 0.0, 0.0, 0.0), distant), 8000000u);
+}
+
+TEST(AdaptiveHeapLaw, AFloorThatCreepsWithTheRunwayChangesSBoundedly) {
+    // The runway is measured: noisy.  A floor creeping just above S at every
+    // cycle must not change S at every cycle.
+    LawState st;
+    proto_ulong S = kS0;
+    const proto_ulong L = 1000000;
+    for (int i = 0; i < 200; ++i) {
+        LawInputs in = inputs(S, L, 5e6, 1e7, 0.0);
+        in.runwayCells = 100000.0 + 1000.0 * i;   // the floor creeps by 2,000 cells a cycle
+        const proto_ulong next = nextSoftLimit(in, st);
+        ASSERT_GE(next, S);
+        S = next;
+    }
+    EXPECT_LE(st.changes, 2u) << "S changed at " << st.changes << " cycles";
+}
+
+TEST(AdaptiveHeapLaw, TheFloorNeverLowersALargerTargetOrPassesTheBudget) {
+    // Regime 1 with rho = 0.5 targets 2.25 L, above the floor.
+    LawState st;
+    const proto_ulong L = 4000000;
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, L, 5e6, 1e7, 0.2), st),
+              static_cast<proto_ulong>(std::ceil(L + 1.25 * L)));
+    LawState small;
+    EXPECT_EQ(nextSoftLimit(inputs(kS0, 3000000, 5e6, 1e7, 0.0, 5000000), small), 5000000u);
 }
 
 TEST(AdaptiveHeapLaw, RegimeOneNeverShrinksALargerS) {

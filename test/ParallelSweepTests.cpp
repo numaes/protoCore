@@ -590,6 +590,134 @@ TEST(ParallelSweepConfig, MeasuredEngagementBacksOffWhenHelpersDoNotPay) {
     EXPECT_DOUBLE_EQ(small.soloNsPerCell, 0.0);
 }
 
+// --- Multi-cursor walk only while it pays (2.14.2) -------------------------------
+//
+// The 2026-10-04 re-measurement found protoClojure coll_alloc with one task
+// 26 % slower than on 2.10.2 with the 8-chain walk, and as fast with one
+// chain: a sweep that runs far ahead of the mutators' consumption leaves the
+// cells it frees to go cold (or to sit modified in another core's cache)
+// before they are reused, and every allocation then misses.  The mutator
+// spent 10 G more cycles initialising new cells (perf, IBS).  The sweep's
+// speed only buys time while a mutator waits for it, so the chains are
+// walked in lockstep only then -- the rule that already engages the helpers.
+
+TEST(ParallelSweepConfig, CursorsAreWideOnlyWhileAMutatorWaits) {
+    using sweep::Engagement;
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::Measured, false), 1u);
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::Measured, true), 8u);
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::WhileWaiting, false), 1u);
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::WhileWaiting, true), 8u);
+    // Diagnosis and tests: every sweep at the configured width.
+    EXPECT_EQ(sweep::cursorsFor(8, Engagement::Always, false), 8u);
+    EXPECT_EQ(sweep::cursorsFor(32, Engagement::Always, true), 32u);
+    // One configured chain is one chain.
+    EXPECT_EQ(sweep::cursorsFor(1, Engagement::Measured, true), 1u);
+    EXPECT_EQ(sweep::cursorsFor(0, Engagement::Measured, true), 1u);
+}
+
+// The walk is wide when several threads allocate: they consume faster than a
+// one-chain walk frees, and its CPU time (about twice the wide walk's per
+// cell) competes with them (the 2026-10-04 adjustments report: protoJS
+// records with six threads was 4-16 % slower with the one-chain walk).
+TEST(ParallelSweepConfig, SeveralAllocatingThreadsWidenTheWalk) {
+    ProtoSpace space;   // no limit, nobody waits
+    EXPECT_FALSE(sweep::mutatorsShort(&space, false, 0));
+    EXPECT_TRUE(sweep::mutatorsShort(&space, true, 0));
+    // A runway larger than the freelist (no limit: the freelist alone counts).
+    EXPECT_TRUE(sweep::mutatorsShort(&space, false, 1LL << 40));
+    // The refills since the last cycle end say how many threads allocate.
+    runCycle(space);   // the count restarts at a cycle end
+    {
+        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        int a = 0, b = 0;
+        adaptive::noteRefill(&space, &a);
+        adaptive::noteRefill(&space, &a);
+        EXPECT_FALSE(adaptive::severalAllocators(&space));
+        adaptive::noteRefill(&space, &b);
+        EXPECT_TRUE(adaptive::severalAllocators(&space));
+    }
+}
+
+namespace {
+std::atomic<int> gChurnersDone{0};
+const ProtoObject* churnerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                               const ProtoList*, const ProtoSparseList*) {
+    for (int done = 0; done < 300000; done += 3) {
+        ProtoContext sub(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
+        for (int j = 0; j < 3; ++j) (void) sub.newObject(false);
+    }
+    gChurnersDone.fetch_add(1);
+    return PROTO_NONE;
+}
+}  // namespace
+
+// Two threads allocated since the last cycle: its sweep walks wide.
+TEST(ParallelSweep, ASweepAfterTwoAllocatingThreadsWalksWide) {
+    ProtoSpace::setCollectorHelperEngagement(-1);
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    runCycle(space);   // the interval starts here
+    gChurnersDone = 0;
+    std::vector<const ProtoThread*> threads;
+    for (int t = 0; t < 2; ++t)
+        threads.push_back(space.newThread(root, ProtoString::createSymbol(root, "walk-churner"),
+                                          churnerMain, nullptr, nullptr));
+    {
+        ProtoContext::UnmanagedScope parked(root);
+        for (const ProtoThread* t : threads) const_cast<ProtoThread*>(t)->join(root);
+    }
+    ASSERT_EQ(gChurnersDone.load(), 2);
+    const sweep::WalkStats before = sweep::walkStats();
+    runCycle(space);
+    const sweep::WalkStats after = sweep::walkStats();
+    std::printf("[ walk ] narrow %llu wide %llu segments\n",
+                (unsigned long long) (after.narrowSegments - before.narrowSegments),
+                (unsigned long long) (after.wideSegments - before.wideSegments));
+    EXPECT_GT(after.wideSegments, before.wideSegments);
+    EXPECT_EQ(after.narrowSegments, before.narrowSegments);
+}
+
+// No mutator waits: the cycle's segments are walked one chain at a time.
+TEST(ParallelSweep, ACycleNobodyWaitsForWalksOneChain) {
+    ProtoSpace::setCollectorHelperEngagement(-1);
+    ProtoSpace space;
+    garbage(space, 300000);
+    const sweep::WalkStats before = sweep::walkStats();
+    runCycle(space);
+    const sweep::WalkStats after = sweep::walkStats();
+    std::printf("[ walk ] narrow %llu wide %llu segments\n",
+                (unsigned long long) (after.narrowSegments - before.narrowSegments),
+                (unsigned long long) (after.wideSegments - before.wideSegments));
+    EXPECT_GT(after.narrowSegments, before.narrowSegments);
+    EXPECT_EQ(after.wideSegments, before.wideSegments) << "a sweep nobody waited for walked several chains";
+}
+
+// A mutator waiting at the ceiling: the sweep it waits for walks wide.
+TEST(ParallelSweep, ASweepAMutatorWaitsForWalksWide) {
+    ProtoSpace::setCollectorHelperEngagement(-1);
+    ProtoSpace space;
+    space.setHeapLimits(0, relaxedLoad(space.heapSize) + 600000);
+    const sweep::WalkStats before = sweep::walkStats();
+    garbage(space, 3000000);
+    const sweep::WalkStats after = sweep::walkStats();
+    std::printf("[ walk ] narrow %llu wide %llu segments\n",
+                (unsigned long long) (after.narrowSegments - before.narrowSegments),
+                (unsigned long long) (after.wideSegments - before.wideSegments));
+    EXPECT_GT(after.wideSegments, before.wideSegments) << "no sweep walked several chains while a mutator waited";
+}
+
+// Engagement::Always (diagnosis, tests): every sweep walks wide.
+TEST(ParallelSweep, AlwaysEngagedWalksWide) {
+    EngagedHelpers h(0);
+    ProtoSpace space;
+    garbage(space, 300000);
+    const sweep::WalkStats before = sweep::walkStats();
+    runCycle(space);
+    const sweep::WalkStats after = sweep::walkStats();
+    EXPECT_GT(after.wideSegments, before.wideSegments);
+    EXPECT_EQ(after.narrowSegments, before.narrowSegments);
+}
+
 TEST(ParallelSweepConfig, TheApiOverridesAndZeroMeansNoPool) {
     EngagedHelpers h(0);
     EXPECT_EQ(ProtoSpace::collectorHelperThreads(), 0u);

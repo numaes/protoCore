@@ -37,6 +37,8 @@ namespace proto {
 namespace sweep {
 
     namespace {
+        // WalkStats, added by each sweeper when it finishes.
+        std::atomic<std::uint64_t> gWide{0}, gNarrow{0};
         thread_local bool tlHelper = false;
         thread_local std::vector<proto_ulong>* tlRefSink = nullptr;
     }
@@ -164,12 +166,37 @@ namespace sweep {
         return seg;
     }
 
+    bool mutatorsShort(ProtoSpace* space, bool several, long long runway) {
+        if (adaptive::headroomWaitersTotal.load(std::memory_order_relaxed) > 0) return true;
+        // Several allocating threads: they consume faster than a one-chain
+        // walk frees, and its CPU time (about twice the wide walk's per cell)
+        // competes with them.  The one-chain walk is for one mutator.
+        if (several) return true;
+        // The cells left before the ceiling -- the freelist plus the room
+        // below the soft limit, or below the hard limit without one -- must
+        // hold pacing's runway (the next cycle's), and at least two free
+        // chunks per running thread (the refill each thread takes now and the
+        // next one).  Below that the mutator would catch up with a one-chain
+        // walk and wait, or start its next cycle with no runway, and the walk
+        // widens.  Without a limit only the freelist counts.
+        const long long need = std::max(runway,
+            2LL * std::max(1, space->runningThreads.load(std::memory_order_relaxed))
+                * static_cast<long long>(ProtoSpace::CELL_CHUNK_SIZE));
+        const int soft = relaxedLoad(space->softHeapLimit);
+        const int hard = relaxedLoad(space->maxHeapSize);
+        const long long ceiling = soft > 0 ? soft : hard;
+        long long left = static_cast<long long>(relaxedLoad(space->freeCellsCount));
+        if (ceiling > 0)
+            left += std::max(0LL, ceiling - static_cast<long long>(relaxedLoad(space->heapSize)));
+        return left < need;
+    }
+
     namespace {
     // The loop, specialised on the two flags it tests per cell, with its
     // per-cell counters kept in registers (finalize is a virtual call, so
     // fields of L would be reloaded after every dead cell).
     template <bool Helper, bool Prefetch, bool DeferFree>
-    void sweepLoop(SegmentSource& source, SweeperLocal& L, int cursors) {
+    void sweepLoop(SegmentSource& source, SweeperLocal& L, unsigned maxCursors, Engagement mode) {
         struct Cursor {
             DirtySegment* seg;
             Cell* cell;
@@ -182,6 +209,18 @@ namespace sweep {
         constexpr bool prefetch = Prefetch;
         proto_ulong swept = 0;
         int active = 0;
+        // The width in force (cursorsFor), re-read at every segment a cursor
+        // ends: wide while the mutators run short (mutatorsShort), one chain
+        // otherwise.
+        // Several allocating threads (or Engagement::Always): wide for the
+        // whole sweep, with no per-segment check.
+        const bool alwaysWide = mode == Engagement::Always || L.severalAllocators;
+        auto width = [&]() -> int {
+            if (alwaysWide) return static_cast<int>(std::max(1u, maxCursors));
+            return static_cast<int>(cursorsFor(maxCursors, mode,
+                                               mutatorsShort(L.space, false, L.runway)));
+        };
+        int want = width();
         auto load = [&](Cursor& c) -> bool {
             DirtySegment* seg = source.next();
             if (!seg) return false;
@@ -200,9 +239,10 @@ namespace sweep {
             c.batchCount = 0;
             c.survHead = nullptr;
             ++L.segments;
+            ++(want > 1 ? L.wideSegments : L.narrowSegments);
             return true;
         };
-        while (active < cursors && load(cur[active])) ++active;
+        while (active < want && load(cur[active])) ++active;
         ProtoContext* const ctx = L.space->rootContext;
         while (active > 0) {
             for (int i = 0; i < active;) {
@@ -211,7 +251,9 @@ namespace sweep {
                 if (!cell) {
                     L.addBatch(c.batchHead, c.batchTail, c.batchCount);
                     L.retire(c.seg, c.survHead);
-                    if (!load(c)) cur[i] = cur[--active];
+                    want = width();
+                    // Narrowing: a cursor whose segment ended is dropped.
+                    if (active > want || !load(c)) cur[i] = cur[--active];
                     continue;
                 }
                 const uintptr_t header = cell->next_and_flags.load(std::memory_order_acquire);
@@ -254,25 +296,42 @@ namespace sweep {
                 c.cell = next;
                 ++i;
             }
+            // Widening: a mutator started to wait.
+            while (active < want && load(cur[active])) ++active;
         }
         L.swept += swept;
     }
     }  // namespace
 
     void sweepSegments(SegmentSource& source, SweeperLocal& L) {
-        const int cursors = static_cast<int>(sweepCursors());
+        const unsigned cursors = sweepCursors();
+        const Engagement mode = engagement();
         const bool prefetch = sweepPrefetch();
         const int key = (L.helper ? 4 : 0) | (prefetch ? 2 : 0) | (L.deferFree ? 1 : 0);
         switch (key) {
-            case 0: sweepLoop<false, false, false>(source, L, cursors); break;
-            case 1: sweepLoop<false, false, true>(source, L, cursors); break;
-            case 2: sweepLoop<false, true, false>(source, L, cursors); break;
-            case 3: sweepLoop<false, true, true>(source, L, cursors); break;
-            case 4: sweepLoop<true, false, false>(source, L, cursors); break;
-            case 5: sweepLoop<true, false, true>(source, L, cursors); break;
-            case 6: sweepLoop<true, true, false>(source, L, cursors); break;
-            default: sweepLoop<true, true, true>(source, L, cursors); break;
+            case 0: sweepLoop<false, false, false>(source, L, cursors, mode); break;
+            case 1: sweepLoop<false, false, true>(source, L, cursors, mode); break;
+            case 2: sweepLoop<false, true, false>(source, L, cursors, mode); break;
+            case 3: sweepLoop<false, true, true>(source, L, cursors, mode); break;
+            case 4: sweepLoop<true, false, false>(source, L, cursors, mode); break;
+            case 5: sweepLoop<true, false, true>(source, L, cursors, mode); break;
+            case 6: sweepLoop<true, true, false>(source, L, cursors, mode); break;
+            default: sweepLoop<true, true, true>(source, L, cursors, mode); break;
         }
+        gWide.fetch_add(L.wideSegments, std::memory_order_relaxed);
+        gNarrow.fetch_add(L.narrowSegments, std::memory_order_relaxed);
+    }
+
+    unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool short_) {
+        const unsigned widest = std::max(1u, maxCursors);
+        return (mode == Engagement::Always || short_) ? widest : 1u;
+    }
+
+    WalkStats walkStats() {
+        WalkStats w;
+        w.wideSegments = gWide.load(std::memory_order_relaxed);
+        w.narrowSegments = gNarrow.load(std::memory_order_relaxed);
+        return w;
     }
 
     // --- Partition ----------------------------------------------------------------
@@ -304,6 +363,8 @@ namespace sweep {
         struct Job {
             ProtoSpace* space = nullptr;
             bool deferFree = false;
+            bool severalAllocators = true;
+            long long runway = 0;
             SegmentCursor* cursor = nullptr;
             bool closed = false;
             unsigned active = 0;
@@ -311,6 +372,8 @@ namespace sweep {
             proto_ulong reclaimed = 0;
             proto_ulong swept = 0;
             proto_ulong segments = 0;
+            proto_ulong wideSegments = 0;
+            proto_ulong narrowSegments = 0;
             std::vector<proto_ulong> refs;
             std::vector<Cell*> dead;
             std::vector<Cell*> external;
@@ -366,6 +429,8 @@ namespace sweep {
 
         void helperWork(Job* j) {
             SweeperLocal L(j->space, j->deferFree, nullptr, /*helper=*/true);
+            L.severalAllocators = j->severalAllocators;
+            L.runway = j->runway;
             std::vector<Cell*> dead;
             L.deadCells = &dead;
             tlRefSink = &L.finalizedRefs;
@@ -379,6 +444,8 @@ namespace sweep {
             j->reclaimed += L.reclaimed;
             j->swept += L.swept;
             j->segments += L.segments;
+            j->wideSegments += L.wideSegments;
+            j->narrowSegments += L.narrowSegments;
             j->refs.insert(j->refs.end(), L.finalizedRefs.begin(), L.finalizedRefs.end());
             j->dead.insert(j->dead.end(), dead.begin(), dead.end());
             j->external.insert(j->external.end(), L.deferredExternal.begin(), L.deferredExternal.end());
@@ -581,6 +648,13 @@ namespace sweep {
         bool wanted = false;
 
         SweeperLocal L(space, deferFree, &deadCells);
+        {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            L.severalAllocators = adaptive::severalAllocators(space);
+            L.runway = adaptive::waitStats(space).runway;
+        }
+        job.severalAllocators = L.severalAllocators;
+        job.runway = L.runway;
         // The collector starts alone: a cycle that one claim exhausts never
         // touches the pool.  At each claim that leaves segments behind, the
         // helpers are offered the rest once mutators wait for headroom,
@@ -631,6 +705,8 @@ namespace sweep {
         result.swept = L.swept + job.swept;
         result.segments = L.segments + job.segments;
         result.helpersJoined = job.joined;
+        result.wideSegments = L.wideSegments + job.wideSegments;
+        result.narrowSegments = L.narrowSegments + job.narrowSegments;
         if (!job.refs.empty())
             space->gcFinalizedMutableRefs.insert(space->gcFinalizedMutableRefs.end(),
                                                  job.refs.begin(), job.refs.end());

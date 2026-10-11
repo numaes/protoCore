@@ -77,6 +77,8 @@ namespace adaptive {
         double rate = 0.0;             // r, cells per second
         double throughput = 0.0;       // T, cells per second of busy time
         double waitShare = 0.0;        // w
+        double runwayCells = 0.0;      // pacing's runway before the ceiling caps it (cells)
+        proto_ulong reclaimedCells = 0; // what the cycle freed
     };
 
     /** The law's memory between cycles. */
@@ -96,8 +98,34 @@ namespace adaptive {
     };
 
     /** The soft limit after a cycle; updates `state`.  Pure: no clock, no
-     *  space. */
+     *  space.  Never below liveSetFloor(L, runway, B). */
     proto_ulong nextSoftLimit(const LawInputs& in, LawState& state);
+
+    /**
+     * The live-set floor (since 2.14.2): after a cycle that reclaimed fewer
+     * cells than its live set, the first cycle included, with or without
+     * waits,
+     *
+     *     S >= min(B, 2 L + runway)
+     *
+     * so that a cycle paced to start `runway` cells before S finds at least
+     * as much garbage as the live set it marks.  Below it the cycles follow
+     * each other after a thin slice of allocation, each marking the whole
+     * live set to reclaim less than it: with a program's start-up live set
+     * just below S0 (protoST under the controller, 2026-10-04
+     * re-measurement), and pacing hides those cycles from the waits, so rule
+     * 4.1 (no wait, no growth) alone never raises S.  The factor is
+     * structural: the point where a cycle reclaims as many cells as it marks,
+     * and it applies only once a cycle did not: a cycle that reclaims more
+     * than it marks is no evidence for a larger heap (regime 1 may run cycles
+     * back to back below the floor at its minimum memory).
+     * A soft limit below the floor is raised to max(floor, 2 S), within B:
+     * the runway is measured and noisy, and a floor that creeps with it would
+     * otherwise change S at every cycle.  So the floor's changes are
+     * doublings at least, counted with the probes' in the bound on changes.
+     */
+    constexpr double kLiveSetFloorFactor = 2.0;
+    proto_ulong liveSetFloor(proto_ulong liveCells, double runwayCells, proto_ulong budgetCells);
 
     // --- 1b. Pacing: when a cycle starts -------------------------------------
     //
@@ -212,6 +240,19 @@ namespace adaptive {
      */
     void pace(ProtoSpace* space);
 
+    /**
+     * A refill of `space` by `who` (its thread, or its context without one;
+     * getFreeCells, globalMutex held): counts whether more than one thread
+     * allocated since the last cycle end (since 2.14.2).
+     */
+    void noteRefill(ProtoSpace* space, const void* who);
+    /** More than one thread of `space` allocated since its last cycle end;
+     *  true when unknown (globalMutex held).  Read at sweep start: the sweep
+     *  walks one chain only for a single allocating thread
+     *  (sweep::mutatorsShort). */
+    bool severalAllocators(const ProtoSpace* space);
+
+
     /** Every space has a side state (created by its constructor), whatever
      *  its limits: pacing and the wait accounting apply to fixed limits too. */
     void registerSpace(ProtoSpace* space);
@@ -283,6 +324,8 @@ namespace adaptive {
         proto_ulong sweptCells = 0;     // candidates examined, survivors included
         proto_ulong freedCells = 0;     // returned to the freelist
         proto_ulong sweptSegments = 0;
+        proto_ulong wideSegments = 0;     // segments of a wide walk (since 2.14.2)
+        proto_ulong narrowSegments = 0;   // and of a one-chain walk
     };
     /** End of a cycle of `space`: the pacing signals, and the control law
      *  when the controller is enabled. */

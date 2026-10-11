@@ -87,6 +87,10 @@ namespace sweep {
         proto_ulong reclaimed = 0;
         proto_ulong swept = 0;
         proto_ulong segments = 0;
+        bool severalAllocators = true;    // adaptive::severalAllocators, read at sweep start
+        long long runway = 0;             // pacing's runway, read at sweep start
+        proto_ulong wideSegments = 0;     // taken while the walk was wide
+        proto_ulong narrowSegments = 0;   // taken while it was one chain
         SegmentChain freeSegs;
         SegmentChain penSegs;
         std::vector<proto_ulong> finalizedRefs;     // helpers: the finalizer sink
@@ -150,6 +154,8 @@ namespace sweep {
         proto_ulong swept = 0;
         proto_ulong segments = 0;
         unsigned helpersJoined = 0;
+        proto_ulong wideSegments = 0;     // since 2.14.2: segments of a wide walk
+        proto_ulong narrowSegments = 0;   // and of a one-chain walk
     };
 
     /**
@@ -179,7 +185,7 @@ namespace sweep {
     bool sweepPrefetch();
     void setSweepPrefetch(int on);          // -1 restores the default
 
-    /** When the helpers are offered a sweep. */
+    /** When the helpers are offered a sweep, and when its walk is wide. */
     enum class Engagement {
         Measured = 0,      // while a mutator waits, and only while that pays (default)
         WhileWaiting = 1,  // while a mutator waits
@@ -189,6 +195,42 @@ namespace sweep {
      *  always), else Measured. */
     Engagement engagement();
     void setEngagement(int mode);           // -1 restores the default
+
+    /**
+     * The chains a sweeper walks in lockstep now (since 2.14.2): `maxCursors`
+     * (sweepCursors()) when `short_` (mutatorsShort: a mutator waits for
+     * headroom, several threads allocate, or the cells left are below the
+     * runway), or always under Engagement::Always; one chain otherwise.  A sweep nobody needs soon gains nothing from finishing
+     * early, and one that runs far ahead of the mutators' consumption leaves
+     * the cells it frees to go cold, or modified in the collector's cache,
+     * before they are reused: protoClojure coll_alloc with one task ran 26 %
+     * slower with eight chains than with one (2026-10-04 re-measurement),
+     * whatever the cores the two threads ran on.  Re-read at every segment a
+     * cursor ends, so a sweep widens as soon as a mutator runs short.
+     */
+    unsigned cursorsFor(unsigned maxCursors, Engagement mode, bool short_);
+
+    /** The sweep of `space` should walk wide (relaxed reads; no lock; since
+     *  2.14.2): a mutator of any space waits for heap headroom; or more than
+     *  one thread of `space` allocated since its last cycle (`several`:
+     *  several mutators consume faster than a one-chain walk frees, and its
+     *  CPU time -- about twice the wide walk's per cell -- competes with
+     *  them); or the cells left before the ceiling (the freelist plus the
+     *  room below the soft limit, or the hard limit without one; the freelist
+     *  alone without a limit) hold less than pacing's `runway` or two free
+     *  chunks per running thread.  So a one-chain walk runs only while a
+     *  single mutator has its next cycle's runway; the mutator takes the
+     *  chunk published last first, so it reuses cells the sweep has just
+     *  touched. */
+    bool mutatorsShort(ProtoSpace* space, bool several, long long runway);
+
+    /** Segments taken by a cursor of a wide walk (more than one chain) and
+     *  of a one-chain walk, process-wide, since the start. */
+    struct WalkStats {
+        std::uint64_t wideSegments = 0;
+        std::uint64_t narrowSegments = 0;
+    };
+    WalkStats walkStats();
 
     /** The measured engagement's state of one space (Engagement::Measured). */
     struct EngageState {

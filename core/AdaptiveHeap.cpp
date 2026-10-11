@@ -38,6 +38,15 @@ namespace adaptive {
 
     // --- 1. Control law ------------------------------------------------------
 
+    namespace {
+        double raiseToFloor(double next, proto_ulong S, proto_ulong L, double runway, proto_ulong B) {
+            const double floor = static_cast<double>(liveSetFloor(L, runway, B));
+            if (next >= floor) return next;
+            return std::min(static_cast<double>(B),
+                            std::max(floor, 2.0 * static_cast<double>(std::max<proto_ulong>(S, 1))));
+        }
+    }  // namespace
+
     proto_ulong nextSoftLimit(const LawInputs& in, LawState& st) {
         const proto_ulong S = in.softCells;
         const proto_ulong B = in.budgetCells;
@@ -98,11 +107,24 @@ namespace adaptive {
             st.rateAtProbe = r;
             ++st.probes;
         }
+        // The live-set floor, after a cycle that reclaimed fewer cells than
+        // it marked, whatever the waits.  Raised to it by at least a doubling, so
+        // that a floor that creeps with the measured runway changes S no more
+        // often than the probes do (bounded convergence).
+        if (in.reclaimedCells < in.liveCells)
+            next = raiseToFloor(next, S, in.liveCells, in.runwayCells, B);
         next = std::min(next, static_cast<double>(B));
         proto_ulong result = static_cast<proto_ulong>(next);
         if (result < S) result = S <= B ? S : B;   // never decreases; never above B
         if (result != S) ++st.changes;
         return result;
+    }
+
+    proto_ulong liveSetFloor(proto_ulong liveCells, double runwayCells, proto_ulong budgetCells) {
+        const double floor = kLiveSetFloorFactor * static_cast<double>(liveCells)
+                           + (runwayCells > 0.0 ? std::ceil(runwayCells) : 0.0);
+        if (floor >= static_cast<double>(budgetCells)) return budgetCells;
+        return static_cast<proto_ulong>(floor);
     }
 
     // --- 1b. Pacing -----------------------------------------------------------
@@ -372,6 +394,12 @@ namespace adaptive {
             double waitShare = 0.0;
             // Threads in reclaimWaitLocked now.
             int waiters = 0;
+            // The first thread that refilled since the last cycle end, and
+            // whether another one did too.
+            const void* refiller = nullptr;
+            bool severalRefillers = false;
+            // T of the last cycle whose sweep walked wide for most segments.
+            double wideThroughput = 0.0;
             WaitStats stats;
         };
 
@@ -578,6 +606,18 @@ namespace adaptive {
         }
     }
 
+    void noteRefill(ProtoSpace* space, const void* who) {
+        SpaceState* s = find(space);
+        if (!s || s->severalRefillers) return;
+        if (!s->refiller) s->refiller = who;
+        else if (s->refiller != who) s->severalRefillers = true;
+    }
+
+    bool severalAllocators(const ProtoSpace* space) {
+        SpaceState* s = find(space);
+        return !s || s->severalRefillers;
+    }
+
     void afterHeapGrowth(ProtoSpace* space, int cells) {
         processHeapCells += cells;
         if (processHeapCells > processHeapPeak) processHeapPeak = processHeapCells;
@@ -635,6 +675,8 @@ namespace adaptive {
             s->cycleSeconds[0] = cycle;
             s->occupiedLastEnd = occupied;
             s->returnedSinceEnd = 0;
+            s->refiller = nullptr;
+            s->severalRefillers = false;
             s->intervalStart = now;
             s->requested = false;
             ++s->completed;
@@ -722,13 +764,34 @@ namespace adaptive {
         in.rate = std::max(s->rate[0], s->rate[1]);
         const double busy = static_cast<double>(s->last.busyNanos) / 1e9;
         in.throughput = busy > 0.0 ? static_cast<double>(measures.freedCells) / busy : 0.0;
+        // A sweep that walked one chain for most of its segments ran just
+        // ahead of a single mutator on purpose (sweep::mutatorsShort): its
+        // time measures the mutator's pace, not the collector's capacity.
+        // The law keeps the throughput of the last wide sweep (none yet:
+        // unmeasured, S is kept).
+        if (measures.narrowSegments > measures.wideSegments) in.throughput = s->wideThroughput;
+        else s->wideThroughput = in.throughput;
         in.waitShare = s->waitShare;
+        in.reclaimedCells = measures.freedCells;
+        // Pacing's runway for the next interval, before the ceiling caps it.
+        in.runwayCells = static_cast<double>(pacing::runway(
+            static_cast<long long>(kMaxCells), 0, in.rate,
+            std::max(s->cycleSeconds[0], s->cycleSeconds[1])));
         // The first cycle under the controller is not evidence about S: it
         // starts with no measured runway (pacing needs one cycle of r and C),
         // so its wait is the one every run pays, and its interval includes
         // the program's start-up.
-        const proto_ulong after = s->cycles == 0 ? before : nextSoftLimit(in, s->law);
-        space->softHeapLimit = static_cast<int>(std::min<proto_ulong>(after, kMaxCells));
+        // The live-set floor applies to it all the same: a program whose
+        // start-up live set sits just below S0 would otherwise run its next
+        // cycle after a thin slice of allocation.
+        const proto_ulong after = s->cycles == 0
+            ? (in.reclaimedCells < L
+                   ? static_cast<proto_ulong>(raiseToFloor(static_cast<double>(before), before, L,
+                                                           in.runwayCells, s->hardCells))
+                   : before)
+            : nextSoftLimit(in, s->law);
+        // Stored relaxed: the sweep reads it without the lock (sweep::mutatorsShort).
+        relaxedStore(space->softHeapLimit, static_cast<int>(std::min<proto_ulong>(after, kMaxCells)));
         s->lastThroughput = in.throughput;
 
         const long long retained = static_cast<long long>(space->heapSize)
@@ -838,7 +901,7 @@ namespace adaptive {
         processBudgetCells = H;
         for (SpaceState* other : registry())
             if (other->enabled) other->hardCells = H;
-        space->softHeapLimit = static_cast<int>(S0);
+        relaxedStore(space->softHeapLimit, static_cast<int>(S0));
         relaxedStore(space->maxHeapSize, static_cast<int>(H));
         recomputeCeilings();
     }
