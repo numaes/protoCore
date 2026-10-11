@@ -116,6 +116,16 @@ can fire while the live set is far below the machine's capacity if the hard
 limit was set too low. The embedder callback (`outOfMemoryCallback`) and the
 controlled abort stay as they are.
 
+Implementation notes.  L is the set the cycle marked.  2.10.0-2.14.3 tested
+the cells the cycle left unreclaimed instead (live set plus the threads'
+refill batches, the young generations of calls in progress and the cycle's
+own allocations), which declared a false out of memory with small budgets
+and several threads; 2.14.4 tests L as written here.  Since young
+generations are pinned and never marked, a cycle that reclaimed nothing is
+also a strike (no progress is possible while the waiting threads' calls
+cannot return): the old heuristic, kept as a backstop.  See
+`docs/GarbageCollector.md`, "Out of memory".
+
 ### 3.5 API (additive, no ABI change)
 
 ```cpp

@@ -4,6 +4,69 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.4] - 2026-10-11
+
+No public API change; ABI compatible (SOVERSION 3).  Three issues found by
+the runtimes adopting the adaptive heap controller.
+
+### Fixed
+
+- **False out of memory under the adaptive heap controller with small budgets
+  and several threads.**  The rule compared the cells a cycle left
+  unreclaimed (`heapSize - freeCellsCount` after the sweep) with the budget H
+  less one refill batch per running thread.  Those cells include the
+  threads' refill batches, the young generations of calls in progress and the
+  cells allocated while the cycle ran: with a 64 MB budget and a few threads
+  they reached 75-90 % of the budget while the live set was about 25 %
+  (protoJS bounded-memory test on Windows).  The rule is now the design's
+  (spec section 3.4): a strike when the live set the cycle *marked*, plus the
+  other spaces' heaps, does not fit under H less the batch margin, or when the
+  cycle reclaimed nothing (no progress: young generations are pinned, never
+  marked, so calls in progress can fill the heap with a small live set).
+  Strikes are counted per completed cycle, not per cycle start.  The abort
+  message now reports the live set, the other spaces, the unreclaimed cells
+  and the cycle's reclamation.  Tests: `AdaptiveHeapOutOfMemoryRule.*` (the
+  decision as a pure function, `adaptive::outOfMemoryStrike`; two of four fail
+  against the old rule) and `AdaptiveHeapThreadsDeathTest.*` (four threads,
+  64 MB, low live set, calls in progress, heavy garbage: false out of memory
+  on Windows x2 and macOS in CI run 38118654569, not reproduced on Linux;
+  true out of memory still fires with a live set or with young cells that
+  do not fit).
+- **A process that exits while a space's collector runs could crash.**  The
+  adaptive controller's registry of space states, the multi-space registry and
+  destroyed-space list were static vectors, and the cycle token's condition
+  variable a namespace-scope object; a collector (or a sweep helper) still
+  running during static destruction reached them -- `adaptive::cellsPublished`
+  for every chunk the sweep publishes -- after their destructors (SIGSEGV at
+  exit in protoJS with a worker's space alive).  They are never destroyed
+  now, like the sweep helper pool; `multispace::cycleCV` becomes an accessor
+  so a space built by a static initializer elsewhere cannot see it
+  uninitialized.  Tests: `ProcessExitDeathTest.RegistriesTheCollectorReachesOutliveStaticDestruction`
+  (deterministic, SIGSEGV 6/6 before) and `ProcessExitDeathTest.ExitWhileCollectorsRun`
+  (stress: 15 of 20 exits crashed before, 0 of 50 after).
+
+### Tests
+
+- **`AdaptiveHeapSteady.HeapStaysFarBelowTheGarbageVolume` gates
+  deterministically.**  Its bound depended on how far the law grew S, i.e. on
+  the collector's speed against the mutator's: on a loaded runner S reached
+  the 16 M-cell budget in four cycles and the heap 15.2 M cells against a
+  10 M bound (protoPython CI 38104389529 and 38113972723, first attempts).
+  The budget is now a fifth of the garbage volume, so the bound (a quarter)
+  holds on any machine, also with S started at the budget.  It leaves
+  `CLOCK_DEPENDENT_TESTS`.
+- **Clock-dependent cases skip themselves when protoCore is a subproject.**
+  `AdaptiveHeapStorm.SoftLimitSettlesWithinBoundedCycles` has no
+  deterministic form (S last changed at cycle 75 on a loaded runner,
+  protoPython CI 38115542237) and stays informational.  protoCore's own CI
+  never gated on such cases, but a runtime that adds protoCore with
+  `add_subdirectory` ran them in its gating ctest.  Every case in
+  `CLOCK_DEPENDENT_TESTS` now calls `PROTOCORE_CLOCK_DEPENDENT()`
+  (`test/ClockDependent.h`) and skips, with a message, unless
+  `PROTOCORE_CLOCK_DEPENDENT_TESTS=ON`, the default only when protoCore is
+  the top-level project.
+
+
 ## [2.14.3] - 2026-10-11
 
 No library code change; ABI compatible (SOVERSION 3).  The header changes
