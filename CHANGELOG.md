@@ -7,7 +7,8 @@ All notable changes to protoCore are documented in this file.
 ## [2.14.4] - 2026-10-11
 
 No public API change; ABI compatible (SOVERSION 3).  Three issues found by
-the runtimes adopting the adaptive heap controller.
+the runtimes adopting the adaptive heap controller, and a data race the new
+tests found.
 
 ### Fixed
 
