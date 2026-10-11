@@ -1196,6 +1196,14 @@ namespace proto {
         const ProtoObject* lookupUTF8(ProtoContext* ctx,
                                        const uint8_t* bytes, size_t len) const;
 
+        // Intern a spelling given as UTF-8 bytes.  Returns the existing symbol
+        // when the spelling is interned already; otherwise builds exactly one
+        // perennial copy from the bytes and publishes it.  What
+        // ProtoString::createSymbol uses for every spelling that is not an
+        // inline string.
+        const ProtoObject* internUTF8(ProtoContext* ctx,
+                                       const uint8_t* bytes, size_t len);
+
         static bool isSymbol(const ProtoObject* obj);
 
     private:
@@ -1210,6 +1218,11 @@ namespace proto {
         // SymbolTable.cpp for the rationale.
         static const ProtoStringImplementation* normalizeForSymbol(
             ProtoContext* readCtx, const ProtoObject* strObj);
+        // Publish `candidate` (a perennial symbol whose content hash is
+        // `hash`) unless another thread published the same spelling first;
+        // returns the canonical symbol either way.
+        const ProtoObject* insertCandidate(ProtoContext* ctx, uint64_t hash,
+                                            const ProtoObject* candidate);
 
         friend proto_ulong globalSymbolCount();
         proto_ulong entryCount() const;

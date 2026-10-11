@@ -234,6 +234,40 @@ project (`add_subdirectory`), whose ctest gates on every case, those cases
 skip themselves with a message.  `-DPROTOCORE_CLOCK_DEPENDENT_TESTS=ON` runs
 them; it is the default when protoCore is the top-level project.
 
+## LeakSanitizer
+
+Since 2.14.5 the suite runs clean under AddressSanitizer with leak detection,
+and CI keeps it that way (the `asan` job in `.github/workflows/ci.yml` sets
+`detect_leaks=1`).  protoCore retains memory on purpose -- interned symbols
+are perennial, and the cell heap is never returned to the system, not even
+when a space is destroyed ([MemoryModel.md](MemoryModel.md) § 1) -- but
+retained memory is kept reachable from process-wide structures that are never
+destroyed: the symbol table (and the candidates that lost an intern race), the
+list of heap block bases, the initial roots of the global mutable table.  So
+a runtime that runs its own suite under ASan with leak detection sees its own
+leaks, not protoCore's heap.
+
+`embedder.exit_leak_clean.{alive,destroyed,respawn}` (`test/embedder_exit/`)
+check this from an embedder's side: a separate program, because LeakSanitizer
+checks when the process exits, after the static destructors.  They set
+`ASAN_OPTIONS=detect_leaks=1` themselves on Linux (LeakSanitizer is not
+available with ASan on macOS or Windows); in a build without ASan they only
+run the scenarios and certify nothing about leaks.
+
+```bash
+cmake -B build_asan -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+      -DCMAKE_CXX_FLAGS="-fsanitize=address -fno-omit-frame-pointer -g" \
+      -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" \
+      -DCMAKE_SHARED_LINKER_FLAGS="-fsanitize=address"
+cmake --build build_asan -j4
+ASAN_OPTIONS=detect_leaks=1 ctest --test-dir build_asan --output-on-failure
+```
+
+Before 2.14.5 every embedder reported leaks at exit, from three sources
+older than 2.14.4: a second perennial copy of every new symbol's spelling
+(a real leak, fixed), the blocks of a destroyed space's heap, and the
+replaced initial shard roots (retained by design, now reachable).
+
 ## ThreadSanitizer
 
 The whole suite runs clean under ThreadSanitizer, and CI keeps it that way

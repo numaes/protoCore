@@ -98,3 +98,24 @@ foreach(_stagger 1 4)
         ENVIRONMENT "PROTOCORE_GC_SWEEP_THREADS=3;PROTOCORE_GC_SWEEP_ENGAGE=always;PROTOCORE_GC_SURVIVOR_STAGGER=${_stagger}"
         TIMEOUT 1500)
 endforeach()
+
+# An embedder exits LeakSanitizer-clean (test/embedder_exit/main.cpp): what
+# protoCore retains on purpose stays reachable, so a runtime's own ASan run
+# reports only its own leaks.  A separate executable, because LeakSanitizer
+# checks at process exit, after the static destructors.  detect_leaks=1 is set
+# per test so it holds whatever ASAN_OPTIONS the suite runs with (CI runs the
+# rest with leak detection off).  Linux only: LeakSanitizer is not supported
+# by AddressSanitizer on macOS or Windows, and there the cases only run the
+# scenarios.  Without AddressSanitizer they certify nothing about leaks.
+add_executable(protocore_embedder_exit embedder_exit/main.cpp)
+target_link_libraries(protocore_embedder_exit PRIVATE protoCore)
+protocore_msvc_werror(protocore_embedder_exit)
+foreach(_mode alive destroyed respawn)
+    add_test(NAME embedder.exit_leak_clean.${_mode}
+             COMMAND protocore_embedder_exit ${_mode})
+    set_tests_properties(embedder.exit_leak_clean.${_mode} PROPERTIES TIMEOUT 300)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        set_tests_properties(embedder.exit_leak_clean.${_mode} PROPERTIES
+            ENVIRONMENT "ASAN_OPTIONS=detect_leaks=1:abort_on_error=0")
+    endif()
+endforeach()

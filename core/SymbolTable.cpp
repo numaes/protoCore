@@ -27,6 +27,8 @@
 
 #include "proto_internal.h"
 #include <cstring>
+#include <mutex>
+#include <vector>
 
 namespace proto {
 
@@ -189,32 +191,83 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     // context and thread that references it (symbols are attribute names,
     // language keywords, protoCore-side cached literals), and being perpetual
     // also removes any per-GC-cycle cost of protecting symbol Cells. The
-    // candidate that loses the insert race below is likewise perpetual — it
-    // simply becomes unreferenced; there is no Cell for the GC to reclaim.
+    // candidate that loses the insert race in insertCandidate is likewise
+    // perpetual, and kept reachable there.
     const ProtoStringImplementation* normalized =
         normalizeForSymbol(ctx, strObj);
     const ProtoObject* symbol_candidate = reinterpret_cast<const ProtoObject*>(
         normalized->implAsSymbol(ctx));
-    uint64_t hash = normalized->implGetHash();
-    int shard_idx = shardIndex(hash);
-    Shard& shard = shards[shard_idx];
+    return insertCandidate(ctx, normalized->implGetHash(), symbol_candidate);
+}
 
+// ---------------------------------------------------------------------------
+// insertCandidate — publish a pre-built perennial symbol, or adopt the one
+// another thread published first.
+//
+// The re-check runs under the shard lock: another thread may have interned
+// the same spelling while the caller built its candidate.  The losing
+// candidate is perennial like every symbol string, and is kept reachable in
+// a never-destroyed list (one string per lost race): retained memory must be
+// reachable, or LeakSanitizer reports it at exit
+// (GlobalInterning.ConcurrentInterningAcrossSpacesAgreesOnOnePointer did).
+// The list has its own mutex, taken after the shard lock is released, so the
+// shard lock stays a leaf lock.
+// ---------------------------------------------------------------------------
+namespace {
+std::mutex& lostCandidatesMutex() {
+    static auto* m = new std::mutex();
+    return *m;
+}
+std::vector<const ProtoObject*>& lostCandidates() {   // guarded by lostCandidatesMutex
+    static auto* v = new std::vector<const ProtoObject*>();
+    return *v;
+}
+}  // namespace
+
+const ProtoObject* SymbolTable::insertCandidate(ProtoContext* ctx, uint64_t hash,
+                                                 const ProtoObject* candidate) {
+    Shard& shard = shards[shardIndex(hash)];
+    const ProtoObject* winner = nullptr;
     {
         std::lock_guard<std::mutex> lock(shard.mutex);
-
-        // Re-check: another thread may have interned the same string while
-        // we were normalizing above.  If so, return the existing symbol.
         for (Bucket* b = shard.head; b; b = b->next) {
-            if (b->content_hash == hash &&
-                contentEqual(ctx, b->symbol, strObj))
-                return b->symbol;
+            if (b->content_hash == hash && contentEqual(ctx, b->symbol, candidate)) {
+                winner = b->symbol;
+                break;
+            }
         }
-
-        // Not found — insert the pre-built candidate.
-        Bucket* bucket = new Bucket{ hash, symbol_candidate, shard.head };
-        shard.head = bucket;
-        return symbol_candidate;
+        if (!winner) {
+            Bucket* bucket = new Bucket{ hash, candidate, shard.head };
+            shard.head = bucket;
+            return candidate;
+        }
     }
+    std::lock_guard<std::mutex> lock(lostCandidatesMutex());
+    lostCandidates().push_back(candidate);
+    return winner;
+}
+
+// ---------------------------------------------------------------------------
+// internUTF8 — intern a spelling given as UTF-8 bytes, building ONE perennial
+// copy of it.
+//
+// ProtoString::createSymbol used to build a perennial ProtoString from the
+// bytes and pass it to intern(), whose normalizeForSymbol built a second
+// perennial copy and kept that one: every new symbol left its first copy
+// unreferenced for the life of the process (LeakSanitizer reported it in
+// every embedder at exit).  Here the copy built from the bytes is the
+// candidate itself.
+// ---------------------------------------------------------------------------
+const ProtoObject* SymbolTable::internUTF8(ProtoContext* ctx,
+                                            const uint8_t* bytes, size_t len) {
+    if (const ProtoObject* existing = lookupUTF8(ctx, bytes, len)) return existing;
+    // Built with a NULL ProtoContext: perennial, invisible to the collector,
+    // so no cycle can reclaim it before it is published (see intern()).
+    const ProtoStringImplementation* impl =
+        ProtoStringImplementation::fromUTF8Bytes(/*ctx=*/nullptr, bytes, len);
+    const ProtoObject* candidate =
+        reinterpret_cast<const ProtoObject*>(impl->implAsSymbol(ctx));
+    return insertCandidate(ctx, impl->implGetHash(), candidate);
 }
 
 // ---------------------------------------------------------------------------
