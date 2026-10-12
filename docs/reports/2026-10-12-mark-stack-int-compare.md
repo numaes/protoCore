@@ -220,6 +220,19 @@ with waits, sweep and CPU: [results/gc-table.md](data/2026-10-12-mark-stack-int-
   repetitions overlap.
 - Not measured to completion: the calibration group (`cal`), stopped after
   67 records to release first; the records taken are in `results/cal.jsonl`.
+- CI: on the release branch the informational (never gating) clock case
+  `MPSCQueueGC.LargeDrainDoesNotBlockStopTheWorld` failed once on Windows
+  Release on its sampling precondition (3 of 9 cycles landed in the drain
+  window); the pauses it measured were 25-28 µs median, against a 300 µs
+  bound.
+
+## Cross-runtime comparisons
+
+What (b) does to each runtime's comparison with its usual competitor
+(CPython, Node, the JVM, Babashka) is in the companion report,
+[2026-10-12-cross-runtime-int-compare.md](2026-10-12-cross-runtime-int-compare.md):
+only division, remainder, protoPython's unary minus and protoJS's `===`
+reach the changed code; most harness loops are unchanged.
 
 ## What this does not show
 
