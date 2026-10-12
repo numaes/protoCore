@@ -263,6 +263,16 @@ namespace proto
     {
         long long sl, sr;
         if (smallValues(left, right, sl, sr)) return (sl > sr) - (sl < sr);
+        // A SmallInteger against a LargeInteger.  A LargeInteger is always
+        // outside the SmallInteger range: fromTempBignum, its only
+        // constructor, returns a SmallInteger whenever the value fits.  So
+        // the LargeInteger's sign decides, with no temporary.
+        if (smallValue(left, sl) && isLargeInteger(right)) {
+            return toImpl<const LargeIntegerImplementation>(right)->is_negative ? 1 : -1;
+        }
+        if (smallValue(right, sr) && isLargeInteger(left)) {
+            return toImpl<const LargeIntegerImplementation>(left)->is_negative ? -1 : 1;
+        }
         if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for comparison.");
 
         TempBignum l = toTempBignum(left);

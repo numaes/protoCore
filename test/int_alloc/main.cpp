@@ -2,7 +2,8 @@
 // allocate.
 //
 // Before 2.14.6, Integer::compare, sign, negate, abs, divide and modulo
-// converted every operand, SmallIntegers included, to a sign-and-magnitude
+// converted every operand, SmallIntegers included (and a SmallInteger
+// compared with a LargeInteger), to a sign-and-magnitude
 // temporary holding a std::vector, so each call went through operator new
 // and operator delete.  protoST's demo 2 spent 18 % of its single-thread
 // time in malloc/free on that path, and its speed depended on the glibc
@@ -101,6 +102,14 @@ int main() {
     });
     expectNoAllocation("compare with zero (sign test)", [&](int k) {
         return (long long) c->fromLong(k - 3)->compare(c, zero);
+    });
+    // A SmallInteger against a LargeInteger: the LargeInteger's sign
+    // decides (a LargeInteger is never inside the SmallInteger range).
+    const ProtoObject* bigPositive = c->fromLong(1LL << 62);
+    const ProtoObject* bigNegative = c->fromLong(-(1LL << 62));
+    expectNoAllocation("compare small with LargeInteger", [&](int k) {
+        const ProtoObject* v = c->fromLong(k - kN / 2);
+        return (long long) (v->compare(c, bigPositive) + bigNegative->compare(c, v));
     });
 
     if (failures) {
