@@ -4,6 +4,58 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.6] - 2026-10-12
+
+No public API change; ABI compatible (SOVERSION 3).  Two findings of
+protoST's pre-talk audit (protoST `benchmarks/reports/2026-10-12-pre-talk-063.md`);
+report: `docs/reports/2026-10-12-mark-stack-int-compare.md`.
+
+### Fixed
+
+- **The collector's mark work list was unbounded, outside the cell heap.**
+  protoST's `(1 to: 500000) asArray` under a 10 M-cell (640 MB) limit peaked
+  at 1.19 GB resident.  Three causes, measured: the young-chain walk pushed
+  every reference of ~10 M young cells before the first pop (35 M entries, a
+  512 MB `std::vector` after doubling); a cell was marked when popped, so
+  82 % of the pops found it already marked; and the main thread's young
+  chain was walked twice (through its thread and as `mainContext`).  Now:
+  - a cell is marked when it is pushed (mark-on-push), so it is on the stack
+    at most once; only the collector touches mark bits, so the marked set is
+    unchanged;
+  - each source (root, young cell, pen cell) is traced as it is visited, so
+    the stack holds one traversal at a time;
+  - the mark stack has a fixed capacity (1 M entries, 8 MiB, reused across
+    cycles); a push that finds it full leaves the cell unmarked and the
+    collector rescans the sources and the marked cells until a pass
+    completes without overflow;
+  - the marked list is kept in 256 KiB blocks (no copy on growth);
+  - the main thread's contexts are scanned once and young chain heads are
+    deduplicated.
+  The K5 reproduction now peaks at 707 MB and reaches its out-of-memory exit
+  in 2.45 s instead of 5.0 s.  docs/GarbageCollector.md, "Mark work list".
+- **Integer operations on two SmallIntegers allocated.**  `Integer::compare`,
+  `sign`, `negate`, `abs`, `divide` and `modulo` built a sign-and-magnitude
+  temporary holding a `std::vector` for every operand: 2 allocations per
+  compare, about 7 per divide or modulo.  protoST's demo 2 spent 18 % of its
+  single-thread time in malloc/free, and its speed depended on the glibc
+  version.  Two SmallIntegers are now answered from their values; results
+  outside the range (`-(-2^53)`, `-2^53 / -1`) are promoted by `fromLong`
+  exactly as before; division by zero throws the same error.
+  A SmallInteger against a LargeInteger is decided by the LargeInteger's
+  sign (a LargeInteger is never inside the SmallInteger range); protoST
+  compares every divisor with +/-2^62 before each `//` and `\\`.
+  `ProtoObject::compare` and `partialCompare` compare two SmallIntegers
+  before any type probe.
+
+### Tests
+
+- `GCMarkStack.*`: a large young generation does not flood the stack; each
+  young chain is walked once; a 16-entry stack overflows and still marks
+  the same live set.  All three fail against 2.14.5.
+- `integer.small_operations_do_not_allocate` (`test/int_alloc`, its own
+  executable, counts `operator new`; not on Windows): fails against 2.14.5.
+  `IntegerSmallPathTest.*` pins the results at the range's edges.
+
 ## [2.14.5] - 2026-10-11
 
 No public API change; ABI compatible (SOVERSION 3).  An embedder exits
