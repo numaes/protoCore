@@ -9,6 +9,7 @@
 #include "ModuleCache.h"
 #include "AdaptiveHeap.h"
 #include "Sweep.h"
+#include "MarkStack.h"
 #include <algorithm>
 #include <iostream>
 #include <cstdlib>
@@ -240,20 +241,19 @@ namespace proto {
             return "unknown";
         }
 
-        // Push a child that `parent->processReferences` reported onto the
-        // mark work list.  Called from the GC thread only.
+        // Check a child that `parent->processReferences` reported.  Called
+        // from the GC thread only.
         //
         // A reported child is never nullptr: every implementation loads each
         // reference field once and reports it only when
         // ProtoObject::asCellPointer yields a cell.  A null here therefore
         // means a broken implementation.  Instrumented and debug builds stop
         // and name the reporting cell's type, so the offender is identified
-        // instead of masked; other builds push it, and the work-list pop
-        // skips null entries.
-        inline void pushReportedReference(std::vector<const Cell*>* workList,
-                                          const Cell* parent,
-                                          const Cell* ref,
-                                          const char* phase) {
+        // instead of masked; other builds let it through, and
+        // Marker::shade skips null entries.
+        inline void checkReportedReference(const Cell* parent,
+                                           const Cell* ref,
+                                           const char* phase) {
             if (reinterpret_cast<uintptr_t>(ref) & 1) {
                 std::cerr << "CRITICAL TAGGED POINTER (" << phase << "): " << ref
                           << " from parent " << parent
@@ -270,8 +270,90 @@ namespace proto {
                 std::abort();
             }
 #endif
-            workList->push_back(ref);
         }
+
+        // The mark phase's tracer (docs/GarbageCollector.md, "Mark work
+        // list").  A cell turns grey when it is shaded: it is marked, added
+        // to the marked list and pushed on the mark stack, all at once, so
+        // the stack never holds a cell twice.  drain() pops grey cells and
+        // shades their references until the stack is empty.
+        //
+        // The stack has a fixed capacity.  A shade that finds it full leaves
+        // the cell white (unmarked) and raises `overflow`; the cell is
+        // reachable from a grey or black cell, or from a root, a young cell
+        // or a pen cell, and the rescan in gcThreadLoop shades it from
+        // there.  Every pass that overflows has marked a full stack of new
+        // cells first, so the rescans end.
+        //
+        // Only the GC thread touches mark bits (see the Phase 3 comment in
+        // gcThreadLoop), so marking at push time instead of at pop time
+        // changes the order in which cells are marked and nothing else: a
+        // cycle marks the same set.
+        struct Marker {
+            gcmark::MarkStack& stack;
+            gcmark::CellBlockList& marked;
+            ProtoContext* context;
+            bool overflow = false;
+            const Cell* parent = nullptr;
+            const char* phase = "";
+
+            inline void shade(const Cell* cell) {
+                if (!cell || cell->isMarked()) return;
+                if (!stack.push(cell)) {
+                    overflow = true;
+                    return;
+                }
+                const_cast<Cell*>(cell)->mark();
+                marked.push_back(cell);
+            }
+
+            // The references one scan reports are shaded in batches: each is
+            // prefetched when reported and shaded when the batch is full or
+            // the scan ends, so the misses on their headers (shade reads the
+            // mark bit) overlap instead of following one another.
+            static constexpr int kBatch = 8;
+            const Cell* batch[kBatch];
+            int batched = 0;
+
+            inline void flush() {
+                for (int i = 0; i < batched; ++i) shade(batch[i]);
+                batched = 0;
+            }
+
+            static void reportReference(ProtoContext*, void* self, const Cell* ref) {
+                auto* m = static_cast<Marker*>(self);
+                checkReportedReference(m->parent, ref, m->phase);
+                if (!ref) return;
+                if ((reinterpret_cast<uintptr_t>(ref) & 0x3F) == 0) PROTO_PREFETCH(ref);
+                m->batch[m->batched++] = ref;
+                if (m->batched == kBatch) m->flush();
+            }
+
+            // Shade every reference `cell` holds.  `cell` itself is not
+            // shaded: it is grey already, or a young or pen cell, which is
+            // not a candidate of this cycle.
+            inline void scan(const Cell* cell, const char* scanPhase) {
+                parent = cell;
+                phase = scanPhase;
+                cell->processReferences(context, this, &Marker::reportReference);
+                flush();
+            }
+
+            void drain() {
+                while (!stack.empty()) {
+                    const Cell* cell = stack.pop();
+                    // Prefetch the next cell to be popped: its fields are
+                    // read by the next scan, so the miss overlaps this one.
+                    if (!stack.empty()) {
+                        const Cell* next = stack.top();
+                        if ((reinterpret_cast<uintptr_t>(next) & 0x3F) == 0) {
+                            PROTO_PREFETCH(next);
+                        }
+                    }
+                    scan(cell, "Phase4(mark)");
+                }
+            }
+        };
 
         // Phase 5b: removes from the mutables tree the entries of the mutable
         // objects whose handles this cycle's sweep finalized.  Runs on the GC
@@ -362,6 +444,10 @@ namespace proto {
         }
 
         void gcThreadLoop(ProtoSpace* space) {
+            // The mark stack and the marked list live as long as the
+            // collector thread and are reused by every cycle (MarkStack.h).
+            gcmark::MarkStack markStack(gcmark::markStackCapacity());
+            gcmark::CellBlockList markedList;
             std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             GC_LOCK_TRACE("gcLoop ACQ(init)");
 #ifdef PROTOCORE_GC_INSTRUMENT
@@ -381,8 +467,15 @@ namespace proto {
             //  token: waiting for the process-wide cycle token (part of P1)
             //  quorum: stwFlag raised -> every mutator parked (part of P1)
             //  stw: every mutator parked -> world resumed (the real pause)
-            //  young: young-chain + survivor-pen walk at the start of P4
-            //  trace: the transitive mark loop (rest of P4)
+            //  young: the trace from every source (roots, young chains,
+            //         survivor pen), interleaved since 2.14.6; before it,
+            //         only the young-chain and pen walks
+            //  trace: the overflow rescans since 2.14.6; before it, the
+            //         transitive mark loop.  Compare young + trace across
+            //         versions.
+            //  mark_stack_peak / marked_list_max_kb: the largest mark stack
+            //         (entries) and marked list (KiB of blocks) of any cycle;
+            //         mark_rescans: overflow rescans, cumulative
             //  unmark: bulk unmark of markedList (part of P6)
             //  busy: whole cycle minus token wait
             static uint64_t dbg_ns_token = 0, dbg_ns_quorum = 0, dbg_ns_stw = 0,
@@ -390,6 +483,8 @@ namespace proto {
                             dbg_ns_busy = 0, dbg_ns_max_stw = 0;
             static uint64_t dbg_young_cells = 0, dbg_swept_cells = 0,
                             dbg_freed_cells = 0, dbg_roots = 0;
+            static uint64_t dbg_mark_stack_peak = 0, dbg_mark_rescans = 0,
+                            dbg_marked_list_max_bytes = 0;
             auto dbgNs = [](std::chrono::steady_clock::time_point a,
                             std::chrono::steady_clock::time_point b) {
                 return static_cast<uint64_t>(
@@ -495,18 +590,27 @@ namespace proto {
 #endif
 
                 // --- PHASE 2: COLLECT ROOTS ---
-                std::vector<const Cell*> workList;
+                // The roots, shaded by the mark phase after the world
+                // resumes.  Bounded by the program's roots, not its heap.
+                std::vector<const Cell*> rootList;
                 // One root handle per context for its young generation: the
                 // chain head.  The chains are walked after the world resumes.
                 std::vector<const Cell*> youngChainHeads;
                 auto addRootObj = [&](const ProtoObject* obj) {
                     if (ProtoObject::isCellPointer(obj)) {
-                        workList.push_back(ProtoObject::asCellPointer(obj));
+                        rootList.push_back(ProtoObject::asCellPointer(obj));
                     }
                 };
 
+                // The main thread's contexts can be reached twice: through
+                // its ProtoThread (space->threads) and as space->mainContext,
+                // the start of that same chain or a suffix of it (a context
+                // inherits its thread from `previous`).  Scanning it twice
+                // doubled its roots in the pause and its young-chain walk.
+                bool mainContextScanned = false;
                 auto scanContexts = [&](ProtoContext* currentCtx) {
                     while (currentCtx) {
+                        if (currentCtx == space->mainContext) mainContextScanned = true;
                         // Roots: Automatic locals
                         for (unsigned int i = 0; i < currentCtx->getAutomaticLocalsCount(); ++i) {
                             addRootObj(currentCtx->getAutomaticLocals()[i]);
@@ -521,7 +625,7 @@ namespace proto {
                         }
                         // Push pending root
                         if (currentCtx->pendingRoot) {
-                            workList.push_back(currentCtx->pendingRoot);
+                            rootList.push_back(currentCtx->pendingRoot);
                         }
                         
                         // Roots: the young generation (cells allocated in this
@@ -669,7 +773,7 @@ namespace proto {
                 // CAS-swap shard roots freely; the marker never reads
                 // the live table again, only this snapshot.
                 //
-                // Each shard root is also pushed to workList so mark
+                // Each shard root is also pushed to rootList so mark
                 // traces the entire mutable graph as it existed at STW
                 // time.  The graph reachable from the snapshot is fully
                 // immutable (every Cell field is const-qualified after
@@ -700,16 +804,16 @@ namespace proto {
                 // route the addRootObj closure through a stack
                 // context structure passed as `user`.
                 struct RootSetVisitCtx {
-                    std::vector<const Cell*>* workList;
+                    std::vector<const Cell*>* rootList;
                 };
-                RootSetVisitCtx rsCtx{&workList};
+                RootSetVisitCtx rsCtx{&rootList};
                 space->forEachRootSet(
                     [](void* user, ProtoRootSet* rs) {
                         rs->forEachRoot(
                             [](void* u, const ProtoObject* obj) {
                                 auto* c = static_cast<RootSetVisitCtx*>(u);
                                 if (ProtoObject::isCellPointer(obj)) {
-                                    c->workList->push_back(
+                                    c->rootList->push_back(
                                         ProtoObject::asCellPointer(obj));
                                 }
                             },
@@ -717,8 +821,9 @@ namespace proto {
                     },
                     &rsCtx);
 
-                // 3. Scan the Main Thread stack
-                scanContexts(space->mainContext);
+                // 3. Scan the Main Thread stack, unless a thread's chain
+                // already covered it.
+                if (!mainContextScanned) scanContexts(space->mainContext);
 
                 // 6. Capture the heap snapshot (segments to process)
                 // This MUST be done during STW to ensure we only sweep what existed at root collection.
@@ -827,7 +932,7 @@ namespace proto {
                 auto t_phase4_start = std::chrono::steady_clock::now();
                 dbg_ns_stw += stwNanos;
                 if (stwNanos > dbg_ns_max_stw) dbg_ns_max_stw = stwNanos;
-                dbg_roots += workList.size();
+                dbg_roots += rootList.size();
                 dbg_total_phase2_us.fetch_add(
                     std::chrono::duration_cast<std::chrono::microseconds>(
                         t_phase4_start - t_phase2_start).count(),
@@ -839,7 +944,7 @@ namespace proto {
                 // The conversion is addRootObj's own, from the Phase-2 root block
                 // above: isCellPointer + asCellPointer, no hand-written cast.
                 globalModuleRootTable().forEachCaptured(
-                    space, &workList, [](void* user, const ProtoObject* module) {
+                    space, &rootList, [](void* user, const ProtoObject* module) {
                         if (ProtoObject::isCellPointer(module))
                             static_cast<std::vector<const Cell*>*>(user)
                                 ->push_back(ProtoObject::asCellPointer(module));
@@ -847,16 +952,16 @@ namespace proto {
 
                 // Interned tuples recorded by Phase 2 are roots.
                 if (space->tupleInterner) {
-                    space->tupleInterner->forEachCaptured(&workList, [](void* user, const Cell* tuple) {
+                    space->tupleInterner->forEachCaptured(&rootList, [](void* user, const Cell* tuple) {
                         static_cast<std::vector<const Cell*>*>(user)->push_back(tuple);
                     });
                 }
 
                 // Young chains captured in Phase 2.  Their cells are neither
                 // candidates of this cycle nor marked; the references they
-                // hold are pushed so mark reaches every object a young cell
-                // refers to.  The walk runs while the mutators run, over a
-                // stable view.  Every chain was captured from a thread that
+                // hold are shaded so mark reaches every object a young cell
+                // refers to (traceSources below).  The walk runs while the
+                // mutators run, over a stable view.  Every chain was captured from a thread that
                 // was parked or out of the running set at the capture: a
                 // thread is in `space->threads` only while it counts in the
                 // quorum (thread_main leaves both in one globalMutex section,
@@ -883,20 +988,6 @@ namespace proto {
                 t_young_start = std::chrono::steady_clock::now();
                 c_young_start = dbgCpuNs();
 #endif
-                for (const Cell* head : youngChainHeads) {
-                    struct YoungWalkState { std::vector<const Cell*>* wl; const Cell* parent; } yst = {&workList, head};
-                    for (const Cell* scanCell = head; scanCell; scanCell = scanCell->getNext()) {
-#ifdef PROTOCORE_GC_INSTRUMENT
-                        ++dbg_young_cells;
-#endif
-                        yst.parent = scanCell;
-                        scanCell->processReferences(space->rootContext, &yst, [](ProtoContext* ctx, void* self, const Cell* ref) {
-                            auto* s = static_cast<YoungWalkState*>(self);
-                            pushReportedReference(s->wl, s->parent, ref, "Phase4(young)");
-                        });
-                    }
-                }
-
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
                 // Survivor pen captured in Phase 2.
                 //
@@ -910,22 +1001,12 @@ namespace proto {
                     penTail->next = segmentsToProcess;
                     segmentsToProcess = penToFold;
                 }
-                // Non-fold: walk the pen captured in Phase 2 and push the
-                // references of its cells.  The view is stable: mutators
-                // never touch the pen or the links of its cells, this
+                // Non-fold: the mark phase walks the pen captured in Phase 2
+                // and shades the references of its cells (traceSources).
+                // The view is stable: mutators never touch the pen or the links of its cells, this
                 // cycle's sweep runs after mark and only prepends new
                 // survivor segments at the pen head, and the pen is folded
                 // only under a later cycle's stop-the-world.
-                for (const DirtySegment* penSeg = penToScan; penSeg; penSeg = penSeg->next) {
-                    struct PenScanState { std::vector<const Cell*>* wl; const Cell* parent; } pst = {&workList, penSeg->cellChain};
-                    for (const Cell* scanCell = penSeg->cellChain; scanCell; scanCell = scanCell->getNext()) {
-                        pst.parent = scanCell;
-                        scanCell->processReferences(space->rootContext, &pst, [](ProtoContext* ctx, void* self, const Cell* ref) {
-                            auto* s = static_cast<PenScanState*>(self);
-                            pushReportedReference(s->wl, s->parent, ref, "Phase4(pen)");
-                        });
-                    }
-                }
 #endif
 
                 // --- PHASE 4: MARK (concurrent with mutators) ---
@@ -952,54 +1033,98 @@ namespace proto {
                 //
                 // Replacement: track the cells we mark right here in
                 // Phase 4 (one push_back per Cell, deduped naturally
-                // by the existing `if (!isMarked())` guard), then
+                // by the `isMarked()` guard in Marker::shade), then
                 // unmark them in a separate post-sweep pass.  Same
                 // tricolour invariant restored, no std::set, O(N)
-                // pure pushes — and the markedList is contiguous
-                // memory so traversing it post-sweep is cache-
-                // friendly.
+                // pure pushes — and the markedList is stored in
+                // 256 KiB blocks, so traversing it post-sweep is
+                // cache-friendly.
                 //
                 // Why post-sweep instead of pre-mark next cycle: it
                 // localises the work to "the GC cycle that produced
                 // the marks", so a single iteration of gcThreadLoop
                 // is self-contained — no cross-iteration state
                 // beyond the cell mark bits themselves.
+                //
+                // The trace (docs/GarbageCollector.md, "Mark work list").
+                // Every source is traced as it is visited: each root is
+                // shaded and each young or pen cell scanned, and the stack is
+                // drained right after, so the stack holds one traversal at a
+                // time instead of every source's references at once.  Each
+                // context's young chain is walked once even if two routes
+                // captured it.
+                std::sort(youngChainHeads.begin(), youngChainHeads.end());
+                youngChainHeads.erase(std::unique(youngChainHeads.begin(), youngChainHeads.end()),
+                                      youngChainHeads.end());
+                markedList.reset();
+                markStack.beginCycle(gcmark::markStackCapacity());
+                Marker marker{markStack, markedList, space->rootContext};
+                std::size_t youngCellsWalked = 0;
+                auto traceSources = [&](bool firstPass) {
+                    for (const Cell* root : rootList) {
+                        marker.shade(root);
+                        marker.drain();
+                    }
+                    for (const Cell* head : youngChainHeads) {
+                        for (const Cell* scanCell = head; scanCell; scanCell = scanCell->getNext()) {
+                            if (firstPass) {
+                                ++youngCellsWalked;
+#ifdef PROTOCORE_GC_INSTRUMENT
+                                ++dbg_young_cells;
+#endif
+                            }
+                            marker.scan(scanCell, "Phase4(young)");
+                            marker.drain();
+                        }
+                    }
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                    for (const DirtySegment* penSeg = penToScan; penSeg; penSeg = penSeg->next) {
+                        for (const Cell* scanCell = penSeg->cellChain; scanCell; scanCell = scanCell->getNext()) {
+                            marker.scan(scanCell, "Phase4(pen)");
+                            marker.drain();
+                        }
+                    }
+#endif
+                };
+                traceSources(true);
 #ifdef PROTOCORE_GC_INSTRUMENT
                 t_trace_start = std::chrono::steady_clock::now();
                 dbg_ns_young += dbgNs(t_young_start, t_trace_start);
 #endif
-                std::vector<const Cell*> markedList;
-                while (!workList.empty()) {
-                    const Cell* cell = workList.back();
-                    workList.pop_back();
-                    // The single filter for null work-list entries, whatever
-                    // pushed them: a root holding a tagged null (non-embedded
-                    // tag, no pointer bits) or, in builds that do not abort on
-                    // it, a null child reported by processReferences.
-                    if (!cell) continue;
-                    // Prefetch the NEXT cell to be popped — the mark
-                    // phase, like sweep, is a pointer-chasing loop
-                    // where each iteration loads
-                    // `cell->next_and_flags` to read the mark bit.
-                    // Prefetching the lookahead pop overlaps the
-                    // cache-line miss with the current cell's
-                    // mark + processReferences work.
-                    if (!workList.empty()) {
-                        const Cell* nextCell = workList.back();
-                        if (nextCell && (reinterpret_cast<uintptr_t>(nextCell) & 0x3F) == 0) {
-                            PROTO_PREFETCH(nextCell);
-                        }
+                // Overflow: some shade found the stack full and left a cell
+                // white.  That cell is referenced by a root, a young or pen
+                // cell, or a marked cell, so tracing the sources again and
+                // scanning every cell marked so far shades it.  Repeat until
+                // a pass completes without overflow; then every reference of
+                // every marked cell and source has been shaded with room on
+                // the stack, and the marked set is closed.  Cells marked
+                // during a pass were pushed and drained, so the scan only
+                // needs the cells marked before it started.
+                std::size_t overflowRescans = 0;
+                while (marker.overflow) {
+                    marker.overflow = false;
+                    ++overflowRescans;
+                    const std::size_t markedBefore = markedList.size();
+                    traceSources(false);
+                    for (std::size_t i = 0; i < markedBefore; ++i) {
+                        marker.scan(markedList[i], "Phase4(rescan)");
+                        marker.drain();
                     }
-
-                    if (!cell->isMarked()) {
-                        const_cast<Cell*>(cell)->mark();
-                        markedList.push_back(cell);
-                        struct GCLambdaState { std::vector<const Cell*>* wl; const Cell* parent; } state = {&workList, cell};
-                        cell->processReferences(space->rootContext, &state, [](ProtoContext* ctx, void* self, const Cell* ref) {
-                            auto* s = static_cast<GCLambdaState*>(self);
-                            pushReportedReference(s->wl, s->parent, ref, "Phase4(mark)");
-                        });
-                    }
+                }
+                {
+                    gcmark::MarkStats ms;
+                    ms.peakStackEntries = markStack.peak();
+                    ms.stackCapacity = markStack.capacity();
+                    ms.overflowRescans = overflowRescans;
+                    ms.youngCellsWalked = youngCellsWalked;
+                    ms.markedCells = markedList.size();
+                    ms.markedListBytes = markedList.reservedBytes();
+                    gcmark::recordMarkStats(ms);
+#ifdef PROTOCORE_GC_INSTRUMENT
+                    if (ms.peakStackEntries > dbg_mark_stack_peak) dbg_mark_stack_peak = ms.peakStackEntries;
+                    if (ms.markedListBytes > dbg_marked_list_max_bytes) dbg_marked_list_max_bytes = ms.markedListBytes;
+                    dbg_mark_rescans += ms.overflowRescans;
+#endif
                 }
 
                 // Phase 3 (Resume The World) already happened above —
@@ -1124,9 +1249,20 @@ namespace proto {
                 // unmarked is only read, so the mutators' shared copies of
                 // its line stay valid; a cell marked outside the segments
                 // (perennial, young, interned) is still cleared.
-                for (const Cell* m : markedList) {
-                    if (m && (reinterpret_cast<uintptr_t>(m) & 0x3F) == 0 && m->isMarked()) {
-                        const_cast<Cell*>(m)->unmark();
+                // Each entry costs a miss on the cell's header; prefetching a
+                // few entries ahead overlaps them.
+                {
+                    constexpr std::size_t kAhead = 16;
+                    const std::size_t n = markedList.size();
+                    for (std::size_t i = 0; i < n; ++i) {
+                        if (i + kAhead < n) {
+                            const Cell* ahead = markedList[i + kAhead];
+                            if ((reinterpret_cast<uintptr_t>(ahead) & 0x3F) == 0) PROTO_PREFETCH(ahead);
+                        }
+                        const Cell* m = markedList[i];
+                        if (m && (reinterpret_cast<uintptr_t>(m) & 0x3F) == 0 && m->isMarked()) {
+                            const_cast<Cell*>(m)->unmark();
+                        }
                     }
                 }
 #ifdef PROTOCORE_GC_INSTRUMENT
@@ -1232,7 +1368,8 @@ namespace proto {
                         " mut_park=%" PROTO_FMT_U "us parks=%" PROTO_FMT_U " headroom_wait=%" PROTO_FMT_U "us headroom_waits=%" PROTO_FMT_U
                         " cpu_busy=%" PROTO_FMT_U "us cpu_mark=%" PROTO_FMT_U "us cpu_sweep=%" PROTO_FMT_U "us"
                         " refill_fresh=%" PROTO_FMT_U " refill_recycled=%" PROTO_FMT_U " helper_runs=%" PROTO_FMT_U
-                        " wide_segments=%" PROTO_FMT_U " narrow_segments=%" PROTO_FMT_U "\n",
+                        " wide_segments=%" PROTO_FMT_U " narrow_segments=%" PROTO_FMT_U
+                        " mark_stack_peak=%" PROTO_FMT_U " mark_rescans=%" PROTO_FMT_U " marked_list_max_kb=%" PROTO_FMT_U "\n",
                         (proto_ulong)space->gcCycleCount.load(std::memory_order_relaxed),
                         (proto_ulong)(dbg_ns_busy / 1000), (proto_ulong)(dbg_ns_token / 1000),
                         (proto_ulong)(dbg_ns_quorum / 1000), (proto_ulong)(dbg_ns_stw / 1000),
@@ -1252,7 +1389,9 @@ namespace proto {
                         (proto_ulong)gcprof::refillRecycledCells.load(std::memory_order_relaxed),
                         (proto_ulong)sweep::poolStats().helperRuns,
                         (proto_ulong)sweep::walkStats().wideSegments,
-                        (proto_ulong)sweep::walkStats().narrowSegments);
+                        (proto_ulong)sweep::walkStats().narrowSegments,
+                        (proto_ulong)dbg_mark_stack_peak, (proto_ulong)dbg_mark_rescans,
+                        (proto_ulong)(dbg_marked_list_max_bytes / 1024));
                 }
 #endif
 
