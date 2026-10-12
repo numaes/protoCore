@@ -2233,6 +2233,16 @@ namespace proto
     }
 
     std::partial_ordering ProtoObject::partialCompare(ProtoContext* context, const ProtoObject* other) const {
+        {
+            // Two SmallIntegers: compared by value, before any type probe.
+            ProtoObjectPointer a{}, b{};
+            a.oid = this;
+            b.oid = other;
+            if (a.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && a.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
+                b.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && b.op.embedded_type == EMBEDDED_TYPE_SMALLINT) {
+                return static_cast<long long>(a.si.smallInteger) <=> static_cast<long long>(b.si.smallInteger);
+            }
+        }
         if (this->isString(context) && other->isString(context)) {
             return this->asString(context)->cmp_to_string(context, other->asString(context)) <=> 0;
         }
@@ -2254,6 +2264,18 @@ namespace proto
     }
 
     int ProtoObject::compare(ProtoContext* context, const ProtoObject* other) const {
+        {
+            // Two SmallIntegers: compared by value, before any type probe.
+            ProtoObjectPointer a{}, b{};
+            a.oid = this;
+            b.oid = other;
+            if (a.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && a.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
+                b.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && b.op.embedded_type == EMBEDDED_TYPE_SMALLINT) {
+                const long long x = a.si.smallInteger;
+                const long long y = b.si.smallInteger;
+                return (x > y) - (x < y);
+            }
+        }
         if (this->isString(context) && other->isString(context)) {
             return this->asString(context)->cmp_to_string(context, other->asString(context));
         }
