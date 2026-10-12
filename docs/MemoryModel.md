@@ -193,6 +193,14 @@ count in that space's heap.  Two spaces in one process hold two heaps at
 the same time, and each grows to its own peak independently.  The term is
 therefore a **sum over spaces**, not a maximum.
 
+A space's peak also includes what its collector holds outside the cell heap
+during a cycle ([GarbageCollector.md](GarbageCollector.md) § "Mark work
+list"): the mark stack, at most 8 MiB, and the marked list, 8 bytes per live
+cell (an eighth of the live cells' bytes) plus one 256 KiB block.  Neither
+is counted in `maxHeapSize` or in the controller's budget.  Before 2.14.6
+the mark stack was unbounded: protoST under a 640 MB cell limit reached
+1.19 GB resident, almost all of it the mark work list.
+
 This matters because each runtime in the family owns its own space:
 
 * protoST: `proto::ProtoSpace space;` as a member of `STRuntime::Impl`

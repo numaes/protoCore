@@ -204,13 +204,16 @@ While the world is stopped, the GC:
    locals, return value, pending root) and records one root handle per
    context for its young generation: the head of its young chain
    (`lastAllocatedCell`), read under the context spinlock.  The chains are
-   walked in Phase 4.
+   walked in Phase 4.  `space->mainContext` is scanned only when no
+   thread's chain went through it: the main thread's contexts are on its
+   `ProtoThread`'s chain once the main thread is adopted, and until 2.14.6
+   they were scanned twice (their roots twice in the pause, their young
+   chain walked twice in Phase 4).
 2. Adds the per-process global roots (prototypes, root object, resolution
    chain, embedder-registered `ProtoRootSet` instances).
 3. **Captures the mutable-shard snapshot** —
    `gcMutableSnapshot[s] = mutableRoot[s].root.load(acquire)` for each
-   shard — and pushes each non-null shard root onto the worklist as a
-   root.  This is the formal "snapshot at the beginning" that lets mark
+   shard — and records each non-null shard root as a root.  This is the formal "snapshot at the beginning" that lets mark
    run concurrent.
 
    The push is **unconditional** (`core/ProtoSpace.cpp:519-524`): the table
@@ -297,7 +300,7 @@ While the world is stopped, the GC:
 
 **Important.** The cells of a context's young chain are not candidates of
 the cycle and are never marked for it.  Phase 4 walks each chain captured
-in Phase 2 and adds only the objects its cells reference to the worklist.
+in Phase 2 and shades only the objects its cells reference.
 This pins the young objects while keeping them unmarked, so they can be
 reclaimed in the first cycle after their context is destroyed.  The walk
 runs while mutators allocate, over a stable view: a chain grows only by
@@ -320,18 +323,19 @@ atomic reads).  Independent of heap size, live-object count and the number
 of young cells.
 
 ### Phase 4 — Mark (concurrent with mutators)
-- **Module roots recorded by Phase 2** are pushed onto the worklist here,
+- **Module roots recorded by Phase 2** are added to the roots here,
   filtered to this space's own entries.  The walk is sound for the same four
   reasons the tuple interner's is: entries live in append-only chunks that
   never move; an entry's words are written before its count is published with
   release ordering; a module added after the capture is a young cell of the
   loading context and protected by it; and appending only ever extends past
   the captured count.
-- Walks the young chains captured in Phase 2 and, on non-fold cycles, the
-  survivor pen, pushing the references of their cells; on a fold cycle it
-  links the captured pen in front of `segmentsToProcess`.
-- Performs a depth-first traversal starting from the roots collected in
-  Phase 2.
+- Traces from three kinds of source: the roots collected in Phase 2, the
+  cells of the young chains captured there and, on non-fold cycles, the
+  cells of the survivor pen (whose references are traced; the young and pen
+  cells themselves are not marked).  On a fold cycle the captured pen is
+  linked in front of `segmentsToProcess` instead.  Each source is traced
+  depth-first as soon as it is visited — see "Mark work list" below.
 - Uses the `processReferences` virtual method on each `Cell` to discover
   reachable cells.  Every `processReferences` implementation in the
   codebase traverses only `const`-qualified Cell fields, which are immutable
@@ -341,8 +345,9 @@ of young cells.
   `Cell::next_and_flags` atomic member (bit 0).  The mark bit is
   **GC-exclusive**: workers never call `mark()` / `unmark()` /
   `isMarked()`.
-- The marker tracks visited cells in a contiguous `markedList` for
-  bulk unmark in Phase 6 (replaces the older pre-mark unmark pass).
+- The marker records every cell it marks in the marked list, for the bulk
+  unmark in Phase 6 (replaces the older pre-mark unmark pass) and the
+  overflow rescan.
 - **Snapshot discipline.**  Any GC code path that needs to dereference a
   `mutable_ref` to its current immutable value MUST consult
   `gcMutableSnapshot[shard]`, never `mutableRoot[shard].root.load()`.
@@ -350,6 +355,74 @@ of young cells.
   reaches every mutable's current value transitively through the
   snapshot's per-shard root push in Phase 2 — but the snapshot table is
   the formal API for any future mark-time mutable-resolution path.
+
+### Mark work list
+
+The mark phase keeps two structures outside the cell heap
+(`core/MarkStack.h`), both owned by the collector thread.  Until 2.14.6
+neither was bounded.
+
+**Shading.**  A cell is *shaded* when the marker reaches it: if it is not
+marked yet, it is marked, appended to the marked list and pushed on the mark
+stack, in one step (mark-on-push).  A grey cell is therefore on the stack at
+most once, and `drain()` pops grey cells and shades their references until
+the stack is empty.  Until 2.14.6 a cell was marked when it was *popped*, so
+a cell reached through N references sat on the stack N times; the marked set
+is the same either way, because only the collector thread reads or writes
+mark bits.
+
+**Each source is traced as it is visited.**  Each root is shaded and the
+stack drained; each young or pen cell is scanned (its references shaded) and
+the stack drained.  The stack therefore holds one depth-first traversal at a
+time.  Until 2.14.6 the young-chain and pen walks pushed every reference of
+every young cell before the first pop: protoST's `(1 to: 500000) asArray`
+under a 10 M-cell limit walked about 10 M young cells per cycle and pushed
+35 M entries before marking anything (a 512 MB `std::vector` after doubling,
+resident 1.19 GB under a 640 MB cell limit), and 82 % of the 51 M pops found
+the cell already marked.
+
+**The stack has a fixed capacity** (`kDefaultMarkStackEntries`, 1 M entries,
+8 MiB), allocated on the first push and reused by every cycle of the space;
+only the pages a cycle reaches are touched.  A shade that finds it full
+leaves the cell **white** and raises an overflow flag.  After the first
+pass, while the flag is up, the marker clears it, traces every source again
+and scans every cell marked before the pass began, draining after each.  A
+cell left white is referenced by a root, a young or pen cell, or a marked
+cell, so a pass that completes without overflow has shaded every reference
+of every source and marked cell with room on the stack: the marked set is
+closed.  A pass that overflows has first filled the stack with cells it
+marked itself, so each one marks at least `capacity` new cells and the
+passes end.  This is the overflow recovery of Boehm's collector and of
+HotSpot's mark stacks, with the marked list in place of a heap scan.  It
+costs a full rescan per pass, which is why the capacity is large: with
+tracing per source and mark-on-push the stack holds one traversal of
+distinct cells (19 entries on `adaptive_heap_benchmark`, 1 M live cells), so
+overflow needs a single traversal with over a million pending siblings.
+`GCMarkStack.OverflowRescanMarksTheSameLiveSet` forces it with a 16-entry
+stack and checks the marked set against a cycle with room.
+
+**The marked list** holds one pointer per marked cell, in 256 KiB blocks:
+it grows without copying, with at most one block of slack, and keeps four
+blocks (1 MiB) for the next cycle.  It is 8 bytes per live cell, an eighth
+of the live cells' own bytes, and it is not bounded: the bulk unmark and the
+overflow rescan need it.
+
+**Memory outside the cell heap during a cycle**, per space: the mark stack,
+at most 8 MiB; the marked list, at most one eighth of the live set's bytes
+plus 256 KiB; the roots vector (bounded by the program's roots).  None of
+it is counted in the cell budget (`maxHeapSize`, or the controller's H): a
+fixed limit bounds the cells, not the process, and the controller's default
+H of 75 % of the memory leaves the rest for this and for everything else
+the process holds ([MemoryModel.md](MemoryModel.md) § 3).
+
+**Each young chain is walked once.**  The heads captured in Phase 2 are
+deduplicated, and the main thread's contexts are scanned once (Phase 2,
+item 1).
+
+The instrumented build's `[GC-PHASES]` line reports `mark_stack_peak`,
+`mark_rescans` and `marked_list_max_kb`.  Since 2.14.6 its `young` field is
+the whole trace from the sources and `trace` the overflow rescans; compare
+`young + trace` across versions.
 
 ### Phase 5 — Sweep (concurrent)
 - Iterates through `segmentsToProcess` (captured atomically in Phase 2).
@@ -457,8 +530,8 @@ of young cells.
   with collector work is `ProtoObjectCell::finalize`: for a mutable
   object's handle (`mutable_ref > 0`) it appends the `mutable_ref` to
   `ProtoSpace::gcFinalizedMutableRefs`, a GC-thread-only
-  `std::vector<unsigned long>` of the same kind as `workList` and
-  `markedList`.  It does not allocate and does not touch `mutableRoot`.
+  `std::vector<unsigned long>`.  It does not allocate cells and does not
+  touch `mutableRoot`.
 
 ### Phase 5b — Release of mutables-tree entries (concurrent)
 A mutable object keeps its current state in `mutableRoot`, keyed by its
@@ -542,10 +615,11 @@ for every other cell.
   root can be freed and its address reused while a CAS is pending.
 
 ### Phase 6 — Bulk unmark
-- Walks the `markedList` from Phase 4 and clears the mark bit on every
+- Walks the marked list from Phase 4 and clears the mark bit on every
   entry that still carries it.  It tests before it writes (since 2.12.0):
   a survivor the sweep already unmarked is only read, so the mutators'
-  shared copies of its cache line stay valid.
+  shared copies of its cache line stay valid.  Each entry is one miss on a
+  cell header; since 2.14.6 the loop prefetches 16 entries ahead.
 - This restores the tricolour invariant for the next cycle without
   paying the old pre-mark unmark pass's cost.
 - Safe to run concurrent with mutators: `unmark()` is a single atomic
@@ -1336,6 +1410,17 @@ notebook-class machine:
 - **`immutable_sharing_benchmark`'s +8.5 % cycles are code layout**
   (identical instructions; op-cache/decoder switches x41; gone with every
   function aligned to 64 bytes).
+
+### After 2.14.6: a bounded mark work list
+
+The mark phase's work list became bounded (§ "Mark work list").  On the
+collector workloads mark time fell 9-33 % where the young generation is
+large or shared (protoJS `graph` and `wordfreq` at 12 threads, the CAD
+model) and stayed within the spread elsewhere; on a heap with no young
+pressure each marked cell costs about 4 % more (the header miss moved from
+the prefetched pop to the push).  Peak RSS fell on 34 of 39 rows; protoST's
+K5 reproduction went from 1,165 to 690 MB under a 640 MB cell limit.
+[reports/2026-10-12-mark-stack-int-compare.md](reports/2026-10-12-mark-stack-int-compare.md).
 
 ## Optimization Features
 

@@ -119,3 +119,14 @@ foreach(_mode alive destroyed respawn)
             ENVIRONMENT "ASAN_OPTIONS=detect_leaks=1:abort_on_error=0")
     endif()
 endforeach()
+
+# Integer operations on two SmallIntegers do not allocate (test/int_alloc/
+# main.cpp).  A separate executable, because it replaces the global operator
+# new to count allocations.  Not on Windows: a DLL resolves operator new in
+# its own C runtime, so the replacement would not see protoCore's calls.
+if(NOT WIN32)
+    add_executable(protocore_int_alloc int_alloc/main.cpp)
+    target_link_libraries(protocore_int_alloc PRIVATE protoCore)
+    add_test(NAME integer.small_operations_do_not_allocate COMMAND protocore_int_alloc)
+    set_tests_properties(integer.small_operations_do_not_allocate PROPERTIES TIMEOUT 120)
+endif()

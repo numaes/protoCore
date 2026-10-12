@@ -62,6 +62,35 @@ namespace proto
     // Integer (Static Helper Class) Implementation
     //================================================================================
 
+    // Both operands SmallIntegers: their values, exactly (|v| <= 2^53).  The
+    // operations below answer these without the TempBignum of the general
+    // path, whose std::vector allocated on every call (2.14.6).  Results that
+    // leave the SmallInteger range go through fromLong, which promotes them
+    // to a LargeInteger exactly as the general path does.
+    static inline bool smallValues(const ProtoObject* left, const ProtoObject* right,
+                                   long long& l, long long& r) {
+        ProtoObjectPointer lp{}, rp{};
+        lp.oid = left;
+        rp.oid = right;
+        if (lp.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE || lp.op.embedded_type != EMBEDDED_TYPE_SMALLINT ||
+            rp.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE || rp.op.embedded_type != EMBEDDED_TYPE_SMALLINT) {
+            return false;
+        }
+        l = lp.si.smallInteger;
+        r = rp.si.smallInteger;
+        return true;
+    }
+
+    static inline bool smallValue(const ProtoObject* object, long long& v) {
+        ProtoObjectPointer p{};
+        p.oid = object;
+        if (p.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE || p.op.embedded_type != EMBEDDED_TYPE_SMALLINT) {
+            return false;
+        }
+        v = p.si.smallInteger;
+        return true;
+    }
+
     const ProtoObject* Integer::fromLong(ProtoContext* context, long long value)
     {
         // Check if the value fits in a 54-bit SmallInteger.
@@ -200,6 +229,8 @@ namespace proto
 
     const ProtoObject* Integer::negate(ProtoContext* context, const ProtoObject* object)
     {
+        long long v;
+        if (smallValue(object, v)) return fromLong(context, -v);  // -(-2^53) promotes
         if (!isInteger(object)) throw std::runtime_error("Object is not an integer type.");
         TempBignum temp = toTempBignum(object);
         temp.is_negative = !temp.is_negative;
@@ -209,6 +240,8 @@ namespace proto
 
     const ProtoObject* Integer::abs(ProtoContext* context, const ProtoObject* object)
     {
+        long long v;
+        if (smallValue(object, v)) return v < 0 ? fromLong(context, -v) : object;
         if (!isInteger(object)) throw std::runtime_error("Object is not an integer type.");
         TempBignum temp = toTempBignum(object);
         temp.is_negative = false;
@@ -218,6 +251,8 @@ namespace proto
 
     int Integer::sign(ProtoContext* context, const ProtoObject* object)
     {
+        long long v;
+        if (smallValue(object, v)) return (v > 0) - (v < 0);
         if (!isInteger(object)) throw std::runtime_error("Object is not an integer type.");
         TempBignum temp = toTempBignum(object);
         if (temp.magnitude.empty()) return 0; // Zero
@@ -226,6 +261,18 @@ namespace proto
 
     int Integer::compare(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
+        long long sl, sr;
+        if (smallValues(left, right, sl, sr)) return (sl > sr) - (sl < sr);
+        // A SmallInteger against a LargeInteger.  A LargeInteger is always
+        // outside the SmallInteger range: fromTempBignum, its only
+        // constructor, returns a SmallInteger whenever the value fits.  So
+        // the LargeInteger's sign decides, with no temporary.
+        if (smallValue(left, sl) && isLargeInteger(right)) {
+            return toImpl<const LargeIntegerImplementation>(right)->is_negative ? 1 : -1;
+        }
+        if (smallValue(right, sr) && isLargeInteger(left)) {
+            return toImpl<const LargeIntegerImplementation>(left)->is_negative ? -1 : 1;
+        }
         if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for comparison.");
 
         TempBignum l = toTempBignum(left);
@@ -410,6 +457,12 @@ namespace proto
 
     const ProtoObject* Integer::divide(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
+        long long sl, sr;
+        if (smallValues(left, right, sl, sr)) {
+            if (sr == 0) throw std::runtime_error("Division by zero.");
+            // Truncating, as the general path; -2^53 / -1 promotes.
+            return fromLong(context, sl / sr);
+        }
         if (left->isDouble(context) || right->isDouble(context)) {
             // If either operand is a double, convert both to double and perform double division
             return context->fromDouble(left->asDouble(context) / right->asDouble(context));
@@ -433,6 +486,12 @@ namespace proto
 
     const ProtoObject* Integer::modulo(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
+        long long sl, sr;
+        if (smallValues(left, right, sl, sr)) {
+            if (sr == 0) throw std::runtime_error("Division by zero.");
+            // The remainder takes the dividend's sign, as the general path.
+            return fromLong(context, sl % sr);
+        }
         if (left->isDouble(context) || right->isDouble(context)) {
             // Modulo is typically not defined for doubles in the same way as integers.
             // For now, we'll throw an error if mixed types are passed to modulo.
