@@ -54,6 +54,16 @@ interpreter one.
 
 ## Method
 
+- **Power profile.**  Constant for every run here: TLP in battery mode
+  since boot (2026-10-11 19:03 local), governor `powersave`, EPP
+  `balance_power` on all 12 CPUs.  The machine (ASUS MINIPC PN51-S1, a
+  mini PC) has no battery: TLP's only power-supply node is a USB-C port
+  reported offline (`ucsi-source-psy-USBC000:001`, unchanged since boot),
+  which it takes for battery operation.  Interleaved before/after
+  comparisons are valid; absolute times, and multi-threaded ones above
+  all, should not be compared with reports measured in TLP's AC mode
+  (protoST's demo 2 twelve-actor half is about 245 ms there against
+  270-360 ms in this mode, per the protoST talk agent).
 - **Builds.**  Each runtime at its current default-branch commit
   (protoPython `e1c88f73`, protoJS `a57b2c688`, protoScala `dc8d4917`,
   protoClojure `359d8f6`), built twice the same way (GCC 15.2, Release,

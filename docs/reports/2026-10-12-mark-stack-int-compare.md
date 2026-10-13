@@ -155,6 +155,17 @@ Harness: [data/2026-10-12-mark-stack-int-compare/](data/2026-10-12-mark-stack-in
 (`spec.py` the specific runs, `fm.py`/`tab.py` the 2026-10-04 harness with
 the sides changed, `run_all.sh` the order, `results/` the records).
 
+**Power profile.**  Constant for every run here: TLP in battery mode
+since boot (2026-10-11 19:03 local), governor `powersave`, EPP
+`balance_power` on all 12 CPUs.  The machine (ASUS MINIPC PN51-S1, a
+mini PC) has no battery: TLP's only power-supply node is a USB-C port
+reported offline (`ucsi-source-psy-USBC000:001`, unchanged since boot),
+which it takes for battery operation.  Interleaved before/after
+comparisons are valid; absolute times, and multi-threaded ones above
+all, should not be compared with reports measured in TLP's AC mode
+(protoST's demo 2 twelve-actor half is about 245 ms there against
+270-360 ms in this mode, per the protoST talk agent).
+
 ### 3.1 The two findings (medians of 5; demo 2 of 10)
 
 | Workload | Metric | 2.14.5 | 2.14.6 | Change |
@@ -180,8 +191,9 @@ the sides changed, `run_all.sh` the order, `results/` the records).
 protoCore's public API, so its gain is the upper bound of (b) for that
 program; demo 2 itself spends most of its time in the interpreter.  Its
 twelve-actor half on this desktop (a browser and an editor running) is
-noisy (291-422 ms after, 385-521 before); the absolute figures are lower
-than the 4.45x of protoST's own quiet-session report.  **The ratio demo 2
+noisy (291-422 ms after, 385-521 before); the ratios are lower than the
+4.45x of protoST's own quiet-session report, as expected under TLP's
+battery profile (see "Power profile" above).  **The ratio demo 2
 prints falls with 2.14.6**: a faster single thread is the denominator's
 gain, not a loss of parallelism.
 
