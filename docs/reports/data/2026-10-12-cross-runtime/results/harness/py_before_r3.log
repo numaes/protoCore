@@ -54,23 +54,23 @@ Columns:
 
 | Benchmark              | CPython-t (ms, base) | CPython (ms) | cp/cpt | protopy (ms) | py/cpt | protopyc (ms) | pc/cpt |
 |------------------------|---------------------:|-------------:|-------:|-------------:|-------:|--------------:|-------:|
-| startup_empty          |    23.89 |    32.02 |  1.34x |    22.71 |  0.95x |    N/A   |   N/A  |
-| int_sum_loop           |   529.49 |   525.58 |  0.99x |   521.17 |  0.98x |   314.63 |  0.59x |
-| list_append_loop       |    25.73 |    34.83 |  1.35x |   161.98 |  6.29x |   178.09 |  6.92x |
-| str_concat_loop        |    22.65 |    33.04 |  1.46x |   135.17 |  5.97x |   212.34 |  9.38x |
-| range_iterate          |   362.16 |   448.27 |  1.24x |   620.31 |  1.71x |   355.59 |  0.98x |
-| multithread_cpu        |   195.29 |   626.99 |  3.21x |   130.70 |  0.67x |    53.18 |  0.27x |
-| attr_lookup            |   363.36 |   560.87 |  1.54x |  2251.41 |  6.20x |  1120.99 |  3.09x |
-| call_recursion         |    32.87 |    43.80 |  1.33x |   199.45 |  6.07x |   162.85 |  4.95x |
-| memory_pressure [INFO] |    55.97 |    60.05 |  1.07x |  1620.13 | 28.95x |  1937.84 | 34.62x |
-| pyperf_fib             |    98.66 |   121.31 |  1.23x |   449.75 |  4.56x |    N/A   |   N/A  |
-| pyperf_binary_trees    |    36.95 |    51.46 |  1.39x |   582.59 | 15.77x |    N/A   |   N/A  |
-| pyperf_nqueens         |    55.96 |    60.55 |  1.08x |   127.34 |  2.28x |    N/A   |   N/A  |
-| pyperf_richards_lite   |    27.41 |    37.92 |  1.38x |    44.74 |  1.63x |    N/A   |   N/A  |
-| pyperf_sieve           |    29.42 |    38.70 |  1.32x |   108.51 |  3.69x |    N/A   |   N/A  |
+| startup_empty          |    21.32 |    28.87 |  1.35x |    19.67 |  0.92x |    N/A   |   N/A  |
+| int_sum_loop           |   433.26 |   476.55 |  1.10x |   461.55 |  1.07x |   276.17 |  0.64x |
+| list_append_loop       |    22.87 |    30.05 |  1.31x |   132.34 |  5.79x |   153.95 |  6.73x |
+| str_concat_loop        |    21.67 |    29.20 |  1.35x |   119.20 |  5.50x |   183.98 |  8.49x |
+| range_iterate          |   273.29 |   371.26 |  1.36x |   506.70 |  1.85x |   297.34 |  1.09x |
+| multithread_cpu        |   151.08 |   576.40 |  3.82x |   113.58 |  0.75x |    50.97 |  0.34x |
+| attr_lookup            |   319.07 |   491.79 |  1.54x |  2016.88 |  6.32x |  1014.89 |  3.18x |
+| call_recursion         |    30.60 |    40.19 |  1.31x |   175.80 |  5.74x |   144.44 |  4.72x |
+| memory_pressure [INFO] |    46.35 |    55.71 |  1.20x |  1458.00 | 31.45x |  1675.09 | 36.14x |
+| pyperf_fib             |    78.76 |    94.25 |  1.20x |   381.53 |  4.84x |    N/A   |   N/A  |
+| pyperf_binary_trees    |    32.29 |    40.74 |  1.26x |   535.28 | 16.58x |    N/A   |   N/A  |
+| pyperf_nqueens         |    45.69 |    51.35 |  1.12x |   113.38 |  2.48x |    N/A   |   N/A  |
+| pyperf_richards_lite   |    23.00 |    31.43 |  1.37x |    40.64 |  1.77x |    N/A   |   N/A  |
+| pyperf_sieve           |    24.45 |    31.88 |  1.30x |    88.35 |  3.61x |    N/A   |   N/A  |
 
 ## Geomeans (memory_pressure excluded) — baseline is CPython-t (no GIL)
-* CPython (GIL on) / CPython-t: **1.39x** — <1.0 means GIL build is faster single-thread (the lock-cost saving)
-* protopy / CPython-t: **2.98x**
-* protopyc / CPython-t: **2.06x**
+* CPython (GIL on) / CPython-t: **1.41x** — <1.0 means GIL build is faster single-thread (the lock-cost saving)
+* protopy / CPython-t: **3.05x**
+* protopyc / CPython-t: **2.13x**
 

@@ -1,9 +1,9 @@
 # protoScala benchmarks — 2026-10-12
 
-- **Date:** 2026-10-12 18:50
+- **Date:** 2026-10-12 21:59
 - **Machine:** AMD Ryzen 5 5500U with Radeon Graphics — 6 cores, 12 logical CPUs; Linux 7.0.0-38-generic (x86_64)
-- **protoScala:** commit `dc8d4917`; `build_release/protoscala` is Release; no `build_bench` Release build
-- **Load average (1/5/15 min):** 2.61 / 2.87 / 3.63 at start, 4.28 / 3.33 / 3.74 at midpoint, 3.64 / 3.26 / 3.70 at end
+- **protoScala:** commit `a60493af`; `build_release/protoscala` is Release; no `build_bench` Release build
+- **Load average (1/5/15 min):** 3.06 / 3.04 / 9.63 at start, 3.69 / 3.30 / 9.34 at midpoint, 2.83 / 3.13 / 9.09 at end
 - **Method:** 2 warmup + 5 timed runs per cell, interleaved across runtimes (round-robin: one sample of each runtime, then the next, so ambient load hits every column alike); median wall-clock of a cold process (start-up included), spread reported as `[min-max]` beside every median. This machine is a daily-driver desktop (VS Code, Chrome and PyCharm run throughout) and this runner gates on nothing: the load averages above are context, not a quietness claim; a claim that the host was quiet has to come from an `mpstat -P ALL` idle reading taken immediately before the run and recorded in the report that cites it. Ratios to CPython are the primary result, absolute milliseconds are indicative only. Every run's printed result is verified; a wrong result, non-zero exit or timeout marks the cell FAILED and it is excluded from every aggregate.
 
 ### Runtimes
@@ -20,19 +20,19 @@ Median wall-clock in milliseconds per cold process. `—`: the runtime has no tw
 
 | Workload | protoScala (ms, median [min-max]) | Scala (JVM) (ms, median [min-max]) | CPython (ms, median [min-max]) | protoScala ÷ CPython |
 |---|---:|---:|---:|---:|
-| `int_sum_loop` | 30.3 [29.0-31.3] | 189.7 [171.6-204.1] | 36.3 [34.2-36.5] | 0.83× |
-| `fib` | 64.1 [62.7-68.4] | 194.1 [175.6-202.2] | 42.2 [40.5-46.6] | 1.52× |
-| `str_concat` | 28.3 [26.5-30.1] | 175.4 [170.8-220.7] | 29.4 [28.8-29.9] | 0.97× |
-| `range_iterate` | 31.0 [30.5-33.6] | 181.4 [171.3-191.6] | 33.8 [33.7-39.1] | 0.92× |
-| `tak` | 33.7 [33.0-35.5] | 188.4 [183.9-209.3] | 33.1 [31.6-35.9] | 1.02× |
-| `fib30` | 500.5 [492.8-519.3] | 189.9 [188.0-226.0] | 164.7 [159.0-176.1] | 3.04× |
-| `sum_loop` | 80.0 [77.9-86.0] | 182.6 [174.0-191.5] | 87.5 [83.3-101.4] | 0.91× |
-| `factorial_100` | 26.0 [23.8-27.8] | 188.0 [177.1-198.4] | 29.7 [29.0-31.1] | 0.88× |
-| `attr_lookup` | 46.3 [43.8-47.7] | 196.7 [177.5-198.5] | 41.0 [38.4-42.1] | 1.13× |
-| `object_tree` | 338.1 [331.8-354.7] | 198.2 [189.9-217.9] | 185.2 [177.9-189.3] | 1.83× |
-| `list_ops` | 463.4 [453.4-468.4] | FAILED | 1776.4 [1728.2-1878.0] | 0.26× |
-| `map_build` | 309.9 [302.7-321.0] | 317.2 [303.3-344.3] | 67.8 [67.8-71.1] | 4.57× |
-| **Geomean vs CPython** | 1.17× (12) | 3.66× (11) | 1.00× | **1.17×** |
+| `int_sum_loop` | 30.0 [28.2-30.2] | 164.3 [160.1-174.8] | 32.1 [31.6-33.1] | 0.93× |
+| `fib` | 60.3 [59.8-64.2] | 163.7 [161.2-174.9] | 40.2 [38.8-43.1] | 1.50× |
+| `str_concat` | 26.8 [25.9-37.5] | 172.9 [167.0-197.8] | 28.3 [27.4-28.5] | 0.95× |
+| `range_iterate` | 30.0 [29.0-30.7] | 166.5 [159.8-181.2] | 31.8 [31.3-32.7] | 0.94× |
+| `tak` | 33.4 [32.3-34.0] | 182.8 [160.6-191.6] | 31.8 [30.6-33.5] | 1.05× |
+| `fib30` | 463.8 [457.1-485.1] | 174.2 [162.5-185.3] | 151.5 [150.1-155.5] | 3.06× |
+| `sum_loop` | 75.0 [73.9-81.1] | 176.8 [165.6-189.2] | 82.6 [81.9-85.8] | 0.91× |
+| `factorial_100` | 25.5 [23.7-26.4] | 168.9 [163.2-171.1] | 28.3 [27.8-29.7] | 0.90× |
+| `attr_lookup` | 44.8 [42.7-46.1] | 172.5 [165.8-187.5] | 38.7 [37.4-41.2] | 1.16× |
+| `object_tree` | 332.7 [325.7-338.0] | 183.8 [181.1-202.1] | 176.9 [173.1-181.8] | 1.88× |
+| `list_ops` | 445.1 [439.1-456.6] | FAILED | 1608.5 [1607.1-1645.6] | 0.28× |
+| `map_build` | 290.2 [284.9-295.8] | 300.0 [281.1-309.7] | 65.4 [64.1-72.8] | 4.44× |
+| **Geomean vs CPython** | 1.20× (12) | 3.57× (11) | 1.00× | **1.20×** |
 
 ### FAILED cells
 
@@ -61,18 +61,18 @@ Median wall-clock in milliseconds per cold process. `—`: the runtime has no tw
 
 | Workload | scalac (s) | Status |
 |---|---:|---|
-| `int_sum_loop` | 3.1 | OK |
-| `fib` | 3.1 | OK |
-| `str_concat` | 3.3 | OK |
-| `range_iterate` | 3.3 | OK |
-| `tak` | 3.2 | OK |
-| `fib30` | 3.3 | OK |
-| `sum_loop` | 3.5 | OK |
-| `factorial_100` | 3.3 | OK |
-| `attr_lookup` | 3.3 | OK |
-| `object_tree` | 4.0 | OK |
-| `list_ops` | 3.8 | OK |
-| `map_build` | 3.7 | OK |
+| `int_sum_loop` | 3.2 | OK |
+| `fib` | 2.8 | OK |
+| `str_concat` | 3.0 | OK |
+| `range_iterate` | 3.0 | OK |
+| `tak` | 2.8 | OK |
+| `fib30` | 2.8 | OK |
+| `sum_loop` | 2.9 | OK |
+| `factorial_100` | 2.9 | OK |
+| `attr_lookup` | 3.0 | OK |
+| `object_tree` | 3.6 | OK |
+| `list_ops` | 3.5 | OK |
+| `map_build` | 3.5 | OK |
 
 ## Cold start
 
@@ -80,8 +80,8 @@ Median wall-clock in milliseconds per cold process. `—`: the runtime has no tw
 
 | Build | Case | Runs | Verified | Median (ms) | Spread [min-max] (ms) | Verdict |
 |---|---|---:|---:|---:|---:|---|
-| protoScala (Release) | script | 21 | 21 | 32.33 | [30.11-41.41] | MISSED |
-| protoScala (Release) | repl | 21 | 21 | 31.43 | [29.23-42.90] | MISSED |
+| protoScala (Release) | script | 21 | 21 | 31.08 | [30.11-32.81] | MISSED |
+| protoScala (Release) | repl | 21 | 21 | 31.16 | [29.89-43.81] | MISSED |
 
 ## Pending workloads
 

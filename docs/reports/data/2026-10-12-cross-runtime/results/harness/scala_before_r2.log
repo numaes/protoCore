@@ -1,6 +1,6 @@
-protoScala benchmark harness  --  2026-10-12 18:55
+protoScala benchmark harness  --  2026-10-12 22:03
   host:       AMD Ryzen 5 5500U with Radeon Graphics  (6 cores, 12 logical CPUs)
-  protoscala: $WS/protoScala/build_cmp2145/protoscala  [Release, dc8d4917]
+  protoscala: $WS/protoScala/build_cmp2145/protoscala  [Release, a60493af]
   release:    (build_bench not built -- column skipped)
   scala JVM:  $WS/tools/scala3-dl/scala3-3.9.0-x86_64-pc-linux
   cpython:    /usr/local/bin/python3.14
@@ -9,44 +9,44 @@ protoScala benchmark harness  --  2026-10-12 18:55
   protoclj:   (not found -- column skipped)
   runs:       2 warmup + 5 timed, median, interleaved, every run verified
 
-  load average at start: 2.40 / 2.80 / 3.45
+  load average at start: 1.71 / 2.56 / 7.98
 
 == Compiling the JVM twins with scalac (untimed) ==
-  int_sum_loop        3.7 s  OK
-  fib                 4.0 s  OK
-  str_concat          3.5 s  OK
-  range_iterate       3.2 s  OK
-  tak                 3.4 s  OK
-  fib30               3.2 s  OK
-  sum_loop            3.6 s  OK
-  factorial_100       3.8 s  OK
-  attr_lookup         3.7 s  OK
-  object_tree         4.4 s  OK
-  list_ops            4.2 s  OK
-  map_build           4.3 s  OK
+  int_sum_loop        3.0 s  OK
+  fib                 2.8 s  OK
+  str_concat          3.2 s  OK
+  range_iterate       3.0 s  OK
+  tak                 2.8 s  OK
+  fib30               2.8 s  OK
+  sum_loop            3.0 s  OK
+  factorial_100       3.1 s  OK
+  attr_lookup         3.0 s  OK
+  object_tree         3.6 s  OK
+  list_ops            3.5 s  OK
+  map_build           3.4 s  OK
 
 == Comparable workloads ==
-  int_sum_loop     protoscala=33.5 jvm=214.0 cpython=38.7
-  fib              protoscala=68.0 jvm=218.4 cpython=54.6
-  str_concat       protoscala=29.7 jvm=223.2 cpython=33.3
-  range_iterate    protoscala=33.3 jvm=196.8 cpython=38.3
-  tak              protoscala=36.2 jvm=202.8 cpython=36.1
-  fib30            protoscala=552.4 jvm=207.6 cpython=186.2
-  sum_loop         protoscala=86.7 jvm=200.8 cpython=92.5
-  [load average at midpoint: 3.56 / 3.13 / 3.52]
-  factorial_100    protoscala=27.6 jvm=203.5 cpython=32.4
-  attr_lookup      protoscala=48.8 jvm=203.1 cpython=42.7
-  object_tree      protoscala=408.8 jvm=226.7 cpython=203.1
-  list_ops         protoscala=545.5 jvm=FAILED cpython=1880.4
-  map_build        protoscala=330.1 jvm=353.5 cpython=73.0
+  int_sum_loop     protoscala=29.6 jvm=170.7 cpython=32.6
+  fib              protoscala=62.8 jvm=170.7 cpython=39.3
+  str_concat       protoscala=26.7 jvm=180.3 cpython=29.6
+  range_iterate    protoscala=29.8 jvm=165.3 cpython=31.6
+  tak              protoscala=32.7 jvm=180.2 cpython=31.4
+  fib30            protoscala=476.8 jvm=171.6 cpython=154.6
+  sum_loop         protoscala=75.9 jvm=177.4 cpython=87.5
+  [load average at midpoint: 2.51 / 2.65 / 7.70]
+  factorial_100    protoscala=24.0 jvm=168.3 cpython=27.9
+  attr_lookup      protoscala=44.2 jvm=168.6 cpython=38.1
+  object_tree      protoscala=363.0 jvm=180.5 cpython=173.4
+  list_ops         protoscala=489.1 jvm=FAILED cpython=1677.7
+  map_build        protoscala=288.4 jvm=289.1 cpython=64.2
 
 == Cold start (benchmarks/cold-start.sh, 21 runs) ==
-  protoScala           script  median 31.87 ms [30.30-35.04] (21/21 verified)
-  protoScala           repl    median 31.88 ms [30.26-44.14] (21/21 verified)
-  protoScala           script: FAIL: median 31.87 ms is not below 25 ms
-  protoScala           repl: FAIL: median 31.88 ms is not below 25 ms
+  protoScala           script  median 31.14 ms [29.43-33.83] (21/21 verified)
+  protoScala           repl    median 30.89 ms [29.26-32.79] (21/21 verified)
+  protoScala           script: FAIL: median 31.14 ms is not below 25 ms
+  protoScala           repl: FAIL: median 30.89 ms is not below 25 ms
 
-  load average at end: 3.79 / 3.24 / 3.54
+  load average at end: 2.14 / 2.56 / 7.51
 
-Report written: $WS/.agent_scratch/markfix-oct12/xrt/scala_before_r2.md
+Report written: $WS/.agent_scratch/markfix-oct12/xrt2/scala_before_r2.md
 1 FAILED cell(s): list_ops/jvm

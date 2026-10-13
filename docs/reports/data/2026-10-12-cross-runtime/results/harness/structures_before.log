@@ -1,0 +1,115 @@
+records  node    seq N=1  median      10 ms  build    43 ms  rss    68 MB
+records  node    par N=1  median     143 ms  build    41 ms  rss   153 MB  post 47 clone 130 compute 15
+records  protojs seq N=1  median    1350 ms  build  1200 ms  rss  2219 MB  gc 0
+records  protojs par N=1  median    1552 ms  build  1188 ms  rss   569 MB  gc 5
+records  node    seq N=2  median      17 ms  build    42 ms  rss    78 MB
+records  node    par N=2  median     196 ms  build    44 ms  rss   240 MB  post 94 clone 141 compute 15
+records  protojs seq N=2  median    2636 ms  build  1210 ms  rss  2536 MB  gc 1
+records  protojs par N=2  median    1790 ms  build  1244 ms  rss   551 MB  gc 15
+records  node    seq N=4  median      31 ms  build    40 ms  rss    78 MB
+records  node    par N=4  median     292 ms  build    40 ms  rss   407 MB  post 193 clone 148 compute 19
+records  protojs seq N=4  median    5147 ms  build  1221 ms  rss  2575 MB  gc 4
+records  protojs par N=4  median    1899 ms  build  1238 ms  rss  1097 MB  gc 14
+records  node    seq N=6  median      41 ms  build    43 ms  rss    78 MB
+records  node    par N=6  median     398 ms  build    43 ms  rss   569 MB  post 293 clone 154 compute 19
+records  protojs seq N=6  median    8098 ms  build  1236 ms  rss  2575 MB  gc 6
+records  protojs par N=6  median    2473 ms  build  1227 ms  rss  2562 MB  gc 10
+records  node    seq N=12 median      83 ms  build    43 ms  rss    78 MB
+records  node    par N=12 median     764 ms  build    41 ms  rss  1051 MB  post 654 clone 185 compute 24
+records  protojs seq N=12 median   17612 ms  build  1241 ms  rss  2575 MB  gc 14
+records  protojs par N=12 median    6886 ms  build  1216 ms  rss  1429 MB  gc 32
+
+Tables: python3 tabulate.py $WS/.agent_scratch/markfix-oct12/xrt2/structures_before.jsonl
+rc=0
+join     node    seq N=1  median      23 ms  build    16 ms  rss    59 MB
+join     node    par N=1  median      74 ms  build    16 ms  rss    87 MB  post 15 clone 49 compute 27
+join     protojs seq N=1  median    1379 ms  build   477 ms  rss  1475 MB  gc 0
+join     protojs par N=1  median    1390 ms  build   485 ms  rss   503 MB  gc 7
+join     node    seq N=2  median      58 ms  build    15 ms  rss    66 MB
+join     node    par N=2  median      94 ms  build    15 ms  rss   125 MB  post 31 clone 51 compute 32
+join     protojs seq N=2  median    2773 ms  build   467 ms  rss  2552 MB  gc 1
+join     protojs par N=2  median    1476 ms  build   477 ms  rss   835 MB  gc 7
+join     node    seq N=4  median      70 ms  build    17 ms  rss    76 MB
+join     node    par N=4  median     146 ms  build    15 ms  rss   216 MB  post 71 clone 68 compute 41
+join     protojs seq N=4  median    5507 ms  build   464 ms  rss  2583 MB  gc 2
+join     protojs par N=4  median    1875 ms  build   463 ms  rss  1835 MB  gc 12
+join     node    seq N=6  median      91 ms  build    16 ms  rss    81 MB
+join     node    par N=6  median     192 ms  build    16 ms  rss   312 MB  post 123 clone 68 compute 36
+join     protojs seq N=6  median    8134 ms  build   479 ms  rss  2583 MB  gc 3
+join     protojs par N=6  median    2239 ms  build   468 ms  rss  2268 MB  gc 12
+join     node    seq N=12 median     182 ms  build    17 ms  rss    94 MB
+join     node    par N=12 median     300 ms  build    16 ms  rss   560 MB  post 230 clone 76 compute 47
+join     protojs seq N=12 median   17081 ms  build   474 ms  rss  2612 MB  gc 8
+join     protojs par N=12 median    7208 ms  build   469 ms  rss  2877 MB  gc 18
+
+Tables: python3 tabulate.py $WS/.agent_scratch/markfix-oct12/xrt2/structures_before.jsonl
+rc=0
+doctree  node    seq N=1  median      14 ms  build    18 ms  rss    57 MB
+doctree  node    par N=1  median      38 ms  build    20 ms  rss    75 MB  post 8 clone 19 compute 19
+doctree  protojs seq N=1  median    1120 ms  build   665 ms  rss  1063 MB  gc 0
+doctree  protojs par N=1  median    1196 ms  build   677 ms  rss   268 MB  gc 12
+doctree  node    seq N=2  median      12 ms  build    19 ms  rss    57 MB
+doctree  node    par N=2  median      51 ms  build    17 ms  rss   114 MB  post 13 clone 19 compute 24
+doctree  protojs seq N=2  median    2315 ms  build   683 ms  rss  2047 MB  gc 0
+doctree  protojs par N=2  median    1328 ms  build   656 ms  rss   524 MB  gc 15
+doctree  node    seq N=4  median      25 ms  build    19 ms  rss    73 MB
+doctree  node    par N=4  median      73 ms  build    17 ms  rss   181 MB  post 25 clone 21 compute 31
+doctree  protojs seq N=4  median    4434 ms  build   673 ms  rss  2543 MB  gc 1
+doctree  protojs par N=4  median    1499 ms  build   684 ms  rss  1186 MB  gc 12
+doctree  node    seq N=6  median      34 ms  build    18 ms  rss    71 MB
+doctree  node    par N=6  median      93 ms  build    17 ms  rss   251 MB  post 44 clone 23 compute 34
+doctree  protojs seq N=6  median    6769 ms  build   682 ms  rss  2575 MB  gc 3
+doctree  protojs par N=6  median    1987 ms  build   672 ms  rss  2189 MB  gc 11
+doctree  node    seq N=12 median      62 ms  build    39 ms  rss    72 MB
+doctree  node    par N=12 median     156 ms  build    18 ms  rss   440 MB  post 107 clone 38 compute 38
+doctree  protojs seq N=12 median   14366 ms  build   726 ms  rss  2639 MB  gc 8
+doctree  protojs par N=12 median    4998 ms  build   670 ms  rss  2664 MB  gc 14
+
+Tables: python3 tabulate.py $WS/.agent_scratch/markfix-oct12/xrt2/structures_before.jsonl
+rc=0
+wordfreq node    seq N=1  median      15 ms  build    17 ms  rss    40 MB
+wordfreq node    par N=1  median      17 ms  build    17 ms  rss    54 MB  post 1 clone 1 compute 15
+wordfreq protojs seq N=1  median     948 ms  build   933 ms  rss  1124 MB  gc 0
+wordfreq protojs par N=1  median     882 ms  build   864 ms  rss   239 MB  gc 7
+wordfreq node    seq N=2  median      33 ms  build    17 ms  rss    40 MB
+wordfreq node    par N=2  median      20 ms  build    17 ms  rss    76 MB  post 1 clone 1 compute 18
+wordfreq protojs seq N=2  median    1872 ms  build   881 ms  rss  2072 MB  gc 0
+wordfreq protojs par N=2  median    1107 ms  build   898 ms  rss   282 MB  gc 14
+wordfreq node    seq N=4  median      59 ms  build    17 ms  rss    47 MB
+wordfreq node    par N=4  median      26 ms  build    18 ms  rss   115 MB  post 2 clone 1 compute 23
+wordfreq protojs seq N=4  median    3689 ms  build   886 ms  rss  2502 MB  gc 1
+wordfreq protojs par N=4  median    1248 ms  build   890 ms  rss  1671 MB  gc 10
+wordfreq node    seq N=6  median      93 ms  build    18 ms  rss    52 MB
+wordfreq node    par N=6  median      33 ms  build    16 ms  rss   153 MB  post 3 clone 2 compute 29
+wordfreq protojs seq N=6  median    5376 ms  build   899 ms  rss  2532 MB  gc 2
+wordfreq protojs par N=6  median    1532 ms  build   886 ms  rss  1055 MB  gc 18
+wordfreq node    seq N=12 median     183 ms  build    18 ms  rss    55 MB
+wordfreq node    par N=12 median      40 ms  build    18 ms  rss   269 MB  post 6 clone 3 compute 35
+wordfreq protojs seq N=12 median   11152 ms  build   908 ms  rss  2547 MB  gc 6
+wordfreq protojs par N=12 median    3901 ms  build   925 ms  rss  2729 MB  gc 15
+
+Tables: python3 tabulate.py $WS/.agent_scratch/markfix-oct12/xrt2/structures_before.jsonl
+rc=0
+graph    node    seq N=1  median      16 ms  build    21 ms  rss    51 MB
+graph    node    par N=1  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=1  median    1859 ms  build   366 ms  rss  2488 MB  gc 1
+graph    protojs par N=1  median    1947 ms  build   372 ms  rss  1680 MB  gc 9
+graph    node    seq N=2  median      26 ms  build    23 ms  rss    55 MB
+graph    node    par N=2  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=2  median    3935 ms  build   381 ms  rss  2520 MB  gc 2
+graph    protojs par N=2  median    2451 ms  build   364 ms  rss   600 MB  gc 21
+graph    node    seq N=4  median      46 ms  build    22 ms  rss    57 MB
+graph    node    par N=4  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=4  median    7751 ms  build   377 ms  rss  2520 MB  gc 5
+graph    protojs par N=4  median    2908 ms  build   375 ms  rss  1732 MB  gc 16
+graph    node    seq N=6  median      62 ms  build    22 ms  rss    56 MB
+graph    node    par N=6  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=6  median   11632 ms  build   382 ms  rss  2520 MB  gc 8
+graph    protojs par N=6  median    4173 ms  build   366 ms  rss  2654 MB  gc 15
+graph    node    seq N=12 median     149 ms  build    23 ms  rss    58 MB
+graph    node    par N=12 did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=12 median   25998 ms  build   388 ms  rss  2533 MB  gc 19
+graph    protojs par N=12 median   11982 ms  build   370 ms  rss  2836 MB  gc 27
+
+Tables: python3 tabulate.py $WS/.agent_scratch/markfix-oct12/xrt2/structures_before.jsonl
+rc=0

@@ -1,6 +1,6 @@
-protoScala benchmark harness  --  2026-10-12 18:46
+protoScala benchmark harness  --  2026-10-12 21:55
   host:       AMD Ryzen 5 5500U with Radeon Graphics  (6 cores, 12 logical CPUs)
-  protoscala: $WS/protoScala/build_cmp2145/protoscala  [Release, dc8d4917]
+  protoscala: $WS/protoScala/build_cmp2145/protoscala  [Release, a60493af]
   release:    (build_bench not built -- column skipped)
   scala JVM:  $WS/tools/scala3-dl/scala3-3.9.0-x86_64-pc-linux
   cpython:    /usr/local/bin/python3.14
@@ -9,44 +9,44 @@ protoScala benchmark harness  --  2026-10-12 18:46
   protoclj:   (not found -- column skipped)
   runs:       2 warmup + 5 timed, median, interleaved, every run verified
 
-  load average at start: 2.55 / 3.54 / 4.03
+  load average at start: 1.35 / 2.38 / 11.41
 
 == Compiling the JVM twins with scalac (untimed) ==
   int_sum_loop        3.3 s  OK
-  fib                 3.0 s  OK
-  str_concat          3.3 s  OK
-  range_iterate       3.2 s  OK
-  tak                 3.2 s  OK
-  fib30               3.2 s  OK
-  sum_loop            3.3 s  OK
-  factorial_100       3.2 s  OK
-  attr_lookup         3.3 s  OK
-  object_tree         4.2 s  OK
-  list_ops            3.7 s  OK
+  fib                 2.9 s  OK
+  str_concat          2.9 s  OK
+  range_iterate       3.0 s  OK
+  tak                 2.8 s  OK
+  fib30               2.9 s  OK
+  sum_loop            3.1 s  OK
+  factorial_100       3.1 s  OK
+  attr_lookup         3.1 s  OK
+  object_tree         3.8 s  OK
+  list_ops            4.7 s  OK
   map_build           3.8 s  OK
 
 == Comparable workloads ==
-  int_sum_loop     protoscala=30.5 jvm=184.9 cpython=35.3
-  fib              protoscala=65.0 jvm=184.1 cpython=43.3
-  str_concat       protoscala=28.2 jvm=193.5 cpython=31.2
-  range_iterate    protoscala=31.3 jvm=185.6 cpython=34.4
-  tak              protoscala=34.4 jvm=183.7 cpython=33.2
-  fib30            protoscala=509.7 jvm=180.1 cpython=164.9
-  sum_loop         protoscala=82.8 jvm=189.1 cpython=89.1
-  [load average at midpoint: 3.05 / 3.51 / 3.99]
-  factorial_100    protoscala=25.1 jvm=179.3 cpython=30.1
-  attr_lookup      protoscala=46.4 jvm=187.8 cpython=40.6
-  object_tree      protoscala=380.0 jvm=189.5 cpython=183.7
-  list_ops         protoscala=514.8 jvm=FAILED cpython=1739.8
-  map_build        protoscala=298.9 jvm=325.3 cpython=70.4
+  int_sum_loop     protoscala=32.2 jvm=193.2 cpython=36.7
+  fib              protoscala=64.3 jvm=182.5 cpython=44.8
+  str_concat       protoscala=28.4 jvm=183.4 cpython=31.8
+  range_iterate    protoscala=31.1 jvm=185.4 cpython=34.7
+  tak              protoscala=33.2 jvm=174.5 cpython=31.7
+  fib30            protoscala=493.8 jvm=184.9 cpython=152.3
+  sum_loop         protoscala=75.8 jvm=176.9 cpython=82.3
+  [load average at midpoint: 3.22 / 2.75 / 11.01]
+  factorial_100    protoscala=24.1 jvm=166.0 cpython=28.3
+  attr_lookup      protoscala=44.7 jvm=174.9 cpython=38.2
+  object_tree      protoscala=365.8 jvm=185.6 cpython=181.5
+  list_ops         protoscala=499.4 jvm=FAILED cpython=1652.4
+  map_build        protoscala=290.1 jvm=294.0 cpython=63.9
 
 == Cold start (benchmarks/cold-start.sh, 21 runs) ==
-  protoScala           script  median 31.39 ms [29.15-33.40] (21/21 verified)
-  protoScala           repl    median 31.02 ms [29.48-35.52] (21/21 verified)
-  protoScala           script: FAIL: median 31.39 ms is not below 25 ms
-  protoScala           repl: FAIL: median 31.02 ms is not below 25 ms
+  protoScala           script  median 30.97 ms [29.35-33.06] (21/21 verified)
+  protoScala           repl    median 30.83 ms [29.60-32.02] (21/21 verified)
+  protoScala           script: FAIL: median 30.97 ms is not below 25 ms
+  protoScala           repl: FAIL: median 30.83 ms is not below 25 ms
 
-  load average at end: 2.43 / 3.32 / 3.91
+  load average at end: 2.73 / 2.68 / 10.73
 
-Report written: $WS/.agent_scratch/markfix-oct12/xrt/scala_before_r1.md
+Report written: $WS/.agent_scratch/markfix-oct12/xrt2/scala_before_r1.md
 1 FAILED cell(s): list_ops/jvm
