@@ -25,8 +25,9 @@ Machine, power profile and toolchain as in
   and protoJS unchanged.
 - **The runtimes' write cost is not the context's.**  In the write probes
   of the 2026-10-18 report, protoPython, protoJS and protoST create no
-  context per write; their 2,500-2,900 cycles per write are elsewhere
-  (not yet profiled).  protoScala's case-class `copy` (four contexts with
+  context per write.  Dead work in the runtimes was a large part of it:
+  protoPython's `STORE_ATTR` MRO walk (write probe -39 % without it),
+  protoJS's UTF-8 key copy (-11 %) (section 5).  protoScala's case-class `copy` (four contexts with
   0-7 slots each) gains only 2 %.
 
 ## 1. Slots per context
@@ -113,6 +114,42 @@ From the counts and the profiles, in the order they would pay:
 - protoClojure still interns the global's name on every `PUSH_VAR`
   (`createSymbol` + `strlen` + `materialise`, about 6 % of `fib`); fixed on
   the protoClojure branch `perf/intern-global-symbols-at-compile-time`.
+
+## 5. The runtime-side fixes
+
+Three per-call or per-write costs found by reading each runtime's write
+path (2026-10-18 report, section 7), fixed on local branches of the
+runtimes (not merged, not pushed).  [ab_runtime.py](data/2026-10-19-context-slot-stack/ab_runtime.py):
+each runtime's main build against its branch's build, both built against
+protoCore 2.14.7 and run on a fresh copy of the same library; arms A, B, A
+again; three rounds.
+
+| Case | A Gcycles | B Gcycles | B/A cycles | A/A | B/A instructions |
+|---|---:|---:|---:|---:|---:|
+| protoPython write probe | 6.119 | 3.738 | -38.9 % | -0.4 % | -36.9 % |
+| protoPython `attr_lookup` | 7.621 | 7.382 | -3.1 % | +0.2 % | +0.0 % |
+| protoJS write probe | 10.515 | 9.331 | -11.3 % | +0.1 % | -7.8 % |
+| protoJS `object_write_only` | 28.728 | 28.648 | -0.3 % | +0.0 % | +0.0 % |
+| protoClojure `fib` | 1.800 | 1.723 | -4.2 % | -0.9 % | -5.6 % |
+| protoClojure `tak` | 0.143 | 0.138 | -3.2 % | +0.1 % | -4.7 % |
+| protoClojure `assoc` probe | 5.000 | 4.773 | -4.5 % | -0.4 % | -3.7 % |
+
+- **protoPython** (`perf/store-attr-dead-mro-walk`): `STORE_ATTR` walked
+  the class `__mro__` on every store and discarded the result.  One
+  attribute write: about 2,580 -> 1,390 cycles (the probe's loop without
+  the write is 966 M cycles).  207/207 ctest.
+- **protoJS** (`perf/put-field-length-by-pointer`): `put_field` copied the
+  key to UTF-8 to compare it with `"length"` after every store; the key is
+  an interned atom.  About 2,900 -> 2,300 cycles per write;
+  `object_write_only` stores computed keys through another handler and is
+  unchanged.  168/168 ctest; 620 targeted test262 tests with the same
+  result each.
+- **protoClojure** (`perf/intern-global-symbols-at-compile-time`):
+  `PUSH_VAR` and `STORE_GLOBAL` interned the global's name on every
+  execution; now once, at compile time.  529/529 ctest.
+
+The protoScala `list_ops` JVM failure (an `Int` fold that overflows on the
+JVM) is fixed on `bench/list-ops-long-fold`.
 
 ## What this does not prove
 
