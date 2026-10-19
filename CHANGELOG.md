@@ -4,6 +4,27 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.8] - 2026-10-19
+
+No public API change; ABI compatible (SOVERSION 3): `ProtoContext`'s
+private `bool ownsSlots_` became a private `uint8_t slotsSource_`, with the
+same size and layout.  Report: `docs/reports/2026-10-19-context-slot-stack.md`.
+
+### Changed
+
+- **Context slot arrays come from a per-thread stack.**  A context built
+  without external slots, or grown with `resizeAutomaticLocals`, took a
+  `new[]` and a `delete[]` per call (protoClojure and protoScala construct
+  every call's context empty and resize it).  The slots now come from a
+  per-thread region of 2^18 slots, reserved on first use and released LIFO;
+  a context destroyed out of order leaves a hole that is absorbed once
+  everything above it is gone (up to 64 tracked), and the top context grows
+  in place.  No thread, external slots or no room fall back to `new[]`.
+  The region shares the allocation of the thread's mutable-value cache.
+  protoScala `fib30` -24 % cycles, protoClojure `fib` -9 %, `assoc` -9 %,
+  `tak` -6 %; protoPython and protoJS, which pass their own frames,
+  unchanged.  New tests: `ContextSlotStack.*`.
+
 ## [2.14.7] - 2026-10-18
 
 No public API change; ABI compatible (SOVERSION 3).  The write path of an
