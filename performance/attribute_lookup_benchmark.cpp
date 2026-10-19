@@ -4,10 +4,11 @@
  * Attribute-lookup baseline for protoCore vs. native C++ field access.
  * Scenarios: own attributes (cache-hot and over a working set larger than
  * the per-thread AttributeCache), inherited attributes by chain depth, and
- * mutable objects (read-only and write+read).  Every scenario verifies a
+ * mutable objects (read-only and write+read), and immutable updates of an
+ * existing attribute (upd).  Every scenario verifies a
  * checksum; a mismatch aborts the run.
  *
- * Usage: attribute_lookup_benchmark [own|inh|mut|sweep|ownhot|owncold|inhhot|inhcold]
+ * Usage: attribute_lookup_benchmark [own|inh|mut|sweep|upd|ownhot|owncold|inhhot|inhcold]
  *   (no argument runs own, inh and mut)
  */
 #include <chrono>
@@ -144,6 +145,49 @@ static void mutable_read(ProtoContext* c, int nattr, bool writeBetween, const ch
     report(label, nattr, best, ops);
 }
 
+// ---------- protoCore: immutable update of an existing attribute ----------
+// Each op replaces the value of attribute 0 on a random object (a new object
+// version) and stores it back, then reads attribute nattr/2 of the new version.
+// Every rep runs in a child context, so its copies stay alive for the loop and
+// become reclaimable when the context ends (reclamation is outside the timing).
+static const long UOPS = 500000;
+
+static void update_immutable(ProtoSpace* space, ProtoContext* c, int nattr, int nobj, const char* label) {
+    auto nm = names(c, nattr);
+    std::vector<const ProtoObject*> objs;
+    for (int i = 0; i < nobj; ++i) {
+        const ProtoObject* o = c->newObject();
+        for (int a = 0; a < nattr; ++a) o = o->setAttribute(c, nm[a], c->fromInteger(i + a));
+        objs.push_back(o);
+    }
+    pin(c, objs);
+    const ProtoString* wkey = nm[0];
+    const ProtoString* rkey = nm[nattr / 2];
+    auto ord = order(nobj, UOPS);
+    long expected = 0;
+    for (long i = 0; i < UOPS; ++i) expected += ord[i] + nattr / 2;
+    double best = 1e30;
+    for (int r = 0; r < REPS; ++r) {
+        double ns;
+        {
+            ProtoContext sub(space, c, nullptr, nullptr, nullptr, nullptr);
+            std::vector<const ProtoObject*> cur = objs;
+            auto t0 = Clock::now();
+            long s = 0;
+            for (long i = 0; i < UOPS; ++i) {
+                const int idx = ord[i];
+                cur[idx] = cur[idx]->setAttribute(&sub, wkey, sub.fromInteger(i & 1023));
+                s += cur[idx]->getAttribute(&sub, rkey)->asLong(&sub);
+            }
+            ns = std::chrono::duration<double, std::nano>(Clock::now() - t0).count() / UOPS;
+            if (s != expected) { std::fprintf(stderr, "CHECKSUM MISMATCH\n"); std::exit(1); }
+        }
+        c->safepoint();
+        best = std::min(best, ns);
+    }
+    report(label, nattr, best, UOPS);
+}
+
 // ---------- native baselines ----------
 struct NativeObj { long* fields; int n; };                 // variable-length array, offset known
 struct NativeBase { virtual long method() const { return 7; } virtual ~NativeBase() {} };
@@ -199,6 +243,12 @@ int main(int argc, char** argv) {
             for (int n : {4, 16}) own_immutable(c, n, nobj, "own/immutable nattr");
             for (int n : {4, 16}) native_own(n, nobj, "NATIVE own nattr");
             inherited(c, 2, nobj, 4, "inherited depth");
+        }
+    }
+    if (only == "upd") {
+        for (int nobj : {1, 4096, 16384, 65536}) {
+            std::printf("-- nobj=%d\n", nobj);
+            for (int n : {4, 16}) update_immutable(&space, c, n, nobj, "update/immutable copy nattr");
         }
     }
     if (only == "ownhot") for (int i = 0; i < 6; ++i) own_immutable(c, 16, 1, "own/immutable/hot nattr");
