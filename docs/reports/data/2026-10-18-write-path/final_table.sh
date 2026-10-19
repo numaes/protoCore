@@ -12,7 +12,10 @@ set -u
 D=$(cd "$(dirname "$0")" && pwd)
 WS=$(cd "$D/../../../../.." && pwd)
 OUT=${OUT:-$WS/.agent_scratch/writepath-oct18/final}; mkdir -p $OUT
-CORE=$WS/protoCore/build_pkg_oct18
+# A build tree of a clean checkout: the target is rebuilt from that tree's
+# sources, so a tree configured on a working copy with uncommitted changes
+# measures those changes (the first summary run of the second session did).
+CORE=${CORE:-$WS/protoCore/build_pkg_oct18}
 JARS=${JARS:?set JARS to the directory holding the four jars}
 Q="python3 $WS/protoCore/docs/reports/data/2026-10-12-mark-stack-int-compare/quiet.py"
 stamp() { echo "$(date -u +%FT%TZ) $* load=$(cut -d' ' -f1 /proc/loadavg)"; }

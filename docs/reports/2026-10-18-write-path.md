@@ -29,19 +29,19 @@ Scala 2.13.15 library jars from Maven Central (sha1-checked).
   A shapes/hidden-class redesign aimed at the AVL would have a 1-6 %
   ceiling; it was not pursued.
 - **Against its peers, protoCore is within a small factor; the large factor
-  is dynamism itself** (section 2, summary table).  Reads: 1.3-3.1x the
-  best JVM persistent map (Clojure or Scala), faster than Clojure at 16
-  attributes over 4,096 objects.  Copy-updates: 1.6-2.8x on one hot object
-  (adaptive heap), 1.2-2.1x over many objects (no recycling).  Going from
-  a record with compile-time offsets to a map with dynamic keys costs
-  4.6-32x on reads and 1.9-5.3x on writes on the JVM too; immutability
-  with a fixed shape costs nothing on reads and 5-30x on writes.
+  is dynamism itself** (section 2, summary table).  Reads: 1.2-3.1x the
+  best JVM persistent map (Clojure or Scala).  Copy-updates: 1.6-2.9x on
+  one hot object (adaptive heap), 1.2-2.2x over many objects (no
+  recycling).  Going from a record with compile-time offsets to a map with
+  dynamic keys costs 4-40x on reads and 1.9-5.2x on writes on the JVM too;
+  immutability with a fixed shape costs nothing on reads and 4-29x on
+  writes.
 - **The hot copy-update looked 5-9x behind Clojure; the cause was heap
   policy, not the data structure.**  One copy allocates exactly 3 cells.
   With the default configuration nothing is collected in that pattern:
   every cell is fresh memory the kernel zeroes (471 k page faults, 70 % of
   the time in the kernel, the heap growing to 30 M cells).  Under the
-  adaptive heap controller the same copy takes 44-47 ns instead of 130 ns.
+  adaptive heap controller the same copy takes 48 ns instead of 145 ns.
 - **2.14.7, two changes on the write path.**  A new value for an existing
   key copies the root-to-key path without recomputing sizes and heights
   and without rebalancing (copy-update -18 to -29 % over 4 k-64 k
@@ -156,34 +156,37 @@ a mutable Java class, a record (the bytecode of a Scala case class and its
 `copy`), Clojure's persistent map (array map up to 8 keys, hash map above)
 and Scala's `immutable.HashMap`.  Same shapes (4 / 16 attributes), objects,
 random order, checksums; JVM numbers after 3 warm-up repetitions; protoCore
-numbers the median over three fresh library copies.
+numbers the median over three fresh library copies.  A first summary run
+measured a library rebuilt from a working copy holding uncommitted changes;
+it is kept apart (`results/final-wip-library/`) and not used.
 
-Reads, ns per read (median of three fresh library copies for protoCore):
+Reads, ns per read (median of three fresh library copies for protoCore,
+a build of a clean master checkout):
 
 | Objects | Attrs | C++ in place | JVM mutable class | Java record | Clojure map | Scala HashMap | protoCore |
 |---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 4 | 0.8 | 0.7 | 0.7 | 3.2 | 3.6 | 9.9 |
-| 1 | 16 | 0.8 | 0.7 | 0.7 | 6.4 | 5.8 | 9.9 |
-| 4,096 | 4 | 1.6 | 1.3 | 1.3 | 7.5 | 7.8 | 17.9 |
-| 4,096 | 16 | 2.3 | 1.6 | 1.7 | 36.6 | 23.8 | 30.6 |
-| 16,384 | 4 | 1.9 | 1.6 | 1.6 | 22.5 | 38.3 | 48.1 |
-| 16,384 | 16 | 3.3 | 2.6 | 2.9 | 91.9 | 93.4 | 116.0 |
-| 65,536 | 4 | 6.5 | 4.3 | 2.6 | 39.3 | 46.9 | 80.8 |
-| 65,536 | 16 | 10.6 | 7.5 | 7.5 | 122.1 | 120.1 | 164.7 |
+| 1 | 4 | 0.8 | 0.7 | 0.8 | 3.3 | 3.8 | 10.2 |
+| 1 | 16 | 0.8 | 0.7 | 0.8 | 6.7 | 6.2 | 10.2 |
+| 4,096 | 4 | 1.6 | 1.3 | 1.3 | 7.3 | 8.3 | 17.9 |
+| 4,096 | 16 | 2.3 | 1.6 | 1.7 | 25.7 | 25.3 | 31.0 |
+| 16,384 | 4 | 2.0 | 1.8 | 1.7 | 28.6 | 38.1 | 47.0 |
+| 16,384 | 16 | 3.7 | 2.4 | 2.3 | 91.2 | 92.1 | 116.0 |
+| 65,536 | 4 | 6.4 | 3.9 | 3.7 | 40.7 | 47.3 | 80.2 |
+| 65,536 | 16 | 10.8 | 7.7 | 7.8 | 110.1 | 119.6 | 165.9 |
 
 Updates, ns per update (in place for C++ and the mutable class, a new
 version for the others):
 
 | Objects | Attrs | C++ in place | JVM mutable class | Java record copy | Clojure `assoc` | Scala `updated` | protoCore, default heap | protoCore, adaptive heap |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 4 | 0.8 | 1.0 | 5.0 | 15.8 | 73.3 * | 131.8 | 44.2 |
-| 1 | 16 | 0.8 | 2.0 | 15.6 | 29.8 | 29.6 | 131.5 | 46.6 |
-| 4,096 | 4 | 1.6 | 1.4 | 16.1 | 82.2 | 98.6 | 164.8 | |
-| 4,096 | 16 | 2.3 | 1.8 | 54.6 | 122.6 | 134.5 | 170.4 | |
-| 16,384 | 4 | 2.5 | 1.8 | 22.1 | 116.4 | 163.0 | 232.1 | |
-| 16,384 | 16 | 2.9 | 2.1 | 63.6 | 222.6 | 214.4 | 258.9 | |
-| 65,536 | 4 | 11.7 | 4.7 | 27.3 | 139.7 | 220.4 | 292.3 | |
-| 65,536 | 16 | 17.7 | 11.9 | 73.9 | 227.5 | 283.9 | 335.6 | |
+| 1 | 4 | 0.8 | 1.4 | 5.2 | 16.8 | 74.6 * | 145.3 | 48.1 |
+| 1 | 16 | 0.8 | 1.0 | 15.2 | 30.7 | 29.4 | 142.9 | 47.9 |
+| 4,096 | 4 | 1.8 | 1.3 | 16.9 | 84.4 | 102.9 | 178.7 | |
+| 4,096 | 16 | 2.4 | 1.9 | 55.4 | 123.2 | 134.4 | 184.0 | |
+| 16,384 | 4 | 2.4 | 1.8 | 22.8 | 117.8 | 179.9 | 244.8 | |
+| 16,384 | 16 | 4.1 | 2.4 | 67.5 | 219.7 | 218.9 | 261.9 | |
+| 65,536 | 4 | 14.2 | 4.6 | 27.2 | 137.8 | 217.3 | 301.3 | |
+| 65,536 | 16 | 17.4 | 12.2 | 75.3 | 221.4 | 278.6 | 334.2 | |
 
 \* The first cell the JVM runs; 25 ns in the first session.  The adaptive
 column is the batched hot copy (`hotcopy_batched`, a child context per
@@ -196,9 +199,9 @@ Reading the columns left to right, each step adds one property:
 
 | Step | Reads | Writes |
 |---|---|---|
-| mutable -> immutable, fixed shape (JVM class -> record) | 1x | 5-30x |
-| fixed shape -> dynamic keys (record -> best JVM persistent map) | 4.6-32x | 1.9-5.3x |
-| JVM persistent map -> protoCore | 1.3-3.1x | 1.6-2.8x hot, 1.2-2.1x many objects |
+| mutable -> immutable, fixed shape (JVM class -> record) | 1x | 4-29x |
+| fixed shape -> dynamic keys (record -> best JVM persistent map) | 4-40x | 1.9-5.2x |
+| JVM persistent map -> protoCore | 1.2-3.1x | 1.6-2.9x hot, 1.2-2.2x many objects |
 
 protoCore additionally gives prototypes, mutable objects shared between
 threads without locks or a GIL, and no deoptimisation machinery; the JVM
@@ -216,7 +219,7 @@ it.
   collection cycles.  `getFreeCells` refills from the operating system
   when a freelist runs dry and does not start a cycle (2026-05-23 policy).
 - A child context per 1,000 copies (as a runtime's calls are) with
-  `PROTOCORE_ADAPTIVE_HEAP=1`: 60 ns (44-47 ns in the second session's
+  `PROTOCORE_ADAPTIVE_HEAP=1`: 60 ns (48 ns in the second session's
   summary run), 0.08 s system time, 4-6 cycles per repetition, heap 2.1 M
   cells.  A fixed 2 M-cell limit: 75 ns.
 - `madvise(MADV_POPULATE_WRITE)` on fresh OS memory cuts the faults
