@@ -103,6 +103,37 @@ namespace {
     template<class Node>
     const Node* removeAt(ProtoContext* context, const Node* self, typename Node::KeyType key);
 
+    // Replaces the value of a key already present by copying the root-to-key
+    // path only.  The shape of the tree does not change, so every copied node
+    // keeps the size and height of the node it replaces: no sibling is read
+    // and nothing is rebalanced.  Sets `absent` (and returns nullptr) when the
+    // key is not present, leaving the insert to setAt.  Answers `self` when
+    // the key already holds `newValue`.  Requires Node to provide the
+    // (context, key, value, previous, next, size, height) constructor.
+    template<class Node>
+    const Node* replaceValue(ProtoContext* context, const Node* self, typename Node::KeyType key,
+                             const ProtoObject* newValue, bool& absent) {
+        if (!self || (reinterpret_cast<uintptr_t>(self) & 0x3F) != 0 || self->isEmpty) {
+            absent = true;
+            return nullptr;
+        }
+        const uintptr_t w = sparse_avl::keyWord(key);
+        const uintptr_t sk = sparse_avl::keyWord(self->key);
+        if (w == sk) {
+            if (self->value == nullptr) { absent = true; return nullptr; }
+            if (self->value == newValue) return self;
+            return new(context) Node(context, self->key, newValue, self->previous, self->next,
+                                     self->size, self->height);
+        }
+        const Node* child = w < sk ? self->previous : self->next;
+        const Node* newChild = sparse_avl::replaceValue(context, child, key, newValue, absent);
+        if (absent) return nullptr;
+        if (newChild == child) return self;
+        return w < sk
+            ? new(context) Node(context, self->key, self->value, newChild, self->next, self->size, self->height)
+            : new(context) Node(context, self->key, self->value, self->previous, newChild, self->size, self->height);
+    }
+
     template<class Node>
     const Node* setAt(ProtoContext* context, const Node* self, typename Node::KeyType key, const ProtoObject* newValue) {
         if (newValue == nullptr) return sparse_avl::removeAt(context, self, key);

@@ -434,12 +434,10 @@ namespace proto {
 
             // Hand the path copies, including those of lost attempts, to the
             // collector: the same handover as the threshold submission in
-            // ProtoContext::safepoint.
-            while (gc->lock.test_and_set(std::memory_order_acquire)) {}
+            // ProtoContext::safepoint.  `gc` is this thread's own context.
             Cell* chain = gc->lastAllocatedCell;
             gc->lastAllocatedCell = nullptr;
             gc->allocatedCellsCount = 0;
-            gc->lock.clear(std::memory_order_release);
             if (chain) space->submitYoungGeneration(chain);
         }
 
@@ -635,10 +633,11 @@ namespace proto {
                         // Only the chain head is recorded here, O(1) per
                         // context; the concurrent mark walks the chain and
                         // pushes the references of its cells (see the young-
-                        // chain walk after the world resumes).
-                        while (currentCtx->lock.test_and_set(std::memory_order_acquire)) {}
+                        // chain walk after the world resumes).  Read without
+                        // the context's lock: the world is stopped, and the
+                        // owning thread is parked or out of the quorum (see
+                        // ProtoContext::addCell2Context).
                         const Cell* youngHead = currentCtx->lastAllocatedCell;
-                        currentCtx->lock.clear(std::memory_order_release);
                         if (youngHead) youngChainHeads.push_back(youngHead);
 
                         currentCtx = currentCtx->previous;

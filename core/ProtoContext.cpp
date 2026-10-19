@@ -391,11 +391,11 @@ namespace proto
             this->allocatedCellsCount > this->space->maxAllocatedCellsPerContext &&
             this->space->gcThread &&
             std::this_thread::get_id() != this->space->gcThread->get_id()) {
-            while (lock.test_and_set(std::memory_order_acquire)) {}
+            // The owning thread detaches its own young chain: no lock, see
+            // addCell2Context.
             Cell* chain = this->lastAllocatedCell;
             this->lastAllocatedCell = nullptr;
             this->allocatedCellsCount = 0;
-            lock.clear(std::memory_order_release);
             if (chain) {
                 this->space->submitYoungGeneration(chain);
             }
@@ -491,13 +491,10 @@ namespace proto
             } else {
                 // The per-context freelist is empty.  getFreeCells() may park
                 // this thread to wait for GC reclamation (the allocation-limit
-                // path).  It MUST run with the per-context spinlock RELEASED:
-                // the GC's Phase-2 root scan acquires this same `lock` to read
-                // `lastAllocatedCell`, so holding it across a GC-wait would
-                // wedge the collector and deadlock the waiter.  The context is
+                // path), so it runs with the per-context spinlock released:
+                // a spinlock is never held across a wait.  The context is
                 // single-threaded, so `freeCells` is not contended while the
-                // lock is dropped (the GC only ever reads `lastAllocatedCell`
-                // under it, never `freeCells`).
+                // lock is dropped.
                 lock.clear(std::memory_order_release);
                 if (this->space) {
                     newCell = this->space->getFreeCells(this);
@@ -582,10 +579,17 @@ namespace proto
     void ProtoContext::addCell2Context(Cell* cell)
     {
         if (this) {
-            while (lock.test_and_set(std::memory_order_acquire)) {}
+            // No lock.  Only the thread that owns this context pushes onto or
+            // detaches its young chain.  The collector reads the chain head
+            // only during a stop-the-world, after its quorum: every thread of
+            // the space is then parked at a safepoint (never inside a
+            // critical section, so the collector waits for a thread that is
+            // building cells) or out of the quorum in an unmanaged region,
+            // where it does not allocate.  Parking and leaving the quorum go
+            // through globalMutex and the stop-the-world condition variable,
+            // which order this store before the collector's read.
             cell->setNext(this->lastAllocatedCell);
             this->lastAllocatedCell = cell;
-            lock.clear(std::memory_order_release);
         } else {
             cell->setNext(nullptr);
         }

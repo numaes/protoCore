@@ -4,6 +4,40 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [2.14.7] - 2026-10-18
+
+No public API change; ABI compatible (SOVERSION 3).  The write path of an
+immutable update, measured against the JVM's persistent maps.
+
+### Changed
+
+- **A new value for an existing key copies the path without rebalancing.**
+  `ProtoSparseList` (and so every object attribute update) already copied
+  only the root-to-key path, but each copied node recomputed its size and
+  height from both children, reading the untouched sibling, and the path
+  was rebalanced.  The shape cannot change when only a value changes:
+  `sparse_avl::replaceValue` copies the path keeping each node's size and
+  height.  Immutable copy-update of an existing attribute: -18 % to -29 %
+  with 4,096-65,536 objects, -3 % to -9 % on one hot object.  Inserts and
+  removals take the general path.  New tests: `SparseListValueReplace.*`.
+- **No spinlock per allocated cell.**  `addCell2Context` took the
+  context's spinlock for every cell to guard the young chain against the
+  collector, which reads the chain head only inside a stop-the-world after
+  its quorum, when the owning thread is parked or out of the quorum.  The
+  lock is gone from the push, the collector's read and the owner-side
+  detaches: -9 % user cycles on a hot copy-update probe; 0 ThreadSanitizer
+  reports.
+
+### Added
+
+- `performance/attribute_lookup_benchmark`: attribute reads (hot, over
+  working sets larger than the attribute cache, inherited by depth),
+  mutable reads and writes, and immutable copy-updates, against a native
+  C++ baseline; every scenario verifies a checksum.
+- `PROTO_CACHE_STATS` reports per `getAttribute` call (steps walked, calls
+  that avoid every AVL probe, depth found, mutable steps) and
+  `getOwnAttributeDirect` hits, not only per chain step.
+
 ## [2.14.6] - 2026-10-12
 
 No public API change; ABI compatible (SOVERSION 3).  Two findings of

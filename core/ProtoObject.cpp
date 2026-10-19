@@ -28,6 +28,32 @@ namespace proto {
     std::atomic<proto_ulong> protoCacheStats_hits{0};
     std::atomic<proto_ulong> protoCacheStats_collisions{0};
     std::atomic<proto_ulong> protoCacheStats_coldMisses{0};
+
+    // Per-call view of getAttribute (the counters above are per chain step).
+    // Depth buckets: found at step 0, 1, 2, 3-4, 5+, and not found.
+    std::atomic<proto_ulong> protoCacheStats_calls{0};
+    std::atomic<proto_ulong> protoCacheStats_steps{0};
+    std::atomic<proto_ulong> protoCacheStats_mutableSteps{0};
+    std::atomic<proto_ulong> protoCacheStats_callsNoAvl{0};
+    std::atomic<proto_ulong> protoCacheStats_depth[6]{};
+    std::atomic<proto_ulong> protoCacheStats_directHits{0};
+    std::atomic<proto_ulong> protoCacheStats_directMisses{0};
+    // Collisions where the evicted entry had the same name: a different
+    // object (or a newer snapshot of the same mutable) reading the same
+    // attribute, as opposed to two unrelated keys sharing a slot.
+    std::atomic<proto_ulong> protoCacheStats_collisionsSameName{0};
+
+    static void protoCacheStatsRecordCall(proto_ulong steps, proto_ulong avlSteps,
+                                          proto_ulong mutableSteps, bool found) {
+        protoCacheStats_calls.fetch_add(1, std::memory_order_relaxed);
+        protoCacheStats_steps.fetch_add(steps, std::memory_order_relaxed);
+        protoCacheStats_mutableSteps.fetch_add(mutableSteps, std::memory_order_relaxed);
+        if (avlSteps == 0) protoCacheStats_callsNoAvl.fetch_add(1, std::memory_order_relaxed);
+        const proto_ulong d = steps ? steps - 1 : 0;
+        const int bucket = !found ? 5 : d <= 2 ? static_cast<int>(d) : d <= 4 ? 3 : 4;
+        protoCacheStats_depth[bucket].fetch_add(1, std::memory_order_relaxed);
+    }
+
     namespace {
         struct ProtoCacheStatsDumper {
             ~ProtoCacheStatsDumper() {
@@ -40,6 +66,28 @@ namespace proto {
                     total, h, c, m,
                     total ? (100.0 * h / total) : 0.0,
                     total ? (100.0 * c / total) : 0.0);
+                std::fprintf(stderr,
+                    "[proto-cache-stats] collisionsSameName=%" PROTO_FMT_U " (%.2f%% of collisions)\n",
+                    protoCacheStats_collisionsSameName.load(),
+                    c ? 100.0 * protoCacheStats_collisionsSameName.load() / c : 0.0);
+                proto_ulong calls = protoCacheStats_calls.load();
+                proto_ulong steps = protoCacheStats_steps.load();
+                proto_ulong noAvl = protoCacheStats_callsNoAvl.load();
+                auto pct = [calls](proto_ulong v) { return calls ? 100.0 * v / calls : 0.0; };
+                std::fprintf(stderr,
+                    "[proto-cache-stats] getAttribute calls=%" PROTO_FMT_U " stepsPerCall=%.2f mutableStepRate=%.2f%% callsWithoutAvl=%.2f%%"
+                    " foundAt0=%.2f%% at1=%.2f%% at2=%.2f%% at3-4=%.2f%% at5+=%.2f%% notFound=%.2f%%\n",
+                    calls, calls ? static_cast<double>(steps) / calls : 0.0,
+                    steps ? 100.0 * protoCacheStats_mutableSteps.load() / steps : 0.0,
+                    pct(noAvl),
+                    pct(protoCacheStats_depth[0].load()), pct(protoCacheStats_depth[1].load()),
+                    pct(protoCacheStats_depth[2].load()), pct(protoCacheStats_depth[3].load()),
+                    pct(protoCacheStats_depth[4].load()), pct(protoCacheStats_depth[5].load()));
+                proto_ulong dh = protoCacheStats_directHits.load();
+                proto_ulong dm = protoCacheStats_directMisses.load();
+                std::fprintf(stderr,
+                    "[proto-cache-stats] getOwnAttributeDirect calls=%" PROTO_FMT_U " hitRate=%.2f%%\n",
+                    dh + dm, (dh + dm) ? 100.0 * dh / (dh + dm) : 0.0);
             }
         };
         static ProtoCacheStatsDumper s_dumper;
@@ -827,6 +875,9 @@ namespace proto
         const ProtoObject* currentPointer = this;
         const ParentLinkImplementation* currentLink = nullptr;
         const proto_ulong attr_hash = reinterpret_cast<uintptr_t>(name);
+#ifdef PROTO_CACHE_STATS
+        proto_ulong pcsSteps = 0, pcsAvlSteps = 0, pcsMutableSteps = 0;
+#endif
 
         // No step cap: this loop always terminates, because it is a
         // single-level walk of ONE receiver's own ParentLinkImplementation
@@ -877,6 +928,10 @@ namespace proto
             const ProtoObject* currentValue = currentPointer;
             auto oc = toImpl<const ProtoObjectCell>(currentPointer);
             auto ocValue = oc;  // Default: immutable case → currentValue == currentPointer.
+#ifdef PROTO_CACHE_STATS
+            ++pcsSteps;
+            if (oc->mutable_ref > 0) ++pcsMutableSteps;
+#endif
             if (oc->mutable_ref > 0) {
                 const proto::ProtoObject* storedState =
                     resolveMutableSnapshot(context, oc->mutable_ref);
@@ -920,7 +975,10 @@ namespace proto
                 } else {
 #ifdef PROTO_CACHE_STATS
                     // Occupied with different key → collision; empty → cold miss.
-                    if (cache[hash_idx].object != nullptr) ++protoCacheStats_collisions;
+                    if (cache[hash_idx].object != nullptr) {
+                        ++protoCacheStats_collisions;
+                        if (cache[hash_idx].name == name) ++protoCacheStats_collisionsSameName;
+                    }
                     else ++protoCacheStats_coldMisses;
 #endif
                 }
@@ -933,6 +991,9 @@ namespace proto
             // "not found", so calling `implHas` first would just walk
             // the AVL twice.
             if (!cache_resolved) {
+#ifdef PROTO_CACHE_STATS
+                ++pcsAvlSteps;
+#endif
                 // Direct IMPL access: `attributes` is now a raw
                 // ProtoSparseListImplementation* (AVL form), so the
                 // lookup is a single C++ call into the AVL probe with
@@ -959,6 +1020,9 @@ namespace proto
                 }
             }
             if (result != nullptr) {
+#ifdef PROTO_CACHE_STATS
+                protoCacheStatsRecordCall(pcsSteps, pcsAvlSteps, pcsMutableSteps, true);
+#endif
                 return result;
             }
 
@@ -990,6 +1054,9 @@ namespace proto
         // Full prototype chain searched, attribute not found.  Return
         // PROTO_NONE per the API convention (nullptr is reserved for
         // invalid inputs at the top of this function).
+#ifdef PROTO_CACHE_STATS
+        protoCacheStatsRecordCall(pcsSteps, pcsAvlSteps, pcsMutableSteps, false);
+#endif
         return PROTO_NONE;
     }
 
@@ -1957,9 +2024,15 @@ namespace proto
             hash_idx = ((reinterpret_cast<uintptr_t>(snapshot) >> 6) ^
                           (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
             if (cache[hash_idx].object == snapshot && cache[hash_idx].name == name) {
+#ifdef PROTO_CACHE_STATS
+                protoCacheStats_directHits.fetch_add(1, std::memory_order_relaxed);
+#endif
                 return cache[hash_idx].result;
             }
         }
+#ifdef PROTO_CACHE_STATS
+        protoCacheStats_directMisses.fetch_add(1, std::memory_order_relaxed);
+#endif
 
         // Miss — walk the AVL. Preserves the nullptr-for-absent contract:
         // an attribute legitimately set to PROTO_NONE (Python's

@@ -2040,6 +2040,13 @@ namespace proto {
                                       const ProtoSparseListImplementation *p, const ProtoSparseListImplementation *n,
                                       bool empty);
 
+        // Copy of a non-empty node whose subtree keeps its shape (a value
+        // replacement): size and height come from the node being copied
+        // instead of being recomputed from the children.
+        ProtoSparseListImplementation(ProtoContext *context, proto_ulong k, const ProtoObject *v,
+                                      const ProtoSparseListImplementation *p, const ProtoSparseListImplementation *n,
+                                      proto_ulong nodeSize, proto_ulong nodeHeight);
+
         bool implHas(ProtoContext *context, proto_ulong offset) const;
 
         const ProtoObject *implGetAt(ProtoContext *context, proto_ulong offset) const;

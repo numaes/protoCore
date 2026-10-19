@@ -74,6 +74,10 @@ namespace proto
           height(empty ? 0 : 1 + std::max(sparse_avl::nodeHeight(p), sparse_avl::nodeHeight(n))),
           isEmpty(empty) {}
 
+    ProtoSparseListImplementation::ProtoSparseListImplementation(ProtoContext* context, proto_ulong k, const ProtoObject* v, const ProtoSparseListImplementation* p, const ProtoSparseListImplementation* n, proto_ulong nodeSize, proto_ulong nodeHeight)
+        : Cell(context), key(k), value(v), previous(p), next(n), hash(0),
+          size(nodeSize), height(nodeHeight), isEmpty(false) {}
+
     bool ProtoSparseListImplementation::implHas(ProtoContext* context, proto_ulong offset) const {
         return implGetAt(context, offset) != nullptr;
     }
@@ -83,6 +87,16 @@ namespace proto
     }
 
     const ProtoSparseListImplementation* ProtoSparseListImplementation::implSetAt(ProtoContext* context, proto_ulong offset, const ProtoObject* newValue) const {
+        // A new value for a key already present leaves the tree's shape as it
+        // is: copy the root-to-key path only, without recomputing sizes and
+        // heights from the siblings and without rebalancing.  Inserts and
+        // removals take the general path.
+        if (newValue != nullptr) {
+            bool absent = false;
+            const ProtoSparseListImplementation* replaced =
+                sparse_avl::replaceValue(context, this, offset, newValue, absent);
+            if (!absent) return replaced;
+        }
         return sparse_avl::setAt(context, this, offset, newValue);
     }
 
