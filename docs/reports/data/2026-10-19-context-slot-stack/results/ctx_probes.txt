@@ -1,0 +1,55 @@
+== py_base.py
+CHECK 2000000
+[ctx-stats] contexts=7 heapSlots=2 resizes=0 returnRefs=1 submits=6 cellsSubmitted=39572
+[ctx-stats] slots: 0=3 1=0 2-3=0 4-7=0 8-15=0 16-31=0 32-63=1 64-127=0 128-255=3 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=0 2-3=0 4-7=0 8-15=1 16-31=1 32-63=0 64-127=1 128-255=1 256-511=0 512+=2
+== py_write.py
+CHECK 3999999
+[ctx-stats] contexts=7 heapSlots=2 resizes=0 returnRefs=1 submits=6 cellsSubmitted=42416
+[ctx-stats] slots: 0=3 1=0 2-3=0 4-7=0 8-15=0 16-31=0 32-63=1 64-127=0 128-255=3 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=0 2-3=0 4-7=0 8-15=1 16-31=0 32-63=0 64-127=1 128-255=1 256-511=0 512+=3
+== js_base.js
+CHECK 2000000
+[ctx-stats] contexts=3 heapSlots=1 resizes=1 returnRefs=0 submits=2 cellsSubmitted=33553
+[ctx-stats] slots: 0=2 1=0 2-3=0 4-7=0 8-15=0 16-31=1 32-63=0 64-127=0 128-255=0 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=0 2-3=0 4-7=0 8-15=0 16-31=0 32-63=0 64-127=0 128-255=0 256-511=0 512+=2
+== js_write.js
+CHECK 3999999
+[ctx-stats] contexts=3 heapSlots=1 resizes=1 returnRefs=0 submits=2 cellsSubmitted=34884
+[ctx-stats] slots: 0=2 1=0 2-3=0 4-7=0 8-15=0 16-31=1 32-63=0 64-127=0 128-255=0 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=0 2-3=0 4-7=0 8-15=0 16-31=0 32-63=0 64-127=0 128-255=0 256-511=0 512+=2
+== sc_base.scala
+CHECK 2000000
+[ctx-stats] contexts=115 heapSlots=8 resizes=8 returnRefs=109 submits=112 cellsSubmitted=19628
+[ctx-stats] slots: 0=107 1=2 2-3=1 4-7=3 8-15=0 16-31=0 32-63=2 64-127=0 128-255=0 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=3 2-3=0 4-7=3 8-15=1 16-31=47 32-63=36 64-127=12 128-255=7 256-511=1 512+=2
+== sc_write.scala
+CHECK 3999999
+[ctx-stats] contexts=2000115 heapSlots=2000008 resizes=2000008 returnRefs=2000109 submits=2000112 cellsSubmitted=8029427
+[ctx-stats] slots: 0=107 1=2 2-3=1 4-7=2000003 8-15=0 16-31=0 32-63=2 64-127=0 128-255=0 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=3 2-3=1 4-7=2000002 8-15=0 16-31=47 32-63=36 64-127=12 128-255=7 256-511=1 512+=3
+== sc_copy.scala
+CHECK 3999999
+[ctx-stats] contexts=8000116 heapSlots=6000008 resizes=6000008 returnRefs=8000110 submits=8000113 cellsSubmitted=24029523
+[ctx-stats] slots: 0=2000108 1=2 2-3=4000001 4-7=2000003 8-15=0 16-31=0 32-63=2 64-127=0 128-255=0 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=2000003 2-3=2000001 4-7=4000002 8-15=0 16-31=48 32-63=35 64-127=13 128-255=7 256-511=1 512+=3
+== clj_base.clj
+CHECK 2000000
+[ctx-stats] contexts=2000046 heapSlots=2000027 resizes=2000027 returnRefs=16 submits=2000043 cellsSubmitted=2001780
+[ctx-stats] slots: 0=19 1=3 2-3=2000005 4-7=0 8-15=17 16-31=0 32-63=0 64-127=2 128-255=0 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=2000010 2-3=18 4-7=9 8-15=3 16-31=1 32-63=0 64-127=1 128-255=0 256-511=0 512+=1
+== clj_write.clj
+CHECK 3999999
+[ctx-stats] contexts=6000053 heapSlots=6000031 resizes=6000031 returnRefs=19 submits=6000050 cellsSubmitted=6001807
+[ctx-stats] slots: 0=22 1=2000003 2-3=4000006 4-7=0 8-15=20 16-31=0 32-63=0 64-127=2 128-255=0 256-511=0 512+=0
+[ctx-stats] cellsPerSubmit: 0=0 1=6000011 2-3=22 4-7=11 8-15=3 16-31=1 32-63=0 64-127=1 128-255=0 256-511=0 512+=1
+== st_base.st
+CHECK 2000000
+[ctx-stats] contexts=18 heapSlots=1 resizes=1 returnRefs=0 submits=9 cellsSubmitted=5224
+[ctx-stats] slots: 0=17 1=0 2-3=0 4-7=0 8-15=0 16-31=0 32-63=0 64-127=0 128-255=0 256-511=0 512+=1
+[ctx-stats] cellsPerSubmit: 0=0 1=0 2-3=2 4-7=5 8-15=1 16-31=0 32-63=0 64-127=0 128-255=0 256-511=0 512+=1
+== st_write.st
+CHECK 4000000
+[ctx-stats] contexts=18 heapSlots=1 resizes=1 returnRefs=0 submits=9 cellsSubmitted=8249
+[ctx-stats] slots: 0=17 1=0 2-3=0 4-7=0 8-15=0 16-31=0 32-63=0 64-127=0 128-255=0 256-511=0 512+=1
+[ctx-stats] cellsPerSubmit: 0=0 1=0 2-3=2 4-7=4 8-15=2 16-31=0 32-63=0 64-127=0 128-255=0 256-511=0 512+=1

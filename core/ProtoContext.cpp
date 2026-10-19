@@ -102,7 +102,7 @@ namespace proto
         closureLocals(nullptr),
         automaticLocals(nullptr),
         automaticLocalsCount(0),
-        ownsSlots_(false),
+        slotsSource_(kSlotsExternal),
         lastAllocatedCell(nullptr),
         allocatedCellsCount(0),
         mutableValueCache_(nullptr),
@@ -161,11 +161,11 @@ namespace proto
             if (externalSlots && automaticLocalsCount <= totalSlots) {
                 // Caller owns the buffer and has already initialised it to PROTO_NONE.
                 this->automaticLocals = externalSlots;
-                ownsSlots_ = false;
+                slotsSource_ = kSlotsExternal;
             } else if (automaticLocalsCount > 0) {
                 const ProtoObject** temp =
                     slotStackPush(contextSlotStackOf(this->mutableValueCache_), automaticLocalsCount);
-                ownsSlots_ = (temp == nullptr);
+                slotsSource_ = temp ? kSlotsStack : kSlotsHeap;
                 if (!temp) temp = new const ProtoObject*[automaticLocalsCount];
                 std::fill(temp, temp + automaticLocalsCount, PROTO_NONE);
                 this->automaticLocals = temp;
@@ -266,7 +266,7 @@ namespace proto
     ProtoContext::ProtoContext(GCOwnedTag, ProtoSpace* space)
         : automaticLocals(nullptr),
           automaticLocalsCount(0),
-          ownsSlots_(false),
+          slotsSource_(kSlotsExternal),
           gcOwned_(true),
           previous(nullptr),
           space(space),
@@ -355,18 +355,18 @@ namespace proto
             lock.clear(std::memory_order_release);
         }
 
-        // Free the slot array: new[] when this context owns it, otherwise
-        // back to the thread's slot stack (a no-op for external slots).
-        if (ownsSlots_) delete[] automaticLocals;
-        else slotStackPop(contextSlotStackOf(this->mutableValueCache_), automaticLocals, automaticLocalsCount);
+        // Release the slot array: new[] or the thread's slot stack; an
+        // embedder's buffer is its own.
+        if (slotsSource_ == kSlotsHeap) delete[] automaticLocals;
+        else if (slotsSource_ == kSlotsStack)
+            slotStackPop(contextSlotStackOf(this->mutableValueCache_), automaticLocals, automaticLocalsCount);
     }
 
     void ProtoContext::resizeAutomaticLocals(unsigned int newCount) {
         if (newCount <= automaticLocalsCount) return;
         ContextSlotStack* stack = contextSlotStackOf(this->mutableValueCache_);
         // At the top of the thread's slot stack: grow in place.
-        if (!ownsSlots_ && automaticLocals && inSlotStack(stack, automaticLocals)
-                && automaticLocals + automaticLocalsCount == stack->top
+        if (slotsSource_ == kSlotsStack && automaticLocals + automaticLocalsCount == stack->top
                 && static_cast<size_t>(stack->limit - stack->top) >= newCount - automaticLocalsCount) {
             std::fill(stack->top, stack->top + (newCount - automaticLocalsCount), PROTO_NONE);
             stack->top += newCount - automaticLocalsCount;
@@ -381,11 +381,11 @@ namespace proto
             for (unsigned int i = 0; i < automaticLocalsCount; ++i)
                 fresh[i] = automaticLocals[i];
         }
-        if (ownsSlots_ && automaticLocals) delete[] automaticLocals;
-        else if (automaticLocals) slotStackPop(stack, automaticLocals, automaticLocalsCount);
+        if (slotsSource_ == kSlotsHeap) delete[] automaticLocals;
+        else if (slotsSource_ == kSlotsStack) slotStackPop(stack, automaticLocals, automaticLocalsCount);
         automaticLocals = fresh;
         automaticLocalsCount = newCount;
-        ownsSlots_ = freshOwned;
+        slotsSource_ = freshOwned ? kSlotsHeap : kSlotsStack;
     }
 
     /**
