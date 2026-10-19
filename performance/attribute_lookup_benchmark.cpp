@@ -212,6 +212,36 @@ static void native_own(int nattr, int nobj, const char* label) {
     report(label, nattr, ns, OPS);
 }
 
+// In-place write of field 0 on a random object, then a read of field nattr/2:
+// the mutable, compile-time-offset counterpart of update_immutable.
+static void native_update(int nattr, int nobj, const char* label) {
+    std::vector<NativeObj*> objs;
+    for (int i = 0; i < nobj; ++i) {
+        auto* o = new NativeObj{new long[nattr], nattr};
+        for (int a = 0; a < nattr; ++a) o->fields[a] = i + a;
+        objs.push_back(o);
+    }
+    auto ord = order(nobj, UOPS);
+    const int idx = nattr / 2;
+    long expected = 0;
+    for (long i = 0; i < UOPS; ++i) expected += ord[i] + idx;
+    double best = 1e30;
+    for (int r = 0; r < REPS; ++r) {
+        auto t0 = Clock::now();
+        long s = 0;
+        for (long i = 0; i < UOPS; ++i) {
+            auto* o = objs[ord[i]];
+            asm volatile("" : "+r"(o));
+            o->fields[0] = i & 1023;
+            s += o->fields[idx];
+        }
+        const double ns = std::chrono::duration<double, std::nano>(Clock::now() - t0).count() / UOPS;
+        if (s != expected) { std::fprintf(stderr, "CHECKSUM MISMATCH\n"); std::exit(1); }
+        best = std::min(best, ns);
+    }
+    report(label, nattr, best, UOPS);
+}
+
 static void native_virtual(int nobj, const char* label) {
     std::vector<NativeBase*> objs;
     for (int i = 0; i < nobj; ++i) objs.push_back(new NativeD1());
@@ -249,6 +279,7 @@ int main(int argc, char** argv) {
         for (int nobj : {1, 4096, 16384, 65536}) {
             std::printf("-- nobj=%d\n", nobj);
             for (int n : {4, 16}) update_immutable(&space, c, n, nobj, "update/immutable copy nattr");
+            for (int n : {4, 16}) native_update(n, nobj, "NATIVE update in place nattr");
         }
     }
     if (only == "ownhot") for (int i = 0; i < 6; ++i) own_immutable(c, 16, 1, "own/immutable/hot nattr");
