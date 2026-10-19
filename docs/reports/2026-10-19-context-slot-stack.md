@@ -1,7 +1,7 @@
-# Context slot arrays from a per-thread stack (branch perf/context-slot-stack)
+# Context slot arrays from a per-thread stack
 
-Date: 2026-10-19.  Author: Gustavo Marino, with Claude.  Status: on a
-branch, not merged.
+Date: 2026-10-19.  Author: Gustavo Marino, with Claude.  Status: merged
+into master (65788a1d).
 
 Question: does a `ProtoContext` per call cost the runtimes a heap
 allocation for its slot array, how large is that array, and what does a
@@ -112,14 +112,15 @@ From the counts and the profiles, in the order they would pay:
 - A `ReturnReference` cell per returned cell (protoScala: one per
   context in `copy`; protoPython `binary_trees`: 52,789).
 - protoClojure still interns the global's name on every `PUSH_VAR`
-  (`createSymbol` + `strlen` + `materialise`, about 6 % of `fib`); fixed on
-  the protoClojure branch `perf/intern-global-symbols-at-compile-time`.
+  (`createSymbol` + `strlen` + `materialise`, about 6 % of `fib`); fixed by
+  the protoClojure branch `perf/intern-global-symbols-at-compile-time`
+  (merged).
 
 ## 5. The runtime-side fixes
 
 Three per-call or per-write costs found by reading each runtime's write
-path (2026-10-18 report, section 7), fixed on local branches of the
-runtimes (not merged, not pushed).  [ab_runtime.py](data/2026-10-19-context-slot-stack/ab_runtime.py):
+path (2026-10-18 report, section 7), fixed on branches of the
+runtimes, now merged into each runtime's main line.  [ab_runtime.py](data/2026-10-19-context-slot-stack/ab_runtime.py):
 each runtime's main build against its branch's build, both built against
 protoCore 2.14.7 and run on a fresh copy of the same library; arms A, B, A
 again; three rounds.
