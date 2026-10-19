@@ -13,6 +13,15 @@
 #include <iostream>
 
 namespace proto {
+    // Frees a ThreadBuffers allocation: the context slot stack's region, then
+    // the block that opens with the mutable-value cache.
+    static void releaseThreadBuffers(MutableValueCacheEntry* mutableValueCache) {
+        if (!mutableValueCache) return;
+        delete[] contextSlotStackOf(mutableValueCache)->base;
+        std::free(mutableValueCache);
+    }
+
+
 
     // Test-only intervention point (proto_internal.h).  Null in every build;
     // one relaxed load per thread exit.
@@ -123,7 +132,7 @@ namespace proto {
             //    all of which are gone by now, the root one at step 1.
             alignedFree(ext->attributeCache);
             ext->attributeCache = nullptr;
-            std::free(ext->mutableValueCache);
+            releaseThreadBuffers(ext->mutableValueCache);
             ext->mutableValueCache = nullptr;
 
             // 3. The unused tail of this thread's allocation batch.  This is
@@ -298,11 +307,18 @@ namespace proto {
         for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
             this->attributeCache[i] = {nullptr, nullptr, nullptr, nullptr};
         }
-        this->mutableValueCache = static_cast<MutableValueCacheEntry*>(
-            std::malloc(MUTABLE_VALUE_CACHE_DEPTH * sizeof(MutableValueCacheEntry)));
+        // The mutable-value cache opens a ThreadBuffers allocation that also
+        // holds this thread's context slot stack (proto_internal.h); the
+        // stack's region itself is reserved on first use.
+        auto* buffers = static_cast<ThreadBuffers*>(std::malloc(sizeof(ThreadBuffers)));
+        this->mutableValueCache = buffers->mutableValueCache;
         for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
             this->mutableValueCache[i] = {0, nullptr, nullptr};
         }
+        buffers->slotStack.base = nullptr;
+        buffers->slotStack.top = nullptr;
+        buffers->slotStack.limit = nullptr;
+        buffers->slotStack.holeCount = 0;
         // The caches start empty, so they are "cleared" as of the current
         // cycle.  A new thread therefore does not clear again on its first
         // park exit unless a stop-the-world completes after this point.
@@ -337,7 +353,7 @@ namespace proto {
 
     ProtoThreadExtension::~ProtoThreadExtension() {
         alignedFree(this->attributeCache);
-        std::free(this->mutableValueCache);
+        releaseThreadBuffers(this->mutableValueCache);
         if (osThread && osThread->joinable()) {
             osThread->join();
         }
