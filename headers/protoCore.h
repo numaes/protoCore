@@ -1623,9 +1623,12 @@ namespace proto
         // C-style array for automatic variables that are destroyed with the context.
         const ProtoObject** automaticLocals;
         unsigned int automaticLocalsCount;
-        // False when automaticLocals points to an externally-owned buffer (e.g. stack SBO).
-        // The destructor only calls delete[] when this is true.
-        bool ownsSlots_;
+        // Where automaticLocals lives (a SlotsSource): an embedder's buffer
+        // (e.g. a frame's stack SBO), a new[] array the destructor frees, or
+        // the thread's context slot stack, to which the destructor returns
+        // it.  One byte, as the bool it replaced.
+        std::uint8_t slotsSource_;
+        enum SlotsSource : std::uint8_t { kSlotsExternal = 0, kSlotsHeap = 1, kSlotsStack = 2 };
         // True only for the collector's own allocation context (see
         // GCOwnedTag).  Such a context never registers as a thread's
         // current context or as ProtoSpace::mainContext, so its destructor
@@ -1739,13 +1742,13 @@ namespace proto
          * expensive ProtoSparseList copy-on-write storage — for the
          * call frame's locals + value stack.
          *
-         * If `newCount > automaticLocalsCount`, allocates a fresh
-         * heap-owned `const ProtoObject*[newCount]` initialised to
-         * PROTO_NONE, copies any existing entries, frees the previous
-         * heap buffer (only when `ownsSlots_`), and reseats the
-         * pointer.  After the call `automaticLocals` is guaranteed to
-         * be heap-owned (`ownsSlots_=true`) so the destructor will
-         * release it.
+         * If `newCount > automaticLocalsCount`, the array grows to
+         * `newCount` slots, the new ones PROTO_NONE: in place when it is
+         * the top of the thread's context slot stack, otherwise into a
+         * fresh array from that stack (or new[] when the stack has no
+         * room), with the existing entries copied and the previous array
+         * released (an embedder's buffer is left alone).  Either way the
+         * context owns the result and its destructor releases it.
          *
          * If `newCount <= automaticLocalsCount`, the call is a no-op
          * (we never shrink — keeps the existing GC roots reachable).

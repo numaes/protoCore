@@ -11,6 +11,7 @@
 #include "protoCore.h"
 #include <thread>
 #include <atomic>
+#include <cstddef>
 #include <cstdint>
 #include <unordered_set>
 #include <memory>
@@ -1828,6 +1829,55 @@ namespace proto {
         ProtoSparseList*    shard_root;      // shard root pointer at the time we cached
         const ProtoObject*  current_value;   // resolved snapshot
     };
+
+    /**
+     * @brief Per-thread stack of ProtoContext slot arrays.
+     *
+     * Contexts of one thread are created and destroyed in LIFO order (they
+     * are RAII frames chained through `previous`), so their automaticLocals
+     * arrays are carved from one per-thread region by moving `top`, with no
+     * heap allocation per call.  The region is reserved on first use.  A
+     * context destroyed out of order (one created with `new` and deleted
+     * later) leaves a hole that `top` absorbs once everything above it is
+     * gone.  When `holes` is full a further out-of-order region is not
+     * recorded and `top` can no longer descend past it, so the stack below
+     * it is lost for the thread's lifetime; contexts then fall back to
+     * `new[]` once the rest fills.  A context with no thread, external
+     * slots, or no room left falls back to `new[]`.  Not a GC root: the
+     * collector reaches slots through the contexts, exactly as before.
+     * A context must be destroyed on, and before the end of, the thread
+     * whose stack holds its slots (the invariant the mutable-value cache
+     * already relies on).
+     */
+    struct ContextSlotStack {
+        static constexpr unsigned kSlots = 1u << 18;    // 2 MiB of slots per thread
+        static constexpr unsigned kMaxHoles = 64;
+        const ProtoObject** base;
+        const ProtoObject** top;
+        const ProtoObject** limit;
+        unsigned holeCount;
+        struct Hole { const ProtoObject** begin; const ProtoObject** end; } holes[kMaxHoles];
+    };
+
+    /**
+     * @brief The per-thread buffers hung off ProtoThreadExtension.
+     *
+     * ProtoThreadExtension is a full 64-byte cell, so the slot stack shares
+     * the mutable-value cache's allocation, which already has the lifetime
+     * it needs: allocated with the extension, freed only after the thread's
+     * root context is destroyed.  `ProtoThreadExtension::mutableValueCache`
+     * points at the first member, so every existing access is unchanged.
+     */
+    struct ThreadBuffers {
+        MutableValueCacheEntry mutableValueCache[MUTABLE_VALUE_CACHE_DEPTH];
+        ContextSlotStack slotStack;
+    };
+    static_assert(offsetof(ThreadBuffers, mutableValueCache) == 0,
+                  "mutableValueCache must start the ThreadBuffers allocation");
+
+    inline ContextSlotStack* contextSlotStackOf(MutableValueCacheEntry* mutableValueCache) {
+        return mutableValueCache ? &reinterpret_cast<ThreadBuffers*>(mutableValueCache)->slotStack : nullptr;
+    }
 
     class ProtoThreadExtension : public Cell {
     public:

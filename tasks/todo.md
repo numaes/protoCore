@@ -1,3 +1,57 @@
+# Write path and cross-runtime re-measurement (2.14.7)
+
+- [x] 1. Attribute lookup baseline, per-call cache statistics, real-workload
+      hit rates; cache index variants measured (not adopted).
+- [x] 2. Value replacement without rebalancing (+ SparseListValueReplace
+      tests); young-chain push without a spinlock (TSan clean).
+- [x] 3. 2.14.7: version, changelog, README counts; merged to master (local).
+- [x] 4. Runtimes built twice at current HEAD: build_cmp2146 / build_pkg_oct18.
+- [x] 5. Summary table: protoCore vs C++, JVM mutable, records, Clojure and
+      Scala persistent maps (attr-study/, final_table.sh).
+- [x] 6. Session (rerun2.sh; rerun.sh superseded: file-instance artefact): write probes, five harnesses x 3 rounds,
+      protoJS adaptive-heap evaluation, protoClojure vs JVM Clojure and bb.
+- [x] 7. Re-run the summary table (on a clean master build: the first
+      re-run measured a library rebuilt from this branch's working copy).
+- [x] 8. Report docs/reports/2026-10-18-write-path.md + index (f2d8eb5c,
+      7d44da4b).  [x] Runtime READMEs updated (local commits).
+- [x] 9. Push protoCore master and tag v2.14.7.
+- [ ] 11. Runtime write cost: perf the write probes; histogram of slots per
+      ProtoContext (env-gated, isolated copy) per runtime; split the four
+      per-context costs (slot memory + PROTO_NONE fill, ReturnReference,
+      submitYoungGeneration, thread registration); mutable_population probe.
+- [ ] 12. Lightweight context: per-thread slot stack (in ProtoThreadExtension,
+      no ABI change; LIFO pop, holes for out-of-order heap contexts, resize in
+      place at the top, new[] fallback), then the other per-context costs as
+      the measurement ranks them.  Runtime quick fixes in their own repos
+      (protoPython dead __mro__ walk, protoJS "length" string compare,
+      protoClojure createSymbol per PUSH_VAR).
+      Measured (11): slots per context: protoPython 128-255 but external
+      (its frames), protoJS 16-31 external, protoST no context per call;
+      protoClojure 64-127 and protoScala 4-7 through resizeAutomaticLocals,
+      i.e. new[] per call (context lifecycle + malloc ~21 % / ~28 % of fib).
+      In the write probes py/js/st create no context per write: their
+      2,500-2,900 cycles are not context cost (still to profile).
+      [x] Slot stack on perf/context-slot-stack (1441c54d + three-state
+      slot source): 680/680 ctest, ASan, TSan.  A/B v1: sc fib30 -24 %,
+      clj fib -9.9 %, assoc -6.8 %, tak -4.8 %, py fib +1.7 % (the
+      destructor's stack check; v2 removes it).  Not merged.
+      [x] v2 (1f50ba00): sc fib30 -23.7 %, clj fib -9.2 %, assoc -8.7 %,
+      tak -5.8 %, py/js within 1 %; 680/680 ctest and ASan.
+      [x] Runtime fixes on local branches, measured (same 2.14.7 lib):
+      protoPython STORE_ATTR write probe -38.9 % (f0162c45), protoJS
+      put_field -11.3 % (8b20caf3d), protoClojure PUSH_VAR -4.2 % fib
+      (fe46927), protoScala list_ops Long fold (6f3baa5e).  Not pushed.
+      [x] Runtime READMEs: protoCore 2.14.7 paragraphs (local commits on
+      main/master, not pushed).
+      [ ] Decide: merge the slot stack; merge the runtime branches; turn
+      on the adaptive heap by default in protoJS.
+      [ ] Next per-context costs: protoScala's call path (copy ~9,600
+      cycles), ReturnReference per returned cell.
+- [x] 10. Design the CAD demonstrator (docs/specs/2026-10-19-cad-versioned-model-demonstrator.md): one editor and several readers
+      needing consistent versions; protoCore snapshots against an honest
+      Java solution (ReadWriteLock / deep copy per version); measure reader
+      latency under writes, memory per version, code needed for correctness.
+
 # Adaptive heap calibration (fix/adaptive-heap-calibration, 2.10.1)
 
 Problem at release (2.10.0): on a fast allocator with a 1 M-cell live set S

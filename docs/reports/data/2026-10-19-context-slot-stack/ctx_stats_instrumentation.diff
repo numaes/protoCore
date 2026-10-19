@@ -1,0 +1,68 @@
+diff --git a/core/ProtoContext.cpp b/core/ProtoContext.cpp
+index c5789b5e..315d5cd0 100644
+--- a/core/ProtoContext.cpp
++++ b/core/ProtoContext.cpp
+@@ -14,6 +14,30 @@
+ #include <iostream>
+ #include <cstring>
+ 
++#include <atomic>
++#include <cstdio>
++#include <cstdlib>
++// MEASUREMENT (isolated copy): per-context costs, printed at exit when
++// PROTOCORE_CTX_STATS is set.
++namespace proto { namespace ctxstats {
++    static const bool on = std::getenv("PROTOCORE_CTX_STATS") != nullptr;
++    static std::atomic<unsigned long long> destroyed{0}, heapSlots{0}, resizes{0},
++        returnRefs{0}, submits{0}, cellsSubmitted{0}, slotHist[11]{}, cellHist[11]{};
++    static int bucket(unsigned long long v) { int b = 0; while (b < 10 && v > (1ull << b) - 1) ++b; return b; }
++    struct Dumper { ~Dumper() {
++        if (!on) return;
++        std::fprintf(stderr, "[ctx-stats] contexts=%llu heapSlots=%llu resizes=%llu returnRefs=%llu submits=%llu cellsSubmitted=%llu\n",
++            destroyed.load(), heapSlots.load(), resizes.load(), returnRefs.load(), submits.load(), cellsSubmitted.load());
++        const char* lab[11] = {"0","1","2-3","4-7","8-15","16-31","32-63","64-127","128-255","256-511","512+"};
++        std::fprintf(stderr, "[ctx-stats] slots:");
++        for (int i = 0; i < 11; ++i) std::fprintf(stderr, " %s=%llu", lab[i], slotHist[i].load());
++        std::fprintf(stderr, "\n[ctx-stats] cellsPerSubmit:");
++        for (int i = 0; i < 11; ++i) std::fprintf(stderr, " %s=%llu", lab[i], cellHist[i].load());
++        std::fprintf(stderr, "\n");
++    } };
++    static Dumper dumper;
++} }
++
+ namespace proto
+ {
+     proto_ulong generate_mutable_ref(ProtoContext* context) {
+@@ -239,6 +263,16 @@ namespace proto
+      */
+     ProtoContext::~ProtoContext()
+     {
++        if (ctxstats::on) {
++            ctxstats::destroyed.fetch_add(1, std::memory_order_relaxed);
++            ctxstats::slotHist[ctxstats::bucket(automaticLocalsCount)].fetch_add(1, std::memory_order_relaxed);
++            if (ownsSlots_) ctxstats::heapSlots.fetch_add(1, std::memory_order_relaxed);
++            if (this->space && this->lastAllocatedCell) {
++                ctxstats::submits.fetch_add(1, std::memory_order_relaxed);
++                ctxstats::cellsSubmitted.fetch_add(allocatedCellsCount, std::memory_order_relaxed);
++                ctxstats::cellHist[ctxstats::bucket(allocatedCellsCount)].fetch_add(1, std::memory_order_relaxed);
++            }
++        }
+         // Order matters here: anchor, then pop, then submit.
+         //
+         // 1. Anchor the return value in `previous`'s young chain while THIS
+@@ -270,6 +304,7 @@ namespace proto
+         {
+             Cell* cell = const_cast<Cell*>(this->returnValue->asCell(this));
+             if (cell != nullptr) {
++                if (ctxstats::on) ctxstats::returnRefs.fetch_add(1, std::memory_order_relaxed);
+                 (void) new(this->previous) ReturnReference(this->previous, cell);
+                 // Cell constructor already registers with context via addCell2Context.
+             }
+@@ -311,6 +346,7 @@ namespace proto
+ 
+     void ProtoContext::resizeAutomaticLocals(unsigned int newCount) {
+         if (newCount <= automaticLocalsCount) return;
++        if (ctxstats::on) ctxstats::resizes.fetch_add(1, std::memory_order_relaxed);
+         const ProtoObject** fresh = new const ProtoObject*[newCount];
+         std::fill(fresh, fresh + newCount, PROTO_NONE);
+         if (automaticLocals && automaticLocalsCount > 0) {
