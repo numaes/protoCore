@@ -1,0 +1,22 @@
+protoST benchmarks -- 2026-10-19 00:32
+  host AMD Ryzen 5 5500U with Radeon Graphics (12 logical CPUs), load 3.64
+  protoST 0.6.6 @ 764b84e; Python 3.14.0; protopy not found
+  2 warmup + 5 timed runs, median reported
+
+  WARNING: the machine is not idle (1-minute load > 1.0)
+
+  startup: protoST 24.5 ms, CPython 59.4 ms
+  int_sum_loop       protoST     47.7 ms   CPython     34.1 ms
+  fib                protoST    375.5 ms   CPython     53.6 ms
+  list_append        protoST     49.8 ms   CPython     31.0 ms
+  str_concat         protoST     28.8 ms   CPython     29.7 ms
+  attr_lookup        protoST    168.4 ms   CPython     41.0 ms
+  range_iterate      protoST     74.3 ms   CPython     35.5 ms
+  exception_latency  protoST    984.5 ms   CPython     47.0 ms
+  parallel_speedup   pool 291.5 ms, 1 worker 610.0 ms
+  cooperative_yield  467.1 ms   message_throughput 72.9 ms
+  saturation_big     w=1: 2629.5, w=2: 1469.8, w=3: 1041.4, w=4: 941.5, w=5: 833.8, w=6: 797.9
+
+Report written: /home/gamarino/Documentos/proyectos/.agent_scratch/writepath-oct18/xrt/st_after_r2.md
+
+All runs verified.

@@ -1,0 +1,115 @@
+records  node    seq N=1  median      10 ms  build    42 ms  rss    68 MB
+records  node    par N=1  median     158 ms  build    41 ms  rss   158 MB  post 50 clone 144 compute 15
+records  protojs seq N=1  median    1497 ms  build  1278 ms  rss  2219 MB  gc 0
+records  protojs par N=1  median    1685 ms  build  1305 ms  rss   537 MB  gc 5
+records  node    seq N=2  median      24 ms  build    42 ms  rss    78 MB
+records  node    par N=2  median     229 ms  build    38 ms  rss   241 MB  post 107 clone 158 compute 19
+records  protojs seq N=2  median    2906 ms  build  1339 ms  rss  2508 MB  gc 1
+records  protojs par N=2  median    1951 ms  build  1354 ms  rss   536 MB  gc 15
+records  node    seq N=4  median      31 ms  build    39 ms  rss    77 MB
+records  node    par N=4  median     338 ms  build    40 ms  rss   407 MB  post 222 clone 164 compute 21
+records  protojs seq N=4  median    5278 ms  build  1341 ms  rss  2510 MB  gc 3
+records  protojs par N=4  median    2427 ms  build  1305 ms  rss   922 MB  gc 18
+records  node    seq N=6  median      43 ms  build    38 ms  rss    78 MB
+records  node    par N=6  median     459 ms  build    46 ms  rss   582 MB  post 342 clone 180 compute 21
+records  protojs seq N=6  median    9117 ms  build  1455 ms  rss  2510 MB  gc 6
+records  protojs par N=6  median    2683 ms  build  1331 ms  rss  2076 MB  gc 11
+records  node    seq N=12 median      96 ms  build    45 ms  rss    76 MB
+records  node    par N=12 median     818 ms  build    45 ms  rss  1047 MB  post 689 clone 176 compute 33
+records  protojs seq N=12 median   19274 ms  build  1421 ms  rss  2510 MB  gc 14
+records  protojs par N=12 median    5704 ms  build  1278 ms  rss  2518 MB  gc 19
+
+Tables: python3 tabulate.py /home/gamarino/Documentos/proyectos/.agent_scratch/writepath-oct18/xrt/structures_after.jsonl
+rc=0
+join     node    seq N=1  median      37 ms  build    16 ms  rss    55 MB
+join     node    par N=1  median      76 ms  build    17 ms  rss    87 MB  post 16 clone 52 compute 27
+join     protojs seq N=1  median    1402 ms  build   500 ms  rss  1475 MB  gc 0
+join     protojs par N=1  median    1397 ms  build   497 ms  rss   492 MB  gc 7
+join     node    seq N=2  median      61 ms  build    17 ms  rss    66 MB
+join     node    par N=2  median      98 ms  build    16 ms  rss   131 MB  post 33 clone 53 compute 30
+join     protojs seq N=2  median    2797 ms  build   458 ms  rss  2541 MB  gc 1
+join     protojs par N=2  median    1583 ms  build   468 ms  rss   853 MB  gc 9
+join     node    seq N=4  median      71 ms  build    17 ms  rss    75 MB
+join     node    par N=4  median     155 ms  build    16 ms  rss   221 MB  post 74 clone 68 compute 39
+join     protojs seq N=4  median    5563 ms  build   474 ms  rss  2549 MB  gc 2
+join     protojs par N=4  median    1794 ms  build   446 ms  rss  2040 MB  gc 6
+join     node    seq N=6  median     103 ms  build    17 ms  rss    80 MB
+join     node    par N=6  median     182 ms  build    17 ms  rss   305 MB  post 104 clone 74 compute 42
+join     protojs seq N=6  median    8371 ms  build   487 ms  rss  2549 MB  gc 3
+join     protojs par N=6  median    2382 ms  build   466 ms  rss  1973 MB  gc 14
+join     node    seq N=12 median     208 ms  build    18 ms  rss    91 MB
+join     node    par N=12 median     342 ms  build    16 ms  rss   556 MB  post 269 clone 83 compute 48
+join     protojs seq N=12 median   17588 ms  build   467 ms  rss  2549 MB  gc 8
+join     protojs par N=12 median    6883 ms  build   496 ms  rss  2677 MB  gc 17
+
+Tables: python3 tabulate.py /home/gamarino/Documentos/proyectos/.agent_scratch/writepath-oct18/xrt/structures_after.jsonl
+rc=0
+doctree  node    seq N=1  median      15 ms  build    18 ms  rss    57 MB
+doctree  node    par N=1  median      37 ms  build    20 ms  rss    75 MB  post 8 clone 19 compute 18
+doctree  protojs seq N=1  median    1214 ms  build   691 ms  rss  1064 MB  gc 0
+doctree  protojs par N=1  median    1224 ms  build   705 ms  rss   264 MB  gc 11
+doctree  node    seq N=2  median      11 ms  build    18 ms  rss    55 MB
+doctree  node    par N=2  median      69 ms  build    18 ms  rss   111 MB  post 15 clone 21 compute 36
+doctree  protojs seq N=2  median    2407 ms  build   711 ms  rss  2048 MB  gc 0
+doctree  protojs par N=2  median    1286 ms  build   704 ms  rss   820 MB  gc 7
+doctree  node    seq N=4  median      26 ms  build    18 ms  rss    72 MB
+doctree  node    par N=4  median      75 ms  build    19 ms  rss   178 MB  post 27 clone 22 compute 31
+doctree  protojs seq N=4  median    4754 ms  build   699 ms  rss  2518 MB  gc 1
+doctree  protojs par N=4  median    1651 ms  build   721 ms  rss  2115 MB  gc 11
+doctree  node    seq N=6  median      38 ms  build    19 ms  rss    70 MB
+doctree  node    par N=6  median     101 ms  build    19 ms  rss   245 MB  post 55 clone 27 compute 30
+doctree  protojs seq N=6  median    7242 ms  build   674 ms  rss  2534 MB  gc 3
+doctree  protojs par N=6  median    2122 ms  build   668 ms  rss  2120 MB  gc 12
+doctree  node    seq N=12 median      54 ms  build    18 ms  rss    73 MB
+doctree  node    par N=12 median     175 ms  build    18 ms  rss   439 MB  post 127 clone 42 compute 47
+doctree  protojs seq N=12 median   14843 ms  build   703 ms  rss  2570 MB  gc 8
+doctree  protojs par N=12 median    5157 ms  build   683 ms  rss  2597 MB  gc 14
+
+Tables: python3 tabulate.py /home/gamarino/Documentos/proyectos/.agent_scratch/writepath-oct18/xrt/structures_after.jsonl
+rc=0
+wordfreq node    seq N=1  median      17 ms  build    17 ms  rss    39 MB
+wordfreq node    par N=1  median      17 ms  build    19 ms  rss    54 MB  post 1 clone 1 compute 16
+wordfreq protojs seq N=1  median     915 ms  build   870 ms  rss  1109 MB  gc 0
+wordfreq protojs par N=1  median     882 ms  build   917 ms  rss   219 MB  gc 7
+wordfreq node    seq N=2  median      35 ms  build    19 ms  rss    40 MB
+wordfreq node    par N=2  median      17 ms  build    19 ms  rss    74 MB  post 1 clone 1 compute 16
+wordfreq protojs seq N=2  median    1965 ms  build   925 ms  rss  2073 MB  gc 0
+wordfreq protojs par N=2  median    1076 ms  build   852 ms  rss   228 MB  gc 15
+wordfreq node    seq N=4  median      61 ms  build    18 ms  rss    46 MB
+wordfreq node    par N=4  median      27 ms  build    17 ms  rss   112 MB  post 2 clone 1 compute 25
+wordfreq protojs seq N=4  median    3653 ms  build   877 ms  rss  2490 MB  gc 1
+wordfreq protojs par N=4  median    1302 ms  build   890 ms  rss   976 MB  gc 12
+wordfreq node    seq N=6  median      91 ms  build    18 ms  rss    52 MB
+wordfreq node    par N=6  median      32 ms  build    18 ms  rss   153 MB  post 2 clone 2 compute 29
+wordfreq protojs seq N=6  median    5645 ms  build   946 ms  rss  2500 MB  gc 2
+wordfreq protojs par N=6  median    1564 ms  build   948 ms  rss  1012 MB  gc 18
+wordfreq node    seq N=12 median     188 ms  build    18 ms  rss    53 MB
+wordfreq node    par N=12 median      53 ms  build    18 ms  rss   265 MB  post 7 clone 3 compute 48
+wordfreq protojs seq N=12 median   11071 ms  build   935 ms  rss  2500 MB  gc 6
+wordfreq protojs par N=12 median    3488 ms  build   932 ms  rss  2545 MB  gc 19
+
+Tables: python3 tabulate.py /home/gamarino/Documentos/proyectos/.agent_scratch/writepath-oct18/xrt/structures_after.jsonl
+rc=0
+graph    node    seq N=1  median      20 ms  build    21 ms  rss    49 MB
+graph    node    par N=1  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=1  median    1836 ms  build   365 ms  rss  2475 MB  gc 1
+graph    protojs par N=1  median    1767 ms  build   380 ms  rss   774 MB  gc 10
+graph    node    seq N=2  median      29 ms  build    25 ms  rss    55 MB
+graph    node    par N=2  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=2  median    3924 ms  build   381 ms  rss  2477 MB  gc 2
+graph    protojs par N=2  median    2542 ms  build   374 ms  rss   502 MB  gc 24
+graph    node    seq N=4  median      49 ms  build    23 ms  rss    55 MB
+graph    node    par N=4  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=4  median    7540 ms  build   382 ms  rss  2480 MB  gc 5
+graph    protojs par N=4  median    2863 ms  build   383 ms  rss  2354 MB  gc 11
+graph    node    seq N=6  median      65 ms  build    24 ms  rss    56 MB
+graph    node    par N=6  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=6  median   11489 ms  build   370 ms  rss  2480 MB  gc 8
+graph    protojs par N=6  median    3968 ms  build   384 ms  rss  2503 MB  gc 16
+graph    node    seq N=12 median     150 ms  build    23 ms  rss    57 MB
+graph    node    par N=12 did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=12 median   26313 ms  build   385 ms  rss  2481 MB  gc 19
+graph    protojs par N=12 median   10888 ms  build   402 ms  rss  2561 MB  gc 28
+
+Tables: python3 tabulate.py /home/gamarino/Documentos/proyectos/.agent_scratch/writepath-oct18/xrt/structures_after.jsonl
+rc=0

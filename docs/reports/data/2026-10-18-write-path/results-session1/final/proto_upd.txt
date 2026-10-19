@@ -1,0 +1,21 @@
+# scenario                           param  time
+-- nobj=1
+update/immutable copy nattr           4    148.40 ns/op  (ops=500000, checksum ok)
+update/immutable copy nattr          16    144.16 ns/op  (ops=500000, checksum ok)
+NATIVE update in place nattr          4      0.89 ns/op  (ops=500000, checksum ok)
+NATIVE update in place nattr         16      0.90 ns/op  (ops=500000, checksum ok)
+-- nobj=4096
+update/immutable copy nattr           4    198.42 ns/op  (ops=500000, checksum ok)
+update/immutable copy nattr          16    187.16 ns/op  (ops=500000, checksum ok)
+NATIVE update in place nattr          4      2.06 ns/op  (ops=500000, checksum ok)
+NATIVE update in place nattr         16      2.56 ns/op  (ops=500000, checksum ok)
+-- nobj=16384
+update/immutable copy nattr           4    251.41 ns/op  (ops=500000, checksum ok)
+update/immutable copy nattr          16    271.87 ns/op  (ops=500000, checksum ok)
+NATIVE update in place nattr          4      2.54 ns/op  (ops=500000, checksum ok)
+NATIVE update in place nattr         16      2.94 ns/op  (ops=500000, checksum ok)
+-- nobj=65536
+update/immutable copy nattr           4    315.26 ns/op  (ops=500000, checksum ok)
+update/immutable copy nattr          16    387.26 ns/op  (ops=500000, checksum ok)
+NATIVE update in place nattr          4     15.45 ns/op  (ops=500000, checksum ok)
+NATIVE update in place nattr         16     17.11 ns/op  (ops=500000, checksum ok)

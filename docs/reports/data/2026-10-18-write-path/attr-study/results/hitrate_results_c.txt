@@ -1,0 +1,150 @@
+=== py:bench_richards_lite.py (exit 0)
+    out: richards_lite rounds=2000 chain=20  min=33.3ms  median=33.9ms  total=2379000
+[proto-cache-stats] lookups=487675 hits=455085 collisions=31851 coldMisses=739 hitRate=93.32% collisionRate=6.53%
+[proto-cache-stats] collisionsSameName=6932 (21.76% of collisions)
+[proto-cache-stats] getAttribute calls=456236 stepsPerCall=1.07 mutableStepRate=94.79% callsWithoutAvl=92.89% foundAt0=93.25% at1=6.41% at2=0.03% at3-4=0.03% at5+=0.00% notFound=0.28%
+[proto-cache-stats] getOwnAttributeDirect calls=2835416 hitRate=97.79%
+=== py:bench_binary_trees.py (exit 0)
+    out: binary_trees depth=7  min=71.4ms  median=80.4ms  total=8798
+[proto-cache-stats] lookups=3180211 hits=2990263 collisions=187651 coldMisses=2297 hitRate=94.03% collisionRate=5.90%
+[proto-cache-stats] collisionsSameName=52417 (27.93% of collisions)
+[proto-cache-stats] getAttribute calls=2465894 stepsPerCall=1.29 mutableStepRate=87.52% callsWithoutAvl=92.32% foundAt0=72.13% at1=16.09% at2=0.04% at3-4=0.01% at5+=0.00% notFound=11.73%
+[proto-cache-stats] getOwnAttributeDirect calls=1425107 hitRate=88.72%
+=== py:bench_nqueens.py (exit 0)
+    out: nqueens n=10  min=420.8ms  median=439.2ms  count=724
+[proto-cache-stats] lookups=16000306 hits=15786222 collisions=213100 coldMisses=984 hitRate=98.66% collisionRate=1.33%
+[proto-cache-stats] collisionsSameName=212026 (99.50% of collisions)
+[proto-cache-stats] getAttribute calls=15999075 stepsPerCall=1.00 mutableStepRate=100.00% callsWithoutAvl=98.66% foundAt0=100.00% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.00%
+[proto-cache-stats] getOwnAttributeDirect calls=427128 hitRate=99.91%
+=== py:bench_fannkuch.py (exit 0)
+    out: fannkuch n=8  min=606.5ms  median=621.5ms  checksum=1616 max_flips=22
+[proto-cache-stats] lookups=28025179 hits=19726476 collisions=8264950 coldMisses=33753 hitRate=70.39% collisionRate=29.49%
+[proto-cache-stats] collisionsSameName=8263533 (99.98% of collisions)
+[proto-cache-stats] getAttribute calls=28023287 stepsPerCall=1.00 mutableStepRate=100.00% callsWithoutAvl=70.39% foundAt0=100.00% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.00%
+[proto-cache-stats] getOwnAttributeDirect calls=8297412 hitRate=100.00%
+=== py:bench_fib.py (exit 0)
+    out: fib n=25  min=64.9ms  median=69.5ms  result=75025
+[proto-cache-stats] lookups=1459301 hits=1458621 collisions=211 coldMisses=469 hitRate=99.95% collisionRate=0.01%
+[proto-cache-stats] collisionsSameName=4 (1.90% of collisions)
+[proto-cache-stats] getAttribute calls=1458221 stepsPerCall=1.00 mutableStepRate=99.98% callsWithoutAvl=99.96% foundAt0=99.96% at1=0.01% at2=0.01% at3-4=0.01% at5+=0.00% notFound=0.02%
+[proto-cache-stats] getOwnAttributeDirect calls=1457200 hitRate=99.99%
+=== py:bench_mandelbrot.py (exit 0)
+    out: mandelbrot size=150  min=747.2ms  median=756.9ms  escaped=13558
+[proto-cache-stats] lookups=3377272 hits=3376408 collisions=174 coldMisses=690 hitRate=99.97% collisionRate=0.01%
+[proto-cache-stats] collisionsSameName=7 (4.02% of collisions)
+[proto-cache-stats] getAttribute calls=3376089 stepsPerCall=1.00 mutableStepRate=99.99% callsWithoutAvl=99.98% foundAt0=99.98% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.01%
+[proto-cache-stats] getOwnAttributeDirect calls=568 hitRate=74.30%
+=== js:records (exit 0)
+    out: {"n":1,"ok":true,"mode":"seq","runtime":"protojs","workload":"records","build_ms":1487,"times_ms":[1568],"median_ms":1568,"checksums":[3152176096],"peak_rss_kb":1073264,"heap_limit_cells":40000000,"gc_cycles":0,"live_cells_after_build":0,"gc_cycles_after_build":0,"scale":1,"bench":"structures"}
+[proto-cache-stats] lookups=42050488 hits=37740838 collisions=4205340 coldMisses=104310 hitRate=89.75% collisionRate=10.00%
+[proto-cache-stats] collisionsSameName=758452 (18.04% of collisions)
+[proto-cache-stats] getAttribute calls=22589484 stepsPerCall=1.86 mutableStepRate=80.82% callsWithoutAvl=82.26% foundAt0=27.14% at1=4.42% at2=1.09% at3-4=0.00% at5+=0.01% notFound=67.34%
+[proto-cache-stats] getOwnAttributeDirect calls=1357037 hitRate=60.03%
+=== js:join (exit 0)
+    out: {"n":1,"ok":true,"mode":"seq","runtime":"protojs","workload":"join","build_ms":534,"times_ms":[1539],"median_ms":1539,"checksums":[49791161],"peak_rss_kb":617316,"heap_limit_cells":40000000,"gc_cycles":0,"live_cells_after_build":0,"gc_cycles_after_build":0,"scale":1,"bench":"structures"}
+[proto-cache-stats] lookups=30150876 hits=27220862 collisions=2901249 coldMisses=28765 hitRate=90.28% collisionRate=9.62%
+[proto-cache-stats] collisionsSameName=470720 (16.22% of collisions)
+[proto-cache-stats] getAttribute calls=17501276 stepsPerCall=1.72 mutableStepRate=90.99% callsWithoutAvl=83.46% foundAt0=35.26% at1=4.49% at2=0.65% at3-4=0.00% at5+=0.01% notFound=59.59%
+[proto-cache-stats] getOwnAttributeDirect calls=1023294 hitRate=26.70%
+=== js:doctree (exit 0)
+    out: {"n":1,"ok":true,"mode":"seq","runtime":"protojs","workload":"doctree","build_ms":788,"times_ms":[1228],"median_ms":1228,"checksums":[2336352103],"peak_rss_kb":445448,"heap_limit_cells":40000000,"gc_cycles":0,"live_cells_after_build":0,"gc_cycles_after_build":0,"scale":1,"bench":"structures"}
+[proto-cache-stats] lookups=22829997 hits=21228922 collisions=1560325 coldMisses=40750 hitRate=92.99% collisionRate=6.83%
+[proto-cache-stats] collisionsSameName=174338 (11.17% of collisions)
+[proto-cache-stats] getAttribute calls=12785651 stepsPerCall=1.79 mutableStepRate=80.68% callsWithoutAvl=87.79% foundAt0=30.65% at1=7.31% at2=0.22% at3-4=0.00% at5+=0.55% notFound=61.26%
+[proto-cache-stats] getOwnAttributeDirect calls=1018349 hitRate=74.38%
+=== js:wordfreq (exit 0)
+    out: {"n":1,"ok":true,"mode":"seq","runtime":"protojs","workload":"wordfreq","build_ms":999,"times_ms":[989],"median_ms":989,"checksums":[2848337173],"peak_rss_kb":493712,"heap_limit_cells":40000000,"gc_cycles":0,"live_cells_after_build":0,"gc_cycles_after_build":0,"scale":1,"bench":"structures"}
+[proto-cache-stats] lookups=30276107 hits=27600918 collisions=2657676 coldMisses=17513 hitRate=91.16% collisionRate=8.78%
+[proto-cache-stats] collisionsSameName=322913 (12.15% of collisions)
+[proto-cache-stats] getAttribute calls=15718307 stepsPerCall=1.93 mutableStepRate=84.09% callsWithoutAvl=83.24% foundAt0=26.86% at1=5.40% at2=2.31% at3-4=0.00% at5+=0.00% notFound=65.43%
+[proto-cache-stats] getOwnAttributeDirect calls=463504 hitRate=87.91%
+=== js:graph (exit 0)
+    out: {"n":1,"ok":true,"mode":"seq","runtime":"protojs","workload":"graph","build_ms":407,"times_ms":[1995],"median_ms":1995,"checksums":[1952213595],"peak_rss_kb":897020,"heap_limit_cells":40000000,"gc_cycles":0,"live_cells_after_build":0,"gc_cycles_after_build":0,"scale":1,"bench":"structures"}
+[proto-cache-stats] lookups=33735293 hits=29131140 collisions=4463543 coldMisses=140610 hitRate=86.35% collisionRate=13.23%
+[proto-cache-stats] collisionsSameName=405722 (9.09% of collisions)
+[proto-cache-stats] getAttribute calls=17122416 stepsPerCall=1.97 mutableStepRate=93.49% callsWithoutAvl=73.58% foundAt0=32.14% at1=1.58% at2=3.58% at3-4=0.00% at5+=0.00% notFound=62.70%
+[proto-cache-stats] getOwnAttributeDirect calls=503918 hitRate=17.72%
+=== st:json_transform.st (exit 0)
+    out: total-revenue-455
+[proto-cache-stats] lookups=66324 hits=58256 collisions=7053 coldMisses=1015 hitRate=87.84% collisionRate=10.63%
+[proto-cache-stats] collisionsSameName=753 (10.68% of collisions)
+[proto-cache-stats] getAttribute calls=24452 stepsPerCall=2.71 mutableStepRate=100.00% callsWithoutAvl=68.84% foundAt0=38.20% at1=7.48% at2=0.64% at3-4=0.47% at5+=0.00% notFound=53.21%
+[proto-cache-stats] getOwnAttributeDirect calls=110 hitRate=58.18%
+=== st:traffic_intersection.st (exit 0)
+    out: 12
+[proto-cache-stats] lookups=19396 hits=15800 collisions=2329 coldMisses=1267 hitRate=81.46% collisionRate=12.01%
+[proto-cache-stats] collisionsSameName=473 (20.31% of collisions)
+[proto-cache-stats] getAttribute calls=5966 stepsPerCall=3.25 mutableStepRate=99.63% callsWithoutAvl=46.20% foundAt0=21.47% at1=10.11% at2=2.45% at3-4=1.88% at5+=0.00% notFound=64.10%
+[proto-cache-stats] getOwnAttributeDirect calls=465 hitRate=14.62%
+=== st:rpn_interpreter.st (exit 0)
+    out: rpn-result-20
+[proto-cache-stats] lookups=18266 hits=15083 collisions=2212 coldMisses=971 hitRate=82.57% collisionRate=12.11%
+[proto-cache-stats] collisionsSameName=464 (20.98% of collisions)
+[proto-cache-stats] getAttribute calls=5445 stepsPerCall=3.35 mutableStepRate=100.00% callsWithoutAvl=47.27% foundAt0=18.93% at1=10.28% at2=2.63% at3-4=2.00% at5+=0.00% notFound=66.15%
+[proto-cache-stats] getOwnAttributeDirect calls=41 hitRate=0.00%
+=== st:calculator.st (exit 0)
+    out: 14
+[proto-cache-stats] lookups=18944 hits=15812 collisions=2169 coldMisses=963 hitRate=83.47% collisionRate=11.45%
+[proto-cache-stats] collisionsSameName=458 (21.12% of collisions)
+[proto-cache-stats] getAttribute calls=5664 stepsPerCall=3.34 mutableStepRate=100.00% callsWithoutAvl=49.84% foundAt0=18.89% at1=10.49% at2=2.61% at3-4=1.98% at5+=0.00% notFound=66.03%
+[proto-cache-stats] getOwnAttributeDirect calls=41 hitRate=0.00%
+=== st:attr_lookup.st (exit 0)
+    out: VERIFIED 600000
+[proto-cache-stats] lookups=617315 hits=14293 collisions=602002 coldMisses=1020 hitRate=2.32% collisionRate=97.52%
+[proto-cache-stats] collisionsSameName=299138 (49.69% of collisions)
+[proto-cache-stats] getAttribute calls=605138 stepsPerCall=1.02 mutableStepRate=100.00% callsWithoutAvl=0.40% foundAt0=99.30% at1=0.09% at2=0.02% at3-4=0.02% at5+=0.00% notFound=0.57%
+[proto-cache-stats] getOwnAttributeDirect calls=41 hitRate=0.00%
+=== st:list_append.st (exit 0)
+    out: VERIFIED 10000
+[proto-cache-stats] lookups=277190 hits=233354 collisions=42819 coldMisses=1017 hitRate=84.19% collisionRate=15.45%
+[proto-cache-stats] collisionsSameName=5164 (12.06% of collisions)
+[proto-cache-stats] getAttribute calls=75091 stepsPerCall=3.69 mutableStepRate=100.00% callsWithoutAvl=42.57% foundAt0=27.82% at1=14.01% at2=0.19% at3-4=0.15% at5+=0.00% notFound=57.83%
+[proto-cache-stats] getOwnAttributeDirect calls=39 hitRate=0.00%
+=== scala:object_tree (exit 0)
+    out: 131071 278364170 725606090
+[proto-cache-stats] lookups=3145947 hits=2154496 collisions=991209 coldMisses=242 hitRate=68.48% collisionRate=31.51%
+[proto-cache-stats] collisionsSameName=63012 (6.36% of collisions)
+[proto-cache-stats] getAttribute calls=917547 stepsPerCall=3.43 mutableStepRate=81.25% callsWithoutAvl=35.63% foundAt0=21.43% at1=42.86% at2=0.00% at3-4=0.00% at5+=0.00% notFound=35.72%
+[proto-cache-stats] getOwnAttributeDirect calls=2228732 hitRate=61.65%
+=== scala:map_build (exit 0)
+    out: 50000 1249975000 50000
+[proto-cache-stats] lookups=600010 hits=398985 collisions=199285 coldMisses=1740 hitRate=66.50% collisionRate=33.21%
+[proto-cache-stats] collisionsSameName=37384 (18.76% of collisions)
+[proto-cache-stats] getAttribute calls=450005 stepsPerCall=1.33 mutableStepRate=50.00% callsWithoutAvl=55.36% foundAt0=66.67% at1=33.33% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.00%
+[proto-cache-stats] getOwnAttributeDirect calls=382 hitRate=0.52%
+=== scala:list_ops (exit 0)
+    out: 9999900000 100000 50000
+[proto-cache-stats] lookups=200017 hits=199998 collisions=0 coldMisses=19 hitRate=99.99% collisionRate=0.00%
+[proto-cache-stats] collisionsSameName=0 (0.00% of collisions)
+[proto-cache-stats] getAttribute calls=200012 stepsPerCall=1.00 mutableStepRate=100.00% callsWithoutAvl=99.99% foundAt0=100.00% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.00%
+[proto-cache-stats] getOwnAttributeDirect calls=300385 hitRate=99.87%
+=== scala:attr_lookup (exit 0)
+    out: 600000
+[proto-cache-stats] lookups=300008 hits=300000 collisions=4 coldMisses=4 hitRate=100.00% collisionRate=0.00%
+[proto-cache-stats] collisionsSameName=0 (0.00% of collisions)
+[proto-cache-stats] getAttribute calls=300002 stepsPerCall=1.00 mutableStepRate=0.00% callsWithoutAvl=100.00% foundAt0=100.00% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.00%
+[proto-cache-stats] getOwnAttributeDirect calls=387 hitRate=0.52%
+=== scala:tak (exit 0)
+    out: 7
+[proto-cache-stats] lookups=4 hits=0 collisions=2 coldMisses=2 hitRate=0.00% collisionRate=50.00%
+[proto-cache-stats] collisionsSameName=0 (0.00% of collisions)
+[proto-cache-stats] getAttribute calls=1 stepsPerCall=4.00 mutableStepRate=100.00% callsWithoutAvl=0.00% foundAt0=0.00% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=100.00%
+[proto-cache-stats] getOwnAttributeDirect calls=127598 hitRate=99.70%
+=== clj:tak (exit 0)
+    out: 7
+[proto-cache-stats] lookups=190829 hits=190824 collisions=0 coldMisses=5 hitRate=100.00% collisionRate=0.00%
+[proto-cache-stats] collisionsSameName=0 (0.00% of collisions)
+[proto-cache-stats] getAttribute calls=190829 stepsPerCall=1.00 mutableStepRate=66.67% callsWithoutAvl=100.00% foundAt0=100.00% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.00%
+[proto-cache-stats] getOwnAttributeDirect calls=0 hitRate=0.00%
+=== clj:reduce-list (exit 0)
+    out: 49995000
+[proto-cache-stats] lookups=10008 hits=9999 collisions=0 coldMisses=9 hitRate=99.91% collisionRate=0.00%
+[proto-cache-stats] collisionsSameName=0 (0.00% of collisions)
+[proto-cache-stats] getAttribute calls=10008 stepsPerCall=1.00 mutableStepRate=99.97% callsWithoutAvl=99.91% foundAt0=100.00% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.00%
+[proto-cache-stats] getOwnAttributeDirect calls=0 hitRate=0.00%
+=== clj:fib (exit 0)
+    out: 832040
+[proto-cache-stats] lookups=5385076 hits=5385072 collisions=0 coldMisses=4 hitRate=100.00% collisionRate=0.00%
+[proto-cache-stats] collisionsSameName=0 (0.00% of collisions)
+[proto-cache-stats] getAttribute calls=5385076 stepsPerCall=1.00 mutableStepRate=50.00% callsWithoutAvl=100.00% foundAt0=100.00% at1=0.00% at2=0.00% at3-4=0.00% at5+=0.00% notFound=0.00%
+[proto-cache-stats] getOwnAttributeDirect calls=0 hitRate=0.00%

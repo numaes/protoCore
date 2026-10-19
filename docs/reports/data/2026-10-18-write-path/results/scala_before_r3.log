@@ -1,0 +1,52 @@
+protoScala benchmark harness  --  2026-10-19 02:07
+  host:       AMD Ryzen 5 5500U with Radeon Graphics  (6 cores, 12 logical CPUs)
+  protoscala: /home/gamarino/Documentos/proyectos/protoScala/build_cmp2146/protoscala  [Release, a6946796]
+  release:    (build_bench not built -- column skipped)
+  scala JVM:  /home/gamarino/Documentos/proyectos/tools/scala3-dl/scala3-3.9.0-x86_64-pc-linux
+  cpython:    /usr/local/bin/python3.14
+  protopy:    (not found -- column skipped)
+  protost:    (not found -- column skipped)
+  protoclj:   (not found -- column skipped)
+  runs:       2 warmup + 5 timed, median, interleaved, every run verified
+
+  load average at start: 3.20 / 3.53 / 3.10
+
+== Compiling the JVM twins with scalac (untimed) ==
+  int_sum_loop        3.1 s  OK
+  fib                 3.0 s  OK
+  str_concat          3.2 s  OK
+  range_iterate       3.2 s  OK
+  tak                 3.3 s  OK
+  fib30               3.1 s  OK
+  sum_loop            3.1 s  OK
+  factorial_100       3.4 s  OK
+  attr_lookup         3.2 s  OK
+  object_tree         3.9 s  OK
+  list_ops            3.7 s  OK
+  map_build           3.8 s  OK
+
+== Comparable workloads ==
+  int_sum_loop     protoscala=30.5 jvm=175.5 cpython=34.0
+  fib              protoscala=63.3 jvm=183.0 cpython=41.5
+  str_concat       protoscala=27.3 jvm=190.4 cpython=31.1
+  range_iterate    protoscala=31.1 jvm=179.6 cpython=33.0
+  tak              protoscala=35.5 jvm=175.4 cpython=32.4
+  fib30            protoscala=495.5 jvm=184.9 cpython=162.0
+  sum_loop         protoscala=78.4 jvm=187.7 cpython=85.8
+  [load average at midpoint: 4.24 / 3.85 / 3.24]
+  factorial_100    protoscala=24.6 jvm=172.8 cpython=29.3
+  attr_lookup      protoscala=45.3 jvm=185.0 cpython=39.4
+  object_tree      protoscala=333.8 jvm=196.1 cpython=179.0
+  list_ops         protoscala=452.2 jvm=FAILED cpython=1722.8
+  map_build        protoscala=294.8 jvm=306.7 cpython=66.6
+
+== Cold start (benchmarks/cold-start.sh, 21 runs) ==
+  protoScala           script  median 30.17 ms [28.37-32.09] (21/21 verified)
+  protoScala           repl    median 30.39 ms [27.69-32.94] (21/21 verified)
+  protoScala           script: FAIL: median 30.17 ms is not below 25 ms
+  protoScala           repl: FAIL: median 30.39 ms is not below 25 ms
+
+  load average at end: 3.97 / 3.82 / 3.25
+
+Report written: /home/gamarino/Documentos/proyectos/.agent_scratch/writepath-oct18/xrt2/scala_before_r3.md
+1 FAILED cell(s): list_ops/jvm
