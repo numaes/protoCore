@@ -987,8 +987,10 @@ namespace proto
         }
     }
 
+    // The same word as fromInteger: a SmallInteger built here, a LargeInteger
+    // only outside its range.
     const ProtoObject* ProtoContext::fromLong(long long value) {
-        return Integer::fromLong(this, value);
+        return fromInteger(value);
     }
 
     const ProtoObject* ProtoContext::fromString(const char* str, int base) {

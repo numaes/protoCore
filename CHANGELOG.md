@@ -27,6 +27,15 @@ to call it.  Reference and migration guide: `docs/CALLING_CONVENTION.md`.
   the call's frame; the method no longer receives a null positional
   argument.  A thread's main method receives its argument list the same way.
 
+- **Integers: the SmallInteger case first, in the function itself.**
+  `ProtoObject::asLong`, `ProtoObject::isInteger`, `ProtoContext::fromLong`
+  and `Integer::asLong` test for a SmallInteger before anything else instead
+  of reaching it through up to three further out-of-line calls; `fromLong`
+  makes the same word as `fromInteger`.  The library is compiled with
+  `-fno-semantic-interposition` (GCC, Clang), the compile-time half of the
+  existing `-Bsymbolic-functions`.  No change to the public header.
+  protoClojure `fib` -7 % cycles from this alone.
+
 ### Added
 
 - **The array form of `ProtoObject::call`**: positional arguments as a
@@ -44,7 +53,8 @@ to call it.  Reference and migration guide: `docs/CALLING_CONVENTION.md`.
   array form allocates nothing and hands over the caller's array, read
   semantics, `asList`, binding, `nonMethodCallback`, a thread's main method,
   and arguments rooted only by the caller's slots surviving collections that
-  run during the call).
+  run during the call) and `SmallIntegerFastPath.*` (the integer paths at and
+  across the bounds of the SmallInteger range).
 
 ## [2.14.8] - 2026-10-19
 

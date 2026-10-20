@@ -182,6 +182,12 @@ namespace proto
     long long Integer::asLong(ProtoContext* context, const ProtoObject* object)
     {
         if (object == nullptr) return 0;
+        {
+            ProtoObjectPointer p{};
+            p.oid = object;
+            if (p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
+                return p.si.smallInteger;   // the common case, without the calls below
+        }
         if (!isInteger(object)) {
            ProtoObjectPointer p; p.oid = object;
            if (p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {

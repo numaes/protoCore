@@ -160,6 +160,14 @@ target_link_libraries(protoCore PUBLIC Threads::Threads)
 if(NOT WIN32 AND NOT APPLE)
     target_link_options(protoCore PRIVATE "-Wl,-Bsymbolic-functions")
 endif()
+# The compile-time half of the same decision: with -fPIC the compiler treats
+# every exported function as interposable and will not inline it even into a
+# caller in the same translation unit.  -Bsymbolic-functions already binds
+# those calls inside the DSO, so the compiler may as well know it.  No effect
+# on the exported API.
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(protoCore PRIVATE "-fno-semantic-interposition")
+endif()
 
 if(COVERAGE)
     target_compile_options(protoCore PRIVATE ${COVERAGE_FLAGS})

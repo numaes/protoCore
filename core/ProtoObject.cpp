@@ -1960,7 +1960,15 @@ namespace proto
 
     bool ProtoObject::isNone(ProtoContext* context) const { return this == PROTO_NONE; }
     bool ProtoObject::isBoolean(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_BOOLEAN; }
-    bool ProtoObject::isInteger(ProtoContext* context) const { return proto::isInteger(this); }
+    // SmallInteger first, in this function: the common case costs one tag test
+    // and no further call.
+    bool ProtoObject::isInteger(ProtoContext* context) const {
+        ProtoObjectPointer p{};
+        p.oid = this;
+        if (p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
+            return true;
+        return proto::isInteger(this);
+    }
     bool ProtoObject::isByte(ProtoContext* context) const {
         // protoCore has no distinct byte type: fromByte(char) is
         // fromInteger(char), and asByte reads byteValue.byteData, an 8-bit
@@ -2263,7 +2271,13 @@ namespace proto
         return nullptr;
     }
 
-    long long ProtoObject::asLong(ProtoContext* context) const { return Integer::asLong(context, this); }
+    long long ProtoObject::asLong(ProtoContext* context) const {
+        ProtoObjectPointer p{};
+        p.oid = this;
+        if (p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
+            return p.si.smallInteger;
+        return Integer::asLong(context, this);
+    }
     int ProtoObject::integerSign(ProtoContext* context) const { return Integer::sign(context, this); }
     const ProtoString* ProtoObject::asIntegerString(ProtoContext* context, int base) const { return Integer::toString(context, this, base); }
     bool ProtoObject::asBoolean(ProtoContext* context) const {
