@@ -171,7 +171,7 @@ std::vector<const ProtoObject*>* gConcBaseKeys = nullptr;
 // ProtoSpace::mainContext (a data race ThreadSanitizer reports) and its cells
 // would not be root-scanned (docs/EMBEDDER-CONFORMANCE.md rule 11).
 const ProtoObject* concWorkerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                   const ProtoList* args, const ProtoSparseList*) {
+                                   const ProtoArguments* args, const ProtoKeywordArguments*) {
     const proto::proto_long t = args->getAt(ctx, 0)->asLong(ctx);
     const ProtoMap* mine = gConcBase;
     for (int i = 0; i < kConcPerThread; ++i) {

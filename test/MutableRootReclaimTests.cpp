@@ -283,7 +283,7 @@ WriterShared* gWriters = nullptr;
 // the writers are updating.  When done, it checks its own objects and waits,
 // parked, for the release.
 const ProtoObject* writerThreadMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                    const ProtoList*, const ProtoSparseList*) {
+                                    const ProtoArguments*, const ProtoKeywordArguments*) {
     WriterShared& shared = *gWriters;
     std::vector<ProtoRootSet::Handle> owned;
     {

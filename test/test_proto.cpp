@@ -29,8 +29,8 @@ const ProtoObject* main_test_function(
     ProtoContext* c,
     const ProtoObject* self,
     const ParentLink* parentLink,
-    const ProtoList* positionalParameters,
-    const ProtoSparseList* keywordParametersDict
+    const ProtoArguments* positionalParameters,
+    const ProtoKeywordArguments* keywordParametersDict
 ) {
     test_primitives(*c);
     test_list_operations(*c);

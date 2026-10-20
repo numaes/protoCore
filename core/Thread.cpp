@@ -176,7 +176,12 @@ namespace proto {
             // the GC waiting indefinitely.
             context->safepoint();
             try {
-                method(context, reinterpret_cast<const ProtoObject*>(context->thread), nullptr, args, kwargs);
+                // The thread's lists are its roots; the method reads them
+                // through descriptors, as any call passes its arguments.
+                const ProtoListArguments positional(context, args);
+                const ProtoSparseListKeywordArguments keywords(context, kwargs);
+                method(context, reinterpret_cast<const ProtoObject*>(context->thread), nullptr,
+                       &positional, kwargs ? &keywords : nullptr);
             } catch (const std::exception& e) {
                 if (std::getenv("PROTO_THREAD_DIAG")) {
                     std::cerr << "Uncaught exception in thread: " << e.what() << std::endl;
@@ -443,7 +448,9 @@ namespace proto {
         ProtoContext* const callerCurrent = callerImpl ? callerImpl->context : nullptr;
         ProtoContext* const savedMainContext = space ? space->mainContext : nullptr;
 
-        this->context = new ProtoContext(space, nullptr, nullptr, nullptr, args, kwargs);
+        // No parameter names, so no binding: the arguments reach the
+        // thread's method through thread_main, not through this context.
+        this->context = new ProtoContext(space, nullptr, nullptr, nullptr, nullptr, nullptr);
         this->context->thread = (ProtoThread*)this->asThread(context);
         // Stash the per-thread mutable-value cache pointer in the
         // freshly-created context so resolveMutableState's hot path

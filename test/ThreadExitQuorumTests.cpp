@@ -77,7 +77,7 @@ void watchTheQuorum(ProtoContext* context) {
 }
 
 const ProtoObject* allocatingBody(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                  const ProtoList*, const ProtoSparseList*) {
+                                  const ProtoArguments*, const ProtoKeywordArguments*) {
     for (int i = 0; i < 64; ++i) (void) ctx->newList()->appendLast(ctx, ctx->fromInteger(i));
     return PROTO_NONE;
 }

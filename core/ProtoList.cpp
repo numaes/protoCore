@@ -493,6 +493,45 @@ namespace proto {
         }
         return toImpl<const ProtoListImplementation>(this)->implHas(context, value);
     }
+    // --- ProtoArguments ---
+
+    bool ProtoArguments::has(ProtoContext* context, const ProtoObject* value) const {
+        if (!value) return false;
+        for (unsigned i = 0; i < count_; ++i) {
+            if (values_[i] && listElementEquals(context, values_[i], value)) return true;
+        }
+        return false;
+    }
+
+    const ProtoList* ProtoArguments::asList(ProtoContext* context) const {
+        if (list_) return list_;
+        return count_ ? context->newList(count_, values_) : context->newList();
+    }
+
+    ProtoListArguments::ProtoListArguments(ProtoContext* context, const ProtoList* list)
+        : ProtoArguments(nullptr, 0, list) {
+        if (!list) return;
+        ProtoObjectPointer pa{};
+        pa.oid = reinterpret_cast<const ProtoObject*>(list);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            // A small list already holds its values in a dense array in its
+            // cell, which the list keeps alive: read it in place, no copy.
+            const auto* small = toImpl<const ProtoListSmallImplementation>(list);
+            values_ = small->slots;
+            count_ = static_cast<unsigned>(small->size);
+            return;
+        }
+        const unsigned n = static_cast<unsigned>(list->getSize(context));
+        const ProtoObject** slots = inline_;
+        if (n > kInline) {
+            heap_.resize(n);
+            slots = heap_.data();
+        }
+        for (unsigned i = 0; i < n; ++i) slots[i] = list->getAt(context, static_cast<int>(i));
+        values_ = slots;
+        count_ = n;
+    }
+
     const ProtoList* ProtoList::setAt(ProtoContext* context, int index, const ProtoObject* value) const {
         ProtoContext::CriticalSection cs(context);
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);

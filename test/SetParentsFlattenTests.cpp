@@ -433,7 +433,7 @@ std::atomic<bool> gSpStop{false};
 std::atomic<int> gSpTornReads{0};
 
 const ProtoObject* setParentsReader(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                    const ProtoList*, const ProtoSparseList*) {
+                                    const ProtoArguments*, const ProtoKeywordArguments*) {
     // Each check below is a SINGLE call: it observes m's state at one
     // instant. Two SEPARATE calls (e.g. getParents() then hasParent())
     // can legitimately observe DIFFERENT states under a concurrent
@@ -478,7 +478,7 @@ const ProtoObject* setParentsReader(ProtoContext* ctx, const ProtoObject*, const
 }
 
 const ProtoObject* setParentsWriter(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                    const ProtoList* args, const ProtoSparseList*) {
+                                    const ProtoArguments* args, const ProtoKeywordArguments*) {
     const proto::proto_long t = args->getAt(ctx, 0)->asLong(ctx);
     const ProtoList* singleParent = ctx->newList()->appendLast(ctx, (*gSpCandidates)[t]);
     for (int i = 0; i < kSetParentsIterPerThread; ++i) {

@@ -1022,7 +1022,7 @@ namespace proto {
         ProtoMethodCell(ProtoContext *context, const ProtoObject *selfObject, ProtoMethod methodTarget);
 
         const ProtoObject *
-        implInvoke(ProtoContext *context, const ProtoList *args, const ProtoSparseList *kwargs) const;
+        implInvoke(ProtoContext *context, const ProtoArguments *args, const ProtoKeywordArguments *kwargs) const;
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
 

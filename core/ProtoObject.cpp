@@ -747,16 +747,85 @@ namespace proto
         return result;
     }
 
+    namespace {
+        // Every call form ends here: one lookup, one method, the arguments
+        // as descriptors (either may be null).
+        const ProtoObject* dispatchCall(const ProtoObject* receiver, ProtoContext* context,
+                                        const ParentLink* nextParent, const ProtoString* method,
+                                        const ProtoObject* self, const ProtoArguments* positional,
+                                        const ProtoKeywordArguments* keywords) {
+            const auto* result = receiver->getAttribute(context, const_cast<ProtoString*>(method));
+            if (result && result->isMethod(context)) {
+                return toImpl<const ProtoMethodCell>(result)->method(context, self, nextParent, positional, keywords);
+            }
+            if (context->space->nonMethodCallback) {
+                return (*context->space->nonMethodCallback)(context, nextParent, method, self, positional, keywords);
+            }
+            return PROTO_NONE;
+        }
+    }
+
     const ProtoObject* ProtoObject::call(ProtoContext* context, const ParentLink* nextParent, const ProtoString* method, const ProtoObject* self, const ProtoList* positionalParameters, const ProtoSparseList* keywordParametersDict) const
     {
-        const auto* result = this->getAttribute(context, const_cast<ProtoString*>(method));
-        if (result && result->isMethod(context)) {
-            return result->asMethod(context)(context, self, nextParent, positionalParameters, keywordParametersDict);
+        // The lists' values are read in place (a small list) or copied into
+        // local arrays of this frame; only a call with more arguments than
+        // the arrays hold goes through the heap-backed bridges.  The lists
+        // keep the values reachable.
+        constexpr unsigned kLocalPositional = 16;
+        constexpr unsigned kLocalKeywords = 8;
+        const ProtoObject* localValues[kLocalPositional];
+        ProtoKeywordArgument localPairs[kLocalKeywords];
+
+        const unsigned n = positionalParameters ? static_cast<unsigned>(positionalParameters->getSize(context)) : 0;
+        const unsigned kn = keywordParametersDict ? static_cast<unsigned>(keywordParametersDict->getSize(context)) : 0;
+        if (n > kLocalPositional || kn > kLocalKeywords) {
+            const ProtoListArguments positional(context, positionalParameters);
+            const ProtoSparseListKeywordArguments keywords(context, keywordParametersDict);
+            return dispatchCall(this, context, nextParent, method, self, &positional,
+                                keywordParametersDict ? &keywords : nullptr);
         }
-        if (context->space->nonMethodCallback) {
-            return (*context->space->nonMethodCallback)(context, nextParent, method, self, positionalParameters, keywordParametersDict);
+
+        const ProtoObject* const* values = localValues;
+        ProtoObjectPointer pa{};
+        pa.oid = reinterpret_cast<const ProtoObject*>(positionalParameters);
+        if (n && pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            values = toImpl<const ProtoListSmallImplementation>(positionalParameters)->slots;
+        } else {
+            for (unsigned i = 0; i < n; ++i) localValues[i] = positionalParameters->getAt(context, static_cast<int>(i));
         }
-        return PROTO_NONE;
+        const ProtoArguments positional(values, n, positionalParameters);
+        if (!keywordParametersDict) {
+            return dispatchCall(this, context, nextParent, method, self, &positional, nullptr);
+        }
+        struct Fill {
+            ProtoKeywordArgument* pairs;
+            unsigned at;
+            static void add(ProtoContext*, void* self, proto_ulong key, const ProtoObject* value) {
+                auto* f = static_cast<Fill*>(self);
+                f->pairs[f->at++] = {reinterpret_cast<const ProtoString*>(key), value};
+            }
+        } fill{localPairs, 0};
+        if (kn) keywordParametersDict->processElements(context, &fill, &Fill::add);
+        const ProtoKeywordArguments keywords(localPairs, fill.at, keywordParametersDict);
+        return dispatchCall(this, context, nextParent, method, self, &positional, &keywords);
+    }
+
+    const ProtoObject* ProtoObject::call(ProtoContext* context, const ParentLink* nextParent, const ProtoString* method,
+                                         const ProtoObject* self, const ProtoObject* const* positional,
+                                         unsigned positionalCount, const ProtoKeywordArgument* keywords,
+                                         unsigned keywordCount) const
+    {
+        const ProtoArguments positionalArgs(positional, positionalCount);
+        const ProtoKeywordArguments keywordArgs(keywords, keywordCount);
+        return dispatchCall(this, context, nextParent, method, self, &positionalArgs,
+                            keywordCount ? &keywordArgs : nullptr);
+    }
+
+    const ProtoObject* ProtoObject::call(ProtoContext* context, const ParentLink* nextParent, const ProtoString* method,
+                                         const ProtoObject* self, const ProtoArguments& positional,
+                                         const ProtoKeywordArguments* keywords) const
+    {
+        return dispatchCall(this, context, nextParent, method, self, &positional, keywords);
     }
 
     namespace {

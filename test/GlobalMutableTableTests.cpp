@@ -152,7 +152,7 @@ struct StressShared {
 StressShared* gStress = nullptr;
 
 const ProtoObject* stressMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                              const ProtoList*, const ProtoSparseList*) {
+                              const ProtoArguments*, const ProtoKeywordArguments*) {
     StressShared& s = *gStress;
     const int self = s.started.fetch_add(1);
     {
@@ -241,7 +241,7 @@ struct HoldShared {
 HoldShared* gHold = nullptr;
 
 const ProtoObject* holderMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                              const ProtoList*, const ProtoSparseList*) {
+                              const ProtoArguments*, const ProtoKeywordArguments*) {
     HoldShared& h = *gHold;
     const ProtoObject* v = h.holder->getAttribute(ctx, sym(ctx, "payload"));
     const ProtoList* l = v ? v->asList(ctx) : nullptr;

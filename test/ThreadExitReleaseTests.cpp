@@ -47,13 +47,13 @@ namespace {
 std::atomic<proto::proto_long> g_ran{0};
 
 const ProtoObject* emptyBody(ProtoContext*, const ProtoObject*, const ParentLink*,
-                             const ProtoList*, const ProtoSparseList*) {
+                             const ProtoArguments*, const ProtoKeywordArguments*) {
     g_ran.fetch_add(1, std::memory_order_relaxed);
     return PROTO_NONE;
 }
 
 const ProtoObject* allocatingBody(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                  const ProtoList*, const ProtoSparseList*) {
+                                  const ProtoArguments*, const ProtoKeywordArguments*) {
     long long n = 0;
     for (int i = 0; i < 400; ++i) n += (long long) ctx->newList()->getSize(ctx);
     (void) n;
@@ -246,7 +246,7 @@ std::atomic<bool> g_exitGate{false};
 std::atomic<int> g_atGate{0};
 
 const ProtoObject* gatedBody(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                             const ProtoList*, const ProtoSparseList*) {
+                             const ProtoArguments*, const ProtoKeywordArguments*) {
     g_atGate.fetch_add(1, std::memory_order_relaxed);
     ProtoContext::UnmanagedScope parked(ctx);
     while (!g_exitGate.load(std::memory_order_acquire)) std::this_thread::yield();

@@ -31,8 +31,8 @@ const ProtoObject* benchmarks(
     ProtoContext* c,
     const ProtoObject* self,
     const ParentLink* parentLink,
-    const ProtoList* positionalParameters,
-    const ProtoSparseList* keywordParametersDict
+    const ProtoArguments* positionalParameters,
+    const ProtoKeywordArguments* keywordParametersDict
 ) {
     std::cout << "--- Immutable Sharing Benchmark ---" << std::endl;
     std::cout << "Initial size: " << INITIAL_SIZE << ", Versions: " << NUM_VERSIONS << std::endl;

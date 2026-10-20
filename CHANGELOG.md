@@ -4,6 +4,48 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-10-20
+
+**Breaking API and ABI change (SOVERSION 3 -> 4).** One method type, two ways
+to call it.  Reference and migration guide: `docs/CALLING_CONVENTION.md`.
+
+### Changed
+
+- **`ProtoMethod` receives descriptors.**  Its last two parameters are
+  `const ProtoArguments*` and `const ProtoKeywordArguments*` instead of
+  `const ProtoList*` and `const ProtoSparseList*`.  A descriptor reads like the
+  list it replaces (`getSize`, `getAt`, `has`; `getAt(key)`,
+  `processElements`), so code that only reads its arguments compiles once
+  the types change; `asList` / `asSparseList` answer real lists for code that
+  keeps or derives them.  The method does not depend on the call form.
+- **`nonMethodCallback`** and the **`ProtoContext` constructor's** `args` /
+  `kwargs` take descriptors.  The binding reads them, and now also matches a
+  keyword keyed by the interned name's pointer (it matched only the content
+  hash before).
+- **The list form of `ProtoObject::call`** passes descriptors over the lists:
+  a small list is read in place and the rest is copied into local arrays of
+  the call's frame; the method no longer receives a null positional
+  argument.  A thread's main method receives its argument list the same way.
+
+### Added
+
+- **The array form of `ProtoObject::call`**: positional arguments as a
+  pointer and a count, keywords as an array of `ProtoKeywordArgument` (an
+  interned name and a value) and a count.  The caller chooses where the
+  arrays live and how large they are; nothing is allocated.  C++ floor, one
+  argument with caller and callee contexts: 209 ns with a fresh list per
+  call (2.14.8) -> 63-66 ns.
+- **The descriptor form of `ProtoObject::call`**, for a method that passes
+  on the descriptors it received.
+- **`ProtoArguments`, `ProtoKeywordArguments`, `ProtoKeywordArgument`**, and
+  the bridges **`ProtoListArguments`** and
+  **`ProtoSparseListKeywordArguments`** for callers that hold lists.
+- New tests: `CallingConvention*` (the three forms reach one method, the
+  array form allocates nothing and hands over the caller's array, read
+  semantics, `asList`, binding, `nonMethodCallback`, a thread's main method,
+  and arguments rooted only by the caller's slots surviving collections that
+  run during the call).
+
 ## [2.14.8] - 2026-10-19
 
 No public API change; ABI compatible (SOVERSION 3): `ProtoContext`'s

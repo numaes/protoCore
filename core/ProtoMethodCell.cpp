@@ -11,11 +11,11 @@ namespace proto
 
     const ProtoObject* ProtoMethodCell::implInvoke(
         ProtoContext* context,
-        const ProtoList* args,
-        const ProtoSparseList* kwargs
+        const ProtoArguments* args,
+        const ProtoKeywordArguments* kwargs
     ) const
     {
-        return this->method(context, const_cast<ProtoObject*>(this->self), static_cast<ParentLink*>(nullptr), const_cast<ProtoList*>(args), const_cast<ProtoSparseList*>(kwargs));
+        return this->method(context, this->self, nullptr, args, kwargs);
     }
 
     const ProtoObject* ProtoMethodCell::implAsObject(ProtoContext* context) const

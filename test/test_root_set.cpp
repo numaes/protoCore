@@ -154,7 +154,7 @@ ProtoRootSet* gConcurrentRootSet = nullptr;
 std::atomic<int> gRootSetErrors{0};
 
 const ProtoObject* rootSetWorker(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                 const ProtoList*, const ProtoSparseList*) {
+                                 const ProtoArguments*, const ProtoKeywordArguments*) {
     ProtoRootSet* rs = gConcurrentRootSet;
     std::vector<ProtoRootSet::Handle> handles;
     handles.reserve(kRootSetOpsPerThread);

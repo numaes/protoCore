@@ -341,8 +341,8 @@ private:
     static const ProtoObject* probeEntry(ProtoContext* context,
                                          const ProtoObject* /*self*/,
                                          const ParentLink* /*pl*/,
-                                         const ProtoList* /*args*/,
-                                         const ProtoSparseList* /*kwargs*/)
+                                         const ProtoArguments* /*args*/,
+                                         const ProtoKeywordArguments* /*kwargs*/)
     {
         Host::ThreadBody b = ThreadBridge::body();
         if (b && ThreadBridge::kind())
@@ -353,8 +353,8 @@ private:
     static const ProtoObject* waiterEntry(ProtoContext* context,
                                           const ProtoObject* /*self*/,
                                           const ParentLink* /*pl*/,
-                                          const ProtoList* /*args*/,
-                                          const ProtoSparseList* /*kwargs*/)
+                                          const ProtoArguments* /*args*/,
+                                          const ProtoKeywordArguments* /*kwargs*/)
     {
         volatile bool* flag = ThreadBridge::release();
         const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
@@ -445,8 +445,8 @@ private:
     static const ProtoObject* allocThenProbe(ProtoContext* context,
                                              const ProtoObject*,
                                              const ParentLink*,
-                                             const ProtoList*,
-                                             const ProtoSparseList*)
+                                             const ProtoArguments*,
+                                             const ProtoKeywordArguments*)
     {
         // Allocate on this thread's own context, contradicting HoldsNothing.
         for (int i = 0; i < 64; ++i) (void) context->newObject(false);
@@ -505,8 +505,8 @@ public:
     }
 private:
     static const ProtoObject* returnAtOnce(ProtoContext*, const ProtoObject*,
-                                           const ParentLink*, const ProtoList*,
-                                           const ProtoSparseList*)
+                                           const ParentLink*, const ProtoArguments*,
+                                           const ProtoKeywordArguments*)
     {
         return PROTO_NONE;
     }
@@ -535,8 +535,8 @@ private:
     static const ProtoObject* spinForASecond(ProtoContext* context,
                                              const ProtoObject*,
                                              const ParentLink*,
-                                             const ProtoList*,
-                                             const ProtoSparseList*)
+                                             const ProtoArguments*,
+                                             const ProtoKeywordArguments*)
     {
         const auto deadline =
             std::chrono::steady_clock::now() + std::chrono::seconds(1);

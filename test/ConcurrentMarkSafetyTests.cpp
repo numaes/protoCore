@@ -39,7 +39,7 @@ const ProtoString* gMutSlot = nullptr;
 std::atomic<proto::proto_ulong> gMutMismatches{0};
 
 const ProtoObject* mutationWorker(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                  const ProtoList* args, const ProtoSparseList*) {
+                                  const ProtoArguments* args, const ProtoKeywordArguments*) {
     const long long t = args->getAt(ctx, 0)->asLong(ctx);
     for (int i = 0; i < kMutIterPerThread; ++i) {
         ProtoObject* obj = (*gMutPool)[(i + t * 17) % kMutPoolSize];
@@ -70,7 +70,7 @@ const ProtoString* gFlipNextKey = nullptr;
 std::atomic<bool> gStopFlip{false};
 
 const ProtoObject* chainFlipper(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                const ProtoList*, const ProtoSparseList*) {
+                                const ProtoArguments*, const ProtoKeywordArguments*) {
     bool useM2 = true;
     while (!gStopFlip.load(std::memory_order_relaxed)) {
         // Allocate a fresh decoy on every flip -- cycles a lot of memory

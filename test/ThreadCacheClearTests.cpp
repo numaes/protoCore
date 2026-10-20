@@ -169,7 +169,7 @@ struct UnmanagedShared {
 UnmanagedShared* gUnmanaged = nullptr;
 
 const ProtoObject* unmanagedThreadMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                       const ProtoList*, const ProtoSparseList*) {
+                                       const ProtoArguments*, const ProtoKeywordArguments*) {
     UnmanagedShared& shared = *gUnmanaged;
     ProtoThreadExtension* ext = extensionOf(ctx);
     const ProtoObject* object = ctx->newObject(true);

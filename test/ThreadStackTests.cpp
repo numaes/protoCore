@@ -51,7 +51,7 @@ std::size_t probe(std::size_t depth) {
 }
 
 const ProtoObject* measure(ProtoContext*, const ProtoObject*, const ParentLink*,
-                           const ProtoList*, const ProtoSparseList*) {
+                           const ProtoArguments*, const ProtoKeywordArguments*) {
     const std::size_t bytes = ProtoSpace::currentThreadStackBytes();
     g_stackBytes = bytes;
     if (bytes >= kWant) {

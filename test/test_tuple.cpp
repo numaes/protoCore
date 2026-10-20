@@ -183,8 +183,8 @@ std::vector<std::vector<const proto::ProtoTuple*>>* gTupleResults = nullptr;
 const proto::ProtoObject* gTupleTag = nullptr;
 
 const proto::ProtoObject* tupleInternWorker(proto::ProtoContext* ctx, const proto::ProtoObject*,
-                                            const proto::ParentLink*, const proto::ProtoList* args,
-                                            const proto::ProtoSparseList*) {
+                                            const proto::ParentLink*, const proto::ProtoArguments* args,
+                                            const proto::ProtoKeywordArguments*) {
     const int t = static_cast<int>(args->getAt(ctx, 0)->asLong(ctx));
     for (int n = 0; n < kInternKeys; ++n) {
         const int k = (t % 2 == 0) ? n : kInternKeys - 1 - n;

@@ -22,12 +22,12 @@ namespace {
 std::atomic<bool> g_created{false};
 
 const ProtoObject* noop(ProtoContext*, const ProtoObject*, const ParentLink*,
-                        const ProtoList*, const ProtoSparseList*) {
+                        const ProtoArguments*, const ProtoKeywordArguments*) {
     return PROTO_NONE;
 }
 
 const ProtoObject* creator(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                           const ProtoList*, const ProtoSparseList*) {
+                           const ProtoArguments*, const ProtoKeywordArguments*) {
     const ProtoThread* t = ctx->space->newThread(ctx, ProtoString::createSymbol(ctx, "child"),
                                                  noop, nullptr, nullptr);
     g_created = true;

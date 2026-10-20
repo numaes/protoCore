@@ -17,8 +17,8 @@ const ProtoObject* benchmarks(
     ProtoContext* c,
     const ProtoObject* self,
     const ParentLink* parentLink,
-    const ProtoList* args,
-    const ProtoSparseList* kwargs
+    const ProtoArguments* args,
+    const ProtoKeywordArguments* kwargs
 ) {
     const int num_objects = 1000;
     const int num_accesses = 10000;

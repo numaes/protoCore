@@ -92,8 +92,8 @@ namespace proto
         ProtoContext* previous,
         const ProtoList* parameterNames,
         const ProtoList* localNames,
-        const ProtoList* args,
-        const ProtoSparseList* kwargs,
+        const ProtoArguments* args,
+        const ProtoKeywordArguments* kwargs,
         size_t totalSlots,
         const ProtoObject** externalSlots
     ) : previous(previous),
@@ -219,37 +219,43 @@ namespace proto
             assigned[i] = true;
         }
 
-        // 3c. Bind keyword arguments
+        // 3c. Bind keyword arguments.  The descriptor answers each pair with
+        // its key: an interned name's pointer over an array of pairs, and
+        // whatever the list was keyed by over a sparse list (the content
+        // hash, which this binding compared before 3.0.0).  A parameter
+        // matches a key by either.
         if (kwargs) {
-            const ProtoSparseListIterator* iterator = kwargs->getIterator(this);
-            while (iterator->hasNext(this)) {
-                proto_ulong key = iterator->nextKey(this);
-                const ProtoObject* value = iterator->nextValue(this);
+            struct Binder {
+                ProtoContext* self;
+                const ProtoList* parameterNames;
+                unsigned int paramCount;
+                std::vector<bool>* assigned;
 
-                bool found = false;
-                for (unsigned int i = 0; i < paramCount; ++i) {
-                    const ProtoString* paramName = parameterNames->getAt(this, i)->asString(this);
-                    if (paramName->getHash(this) == key) {
-                        if (assigned[i]) {
-							if (this->space->parameterTwiceAssignedCallback)
-								this->space->parameterTwiceAssignedCallback(this, nullptr, paramName);
-							continue;
+                static void bind(ProtoContext* context, void* receiver, proto_ulong key, const ProtoObject* value) {
+                    auto* b = static_cast<Binder*>(receiver);
+                    bool found = false;
+                    for (unsigned int i = 0; i < b->paramCount; ++i) {
+                        const ProtoString* paramName = b->parameterNames->getAt(context, i)->asString(context);
+                        const proto_ulong hash = paramName->getHash(context);
+                        if (reinterpret_cast<proto_ulong>(paramName) != key && hash != key) continue;
+                        if ((*b->assigned)[i]) {
+                            if (b->self->space->parameterTwiceAssignedCallback)
+                                b->self->space->parameterTwiceAssignedCallback(context, nullptr, paramName);
+                            continue;
                         }
-                        closureLocals = closureLocals->setAt(this, key, value);
-                        assigned[i] = true;
+                        b->self->closureLocals = b->self->closureLocals->setAt(context, hash, value);
+                        (*b->assigned)[i] = true;
                         found = true;
                         break;
                     }
+                    if (!found && b->self->space->parameterNotFoundCallback) {
+                        // Naming the parameter would need a reverse mapping from
+                        // the key to a string; the callback gets no name.
+                        b->self->space->parameterNotFoundCallback(context, nullptr, nullptr);
+                    }
                 }
-
-                if (!found) {
-                    // To get the name for the error message, we would need a reverse mapping
-                    // from hash to string, which is complex. We'll give a generic error.
-					if (this->space->parameterNotFoundCallback)
-						this->space->parameterNotFoundCallback(this, nullptr, nullptr);
-                }
-                iterator = const_cast<ProtoSparseListIterator*>(iterator)->advance(this);
-            }
+            } binder{this, parameterNames, paramCount, &assigned};
+            kwargs->processElements(this, &binder, &Binder::bind);
         }
     }
 

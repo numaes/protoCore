@@ -336,7 +336,7 @@ std::atomic<bool> gWalkStop{false};
 std::atomic<proto::proto_ulong> gWalkWrites{0};
 
 const ProtoObject* walkWriter(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                              const ProtoList*, const ProtoSparseList*) {
+                              const ProtoArguments*, const ProtoKeywordArguments*) {
     proto::proto_ulong n = 0;
     while (!gWalkStop.load(std::memory_order_relaxed)) {
         for (const ProtoString* key : *gWalkKeys) {

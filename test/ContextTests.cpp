@@ -32,7 +32,8 @@ TEST_F(ContextTest, PositionalArgumentBinding) {
         ->appendLast(rootContext, rootContext->fromLong(10))
         ->appendLast(rootContext, rootContext->fromUTF8String("hello"));
 
-    ProtoContext funcContext(space, rootContext, paramNames, nullptr, args, nullptr);
+    const ProtoListArguments positional(rootContext, args);
+    ProtoContext funcContext(space, rootContext, paramNames, nullptr, &positional, nullptr);
 
     const ProtoObject* val_a = funcContext.closureLocals->getAt(rootContext, rootContext->fromUTF8String("a")->getHash(rootContext));
     const ProtoObject* val_b = funcContext.closureLocals->getAt(rootContext, rootContext->fromUTF8String("b")->getHash(rootContext));
@@ -53,7 +54,8 @@ TEST_F(ContextTest, LocalVariableAllocation) {
         ->appendLast(rootContext, rootContext->fromUTF8String("y"));
     const ProtoList* args = rootContext->newList()->appendLast(rootContext, rootContext->fromLong(123));
 
-    ProtoContext funcContext(space, rootContext, paramNames, localNames, args, nullptr);
+    const ProtoListArguments positional(rootContext, args);
+    ProtoContext funcContext(space, rootContext, paramNames, localNames, &positional, nullptr);
 
     // Check automatic locals
     ASSERT_EQ(funcContext.getAutomaticLocalsCount(), 2);
@@ -79,8 +81,9 @@ TEST_F(ContextTest, ArgumentCountError) {
         ->appendLast(rootContext, rootContext->fromLong(1))
         ->appendLast(rootContext, rootContext->fromLong(2));
 
+    const ProtoListArguments positional(rootContext, args);
     ASSERT_THROW({
-        ProtoContext funcContext(space, rootContext, paramNames, nullptr, args, nullptr);
+        ProtoContext funcContext(space, rootContext, paramNames, nullptr, &positional, nullptr);
     }, std::invalid_argument);
 }
 

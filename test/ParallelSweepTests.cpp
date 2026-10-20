@@ -641,7 +641,7 @@ TEST(ParallelSweepConfig, SeveralAllocatingThreadsWidenTheWalk) {
 namespace {
 std::atomic<int> gChurnersDone{0};
 const ProtoObject* churnerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                               const ProtoList*, const ProtoSparseList*) {
+                               const ProtoArguments*, const ProtoKeywordArguments*) {
     for (int done = 0; done < 300000; done += 3) {
         ProtoContext sub(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
         for (int j = 0; j < 3; ++j) (void) sub.newObject(false);

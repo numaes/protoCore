@@ -160,7 +160,7 @@ struct Workload {
 Workload* gWork = nullptr;
 
 const ProtoObject* workerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                              const ProtoList*, const ProtoSparseList*) {
+                              const ProtoArguments*, const ProtoKeywordArguments*) {
     Workload& w = *gWork;
     ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);
     ProtoSpace* space = ctx->space;

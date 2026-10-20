@@ -198,7 +198,7 @@ TEST(BulkListBuild, ConcurrentBuildersSurviveForcedCollections) {
     ProtoContext* root = space.rootContext;
 
     auto builderMain = [](ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                          const ProtoList*, const ProtoSparseList*) -> const ProtoObject* {
+                          const ProtoArguments*, const ProtoKeywordArguments*) -> const ProtoObject* {
         std::vector<const ProtoObject*> items;
         for (int rep = 0; rep < kRepeatsPerThread; ++rep) {
             ProtoContext build(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
@@ -365,7 +365,7 @@ TEST(BulkListBuild, LargeBuildDoesNotBlockStopTheWorld) {
     // One build per request, then back to an unmanaged wait so the collector
     // can reclaim what the build produced before the next one starts.
     auto builderMain = [](ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                          const ProtoList*, const ProtoSparseList*) -> const ProtoObject* {
+                          const ProtoArguments*, const ProtoKeywordArguments*) -> const ProtoObject* {
         std::vector<const ProtoObject*> items;
         shared->ready.store(true, std::memory_order_relaxed);
         for (;;) {

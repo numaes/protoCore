@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 2.14.8
+    VERSION 3.0.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -105,7 +105,12 @@ add_library(protoCore SHARED
 # no diagnostic, just a getAttribute that returns PROTO_NONE, which is also a
 # legitimate value.  A soname bump converts it into a load-time error.  It costs
 # a one-line change in each of the five runtimes today, and a great deal later.
-set(PROTOCORE_ABI_SOVERSION 3)
+#
+# 3 -> 4 in 3.0.0 (one method type, two call forms).  ProtoMethod receives its
+# arguments as ProtoArguments / ProtoKeywordArguments descriptors instead of a
+# ProtoList and a ProtoSparseList, and so do nonMethodCallback and the
+# ProtoContext constructor: every embedder's methods change signature.
+set(PROTOCORE_ABI_SOVERSION 4)
 
 # Shared library versioning (version for linker, soversion for ABI)
 set_target_properties(protoCore PROPERTIES

@@ -16,8 +16,8 @@ const ProtoObject* benchmarks(
     ProtoContext* c,
     const ProtoObject* self,
     const ParentLink* parentLink,
-    const ProtoList* args,
-    const ProtoSparseList* kwargs
+    const ProtoArguments* args,
+    const ProtoKeywordArguments* kwargs
 ) {
     const int num_iterations = 100000;
     std::cout << "--- List Append Benchmark ---" << std::endl;

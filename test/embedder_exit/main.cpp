@@ -35,7 +35,7 @@ using namespace proto;
 namespace {
 
 const ProtoObject* worker(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                          const ProtoList*, const ProtoSparseList*) {
+                          const ProtoArguments*, const ProtoKeywordArguments*) {
     for (int i = 0; i < 2000; ++i) {
         const ProtoObject* o = ctx->newObject(true);
         (void) o->setAttribute(ctx, ProtoString::createSymbol(ctx, "worker_attribute"),

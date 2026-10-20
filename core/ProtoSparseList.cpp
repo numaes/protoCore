@@ -334,6 +334,43 @@ namespace proto
         }
         return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, offset)->asSparseList(context);
     }
+    // --- ProtoKeywordArguments ---
+    // A key is the interned name's pointer (ProtoKeywordArgument).
+
+    const ProtoSparseList* ProtoKeywordArguments::asSparseList(ProtoContext* context) const {
+        if (dict_) return dict_;
+        const ProtoSparseList* result = context->newSparseList();
+        for (unsigned i = 0; i < count_; ++i)
+            result = result->setAt(context, reinterpret_cast<proto_ulong>(pairs_[i].name), pairs_[i].value);
+        return result;
+    }
+
+    namespace {
+        struct PairFill {
+            ProtoKeywordArgument* pairs;
+            unsigned at;
+            static void add(ProtoContext*, void* self, proto_ulong key, const ProtoObject* value) {
+                auto* f = static_cast<PairFill*>(self);
+                f->pairs[f->at++] = {reinterpret_cast<const ProtoString*>(key), value};
+            }
+        };
+    }
+
+    ProtoSparseListKeywordArguments::ProtoSparseListKeywordArguments(ProtoContext* context,
+                                                                     const ProtoSparseList* dict)
+        : ProtoKeywordArguments(nullptr, 0, dict) {
+        const unsigned n = dict ? static_cast<unsigned>(dict->getSize(context)) : 0;
+        ProtoKeywordArgument* slots = inline_;
+        if (n > kInline) {
+            heap_.resize(n);
+            slots = heap_.data();
+        }
+        PairFill fill{slots, 0};
+        if (n) dict->processElements(context, &fill, &PairFill::add);
+        pairs_ = slots;
+        count_ = fill.at;
+    }
+
     proto_ulong ProtoSparseList::getSize(ProtoContext* context) const {
         return sparseListSize(this);
     }

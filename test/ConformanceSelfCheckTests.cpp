@@ -317,8 +317,8 @@ TEST(ConformanceSelfCheck, JoinInsideCriticalSectionStillJoinsAndDoesNotPark)
         static const proto::ProtoObject* run(proto::ProtoContext* c,
                                              const proto::ProtoObject*,
                                              const proto::ParentLink*,
-                                             const proto::ProtoList*,
-                                             const proto::ProtoSparseList*)
+                                             const proto::ProtoArguments*,
+                                             const proto::ProtoKeywordArguments*)
         {
             for (int i = 0; i < 50 && !release; ++i) {
                 c->safepoint();

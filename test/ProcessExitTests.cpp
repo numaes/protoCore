@@ -84,7 +84,7 @@ namespace {
 std::atomic<bool> gChurnStarted{false};
 
 const ProtoObject* churnForever(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                const ProtoList*, const ProtoSparseList*) {
+                                const ProtoArguments*, const ProtoKeywordArguments*) {
     ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);
     for (;;) {
         {

@@ -111,7 +111,7 @@ void recordProducer(PmqJob* job, proto::proto_long nanos) {
 }
 
 const ProtoObject* pmqProducer(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                               const ProtoList* args, const ProtoSparseList*) {
+                               const ProtoArguments* args, const ProtoKeywordArguments*) {
     auto* job = reinterpret_cast<PmqJob*>(args->getAt(ctx, 0)->asLong(ctx));
     const proto::proto_long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);
     const auto t0 = std::chrono::steady_clock::now();
@@ -223,7 +223,7 @@ struct StJob {
 };
 
 const ProtoObject* stProducer(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                              const ProtoList* args, const ProtoSparseList*) {
+                              const ProtoArguments* args, const ProtoKeywordArguments*) {
     auto* job = reinterpret_cast<StJob*>(args->getAt(ctx, 0)->asLong(ctx));
     const proto::proto_long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);
     const auto t0 = std::chrono::steady_clock::now();

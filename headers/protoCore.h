@@ -86,6 +86,8 @@ namespace proto
     class ProtoSparseList;
     class ProtoSparseListImplementation;  // raw AVL impl, internal
     class ProtoSparseListIterator;
+    class ProtoArguments;
+    class ProtoKeywordArguments;
     class ProtoMap;
     class ProtoMapIterator;
     class ProtoMPSCQueue;
@@ -106,13 +108,40 @@ namespace proto
     #define PROTO_FALSE ((const proto::ProtoObject*) PROTO_UL(193))  // Tag: EMBEDDED_VALUE (1), Type: BOOLEAN (3), Value: 0
     #define PROTO_NONE ((const proto::ProtoObject*)  PROTO_UL(321))  // Tag: EMBEDDED_VALUE (1), Type: NONE (5), Value: 0
 
+    /**
+     * @brief A method: the one definition every call form reaches.
+     *
+     * The arguments arrive as descriptors that the caller builds for the
+     * duration of the call, either over arrays (the array form of
+     * ProtoObject::call) or over a ProtoList and a ProtoSparseList (the list
+     * form).  The method binds its parameters by reading them, the same way
+     * whatever form the caller used: `positional->getAt(context, i)`,
+     * `keywords->getAt(context, key)`.  Either pointer may be null when the
+     * call has no such arguments.  A descriptor is valid only during the
+     * call; a method that keeps its arguments keeps `asList(context)` (or
+     * `asSparseList`), never the descriptor.
+     *
+     * See docs/CALLING_CONVENTION.md.
+     */
     typedef const ProtoObject*(*ProtoMethod)(
         ProtoContext* context,
         const ProtoObject* self,
         const ParentLink* parentLink,
-        const ProtoList* positionalParameters,
-        const ProtoSparseList* keywordParameters
+        const ProtoArguments* positionalParameters,
+        const ProtoKeywordArguments* keywordParameters
     );
+
+    /**
+     * @brief One keyword argument of the array call form.
+     *
+     * `name` is an interned symbol (ProtoString::createSymbol); its key is
+     * the symbol's pointer, as ProtoObject::setAttribute keys attributes.
+     * Interned symbols are perennial, so the name needs no rooting.
+     */
+    struct ProtoKeywordArgument {
+        const ProtoString* name;
+        const ProtoObject* value;
+    };
 
     class ProtoObject
     {
@@ -584,12 +613,51 @@ namespace proto
         const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 
         //- Execution
+        /**
+         * @brief Calls the method named `method` with the arguments in a
+         *        ProtoList and a ProtoSparseList (the list form).
+         *
+         * The method receives descriptors over the two lists; nothing is
+         * copied.  Either list may be null.  Looks `method` up in the
+         * receiver's attribute chain; a value that is not a method goes to
+         * the space's nonMethodCallback, or answers PROTO_NONE.
+         */
         const ProtoObject* call(ProtoContext* context,
                                 const ParentLink* nextParent,
                                 const ProtoString* method,
                                 const ProtoObject* self,
                                 const ProtoList* positionalParameters,
                                 const ProtoSparseList* keywordParametersDict = nullptr) const;
+        /**
+         * @brief Calls the method named `method` with the arguments in
+         *        arrays (the array form).
+         *
+         * The same lookup and the same method as the list form; the method
+         * receives descriptors over the caller's arrays, and nothing is
+         * allocated.  The caller chooses where the arrays live and how large
+         * they are, and keeps their values reachable for the duration of the
+         * call; keyword names are interned symbols.  See
+         * docs/CALLING_CONVENTION.md.
+         */
+        const ProtoObject* call(ProtoContext* context,
+                                const ParentLink* nextParent,
+                                const ProtoString* method,
+                                const ProtoObject* self,
+                                const ProtoObject* const* positional,
+                                unsigned positionalCount,
+                                const ProtoKeywordArgument* keywords = nullptr,
+                                unsigned keywordCount = 0) const;
+        /**
+         * @brief Calls the method named `method` with descriptors the caller
+         *        already holds, such as the ones a method received and passes
+         *        on.  `keywords` may be null.
+         */
+        const ProtoObject* call(ProtoContext* context,
+                                const ParentLink* nextParent,
+                                const ProtoString* method,
+                                const ProtoObject* self,
+                                const ProtoArguments& positional,
+                                const ProtoKeywordArguments* keywords = nullptr) const;
         
         const ProtoObject* divmod(ProtoContext* context, const ProtoObject* other) const;
 
@@ -1197,6 +1265,152 @@ namespace proto
     };
 
     /**
+     * @class ProtoArguments
+     * @brief The positional arguments of one call, as a method reads them.
+     *
+     * A descriptor over an array of values that the caller builds for the
+     * duration of the call and passes by pointer.  Reading never branches on
+     * where the values came from: getAt is `values[i]`, inline, and
+     * values()/count() give the array itself to a binding loop.  The caller
+     * chooses where the array lives and how large it is, and keeps its values
+     * reachable for the duration of the call (values held in the caller
+     * context's automatic locals are).
+     *
+     * Reads like a ProtoList: getSize, getAt (PROTO_NONE outside
+     * 0..size-1), getFirst, getLast, has.  asList answers the arguments as a
+     * ProtoList: the list the call was made with, when it was made with one
+     * (ProtoListArguments), or a list built in `context` from the array.  A
+     * method that keeps its arguments keeps asList, never the descriptor,
+     * which does not outlive the call.
+     *
+     * See docs/CALLING_CONVENTION.md.
+     */
+    class ProtoArguments
+    {
+    public:
+        ProtoArguments(const ProtoObject* const* values, unsigned count,
+                       const ProtoList* list = nullptr) noexcept
+            : values_(values), count_(values ? count : 0), list_(list) {}
+
+        proto_ulong getSize(ProtoContext*) const { return count_; }
+        const ProtoObject* getAt(ProtoContext*, int index) const {
+            if (static_cast<unsigned>(index) >= count_) return PROTO_NONE;   // also index < 0
+            const ProtoObject* v = values_[index];
+            return v ? v : PROTO_NONE;
+        }
+        const ProtoObject* getFirst(ProtoContext* context) const { return getAt(context, 0); }
+        const ProtoObject* getLast(ProtoContext* context) const {
+            return count_ ? getAt(context, static_cast<int>(count_ - 1)) : PROTO_NONE;
+        }
+        bool has(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoList* asList(ProtoContext* context) const;
+
+        //! The values, for a binding loop: count() of them.
+        const ProtoObject* const* values() const { return values_; }
+        unsigned count() const { return count_; }
+
+    protected:
+        const ProtoObject* const* values_;
+        unsigned count_;
+        const ProtoList* list_;   // the list the arguments came from, if any
+    };
+
+    /**
+     * @class ProtoKeywordArguments
+     * @brief The keyword arguments of one call, as a method reads them.
+     *
+     * A descriptor over an array of ProtoKeywordArgument pairs, built by the
+     * caller like ProtoArguments.  A key is an interned name's pointer, as
+     * ProtoObject::setAttribute keys attributes.  Reads like a
+     * ProtoSparseList: getSize, has and getAt by key (PROTO_NONE when
+     * absent), processElements in array order.  asSparseList answers the
+     * keywords as a ProtoSparseList: the one the call was made with, if any
+     * (ProtoSparseListKeywordArguments), or one built in `context`.
+     */
+    class ProtoKeywordArguments
+    {
+    public:
+        ProtoKeywordArguments(const ProtoKeywordArgument* pairs, unsigned count,
+                              const ProtoSparseList* dict = nullptr) noexcept
+            : pairs_(pairs), count_(pairs ? count : 0), dict_(dict) {}
+
+        proto_ulong getSize(ProtoContext*) const { return count_; }
+        bool has(ProtoContext*, proto_ulong key) const {
+            for (unsigned i = 0; i < count_; ++i)
+                if (reinterpret_cast<proto_ulong>(pairs_[i].name) == key) return true;
+            return false;
+        }
+        const ProtoObject* getAt(ProtoContext*, proto_ulong key) const {
+            for (unsigned i = 0; i < count_; ++i)
+                if (reinterpret_cast<proto_ulong>(pairs_[i].name) == key)
+                    return pairs_[i].value ? pairs_[i].value : PROTO_NONE;
+            return PROTO_NONE;
+        }
+        void processElements(ProtoContext* context, void* self,
+                             void (*method)(ProtoContext*, void*, proto_ulong, const ProtoObject*)) const {
+            for (unsigned i = 0; i < count_; ++i)
+                method(context, self, reinterpret_cast<proto_ulong>(pairs_[i].name), pairs_[i].value);
+        }
+        const ProtoSparseList* asSparseList(ProtoContext* context) const;
+
+        //! The pairs, for a binding loop: count() of them.
+        const ProtoKeywordArgument* pairs() const { return pairs_; }
+        unsigned count() const { return count_; }
+
+    protected:
+        const ProtoKeywordArgument* pairs_;
+        unsigned count_;
+        const ProtoSparseList* dict_;   // the sparse list the keywords came from, if any
+    };
+
+    /**
+     * @class ProtoListArguments
+     * @brief ProtoArguments over a ProtoList: the list's values copied into
+     *        an array for the duration of a call.
+     *
+     * The bridge for a caller that holds its arguments in a list: the list
+     * form of ProtoObject::call uses it, and an embedder that invokes a
+     * method pointer with a list does the same.  Up to kInline values stay
+     * in the object (on the caller's stack); more go to the heap.  The list
+     * keeps the values reachable, so the copy needs no rooting; asList
+     * answers the list itself.  `list` may be null (no arguments).
+     */
+    class ProtoListArguments : public ProtoArguments
+    {
+    public:
+        static constexpr unsigned kInline = 8;
+        ProtoListArguments(ProtoContext* context, const ProtoList* list);
+        ProtoListArguments(const ProtoListArguments&) = delete;
+        ProtoListArguments& operator=(const ProtoListArguments&) = delete;
+
+    private:
+        const ProtoObject* inline_[kInline];
+        std::vector<const ProtoObject*> heap_;
+    };
+
+    /**
+     * @class ProtoSparseListKeywordArguments
+     * @brief ProtoKeywordArguments over a ProtoSparseList keyed by interned
+     *        names' pointers: its entries copied into pairs for a call.
+     *
+     * The keyword counterpart of ProtoListArguments; up to kInline pairs stay
+     * in the object.  asSparseList answers the list itself.  `dict` may be
+     * null (no keywords).
+     */
+    class ProtoSparseListKeywordArguments : public ProtoKeywordArguments
+    {
+    public:
+        static constexpr unsigned kInline = 4;
+        ProtoSparseListKeywordArguments(ProtoContext* context, const ProtoSparseList* dict);
+        ProtoSparseListKeywordArguments(const ProtoSparseListKeywordArguments&) = delete;
+        ProtoSparseListKeywordArguments& operator=(const ProtoSparseListKeywordArguments&) = delete;
+
+    private:
+        ProtoKeywordArgument inline_[kInline];
+        std::vector<ProtoKeywordArgument> heap_;
+    };
+
+    /**
      * @class ProtoMapIterator
      * @brief Ascending key-word iteration over a ProtoMap version.
      *
@@ -1645,8 +1859,10 @@ namespace proto
          * @param previous The parent context in the call stack.
          * @param parameterNames A list of ProtoStrings for the function's declared parameter names.
          * @param localNames A list of ProtoStrings for the function's automatic (C-style) local variables.
-         * @param args The positional arguments passed to the function.
-         * @param kwargs The keyword arguments passed to the function.
+         * @param args The positional arguments passed to the function: the
+         *        descriptor the method received, or one built over a list or
+         *        an array.  Binding reads it; nothing is copied.
+         * @param kwargs The keyword arguments passed to the function, likewise.
          * @param totalSlots Minimum number of slots to allocate for local variables.
          * @param externalSlots Optional pre-allocated slot buffer (caller-owned, must stay alive
          *        for the lifetime of this context). When non-null, no heap allocation is done for
@@ -1657,8 +1873,8 @@ namespace proto
             ProtoContext* previous = nullptr,
             const ProtoList* parameterNames = nullptr,
             const ProtoList* localNames = nullptr,
-            const ProtoList* args = nullptr,
-            const ProtoSparseList* kwargs = nullptr,
+            const ProtoArguments* args = nullptr,
+            const ProtoKeywordArguments* kwargs = nullptr,
             size_t totalSlots = 0,
             const ProtoObject** externalSlots = nullptr
         );
@@ -2334,13 +2550,15 @@ namespace proto
         ProtoString* literalCallMethod;
 
         //- Callbacks
+        //! A call whose name resolves to a value that is not a method.  It
+        //! receives the call's arguments as descriptors, as a method would.
         ProtoObject* (*nonMethodCallback)(
             ProtoContext* context,
             const ParentLink* nextParent,
             const ProtoString* method,
             const ProtoObject* self,
-            const ProtoList* unnamedParametersList,
-            const ProtoSparseList* keywordParametersDict){};
+            const ProtoArguments* positionalParameters,
+            const ProtoKeywordArguments* keywordParameters){};
 
         ProtoObject* (*attributeNotFoundGetCallback)(
             ProtoContext* context,

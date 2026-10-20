@@ -15,13 +15,14 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 | Item | Value |
 |------|-------|
-| Version | 2.14.8 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 3) |
+| Version | 3.0.0 (`project(... VERSION ...)` in [CMakeLists.txt](CMakeLists.txt); ABI soname 4) |
 | Status | Open for review; not production ready |
 | Test suite | GoogleTest, counted with `ctest -N` in your build directory — 499 cases as of 2026-09-25. Count it rather than quoting this line: it grows with every fix. |
 | Change history | [CHANGELOG.md](CHANGELOG.md) |
 
 ### Recent kernel work (2026)
 
+- **One method type, two call forms** *(October 2026, 3.0.0, breaking)*: a method reads its arguments through descriptors, and a caller passes either lists or arrays it owns; the array form allocates nothing. See [the calling convention](docs/CALLING_CONVENTION.md).
 - **A parallel sweep** *(October 2026, 2.14.0)*: while mutators wait for heap headroom, helper threads (half the physical cores of a NUMA node by default) sweep beside the collector, and are kept only while they shorten the sweep; the hardware-sensitive parameters (helpers, the sweep's width and prefetch) are configurable. See [the report](docs/reports/2026-10-03-collector-throughput.md).
 - **Heap sizing that minimises waits** *(October 2026, 2.13.0)*: the adaptive heap controller grows the soft limit only while the mutators wait and the growth reduces the waits, within the budget, from measured allocation rate and collector throughput; no fitted constant. See [the report](docs/reports/2026-10-03-collector-throughput.md).
 - **Collector pacing and a faster sweep** *(October 2026, 2.12.0)*: a cycle is requested before the heap limit is reached (allocation rate × cycle duration, measured), a thread waiting for headroom wakes when cells are published, and the sweep walks several segment chains at once so its cache misses overlap: 2.7–3× cheaper per cell under concurrent allocation. See [the report](docs/reports/2026-10-03-collector-throughput.md).
@@ -247,6 +248,7 @@ Main documents:
 - **[DESIGN.md](DESIGN.md)**: architectural design and implementation rules
 - **[docs/MemoryModel.md](docs/MemoryModel.md)**: memory model and how to size a process (perennials, per-space peaks, memory not managed by protoCore)
 - **[docs/GarbageCollector.md](docs/GarbageCollector.md)**: garbage collector implementation
+- **[docs/CALLING_CONVENTION.md](docs/CALLING_CONVENTION.md)**: the method type and its two call forms (lists or caller-owned arrays), the argument descriptors, and migrating from 2.x
 - **[docs/EMBEDDER-CONFORMANCE.md](docs/EMBEDDER-CONFORMANCE.md)**: normative — the participation obligations an embedder must meet, each one executable
 - **[docs/FIELD-NOTES.md](docs/FIELD-NOTES.md)**: the fourteen defects of 2026-09-23 to 2026-09-25, how each was found, and a command to reproduce it; the teaching material for the ITBA course, and the evidence behind the conformance rules
 - **[docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md)**: generating a module for Unified Module Discovery

@@ -98,8 +98,8 @@ constexpr proto::proto_long kPushBatch = 2000;
 const ProtoObject* producerEntry(ProtoContext* ctx,
                                  const ProtoObject*,
                                  const ParentLink*,
-                                 const ProtoList* args,
-                                 const ProtoSparseList*) {
+                                 const ProtoArguments* args,
+                                 const ProtoKeywordArguments*) {
     if (!args || args->getSize(ctx) < 1) return PROTO_NONE;
     auto* job = reinterpret_cast<ProducerJob*>(args->getAt(ctx, 0)->asLong(ctx));
     const proto::proto_long p = job->nextProducer.fetch_add(1, std::memory_order_relaxed);

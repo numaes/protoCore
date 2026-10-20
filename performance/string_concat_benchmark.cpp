@@ -16,8 +16,8 @@ const ProtoObject* benchmarks(
     ProtoContext* c,
     const ProtoObject* self,
     const ParentLink* parentLink,
-    const ProtoList* args,
-    const ProtoSparseList* kwargs
+    const ProtoArguments* args,
+    const ProtoKeywordArguments* kwargs
 ) {
     const int num_iterations = 10000;
     std::cout << "--- String Concatenation Benchmark ---" << std::endl;

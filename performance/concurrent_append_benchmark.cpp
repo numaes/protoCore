@@ -39,8 +39,8 @@ const ProtoObject* benchmarks(
     ProtoContext* c,
     const ProtoObject* self,
     const ParentLink* parentLink,
-    const ProtoList* positionalParameters,
-    const ProtoSparseList* keywordParametersDict
+    const ProtoArguments* positionalParameters,
+    const ProtoKeywordArguments* keywordParametersDict
 ) {
     std::cout << "--- Concurrent Append Benchmark ---" << std::endl;
     std::cout << "Threads: " << NUM_THREADS << ", Appends per thread: " << NUM_APPENDS << std::endl;

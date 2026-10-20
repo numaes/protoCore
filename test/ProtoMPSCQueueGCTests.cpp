@@ -98,8 +98,8 @@ struct MarkRaceJob {
 const ProtoObject* markRaceProducer(ProtoContext* ctx,
                                     const ProtoObject*,
                                     const ParentLink*,
-                                    const ProtoList* args,
-                                    const ProtoSparseList*) {
+                                    const ProtoArguments* args,
+                                    const ProtoKeywordArguments*) {
     if (!args || args->getSize(ctx) < 1) return PROTO_NONE;
     auto* job = reinterpret_cast<MarkRaceJob*>(args->getAt(ctx, 0)->asLong(ctx));
     for (proto::proto_long i = 0; i < job->total; ) {
@@ -129,8 +129,8 @@ const ProtoObject* markRaceProducer(ProtoContext* ctx,
 const ProtoObject* markRaceConsumer(ProtoContext* ctx,
                                     const ProtoObject*,
                                     const ParentLink*,
-                                    const ProtoList* args,
-                                    const ProtoSparseList*) {
+                                    const ProtoArguments* args,
+                                    const ProtoKeywordArguments*) {
     if (!args || args->getSize(ctx) < 1) return PROTO_NONE;
     auto* job = reinterpret_cast<MarkRaceJob*>(args->getAt(ctx, 0)->asLong(ctx));
     proto::proto_long next = 0;
@@ -169,8 +169,8 @@ struct ParkJob {
 const ProtoObject* parkedWorker(ProtoContext* ctx,
                                 const ProtoObject*,
                                 const ParentLink*,
-                                const ProtoList* args,
-                                const ProtoSparseList*) {
+                                const ProtoArguments* args,
+                                const ProtoKeywordArguments*) {
     if (!args || args->getSize(ctx) < 1) return PROTO_NONE;
     auto* job = reinterpret_cast<ParkJob*>(args->getAt(ctx, 0)->asLong(ctx));
     ProtoContext::UnmanagedScope u(ctx);   // no ProtoObject* access in here
@@ -450,7 +450,7 @@ static void runDrainPauseProbe(proto::proto_long kBatch, DrainPauseProbe* out) {
     // collector can reclaim the batch before the next sample starts.
     state.batch = kBatch;
     auto consumerMain = [](ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                           const ProtoList*, const ProtoSparseList*) -> const ProtoObject* {
+                           const ProtoArguments*, const ProtoKeywordArguments*) -> const ProtoObject* {
         const proto::proto_long kBatch = shared->batch;
         for (;;) {
             {

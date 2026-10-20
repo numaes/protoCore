@@ -734,7 +734,7 @@ namespace {
 std::vector<const ProtoString*>* gInternResults = nullptr;
 
 const ProtoObject* internSharedKey(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                   const ProtoList* args, const ProtoSparseList*) {
+                                   const ProtoArguments* args, const ProtoKeywordArguments*) {
     const auto i = static_cast<size_t>(args->getAt(ctx, 0)->asLong(ctx));
     (*gInternResults)[i] = ProtoString::createSymbol(ctx, "sharedKey");
     return PROTO_NONE;

@@ -357,7 +357,7 @@ std::atomic<proto::proto_ulong>          gP3Nulls{0};
 // parks at a stop-the-world, and would make this test weaker rather than
 // stronger (P2 D10).
 const ProtoObject* p3InternWorkerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                       const ProtoList* args, const ProtoSparseList*) {
+                                       const ProtoArguments* args, const ProtoKeywordArguments*) {
     const proto::proto_long slot = args->getAt(ctx, 0)->asLong(ctx);
     // A rotated order per thread, so the threads race on the same shard from
     // different directions rather than marching in lockstep.

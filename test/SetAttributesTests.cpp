@@ -329,7 +329,7 @@ std::atomic<long> gTornReads{0};
 std::atomic<long> gReads{0};
 
 const ProtoObject* groupWriter(ProtoContext* c, const ProtoObject*, const ParentLink*,
-                               const ProtoList* args, const ProtoSparseList*) {
+                               const ProtoArguments* args, const ProtoKeywordArguments*) {
     const int w = static_cast<int>(args->getAt(c, 0)->asLong(c));
     for (int k = 1; k <= kRounds; ++k) {
         const ProtoObject* v = c->fromInteger(k);
@@ -342,7 +342,7 @@ const ProtoObject* groupWriter(ProtoContext* c, const ProtoObject*, const Parent
 // Reads one snapshot at a time and checks every writer's group in it: the
 // three names of a group must always carry the same round number.
 const ProtoObject* groupReader(ProtoContext* c, const ProtoObject*, const ParentLink*,
-                               const ProtoList*, const ProtoSparseList*) {
+                               const ProtoArguments*, const ProtoKeywordArguments*) {
     while (!gWritersDone.load(std::memory_order_acquire)) {
         const ProtoSparseList* snap = gObject->getOwnAttributes(c);
         for (int w = 0; w < kWriters; ++w) {

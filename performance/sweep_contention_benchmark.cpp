@@ -118,7 +118,7 @@ void streamPrivateMemory() {
 }
 
 const ProtoObject* submitLoop(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                              const ProtoList*, const ProtoSparseList*) {
+                              const ProtoArguments*, const ProtoKeywordArguments*) {
     gStarted.fetch_add(1);
     while (!gStop.load(std::memory_order_relaxed)) {
         for (int k = 0; k < 64; ++k) {
@@ -131,7 +131,7 @@ const ProtoObject* submitLoop(ProtoContext* ctx, const ProtoObject*, const Paren
 }
 
 const ProtoObject* readSurvivors(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                 const ProtoList*, const ProtoSparseList*) {
+                                 const ProtoArguments*, const ProtoKeywordArguments*) {
     gStarted.fetch_add(1);
     std::uint64_t seen = 0;
     while (!gStop.load(std::memory_order_relaxed)) {
@@ -150,7 +150,7 @@ const ProtoObject* readSurvivors(ProtoContext* ctx, const ProtoObject*, const Pa
 }
 
 const ProtoObject* buildGarbageWorker(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                      const ProtoList*, const ProtoSparseList*) {
+                                      const ProtoArguments*, const ProtoKeywordArguments*) {
     buildGarbage(*ctx->space, ctx, gPerThreadGarbage);
     return PROTO_NONE;
 }

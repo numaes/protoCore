@@ -91,7 +91,7 @@ const ProtoString* gCasKey = nullptr;
 constexpr int kCasPerThread = 2000;
 
 const ProtoObject* casIncrementWorker(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                      const ProtoList*, const ProtoSparseList*) {
+                                      const ProtoArguments*, const ProtoKeywordArguments*) {
     for (int i = 0; i < kCasPerThread; ++i) {
         for (;;) {
             const ProtoObject* old = gCasObject->getOwnAttributeDirect(ctx, gCasKey);

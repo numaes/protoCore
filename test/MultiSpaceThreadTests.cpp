@@ -40,7 +40,7 @@ CollectorShared* gCollector = nullptr;
 // A registered thread of `space` that allocates garbage under a low ceiling
 // until the space has completed three collections.
 const ProtoObject* collectorMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                 const ProtoList*, const ProtoSparseList*) {
+                                 const ProtoArguments*, const ProtoKeywordArguments*) {
     CollectorShared& s = *gCollector;
     ProtoSpace& space = *s.space;
     s.started = true;
@@ -123,7 +123,7 @@ struct Churn {
 Churn* gChurn = nullptr;
 
 const ProtoObject* churnMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                             const ProtoList*, const ProtoSparseList*) {
+                             const ProtoArguments*, const ProtoKeywordArguments*) {
     Churn& c = *gChurn;
     c.started.fetch_add(1);
     {

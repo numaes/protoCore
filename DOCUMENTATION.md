@@ -12,6 +12,7 @@ Index of the documentation in this repository. Documents marked **dated** record
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Building from source, installing the shared library, and CPack packaging per platform. |
 | [docs/TESTING.md](docs/TESTING.md) | Test suite (GoogleTest and CTest): running tests, re-running failures, parallel runs, coverage, and CI scripts. |
 | [docs/Structural description/guides/04_testing_user_guide.md](docs/Structural%20description/guides/04_testing_user_guide.md) | Short copy-paste guide to running the tests and generating a coverage report. |
+| [docs/CALLING_CONVENTION.md](docs/CALLING_CONVENTION.md) | The method type and its call forms (lists, caller-owned arrays, descriptors passed on), `ProtoArguments` / `ProtoKeywordArguments`, the rules, parameter binding, migrating from 2.x, and the cost. |
 | [docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md) | Short guide to creating and registering a module for Unified Module Discovery (UMD). |
 | [docs/MODULE_DISCOVERY.md](docs/MODULE_DISCOVERY.md) | UMD specification: `ProviderRegistry`, `ModuleProvider`, resolution chain, `ProtoSpace::getImportModule`, `SharedModuleCache`, `FileSystemProvider`, platform defaults. |
 | [docs/Structural description/guides/05_creating_modules.md](docs/Structural%20description/guides/05_creating_modules.md) | Step-by-step guide to implementing, registering and loading a custom `ModuleProvider`, with an example. |

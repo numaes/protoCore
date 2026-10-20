@@ -68,7 +68,7 @@ void recordMax(std::atomic<proto::proto_ulong>& slot, proto::proto_ulong v) {
 // context, churns garbage in short-lived children, and publishes the length
 // of its freelist after every round.
 const ProtoObject* batchThreadMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                   const ProtoList*, const ProtoSparseList*) {
+                                   const ProtoArguments*, const ProtoKeywordArguments*) {
     BatchShared& shared = *gBatch;
     const int index = shared.nextIndex.fetch_add(1);
     ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);

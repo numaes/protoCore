@@ -225,7 +225,7 @@ std::atomic<bool> gThreadsRelease{false};
 // generation.  When its work is done it waits, parked, for the release, so
 // no thread exits while a cycle may be requested.
 const ProtoObject* allocatingThreadMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                        const ProtoList*, const ProtoSparseList*) {
+                                        const ProtoArguments*, const ProtoKeywordArguments*) {
     ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);
     for (proto::proto_long iteration = 0; iteration < kThreadIterations; ++iteration) {
         const ProtoList* old = nullptr;
@@ -342,7 +342,7 @@ void cycleNow(ProtoContext* ctx, ProtoThread* self) {
 // cycle, reachable only through the young chain.  Garbage allocated next
 // recycles whatever the sweep freed, so a freed old list reads wrong.
 const ProtoObject* forcedCycleThreadMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
-                                         const ProtoList*, const ProtoSparseList*) {
+                                         const ProtoArguments*, const ProtoKeywordArguments*) {
     ProtoThread* self = const_cast<ProtoThread*>(ctx->thread);
     for (proto::proto_long iteration = 0; iteration < kForcedIterations; ++iteration) {
         const ProtoList* old = nullptr;
