@@ -75,6 +75,35 @@ TEST(ConformanceSelfCheck, ThreadRegisteredCatchesRawStdThread)
     expectDiagnostic(r, "space->threads");
 }
 
+// Rule 14.  The reference host selects by prototype and lets the rest pass.
+TEST(ConformanceSelfCheck, ExceptionCasesPassOnTheReferenceHost)
+{
+    proto::conformance::SelfHost host;
+    for (const char* id : {"exception.kernel_errors_are_proto", "exception.value_pinned_in_flight",
+                           "exception.foreign_type_caught", "exception.language_error_escapes"}) {
+        const CaseResult r = runOne(host, id);
+        EXPECT_EQ(r.status, Status::Pass) << id << ": " << r.detail;
+    }
+}
+
+// Rule 14.  A handler that catches every value, whatever its prototype.
+TEST(ConformanceSelfCheck, ForeignTypeCaughtCatchesAHandlerThatIgnoresTheType)
+{
+    proto::conformance::NonConformingHost_CatchesEveryValue host;
+    const CaseResult r = runOne(host, "exception.foreign_type_caught");
+    EXPECT_EQ(r.status, Status::Fail) << r.detail;
+    expectDiagnostic(r, "unrelated type");
+}
+
+// Rule 14.  An unhandled language error that leaves as std::runtime_error.
+TEST(ConformanceSelfCheck, LanguageErrorEscapesCatchesAStdException)
+{
+    proto::conformance::NonConformingHost_EscapesAsStdException host;
+    const CaseResult r = runOne(host, "exception.language_error_escapes");
+    EXPECT_EQ(r.status, Status::Fail) << r.detail;
+    expectDiagnostic(r, "C++ standard exception");
+}
+
 // Rule 11's other half.  A declaration the code contradicts.
 TEST(ConformanceSelfCheck, ThreadRegisteredCatchesLyingHoldsNothing)
 {

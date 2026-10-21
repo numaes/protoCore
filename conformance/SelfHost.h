@@ -16,6 +16,7 @@
 #include <chrono>
 #include <condition_variable>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -207,6 +208,35 @@ public:
     /// finds against it is a Fail -- which is what makes the mutation below a
     /// real mutation.
     proto::proto_long declaredMutableCycles() override { return 0; }
+
+    /// Rule 14, the reference shape: the "language" is C++, so its handler is
+    /// a catch of the base type that selects by prototype and rethrows the
+    /// rest unchanged.
+    int catchForeignError(const ProtoObject* errorType, const ProtoObject* raising,
+                          const ProtoObject** caught) override
+    {
+        ProtoContext* ctx = mainContext();
+        try {
+            (void) invokeMethodObject(ctx, raising);
+        } catch (const ProtoException& e) {
+            if (!e.isInstanceOf(ctx, errorType)) throw;
+            *caught = e.value();
+        }
+        return 1;
+    }
+
+    /// Rule 14: a "language" error nobody handles leaves as a ProtoException.
+    int escapeLanguageError() override
+    {
+        ProtoContext* ctx = mainContext();
+        ctx->raise(ctx->newObject(false));
+    }
+
+    /// Calls a method object (ProtoContext::fromMethod) with no arguments.
+    static const ProtoObject* invokeMethodObject(ProtoContext* ctx, const ProtoObject* m)
+    {
+        return m->asMethod(ctx)(ctx, m->asMethodSelf(ctx), nullptr, nullptr, nullptr);
+    }
 
     /// The control supplies every capability.  protoCore keeps two identities
     /// that differ only in provider distinct, so the honest answer is 1.
@@ -605,6 +635,36 @@ public:
     proto::proto_ulong makeGarbage(proto::proto_ulong) override { return 0; }
 private:
     ProtoSpace space_;
+};
+
+/// Rule 14 -- a handler that catches every value, whatever its type: the
+/// shape of a runtime that matches by C++ type alone.
+class NonConformingHost_CatchesEveryValue final : public SelfHost
+{
+public:
+    const char* name() const override { return "mutant-catches-every-value"; }
+    int catchForeignError(const ProtoObject*, const ProtoObject* raising,
+                          const ProtoObject** caught) override
+    {
+        try {
+            (void) invokeMethodObject(mainContext(), raising);
+        } catch (const ProtoException& e) {
+            *caught = e.value();
+        }
+        return 1;
+    }
+};
+
+/// Rule 14 -- a runtime whose unhandled errors leave as a C++ standard
+/// exception with the message, the shape every runtime had before 3.0.0.
+class NonConformingHost_EscapesAsStdException final : public SelfHost
+{
+public:
+    const char* name() const override { return "mutant-escapes-as-std-exception"; }
+    int escapeLanguageError() override
+    {
+        throw std::runtime_error("Error: raised by the language");
+    }
 };
 
 }}  // namespace proto::conformance

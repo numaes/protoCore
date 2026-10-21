@@ -56,7 +56,7 @@ TEST_F(NumericTest, CreationAndConversion) {
 
     // Test asLong exception for out-of-range LargeInteger
     const proto::ProtoObject* too_large = context->fromLong(1LL << 60)->multiply(context, context->fromLong(1LL << 60));
-    ASSERT_THROW(too_large->asLong(context), std::overflow_error);
+    ASSERT_THROW(too_large->asLong(context), proto::ProtoException);
 }
 
 TEST_F(NumericTest, DoubleCreationAndConversion) {
@@ -186,8 +186,8 @@ TEST_F(NumericTest, DivisionAndErrorHandling) {
     ASSERT_EQ(neg_a->modulo(context, b)->asLong(context), -1);
 
     // Test division by zero
-    ASSERT_THROW(a->divide(context, zero), std::runtime_error);
-    ASSERT_THROW(a->modulo(context, zero), std::runtime_error);
+    ASSERT_THROW(a->divide(context, zero), proto::ProtoException);
+    ASSERT_THROW(a->modulo(context, zero), proto::ProtoException);
 }
 
 // --- Bitwise and Shift Tests ---

@@ -50,6 +50,12 @@ CaseResult caseModuleAliasRejected(Host& host);
 /// CaseMutables.cpp
 CaseResult caseMutableGraphCycles(Host& host);
 
+/// CaseExceptions.cpp
+CaseResult caseKernelErrorsAreProto(Host& host);
+CaseResult caseValuePinnedInFlight(Host& host);
+CaseResult caseForeignTypeCaught(Host& host);
+CaseResult caseLanguageErrorEscapes(Host& host);
+
 /// Shared helper: a NotApplicable result naming the capability that was missing.
 CaseResult unavailable(const char* id, unsigned rule, const char* capability,
                        const char* why);

@@ -123,10 +123,10 @@ namespace proto
     const ProtoObject* Integer::fromString(ProtoContext* context, const char* str, int base)
     {
         if (str == nullptr || *str == '\0') {
-            throw std::invalid_argument("Empty string for Integer::fromString.");
+            context->raiseError(ProtoErrorKind::InvalidArgument, "Empty string for Integer::fromString.");
         }
         if (base < 2 || base > 36) {
-            throw std::invalid_argument("Invalid base for Integer::fromString (must be 2-36).");
+            context->raiseError(ProtoErrorKind::InvalidArgument, "Invalid base for Integer::fromString (must be 2-36).");
         }
 
         try {
@@ -135,7 +135,7 @@ namespace proto
         } catch (const std::out_of_range&) {
             // Fall through to big-integer parsing below.
         } catch (const std::invalid_argument&) {
-            throw std::invalid_argument("Invalid argument for Integer::fromString.");
+            context->raiseError(ProtoErrorKind::InvalidArgument, "Invalid argument for Integer::fromString.");
         }
 
         // Big-integer path: parse digit-by-digit using Horner's method,
@@ -146,7 +146,7 @@ namespace proto
         bool is_negative = false;
         if (*p == '+') { ++p; }
         else if (*p == '-') { is_negative = true; ++p; }
-        if (*p == '\0') throw std::invalid_argument("Invalid argument for Integer::fromString.");
+        if (*p == '\0') context->raiseError(ProtoErrorKind::InvalidArgument, "Invalid argument for Integer::fromString.");
 
         // GC critical section: `result` and `baseObj` are LargeInteger
         // chains held in C++ locals across multiple multiply/add calls;
@@ -164,9 +164,9 @@ namespace proto
             if (c >= '0' && c <= '9') digit = c - '0';
             else if (c >= 'a' && c <= 'z') digit = c - 'a' + 10;
             else if (c >= 'A' && c <= 'Z') digit = c - 'A' + 10;
-            else throw std::invalid_argument("Invalid argument for Integer::fromString.");
+            else context->raiseError(ProtoErrorKind::InvalidArgument, "Invalid argument for Integer::fromString.");
             if (digit >= base) {
-                throw std::invalid_argument("Invalid argument for Integer::fromString.");
+                context->raiseError(ProtoErrorKind::InvalidArgument, "Invalid argument for Integer::fromString.");
             }
             result = Integer::multiply(context, result, baseObj);
             const ProtoObject* digObj = fromLong(context, digit);
@@ -193,7 +193,7 @@ namespace proto
            if (p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
                return p.unicodeChar.unicodeValue;
            }
-           throw std::runtime_error("Object is not an integer type.");
+           context->raiseError(ProtoErrorKind::TypeMismatch, "Object is not an integer type.");
         }
 
         if (isSmallInteger(object)) {
@@ -210,11 +210,11 @@ namespace proto
         // ([0, 0, 0, 1]) has digits[1] == 0 and used to be returned silently as
         // digits[0], i.e. 0.
         if (li->next != nullptr) {
-            throw std::overflow_error("LargeInteger value exceeds long long range.");
+            context->raiseError(ProtoErrorKind::Overflow, "LargeInteger value exceeds long long range.");
         }
         for (int i = 1; i < LargeIntegerImplementation::DIGIT_COUNT; ++i) {
             if (li->digits[i] != 0) {
-                throw std::overflow_error("LargeInteger value exceeds long long range.");
+                context->raiseError(ProtoErrorKind::Overflow, "LargeInteger value exceeds long long range.");
             }
         }
 
@@ -222,12 +222,12 @@ namespace proto
         if (li->is_negative) {
             // Check if -magnitude would overflow a long long.
             if (magnitude > static_cast<unsigned long long>(LLONG_MAX) + 1) {
-                throw std::overflow_error("LargeInteger value exceeds long long range.");
+                context->raiseError(ProtoErrorKind::Overflow, "LargeInteger value exceeds long long range.");
             }
             return -static_cast<long long>(magnitude);
         } else {
             if (magnitude > static_cast<unsigned long long>(LLONG_MAX)) {
-                throw std::overflow_error("LargeInteger value exceeds long long range.");
+                context->raiseError(ProtoErrorKind::Overflow, "LargeInteger value exceeds long long range.");
             }
             return static_cast<long long>(magnitude);
         }
@@ -237,7 +237,7 @@ namespace proto
     {
         long long v;
         if (smallValue(object, v)) return fromLong(context, -v);  // -(-2^53) promotes
-        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type.");
+        if (!isInteger(object)) context->raiseError(ProtoErrorKind::TypeMismatch, "Object is not an integer type.");
         TempBignum temp = toTempBignum(object);
         temp.is_negative = !temp.is_negative;
         temp.normalize();
@@ -248,7 +248,7 @@ namespace proto
     {
         long long v;
         if (smallValue(object, v)) return v < 0 ? fromLong(context, -v) : object;
-        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type.");
+        if (!isInteger(object)) context->raiseError(ProtoErrorKind::TypeMismatch, "Object is not an integer type.");
         TempBignum temp = toTempBignum(object);
         temp.is_negative = false;
         temp.normalize();
@@ -259,7 +259,7 @@ namespace proto
     {
         long long v;
         if (smallValue(object, v)) return (v > 0) - (v < 0);
-        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type.");
+        if (!isInteger(object)) context->raiseError(ProtoErrorKind::TypeMismatch, "Object is not an integer type.");
         TempBignum temp = toTempBignum(object);
         if (temp.magnitude.empty()) return 0; // Zero
         return temp.is_negative ? -1 : 1;
@@ -279,7 +279,7 @@ namespace proto
         if (smallValue(right, sr) && isLargeInteger(left)) {
             return toImpl<const LargeIntegerImplementation>(left)->is_negative ? -1 : 1;
         }
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for comparison.");
+        if (!isInteger(left) || !isInteger(right)) context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for comparison.");
 
         TempBignum l = toTempBignum(left);
         TempBignum r = toTempBignum(right);
@@ -324,7 +324,7 @@ namespace proto
         }
 
         if (!isInteger(left) || !isInteger(right)) {
-            throw std::runtime_error("Objects are not integer types for addition.");
+            context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for addition.");
         }
 
         // --- SLOW PATH (Generic Case for LargeIntegers) ---
@@ -378,7 +378,7 @@ namespace proto
         }
 
         if (!isInteger(left) || !isInteger(right)) {
-            throw std::runtime_error("Objects are not integer types for subtraction.");
+            context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for subtraction.");
         }
 
         // --- SLOW PATH (Generic Case) ---
@@ -443,7 +443,7 @@ namespace proto
         }
 
         if (!isInteger(left) || !isInteger(right)) {
-            throw std::runtime_error("Objects are not integer types for multiplication.");
+            context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for multiplication.");
         }
 
         // --- SLOW PATH (Generic Case) ---
@@ -465,7 +465,7 @@ namespace proto
     {
         long long sl, sr;
         if (smallValues(left, right, sl, sr)) {
-            if (sr == 0) throw std::runtime_error("Division by zero.");
+            if (sr == 0) context->raiseError(ProtoErrorKind::DivisionByZero, "Division by zero.");
             // Truncating, as the general path; -2^53 / -1 promotes.
             return fromLong(context, sl / sr);
         }
@@ -474,10 +474,10 @@ namespace proto
             return context->fromDouble(left->asDouble(context) / right->asDouble(context));
         }
         if (!isInteger(left) || !isInteger(right)) {
-            throw std::runtime_error("Objects are not integer types for division.");
+            context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for division.");
         }
         if (sign(context, right) == 0) {
-            throw std::runtime_error("Division by zero.");
+            context->raiseError(ProtoErrorKind::DivisionByZero, "Division by zero.");
         }
 
         TempBignum l = toTempBignum(left);
@@ -494,20 +494,20 @@ namespace proto
     {
         long long sl, sr;
         if (smallValues(left, right, sl, sr)) {
-            if (sr == 0) throw std::runtime_error("Division by zero.");
+            if (sr == 0) context->raiseError(ProtoErrorKind::DivisionByZero, "Division by zero.");
             // The remainder takes the dividend's sign, as the general path.
             return fromLong(context, sl % sr);
         }
         if (left->isDouble(context) || right->isDouble(context)) {
             // Modulo is typically not defined for doubles in the same way as integers.
             // For now, we'll throw an error if mixed types are passed to modulo.
-            throw std::runtime_error("Modulo operation not defined for mixed integer/double types.");
+            context->raiseError(ProtoErrorKind::TypeMismatch, "Modulo operation not defined for mixed integer/double types.");
         }
         if (!isInteger(left) || !isInteger(right)) {
-            throw std::runtime_error("Objects are not integer types for modulo.");
+            context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for modulo.");
         }
         if (sign(context, right) == 0) {
-            throw std::runtime_error("Division by zero.");
+            context->raiseError(ProtoErrorKind::DivisionByZero, "Division by zero.");
         }
 
         TempBignum l = toTempBignum(left);
@@ -523,9 +523,9 @@ namespace proto
 
     const ProtoString* Integer::toString(ProtoContext* context, const ProtoObject* object, int base)
     {
-        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type.");
+        if (!isInteger(object)) context->raiseError(ProtoErrorKind::TypeMismatch, "Object is not an integer type.");
         if (base < 2 || base > 36) {
-            throw std::invalid_argument("Invalid base for toString (must be 2-36).");
+            context->raiseError(ProtoErrorKind::InvalidArgument, "Invalid base for toString (must be 2-36).");
         }
 
         TempBignum temp = toTempBignum(object);
@@ -565,7 +565,7 @@ namespace proto
 
     const ProtoObject* Integer::bitwiseNot(ProtoContext* context, const ProtoObject* object)
     {
-        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type for bitwiseNot.");
+        if (!isInteger(object)) context->raiseError(ProtoErrorKind::TypeMismatch, "Object is not an integer type for bitwiseNot.");
         // The identity ~x = -x - 1 is used for arbitrary-precision integers.
         return subtract(context, context->fromLong(-1), object);
     }
@@ -639,7 +639,7 @@ namespace proto
 
     const ProtoObject* Integer::bitwiseAnd(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for bitwiseAnd.");
+        if (!isInteger(left) || !isInteger(right)) context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for bitwiseAnd.");
         if (isSmallInteger(left) && isSmallInteger(right)) {
             long long val_l = asLong(context, left);
             long long val_r = asLong(context, right);
@@ -658,7 +658,7 @@ namespace proto
 
     const ProtoObject* Integer::bitwiseOr(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for bitwiseOr.");
+        if (!isInteger(left) || !isInteger(right)) context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for bitwiseOr.");
         if (isSmallInteger(left) && isSmallInteger(right)) {
             long long val_l = asLong(context, left);
             long long val_r = asLong(context, right);
@@ -677,7 +677,7 @@ namespace proto
 
     const ProtoObject* Integer::bitwiseXor(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for bitwiseXor.");
+        if (!isInteger(left) || !isInteger(right)) context->raiseError(ProtoErrorKind::TypeMismatch, "Objects are not integer types for bitwiseXor.");
         if (isSmallInteger(left) && isSmallInteger(right)) {
             long long val_l = asLong(context, left);
             long long val_r = asLong(context, right);
@@ -696,8 +696,8 @@ namespace proto
 
     const ProtoObject* Integer::shiftLeft(ProtoContext* context, const ProtoObject* object, int amount)
     {
-        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type for shiftLeft.");
-        if (amount < 0) throw std::invalid_argument("Shift amount cannot be negative.");
+        if (!isInteger(object)) context->raiseError(ProtoErrorKind::TypeMismatch, "Object is not an integer type for shiftLeft.");
+        if (amount < 0) context->raiseError(ProtoErrorKind::InvalidArgument, "Shift amount cannot be negative.");
         if (amount == 0) return const_cast<ProtoObject*>(object);
 
         // SmallInteger fast path — but only when the result still fits.
@@ -739,8 +739,8 @@ namespace proto
 
     const ProtoObject* Integer::shiftRight(ProtoContext* context, const ProtoObject* object, int amount)
     {
-        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type for shiftRight.");
-        if (amount < 0) throw std::invalid_argument("Shift amount cannot be negative.");
+        if (!isInteger(object)) context->raiseError(ProtoErrorKind::TypeMismatch, "Object is not an integer type for shiftRight.");
+        if (amount < 0) context->raiseError(ProtoErrorKind::InvalidArgument, "Shift amount cannot be negative.");
         if (amount == 0) return const_cast<ProtoObject*>(object);
 
         if (isSmallInteger(object)) {
@@ -952,7 +952,7 @@ namespace proto
         v.normalize();
 
         if (v.magnitude.empty()) {
-            throw std::runtime_error("Internal division by zero.");
+            throw std::logic_error("Internal division by zero.");
         }
         if (u.magnitude.empty()) { // 0 / x = 0 rem 0
             return {TempBignum(), TempBignum()};

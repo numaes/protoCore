@@ -99,7 +99,7 @@ TEST_F(ListTest, ListIteratorExhaustion) {
 }
 
 // has() compares integer elements by value.  It converted both integers with
-// asLong, which throws std::overflow_error for a LargeInteger beyond long
+// asLong, which raises an Overflow error for a LargeInteger beyond long
 // long, so has() threw on any list holding such an element (or when asked for
 // one) instead of answering.
 TEST_F(ListTest, HasComparesLargeIntegersByValue) {

@@ -182,9 +182,20 @@ namespace proto {
                 const ProtoSparseListKeywordArguments keywords(context, kwargs);
                 method(context, reinterpret_cast<const ProtoObject*>(context->thread), nullptr,
                        &positional, kwargs ? &keywords : nullptr);
+            } catch (const ProtoException&) {
+                // A language exception nothing in the thread's method caught.
+                // Runtimes catch their own in the method; the thread still
+                // leaves the space in order.
+                if (std::getenv("PROTO_THREAD_DIAG")) {
+                    std::cerr << "Uncaught ProtoException in thread" << std::endl;
+                }
             } catch (const std::exception& e) {
                 if (std::getenv("PROTO_THREAD_DIAG")) {
                     std::cerr << "Uncaught exception in thread: " << e.what() << std::endl;
+                }
+            } catch (...) {
+                if (std::getenv("PROTO_THREAD_DIAG")) {
+                    std::cerr << "Uncaught foreign exception in thread" << std::endl;
                 }
             }
             if (const ThreadExitHook hook = threadExitHook.load(std::memory_order_relaxed))

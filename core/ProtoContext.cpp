@@ -149,6 +149,22 @@ namespace proto
         } else {
             this->mutableValueCache_ = nullptr;
         }
+        // Step 0: Too many positional arguments.  Raised before this context
+        // takes slots or becomes the thread's current context: a constructor
+        // that throws runs no destructor, so a later raise would leave the
+        // thread pointing at a dead context.  The error is built in the
+        // caller's context, which is complete.
+        if (parameterNames && args
+                && args->getSize(this) > parameterNames->getSize(this)) {
+            if (previous)
+                previous->raiseError(ProtoErrorKind::ArityMismatch,
+                                     "Too many positional arguments provided.");
+            // A root context has no caller to build the error in, and a root
+            // context with arguments is an embedder defect, not a language
+            // error.
+            throw std::logic_error("Too many positional arguments for a root context.");
+        }
+
         // Step 2: Acquire storage for local variables BEFORE registration.
         // Fast path (externalSlots): caller pre-allocated a stack buffer — zero heap cost.
         // Slow path: heap-allocate and zero-initialise.
@@ -195,10 +211,8 @@ namespace proto
         const unsigned int paramCount = static_cast<unsigned int>(parameterNames->getSize(this));
         const unsigned int argCount = args ? static_cast<unsigned int>(args->getSize(this)) : 0u;
 
-        // 3a. Too many positional arguments
-        if (argCount > paramCount) {
-            throw std::invalid_argument("Too many positional arguments provided.");
-        }
+        // 3a. Too many positional arguments: checked in step 0, before this
+        // context was registered.
 
         std::vector<bool> assigned(paramCount, false);
 

@@ -36,6 +36,10 @@ const CaseEntry kCases[] = {
     { "module.root_survives_cycle",      9, false, true,  &caseModuleRootSurvivesCycle },
     { "external.bytes_accounted",        7, false, false, &caseExternalBytesAccounted },
     { "module.alias_rejected",           9, false, false, &caseModuleAliasRejected },
+    { "exception.kernel_errors_are_proto", 14, false, true,  &caseKernelErrorsAreProto },
+    { "exception.value_pinned_in_flight",  14, false, true,  &caseValuePinnedInFlight },
+    { "exception.foreign_type_caught",     14, false, false, &caseForeignTypeCaught },
+    { "exception.language_error_escapes",  14, false, false, &caseLanguageErrorEscapes },
     // Rule 13 runs late: it scans the whole mutable graph the runtime has built
     // by now, so the more of the runtime the earlier cases have exercised, the
     // more it covers.  It allocates no Cell and holds a critical section for the

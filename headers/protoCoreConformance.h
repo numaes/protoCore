@@ -254,6 +254,39 @@ public:
      * @return the declared count, or -1 when the runtime declares nothing.
      */
     virtual proto_long declaredMutableCycles() { return -1; }
+
+    /**
+     * Rule 14: a foreign error type is caught by prototype.  Through the
+     * runtime's OWN evaluator, run the language's handler for `errorType` (a
+     * `catch`/`except`/`on:do:` naming it) around a call, with no arguments, of
+     * `raising`: a method object that raises a `ProtoException` whose value is
+     * an instance of a type the module defines.  The runtime makes both values
+     * visible to the language code (for example as global variables).
+     *
+     * When the handler runs it stores the value it received in `*caught` and
+     * the call returns 1.  When the value is not an instance of `errorType`
+     * the handler must not run, and the `ProtoException` must leave this call
+     * unchanged: the case catches it and checks it carries the same value.
+     *
+     * @return 1 when the handler ran, -1 when the capability is unavailable.
+     */
+    virtual int catchForeignError(const ProtoObject* errorType, const ProtoObject* raising,
+                                  const ProtoObject** caught)
+    {
+        (void) errorType; (void) raising; (void) caught;
+        return -1;
+    }
+
+    /**
+     * Rule 14: a language error leaves the runtime as a `ProtoException`.
+     * Through the runtime's OWN evaluator, raise one of the language's own
+     * errors (`throw new Error(...)`, `raise ValueError(...)`, ...) and do not
+     * handle it.  The call must end by letting that `ProtoException` escape;
+     * the case catches it.
+     *
+     * @return -1 (returning at all means the capability is unavailable).
+     */
+    virtual int escapeLanguageError() { return -1; }
 };
 
 enum class Status { Pass, Fail, NotApplicable, Skipped, NeedsReview };

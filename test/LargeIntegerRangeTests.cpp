@@ -109,7 +109,7 @@ TEST(LargeIntegerRange, AsLongOverflowsAboveTheFirstDigit) {
                 const std::string decimal =
                     (sign < 0 ? "-" : "") + powerOfTwoDecimal(exponent, delta);
                 const ProtoObject* value = ctx->fromString(decimal.c_str(), 10);
-                EXPECT_THROW((void) value->asLong(ctx), std::overflow_error)
+                EXPECT_THROW((void) value->asLong(ctx), proto::ProtoException)
                     << decimal << " must not be readable as a long long";
             }
         }
@@ -118,7 +118,7 @@ TEST(LargeIntegerRange, AsLongOverflowsAboveTheFirstDigit) {
     // 2^64 - 1 and -(2^64 - 1) are also outside long long.
     for (const char* spelling : {"18446744073709551615", "-18446744073709551615"}) {
         const ProtoObject* value = ctx->fromString(spelling, 10);
-        EXPECT_THROW((void) value->asLong(ctx), std::overflow_error) << spelling;
+        EXPECT_THROW((void) value->asLong(ctx), proto::ProtoException) << spelling;
     }
 
     // The largest values that do fit still read back exactly.
@@ -145,7 +145,7 @@ TEST(LargeIntegerRange, ReportedValuesAreNotZero) {
         ASSERT_NE(value, nullptr);
         EXPECT_EQ(text(ctx, value, 10), c.decimal);
         EXPECT_NE(text(ctx, value, 10), "0");
-        EXPECT_THROW((void) value->asLong(ctx), std::overflow_error)
+        EXPECT_THROW((void) value->asLong(ctx), proto::ProtoException)
             << c.decimal << " used to be returned as 0 by asLong";
         // Arithmetic on it still works: v / v == 1.
         const ProtoObject* quotient = value->divide(ctx, value);

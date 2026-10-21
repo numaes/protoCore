@@ -108,9 +108,9 @@ TEST_F(IntegerSmallPathTest, DivideAndModuloTruncate) {
 }
 
 TEST_F(IntegerSmallPathTest, DivisionByZeroThrows) {
-    EXPECT_THROW(i(5)->divide(context, i(0)), std::runtime_error);
-    EXPECT_THROW(i(5)->modulo(context, i(0)), std::runtime_error);
-    EXPECT_THROW(i(0)->divide(context, i(0)), std::runtime_error);
+    EXPECT_THROW(i(5)->divide(context, i(0)), proto::ProtoException);
+    EXPECT_THROW(i(5)->modulo(context, i(0)), proto::ProtoException);
+    EXPECT_THROW(i(0)->divide(context, i(0)), proto::ProtoException);
 }
 
 TEST_F(IntegerSmallPathTest, MixedOperandsKeepTheGeneralPath) {

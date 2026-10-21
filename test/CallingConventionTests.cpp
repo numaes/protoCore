@@ -335,7 +335,7 @@ TEST(CallingConventionBinding, ContextBindsParametersFromArraysAndFromLists) {
     const ProtoObject* tooMany[3] = {root->fromInteger(1), root->fromInteger(2), root->fromInteger(3)};
     const ProtoArguments three(tooMany, 3);
     EXPECT_THROW({ ProtoContext f(&space, root, parameterNames, nullptr, &three, nullptr); },
-                 std::invalid_argument);
+                 proto::ProtoException);
 }
 
 namespace {

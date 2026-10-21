@@ -84,7 +84,7 @@ TEST_F(ContextTest, ArgumentCountError) {
     const ProtoListArguments positional(rootContext, args);
     ASSERT_THROW({
         ProtoContext funcContext(space, rootContext, paramNames, nullptr, &positional, nullptr);
-    }, std::invalid_argument);
+    }, proto::ProtoException);
 }
 
 // Test 4: The full lifecycle and return value promotion

@@ -1680,6 +1680,8 @@ namespace proto {
             std::lock_guard<std::recursive_mutex> lock(globalMutex);
             adaptive::enable(this, AdaptiveHeapConfig());
         }
+        // The pins of in-flight ProtoExceptions (core/ProtoException.cpp).
+        this->exceptionRoots_ = this->createRootSet("protocore-exceptions-in-flight");
     }
 
     ProtoSpace::~ProtoSpace() {

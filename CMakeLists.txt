@@ -71,6 +71,7 @@ add_library(protoCore SHARED
     core/ProviderRegistry.cpp
     core/ProtoSpace.cpp
     core/ProtoRootSet.cpp
+    core/ProtoException.cpp
     core/ProtoSparseList.cpp
     core/ProtoMap.cpp
     core/ProtoMPSCQueue.cpp
@@ -305,6 +306,7 @@ option(PROTOCORE_CLOCK_DEPENDENT_TESTS
 # The 'enable_testing()' command allows the use of ctest.
 enable_testing()
 add_subdirectory(test)
+add_subdirectory(examples)
 
 # Custom target to generate coverage report (only when COVERAGE=ON).
 # Run: cmake --build build --target coverage

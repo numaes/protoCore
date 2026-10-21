@@ -132,6 +132,95 @@ namespace proto
     );
 
     /**
+     * @brief The errors protoCore itself raises.
+     *
+     * protoCore never throws a C++ standard exception at an embedder: an
+     * operation that fails raises a `ProtoException` whose value the space's
+     * error factory built for one of these kinds (see
+     * `ProtoSpace::setErrorFactory` and docs/EXCEPTIONS.md).
+     */
+    enum class ProtoErrorKind : int {
+        //! A malformed argument: an unparsable integer literal, a base outside
+        //! 2..36, a negative shift amount.
+        InvalidArgument = 0,
+        //! An operand of the wrong type: an integer operation on a value that
+        //! is not an integer.
+        TypeMismatch = 1,
+        //! A result that does not fit the requested representation (a large
+        //! integer read as a 64-bit value).
+        Overflow = 2,
+        //! Integer division or modulo by zero.
+        DivisionByZero = 3,
+        //! A call with more positional arguments than the method's parameters.
+        ArityMismatch = 4,
+    };
+
+    //! Number of `ProtoErrorKind` values.
+    constexpr int kProtoErrorKindCount = 5;
+
+    /**
+     * @brief Builds the value protoCore raises for an error of `kind`.
+     *
+     * A runtime installs one per space so that protoCore's errors arrive as
+     * the language's own exceptions (a division by zero as Python's
+     * `ZeroDivisionError`, Scala's `ArithmeticException`, ...).  It runs on
+     * the raising thread, with `context` the raising context, and may
+     * allocate.  It must return a value; it must not throw.
+     */
+    typedef const ProtoObject* (*ProtoErrorFactory)(
+        ProtoContext* context, ProtoErrorKind kind, const char* message);
+
+    /**
+     * @brief The one C++ exception of every language on protoCore.
+     *
+     * A language-level `throw` / `raise` / `signal` that unwinds is a C++
+     * `throw` of a `ProtoException` carrying the thrown value; a handler is a
+     * C++ `catch (const proto::ProtoException&)`.  The exception's type is the
+     * prototype chain of `value()`, never a C++ class: a handler selects by
+     * asking `isInstanceOf(context, type)` (or its language's own test over
+     * the same chain) and rethrows what it does not handle.  That is what lets
+     * a module written in one language, or in C++, define an error type that
+     * every other language catches by name.
+     *
+     * While the exception is in flight its value is pinned in a root set of
+     * the value's space, so a collection during unwinding (a `finally`, a
+     * destructor that allocates) cannot reclaim it.  Copies share the pin;
+     * the last copy releases it.  An exception must not outlive its space.
+     *
+     * It deliberately does not derive from `std::exception`: a language value
+     * is not a C++ failure, and a `catch (const std::exception&)` written for
+     * library errors must not swallow it.  Runtimes may derive from it to
+     * carry their own extras (a traceback, a source line); handlers still
+     * catch the base.  The destructor is defined in libprotoCore, so the type
+     * has one identity across every shared library of the process.
+     *
+     * See docs/EXCEPTIONS.md and docs/tutorials/exceptions/.
+     */
+    class ProtoException
+    {
+    public:
+        /** @brief An exception carrying `value`, pinned in `context`'s space. */
+        ProtoException(ProtoContext* context, const ProtoObject* value);
+        virtual ~ProtoException();
+        ProtoException(const ProtoException&) = default;
+        ProtoException& operator=(const ProtoException&) = default;
+
+        /** @brief The thrown value: a language exception object, or any value. */
+        const ProtoObject* value() const noexcept { return value_; }
+
+        /**
+         * @brief Whether the value is an instance of `type`: `type` is on the
+         *        value's prototype chain (ProtoObject::isInstanceOf).
+         */
+        bool isInstanceOf(ProtoContext* context, const ProtoObject* type) const;
+
+    private:
+        struct Pin;
+        const ProtoObject* value_;
+        std::shared_ptr<Pin> pin_;
+    };
+
+    /**
      * @brief One keyword argument of the array call form.
      *
      * `name` is an interned symbol (ProtoString::createSymbol); its key is
@@ -2053,6 +2142,20 @@ namespace proto
         const ProtoObject* newRangeIterator(long long start, long long stop, long long step);
         const ProtoMultiset* newMultiset();
         const ProtoObject* newObject(bool mutableObject = false);
+
+        /**
+         * @brief Throws a `ProtoException` carrying `value`.  The language
+         *        equivalent of `throw value`; see docs/EXCEPTIONS.md.
+         */
+        [[noreturn]] void raise(const ProtoObject* value);
+
+        /**
+         * @brief Raises a protoCore error: builds its value with the space's
+         *        error factory (ProtoSpace::setErrorFactory) and throws it as
+         *        a `ProtoException`.
+         */
+        [[noreturn]] void raiseError(ProtoErrorKind kind, const char* message);
+
         /** Allocates a contiguous buffer (aligned_alloc). GC finalize frees it when descriptor is collected (Shadow GC). */
         const ProtoObject* newExternalBuffer(proto_ulong size);
         /**
@@ -2812,6 +2915,32 @@ namespace proto
         void forEachRootSet(void (*visit)(void* user, ProtoRootSet* rs),
                              void* user) const;
 
+        //- Errors (see docs/EXCEPTIONS.md)
+        /**
+         * @brief Installs the factory that builds the value of every error
+         *        protoCore raises in this space; nullptr restores the default.
+         *
+         * Install it once, while the runtime starts and before any other
+         * thread runs code in the space.  The default factory answers a child
+         * of `getErrorPrototype(context, kind)` with a `message` attribute.
+         */
+        void setErrorFactory(ProtoErrorFactory factory);
+        /** @brief The installed factory, or nullptr for the default one. */
+        ProtoErrorFactory getErrorFactory() const;
+
+        /**
+         * @brief protoCore's own prototype for errors of `kind`, created on
+         *        first use and alive for the space's lifetime.
+         *
+         * Every kind's prototype is a child of `getErrorRootPrototype`.  Each
+         * carries a `name` attribute: the kind's name (`errorKindName`).
+         */
+        const ProtoObject* getErrorPrototype(ProtoContext* context, ProtoErrorKind kind);
+        /** @brief The parent of every protoCore error prototype ("ProtoCoreError"). */
+        const ProtoObject* getErrorRootPrototype(ProtoContext* context);
+        /** @brief "InvalidArgument", "TypeMismatch", "Overflow", "DivisionByZero", "ArityMismatch". */
+        static const char* errorKindName(ProtoErrorKind kind);
+
         //- Thread Management
         void allocThread(ProtoContext* context, const ProtoThread* thread);
         void deallocThread(ProtoContext* context, const ProtoThread* thread);
@@ -3173,6 +3302,16 @@ namespace proto
         // --- Embedder root sets (see `createRootSet`) ---
         std::vector<ProtoRootSet*> rootSets_;
         mutable std::mutex rootSetsMutex_;
+
+        // --- Errors (see setErrorFactory, ProtoException) ---
+        std::atomic<ProtoErrorFactory> errorFactory_{nullptr};
+        // Pins of in-flight ProtoExceptions; created with the space.
+        ProtoRootSet* exceptionRoots_{nullptr};
+        // protoCore's error prototypes: [0, kProtoErrorKindCount) per kind,
+        // [kProtoErrorKindCount] the root.  Built once, pinned in errorRoots_.
+        std::once_flag errorPrototypesOnce_;
+        const ProtoObject* errorPrototypes_[kProtoErrorKindCount + 1]{};
+        ProtoRootSet* errorRoots_{nullptr};
 
         /**
          * @brief The garbage collector's own allocation context.
