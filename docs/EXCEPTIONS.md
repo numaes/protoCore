@@ -373,9 +373,19 @@ The same value: there is no conversion and no copy. A module's error caught
 in Python, Scala or Clojure is the very object the module raised. Its
 attributes (`message`, `name`, ...) are readable, and the language's type test
 against the module's type is true. Each runtime has a test for this against
-the geometry module. Errors crossing directly between two languages, such as
-a Python exception caught in JavaScript, follow the same rule, but in October
-2026 no cross-runtime test exercises them yet.
+the geometry module. Errors crossing directly between two languages follow
+the same rule. In October 2026 one pair is tested: protoScala and protoST
+(protoScala `tests/unit/protost_interop.cpp`, decision D135).
+- A Smalltalk `Error` subclass is caught in Scala by its class, by
+  `Throwable` and by `Exception`, and passes a handler for an unrelated class.
+- A Scala exception thrown through Smalltalk is caught there by
+  `on: Exception do:` as the same object (`eq`).
+- A Smalltalk error raised through Scala frames still reaches the outer
+  Smalltalk handler.
+- `ensure:` and `finally` run in order during an unwind that crosses both
+  runtimes.
+
+No other pair of languages has a cross-runtime test yet.
 
 **Can an exception carry a value of another space?**
 The pin is taken in the space of the raising context. Values cross spaces

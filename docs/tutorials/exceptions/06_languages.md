@@ -157,6 +157,29 @@ exception, both interpreted and in transpiled modules, so another runtime's
 `ProtoException` subclass leaves protoScala intact. Details: protoScala
 `docs/DESIGN.md` §7, `docs/INTEROP.md` §9, `docs/tutorial` §11.9.
 
+**Errors between Scala and Smalltalk** (decision D135). A Scala program can
+import a protoST module and send its messages (`` Counter.`new`() ``,
+`c.increment()`). A Smalltalk error is then caught in Scala by its class,
+exactly as a module's error is:
+
+```scala
+import st.send_lib.{Counter, CounterOverflow, UnrelatedError}
+
+@main def run(): Unit =
+  val c = Counter.`new`()
+  c.increment(); c.increment()
+  try c.increment()
+  catch
+    case e: UnrelatedError  => println("wrong")
+    case e: CounterOverflow => println("CounterOverflow: " + e.getMessage)
+```
+
+The reverse also holds: a Scala exception thrown through a Smalltalk block is
+caught there by `on: Exception do:` as the same object. These are protoScala's
+`ProtoSTInterop` tests (`tests/unit/protost_interop.cpp`, built with
+`-DPROTOSCALA_PROTOST_INTEROP=ON`). They also check unwinding across both
+runtimes, with `ensure:` and `finally`.
+
 ---
 
 ## Clojure (protoClojure)
