@@ -4,7 +4,7 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
-## [3.0.0] - 2026-10-20
+## [3.0.0] - 2026-10-22
 
 **Breaking API and ABI change (SOVERSION 3 -> 4).** One method type, two ways
 to call it.  Reference and migration guide: `docs/CALLING_CONVENTION.md`.
