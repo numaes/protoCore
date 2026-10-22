@@ -107,6 +107,8 @@ Examples, run as tests: `examples/exceptions/`.
   by default, and exports its symbols on Windows so that the examples have an
   import library to link against; `attribute_lookup_benchmark` (GCC inline assembly, LP64
   `long`) is built with GCC and Clang only.
+  The Windows package check's consumer asks for protoCore 3.0 (it asked
+  for 2.9, which a 3.x package does not satisfy).
 
 ## [2.14.8] - 2026-10-19
 
