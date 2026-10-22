@@ -100,6 +100,13 @@ Examples, run as tests: `examples/exceptions/`.
   run during the call) and `SmallIntegerFastPath.*` (the integer paths at and
   across the bounds of the SmallInteger range).
 
+### Fixed
+
+- **Windows (MSVC) build.** The example geometry module uses
+  `std::numbers::pi` instead of the POSIX `M_PI`, which MSVC does not define
+  by default, and `attribute_lookup_benchmark` (GCC inline assembly, LP64
+  `long`) is built with GCC and Clang only.
+
 ## [2.14.8] - 2026-10-19
 
 No public API change; ABI compatible (SOVERSION 3): `ProtoContext`'s

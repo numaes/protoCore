@@ -8,6 +8,7 @@
 
 #include <cmath>
 #include <memory>
+#include <numbers>
 #include <stdexcept>
 #include <string>
 
@@ -45,7 +46,7 @@ const ProtoObject* circleArea(ProtoContext* ctx, const ProtoObject* self, const 
     if (r < 0)
         raiseGeometryError(ctx, self, "NegativeRadius",
                            "circleArea: the radius " + std::to_string(r) + " is negative");
-    return ctx->fromDouble(M_PI * r * r);
+    return ctx->fromDouble(std::numbers::pi * r * r);
 }
 
 const ProtoObject* triangleArea(ProtoContext* ctx, const ProtoObject* self, const ParentLink*,
@@ -71,7 +72,7 @@ const ProtoObject* legacyArea(ProtoContext* ctx, const ProtoObject*, const Paren
     const double r = number(ctx, args, 0);
     // The anti-pattern: a C++ standard exception is not a language value.
     if (r < 0) throw std::runtime_error("legacyArea: negative radius");
-    return ctx->fromDouble(M_PI * r * r);
+    return ctx->fromDouble(std::numbers::pi * r * r);
 }
 
 class GeometryProvider final : public ModuleProvider {
