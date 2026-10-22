@@ -8,6 +8,12 @@
 add_library(protocore_example_geometry SHARED geometry_module/GeometryModule.cpp)
 target_link_libraries(protocore_example_geometry PRIVATE protoCore)
 target_include_directories(protocore_example_geometry PRIVATE ${PROJECT_SOURCE_DIR}/headers)
+# Like libprotoCore, the module's API carries no __declspec annotations: on
+# Windows the linker exports every symbol, which also produces the import
+# library the examples link against.
+if(WIN32)
+    set_target_properties(protocore_example_geometry PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
 foreach(_example
         01_catch_by_prototype

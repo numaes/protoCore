@@ -104,7 +104,8 @@ Examples, run as tests: `examples/exceptions/`.
 
 - **Windows (MSVC) build.** The example geometry module uses
   `std::numbers::pi` instead of the POSIX `M_PI`, which MSVC does not define
-  by default, and `attribute_lookup_benchmark` (GCC inline assembly, LP64
+  by default, and exports its symbols on Windows so that the examples have an
+  import library to link against; `attribute_lookup_benchmark` (GCC inline assembly, LP64
   `long`) is built with GCC and Clang only.
 
 ## [2.14.8] - 2026-10-19
