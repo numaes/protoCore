@@ -36,7 +36,51 @@ to call it.  Reference and migration guide: `docs/CALLING_CONVENTION.md`.
   existing `-Bsymbolic-functions`.  No change to the public header.
   protoClojure `fib` -7 % cycles from this alone.
 
+### Changed — one exception type for every language
+
+Specification: `docs/EXCEPTIONS.md`. Tutorials: `docs/tutorials/exceptions/`.
+Examples, run as tests: `examples/exceptions/`.
+
+- **`proto::ProtoException`**: the one C++ exception of every language on
+  protoCore. It carries the thrown value, and the exception's type is the
+  value's prototype chain (`isInstanceOf`).
+  - A handler catches the base type, selects by prototype and rethrows the
+    rest unchanged, so an error type exported by a module (in C++ or in
+    another language) is caught by name in every language.
+  - The value is pinned in a per-space root set while in flight; copies share
+    the pin.
+  - The class does not derive from `std::exception`, and its out-of-line
+    destructor gives it one identity across shared libraries.
+- **protoCore's own errors are `ProtoException`s.** `ProtoErrorKind`
+  (`InvalidArgument`, `TypeMismatch`, `Overflow`, `DivisionByZero`,
+  `ArityMismatch`), `ProtoContext::raise` and `raiseError`.
+  - Values come from a per-space `ProtoErrorFactory`
+    (`ProtoSpace::setErrorFactory`) that a runtime installs so the errors
+    arrive as its own classes. The default factory builds children of
+    protoCore's error prototypes (`getErrorPrototype`,
+    `getErrorRootPrototype`).
+  - The 35 `std::runtime_error` / `std::invalid_argument` /
+    `std::overflow_error` throws of the integer operations are gone. Code
+    that caught them catches `ProtoException`.
+- **Too many positional arguments** raise `ArityMismatch` before the new
+  `ProtoContext` registers, in the caller's context. The previous
+  `std::invalid_argument` was thrown after registration, which left the
+  thread's current context pointing at a dead stack object.
+- **A `ProtoThread`'s entry** also stops a `ProtoException` and any foreign
+  exception, and the thread leaves the space in order (one line under
+  `PROTO_THREAD_DIAG`).
+
 ### Added
+
+- **Conformance rule 14**: `exception.kernel_errors_are_proto` and
+  `exception.value_pinned_in_flight` (kernel cases), and
+  `exception.foreign_type_caught` and `exception.language_error_escapes`
+  (new `Host` capabilities `catchForeignError` and `escapeLanguageError`). The
+  reference host implements them; two mutant hosts prove the cases fail.
+- **`examples/`**: `examples/exceptions/` has a UMD module in its own shared
+  library (`protocore_example_geometry`) and four example programs, run as the
+  tests `example.exceptions.*`.
+- New tests: `ProtoExceptionTest.*`.
 
 - **The array form of `ProtoObject::call`**: positional arguments as a
   pointer and a count, keywords as an array of `ProtoKeywordArgument` (an

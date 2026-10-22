@@ -29,6 +29,12 @@ This guide describes how to **generate** (create and register) a module for prot
 
 ---
 
+## Errors
+
+A module's methods report errors by raising a `proto::ProtoException` whose value is an instance of an error type the module exports, a prototype such as `GeometryError`. Every language catches it by naming that type. A module that wraps a C++ library catches the library's exceptions and raises its own types. See [EXCEPTIONS.md](EXCEPTIONS.md) and the example module in [examples/exceptions/geometry_module](../examples/exceptions/geometry_module/GeometryModule.cpp).
+
+---
+
 ## Full guide and specification
 
 - **Detailed user guide (implementation, registration, chain, example):**  

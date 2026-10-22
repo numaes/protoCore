@@ -22,6 +22,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 
 ### Recent kernel work (2026)
 
+- **One exception type for every language** *(October 2026, 3.0.0, breaking)*: a language error is a `proto::ProtoException` carrying a value, and a handler selects it by the value's prototype chain, so a module's error types are caught by name in JavaScript, Python, Smalltalk, Scala and Clojure alike; protoCore's own errors arrive as each language's classes through a per-space error factory. See [the specification](docs/EXCEPTIONS.md) and [the tutorials](docs/tutorials/exceptions/README.md), with compiled [examples](examples/exceptions/).
 - **One method type, two call forms** *(October 2026, 3.0.0, breaking)*: a method reads its arguments through descriptors, and a caller passes either lists or arrays it owns; the array form allocates nothing. See [the calling convention](docs/CALLING_CONVENTION.md).
 - **A parallel sweep** *(October 2026, 2.14.0)*: while mutators wait for heap headroom, helper threads (half the physical cores of a NUMA node by default) sweep beside the collector, and are kept only while they shorten the sweep; the hardware-sensitive parameters (helpers, the sweep's width and prefetch) are configurable. See [the report](docs/reports/2026-10-03-collector-throughput.md).
 - **Heap sizing that minimises waits** *(October 2026, 2.13.0)*: the adaptive heap controller grows the soft limit only while the mutators wait and the growth reduces the waits, within the budget, from measured allocation rate and collector throughput; no fitted constant. See [the report](docs/reports/2026-10-03-collector-throughput.md).
@@ -249,6 +250,8 @@ Main documents:
 - **[docs/MemoryModel.md](docs/MemoryModel.md)**: memory model and how to size a process (perennials, per-space peaks, memory not managed by protoCore)
 - **[docs/GarbageCollector.md](docs/GarbageCollector.md)**: garbage collector implementation
 - **[docs/CALLING_CONVENTION.md](docs/CALLING_CONVENTION.md)**: the method type and its two call forms (lists or caller-owned arrays), the argument descriptors, and migrating from 2.x
+- **[docs/EXCEPTIONS.md](docs/EXCEPTIONS.md)**: normative — one exception type for every language, selected by prototype; protoCore's own errors and the error factory; obligations of a runtime
+- **[docs/tutorials/exceptions/](docs/tutorials/exceptions/README.md)**: tutorials, from raising an error in a module to writing a runtime's handlers, each backed by a compiled example in [examples/exceptions/](examples/exceptions/)
 - **[docs/EMBEDDER-CONFORMANCE.md](docs/EMBEDDER-CONFORMANCE.md)**: normative — the participation obligations an embedder must meet, each one executable
 - **[docs/FIELD-NOTES.md](docs/FIELD-NOTES.md)**: the fourteen defects of 2026-09-23 to 2026-09-25, how each was found, and a command to reproduce it; the teaching material for the ITBA course, and the evidence behind the conformance rules
 - **[docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md)**: generating a module for Unified Module Discovery

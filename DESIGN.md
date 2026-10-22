@@ -422,6 +422,21 @@ Execution in protoCore is centered around the `ProtoContext` and the concept of 
 3.  **Invocation**: If the value found is a method, `call` invokes its native function (a `ProtoMethod`) with the context, `self`, `nextParent` and the arguments. If it is not a method and the space has a `nonMethodCallback`, that callback handles the call; otherwise `call` returns `PROTO_NONE`.
 4.  **Method objects**: `ProtoContext::fromMethod(self, method)` creates a method object, a `ProtoMethodCell` that holds the receiver and the native function and is invoked through `ProtoMethodCell::implInvoke`.
 
+### Errors: one exception type, selected by prototype
+
+A method that fails raises: `context->raise(value)` throws a
+`proto::ProtoException` carrying the value, and the caller's handler catches
+that one C++ type and selects by the value's prototype chain
+(`ProtoException::isInstanceOf`). Every language on protoCore throws and
+catches this way, so an error type exported by a module, written in C++ or in
+another language, is caught by name everywhere. protoCore's own failures
+(integer division by zero, malformed literals, overflow, type mismatch,
+arity) are raised through a per-space error factory, which a runtime sets so
+that they arrive as the language's own classes. The value is pinned while
+the exception is in flight. The type does not derive from `std::exception`:
+a C++ library failure is translated into a language error at the runtime's
+native-call boundary. Specification: [docs/EXCEPTIONS.md](docs/EXCEPTIONS.md).
+
 ### The `ReturnReference` Mechanism
 
 Internally, protoCore uses a special `ReturnReference` cell. This is not exposed to the user but serves as a way for methods to return values through the `ProtoContext` while still being managed by the garbage collector. It ensures that the return value is tracked as a root if a GC cycle occurs exactly during a return operation.

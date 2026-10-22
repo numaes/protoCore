@@ -68,6 +68,7 @@ they would have been reading a program in which the collector never ran.
 | 11 | **Every OS thread that holds a `ProtoObject*` must be registered**, or everything it holds must be pinned in a `ProtoRootSet`. | R | GC Phase 2 scans roots by walking `space->threads`. A thread absent from that list is **never root-scanned**: its `automaticLocals`, `returnValue`, `pendingRoot` and young chain are invisible to the marker, so its live objects are swept under it. This is *worse* than rule 2 — rule 2 hangs, this corrupts. | `thread.registered` |
 | 12 | **A `CriticalSection` must not be held across a blocking wait, an `UnmanagedScope`, or a `safepoint()` expected to submit.** | S | `parkForStopTheWorld` skips parking while `criticalSectionDepth > 0`, and `safepoint()` skips submission at depth > 0. So a critical section held across a wait reproduces rule 2's hang *and* rule 1's non-submission, in code that looks correct. | `critsec_across_block` |
 | 13 | **Every cycle in the mutable graph is permanent retention, and must be declared.** A cycle among mutable objects is never collected. | R (exact, not heuristic) + **J** for which cycles are structural | The table is a GC root unconditionally and an entry is released only once its handle has been finalized, so a value that reaches its own handle keeps it marked for ever. Nothing errors, nothing grows without bound, and no reclamation metric moves: it looks like a program with a slightly larger live set, for ever. | `mutable.graph_cycles`, checklist C13 (J) |
+| 14 | **One exception type, selected by prototype.** A language error that unwinds is a `proto::ProtoException` carrying the value; a handler catches the base type, selects by the value's prototype chain and rethrows the rest unchanged; an unhandled error leaves the runtime as the `ProtoException`. Specification: [EXCEPTIONS.md](EXCEPTIONS.md). | R | A runtime that matches by its own C++ type, an integer class id or a message prefix works for every error it raises itself, so its whole suite is green. It fails only when an error comes from a module or another language: the handler does not run, or catches what it should not, or the error arrives as a string. | `exception.kernel_errors_are_proto`, `exception.value_pinned_in_flight`, `exception.foreign_type_caught`, `exception.language_error_escapes` |
 
 ### Rule 11 accepts three conforming shapes
 
@@ -253,6 +254,41 @@ in `[0.05, 0.9]`; 0.50 is a round number nobody will be tempted to tune.
 A workload that grows the heap by less than `kMinWorkloadCells` (200,000)
 reports **NotApplicable**, not Pass: below that the fixed lag is not a small
 fraction of the denominator.
+
+### Rule 14 — what the four cases see
+
+Two cases are kernel characterisations and need no capability:
+
+- `exception.kernel_errors_are_proto`: protoCore's `1 / 0` raises a
+  `ProtoException` built by the space's error factory, which is the host's
+  factory when one is installed.
+- `exception.value_pinned_in_flight`: an exception kept in a
+  `std::exception_ptr` keeps its value through collections after the
+  context that built it has ended.
+
+Two cases audit the runtime through two `Host` capabilities:
+
+- `catchForeignError(errorType, raising, &caught)`: the runtime runs its
+  language's handler for `errorType` around a call of `raising`, a method
+  object that raises an instance of a type the case built, standing for a
+  module's type.
+  - **Pass:** the handler for the base type receives the very value
+    raised, and a handler for an unrelated type lets the same value leave as
+    a `ProtoException`.
+  - **Fail:** the handler does not run, catches the unrelated type, or the
+    value changes. That is the shape of a runtime that matches by C++ type,
+    by class id, or catches everything.
+- `escapeLanguageError()`: the runtime raises one of its own errors and does
+  not handle it.
+  - **Pass:** it leaves as a `ProtoException`.
+  - **Fail:** it leaves as a `std::exception` or another C++ type.
+
+The reference host (`conformance/SelfHost.h`) implements both in C++. The
+mutants `NonConformingHost_CatchesEveryValue` and
+`NonConformingHost_EscapesAsStdException` prove that the cases fail when
+they should. Tutorial
+[05](tutorials/exceptions/05_writing_a_runtime_handler.md) shows a runtime's
+implementation.
 
 ## The judgement items
 

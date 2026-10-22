@@ -32,7 +32,7 @@ Your provider must:
    - Return a **module object** (e.g. a `ProtoObject` with attributes representing the module's exports), or
    - Return `PROTO_NONE` if the path is not handled by this provider.
 
-Do not throw; keep allocations minimal so that failures can be expressed by returning `PROTO_NONE`.
+`tryLoad` does not throw: a path the provider does not handle answers `PROTO_NONE`, so the resolution chain can try the next entry. The module's *methods* report errors by raising: they define error types as exported prototypes and raise instances of them with `ctx->raise(error)`, which every language catches by name. See [docs/EXCEPTIONS.md](../../EXCEPTIONS.md) and [tutorial 01](../../tutorials/exceptions/01_raising_from_a_module.md).
 
 **Example: Greeter provider**
 

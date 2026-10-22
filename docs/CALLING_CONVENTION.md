@@ -165,6 +165,10 @@ const ProtoObject* r = callee->asMethod(ctx)(ctx, self, nullptr, &args, nullptr)
 3. **Keyword names are interned symbols.** Callees compare them by pointer.
 4. **The method definition does not depend on the call form.** Do not test
    whether the call came with lists; read the descriptors.
+5. **A method reports an error by raising.** It does not return a sentinel
+   for failure: it raises a `proto::ProtoException`, with `ctx->raise(error)`
+   or `ctx->raiseError(kind, message)`, and the caller's language catches it by
+   the value's prototype. See [EXCEPTIONS.md](EXCEPTIONS.md).
 
 ## 5. Parameter binding in `ProtoContext`
 
@@ -181,6 +185,12 @@ A method that wants protoCore to bind its parameters passes the descriptors it
 received. The binding reads them: positional values by index, keywords matched
 to a parameter by the name's pointer or by its content hash (the key the
 binding used before 3.0.0).
+
+More positional arguments than parameters raise a `ProtoException` of kind
+`ArityMismatch` ([EXCEPTIONS.md §3.3](EXCEPTIONS.md#33-protoerrorkind-the-errors-protocore-raises)).
+It is raised before the new context registers and is built in the caller's
+context, so the caller stays usable. Before 3.0.0 the constructor threw
+`std::invalid_argument` after registering itself.
 
 ## 6. Migrating from 2.x
 
