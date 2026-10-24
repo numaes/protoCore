@@ -345,7 +345,10 @@ of young cells.
   reachable cells.  Every `processReferences` implementation in the
   codebase traverses only `const`-qualified Cell fields, which are immutable
   after construction — so the marker walks a stable graph even though
-  workers are running.
+  workers are running.  The one exception is the collector's own: after a
+  cycle's sweep it clears the two references of a dead mutable's state
+  (Phase 5b, "When memory is returned"), a cell no mutator can reach, while
+  no mark runs.
 - Reachable cells are marked using a bit-flag in the
   `Cell::next_and_flags` atomic member (bit 0).  The mark bit is
   **GC-exclusive**: workers never call `mark()` / `unmark()` /
@@ -359,12 +362,16 @@ of young cells.
   reading keys and value pointers, never a value.  Each scan of a mutable
   handle (`Marker::scan`, a `ProtoObjectCell` with `mutable_ref > 0`) shades
   the handle's state from that index; the index slot is prefetched when the
-  handle is shaded.  After the trace (and its overflow rescans) a second
-  walk marks the table nodes no ordinary path reached, without scanning
-  them (`markTableNodes`).  A node an ordinary path reached -- a young path
-  copy of an older version of a shard tree reaches snapshot nodes -- was
-  traced in full.  The other order (nodes first) was measured to retain far
-  more in protoJS and protoPython; see GLOBAL_MUTABLE_TABLE.md.
+  handle is shaded.  The same walk marks the table's nodes, without
+  scanning them, before the trace: every other path into the snapshot (a
+  young path copy of an older version of a shard tree) stops at its nodes,
+  and the overflow rescans skip them.  After the trace has closed, each
+  state of the snapshot that no handle reached is marked without being
+  scanned (`retireDeadStates`); after the sweep, the ones the sweep found
+  among its candidates are emptied (`emptyRetiredStates`).  The reason is
+  in GLOBAL_MUTABLE_TABLE.md, "Dead states become tombstones": a table node
+  outlives its dead state, and the next cycle scans versions of the table
+  that still name it.
 - **Snapshot discipline.**  Any GC code path that needs to dereference a
   `mutable_ref` to its current immutable value MUST consult
   `gcMutableSnapshot[shard]` (or the index built from it), never
@@ -573,21 +580,32 @@ state outlived its handle by one cycle.)
 
 **When memory is returned** (since 3.1.0).  A handle that is unreachable at
 the stop-the-world of cycle N is not marked, and neither is its state unless
-something else reaches it; both are freed in cycle N's sweep, and the entry is
-released at the end of cycle N.  A whole unreachable chain or cycle of
-mutables goes in the same cycle.  Until 3.1.0 the state was reached through
-the table in cycle N, survived it, and was freed in cycle N+1, so a chain
-drained one level per cycle and a cycle never did.
+something else reaches it.  The handle and everything the state held are
+freed in cycle N's sweep, and the entry is released at the end of cycle N.  A
+whole unreachable chain or cycle of mutables goes in the same cycle.  The
+state cell itself is kept, emptied: the mark keeps it without scanning it
+(`retireDeadStates`), and right after the sweep, before Phase 5b, its parent
+and attribute references are cleared if the sweep found it among its
+candidates (`emptyRetiredStates`; a state that was not a candidate, a young
+cell for instance, was not going to be freed and is left whole).  It is freed
+in a later cycle that no longer reaches it.  The reason: until Phase 5b the
+table node that names it is in the live table, and the versions of the shard
+tree that mutators build meanwhile share that node or copy its value; those
+versions are young cells, which cycle N+1 scans.  A freed state would be read
+through them (GLOBAL_MUTABLE_TABLE.md, "Dead states become tombstones").
+Until 3.1.0 the state was reached through the table in cycle N, survived it,
+and was freed in cycle N+1, so a chain drained one level per cycle and a cycle
+never did.
 
 **The window between the sweep and the release.**  Until Phase 5b the live
-table still holds the entries of the handles the sweep finalized, and their
-states are freed.  Nothing reaches them through a handle (see below).  The
-walkers of the whole table must not read their values: the purge of a
-destroyed space's refs reads keys only, the next cycle's index build reads
-value pointers only, and `findMutableCycles`, which starts from the values,
-waits for `multispace::mutableReleasesPending` to be zero: a cycle counts in
-it from its stop-the-world to the end of its Phase 5b (after the grace
-period, with several spaces).
+table still holds the entries of the handles the sweep finalized; their states
+are emptied, and what they held is freed.  Nothing reaches them through a
+handle (see below).  The walkers of the whole table must not read through
+their values: the purge of a destroyed space's refs reads keys only, the next
+cycle's index build reads value pointers only, and `findMutableCycles`, which
+starts from the values, waits for `multispace::mutableReleasesPending` to be
+zero: a cycle counts in it from its stop-the-world to the end of its Phase 5b
+(after the grace period, with several spaces).
 
 Note also that an entry exists only from a mutable's **first write**:
 `newObject(true)` publishes nothing, so a never-written mutable has no entry for

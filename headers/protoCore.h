@@ -2866,6 +2866,20 @@ namespace proto
         MutableGraphReport findMutableCycles(ProtoContext* context,
                                             proto_ulong cellBudget = 0) const;
 
+        /**
+         * @brief The number of `ProtoSpace` instances live in this process
+         *        (constructed and not yet destroyed), counting this one.
+         *
+         * One space per process is the recommended model
+         * (docs/GLOBAL_MUTABLE_TABLE.md, "Recommended model"): every runtime,
+         * thread, worker and cross-runtime module of the process shares it.
+         * Several spaces are supported but not recommended; while more than
+         * one is live, the mutable table's states are roots of every cycle.
+         * A runtime or a test can use this to check that it created no space
+         * of its own.  Takes the process-wide lock briefly; not for hot paths.
+         */
+        static proto_ulong liveSpaceCount();
+
         const ProtoList* getThreads(ProtoContext* context) const;
         const ProtoThread* newThread(
             ProtoContext *c,

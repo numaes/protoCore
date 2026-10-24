@@ -17,12 +17,13 @@ All notable changes to protoCore are documented in this file.
   `docs/GarbageCollector.md`, Phases 2, 4 and 5b).
 - **Measured.** 300,000 protoClojure atoms, each pointing at the next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles (medians of three interleaved runs), 100.6 s -> 0.51 s, live set after the last cycle
   1,802,173 -> 26,591 cells, maximum resident set 157 -> 77 MB.
-- **Cost.** With 500,000 live mutable objects held in a rooted list (a scratch benchmark outside the repository, five interleaved runs, medians of nine cycles, AMD Ryzen 5 5500U), the mark phase (resume to sweep start) took
-  286.0 ms against 214.9 ms before (+33 %), the whole cycle 597.2 against
-  527.8 ms (+13 %), for 4.5 M marked cells in both; with the same handles
-  linked in one chain from a root, 325.2 against 203.2 ms (+60 %) and
-  602.0 against 476.7 ms (+26 %). At 50,000 handles: +27 % / +39 % mark,
-  +10 % / +17 % cycle. The chain is the costly shape: the old trace reached
+- **Cost.** With 500,000 live mutable objects held in a rooted list (a scratch benchmark outside the repository, five interleaved runs, medians of nine cycles, AMD Ryzen 5 5500U, remeasured with the final code on 2026-10-24), the mark phase (resume to sweep start) took
+  350.0 ms against 263.4 ms before (+33 %), the whole cycle 708.1 against
+  621.8 ms (+14 %), for 4.5 M marked cells in both; with the same handles
+  linked in one chain from a root, 392.1 against 246.6 ms (+59 %) and
+  714.7 against 571.3 ms (+25 %). At 50,000 handles: +27 % / +43 % mark,
+  +11 % / +18 % cycle. The after-trace order of the earlier draft measured
+  the same within noise (+30 % / +64 % mark at 500,000). The chain is the costly shape: the old trace reached
   each state from its table node, in table order, with many independent
   misses in flight; now a linked chain is followed handle by handle, one
   dependent miss after another, as an immutable linked list would be.
@@ -32,6 +33,29 @@ All notable changes to protoCore are documented in this file.
   `Marker::scan` follows the handle -> state edge through the index. With
   `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` the states stay roots: a handle
   that survived a cycle is never swept there.
+- **Dead states become tombstones.** A dead mutable's table node outlives
+  its state: it stays in the live table until Phase 5b, and the shard-tree
+  versions mutators build meanwhile share it; those versions are young
+  cells, which the next cycle scans. The first implementation freed the
+  state in the sweep, so the next cycle read freed memory through them and
+  kept the cells reusing it alive. Measured with instrumentation: handles
+  released by Phase 5b were shaded again in the next cycle, and protoJS
+  `cli/promise-rejections-bounded-memory` grew to 1.47 M live cells (about
+  160,000 with the states as roots) and ran out of memory under its
+  1,500,000-cell ceiling when the table's nodes were marked before the
+  trace. Marking them after the trace only slowed the growth (the young walk
+  then traced the snapshot's values too); that was the "unexplained"
+  out-of-memory of the earlier drafts. Now the trace marks each unreached
+  state without scanning it (`retireDeadStates`), and after the sweep the
+  ones the sweep found among its candidates have their two references
+  cleared (`emptyRetiredStates`). What a dead state held is still freed in
+  the same cycle; the emptied cell is freed once nothing scanned reaches it.
+  With it the nodes are marked before the trace again. protoJS's test now
+  peaks at 130,000-160,000 live cells; protoPython `protopyc_gc_rooting`
+  takes 12 s (35 s with the defect, 13 s with the after-trace order). New
+  test: `MutableStatesNotRoots.OldTableVersionsNeverKeepReusedCells` (938
+  of 60,000 probes kept alive without the fix, on every run;
+  `docs/GLOBAL_MUTABLE_TABLE.md`, "Dead states become tombstones").
 - **Whole-table walkers.** Between a cycle's sweep and its Phase 5b a dead
   handle's entry names a freed state. `findMutableCycles`, the one walker
   that reads the table's values, now waits for
@@ -45,14 +69,21 @@ All notable changes to protoCore are documented in this file.
   states, as before; the rule is chosen per cycle at the pause, and such a
   cycle first waits for any release still pending from a cycle that did not
   root them (`docs/GLOBAL_MUTABLE_TABLE.md`, "Several spaces").
+- **One space per process is the recommended model.** Several spaces stay
+  supported and are documented as not recommended: while more than one is
+  live the states are roots, collections wait for each other, and freed
+  cells wait for a grace period (`docs/GLOBAL_MUTABLE_TABLE.md`,
+  "Recommended model"; `docs/EMBEDDER-CONFORMANCE.md`). New function
+  `ProtoSpace::liveSpaceCount()` (static) reports how many spaces are live in
+  the process, so a runtime or a test can check that it created none of its
+  own. `docs/MemoryModel.md` section 7 and conformance rule 13 are rewritten
+  for the new rule.
 - Tests: `test/MutableStatesNotRootsTests.cpp`;
   `ProtoLazyObject.MutableChainIsFreedInOneCycle` replaces the control
   `MutableChainControlUnravelsOneLinkPerCycle` (3,000 links: 3,000 freed by
   one cycle, 0 on the previous code); `MutableCycleDetector.UnreachableCyclicMutablesAreReleased`
   and `ReachableCyclicMutablesAreKeptAndReported` replace
-  `CyclicMutablesAreNeverReleasedAndDoNotDecay`. `docs/MemoryModel.md`
-  section 7 and conformance rule 13 carry a note: their premise no longer
-  holds.
+  `CyclicMutablesAreNeverReleasedAndDoNotDecay`.
 
 ### Added -- lazy objects (3.1.0, additive: SOVERSION stays 4)
 

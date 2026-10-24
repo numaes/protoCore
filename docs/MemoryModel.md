@@ -451,153 +451,107 @@ one.
 
 ---
 
-## 7. Retention: the one thing the collector does not resolve
+## 7. Retention of mutable objects
 
-> **Superseded in 3.1.0.**  The table's states are no longer roots: a state is
-> marked only while the mark reaches its handle
-> ([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md), "States are not roots").
-> An unreachable cycle among mutable objects is now collected in one cycle, and
-> an acyclic chain no longer drains one level per cycle.  A reachable cycle is
-> live data.  This section records the property as it held until then; its
-> rule (store a snapshot where a back-reference is incidental) is still good
-> design, but no longer a memory obligation.
+§1–§6 size a process from its **peak**.  This section states what the collector
+does with mutable objects that the program no longer reaches, because that is
+where the answer depends on how many spaces the process holds.
 
-§1–§6 size a process from its **peak**.  This section states the one structural
-reason a peak can contain a term that never comes back down, and it is not a
-bug: it is a consequence of the mechanism that lets protoCore mark concurrently
-without write barriers.
+> **With one space in the process (the recommended model), an unreachable
+> mutable object is freed in the cycle that finds it unreachable — alone, in a
+> chain, or in a cycle with other mutable objects.**
+>
+> **While more than one space is live, the table's states are roots: an
+> unreachable chain of mutable objects is freed one link per cycle, and a
+> cycle among them is retained until the process is back to one space.**
 
-> **A cycle among mutable objects is never collected.**
-
-The retention is **bounded** — it is the cycle's own cells, once, not growth —
-and it is **permanent**: there is no monotone progress, so a later collection
-does not fix it.  Some cycles are an oversight and can be removed; others are
-what the program means, and for those the retention simply stands.  Both cases
-are below, and `ProtoSpace::findMutableCycles` (§7.5) exists to make the
-difference visible and countable rather than to imply that every cycle is a
-defect.
-
-### 7.1 Why — the two sites that combine
+### 7.1 The mechanism
 
 A mutable object is a pair.  The **handle** is a `ProtoObjectCell` carrying a
-non-zero `mutable_ref` (`headers/proto_internal.h:849`); the **state** is an
-ordinary immutable `ProtoObjectCell` with `mutable_ref == 0`, published into
-`ProtoSpace::mutableRoot[mutable_ref % 256]` by a compare-and-swap
-(`core/ProtoObject.cpp:1099-1101`).  The table entry is `(mutable_ref → V)` in a
-sparse list **keyed by an integer**, so the table does not reference the handle
-`H`; it references `V`.
+non-zero `mutable_ref`; the **state** is an ordinary immutable
+`ProtoObjectCell` with `mutable_ref == 0`, published into the process-wide
+table (`globalMutableShards[mutable_ref % 256]`) by a compare-and-swap.  The
+table entry is `(mutable_ref → state)` in a sparse list keyed by an integer, so
+the table does not reference the handle.
 
-Two places in the collector then combine:
+Since 3.1.0 the table's states are **not roots**
+([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md), "States are not roots").
+When the mark reaches a handle, it marks the state that the handle's ref names
+in the table snapshot taken at the pause; a state whose handle nothing reaches
+is not marked.  So an unreachable chain `H1 → V1 → H2 → V2 → …` is entirely
+unmarked, every handle is finalized in the same sweep, Phase 5b releases all of
+their entries at the end of that cycle, and the chain is gone.  A cycle
+`H1 → V1 → H2 → V2 → H1` is the same case: nothing outside reaches it, so
+nothing in it is marked.
 
-* **Phase 2** (`core/ProtoSpace.cpp:519-524`) adds each shard's whole
-  `ProtoSparseList` to the work list as a root, **unconditionally**.  So every
-  mutable's current value is marked whether or not anything still references its
-  handle.  The table **originates** marking; it does not merely preserve values.
-* **Phase 5b** (`core/ProtoSpace.cpp:992-1000`, implementation
-  `core/ProtoSpace.cpp:232-283`) removes an entry only once the sweep has
-  **finalized** its handle — that is, only for a handle found unreachable.  The
-  finalizer that records it is `ProtoObjectCell::finalize`
-  (`core/ProtoObject.cpp:515-521`), and it fires only on an unmarked candidate.
+What stays a little longer is the dead states' own cells: each is kept, emptied
+of its two references, until no scanned path reaches it
+([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md), "Dead states become
+tombstones").  That is one cell per dead mutable that had been written, holding
+nothing; it does not change the sizing rule.
 
-So if `V` reaches `H`, then `H` is marked, so it is never swept, so it never
-finalizes, so its entry is never removed — and the next cycle is bit-identical.
-
-### 7.2 The acyclic case works, and this is what it relies on
-
-The ordinary case is correct and must not be confused with the one above:
-table → `V`, `V` does not reach `H`, nobody else holds `H`.  Then `H` is
-unreachable, it is swept, it is finalized, Phase 5b releases its entry, and `V`
-dies in the following cycle.
-
-That holds for an acyclic **chain** of mutables too, one level per cycle.  If
-`H1 → H2` and there is no cycle, `H2`'s liveness merely follows `H1`'s: when
-`H1` dies its entry goes, `V1` dies next cycle, and `H2`'s entry goes on the
-cycle after that.  **An acyclic handle-to-handle edge is therefore not a
-violation**, which is why the detector does not report one.  The commonest shape
-in this family is exactly that: a mutable instance whose birth prototype chain
-points at a mutable class (`newChild(ctx, true)`), thousands of times over.
-
-Measured, in `test/MutableCycleDetectorTests.cpp`: 400 acyclic mutables created
-in a child context and dropped were released from the table down to **≤ 10% of
-what the workload created** after 8 cycles; 200 two-handle cycles created the
-same way retained **all 400 entries**, and the retained count was **identical**
-after a second round of 8 cycles.
-
-### 7.3 Two refinements the code contradicted a first reading of
-
-Both were found by writing the detector and then running it.
+Two details of the mechanism that a first reading gets wrong:
 
 * **An entry exists only after the first write, not at creation.**
-  `ProtoContext::newObject(true)` (`core/ProtoContext.cpp:863-875`) allocates a
-  handle with a fresh `mutable_ref` and publishes nothing; the first
-  `setAttribute` is what CASes an entry into the shard.  A never-written mutable
-  therefore originates no marking and cannot be in a cycle.  This is why a bare
-  `ProtoSpace` reports **zero** handles even though `objectPrototype` is created
-  mutable (`core/ProtoSpace.cpp:1228`): protoCore's own bootstrap never writes
-  to it.  The embedder's first `setAttribute` on it is what puts it in the table.
+  `ProtoContext::newObject(true)` allocates a handle with a fresh `mutable_ref`
+  and publishes nothing; the first `setAttribute` is what puts an entry in the
+  table.  A never-written mutable reads its birth fields.
 * **A handle references other handles through the fields it was born with.**  A
   handle's `parent` chain and `attributes` are fixed at construction and are
-  never written back to — `setAttribute` publishes a new state and returns the
-  same handle — but they are still traced: `ProtoObjectCell::processReferences`
-  (`core/ProtoObject.cpp:528-556`) reports both to the collector.  So an edge
-  between two handles can exist that passes through no state at all, and a
-  cycle can be closed by one.  A detector that stopped at a handle cell would
-  miss those; this one traverses through them.
+  still traced (`ProtoObjectCell::processReferences`), so an edge between two
+  handles can pass through no state at all.
 
-### 7.4 The rule, and where it does not apply
+### 7.2 Several spaces: the earlier property returns
 
-**Where a back-reference is incidental, store the current value — an immutable
-snapshot — instead of the mutable, and make taking that snapshot an explicit
-operation at the use site.**  This is the Clojure distinction between a
-reference and `@ref`, which protoClojure already ships: the reader says, at the
-point of reading, that it wants a value and not a cell.  An incidental
-back-reference is one whose purpose is identification or diagnosis rather than
-observation of later writes — protoPython's `co_name → fn` was a diagnostic
-pointer, and removing it removed the cycle.
+A state is a cell of the space whose context wrote it, and a handle is reached
+only by its own space's roots.  If the states were not roots with two spaces
+live, a context of space B that writes the state of a handle of space A would
+let B's collector free a state whose handle A keeps alive.  So a cycle that
+starts with more than one live space roots every state of the table, as every
+cycle did until 3.1.0, and then:
 
-**Where the back-reference is the point of the program, the rule does not
-apply and the retention stands.**  Three shapes where a snapshot would be the
-opposite of what the code asked for:
+* an entry is released only once its handle has been finalized, and the state
+  survives the cycle that finalized its handle, so **an acyclic chain is freed
+  one link per cycle**;
+* **a cycle among mutable objects is never collected** while the process has
+  more than one space: if a state reaches its own handle, the handle stays
+  marked, is never finalized, and its entry is never released.
 
-* **A captured `var` that refers to itself.**  protoScala compiles a local
-  captured by a closure to `MAKE_CELL`, a protoCore mutable
-  (`protoScala/src/runtime/ExecutionEngine.cpp:962-964`) — it has to be, because
-  sharing a `var` between closures is exactly what it is for.  So
-  `var f: () => Unit = null; f = () => f()` — an ordinary recursive lambda
-  defined through a `var` — is a two-handle cycle: the cell's current value is
-  the closure, and the closure captured the cell.  A snapshot would freeze the
-  cell at `null` and the program would be wrong.  This is the shortest and
-  probably the most frequent instance in the family.
-* **A genuinely cyclic object graph**: a doubly-linked list of mutable nodes, a
-  graph with back-edges.
-* **Two actors that reference each other**, which is how they talk.
+The retention is bounded — the cycle's own cells, once — and it ends when the
+process is back to one space.  This is the main reason one space per process is
+the recommended model.
 
-For all three the honest statement is: the cycle's cells are retained for the
-life of the space, the amount is bounded by the cycle, and the way to bound it
-further is to bound how many such cycles the program creates — not to pretend
-the collector will take them back.
+### 7.3 Design rule: snapshots where a back-reference is incidental
 
-#### Two fixes that were considered and rejected
+The retention above is no longer a memory obligation in a one-space process,
+but the design rule that came out of it is still good practice for every
+process: **where a back-reference is incidental, store the current value — an
+immutable snapshot — instead of the mutable, and make taking that snapshot an
+explicit operation at the use site.**  This is the Clojure distinction between
+a reference and `@ref`.  An incidental back-reference is one whose purpose is
+identification or diagnosis rather than observation of later writes.
 
-Recording them, because a reader who does not see them will propose one of them.
+Where the back-reference is the point of the program — a captured `var` that
+refers to itself (protoScala's `var f: () => Unit = null; f = () => f()`), a
+doubly-linked list of mutable nodes, two actors that reference each other — a
+snapshot would make the program wrong, and the rule does not apply.  Such a
+structure is live data while the program reaches it, and is freed with
+everything else once it does not (with one space).
+
+### 7.4 Two designs that were considered and rejected
+
+Recorded because a reader who does not see them will propose one of them.
 
 * **An ephemeron pass in mark** — treat the table as weak in the key and iterate
-  to a fixpoint, so an entry whose handle is unreachable stops marking its
-  value.  Rejected.  It adds a **fixpoint to a concurrent mark phase**, and the
-  failure mode on this side of the collector is not a leak, it is a
-  **use-after-free**: marking runs with the world going
-  ([GarbageCollector.md](GarbageCollector.md) § "Concurrent Mark Without
-  Barriers"), and a pass that can decide *not* to mark something, iteratively,
-  against a graph mutators are still reading, trades a bounded leak for a
-  corruption risk.  That is the wrong direction for this kernel.
+  to a fixpoint.  Rejected: it adds a fixpoint to a concurrent mark phase, a
+  pass that iteratively decides not to mark against a graph mutators are still
+  reading.  The 3.1.0 rule is not that: there is no iteration and no decision
+  not to mark; the handle-to-state edge is one more edge of the frozen graph
+  the mark walks, read from an immutable snapshot.
 * **Splitting assignment by destination** — a field inside mutable state stores
-  a snapshot, while a local variable stores the handle.  Rejected, twice over.
-  It makes assignment **referentially non-uniform**: `x = y` would alias or
-  freeze depending on what `x` is, which is not a property a reader of the code
-  can see.  And it would **silently freeze legitimate cyclic structures** — the
-  doubly-linked list, the graph with back-edges, the two actors — turning a
-  bounded, measurable retention into **stale reads**.  A wrong answer is worse
-  than retention.
+  a snapshot, while a local variable stores the handle.  Rejected: assignment
+  would alias or freeze depending on what the target is, which a reader cannot
+  see, and legitimate cyclic structures would silently turn into stale reads.
 
 ### 7.5 The detector
 
@@ -670,12 +624,14 @@ a cycle reported by a truncated scan is still real, but the **absence** of
 cycles is not established, and `acyclicAndComplete()` is the only reading that
 means "clean".
 
-Conformance rule 13 in [EMBEDDER-CONFORMANCE.md](EMBEDDER-CONFORMANCE.md) makes
-this normative for every embedder, and it turns on a **declaration verified
-against a measurement** rather than on "no cycles": a runtime declares how many
+Conformance rule 13 in [EMBEDDER-CONFORMANCE.md](EMBEDDER-CONFORMANCE.md) runs
+it for every embedder, and it turns on a **declaration verified against a
+measurement** rather than on "no cycles": a runtime declares how many
 structural cycles it has, and the case fails on the ones it did not declare.
+With one space a reported cycle is live data the program still reaches; with
+several it is also retention (§7.2).
 
-### 7.6 Recorded history, and what a real fix looked like
+### 7.6 Recorded history (before 3.1.0), and what a real fix looked like
 
 protoPython found this property independently, from the other side, and its own
 account of it is the best worked example there is

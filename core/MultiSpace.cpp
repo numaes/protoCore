@@ -434,4 +434,7 @@ void waitForGracePeriod() {
 }
 
 }  // namespace multispace
+
+proto_ulong ProtoSpace::liveSpaceCount() { return multispace::liveSpaceCount(); }
+
 }  // namespace proto

@@ -67,8 +67,26 @@ they would have been reading a program in which the collector never ran.
 | 10 | **A GC or concurrency test that cannot fail is worse than no test.** | R, applied to the suite itself | protoST's suite looked green for its whole history. | `ConformanceSelfCheck.*` |
 | 11 | **Every OS thread that holds a `ProtoObject*` must be registered**, or everything it holds must be pinned in a `ProtoRootSet`. | R | GC Phase 2 scans roots by walking `space->threads`. A thread absent from that list is **never root-scanned**: its `automaticLocals`, `returnValue`, `pendingRoot` and young chain are invisible to the marker, so its live objects are swept under it. This is *worse* than rule 2 — rule 2 hangs, this corrupts. | `thread.registered` |
 | 12 | **A `CriticalSection` must not be held across a blocking wait, an `UnmanagedScope`, or a `safepoint()` expected to submit.** | S | `parkForStopTheWorld` skips parking while `criticalSectionDepth > 0`, and `safepoint()` skips submission at depth > 0. So a critical section held across a wait reproduces rule 2's hang *and* rule 1's non-submission, in code that looks correct. | `critsec_across_block` |
-| 13 | **Every cycle in the mutable graph is permanent retention, and must be declared.** A cycle among mutable objects is never collected. | R (exact, not heuristic) + **J** for which cycles are structural | The table is a GC root unconditionally and an entry is released only once its handle has been finalized, so a value that reaches its own handle keeps it marked for ever. Nothing errors, nothing grows without bound, and no reclamation metric moves: it looks like a program with a slightly larger live set, for ever. | `mutable.graph_cycles`, checklist C13 (J) |
+| 13 | **Every cycle in the mutable graph must be declared.** With one space in the process an unreachable cycle among mutable objects is collected; while several spaces are live it is retained. | R (exact, not heuristic) + **J** for which cycles are structural | A cycle the runtime did not intend is a back-reference it did not mean to keep: with one space it keeps the whole structure alive for as long as anything reaches any part of it, and with several spaces live the table's states are roots, so it is never collected until the process is back to one space. Nothing errors either way: it looks like a program with a slightly larger live set. | `mutable.graph_cycles`, checklist C13 (J) |
 | 14 | **One exception type, selected by prototype.** A language error that unwinds is a `proto::ProtoException` carrying the value; a handler catches the base type, selects by the value's prototype chain and rethrows the rest unchanged; an unhandled error leaves the runtime as the `ProtoException`. Specification: [EXCEPTIONS.md](EXCEPTIONS.md). | R | A runtime that matches by its own C++ type, an integer class id or a message prefix works for every error it raises itself, so its whole suite is green. It fails only when an error comes from a module or another language: the handler does not run, or catches what it should not, or the error arrives as a string. | `exception.kernel_errors_are_proto`, `exception.value_pinned_in_flight`, `exception.foreign_type_caught`, `exception.language_error_escapes` |
+
+### Recommendation: one `ProtoSpace` per process (3.1.0)
+
+Not a rule with a case, a recommendation with a reason.  **Create one
+`ProtoSpace` per process and run everything in it**: the runtime's threads,
+its thread pool, its workers, and any module loaded from another runtime,
+which adopts the caller's space instead of creating its own.  Values then pass
+between them as they are, with no copy and no serialization.  protoCore keeps
+supporting several spaces in one process, but while more than one is live the
+mutable table's states are roots of every collection (chains of mutable
+objects are freed one link per cycle, cycles among them are retained),
+collections of different spaces wait for each other, and a value handed to
+another space must also stay reachable from its own
+([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md), "Recommended model").
+`ProtoSpace::liveSpaceCount()` reports how many spaces are live, so a test can
+assert that a runtime created none of its own.  A thread declared `OwnSpace`
+under rule 11 below is conforming, and is the shape this recommendation
+advises against.
 
 ### Rule 11 accepts three conforming shapes
 
@@ -116,22 +134,18 @@ quorum; the case's waits now run inside an `UnmanagedScope`.
 
 ### Rule 13 — why the verdict is a declaration and not "no cycles"
 
-> **Premise superseded in 3.1.0.**  The table's states are no longer roots, so
-> an unreachable cycle among mutable objects is collected
-> ([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md), "States are not roots").
-> The case still runs and still compares the cycles found in the table with
-> the declaration; a cycle it finds is reachable (or awaits the next cycle),
-> not permanent retention.  The rule's text below describes the property as it
-> held until then and is due for a rewrite.
+**What the collector does with a cycle among mutable objects** (since 3.1.0,
+[MemoryModel.md](MemoryModel.md) § 7): with one space in the process, an
+unreachable cycle is collected in the cycle that finds it unreachable, like any
+other garbage; a reachable one is live data.  While more than one space is
+live, the table's states are roots, and a cycle among mutable objects is never
+collected until the process is back to one space.  Until 3.1.0 that was the
+case in every process.  The rule here is the part an embedder owes.
 
-**A cycle among mutable objects is never collected.**  The property, its proof
-against the two collector sites that produce it, and the fixes that were
-considered and rejected are in [MemoryModel.md](MemoryModel.md) § 7.  The rule
-here is the part an embedder owes.
-
-The retention is real in every case, and **bounded**: the cycle's own cells,
-once, not growth.  What differs is whether the cycle is a defect, and protoCore
-cannot tell:
+A cycle costs memory in both cases -- for as long as anything reaches any part
+of it with one space, and for good with several -- and that cost is
+**bounded**: the cycle's own cells, once, not growth.  What differs is whether
+the cycle is a defect, and protoCore cannot tell:
 
 | Cycle | Verdict |
 |---|---|
@@ -152,7 +166,7 @@ shape as rule 11's `ThreadVerdict`:
 | `Host::declaredMutableCycles()` | Scan result | Status |
 |---|---|---|
 | `0` | none found | **Pass** |
-| `0` | any found | **Fail** — undeclared permanent retention |
+| `0` | any found | **Fail** — an undeclared cycle |
 | `n > 0` | at most `n` found | **Pass**, with each path in `detail` |
 | `n > 0` | more than `n` found | **Fail** |
 | `-1` (not declared) | any found | **NeedsReview**, with the paths |
@@ -166,8 +180,9 @@ that can close a loop is the handle → state indirection the table implements.
 Tarjan pass over it: O(cells + references), no sampling, no threshold.
 
 **Only cycles are reported.**  An acyclic handle-to-handle edge is not a
-violation — `H2`'s liveness follows `H1`'s and Phase 5b releases it a cycle
-later — and reporting those would mean one line per object in the program.  The
+violation — `H2`'s liveness follows `H1`'s, and both are released in the same
+cycle with one space (one cycle apart with several) — and reporting those would
+mean one line per object in the program.  The
 commonest shape in this family is exactly that: every mutable instance of a
 mutable class prototype.
 

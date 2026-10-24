@@ -24,6 +24,7 @@
 #include <chrono>
 #include <mutex>
 #include <thread>
+#include <vector>
 
 using namespace proto;
 
@@ -210,6 +211,69 @@ TEST(MutableStatesNotRoots, UnreachableMutableCycleIsFreed) {
         << "Phase 5b released every entry of the dead pairs";
 }
 
+// A dead mutable's table node outlives its state.  The node stays in the live
+// table until Phase 5b, and the shard-tree versions the mutators build in the
+// meantime share it; those versions are young cells, which the next cycle
+// scans.  Here the shard roots are taken while the dead entries are in the
+// table, kept outside the heap while their handles die, and only then put in a
+// root: the next cycles scan versions whose nodes name the dead states, as a
+// mutator's young path copy would make them do.
+//   * The dead states' contents are freed in the cycle their handles die.
+//   * Those cycles must not read freed cells through the old versions: before
+//     the dead states were retired (docs/GLOBAL_MUTABLE_TABLE.md, "Dead states
+//     become tombstones"), a freed state was marked and scanned through them,
+//     and the cell reused for a later object was kept alive by them.  Every
+//     later probe must be freed while the old versions are still held.
+TEST(MutableStatesNotRoots, OldTableVersionsNeverKeepReusedCells) {
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
+    GTEST_SKIP() << "without survivor re-inclusion the table's states stay roots";
+#endif
+    ProtoSpace space;
+    ProtoContext ctx(&space);
+    ctx.resizeAutomaticLocals(1);
+    g_freed.store(0);
+    const ProtoString* probeKey = sym(&ctx, "probe");
+    constexpr int kDead = 2000;
+    for (int i = 0; i < kDead; ++i) {
+        ProtoContext build(&space, &ctx, nullptr, nullptr, nullptr, nullptr);
+        const ProtoObject* d = build.newObject(true);
+        d->setAttribute(&build, probeKey, probe(&build));
+    }
+    // The table's current versions, which hold every dead entry.  They stay
+    // alive through the cycle below: the table itself holds them.
+    std::vector<const ProtoObject*> versions;
+    for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
+        if (const ProtoSparseList* r = globalMutableShards[s].root.load(std::memory_order_acquire))
+            versions.push_back(reinterpret_cast<const ProtoObject*>(r));
+    }
+    ASSERT_FALSE(versions.empty());
+    ASSERT_TRUE(runOneFreshCycle(space, &ctx));
+    EXPECT_EQ(g_freed.load(), kDead) << "the dead states' contents are freed in one cycle";
+
+    // Phase 5b has replaced the versions; now a root reaches them.
+    {
+        ProtoContext hold(&space, &ctx, nullptr, nullptr, nullptr, nullptr);
+        const ProtoList* list = hold.newList();
+        for (const ProtoObject* v : versions) list = list->appendLast(&hold, v);
+        ctx.setAutomaticLocal(0, list->asObject(&hold));
+    }
+    versions.clear();
+
+    // Cells freed above are reused by new probes, all garbage.
+    g_freed.store(0);
+    constexpr int kLater = 60000;
+    for (int batch = 0; batch < kLater / 1000; ++batch) {
+        ProtoContext garbage(&space, &ctx, nullptr, nullptr, nullptr, nullptr);
+        for (int i = 0; i < 1000; ++i) (void) probe(&garbage);
+        garbage.safepoint();
+    }
+    ASSERT_GE(forceCycles(space, &ctx, 3), 3u);
+    ASSERT_TRUE(runOneFreshCycle(space, &ctx));
+    ASSERT_TRUE(runOneFreshCycle(space, &ctx));
+    EXPECT_EQ(g_freed.load(), kLater) << "an old table version kept a reused cell alive";
+    EXPECT_NE(ctx.getAutomaticLocal(0), nullptr);
+}
+
 // Handles of two spaces linked into one chain: A0 -> B0 -> A1 -> B1 -> ...
 // (each state written through its own space, so it is allocated there).
 //   * Held by roots of both spaces (each space roots its own head-of-pair
@@ -350,4 +414,17 @@ TEST(MutableStatesNotRoots, StateWrittenByAnotherSpaceLivesWhileItsHandleLives) 
     ASSERT_NE(p, nullptr);
     ASSERT_NE(p, PROTO_NONE);
     EXPECT_NE(p->asExternalPointer(&ca), nullptr);
+}
+
+// The process-wide count of live spaces (ProtoSpace::liveSpaceCount), which a
+// runtime uses to check that it created no space of its own.
+TEST(MutableStatesNotRoots, LiveSpaceCountFollowsConstructionAndDestruction) {
+    ProtoSpace first;
+    const proto_ulong base = ProtoSpace::liveSpaceCount();
+    ASSERT_GE(base, 1u);
+    {
+        ProtoSpace second;
+        EXPECT_EQ(ProtoSpace::liveSpaceCount(), base + 1);
+    }
+    EXPECT_EQ(ProtoSpace::liveSpaceCount(), base);
 }
