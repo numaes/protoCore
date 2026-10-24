@@ -125,31 +125,37 @@ is freed in one cycle.
   configuration keeps the shard roots as roots, as before.
 
 **Implementation.** Before the trace, one walk of the snapshot's shard trees
-marks every node and builds an open-addressing index of the entries by ref
-(`MutableStateIndex`, `indexSnapshot`); the edge then costs one probe, and the
-index slot is prefetched when the handle is shaded. Marking the nodes before
-the trace matters: a young path copy of a shard tree, scanned by the young
-walk, finds its snapshot children already marked, so the walk does not trace
-the shard's whole subtree and its values. The nodes are the first entries of
-the marked list and are never scanned by an overflow rescan.
+builds an open-addressing index of the entries by ref (`MutableStateIndex`,
+`indexSnapshot`), reading keys and value pointers only; the edge then costs one
+probe, and the index slot is prefetched when the handle is shaded. After the
+trace, a second walk marks the nodes no ordinary path reached, without their
+values (`markTableNodes`). A node that an ordinary path did reach -- a young
+path copy of a shard tree, an older version held by a live context's young
+generation, reaches snapshot nodes -- was traced like any other cell, values
+included: conservative, bounded by the young generation. Marking the nodes
+before the trace instead, which stops those paths at the snapshot, was tried
+and measured worse: protoJS `cli/promise-rejections-bounded-memory` and
+protoPython `protopyc_gc_rooting` ran out of memory under their 1,500,000-cell
+ceilings, with several times the live set, on every run; the mechanism was not
+established, so the conservative order is the one kept.
 
 **Cost.** The index is 32 bytes per table entry at most (two slots per entry,
 power-of-two capacity), outside the cell heap, kept by the collector thread
 for the next cycle. Measured with 500,000 live mutable objects held by a root
 (a scratch benchmark outside the repository, five interleaved runs, medians of
 nine cycles each, AMD Ryzen 5 5500U): the mark phase (resume to sweep start) took
-  273.7 ms against 220.8 ms before (+24 %), the whole cycle 583.9 against
-  530.9 ms (+10 %), for 4.5 M marked cells in both; with the same handles
-  linked in one chain from a root, 310.3 against 193.8 ms (+60 %) and
-  584.8 against 469.6 ms (+25 %). At 50,000 handles: +21 % / +30 % mark,
-  +7 % / +14 % cycle. The chain is the costly shape: the old trace reached
+  286.0 ms against 214.9 ms before (+33 %), the whole cycle 597.2 against
+  527.8 ms (+13 %), for 4.5 M marked cells in both; with the same handles
+  linked in one chain from a root, 325.2 against 203.2 ms (+60 %) and
+  602.0 against 476.7 ms (+26 %). At 50,000 handles: +27 % / +39 % mark,
+  +10 % / +17 % cycle. The chain is the costly shape: the old trace reached
   each state from its table node, in table order, with many independent
   misses in flight; now a linked chain is followed handle by handle, one
   dependent miss after another, as an immutable linked list would be.
 
 **Measured on the chain.** 300,000 protoClojure atoms, each pointing at the
-next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles (medians of three interleaved runs), 100.6 s -> 0.55 s, live set after the last cycle
-  1,802,173 -> 27,295 cells, maximum resident set 157 -> 77 MB.
+next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles (medians of three interleaved runs), 100.6 s -> 0.51 s, live set after the last cycle
+  1,802,173 -> 26,591 cells, maximum resident set 157 -> 77 MB.
 
 **Consequence for mutable cycles.** A cycle among mutable objects that
 nothing reaches is now collected like any other garbage. A reachable one is

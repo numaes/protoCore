@@ -354,17 +354,17 @@ of young cells.
   unmark in Phase 6 (replaces the older pre-mark unmark pass) and the
   overflow rescan.
 - **The table and the handle-to-state edge** (since 3.1.0).  Before the
-  trace, one walk of the snapshot's shard trees marks every node of the
-  table, without scanning it, and indexes the entries by ref in an
-  open-addressing table (`indexSnapshot`, `MutableStateIndex`).  Then each
-  scan of a mutable handle (`Marker::scan`, a `ProtoObjectCell` with
-  `mutable_ref > 0`) shades the handle's state from that index; the index
-  slot is prefetched when the handle is shaded.  The walk reads keys and
-  value pointers, never a value.  The nodes are marked first so that a
-  young path copy of a shard tree, which the young walk scans, finds its
-  snapshot children marked and does not trace the shard's subtree; they are
-  the first entries of the marked list, and the overflow rescan skips them
-  (a scan of a node would shade every state it holds).
+  trace, one walk of the snapshot's shard trees indexes the entries by ref
+  in an open-addressing table (`indexSnapshot`, `MutableStateIndex`),
+  reading keys and value pointers, never a value.  Each scan of a mutable
+  handle (`Marker::scan`, a `ProtoObjectCell` with `mutable_ref > 0`) shades
+  the handle's state from that index; the index slot is prefetched when the
+  handle is shaded.  After the trace (and its overflow rescans) a second
+  walk marks the table nodes no ordinary path reached, without scanning
+  them (`markTableNodes`).  A node an ordinary path reached -- a young path
+  copy of an older version of a shard tree reaches snapshot nodes -- was
+  traced in full.  The other order (nodes first) was measured to retain far
+  more in protoJS and protoPython; see GLOBAL_MUTABLE_TABLE.md.
 - **Snapshot discipline.**  Any GC code path that needs to dereference a
   `mutable_ref` to its current immutable value MUST consult
   `gcMutableSnapshot[shard]` (or the index built from it), never

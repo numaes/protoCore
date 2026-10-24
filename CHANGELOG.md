@@ -15,14 +15,14 @@ All notable changes to protoCore are documented in this file.
   among mutable objects was never freed. Both are now freed in one cycle
   (`docs/GLOBAL_MUTABLE_TABLE.md`, "States are not roots";
   `docs/GarbageCollector.md`, Phases 2, 4 and 5b).
-- **Measured.** 300,000 protoClojure atoms, each pointing at the next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles (medians of three interleaved runs), 100.6 s -> 0.55 s, live set after the last cycle
-  1,802,173 -> 27,295 cells, maximum resident set 157 -> 77 MB.
+- **Measured.** 300,000 protoClojure atoms, each pointing at the next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles (medians of three interleaved runs), 100.6 s -> 0.51 s, live set after the last cycle
+  1,802,173 -> 26,591 cells, maximum resident set 157 -> 77 MB.
 - **Cost.** With 500,000 live mutable objects held in a rooted list (a scratch benchmark outside the repository, five interleaved runs, medians of nine cycles, AMD Ryzen 5 5500U), the mark phase (resume to sweep start) took
-  273.7 ms against 220.8 ms before (+24 %), the whole cycle 583.9 against
-  530.9 ms (+10 %), for 4.5 M marked cells in both; with the same handles
-  linked in one chain from a root, 310.3 against 193.8 ms (+60 %) and
-  584.8 against 469.6 ms (+25 %). At 50,000 handles: +21 % / +30 % mark,
-  +7 % / +14 % cycle. The chain is the costly shape: the old trace reached
+  286.0 ms against 214.9 ms before (+33 %), the whole cycle 597.2 against
+  527.8 ms (+13 %), for 4.5 M marked cells in both; with the same handles
+  linked in one chain from a root, 325.2 against 203.2 ms (+60 %) and
+  602.0 against 476.7 ms (+26 %). At 50,000 handles: +27 % / +39 % mark,
+  +10 % / +17 % cycle. The chain is the costly shape: the old trace reached
   each state from its table node, in table order, with many independent
   misses in flight; now a linked chain is followed handle by handle, one
   dependent miss after another, as an immutable linked list would be.
