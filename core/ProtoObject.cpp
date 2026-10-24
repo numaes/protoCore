@@ -747,6 +747,27 @@ namespace proto
         return result;
     }
 
+    // newChild(false) with a ProtoLazyObjectCell in place of the object cell
+    // (core/ProtoLazyObject.cpp holds the slot's operations).
+    const ProtoObject* ProtoObject::newLazyChild(ProtoContext* context, const ProtoObject* producer) const
+    {
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag != POINTER_TAG_OBJECT) {
+            const ProtoObject* prototype = getPrototype(context);
+            return prototype ? prototype->newLazyChild(context, producer) : PROTO_NONE;
+        }
+        // The same critical section as newChild: the three new cells are
+        // reachable from no root until the object cell links them, and
+        // `producer`, which the caller roots, is copied into the cell.
+        ProtoContext::CriticalSection cs(context);
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
+        auto* newObject = new(context) ProtoLazyObjectCell(
+            context, new(context) ParentLinkImplementation(context, oc->parent, this),
+            context->newSparseListImpl(), producer);
+        return newObject->asObject(context);
+    }
+
     namespace {
         // Every call form ends here: one lookup, one method, the arguments
         // as descriptors (either may be null).

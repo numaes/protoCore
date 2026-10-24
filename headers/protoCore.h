@@ -284,6 +284,79 @@ namespace proto
          */
         const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
+        //- Lazy objects (3.1.0)
+        /**
+         * @brief A new IMMUTABLE child of this object, as `newChild`, that
+         * also carries a lazy slot: a value computed at most once, on
+         * demand, by `producer`, and cached in the object.
+         *
+         * Why a new type.  A runtime that caches a computed value in a
+         * MUTABLE object pays a write to the global mutable table for every
+         * value, and every state in that table is a collector root until the
+         * object's handle has been swept (docs/GLOBAL_MUTABLE_TABLE.md).
+         * Values that point at further such objects -- a lazy sequence, whose
+         * every realised cell points at the next lazy cell -- therefore form
+         * a chain the collector frees one link per cycle: a program that
+         * walks a long lazy sequence without holding its head still keeps
+         * it all alive.  A lazy object is an ordinary immutable object cell
+         * with two more references, traced only through the object itself,
+         * like any other field: an unreachable lazy object takes its value
+         * with it in the very cycle that finds it dead.
+         *
+         * The slot moves one way:
+         *
+         *     Unrealized --claimLazy--> Claimed --publishLazy--> Realized
+         *         |  ^------unclaimLazy-----'                      ^
+         *         '------------------publishLazy-------------------'
+         *
+         * `claimLazy` lets exactly one caller run the producer (the others
+         * wait for, or poll, the published value); `publishLazy` installs the
+         * value once, whoever calls it, and answers false to every later
+         * call. A caller that computes the value without claiming (a pure
+         * producer, safe to run twice) publishes from Unrealized and, when it
+         * loses, reads the winner's value.  Once Realized, the object no
+         * longer keeps `producer` alive: the collector stops tracing it from
+         * the first cycle that starts after the publication, and
+         * `getLazyProducer` answers nullptr.  Every transition is a single
+         * compare-and-set; nothing allocates, nothing locks.
+         *
+         * The object is immutable in every other respect: its prototype
+         * chain is fixed and `setAttribute` answers a new, ordinary
+         * (non-lazy) object, as for every immutable object.
+         *
+         * Called on a non-object (an embedded value, a list, ...), creates
+         * the lazy child of that value's prototype, as `newChild` does.
+         */
+        const ProtoObject* newLazyChild(ProtoContext* context, const ProtoObject* producer) const;
+
+        //! The states of a lazy object's slot (`getLazyState`).
+        enum LazyState : int {
+            LazyNotLazy    = -1,  //!< not a lazy object
+            LazyUnrealized = 0,   //!< the producer has not run (or raised)
+            LazyClaimed    = 1,   //!< one caller is running the producer
+            LazyPublishing = 2,   //!< a value is being installed (a few instructions)
+            LazyRealized   = 3    //!< the value is published
+        };
+        //! True for an object made by newLazyChild.
+        bool isLazyObject(ProtoContext* context) const;
+        //! The state of the lazy slot; LazyNotLazy for any other value.
+        int getLazyState(ProtoContext* context) const;
+        //! The producer while the slot is not Realized; nullptr afterwards
+        //! (the collector may already have freed it) and for a non-lazy value.
+        //! A caller that uses it across an allocation roots it first.
+        const ProtoObject* getLazyProducer(ProtoContext* context) const;
+        //! The published value once Realized; nullptr before.
+        const ProtoObject* getLazyValue(ProtoContext* context) const;
+        //! Unrealized -> Claimed; true for the one caller that wins.
+        bool claimLazy(ProtoContext* context) const;
+        //! Claimed -> Unrealized: the producer raised, and a later claim may
+        //! run it again. The claimer only.
+        void unclaimLazy(ProtoContext* context) const;
+        //! Installs `value` (nullptr is stored as PROTO_NONE) from Unrealized
+        //! or Claimed; false, changing nothing, once a value is published or
+        //! being published.
+        bool publishLazy(ProtoContext* context, const ProtoObject* value) const;
+
         //- Attributes
         /**
          * @brief Looks up `name`, in this object's own attributes first,

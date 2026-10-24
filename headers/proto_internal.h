@@ -151,6 +151,7 @@ namespace proto {
     struct DirtySegment;
     class ProtoContext;
     class ProtoObjectCell;
+    class ProtoLazyObjectCell;
     class ParentLinkImplementation;
     class ProtoListImplementation;
     class ProtoListSmallImplementation;
@@ -1010,6 +1011,62 @@ namespace proto {
                                void (*method)(ProtoContext *, void *, const Cell *)) const override;
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
+
+        // The lazy object this cell is (ProtoObject::newLazyChild), or nullptr
+        // for a plain object. Declared last so the vtable slots of the
+        // virtuals above keep their positions.
+        virtual const ProtoLazyObjectCell *asLazyCell() const { return nullptr; }
+    };
+
+    /**
+     * @brief An immutable object cell with a lazy slot (ProtoObject::newLazyChild).
+     *
+     * A ProtoObjectCell in every respect -- tag POINTER_TAG_OBJECT, CellType
+     * Object, prototype chain and attributes -- plus a value computed once by
+     * a producer.  Everything generic code reads from an object cell is
+     * there, so no pointer tag is needed: only the lazy accessors ask for
+     * asLazyCell().
+     *
+     * The three fields fill the 64-byte cell exactly.  `stateEpoch` packs
+     * the state (ProtoObject::LazyState, low two bits) and, once Realized,
+     * the process-wide GC epoch (multispace::gcEpoch) read at publication.
+     *
+     * Why this is safe under protoCore's concurrent mark, with no barrier
+     * (the argument core/ProtoMPSCQueue.cpp makes for the queue):
+     *
+     *   * `producer` is written in the constructor and never again; `value`
+     *     is written once, by the single caller whose compare-and-set moved
+     *     the state to Publishing, BEFORE the release store of Realized.
+     *     processReferences loads the state (acquire) BEFORE `value`, so a
+     *     marker that sees Realized sees the value.
+     *   * The producer is reported unless the state is Realized with an
+     *     epoch older than the current one.  The epoch is bumped under the
+     *     pause at the start of every cycle of every space (cycles are
+     *     serialised process-wide), so "older" means the value was already
+     *     published when this cycle's world stopped.  Anything the producer
+     *     reaches that is still needed is then reachable from the value, from
+     *     a root the pause scanned, or is a young cell -- so not tracing the
+     *     producer can free only what nobody uses.  In the cycle during
+     *     which the publication happens the producer is still traced, which
+     *     covers a marker that reads the slot before the value lands.
+     *   * Nothing is ever cleared: a producer the collector has freed stays
+     *     as a dangling word that no accessor returns (getLazyProducer
+     *     answers nullptr once Realized), and finalize does not read it.
+     */
+    class ProtoLazyObjectCell final : public ProtoObjectCell {
+    public:
+        const ProtoObject *const producer;
+        mutable std::atomic<const ProtoObject *> value;
+        mutable std::atomic<uint64_t> stateEpoch;
+
+        ProtoLazyObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
+                            const ProtoSparseListImplementation *attributes,
+                            const ProtoObject *producer);
+
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+
+        const ProtoLazyObjectCell *asLazyCell() const override { return this; }
     };
 
     class ProtoMethodCell : public Cell {
@@ -2598,6 +2655,7 @@ namespace proto {
 
     static_assert(sizeof(BigCell) <= 64, "BigCell exceeds 64 bytes!!!!");
     static_assert(sizeof(ProtoObjectCell) <= 64, "ProtoObjectCell exceeds 64 bytes!");
+    static_assert(sizeof(ProtoLazyObjectCell) <= 64, "ProtoLazyObjectCell exceeds 64 bytes!");
     static_assert(sizeof(ProtoListIteratorImplementation) <= 64, "ProtoListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListImplementation) <= 64, "ProtoListImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListSmallImplementation) <= 64, "ProtoListSmallImplementation exceeds 64 bytes!");

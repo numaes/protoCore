@@ -103,6 +103,22 @@ place), and the process epoch advances with the space's cycles.
 - **Collections wait for each other.** One space's cycle waits for another's
   to finish, and a multi-space cycle waits for the grace period before its
   freed cells can be reused. Pauses themselves are unchanged.
+- **Chains of mutable objects are freed one link per cycle.** Every state in
+  the table is a root of the cycle that snapshots it, whether or not its
+  handle is still reachable; an entry leaves the table only after its handle
+  has been swept. When a state references another mutable handle, that
+  handle is marked through the dead entry and survives the cycle, so a chain
+  of mutable objects in which each state points at the next one (a linked
+  list of mutable nodes, a lazy sequence whose cells cache their value in a
+  mutable object) is freed from its head one link per cycle. Measured with
+  protoClojure atoms, each pointing at the next (2026-10-23): 300,000 links
+  under a 1,000,000-cell ceiling took 278 cycles and 55 s, with a live set of
+  1.8 M cells, on protoClojure builds before and after its lazy sequences;
+  `test/ProtoLazyObjectTests.cpp` (`MutableChainControl...`) keeps the
+  behaviour measured. Values that are computed once and cached -- the lazy
+  sequence case -- are what lazy objects (`ProtoObject::newLazyChild`, 3.1.0)
+  are for: their value is a field of the cell, traced only while the cell is
+  reachable.
 
 ## Tests
 

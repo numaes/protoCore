@@ -4,6 +4,34 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Added -- lazy objects (3.1.0, additive: SOVERSION stays 4)
+
+- **`ProtoObject::newLazyChild(context, producer)`**: an immutable child
+  object with a lazy slot, a value computed at most once by `producer` and
+  cached in the object (`headers/protoCore.h`, `core/ProtoLazyObject.cpp`).
+  The slot is one compare-and-set state machine -- `claimLazy`,
+  `unclaimLazy`, `publishLazy`, `getLazyState`, `getLazyValue`,
+  `getLazyProducer`, `isLazyObject` -- with no lock and no allocation.
+  Once the value is published, the collector stops tracing the producer
+  from the next cycle, so what it captured is released.
+- **Why.** A value cached in a mutable object lives in the global mutable
+  table, whose states are roots until the handle is swept: a chain of such
+  objects, each pointing at the next, is freed one link per cycle
+  (`docs/GLOBAL_MUTABLE_TABLE.md`, Limitations). A lazy object's value is a
+  field of an ordinary object cell, so an unreachable chain of lazy objects
+  is freed in the cycle that finds it unreachable. protoClojure's lazy
+  sequences are built on it.
+- **No pointer tag and no layout change.** The cell
+  (`ProtoLazyObjectCell`, `headers/proto_internal.h`) derives from
+  `ProtoObjectCell`, carries tag 0 and `CellType::Object`, and fills the
+  64-byte cell with three fields; `ProtoObjectCell` gains one virtual,
+  declared after the existing ones. The collector-safety argument (no
+  barrier under the concurrent mark) is on the class.
+- Tests: `test/ProtoLazyObjectTests.cpp` (state machine, one claim and one
+  publication across threads, value survival, producer release, an
+  unreachable 3,000-link chain freed within three cycles, and a control
+  showing a mutable chain is not).
+
 ## [3.0.0] - 2026-10-22
 
 **Breaking API and ABI change (SOVERSION 3 -> 4).** One method type, two ways
