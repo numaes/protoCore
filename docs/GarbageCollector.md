@@ -667,7 +667,9 @@ never reads the live `mutableRoot` table again during this cycle.
 1. The graph reachable through the snapshot is fully **immutable**.  Every
    `ProtoObjectCell::processReferences` (and every other Cell's
    `processReferences`) traverses only `const`-qualified fields.  No
-   worker can mutate the fields the marker reads.
+   worker can mutate the fields the marker reads.  The two exceptions,
+   the lock-free queue and the lazy object, each carry their own proof
+   (below).
 2. The mark bit is GC-exclusive.  Workers never touch it.
 3. Workers cannot free cells.  Sweep (GC-only) is the only path that
    frees, and sweep runs after mark.
@@ -800,6 +802,45 @@ This release is deliberately **not** done by `processReferences`: the
 Phase 4 young-chain walk calls `processReferences` as well, so a
 destructive read there would be a second, silent consumer — and any future
 heap dumper or diagnostic that called it would drop untraced chains.
+
+### Lazy objects without barriers
+
+`ProtoObject::newLazyChild` (protoCore 3.1.0, `core/ProtoLazyObject.cpp`,
+`ProtoLazyObjectCell` in `headers/proto_internal.h`) is the second type whose
+cell changes after publication outside `mutableRoot[]`.  A lazy object holds
+a `producer`, written once at construction, a `value`, written once at
+publication, and a `stateEpoch` word (the slot state, and the process epoch
+read at publication).  The marker traces the value once the state is
+Publishing or Realized, and the producer until the state is Realized with an
+epoch older than the current cycle's.
+
+**Adding a reference is safe.**  A value published during the mark is either
+a young cell allocated after the pause (not a candidate) or an older object
+the publisher reached through paths the pause already covered.  A marker
+that reads the slot before the publication traces the producer, which is
+what the value was built from.  This is the first path by which the marker
+can reach a cell allocated after the pause; such a cell is marked, scanned
+and unmarked with the others at the end of the cycle, and is not a
+candidate, so nothing changes for it.
+
+**Dropping a reference is the hazard, and the epoch closes it.**  The
+producer stops being traced, which is the unsound lazily-read word of the
+queue section unless no thread can still hold it unseen by the pause.
+`getLazyProducer` returns the producer only while the slot is Unrealized or
+Claimed, and `publishLazy` reads the epoch after the compare-and-set that
+leaves those states; both, the reader's state load and the Phase 2 epoch
+increment are sequentially consistent.  So when a cycle's marker finds
+Realized with an older epoch, every read of the producer preceded that
+cycle's pause, and a reader that still uses it holds it in a root the pause
+scanned.  In the cycle during which the publication happens the producer is
+still traced.  The argument holds for a publisher of another space, which
+this space's pause does not stop.
+
+**A loop without a handle.**  Because the value is written after
+construction, it can reach the lazy object itself (a self-referential lazy
+sequence).  Such a loop is an ordinary immutable cycle, which the tracing
+collector frees once unreachable; `ProtoSpace::findMutableCycles` does not
+report it (core/MutableCycles.cpp).
 
 ## Several spaces in one process
 

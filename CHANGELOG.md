@@ -32,6 +32,51 @@ All notable changes to protoCore are documented in this file.
   unreachable 3,000-link chain freed within three cycles, and a control
   showing a mutable chain is not).
 
+### Added -- waiting without stalling a collection (3.1.0)
+
+- **`ProtoThread::yield(context)` and `ProtoThread::sleepFor(context,
+  microseconds)`** (`headers/protoCore.h`, `core/Thread.cpp`): the calling
+  thread gives up the processor, or sleeps, outside the stop-the-world quorum
+  of every space it belongs to, and on the way back parks for a
+  stop-the-world in progress and clears its caches, as at a safepoint. This
+  is the bracket `join` already uses. A runtime that polls for a condition
+  another thread establishes -- a lazy object another thread has claimed, an
+  undelivered promise -- calls these between polls instead of
+  `std::this_thread::yield` / `sleep_for`: a registered thread in a bare OS
+  wait reaches no safepoint and stalls every collection of its spaces.
+  Inside a critical section the thread cannot leave the quorum; the call
+  then waits holding it and says so once on `stderr`, as `join` does.
+- Test: `ProtoLazyObject.WaiterOnClaimedLazyObjectDoesNotBlockCollection`,
+  a ProtoThread polling a claimed lazy object while the space completes
+  three collection cycles. With `std::this_thread::yield` in the waiter in
+  their place the cycle count does not move and the test fails after 20 s.
+
+### Fixed -- review of the lazy objects before release (3.1.0)
+
+- **The producer is handed out only before a publication begins.**
+  `getLazyProducer` answered the producer in Publishing too. With a
+  publisher of another space, which this space's pause does not stop, a
+  read in Publishing could follow a pause the publisher's epoch load
+  preceded, and the collector would then stop tracing a producer the
+  reader held one cycle early. It now answers nullptr from Publishing on,
+  and the compare-and-set that leaves Unrealized/Claimed, the epoch load
+  that follows it, the reader's state load and the Phase 2 epoch increment
+  are sequentially consistent, which makes the epoch argument hold across
+  spaces (`docs/GarbageCollector.md`, "Lazy objects without barriers").
+- **`findMutableCycles` follows lazy values.** The detector walked an
+  object cell's own fields and ignored the lazy slot, so a mutable cycle
+  closed through a lazy value (a mutable holder whose state reaches a lazy
+  object whose value reaches the holder) was missed and the report said
+  "acyclic and complete". It now follows the value and producer exactly as
+  the collector traces them (`ProtoLazyObjectCell::processLazyReferences`).
+  A loop with no mutable handle through a lazy object (a self-referential
+  lazy sequence) is an ordinary, collectable immutable cycle and is not
+  reported. Tests: `MutableCycleThroughALazyValueIsReported`,
+  `SelfReferentialValueIsNotAMutableCycleAndIsFreed`.
+- Test: `EightThreadsRealiseOneSharedChainUnderCollection`, eight
+  ProtoThreads realising one shared 1,500-link chain while cycles are
+  requested continuously (run under ThreadSanitizer and AddressSanitizer).
+
 ## [3.0.0] - 2026-10-22
 
 **Breaking API and ABI change (SOVERSION 3 -> 4).** One method type, two ways

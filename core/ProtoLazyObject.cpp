@@ -8,9 +8,19 @@
  * (headers/proto_internal.h). In short: the producer is written once, in the
  * constructor; the value is written once, by the caller whose
  * compare-and-set moved the state to Publishing, before the release store
- * of Realized; processReferences reads the state before the value; and the
- * producer stops being traced only from the first cycle whose pause found
- * the value already published (the epoch packed with the state).
+ * of Realized; processReferences reads the state before the value; the
+ * producer is handed out only while the slot is Unrealized or Claimed; and
+ * it stops being traced only from the first cycle whose pause found the
+ * value already published (the epoch packed with the state).
+ *
+ * The epoch handshake uses sequentially consistent operations: the
+ * compare-and-set that leaves Unrealized/Claimed, the epoch load that
+ * follows it, the producer reader's state load and the collector's epoch
+ * increment (core/ProtoSpace.cpp) are all seq_cst. That is what makes the
+ * epoch read at publication at least the epoch of any cycle whose pause
+ * preceded a read of the producer, also when the publisher is a thread of
+ * another space, which that space's pause does not stop (see
+ * ProtoObject::publishLazy below).
  *
  * What this type is for: a value cached in a MUTABLE object lives in the
  * global mutable table, whose states are collector roots until the object's
@@ -56,6 +66,12 @@ namespace proto
         ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
     {
         ProtoObjectCell::processReferences(context, self, method);
+        processLazyReferences(context, self, method);
+    }
+
+    void ProtoLazyObjectCell::processLazyReferences(
+        ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
+    {
         // ORDER IS LOAD-BEARING: the state before the value (see the class
         // comment). A Realized state guarantees the value store is visible.
         const uint64_t word = stateEpoch.load(std::memory_order_acquire);
@@ -86,7 +102,13 @@ namespace proto
     const ProtoObject* ProtoObject::getLazyProducer(ProtoContext*) const {
         const ProtoLazyObjectCell* c = lazyCellOf(this);
         if (!c) return nullptr;
-        if (stateOf(c->stateEpoch.load(std::memory_order_acquire)) == LazyRealized) return nullptr;
+        // Only before the publication starts. A read in Publishing could
+        // follow a pause the publisher's epoch load preceded (a publisher of
+        // another space is not stopped by it), and the collector would then
+        // stop tracing a producer this reader holds. seq_cst: see the file
+        // comment.
+        const int state = stateOf(c->stateEpoch.load(std::memory_order_seq_cst));
+        if (state != LazyUnrealized && state != LazyClaimed) return nullptr;
         return c->producer;
     }
 
@@ -126,14 +148,21 @@ namespace proto
             if (state == LazyRealized || state == LazyPublishing) return false;
             if (c->stateEpoch.compare_exchange_weak(
                     expected, (expected & ~kStateMask) | LazyPublishing,
-                    std::memory_order_acq_rel, std::memory_order_acquire))
+                    std::memory_order_seq_cst, std::memory_order_acquire))
                 break;
         }
-        // This caller alone writes the value. No allocation and no protoCore
-        // call from here to the Realized store, so no pause can fall between
-        // them: the epoch read here is the one of the cycle the store lands in.
+        // This caller alone writes the value. The epoch is read AFTER the
+        // compare-and-set above, in the single total order of seq_cst
+        // operations. getLazyProducer hands the producer out only before
+        // that compare-and-set, so any reader that got it after a cycle's
+        // pause (the seq_cst epoch increment) makes this load return that
+        // cycle's epoch or a later one: the producer is then traced for the
+        // whole of that cycle. Without the ordering, a publisher of another
+        // space -- which this space's pause does not stop -- could read the
+        // epoch just before the increment and store an epoch one cycle too
+        // old.
         c->value.store(v ? v : PROTO_NONE, std::memory_order_release);
-        const uint64_t epoch = multispace::gcEpoch.load(std::memory_order_acquire);
+        const uint64_t epoch = multispace::gcEpoch.load(std::memory_order_seq_cst);
         c->stateEpoch.store((epoch << 2) | LazyRealized, std::memory_order_release);
         return true;
     }

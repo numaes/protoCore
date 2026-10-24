@@ -1049,6 +1049,24 @@ namespace proto {
      *     producer can free only what nobody uses.  In the cycle during
      *     which the publication happens the producer is still traced, which
      *     covers a marker that reads the slot before the value lands.
+     *   * "Every read of the producer preceded the pause" needs two more
+     *     things.  getLazyProducer answers the producer only in Unrealized
+     *     or Claimed, never in Publishing; and the reader's state load, the
+     *     compare-and-set that leaves those states, the epoch load that
+     *     follows it, and the collector's epoch increment are seq_cst.  In
+     *     their single total order a read after a pause precedes the
+     *     compare-and-set, so the publisher's epoch is at least that
+     *     pause's.  This holds when the publisher is a thread of another
+     *     space, which this space's pause does not stop.
+     *   * `value` may be the first path from a cell older than the pause to
+     *     a cell allocated after it.  The marker then marks and scans that
+     *     young cell; it is not a candidate, it is unmarked with the rest of
+     *     the marked list at the end of the cycle, and mutators never write
+     *     its header word after construction, so the shared mark bit is
+     *     safe.
+     *   * The value may reach the lazy object itself, an immutable cycle
+     *     with no mutable handle: collectable, and not reported by
+     *     findMutableCycles (core/MutableCycles.cpp).
      *   * Nothing is ever cleared: a producer the collector has freed stays
      *     as a dangling word that no accessor returns (getLazyProducer
      *     answers nullptr once Realized), and finalize does not read it.
@@ -1065,6 +1083,13 @@ namespace proto {
 
         void processReferences(ProtoContext *context, void *self,
                                void (*method)(ProtoContext *, void *, const Cell *)) const override;
+
+        // The lazy slot's references alone (the value, and the producer
+        // until it is released): what processReferences adds to the object
+        // cell's. Also used by findMutableCycles, which walks an object
+        // cell's own fields itself.
+        void processLazyReferences(ProtoContext *context, void *self,
+                                   void (*method)(ProtoContext *, void *, const Cell *)) const;
 
         const ProtoLazyObjectCell *asLazyCell() const override { return this; }
     };

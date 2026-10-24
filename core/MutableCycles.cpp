@@ -29,6 +29,18 @@
  * the whole heap that can close a loop is the handle -> state indirection the
  * table implements.  That gives the algorithm below.
  *
+ * ONE EXCEPTION, AND WHY IT DOES NOT MATTER HERE.  A lazy object (3.1.0,
+ * ProtoLazyObjectCell) receives its value after construction, so its value
+ * can reach the lazy object itself (a self-referential lazy sequence) and
+ * close a loop with no mutable handle in it.  Such a loop is an ordinary
+ * immutable cycle: no table entry roots it, the tracing collector frees it
+ * once it is unreachable, and it retains nothing.  recordCycle therefore
+ * skips a component that has no handle and contains a lazy object.  A
+ * component with a handle is reported as always, whether or not a lazy
+ * object is on it: the handle's entry roots the loop.  childrenOf follows a
+ * lazy object's value and producer exactly as the collector traces them, so
+ * a mutable cycle closed through a lazy value is found.
+ *
  * THE ALGORITHM.  Build the AUGMENTED CELL GRAPH: every cell's ordinary
  * references, PLUS one synthetic edge H_r -> V_r for each handle cell whose
  * mutable_ref r has an entry in the table.  The ordinary cell graph is acyclic
@@ -264,6 +276,17 @@ private:
                             out.push_back({v, NodeKind::Other, ""});
                     }
                 }
+                // A lazy object's value and (until released) producer: what
+                // the collector traces, so a mutable cycle closed through a
+                // lazy value is found (3.1.0).
+                if (const ProtoLazyObjectCell* lazy = oc->asLazyCell()) {
+                    lazy->processLazyReferences(
+                        const_cast<ProtoContext*>(readCtx_), &out,
+                        [](ProtoContext*, void* self, const Cell* ref) {
+                            if (ref) static_cast<std::vector<Ref>*>(self)->push_back(
+                                {ref, NodeKind::Other, "lazy"});
+                        });
+                }
                 return;
             }
             case CellType::ParentLink: {
@@ -409,6 +432,15 @@ private:
             if (!start || r < handleRefOf(start)) start = c;
         }
         std::sort(refs.begin(), refs.end());
+        // No handle, but a lazy object: a collectable immutable cycle (see
+        // the file comment), not a retention.
+        if (refs.empty()) {
+            for (const Cell* c : comp) {
+                if (c->getType() == CellType::Object &&
+                    static_cast<const ProtoObjectCell*>(c)->asLazyCell())
+                    return;
+            }
+        }
         if (!start) start = comp[0];
 
         MutableCycle cyc;

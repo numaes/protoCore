@@ -8,9 +8,11 @@
 #include "../headers/proto_internal.h"
 #include "ThreadStack.h"
 #include <atomic>
+#include <chrono>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <thread>
 
 namespace proto {
     // Frees a ThreadBuffers allocation: the context slot stack's region, then
@@ -859,6 +861,46 @@ namespace proto {
 
     void ProtoThread::goUnmanaged() {
         toImpl<ProtoThreadImplementation>(this)->implGoUnmanaged();
+    }
+
+    // 3.1.0: the one place a runtime's waiting loop reaches the OS.  The
+    // bracket is join's: out of every member quorum, the OS call, back in
+    // (parking for a stop-the-world in progress and clearing the caches).
+    // Inside a critical section the thread may not leave the quorum (cells
+    // held in C++ locals would be invisible to the root scan), so it waits
+    // holding it and says so once, as join does.
+    namespace {
+        void waitOffQuorum(ProtoContext* context, proto_ulong microseconds) {
+            auto osWait = [microseconds] {
+                if (microseconds == 0) std::this_thread::yield();
+                else std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
+            };
+            if (context && context->criticalSectionDepth > 0) {
+                static std::atomic<bool> warned{false};
+                if (!warned.exchange(true, std::memory_order_relaxed)) {
+                    std::fprintf(stderr,
+                        "protoCore: ProtoThread::yield/sleepFor called inside a "
+                        "GC critical section (criticalSectionDepth=%u).  The "
+                        "calling thread keeps its place in the stop-the-world "
+                        "quorum, so no collection can start while it waits.  "
+                        "Wait outside the critical section: see "
+                        "docs/EMBEDDER-CONFORMANCE.md rule 12.\n",
+                        context->criticalSectionDepth);
+                }
+                osWait();
+                return;
+            }
+            ProtoContext::UnmanagedScope parked(context);
+            osWait();
+        }
+    }
+
+    void ProtoThread::yield(ProtoContext* context) {
+        waitOffQuorum(context, 0);
+    }
+
+    void ProtoThread::sleepFor(ProtoContext* context, proto_ulong microseconds) {
+        waitOffQuorum(context, microseconds);
     }
 
     void ProtoThread::returnFromUnmanaged() {

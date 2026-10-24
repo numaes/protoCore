@@ -863,7 +863,9 @@ namespace proto {
                     space->gcCycleCount.fetch_add(1, std::memory_order_relaxed) + 1;
                 // The process-wide epoch that tells every thread, of any
                 // space, to clear its caches at its next quiescent point.
-                multispace::gcEpoch.fetch_add(1, std::memory_order_acq_rel);
+                // seq_cst: lazy objects order their publication against it
+                // (core/ProtoLazyObject.cpp).
+                multispace::gcEpoch.fetch_add(1, std::memory_order_seq_cst);
 #ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
                 const unsigned int stagger = space->survivorStagger ? space->survivorStagger : 1;
                 const bool foldThisCycle = ((newCycle % stagger) == 0);

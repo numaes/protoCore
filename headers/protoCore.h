@@ -326,6 +326,11 @@ namespace proto
          *
          * Called on a non-object (an embedded value, a list, ...), creates
          * the lazy child of that value's prototype, as `newChild` does.
+         *
+         * Several spaces: the value is an ordinary reference.  A value built
+         * by a thread of another space is a cell of that space, and the
+         * limitation of docs/GLOBAL_MUTABLE_TABLE.md on cells of one space
+         * held only by another applies to it unchanged.
          */
         const ProtoObject* newLazyChild(ProtoContext* context, const ProtoObject* producer) const;
 
@@ -341,9 +346,10 @@ namespace proto
         bool isLazyObject(ProtoContext* context) const;
         //! The state of the lazy slot; LazyNotLazy for any other value.
         int getLazyState(ProtoContext* context) const;
-        //! The producer while the slot is not Realized; nullptr afterwards
-        //! (the collector may already have freed it) and for a non-lazy value.
-        //! A caller that uses it across an allocation roots it first.
+        //! The producer while the slot is Unrealized or Claimed; nullptr once
+        //! a publication has begun (Publishing or Realized: the collector may
+        //! free it from the next cycle on) and for a non-lazy value. A caller
+        //! that uses it across an allocation or a safepoint roots it first.
         const ProtoObject* getLazyProducer(ProtoContext* context) const;
         //! The published value once Realized; nullptr before.
         const ProtoObject* getLazyValue(ProtoContext* context) const;
@@ -1987,6 +1993,41 @@ namespace proto
          * scanning roots.
          */
         void returnFromUnmanaged();
+
+        //- Waiting (3.1.0)
+        /**
+         * @brief Gives up the processor once, as `std::this_thread::yield`,
+         *        without holding up a collection.
+         *
+         * The calling thread leaves the stop-the-world quorum of every space
+         * it belongs to for the duration of the yield (as `join` does) and,
+         * on the way back, parks if a stop-the-world is in progress and
+         * clears its caches, exactly as at a safepoint.  A thread that polls
+         * for a condition another thread will establish -- a lazy object
+         * claimed by another thread (`ProtoObject::claimLazy`), a promise
+         * not yet delivered -- calls this or `sleepFor` between polls, so
+         * that a collection the other thread needs can run meanwhile.  A
+         * runtime never calls `std::this_thread::yield` or `sleep_for`
+         * itself for that: a registered thread in a bare OS wait reaches no
+         * safepoint and stalls every stop-the-world of its spaces.
+         *
+         * `context` is a context of the calling thread.  The caller holds no
+         * `ProtoObject*` only in C++ locals across the call (a collection may
+         * run during it): what it still needs is in a slot of a context, a
+         * pin or another root.  Inside a `ProtoContext::CriticalSection` the
+         * thread cannot leave the quorum; the call then yields while holding
+         * it, so no collection can start, and says so once on `stderr`
+         * (docs/EMBEDDER-CONFORMANCE.md rule 12).  A `nullptr` context, or a
+         * context with no thread, yields with no bracket: such a thread is in
+         * no quorum.
+         */
+        static void yield(ProtoContext* context);
+
+        /**
+         * @brief Blocks the calling thread for at least `microseconds`, off
+         *        the stop-the-world quorum, as `yield` does.  `0` is `yield`.
+         */
+        static void sleepFor(ProtoContext* context, proto_ulong microseconds);
     };
 
     /**

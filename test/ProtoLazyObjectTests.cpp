@@ -20,6 +20,9 @@
 #include "../headers/proto_internal.h"
 
 #include <atomic>
+#include <chrono>
+#include <mutex>
+#include <string>
 #include <thread>
 #include <vector>
 
@@ -239,4 +242,285 @@ TEST(ProtoLazyObject, MutableChainControlUnravelsOneLinkPerCycle) {
     }
     ASSERT_GE(forceCycles(space, &ctx, 3), 3u);
     EXPECT_LT(g_finalized.load(), kLinks / 2);
+}
+
+// ---------------------------------------------------------------------------
+// Review hardening (3.1.0).
+
+namespace {
+
+// Requests a collection cycle on demand (the BulkListBuildTests pattern:
+// triggerGC() is gated on heap pressure).
+void requestCycle(ProtoSpace& space) {
+    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+    space.gcStarted = true;
+    space.gcCV.notify_all();
+}
+
+// A plain OS thread, outside every quorum, that asks for cycles until stopped.
+class CycleKicker {
+public:
+    explicit CycleKicker(ProtoSpace& space)
+        : thread_([this, &space] {
+              while (!stop_.load(std::memory_order_relaxed)) {
+                  requestCycle(space);
+                  std::this_thread::sleep_for(std::chrono::microseconds(300));
+              }
+          }) {}
+    ~CycleKicker() {
+        stop_.store(true, std::memory_order_relaxed);
+        thread_.join();
+    }
+
+private:
+    std::atomic<bool> stop_{false};
+    std::thread thread_;
+};
+
+} // namespace
+
+// A lazy object whose value reaches the object itself (a self-referential
+// lazy sequence) is a cycle with no mutable handle. It is an ordinary
+// immutable cycle: findMutableCycles must not report it (before 3.1.0's
+// review it was reported as a "protoCore invariant violation"), and the
+// collector frees it once unreachable.
+TEST(ProtoLazyObject, SelfReferentialValueIsNotAMutableCycleAndIsFreed) {
+    ProtoSpace space;
+    ProtoContext ctx(&space);
+    ctx.resizeAutomaticLocals(2);
+    g_finalized.store(0);
+    const ProtoString* key = nullptr;
+    {
+        ProtoContext build(&space, &ctx, nullptr, nullptr, nullptr, nullptr);
+        key = ProtoString::createSymbol(&build, "seq");
+        const ProtoObject* lazy = build.newObject(false)->newLazyChild(&build, PROTO_NONE);
+        ctx.setAutomaticLocal(0, lazy);
+        const ProtoObject* value = build.newList()->appendLast(&build, probe(&build))
+                                       ->appendLast(&build, lazy)->asObject(&build);
+        ASSERT_TRUE(lazy->publishLazy(&build, value));
+        // The detector walks from mutable states: hold the loop in one, as a
+        // runtime's global variable would.
+        const ProtoObject* holder = build.newObject(true);
+        ctx.setAutomaticLocal(1, holder);
+        holder->setAttribute(&build, key, lazy);
+    }
+    const ProtoObject* lazy = ctx.getAutomaticLocal(0);
+    ASSERT_EQ(lazy->getLazyValue(&ctx)->asList(&ctx)->getAt(&ctx, 1), lazy);
+
+    const MutableGraphReport report = space.findMutableCycles(&ctx);
+    EXPECT_TRUE(report.acyclicAndComplete())
+        << report.cycles.size() << " cycle(s) reported: "
+        << (report.cycles.empty() ? std::string() : report.cycles[0].path);
+
+    ASSERT_GE(forceCycles(space, &ctx, 2), 2u);
+    EXPECT_EQ(g_finalized.load(), 0);  // still reachable
+    ctx.setAutomaticLocal(0, PROTO_NONE);
+    ctx.setAutomaticLocal(1, PROTO_NONE);
+    // The holder's entry roots the loop until the holder is swept; the loop
+    // goes in the cycle after.
+    ASSERT_GE(forceCycles(space, &ctx, 4), 4u);
+    EXPECT_EQ(g_finalized.load(), 1);
+}
+
+// A thread that waits for a lazy object another thread has claimed must not
+// hold up a collection. The waiter is a registered ProtoThread polling the
+// slot with ProtoThread::yield / sleepFor; while it waits, the space must
+// complete collection cycles. A registered thread polling with a bare OS
+// yield reaches no safepoint, so no stop-the-world can complete and the
+// cycle count does not move: verified by substituting std::this_thread::yield
+// / sleep_for in the waiter. The deadline then fails the test, and `giveUp`
+// lets the waiter leave its loop, reach a safepoint and release the pause,
+// so the failure does not become a hang.
+namespace {
+struct WaiterShared {
+    const ProtoObject* lazy = nullptr;
+    std::atomic<bool> waiting{false};
+    std::atomic<bool> sawValue{false};
+    std::atomic<unsigned> polls{0};
+    std::atomic<bool> giveUp{false};
+};
+WaiterShared* g_waiter = nullptr;
+}
+
+TEST(ProtoLazyObject, WaiterOnClaimedLazyObjectDoesNotBlockCollection) {
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    ProtoContext ctx(&space, root, nullptr, nullptr, nullptr, nullptr);
+    ctx.resizeAutomaticLocals(1);
+    WaiterShared shared;
+    g_waiter = &shared;
+    shared.lazy = ctx.newObject(false)->newLazyChild(&ctx, PROTO_NONE);
+    ctx.setAutomaticLocal(0, shared.lazy);
+    ASSERT_TRUE(shared.lazy->claimLazy(&ctx));  // this thread is the claimer
+
+    auto waiterMain = [](ProtoContext* c, const ProtoObject*, const ParentLink*,
+                         const ProtoArguments*, const ProtoKeywordArguments*) -> const ProtoObject* {
+        const ProtoObject* lazy = g_waiter->lazy;  // rooted by the test's context
+        g_waiter->waiting.store(true);
+        for (unsigned round = 0; lazy->getLazyState(c) != ProtoObject::LazyRealized; ++round) {
+            if (g_waiter->giveUp.load()) return PROTO_NONE;
+            g_waiter->polls.fetch_add(1, std::memory_order_relaxed);
+            if (round < 64) ProtoThread::yield(c);
+            else ProtoThread::sleepFor(c, 50);
+        }
+        const ProtoObject* v = lazy->getLazyValue(c);
+        g_waiter->sawValue.store(v && v->asLong(c) == 4242);
+        return PROTO_NONE;
+    };
+    const ProtoThread* waiter = space.newThread(
+        &ctx, ProtoString::createSymbol(&ctx, "lazy-waiter"), waiterMain, nullptr, nullptr);
+
+    uint64_t advanced = 0;
+    {
+        // The claimer itself waits off the quorum too.
+        ProtoContext::UnmanagedScope parked(&ctx);
+        const auto startDeadline = std::chrono::steady_clock::now() + std::chrono::seconds(60);
+        while (!shared.waiting.load() && std::chrono::steady_clock::now() < startDeadline)
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        const uint64_t c0 = space.getGCCycleCount();
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+        while (space.getGCCycleCount() < c0 + 3 && std::chrono::steady_clock::now() < deadline) {
+            requestCycle(space);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        advanced = space.getGCCycleCount() - c0;
+        if (advanced < 3) shared.giveUp.store(true);
+    }
+    ASSERT_TRUE(shared.waiting.load());
+    if (advanced < 3) {
+        const_cast<ProtoThread*>(waiter)->join(&ctx);
+        g_waiter = nullptr;
+        FAIL() << "collections stalled while a thread waited for a claimed lazy object";
+    }
+    EXPECT_EQ(shared.lazy->getLazyState(&ctx), ProtoObject::LazyClaimed);
+    EXPECT_GT(shared.polls.load(), 0u);
+
+    ASSERT_TRUE(shared.lazy->publishLazy(&ctx, ctx.fromInteger(4242)));
+    const_cast<ProtoThread*>(waiter)->join(&ctx);
+    EXPECT_TRUE(shared.sawValue.load());
+    g_waiter = nullptr;
+}
+
+// Eight ProtoThreads walk one shared lazy chain, realising it as they go:
+// whoever claims a link builds the next link and publishes [i, next]; the
+// others wait with ProtoThread::yield. Cycles are requested continuously, so
+// the marker reads slots while they are being claimed and published, and
+// producers are released while other threads still walk. Every thread must
+// see 0, 1, ..., kLinks - 1. Run under ThreadSanitizer and AddressSanitizer.
+namespace {
+constexpr int kSharedLinks = 1500;
+struct ChainShared {
+    const ProtoObject* head = nullptr;
+    const ProtoObject* proto = nullptr;
+    std::atomic<int> bad{0};
+    std::atomic<int> finished{0};
+    std::atomic<int> producedHere{0};
+};
+ChainShared* g_chain = nullptr;
+
+// The value of `node`, realising it when this thread wins the claim.
+const ProtoObject* realizeLink(ProtoContext* c, const ProtoObject* node) {
+    for (unsigned round = 0;; ++round) {
+        const int state = node->getLazyState(c);
+        if (state == ProtoObject::LazyRealized) return node->getLazyValue(c);
+        if (state == ProtoObject::LazyUnrealized) {
+            ProtoContext s(c->space, c, nullptr, nullptr, nullptr, nullptr);
+            s.resizeAutomaticLocals(2);
+            const ProtoObject* producer = node->getLazyProducer(&s);
+            if (!producer) continue;
+            s.setAutomaticLocal(0, producer);
+            if (!node->claimLazy(&s)) continue;
+            const long long i = s.getAutomaticLocal(0)->asList(&s)->getAt(&s, 0)->asLong(&s);
+            // Garbage, so the collector has work while the claim is held.
+            for (int g = 0; g < 32; ++g) (void) s.newObject(false);
+            s.setAutomaticLocal(1, s.newList()->appendLast(&s, s.fromInteger(i + 1))->asObject(&s));
+            s.setAutomaticLocal(1, g_chain->proto->newLazyChild(&s, s.getAutomaticLocal(1)));
+            const ProtoObject* value = s.newList()->appendLast(&s, s.fromInteger(i))
+                                           ->appendLast(&s, s.getAutomaticLocal(1))->asObject(&s);
+            if (!node->publishLazy(&s, value)) g_chain->bad.fetch_add(1);
+            g_chain->producedHere.fetch_add(1, std::memory_order_relaxed);
+            s.returnValue = value;  // anchored in `c` when `s` ends
+            return value;
+        }
+        ProtoThread::yield(c);
+    }
+}
+}  // namespace
+
+TEST(ProtoLazyObject, EightThreadsRealiseOneSharedChainUnderCollection) {
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    ProtoContext ctx(&space, root, nullptr, nullptr, nullptr, nullptr);
+    ctx.resizeAutomaticLocals(2);
+    ChainShared shared;
+    g_chain = &shared;
+    shared.proto = ctx.newObject(false);
+    ctx.setAutomaticLocal(0, shared.proto);
+    shared.head = shared.proto->newLazyChild(
+        &ctx, ctx.newList()->appendLast(&ctx, ctx.fromInteger(0))->asObject(&ctx));
+    ctx.setAutomaticLocal(1, shared.head);
+
+    auto walker = [](ProtoContext* c, const ProtoObject*, const ParentLink*,
+                     const ProtoArguments*, const ProtoKeywordArguments*) -> const ProtoObject* {
+        ProtoContext w(c->space, c, nullptr, nullptr, nullptr, nullptr);
+        w.resizeAutomaticLocals(1);
+        w.setAutomaticLocal(0, g_chain->head);
+        for (int i = 0; i < kSharedLinks; ++i) {
+            ProtoContext step(w.space, &w, nullptr, nullptr, nullptr, nullptr);
+            const ProtoObject* value = realizeLink(&step, w.getAutomaticLocal(0));
+            const ProtoList* fields = value ? value->asList(&step) : nullptr;
+            if (!fields || fields->getSize(&step) != 2 || fields->getAt(&step, 0)->asLong(&step) != i) {
+                g_chain->bad.fetch_add(1);
+                break;
+            }
+            w.setAutomaticLocal(0, fields->getAt(&step, 1));
+        }
+        g_chain->finished.fetch_add(1);
+        return PROTO_NONE;
+    };
+
+    constexpr int kThreads = 8;
+    std::vector<const ProtoThread*> threads;
+    const uint64_t c0 = space.getGCCycleCount();
+    {
+        CycleKicker kicker(space);
+        for (int t = 0; t < kThreads; ++t)
+            threads.push_back(space.newThread(
+                &ctx, ProtoString::createSymbol(&ctx, "lazy-walker"), walker, nullptr, nullptr));
+        ProtoContext::UnmanagedScope parked(&ctx);
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(600);
+        while (shared.finished.load() < kThreads && std::chrono::steady_clock::now() < deadline)
+            std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    }
+    for (const ProtoThread* t : threads) const_cast<ProtoThread*>(t)->join(&ctx);
+    EXPECT_EQ(shared.finished.load(), kThreads);
+    EXPECT_EQ(shared.bad.load(), 0);
+    EXPECT_EQ(shared.producedHere.load(), kSharedLinks);
+    EXPECT_GT(space.getGCCycleCount() - c0, 0u);
+    g_chain = nullptr;
+}
+
+// The converse: a real mutable cycle closed through a lazy value -- a mutable
+// holder whose state reaches a lazy object whose value reaches the holder --
+// is retained by the holder's table entry, and findMutableCycles must report
+// it. Before the review the detector did not follow lazy values at all and
+// answered "acyclic and complete".
+TEST(ProtoLazyObject, MutableCycleThroughALazyValueIsReported) {
+    ProtoSpace space;
+    ProtoContext ctx(&space);
+    ctx.resizeAutomaticLocals(1);
+    {
+        ProtoContext build(&space, &ctx, nullptr, nullptr, nullptr, nullptr);
+        const ProtoString* key = ProtoString::createSymbol(&build, "seq");
+        const ProtoObject* holder = build.newObject(true);
+        ctx.setAutomaticLocal(0, holder);
+        const ProtoObject* lazy = build.newObject(false)->newLazyChild(&build, PROTO_NONE);
+        holder->setAttribute(&build, key, lazy);
+        ASSERT_TRUE(lazy->publishLazy(
+            &build, build.newList()->appendLast(&build, holder)->asObject(&build)));
+    }
+    const MutableGraphReport report = space.findMutableCycles(&ctx);
+    EXPECT_FALSE(report.truncated);
+    ASSERT_EQ(report.cycles.size(), 1u);
+    EXPECT_EQ(report.cycles[0].refs.size(), 1u);
 }
