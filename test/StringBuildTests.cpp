@@ -91,17 +91,6 @@ std::string repeatUnit(const char* unit, size_t times) {
 
 // ---- representation / rope inspection -------------------------------------
 
-const ProtoStringImplementation* implOf(const ProtoObject* o) {
-    if (!o) return nullptr;
-    ProtoObjectPointer pa{}; pa.oid = o;
-    const proto::proto_ulong tag = pa.op.pointer_tag;
-    if (tag == POINTER_TAG_STRING || tag == POINTER_TAG_SYMBOL) {
-        const uintptr_t raw =
-            reinterpret_cast<uintptr_t>(o) & ~static_cast<uintptr_t>(0x3F);
-        return reinterpret_cast<const ProtoStringImplementation*>(raw);
-    }
-    return nullptr;
-}
 
 bool isInlineRep(const ProtoObject* o) {
     ProtoObjectPointer pa{}; pa.oid = o;
@@ -154,8 +143,8 @@ void walkRope(const ProtoObject* n, RopeShape& sh, int d, const char* label) {
 
 RopeShape shapeOf(const ProtoString* s, const char* label) {
     RopeShape sh;
-    const auto* impl = implOf(reinterpret_cast<const ProtoObject*>(s));
-    if (impl) walkRope(impl->avl_root, sh, 1, label);
+    if (const ProtoObject* root = heapStringRoot(reinterpret_cast<const ProtoObject*>(s)))
+        walkRope(root, sh, 1, label);
     return sh;
 }
 

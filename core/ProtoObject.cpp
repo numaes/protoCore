@@ -2168,8 +2168,11 @@ namespace proto
             }
         }
 
-        if (isString(context) && isInlineString(this)) return getProtoStringHash(context, this);
-        
+        // Strings hash by content, whatever their representation: an inline
+        // string, or a heap string whose cell is its rope root (a node whose
+        // own Cell::getHash would be its address).
+        if (isStringTagFast(this)) return getProtoStringHash(context, this);
+
         if (isCell(context)) return asCell(context)->getHash(context);
         return reinterpret_cast<uintptr_t>(this);
     }
@@ -2282,7 +2285,7 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag == POINTER_TAG_LIST) return reinterpret_cast<const ProtoList*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) return reinterpret_cast<const ProtoList*>(this);
-        if (pa.op.pointer_tag == POINTER_TAG_STRING) return toImpl<const ProtoStringImplementation>(this)->implAsList(context);
+        if (pa.op.pointer_tag == POINTER_TAG_STRING) return reinterpret_cast<const ProtoString*>(this)->asList(context);
         if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_INLINE_STRING) return reinterpret_cast<const ProtoString*>(this)->asList(context);
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT) {
             const proto::ProtoString* dataName = context->space->literalData;

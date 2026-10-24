@@ -153,8 +153,8 @@ increment, and it is on the `getFreeCells` path this allocation never takes);
 and nothing frees it — not collection, not `~ProtoSpace`.
 
 **Who allocates perennials.** Every interned string.
-`SymbolTable::intern` builds the canonical `ProtoStringImplementation` and its
-whole AVL tree with a null context, deliberately and without a collectible
+`SymbolTable::intern` builds the canonical string, its whole AVL tree (the
+symbol handle points at the root), with a null context, deliberately and without a collectible
 variant, so that a name keeps its canonical pointer for the life of the process
 and pointer-identity symbol comparison is sound
 (`core/SymbolTable.cpp:8-17`, `core/SymbolTable.cpp:65-77`,

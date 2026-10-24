@@ -154,3 +154,26 @@ table, every space marks it, serialized cycles, implement completely now.
 - Caches are cleared at the first quiescent point after a new process epoch,
   not checked at lookup: the grace period guarantees every thread passes one
   before any freed cell is reused. Zero cost on the lookup path.
+
+## String handle points at its rope root (3.2.0, branch feature/string-intern)
+
+Goal: drop the `ProtoStringImplementation` header cell. A heap string handle
+(tag 6, symbol tag 22: unchanged, `isStringTagFast` is inlined in embedders)
+points directly at its rope root, a `StringLeafNode` or `StringInternalNode`.
+A string of one leaf is ONE cell; every heap string saves one cell.
+
+- [x] Both node types carry `node_kind` as their first data member (offset 16,
+      right after `Cell`); the handle reader re-tags the root 23/24 from it.
+      A test checks the offset on real objects; debug builds assert it
+      against `getType()`.
+- [x] Leaf layout: node_kind, byte_count, char_count, payload, content_hash.
+      Payload array 36 bytes; MAX_PAYLOAD stays 32 in step 1 (no shape change).
+- [x] Replace `ProtoStringImplementation` by root functions
+      (`heapStringRoot`, `heapStringFromRoot`, `buildRopeFromUTF8`);
+      remove dead `internString` / `StringInternSet`.
+- [x] SymbolTable, ProtoObject::asList, tests (StringBuild, GlobalInterning,
+      test_string) on the root API.
+- [x] Cell-count test: 7..32-byte string = 1 cell; 33..64 = 3 cells.
+- [x] ctest green; commit.
+- [ ] Step 2: MAX_PAYLOAD 32 -> 36, goldens' rope shapes updated; ctest; commit.
+- [ ] Docs: DESIGN.md string tiers, CHANGELOG.

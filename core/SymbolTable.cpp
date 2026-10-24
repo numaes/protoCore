@@ -15,7 +15,7 @@
  * two collectors rather than one.
  *
  * Every interned string (symbol) is PERENNIAL. `intern` builds the canonical
- * ProtoStringImplementation with a NULL ProtoContext, which routes every Cell
+ * rope with a NULL ProtoContext, which routes every Cell
  * allocation through `posix_memalign` directly: the Cells are never enrolled
  * in any thread freelist or context young-generation chain, so the GC's
  * mark/sweep and root collection never see them — they live for the lifetime
@@ -96,11 +96,11 @@ bool SymbolTable::contentEqual(ProtoContext* ctx,
 }
 
 // ---------------------------------------------------------------------------
-// normalizeForSymbol — convert any string representation to a fresh
-// ProtoStringImplementation whose hash reflects its AVL content.
+// normalizeForSymbol — copy any string representation into a fresh rope and
+// return its root; the symbol handle points at that root.
 //
 // `readCtx` is used only for reading from `strObj` (iterating its rope). The
-// new ProtoStringImplementation and its AVL nodes are ALWAYS allocated with a
+// new rope nodes are ALWAYS allocated with a
 // null ProtoContext: that routes every Cell allocation through
 // `posix_memalign` directly, so the resulting Cells are never enrolled in any
 // thread freelist, never appear in a context's young-generation chain, and
@@ -109,11 +109,11 @@ bool SymbolTable::contentEqual(ProtoContext* ctx,
 // see the file header and DESIGN.md § "Perpetual allocations via NULL
 // ProtoContext".
 // ---------------------------------------------------------------------------
-const ProtoStringImplementation* SymbolTable::normalizeForSymbol(
+const ProtoObject* SymbolTable::normalizeForSymbol(
         ProtoContext* readCtx, const ProtoObject* strObj) {
     std::string utf8;
     reinterpret_cast<const ProtoString*>(strObj)->toUTF8String(readCtx, utf8);
-    return ProtoStringImplementation::fromUTF8Bytes(
+    return buildRopeFromUTF8(
         /*ctx=*/nullptr,
         reinterpret_cast<const uint8_t*>(utf8.data()),
         utf8.size());
@@ -123,8 +123,7 @@ const ProtoStringImplementation* SymbolTable::normalizeForSymbol(
 // contentHashOfUTF8 — the content hash of a run of UTF-8 bytes.
 //
 // Must stay identical to computeContentHash (core/ProtoString.cpp), which is
-// FNV-1a over the leaf bytes in order and is what ProtoStringImplementation::
-// implGetHash returns: a lookup keyed by bytes has to land in the same shard
+// FNV-1a over the leaf bytes in order and is the hash of every heap string: a lookup keyed by bytes has to land in the same shard
 // and match the same bucket as one keyed by a ProtoString.
 // ---------------------------------------------------------------------------
 static uint64_t contentHashOfUTF8(const uint8_t* bytes, size_t len) {
@@ -156,7 +155,7 @@ const ProtoObject* SymbolTable::lookupUTF8(ProtoContext* ctx,
 // ---------------------------------------------------------------------------
 // intern — return the canonical symbol for strObj, inserting if absent.
 //
-// All potentially-allocating work (normalizeForSymbol / implAsSymbol) is
+// All potentially-allocating work (normalizeForSymbol) is
 // performed BEFORE acquiring the shard lock, so the shard mutex is never held
 // across an allocation. This keeps the shard lock a strict leaf lock — it is
 // never ordered against the GC global lock — and the double-checked-locking
@@ -176,6 +175,8 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     // A spelling of at most INLINE_STRING_MAX_BYTES bytes is canonical as an
     // inline string, so the table never holds one.
     if (const ProtoObject* inl = inlineFormOfString(ctx, strObj)) return inl;
+    // Not a string: nothing to intern.
+    if (!heapStringRoot(strObj)) return strObj;
 
     // Already interned?  Look it up first: normalizeForSymbol below builds a
     // perennial copy of the string (Cells from posix_memalign that no cycle
@@ -196,11 +197,9 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     // also removes any per-GC-cycle cost of protecting symbol Cells. The
     // candidate that loses the insert race in insertCandidate is likewise
     // perpetual, and kept reachable there.
-    const ProtoStringImplementation* normalized =
-        normalizeForSymbol(ctx, strObj);
-    const ProtoObject* symbol_candidate = reinterpret_cast<const ProtoObject*>(
-        normalized->implAsSymbol(ctx));
-    return insertCandidate(ctx, normalized->implGetHash(), symbol_candidate);
+    const ProtoObject* root = normalizeForSymbol(ctx, strObj);
+    return insertCandidate(ctx, computeContentHash(root),
+                           heapStringFromRoot(root, /*symbol=*/true));
 }
 
 // ---------------------------------------------------------------------------
@@ -266,11 +265,9 @@ const ProtoObject* SymbolTable::internUTF8(ProtoContext* ctx,
     if (const ProtoObject* existing = lookupUTF8(ctx, bytes, len)) return existing;
     // Built with a NULL ProtoContext: perennial, invisible to the collector,
     // so no cycle can reclaim it before it is published (see intern()).
-    const ProtoStringImplementation* impl =
-        ProtoStringImplementation::fromUTF8Bytes(/*ctx=*/nullptr, bytes, len);
-    const ProtoObject* candidate =
-        reinterpret_cast<const ProtoObject*>(impl->implAsSymbol(ctx));
-    return insertCandidate(ctx, impl->implGetHash(), candidate);
+    const ProtoObject* root = buildRopeFromUTF8(/*ctx=*/nullptr, bytes, len);
+    return insertCandidate(ctx, computeContentHash(root),
+                           heapStringFromRoot(root, /*symbol=*/true));
 }
 
 // ---------------------------------------------------------------------------
@@ -290,10 +287,9 @@ const ProtoObject* SymbolTable::lookupByContent(ProtoContext* ctx,
     if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) return strObj;
     if (const ProtoObject* inl = inlineFormOfString(ctx, strObj)) return inl;
 
-    auto* impl = reinterpret_cast<const ProtoStringImplementation*>(
-        toImpl<const ProtoStringImplementation>(strObj));
-    if (!impl) return nullptr;
-    uint64_t hash = impl->implGetHash();
+    const ProtoObject* root = heapStringRoot(strObj);
+    if (!root) return nullptr;
+    uint64_t hash = computeContentHash(root);
     int shard_idx = shardIndex(hash);
     const Shard& shard = shards[shard_idx];
 

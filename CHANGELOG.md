@@ -32,6 +32,24 @@ All notable changes to protoCore are documented in this file.
   representation a short non-ASCII string has changed.
 - Tests: `test/StringCanonicalFormTests.cpp`.
 
+### Changed -- a heap string is its rope root (3.2.0, internal: SOVERSION stays 4)
+
+- **No header cell.** A heap string or symbol handle points directly at the
+  root of its AVL tree, a `StringLeafNode` or `StringInternalNode`;
+  `ProtoStringImplementation`, which only held that root, is gone. A string
+  that fits in one leaf is one Cell instead of two, and every longer string
+  saves one Cell. The handle keeps `POINTER_TAG_STRING` / `POINTER_TAG_SYMBOL`
+  (`isStringTagFast` is inlined in embedders), and both node types start with
+  a `node_kind` byte from which `heapStringRoot` re-tags the root.
+- `ProtoObject::getHash` hashes every string by content: the cell of a heap
+  string is now a node, whose `Cell::getHash` is its address.
+- `ProtoString::asCell` returns the root node's cell.
+- The retired content-keyed intern map (`internString`, `StringInternSet`) is
+  removed; `ProtoSpace::stringInternMap` stays, held null, so the layout of
+  `ProtoSpace` does not change.
+- Tests: `test/StringRootTests.cpp` (node_kind offset in both node types, the
+  handle is the root, cell counts per string).
+
 ### Improved -- the mutable table's states are not roots (3.1.0, no API change: SOVERSION stays 4)
 
 - **A state is live only while the mark reaches its handle.** When the mark

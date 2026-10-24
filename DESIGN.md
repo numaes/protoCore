@@ -272,11 +272,11 @@ protoCore offers two complementary mechanisms for this. They cover **different l
 When an object is conceptually a permanent fixture of the runtime — a Symbol that will be referenced for the entire lifetime of the process, a per-type prototype, a one-shot canonical constant — allocate it through a **null `ProtoContext`**. The unified `ProtoContext::allocCell()` path falls through to `posix_memalign`: the resulting Cell is *never* enrolled in any thread freelist and *never* added to a context's young-generation chain, so the GC's free-and-recycle machinery cannot see it. It survives forever.
 
 ```cpp
-auto* impl = ProtoStringImplementation::fromUTF8Bytes(/*ctx=*/nullptr, bytes, len);
-// `impl` and every Cell its AVL tree allocated are perpetual.
+const ProtoObject* root = buildRopeFromUTF8(/*ctx=*/nullptr, bytes, len);
+// `root` and every Cell of its AVL tree are perpetual.
 ```
 
-The key property is that *the entire reachable subgraph must be allocated null-context too*: a perpetual root that points to a normal GC-managed Cell is a ticking bomb because the GC sees no path to that child and will reclaim it. In practice this is enforced by passing a single `nullptr` through the construction call chain (`fromUTF8Bytes` → `buildAVL` → `new(ctx) ...`), since every allocation site in protoCore takes its `ProtoContext*` as a parameter and forwards it.
+The key property is that *the entire reachable subgraph must be allocated null-context too*: a perpetual root that points to a normal GC-managed Cell is a ticking bomb because the GC sees no path to that child and will reclaim it. In practice this is enforced by passing a single `nullptr` through the construction call chain (`buildRopeFromUTF8` → `buildAVL` → `new(ctx) ...`), since every allocation site in protoCore takes its `ProtoContext*` as a parameter and forwards it.
 
 The canonical user is `SymbolTable::intern`: every interned string (symbol) — including the implicit auto-intern that `ProtoObject::setAttribute` performs on a non-interned heap String — is allocated null-context. There is deliberately no "weak"/collectible symbol variant: a name, once interned, keeps its canonical pointer for the entire lifetime of the process, which is what makes pointer-identity symbol comparison sound. Consequently there is no per-cycle GC scan to mark symbols, and no SymbolTable bucket ever points to a Cell that might be reclaimed.
 
@@ -336,13 +336,15 @@ All core collection types in protoCore are implemented as persistent, immutable 
 
   * **Tier 1 — Embedded pointer** (`POINTER_TAG_EMBEDDED_VALUE`): strings ≤6 UTF-8 bytes encoded directly in the tagged pointer. Zero heap allocation; pointer equality implies content equality. **This is the canonical form of every spelling of at most 6 UTF-8 bytes, ASCII or not**: every constructor (`createSymbol`, `fromUTF8`, `ProtoContext::fromUTF8String`, `create(list)`, concatenation, slicing) produces it, and the `SymbolTable` never holds such a spelling (since 3.2.0; before, `createSymbol`, `fromUTF8` and `create(list)` inlined ASCII only, so a short non-ASCII name had two pointers).
 
-  * **Tier 2 — Symbol** (`POINTER_TAG_SYMBOL` = 22): interned strings used as identifiers and attribute keys. Backed by a `ProtoStringImplementation` wrapping a persistent AVL tree. A **64-shard `SymbolTable`** (one `std::mutex` per shard, double-checked locking) guarantees that equal content always returns the same pointer. Every symbol is **perennial**: `intern` always builds it with a null `ProtoContext`, so it is allocated outside the GC entirely — never marked, never swept, never a root, never evicted — and a name keeps its canonical pointer for the lifetime of the process. Read-only lookups use the non-inserting `lookupByContent()` path with no allocation or lock side effects.
+  * **Tier 2 — Symbol** (`POINTER_TAG_SYMBOL` = 22): interned strings used as identifiers and attribute keys. The handle points at the root of a persistent AVL tree (see "A heap string is its rope root" below). A **64-shard `SymbolTable`** (one `std::mutex` per shard, double-checked locking) guarantees that equal content always returns the same pointer. Every symbol is **perennial**: `intern` always builds it with a null `ProtoContext`, so it is allocated outside the GC entirely — never marked, never swept, never a root, never evicted — and a name keeps its canonical pointer for the lifetime of the process. Read-only lookups use the non-inserting `lookupByContent()` path with no allocation or lock side effects.
 
   * **Tier 3 — String** (`POINTER_TAG_STRING` = 6): non-interned heap strings for general text. Same AVL tree cells as Symbol but not deduplicated.
 
+  * **A heap string is its rope root** (3.2.0). The handle of a heap string or a symbol points directly at the root node of its AVL tree; there is no header cell. A string that fits in one leaf is **one Cell**, and every longer string is exactly its tree. Inside the tree, children carry the node tags (`POINTER_TAG_STRING_LEAF_NODE` = 23, `POINTER_TAG_STRING_INTERNAL_NODE` = 24). The handle keeps tag 6 or 22, because `ProtoObject::isStringTagFast` is inlined into embedders and knows only those, so both node types begin with a `node_kind` byte, their first data member (offset 16, right after `Cell`), from which `heapStringRoot()` re-tags the root. `heapStringFromRoot()` is the inverse and allocates nothing. Since the root cell is a node, a string's hash never comes from `Cell::getHash`: `ProtoObject::getHash` hashes every string by content.
+
   * **Persistent AVL tree** — two 64-byte Cell types:
-    * `StringLeafNode`: stores up to 32 UTF-8 bytes, FNV-1a `content_hash`, `char_count`, `is_partial` flag. `processReferences()` is a no-op.
-    * `StringInternalNode`: left/right children, `total_chars`, `left_chars` (for O(log N) `charAt` navigation), `subtree_hash`, AVL `height`. `processReferences()` visits both children for GC tracing.
+    * `StringLeafNode`: `node_kind` (with the partial-leaf bit), `byte_count`, `char_count`, up to `MAX_PAYLOAD` UTF-8 bytes, FNV-1a `content_hash`. `processReferences()` is a no-op.
+    * `StringInternalNode`: `node_kind`, AVL `height`, `total_chars`, left/right children, `left_chars` (for O(log N) `charAt` navigation), `total_bytes`, `subtree_hash`. `processReferences()` visits both children for GC tracing.
 
   * **Two primitives** compose all string operations:
     * `strConcat(ctx, a, b)` — O(log |h(a)−h(b)| + 1)
