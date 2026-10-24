@@ -39,6 +39,8 @@
 // ProtoSpace::currentThreadStackBytes exists, and setThreadStackBytes is
 // honoured on Linux, macOS and Windows (protoCore 2.9.0 and later).
 #define PROTOCORE_HAS_CURRENT_THREAD_STACK_BYTES 1
+// ProtoSpace::liveSpaceCount exists (protoCore 3.1.0 and later).
+#define PROTOCORE_HAS_LIVE_SPACE_COUNT 1
 
 // Static data members of the API.  A Windows DLL exports functions to callers
 // that know nothing about it, but data must be declared dllimport by the
