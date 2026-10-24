@@ -143,19 +143,21 @@ established, so the conservative order is the one kept.
 power-of-two capacity), outside the cell heap, kept by the collector thread
 for the next cycle. Measured with 500,000 live mutable objects held by a root
 (a scratch benchmark outside the repository, five interleaved runs, medians of
-nine cycles each, AMD Ryzen 5 5500U): the mark phase (resume to sweep start) took
-  286.0 ms against 214.9 ms before (+33 %), the whole cycle 597.2 against
-  527.8 ms (+13 %), for 4.5 M marked cells in both; with the same handles
-  linked in one chain from a root, 325.2 against 203.2 ms (+60 %) and
-  602.0 against 476.7 ms (+26 %). At 50,000 handles: +27 % / +39 % mark,
-  +10 % / +17 % cycle. The chain is the costly shape: the old trace reached
-  each state from its table node, in table order, with many independent
-  misses in flight; now a linked chain is followed handle by handle, one
-  dependent miss after another, as an immutable linked list would be.
+nine cycles each, AMD Ryzen 5 5500U): the mark phase (resume to sweep start)
+took 286.0 ms against 214.9 ms before (+33 %), the whole cycle 597.2 against
+527.8 ms (+13 %), for 4.5 M marked cells in both; with the same handles linked
+in one chain from a root, 325.2 against 203.2 ms (+60 %) and 602.0 against
+476.7 ms (+26 %). At 50,000 handles: +27 % / +39 % mark, +10 % / +17 % cycle.
+The chain is the costly shape: the old trace reached each state from its table
+node, in table order, with many independent misses in flight; now a linked
+chain is followed handle by handle, one dependent miss after another, as an
+immutable linked list would be.
 
 **Measured on the chain.** 300,000 protoClojure atoms, each pointing at the
-next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles (medians of three interleaved runs), 100.6 s -> 0.51 s, live set after the last cycle
-  1,802,173 -> 26,591 cells, maximum resident set 157 -> 77 MB.
+next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles,
+100.6 s -> 0.51 s, live set after the last cycle 1,802,173 -> 26,591 cells,
+maximum resident set 157 -> 77 MB (medians of three runs each, base and new
+interleaved for the base figures).
 
 **Consequence for mutable cycles.** A cycle among mutable objects that
 nothing reaches is now collected like any other garbage. A reachable one is
