@@ -116,6 +116,14 @@ quorum; the case's waits now run inside an `UnmanagedScope`.
 
 ### Rule 13 — why the verdict is a declaration and not "no cycles"
 
+> **Premise superseded in 3.1.0.**  The table's states are no longer roots, so
+> an unreachable cycle among mutable objects is collected
+> ([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md), "States are not roots").
+> The case still runs and still compares the cycles found in the table with
+> the declaration; a cycle it finds is reachable (or awaits the next cycle),
+> not permanent retention.  The rule's text below describes the property as it
+> held until then and is due for a rewrite.
+
 **A cycle among mutable objects is never collected.**  The property, its proof
 against the two collector sites that produce it, and the fixes that were
 considered and rejected are in [MemoryModel.md](MemoryModel.md) § 7.  The rule

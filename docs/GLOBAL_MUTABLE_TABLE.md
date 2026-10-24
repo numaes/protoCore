@@ -43,9 +43,12 @@ processes, which the design below also solves:
    `fetch_add` on the space's own counter. The first space of a process has
    id 0 and keeps the refs it always had. A space that creates 2^40 mutables
    aborts with a message instead of spilling into the next id.
-3. **Every space marks the whole table.** Phase 2 snapshots the global shard
-   roots; mark traces every state, whichever space allocated it. The extra
-   work is in the concurrent mark phase, not in the pause.
+3. **Every space reads the whole table.** Phase 2 snapshots the global shard
+   roots. Since 3.1.0 the states are not roots ("States are not roots"
+   below): mark marks the table's own nodes, and a state only when it
+   reaches the state's handle, whichever space allocated either. Until
+   then mark traced every state of the table. The work is in the
+   concurrent mark phase, not in the pause.
 4. **A thread shared by several spaces behaves as one thread**
    (`multispace::parkForAnyStop`, `goOut`, `comeBack`). Membership is per OS
    thread: the spaces it constructed and the space whose `newThread` started
@@ -80,17 +83,91 @@ behaviour: the id is 0, the only member space is the space itself, the token
 is never contended, the grace period is skipped (dead cells are freed in
 place), and the process epoch advances with the space's cycles.
 
+## States are not roots (3.1.0)
+
+Decision: the author, 2026-10-24. Until then every state in the table was a
+root of the cycle that snapshotted it, whether or not anything still
+referenced its handle, and an entry left the table only after its handle had
+been swept. A chain of mutable objects in which each state points at the next
+handle was therefore freed one link per cycle, and a cycle among mutable
+objects was never freed.
+
+**Rule.** A state is live only while the mark reaches its handle. When the
+mark reaches a mutable handle (`Marker::scan`, core/ProtoSpace.cpp), it marks
+the state that the handle's ref names in the table snapshot taken at the
+pause (`gcMutableSnapshot`), never in the live table. The shard trees' own
+nodes are marked without their values. A dead chain or cycle of mutable
+objects is then entirely unmarked: every finalizer runs in the same cycle,
+the handles' entries leave the table in that cycle's Phase 5b, and the chain
+is freed in one cycle.
+
+**Why it is sound without a barrier.**
+- The table is immutable and the mark reads the pause snapshot, so the graph
+  it walks (cells, plus one edge from each handle to its snapshot state) is
+  frozen. Every state live at the pause is reached through a handle live at
+  the pause. A write after the pause publishes a state built after the
+  pause, which is young; a handle created after the pause is absent from the
+  snapshot and is young too, and so are its states.
+- A handle held only by a live context's young generation, or by the
+  survivor pen on a non-fold cycle, is scanned like every young or pen cell,
+  so its state is marked.
+- Between the sweep and Phase 5b, an entry whose handle the sweep found dead
+  names a freed state. Nothing can read it through the handle: a handle that
+  no root reaches can never be obtained again. The walkers of the whole table
+  do not read values: the node marking and the index build read keys and
+  value pointers only, the purge of a destroyed space's refs reads keys, and
+  `findMutableCycles`, which does start from the values, waits until no cycle
+  is between its stop-the-world and the end of its Phase 5b
+  (`multispace::mutableReleasesPending`).
+- Without survivor re-inclusion (`PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF`) a
+  handle that survived a cycle is never swept again, so its entry would
+  never be released and would name a freed state for ever. That
+  configuration keeps the shard roots as roots, as before.
+
+**Implementation.** Before the trace, one walk of the snapshot's shard trees
+marks every node and builds an open-addressing index of the entries by ref
+(`MutableStateIndex`, `indexSnapshot`); the edge then costs one probe, and the
+index slot is prefetched when the handle is shaded. Marking the nodes before
+the trace matters: a young path copy of a shard tree, scanned by the young
+walk, finds its snapshot children already marked, so the walk does not trace
+the shard's whole subtree and its values. The nodes are the first entries of
+the marked list and are never scanned by an overflow rescan.
+
+**Cost.** The index is 32 bytes per table entry at most (two slots per entry,
+power-of-two capacity), outside the cell heap, kept by the collector thread
+for the next cycle. Measured with 500,000 live mutable objects held by a root
+(a scratch benchmark outside the repository, five interleaved runs, medians of
+nine cycles each, AMD Ryzen 5 5500U): the mark phase (resume to sweep start) took
+  273.7 ms against 220.8 ms before (+24 %), the whole cycle 583.9 against
+  530.9 ms (+10 %), for 4.5 M marked cells in both; with the same handles
+  linked in one chain from a root, 310.3 against 193.8 ms (+60 %) and
+  584.8 against 469.6 ms (+25 %). At 50,000 handles: +21 % / +30 % mark,
+  +7 % / +14 % cycle. The chain is the costly shape: the old trace reached
+  each state from its table node, in table order, with many independent
+  misses in flight; now a linked chain is followed handle by handle, one
+  dependent miss after another, as an immutable linked list would be.
+
+**Measured on the chain.** 300,000 protoClojure atoms, each pointing at the
+next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles (medians of three interleaved runs), 100.6 s -> 0.55 s, live set after the last cycle
+  1,802,173 -> 27,295 cells, maximum resident set 157 -> 77 MB.
+
+**Consequence for mutable cycles.** A cycle among mutable objects that
+nothing reaches is now collected like any other garbage. A reachable one is
+live data. `findMutableCycles` still reports the cycles present in the table;
+[MemoryModel.md](MemoryModel.md) section 7 and conformance rule 13 describe
+the earlier property.
+
 ## Limitations (documented, not solved)
 
 - **Cells of one space held in another space's roots.** A space keeps alive
   what its own roots and the global table reach. If a thread of space B keeps
   a cell of space A across a safepoint in B's own roots (a context slot, a
   pin, B's own immutable structures) and nothing of A reaches it, A may free
-  it. The grace period covers cells held in C++ locals between safepoints,
-  and the table covers cells reachable from mutable state; a runtime that
-  keeps another runtime's cells in its own structures must also keep them
-  reachable in the owning space, for example through a mutable object of
-  that space.
+  it. The grace period covers cells held in C++ locals between safepoints;
+  a runtime that keeps another runtime's cells in its own structures must
+  also keep them reachable in the owning space, from that space's roots.
+  Since 3.1.0 the table's states are not roots, so a mutable object keeps
+  them only while the owning space reaches its handle.
 - **Threads that never reach a safepoint.** A registered thread that runs
   without reaching a safepoint delays another space's reclamation, as it
   already delays its own space's stop-the-world. Unregistered threads (a
@@ -103,22 +180,17 @@ place), and the process epoch advances with the space's cycles.
 - **Collections wait for each other.** One space's cycle waits for another's
   to finish, and a multi-space cycle waits for the grace period before its
   freed cells can be reused. Pauses themselves are unchanged.
-- **Chains of mutable objects are freed one link per cycle.** Every state in
-  the table is a root of the cycle that snapshots it, whether or not its
-  handle is still reachable; an entry leaves the table only after its handle
-  has been swept. When a state references another mutable handle, that
-  handle is marked through the dead entry and survives the cycle, so a chain
-  of mutable objects in which each state points at the next one (a linked
-  list of mutable nodes, a lazy sequence whose cells cache their value in a
-  mutable object) is freed from its head one link per cycle. Measured with
-  protoClojure atoms, each pointing at the next (2026-10-23): 300,000 links
-  under a 1,000,000-cell ceiling took 278 cycles and 55 s, with a live set of
-  1.8 M cells, on protoClojure builds before and after its lazy sequences;
-  `test/ProtoLazyObjectTests.cpp` (`MutableChainControl...`) keeps the
-  behaviour measured. Values that are computed once and cached -- the lazy
-  sequence case -- are what lazy objects (`ProtoObject::newLazyChild`, 3.1.0)
-  are for: their value is a field of the cell, traced only while the cell is
-  reachable.
+- **A state written by another space (open, found 2026-10-24).** A state is
+  a cell of the space whose context wrote it. When a context of space B
+  writes the state of a handle of space A, and only A's roots reach that
+  handle, B's collector never reaches the handle, so it never marks the
+  state, and frees it while A's handle is live: A then reads a freed state.
+  Under states-as-roots every space marked every state, which is what kept
+  such a state alive. `MutableStatesNotRoots.StateWrittenByAnotherSpaceLivesWhileItsHandleLives`
+  shows it deterministically with a probe (its finalizer runs, and the read
+  answers `PROTO_NONE`); `GlobalMutableTable.StateAllocatedInAnotherSpaceSurvivesBothCollectors`
+  fails as well when the freed cells are reused. Both tests fail on this
+  branch.
 
 ## Tests
 
@@ -127,3 +199,13 @@ serialization) and `test/GlobalMutableTableTests.cpp` (cross-space reads and
 writes, states allocated in another space, unique refs, purge, a value held by
 another space's thread until its safepoint, and a stress run of registered
 threads of two spaces sharing mutables under collection).
+
+States are not roots: `test/MutableStatesNotRootsTests.cpp` (a live chain held
+by a root loses nothing; a handle reached only through another mutable's state
+stays live; a young handle keeps its state; an unreachable mutable cycle is
+freed in one cycle and its entries released; a chain alternating handles of
+two spaces is kept while held and freed when dropped; a state written by
+another space), `ProtoLazyObject.MutableChainIsFreedInOneCycle` (3,000 links
+freed by one cycle; none on the previous code) and
+`MutableCycleDetector.UnreachableCyclicMutablesAreReleased` /
+`ReachableCyclicMutablesAreKeptAndReported`.

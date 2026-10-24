@@ -37,6 +37,7 @@ namespace multispace {
 std::atomic<int> attention{0};
 std::atomic<uint64_t> gcEpoch{0};
 bool cycleActive = false;
+std::atomic<int> mutableReleasesPending{0};
 // Never destroyed by a static destructor: a collector may wait on it while
 // the process exits, and destroying a condition variable with a waiter is
 // undefined behaviour (glibc's pthread_cond_destroy may block on it).  A

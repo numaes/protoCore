@@ -453,6 +453,15 @@ one.
 
 ## 7. Retention: the one thing the collector does not resolve
 
+> **Superseded in 3.1.0.**  The table's states are no longer roots: a state is
+> marked only while the mark reaches its handle
+> ([GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md), "States are not roots").
+> An unreachable cycle among mutable objects is now collected in one cycle, and
+> an acyclic chain no longer drains one level per cycle.  A reachable cycle is
+> live data.  This section records the property as it held until then; its
+> rule (store a snapshot where a back-reference is incidental) is still good
+> design, but no longer a memory obligation.
+
 §1–§6 size a process from its **peak**.  This section states the one structural
 reason a peak can contain a term that never comes back down, and it is not a
 bug: it is a consequence of the mechanism that lets protoCore mark concurrently

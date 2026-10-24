@@ -11,13 +11,14 @@ The architectural reason this works without barriers is documented in
 "Concurrent Mark Without Barriers" below: protoCore concentrates all
 mutability in `MUTABLE_ROOT_SHARDS = 256` shards.  A 2 KB snapshot of those
 shard roots is a complete snapshot of every mutable in the system, and the
-marker traverses only that snapshot.  Workers may CAS-swap shards freely;
+marker reads only that snapshot.  Workers may CAS-swap shards freely;
 the marker never reads the live table during mark.
 
 Stop-the-world collects roots only: each thread's stack roots (automatic
 locals, closure locals, return value, pending root, and one handle per
-context for its young generation), the root of the mutables tree (the shard
-snapshot) and the roots of the global structures.  Everything reachable
+context for its young generation), the shard snapshot of the mutables tree
+(not a root: since 3.1.0 a state is marked only through its handle) and the
+roots of the global structures.  Everything reachable
 from those roots is immutable, so the depth traversal, the references of
 young cells included, runs in the concurrent mark.  The pause therefore
 depends on the number of threads and their stack depth, not on the size of
@@ -63,15 +64,16 @@ for the runtime CAS discipline.
 This design is **the** architectural pivot that allows concurrent mark
 without write barriers.  See § "Concurrent Mark Without Barriers" below.
 
-It has one consequence that is not a bug and must be stated where the mechanism
-is: **a cycle among mutable objects is never collected.**  The table is a root
-unconditionally (Phase 2 below) and an entry is released only once its handle has
-been finalized (Phase 5b below), so a value that reaches its own handle keeps
-that handle marked for ever.  The retention is bounded — the cycle's own cells,
-once — and permanent.  [MemoryModel.md](MemoryModel.md) § 7 states the property,
-the cases where it is avoidable and the two where it is not, the fixes that were
-considered and rejected, and `ProtoSpace::findMutableCycles`, the exact detector
-for it.
+**The table's states are not roots** (since 3.1.0,
+[GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md), "States are not roots").
+A state is live only while the mark reaches its handle: the mark follows an
+edge from each handle it reaches to the handle's state in the pause snapshot
+(Phase 4).  An unreachable chain or cycle of mutable objects is therefore freed
+in one cycle.  Until 3.1.0 the table was a root unconditionally and an entry was
+released only once its handle had been finalized, so a chain was freed one link
+per cycle and **a cycle among mutable objects was never collected**
+([MemoryModel.md](MemoryModel.md) § 7 records that property and
+`ProtoSpace::findMutableCycles`, the detector written for it).
 
 ### 5. The per-cycle mutable-shard snapshot — `gcMutableSnapshot[]`
 A plain-pointer array of `MUTABLE_ROOT_SHARDS` entries on `ProtoSpace`.
@@ -213,20 +215,23 @@ While the world is stopped, the GC:
    chain, embedder-registered `ProtoRootSet` instances).
 3. **Captures the mutable-shard snapshot** —
    `gcMutableSnapshot[s] = mutableRoot[s].root.load(acquire)` for each
-   shard — and records each non-null shard root as a root.  This is the formal "snapshot at the beginning" that lets mark
+   shard.  This is the formal "snapshot at the beginning" that lets mark
    run concurrent.
 
-   The push is **unconditional** (`core/ProtoSpace.cpp:519-524`): the table
-   ORIGINATES marking, it does not merely preserve values.  Every mutable's
-   current value is marked whether or not anything still references its handle.
-   Together with Phase 5b's release condition this is why **a cycle among
-   mutable objects is never collected** — see [MemoryModel.md](MemoryModel.md)
-   § 7 for the property, the rule, and
-   `ProtoSpace::findMutableCycles`, the exact detector.  The alternative — an
-   ephemeron pass that treats the table as weak in the key and iterates to a
-   fixpoint — was considered and rejected: a fixpoint inside a mark phase that
-   runs with the world going trades a bounded leak for a use-after-free
-   (MemoryModel.md § 7.4).
+   **The shard roots are not roots** (since 3.1.0).  The snapshot is the
+   table mark reads states from: when the mark reaches a mutable handle, it
+   marks the state the handle's ref names in this snapshot (Phase 4).  A
+   state whose handle nothing reaches is not marked.  This is not the
+   ephemeron fixpoint MemoryModel.md § 7.4 rejected: there is no iteration
+   and no pass that decides not to mark; the handle-to-state edge is one
+   more edge of the frozen graph the mark walks, read from an immutable
+   snapshot.  Until 3.1.0 each non-null shard root was pushed as a root,
+   unconditionally, and **a cycle among mutable objects was never
+   collected** (MemoryModel.md § 7).  With
+   `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` the shard roots are still roots:
+   a handle that survived a cycle is never swept there, so its entry would
+   never be released.  From here to the end of Phase 5b the cycle counts in
+   `multispace::mutableReleasesPending` (see Phase 5b).
 4. Records the **tuple interner snapshot**: `TupleInterner::captureForGC`
    stores each of its 64 shards' published entry count (O(shards)).
    Interned tuples are perennial and the table is a root, but the entries
@@ -348,13 +353,22 @@ of young cells.
 - The marker records every cell it marks in the marked list, for the bulk
   unmark in Phase 6 (replaces the older pre-mark unmark pass) and the
   overflow rescan.
+- **The table and the handle-to-state edge** (since 3.1.0).  Before the
+  trace, one walk of the snapshot's shard trees marks every node of the
+  table, without scanning it, and indexes the entries by ref in an
+  open-addressing table (`indexSnapshot`, `MutableStateIndex`).  Then each
+  scan of a mutable handle (`Marker::scan`, a `ProtoObjectCell` with
+  `mutable_ref > 0`) shades the handle's state from that index; the index
+  slot is prefetched when the handle is shaded.  The walk reads keys and
+  value pointers, never a value.  The nodes are marked first so that a
+  young path copy of a shard tree, which the young walk scans, finds its
+  snapshot children marked and does not trace the shard's subtree; they are
+  the first entries of the marked list, and the overflow rescan skips them
+  (a scan of a node would shade every state it holds).
 - **Snapshot discipline.**  Any GC code path that needs to dereference a
   `mutable_ref` to its current immutable value MUST consult
-  `gcMutableSnapshot[shard]`, never `mutableRoot[shard].root.load()`.
-  Today no `processReferences` implementation needs this — the marker
-  reaches every mutable's current value transitively through the
-  snapshot's per-shard root push in Phase 2 — but the snapshot table is
-  the formal API for any future mark-time mutable-resolution path.
+  `gcMutableSnapshot[shard]` (or the index built from it), never
+  `mutableRoot[shard].root.load()`.
 
 ### Mark work list
 
@@ -409,7 +423,9 @@ overflow rescan need it.
 
 **Memory outside the cell heap during a cycle**, per space: the mark stack,
 at most 8 MiB; the marked list, at most one eighth of the live set's bytes
-plus 256 KiB; the roots vector (bounded by the program's roots).  None of
+plus 256 KiB; the roots vector (bounded by the program's roots); since 3.1.0
+the index of the mutable table's states, at most 32 bytes per table entry,
+kept for the next cycle.  None of
 it is counted in the cell budget (`maxHeapSize`, or the controller's H): a
 fixed limit bounds the cells, not the process, and the controller's default
 H of 75 % of the memory leaves the rest for this and for everything else
@@ -535,10 +551,12 @@ the whole trace from the sources and `trace` the overflow rescans; compare
 
 ### Phase 5b — Release of mutables-tree entries (concurrent)
 A mutable object keeps its current state in `mutableRoot`, keyed by its
-`mutable_ref` (§ 4).  The handle cell does not reference its state, and the
-entry keeps the state, and everything the state references, reachable.  So
-the entry must be removed once the handle is garbage.  This phase is where
-that happens.
+`mutable_ref` (§ 4).  The handle cell does not reference its state; the mark
+reaches the state through the handle (Phase 4).  Once the handle is garbage
+its entry names a state nobody can read and that this cycle's sweep has
+freed, so the entry must be removed.  This phase is where that happens.
+(Until 3.1.0 the entry also kept the state reachable, which is why a
+state outlived its handle by one cycle.)
 
 - The GC thread sorts the refs recorded during sweep by shard.
 - For each shard it loads the live root, removes each recorded ref that is
@@ -553,26 +571,23 @@ that happens.
 - Instrumented builds report the time of this phase as `REL=` in the
   `PROTOCORE_GC_PROFILE` line (cumulative, like `P5` and `P6`).
 
-**When memory is returned.**  A handle that is unreachable at the
-stop-the-world of cycle N is finalized in cycle N's sweep, and its entry is
-released at the end of cycle N.  The state and the objects only it
-references were reached in cycle N through the mutable snapshot, so they
-survive cycle N and are freed in cycle N+1 (with
-`PROTOCORE_GC_REINCLUDE_SURVIVORS`; with `survivorStagger > 1`, on the next
-fold).
+**When memory is returned** (since 3.1.0).  A handle that is unreachable at
+the stop-the-world of cycle N is not marked, and neither is its state unless
+something else reaches it; both are freed in cycle N's sweep, and the entry is
+released at the end of cycle N.  A whole unreachable chain or cycle of
+mutables goes in the same cycle.  Until 3.1.0 the state was reached through
+the table in cycle N, survived it, and was freed in cycle N+1, so a chain
+drained one level per cycle and a cycle never did.
 
-**What this release cannot do.**  The condition is *the handle was finalized*,
-which is *the handle was found unreachable*.  It is never met for a handle that
-its own value reaches, directly or through other mutables: the value is marked
-from the table (Phase 2), so the handle is marked, so the sweep never finalizes
-it, so the entry is never removed, and the next cycle is bit-identical.  There is
-no monotone progress here, so a later collection does not resolve it.  **A cycle
-among mutable objects is never collected** — [MemoryModel.md](MemoryModel.md)
-§ 7 states the property, the cases where an embedder can avoid it and the ones
-where the cycle is what the program means, and
-`ProtoSpace::findMutableCycles(ctx)` reports every one of them exactly, with the
-path.  An ACYCLIC chain of mutables drains at one level per cycle and is not a
-problem (MemoryModel.md § 7.2).
+**The window between the sweep and the release.**  Until Phase 5b the live
+table still holds the entries of the handles the sweep finalized, and their
+states are freed.  Nothing reaches them through a handle (see below).  The
+walkers of the whole table must not read their values: the purge of a
+destroyed space's refs reads keys only, the next cycle's index build reads
+value pointers only, and `findMutableCycles`, which starts from the values,
+waits for `multispace::mutableReleasesPending` to be zero: a cycle counts in
+it from its stop-the-world to the end of its Phase 5b (after the grace
+period, with several spaces).
 
 Note also that an entry exists only from a mutable's **first write**:
 `newObject(true)` publishes nothing, so a never-written mutable has no entry for
@@ -602,9 +617,8 @@ for every other cell.
   `newObject(true)` take a fresh value from `nextMutableRef`, an atomic
   counter that is never decremented or reset, and every state cell is built
   with `mutable_ref = 0`, so only the handle records its ref.
-- *The snapshot.*  `gcMutableSnapshot[]` still holds the entry, and mark
-  already traced the state through it; the release changes only the live
-  table, after mark.
+- *The snapshot.*  `gcMutableSnapshot[]` still holds the entry, and mark has
+  finished; the release changes only the live table, after mark.
 - *Concurrent writers.*  Every writer derives its new root from the root it
   passes as the CAS's expected value, and so does the release.  Neither can
   publish a root that was not derived from the currently published one, so

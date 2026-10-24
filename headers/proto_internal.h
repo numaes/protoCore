@@ -1675,6 +1675,13 @@ namespace proto {
         extern bool cycleActive;
         std::condition_variable_any& cycleCV();   // never destroyed
 
+        // Cycles, of any space, between their stop-the-world and the end of
+        // their Phase 5b.  In that window an entry of the global mutable
+        // table whose handle the sweep found dead may name a freed state
+        // (states are not roots, docs/GLOBAL_MUTABLE_TABLE.md); a walker
+        // that reads the values of the whole table waits for zero.
+        extern std::atomic<int> mutableReleasesPending;
+
         // Diagnostics read by tests: cycles running now, and the most ever
         // observed at once in this process.
         // A destroyed space's entries stay in the global table until a

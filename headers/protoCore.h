@@ -292,13 +292,13 @@ namespace proto
          *
          * Why a new type.  A runtime that caches a computed value in a
          * MUTABLE object pays a write to the global mutable table for every
-         * value, and every state in that table is a collector root until the
-         * object's handle has been swept (docs/GLOBAL_MUTABLE_TABLE.md).
-         * Values that point at further such objects -- a lazy sequence, whose
-         * every realised cell points at the next lazy cell -- therefore form
-         * a chain the collector frees one link per cycle: a program that
-         * walks a long lazy sequence without holding its head still keeps
-         * it all alive.  A lazy object is an ordinary immutable object cell
+         * value.  Until 3.1.0 every state in that table was also a collector
+         * root until the object's handle had been swept, so a lazy sequence
+         * built that way was freed one link per cycle; since 3.1.0 a state
+         * is live only while its handle is reached
+         * (docs/GLOBAL_MUTABLE_TABLE.md, "States are not roots").  A value
+         * computed once still needs no table entry and no shard
+         * compare-and-swap.  A lazy object is an ordinary immutable object cell
          * with two more references, traced only through the object itself,
          * like any other field: an unreachable lazy object takes its value
          * with it in the very cycle that finds it dead.
@@ -2600,15 +2600,13 @@ namespace proto
      *        objects whose mutables-table entries keep each other alive for
      *        the lifetime of the space.
      *
-     * A cycle among mutables is never collected.  The reasoning, the two code
-     * sites that combine to produce it and the rule that follows from it are in
-     * [docs/MemoryModel.md](../docs/MemoryModel.md) § 7; the collector side is
-     * in [docs/GarbageCollector.md](../docs/GarbageCollector.md) Phase 2 and
-     * Phase 5b.  In one line: the whole mutables table is a root, so every
-     * current value is marked unconditionally; an entry is released only once
-     * the sweep has finalized its handle; so if a value reaches a handle that
-     * reaches it back, neither handle is ever unreachable and neither entry is
-     * ever released.
+     * Until 3.1.0 a cycle among mutables was never collected: the whole
+     * mutables table was a root, so a value that reached a handle that reached
+     * it back kept both alive ([docs/MemoryModel.md](../docs/MemoryModel.md)
+     * § 7).  Since 3.1.0 the table's states are not roots
+     * ([docs/GLOBAL_MUTABLE_TABLE.md](../docs/GLOBAL_MUTABLE_TABLE.md)), so an
+     * unreachable cycle is collected and a cycle found in the table is
+     * reachable, or awaits the next cycle.
      *
      * `refs` is the complete set of `mutable_ref`s in the cycle.  `path` is a
      * SHORTEST closed walk through the lowest-numbered one, because a cycle with
@@ -2812,8 +2810,13 @@ namespace proto
         /**
          * @brief Find every cycle in this space's mutable-reference graph.
          *
-         * **A cycle among mutable objects is never collected.**  This is an
-         * exact, not heuristic, detector for that condition, and it is exact
+         * Until 3.1.0 **a cycle among mutable objects was never collected**,
+         * and this detector was written for that condition; since 3.1.0 an
+         * unreachable cycle is collected (docs/GLOBAL_MUTABLE_TABLE.md,
+         * "States are not roots") and a cycle it reports is reachable, or
+         * awaits the next cycle.  It waits until no cycle is between its
+         * stop-the-world and its release of dead entries.  It is an
+         * exact, not heuristic, detector, and it is exact
          * because the mutables table enumerates every handle in the space:
          * there is nowhere for a mutable to hide.  See
          * [docs/MemoryModel.md](../docs/MemoryModel.md) § 7 for the property,
@@ -2830,7 +2833,7 @@ namespace proto
          * **Only cycles are reported.**  An acyclic handle-to-handle edge is
          * NOT a violation and is deliberately not reported: if `H1 -> H2` with
          * no cycle, `H2`'s liveness merely follows `H1`'s, and once `H1` dies
-         * `H2`'s entry is released one cycle later.  Reporting those would bury
+         * `H2`'s entry is released with it.  Reporting those would bury
          * the real finding.
          *
          * **Cost and safety.**  It walks every cell reachable from the table, so

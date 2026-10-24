@@ -10,11 +10,12 @@
 //     it.  The mutation is one line -- `captureTheHandle` -- so the two
 //     assertions differ in exactly the thing under test.
 //
-//  2. THE PROPERTY ITSELF, measured on table entries rather than asserted from
-//     the documentation.  A cycle among mutables is never collected: its
-//     entries survive every cycle, unchanged, for ever.  An ACYCLIC mutable
-//     graph drains.  Both are measured here against the count the workload
-//     created, never against `> 0`.
+//  2. THE COLLECTOR'S SIDE, measured on table entries.  Until the table's
+//     states stopped being roots (docs/GLOBAL_MUTABLE_TABLE.md) a cycle among
+//     mutables was never collected; now an unreachable cycle drains like an
+//     acyclic graph, and a reachable one is live data the detector reports.
+//     Both are measured against the count the workload created, never
+//     against `> 0`.
 //
 // See docs/MemoryModel.md section 7 for the property and the rule, and
 // docs/GarbageCollector.md Phase 2 / Phase 5b for the two collector sites that
@@ -307,11 +308,18 @@ TEST(MutableCycleDetector, AcyclicMutablesAreReleasedFromTheTable)
         << end << ").  An acyclic mutable must be released by Phase 5b";
 }
 
-// A CYCLE AMONG MUTABLES IS NEVER COLLECTED, and there is no monotone
-// progress: the cycle after is bit-identical, so running more cycles does not
-// help.  Both halves are measured -- the count, and its invariance.
-TEST(MutableCycleDetector, CyclicMutablesAreNeverReleasedAndDoNotDecay)
+// AN UNREACHABLE CYCLE AMONG MUTABLES IS COLLECTED.  Until the table's states
+// stopped being roots (docs/GLOBAL_MUTABLE_TABLE.md, "States are not roots")
+// this test asserted the opposite: the 400 entries survived every cycle,
+// unchanged.  Now a state is marked only through its handle, so a cycle that
+// nothing reaches is unmarked as a whole, freed in one cycle, and its entries
+// leave the table in that cycle's Phase 5b.  A cycle that IS reachable is live
+// data: it stays, and the detector reports it.
+TEST(MutableCycleDetector, UnreachableCyclicMutablesAreReleased)
 {
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
+    GTEST_SKIP() << "without survivor re-inclusion the table's states stay roots";
+#endif
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;
 
@@ -329,25 +337,38 @@ TEST(MutableCycleDetector, CyclicMutablesAreNeverReleasedAndDoNotDecay)
         << "the workload did not create " << (2 * kPairs) << " table entries "
         << "(base " << base << ", peak " << peak << ")";
 
-    runCycles(space, 8);
-    const proto::proto_ulong afterFirst = tableEntries(space);
-    runCycles(space, 8);
-    const proto::proto_ulong afterSecond = tableEntries(space);
-
-    EXPECT_GE(afterFirst, base + 2 * kPairs)
-        << "cyclic mutables were released, which contradicts the documented "
-           "property (base " << base << ", peak " << peak << ", after 8 cycles "
-        << afterFirst << ").  If this is now false, docs/MemoryModel.md "
-           "section 7 and the whole of conformance rule 13 need rewriting";
-    EXPECT_EQ(afterSecond, afterFirst)
-        << "the retained set changed between two rounds of 8 cycles ("
-        << afterFirst << " -> " << afterSecond << ").  The property claims "
-           "there is NO monotone progress: a later collection does not fix it";
-
-    // And the detector accounts for every one of them, by handle.
+    runCycles(space, 2);
+    const proto::proto_ulong after = tableEntries(space);
+    EXPECT_EQ(after, base)
+        << "unreachable cyclic mutables were not released (base " << base
+        << ", peak " << peak << ", after 2 cycles " << after << ")";
     const MutableGraphReport r = space.findMutableCycles(ctx);
-    EXPECT_EQ(r.cycles.size(), kPairs)
-        << "expected one cycle per captured-var pair.  " << r.summary();
+    EXPECT_EQ(r.cycles.size(), 0u) << r.summary();
+}
+
+// A REACHABLE CYCLE AMONG MUTABLES IS LIVE DATA: it survives every cycle and
+// the detector reports it, by handle.
+TEST(MutableCycleDetector, ReachableCyclicMutablesAreKeptAndReported)
+{
+    ProtoSpace space;
+    ProtoContext* ctx = space.rootContext;
+    constexpr int kPairs = 20;
+    // Each pair's cell is anchored on the root object.
+    std::vector<CapturedVar> vars;
+    for (int i = 0; i < kPairs; ++i) {
+        ProtoContext child(&space, ctx);
+        const ProtoObject* cell = child.newObject(true);
+        const ProtoObject* closure = child.newObject(true);
+        closure->setAttribute(&child, ProtoString::createSymbol(&child, "capturedCell"), cell);
+        cell->setAttribute(&child, ProtoString::createSymbol(&child, "cellValue"), closure);
+        anchor(&child, space, ("held" + std::to_string(i)).c_str(), cell);
+        vars.push_back({refOf(cell), refOf(closure)});
+    }
+    runCycles(space, 4);
+    const MutableGraphReport r = space.findMutableCycles(ctx);
+    for (const CapturedVar& v : vars)
+        EXPECT_TRUE(cycleCovers(r, v.cellRef, v.closureRef)) << r.summary();
+    EXPECT_EQ(r.cycles.size(), static_cast<std::size_t>(kPairs)) << r.summary();
 }
 
 // AN ENTRY EXISTS ONLY ONCE THE MUTABLE HAS BEEN WRITTEN, and the scan

@@ -1,4 +1,5 @@
-// CaseMutables.cpp -- rule 13: a cycle among mutable objects is never collected.
+// CaseMutables.cpp -- rule 13: cycles among mutable objects (until 3.1.0 never
+// collected; since then an unreachable one is, docs/GLOBAL_MUTABLE_TABLE.md).
 //
 // The only rule in this document whose verdict is not "the invariant held or it
 // did not", and the reason is worth stating where the code is.  A cycle among

@@ -272,6 +272,46 @@ namespace proto {
 #endif
         }
 
+        // The states of one cycle's snapshot of the global mutable table,
+        // by ref: an open-addressing table built once per cycle, before the
+        // trace, by one walk of the snapshot's shard trees (indexSnapshot),
+        // so the handle -> state edge costs one probe instead of a descent
+        // of a shard tree per live handle.  The walk reads keys and value
+        // pointers and never dereferences a value: an entry whose handle is
+        // dead may name a state this cycle frees.  Owned by the collector
+        // thread and reused by every cycle (the capacity is kept).
+        struct MutableStateIndex {
+            struct Slot { proto_ulong ref; const ProtoObject* state; };
+            std::vector<Slot> slots;
+            std::size_t mask = 0;
+
+            static std::size_t hashOf(proto_ulong ref) {
+                return static_cast<std::size_t>((ref * 0x9E3779B97F4A7C15ULL) >> 17);
+            }
+            void reset(std::size_t entries) {
+                std::size_t cap = 16;
+                while (cap < 2 * entries + 16) cap <<= 1;
+                if (slots.size() < cap) slots.resize(cap);
+                std::fill(slots.begin(), slots.begin() + cap, Slot{0, nullptr});
+                mask = cap - 1;
+            }
+            void insert(proto_ulong ref, const ProtoObject* state) {
+                std::size_t i = hashOf(ref) & mask;
+                while (slots[i].ref != 0 && slots[i].ref != ref) i = (i + 1) & mask;
+                slots[i] = Slot{ref, state};
+            }
+            void prefetch(proto_ulong ref) const { PROTO_PREFETCH(&slots[hashOf(ref) & mask]); }
+            const ProtoObject* find(proto_ulong ref) const {
+                std::size_t i = hashOf(ref) & mask;
+                for (;;) {
+                    const Slot& sl = slots[i];
+                    if (sl.ref == ref) return sl.state;
+                    if (sl.ref == 0) return nullptr;
+                    i = (i + 1) & mask;
+                }
+            }
+        };
+
         // The mark phase's tracer (docs/GarbageCollector.md, "Mark work
         // list").  A cell turns grey when it is shaded: it is marked, added
         // to the marked list and pushed on the mark stack, all at once, so
@@ -305,6 +345,12 @@ namespace proto {
                 }
                 const_cast<Cell*>(cell)->mark();
                 marked.push_back(cell);
+                // A handle's index slot is read when the handle is scanned:
+                // start the miss now, while the cell's line is in cache.
+                if (mutableStates && cell->getType() == CellType::Object) {
+                    const proto_ulong ref = static_cast<const ProtoObjectCell*>(cell)->mutable_ref;
+                    if (ref) mutableStates->prefetch(ref);
+                }
             }
 
             // The references one scan reports are shaded in batches: each is
@@ -329,6 +375,29 @@ namespace proto {
                 if (m->batched == kBatch) m->flush();
             }
 
+            // The states of the pause's snapshot of the mutable table, by
+            // ref (MutableStateIndex), or nullptr when the table's states
+            // are roots of the cycle instead (PROTOCORE_GC_REINCLUDE_SURVIVORS
+            // off).
+            const MutableStateIndex* mutableStates = nullptr;
+
+            // The edge from a mutable object's handle to its current state
+            // (docs/GLOBAL_MUTABLE_TABLE.md, "States are not roots").  The
+            // handle cell holds only its integer ref; the state is the
+            // entry of that ref in the snapshot taken at the pause, never
+            // the live table.  A handle written after the pause has no
+            // entry in the snapshot: it is young, and so are its new states.
+            // The snapshot graph is immutable, so this is an ordinary edge
+            // of the frozen graph the concurrent mark walks.
+            inline void reportMutableState(const Cell* cell) {
+                if (!mutableStates || cell->getType() != CellType::Object) return;
+                const proto_ulong ref = static_cast<const ProtoObjectCell*>(cell)->mutable_ref;
+                if (ref == 0) return;
+                const ProtoObject* state = mutableStates->find(ref);
+                if (state && ProtoObject::isCellPointer(state))
+                    reportReference(context, this, ProtoObject::asCellPointer(state));
+            }
+
             // Shade every reference `cell` holds.  `cell` itself is not
             // shaded: it is grey already, or a young or pen cell, which is
             // not a candidate of this cycle.
@@ -336,7 +405,15 @@ namespace proto {
                 parent = cell;
                 phase = scanPhase;
                 cell->processReferences(context, this, &Marker::reportReference);
+                reportMutableState(cell);
                 flush();
+            }
+
+            // Marks a cell without scanning it (the table's own nodes).
+            inline void markOnly(const Cell* cell) {
+                if (cell->isMarked()) return;
+                const_cast<Cell*>(cell)->mark();
+                marked.push_back(cell);
             }
 
             void drain() {
@@ -354,6 +431,56 @@ namespace proto {
                 }
             }
         };
+
+        // Before the trace: marks every node of the snapshot's shard trees,
+        // without scanning it, and indexes their entries by ref.  A state is
+        // then marked only through its handle (Marker::reportMutableState),
+        // never through the table.  Marking the nodes first matters: a young
+        // path copy of a shard tree (a live context's young cell) is scanned
+        // by the young walk, and its children in the snapshot are then
+        // already marked, so the walk stops there instead of tracing the
+        // shard's whole subtree, values included.  Returns the nodes marked;
+        // they are the first entries of the marked list.
+        std::size_t indexSnapshot(Marker& marker, MutableStateIndex& index,
+                                  ProtoSparseList* const* snapshot,
+                                  std::vector<const ProtoSparseListImplementation*>& stack) {
+            std::size_t entries = 0;
+            for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
+                const ProtoSparseList* root = snapshot[s];
+                if (!root) continue;
+                ProtoObjectPointer p{};
+                p.oid = reinterpret_cast<const ProtoObject*>(root);
+                if (p.op.pointer_tag == POINTER_TAG_SPARSE_LIST_SMALL) entries += ProtoSparseListSmallImplementation::MAX_INLINE;
+                else entries += toImpl<const ProtoSparseListImplementation>(root)->size;
+            }
+            index.reset(entries);
+            const std::size_t markedBefore = marker.marked.size();
+            for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
+                const ProtoSparseList* root = snapshot[s];
+                if (!root) continue;
+                ProtoObjectPointer p{};
+                p.oid = reinterpret_cast<const ProtoObject*>(root);
+                if (p.op.pointer_tag == POINTER_TAG_SPARSE_LIST_SMALL) {
+                    const auto* small = toImpl<const ProtoSparseListSmallImplementation>(root);
+                    marker.markOnly(small);
+                    for (unsigned i = 0; i < ProtoSparseListSmallImplementation::MAX_INLINE; ++i)
+                        if (small->keys[i] != 0 && small->values[i]) index.insert(small->keys[i], small->values[i]);
+                    continue;
+                }
+                stack.clear();
+                stack.push_back(toImpl<const ProtoSparseListImplementation>(root));
+                while (!stack.empty()) {
+                    const ProtoSparseListImplementation* n = stack.back();
+                    stack.pop_back();
+                    if (n->isMarked()) continue;
+                    marker.markOnly(n);
+                    if (!n->isEmpty && n->value) index.insert(n->key, n->value);
+                    if (n->previous) stack.push_back(n->previous);
+                    if (n->next) stack.push_back(n->next);
+                }
+            }
+            return marker.marked.size() - markedBefore;
+        }
 
         // Phase 5b: removes from the mutables tree the entries of the mutable
         // objects whose handles this cycle's sweep finalized.  Runs on the GC
@@ -373,9 +500,11 @@ namespace proto {
         //  * an unmarked handle is unreachable, and exactly one cell carries
         //    a given mutable_ref (fresh values from nextMutableRef, never
         //    reused; states carry 0), so no live object uses a removed entry;
-        //  * gcMutableSnapshot still holds the entries and mark already
-        //    traced the states through it, so they survive this cycle and
-        //    are freed in the next one;
+        //  * mark has finished: a finalized handle was not marked, so its
+        //    state was not marked through it either (states are not roots,
+        //    docs/GLOBAL_MUTABLE_TABLE.md) and this cycle's sweep freed it
+        //    unless something else reached it; the entry is removed without
+        //    reading its value;
         //  * a root loaded after the stop-the-world is marked or young, never
         //    a candidate of this cycle, and only this thread frees cells, so
         //    a pending CAS cannot suffer ABA.
@@ -446,6 +575,8 @@ namespace proto {
             // collector thread and are reused by every cycle (MarkStack.h).
             gcmark::MarkStack markStack(gcmark::markStackCapacity());
             gcmark::CellBlockList markedList;
+            MutableStateIndex mutableStates;
+            std::vector<const ProtoSparseListImplementation*> tableNodeStack;
             std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             GC_LOCK_TRACE("gcLoop ACQ(init)");
 #ifdef PROTOCORE_GC_INSTRUMENT
@@ -772,11 +903,21 @@ namespace proto {
                 // CAS-swap shard roots freely; the marker never reads
                 // the live table again, only this snapshot.
                 //
-                // Each shard root is also pushed to rootList so mark
-                // traces the entire mutable graph as it existed at STW
-                // time.  The graph reachable from the snapshot is fully
+                // The states are NOT roots (docs/GLOBAL_MUTABLE_TABLE.md,
+                // "States are not roots").  A state is marked only when the
+                // mark reaches its handle, through the handle's entry in this
+                // snapshot (Marker::reportMutableState); the shard trees'
+                // own nodes are marked before the trace, without their values
+                // (indexSnapshot).  An unreachable chain or cycle of
+                // mutable objects is therefore entirely unmarked and freed in
+                // one cycle.  The graph reachable from the snapshot is fully
                 // immutable (every Cell field is const-qualified after
                 // construction), so the marker walks a frozen view.
+                //
+                // Without survivor re-inclusion a handle that survived a
+                // cycle is never swept again, so its entry would never be
+                // released and would keep naming a freed state for ever: in
+                // that configuration the shard roots stay roots, as before.
                 //
                 // Cost: O(MUTABLE_ROOT_SHARDS) atomic reads, ~2 KB store.
                 // Independent of heap size or live-object count.  No write
@@ -786,8 +927,16 @@ namespace proto {
                     ProtoSparseList* r =
                         globalMutableShards[s].root.load(std::memory_order_acquire);
                     space->gcMutableSnapshot[s] = r;
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
                     if (r) addRootObj(reinterpret_cast<const ProtoObject*>(r));
+#endif
                 }
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                // From here until this cycle's Phase 5b, an entry whose handle
+                // the sweep finds dead may name a freed state: whole-table
+                // walkers that read values wait for it (findMutableCycles).
+                multispace::mutableReleasesPending.fetch_add(1, std::memory_order_seq_cst);
+#endif
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
                 // Scan embedder-registered root sets.  Each set owns a
@@ -1060,6 +1209,13 @@ namespace proto {
                 markedList.reset();
                 markStack.beginCycle(gcmark::markStackCapacity());
                 Marker marker{markStack, markedList, space->rootContext};
+                // The table's nodes, and the index of its states (indexSnapshot).
+                std::size_t tableNodesMarked = 0;
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                tableNodesMarked = indexSnapshot(marker, mutableStates, space->gcMutableSnapshot,
+                                                 tableNodeStack);
+                marker.mutableStates = &mutableStates;
+#endif
                 std::size_t youngCellsWalked = 0;
                 auto traceSources = [&](bool firstPass) {
                     for (const Cell* root : rootList) {
@@ -1107,7 +1263,9 @@ namespace proto {
                     ++overflowRescans;
                     const std::size_t markedBefore = markedList.size();
                     traceSources(false);
-                    for (std::size_t i = 0; i < markedBefore; ++i) {
+                    // The table's nodes come first and are never scanned: a
+                    // scan would shade every state they hold.
+                    for (std::size_t i = tableNodesMarked; i < markedBefore; ++i) {
                         marker.scan(markedList[i], "Phase4(rescan)");
                         marker.drain();
                     }
@@ -1207,10 +1365,16 @@ namespace proto {
                 // Sweep finalized the handles of unreachable mutable objects;
                 // their finalizers recorded the mutable_refs.  Remove those
                 // entries from mutableRoot now, one compare-and-swap per shard,
-                // allocating through the collector's own context.  The states
-                // they held were marked through this cycle's snapshot and are
-                // freed next cycle.  See releaseFinalizedMutableEntries.
-                if (!deferFree) releaseFinalizedMutableEntries(space);
+                // allocating through the collector's own context.  The
+                // states they held were not marked through their handles and
+                // were freed by this sweep (states are not roots).  See
+                // releaseFinalizedMutableEntries.
+                if (!deferFree) {
+                    releaseFinalizedMutableEntries(space);
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                    multispace::mutableReleasesPending.fetch_sub(1, std::memory_order_seq_cst);
+#endif
+                }
 
 #ifdef PROTOCORE_GC_INSTRUMENT
                 auto t_phase6_start = std::chrono::steady_clock::now();
@@ -1328,6 +1492,9 @@ namespace proto {
                     // meanwhile: another space's grace period waits for it.
                     multispace::setQuiescenceOut(false);
                     releaseFinalizedMutableEntries(space);
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                    multispace::mutableReleasesPending.fetch_sub(1, std::memory_order_seq_cst);
+#endif
                     multispace::setQuiescenceOut(true);
                 }
 #ifdef PROTOCORE_GC_INSTRUMENT

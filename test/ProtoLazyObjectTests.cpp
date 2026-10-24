@@ -9,9 +9,8 @@
 //   2. the producer is released once the value is published, while the
 //      object itself stays alive;
 //   3. a long forward chain of lazy objects (each value pointing at the next
-//      object) is freed as soon as its head is unreachable -- the property
-//      a chain of MUTABLE objects does not have, since the global mutable
-//      table roots every state until the handle has been swept.
+//      object) is freed as soon as its head is unreachable, and so is the
+//      same chain of MUTABLE objects (the table's states are not roots).
 // External pointers with counting finalizers are the probes: a finalizer
 // runs only when the collector frees the cell.
 
@@ -49,6 +48,29 @@ void countFinalize(void*) { g_finalized.fetch_add(1, std::memory_order_relaxed);
 
 const ProtoObject* probe(ProtoContext* c) {
     return c->fromExternalPointer(nullptr, &countFinalize);
+}
+
+// Runs one complete collection cycle that starts after the call: waits for
+// any cycle in flight to end, requests one, and parks at safepoints until it
+// has completed.  False when none completed in time.
+bool runOneFreshCycle(ProtoSpace& space, ProtoContext* ctx) {
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(60);
+    while (space.gcStarted.load() && std::chrono::steady_clock::now() < deadline) {
+        ctx->safepoint();
+        std::this_thread::yield();
+    }
+    const uint64_t start = space.getGCCycleCount();
+    {
+        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        space.gcStarted = true;
+        space.gcCV.notify_all();
+    }
+    while (std::chrono::steady_clock::now() < deadline) {
+        ctx->safepoint();
+        if (space.getGCCycleCount() > start && !space.gcStarted.load()) return true;
+        std::this_thread::yield();
+    }
+    return false;
 }
 
 } // namespace
@@ -212,13 +234,17 @@ TEST(ProtoLazyObject, UnreachableForwardChainIsFreedAtOnce) {
 }
 
 
-// Control: the same chain built from MUTABLE objects (each state pointing at
-// the next handle) is not freed in a few cycles -- the global mutable table
-// roots every state until its handle has been swept, so the chain unravels
-// one link per cycle. This is the behaviour lazy objects exist to avoid; if
-// the table ever stops rooting dead handles' states, this control fails and
-// should be removed.
-TEST(ProtoLazyObject, MutableChainControlUnravelsOneLinkPerCycle) {
+// Regression (states are not roots, docs/GLOBAL_MUTABLE_TABLE.md): the same
+// chain built from MUTABLE objects, each state pointing at the next handle,
+// is freed in ONE cycle once its head is unreachable.  Until the table's
+// states stopped being roots, every state was marked from the table until its
+// handle had been swept, so the chain unravelled one link per cycle (this
+// test was then a control asserting fewer than half the links freed after
+// three cycles).
+TEST(ProtoLazyObject, MutableChainIsFreedInOneCycle) {
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
+    GTEST_SKIP() << "without survivor re-inclusion the table's states stay roots";
+#endif
     ProtoSpace space;
     ProtoContext ctx(&space);
     ctx.resizeAutomaticLocals(1);
@@ -240,8 +266,10 @@ TEST(ProtoLazyObject, MutableChainControlUnravelsOneLinkPerCycle) {
         cur->setAttribute(&step, nextKey, next);
         ctx.setAutomaticLocal(0, next);
     }
-    ASSERT_GE(forceCycles(space, &ctx, 3), 3u);
-    EXPECT_LT(g_finalized.load(), kLinks / 2);
+    // Only the newest handle (which has no probe) is rooted.  One complete
+    // cycle requested now frees every probe of the chain.
+    ASSERT_TRUE(runOneFreshCycle(space, &ctx));
+    EXPECT_EQ(g_finalized.load(), kLinks);
 }
 
 // ---------------------------------------------------------------------------

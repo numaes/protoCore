@@ -76,6 +76,7 @@
 #include <cstdio>
 #include <deque>
 #include <string>
+#include <thread>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -598,20 +599,35 @@ MutableGraphReport ProtoSpace::findMutableCycles(ProtoContext* context,
     // this method takes a context at all.  A thread inside a critical section
     // does not park for stop-the-world (ProtoContext::parkForStopTheWorld skips
     // while criticalSectionDepth > 0), so the quorum cannot be met and no NEW
-    // cycle can begin while the scan holds pointers into the heap.  A cycle
-    // already in flight cannot free anything the scan can see either:
-    // everything reachable from the LIVE mutables table was either marked at
-    // that cycle's stop-the-world or allocated after it, and neither is a
-    // candidate of that cycle (docs/GarbageCollector.md, "Why the release is
-    // sound").
+    // cycle can begin while the scan holds pointers into the heap.
     //
-    // `context == nullptr` skips it, for the one caller that does not need it:
-    // the collector's own thread, which is the only thread that can start a
-    // stop-the-world and therefore excludes one by running.
+    // A cycle already in flight is excluded too.  States are not roots
+    // (docs/GLOBAL_MUTABLE_TABLE.md): between a cycle's stop-the-world and
+    // the end of its Phase 5b, an entry whose handle the sweep finds dead may
+    // name a state that sweep frees.  The scan starts from every table
+    // value, so it runs only when no cycle is in that window
+    // (multispace::mutableReleasesPending == 0), checked INSIDE the critical
+    // section: a cycle raises the counter at its stop-the-world, which cannot
+    // complete while this thread holds the section, so a zero read there
+    // stays true for the whole scan.  The wait itself is outside the
+    // section, at safepoints, so the cycle it waits for can finish (a
+    // several-space grace period waits for this thread's safepoint).  It
+    // parks without submitting the caller's young generation, which
+    // safepoint() would do at a point the caller did not choose.
+    //
+    // `context == nullptr` skips both, for the one caller that does not need
+    // them: ~ProtoSpace, after its collector thread has been joined.
     if (context) {
-        ProtoContext::CriticalSection cs(context);
-        Scan scan(*this, readCtx, budget);
-        return scan.run();
+        for (;;) {
+            while (multispace::mutableReleasesPending.load(std::memory_order_seq_cst) != 0) {
+                parkForStopTheWorld(context);
+                std::this_thread::yield();
+            }
+            ProtoContext::CriticalSection cs(context);
+            if (multispace::mutableReleasesPending.load(std::memory_order_seq_cst) != 0) continue;
+            Scan scan(*this, readCtx, budget);
+            return scan.run();
+        }
     }
     Scan scan(*this, readCtx, budget);
     return scan.run();

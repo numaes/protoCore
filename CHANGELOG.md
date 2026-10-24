@@ -4,6 +4,53 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Improved -- the mutable table's states are not roots (3.1.0, no API change: SOVERSION stays 4)
+
+- **A state is live only while the mark reaches its handle.** When the mark
+  reaches a mutable handle, it marks the handle's state as found in the
+  table snapshot taken at the pause; the table's own nodes are marked
+  without their values. Until now every state of the table was a root until
+  its handle had been swept, so a chain of mutable objects, each state
+  pointing at the next handle, was freed one link per cycle, and a cycle
+  among mutable objects was never freed. Both are now freed in one cycle
+  (`docs/GLOBAL_MUTABLE_TABLE.md`, "States are not roots";
+  `docs/GarbageCollector.md`, Phases 2, 4 and 5b).
+- **Measured.** 300,000 protoClojure atoms, each pointing at the next, only the newest held, under a 1,000,000-cell ceiling: 461 -> 14 cycles (medians of three interleaved runs), 100.6 s -> 0.55 s, live set after the last cycle
+  1,802,173 -> 27,295 cells, maximum resident set 157 -> 77 MB.
+- **Cost.** With 500,000 live mutable objects held in a rooted list (a scratch benchmark outside the repository, five interleaved runs, medians of nine cycles, AMD Ryzen 5 5500U), the mark phase (resume to sweep start) took
+  273.7 ms against 220.8 ms before (+24 %), the whole cycle 583.9 against
+  530.9 ms (+10 %), for 4.5 M marked cells in both; with the same handles
+  linked in one chain from a root, 310.3 against 193.8 ms (+60 %) and
+  584.8 against 469.6 ms (+25 %). At 50,000 handles: +21 % / +30 % mark,
+  +7 % / +14 % cycle. The chain is the costly shape: the old trace reached
+  each state from its table node, in table order, with many independent
+  misses in flight; now a linked chain is followed handle by handle, one
+  dependent miss after another, as an immutable linked list would be.
+- **Mechanism** (`core/ProtoSpace.cpp`): before the trace one walk of the
+  snapshot marks the table's nodes and indexes its entries by ref
+  (`MutableStateIndex`, at most 32 bytes per entry outside the cell heap);
+  `Marker::scan` follows the handle -> state edge through the index. With
+  `PROTOCORE_GC_REINCLUDE_SURVIVORS=OFF` the states stay roots: a handle
+  that survived a cycle is never swept there.
+- **Whole-table walkers.** Between a cycle's sweep and its Phase 5b a dead
+  handle's entry names a freed state. `findMutableCycles`, the one walker
+  that reads the table's values, now waits for
+  `multispace::mutableReleasesPending` to be zero before it scans.
+- **Open: a state written by another space.** A state is a cell of the space
+  whose context wrote it; when a context of space B writes the state of a
+  handle of space A that only A reaches, B's collector frees it while the
+  handle lives. `MutableStatesNotRoots.StateWrittenByAnotherSpaceLivesWhileItsHandleLives`
+  and `GlobalMutableTable.StateAllocatedInAnotherSpaceSurvivesBothCollectors`
+  fail on this change (`docs/GLOBAL_MUTABLE_TABLE.md`, Limitations).
+- Tests: `test/MutableStatesNotRootsTests.cpp`;
+  `ProtoLazyObject.MutableChainIsFreedInOneCycle` replaces the control
+  `MutableChainControlUnravelsOneLinkPerCycle` (3,000 links: 3,000 freed by
+  one cycle, 0 on the previous code); `MutableCycleDetector.UnreachableCyclicMutablesAreReleased`
+  and `ReachableCyclicMutablesAreKeptAndReported` replace
+  `CyclicMutablesAreNeverReleasedAndDoNotDecay`. `docs/MemoryModel.md`
+  section 7 and conformance rule 13 carry a note: their premise no longer
+  holds.
+
 ### Added -- lazy objects (3.1.0, additive: SOVERSION stays 4)
 
 - **`ProtoObject::newLazyChild(context, producer)`**: an immutable child
@@ -14,12 +61,13 @@ All notable changes to protoCore are documented in this file.
   `getLazyProducer`, `isLazyObject` -- with no lock and no allocation.
   Once the value is published, the collector stops tracing the producer
   from the next cycle, so what it captured is released.
-- **Why.** A value cached in a mutable object lives in the global mutable
-  table, whose states are roots until the handle is swept: a chain of such
-  objects, each pointing at the next, is freed one link per cycle
-  (`docs/GLOBAL_MUTABLE_TABLE.md`, Limitations). A lazy object's value is a
-  field of an ordinary object cell, so an unreachable chain of lazy objects
-  is freed in the cycle that finds it unreachable. protoClojure's lazy
+- **Why.** A value cached in a mutable object lived in the global mutable
+  table, whose states were roots until the handle was swept: a chain of
+  such objects, each pointing at the next, was freed one link per cycle
+  (fixed in this version, above). A lazy object's value is a field of an
+  ordinary object cell, written once, with no table entry and no
+  compare-and-swap on a shard, so an unreachable chain of lazy objects is
+  freed in the cycle that finds it unreachable. protoClojure's lazy
   sequences are built on it.
 - **No pointer tag and no layout change.** The cell
   (`ProtoLazyObjectCell`, `headers/proto_internal.h`) derives from
@@ -29,8 +77,7 @@ All notable changes to protoCore are documented in this file.
   barrier under the concurrent mark) is on the class.
 - Tests: `test/ProtoLazyObjectTests.cpp` (state machine, one claim and one
   publication across threads, value survival, producer release, an
-  unreachable 3,000-link chain freed within three cycles, and a control
-  showing a mutable chain is not).
+  unreachable 3,000-link chain freed within three cycles).
 
 ### Added -- waiting without stalling a collection (3.1.0)
 
