@@ -36,12 +36,15 @@ All notable changes to protoCore are documented in this file.
   handle's entry names a freed state. `findMutableCycles`, the one walker
   that reads the table's values, now waits for
   `multispace::mutableReleasesPending` to be zero before it scans.
-- **Open: a state written by another space.** A state is a cell of the space
-  whose context wrote it; when a context of space B writes the state of a
-  handle of space A that only A reaches, B's collector frees it while the
-  handle lives. `MutableStatesNotRoots.StateWrittenByAnotherSpaceLivesWhileItsHandleLives`
-  and `GlobalMutableTable.StateAllocatedInAnotherSpaceSurvivesBothCollectors`
-  fail on this change (`docs/GLOBAL_MUTABLE_TABLE.md`, Limitations).
+- **Several spaces keep the states as roots.** A state is a cell of the
+  space whose context wrote it; when a context of space B writes the state
+  of a handle of space A that only A reaches, a B cycle that did not root
+  the states freed it while the handle lived
+  (`MutableStatesNotRoots.StateWrittenByAnotherSpaceLivesWhileItsHandleLives`).
+  A cycle that starts with more than one live space therefore roots the
+  states, as before; the rule is chosen per cycle at the pause, and such a
+  cycle first waits for any release still pending from a cycle that did not
+  root them (`docs/GLOBAL_MUTABLE_TABLE.md`, "Several spaces").
 - Tests: `test/MutableStatesNotRootsTests.cpp`;
   `ProtoLazyObject.MutableChainIsFreedInOneCycle` replaces the control
   `MutableChainControlUnravelsOneLinkPerCycle` (3,000 links: 3,000 freed by

@@ -215,7 +215,10 @@ TEST(MutableStatesNotRoots, UnreachableMutableCycleIsFreed) {
 //   * Held by roots of both spaces (each space roots its own head-of-pair
 //     list so its own handles stay reachable in their space), nothing is
 //     freed.
-//   * Unreachable, each space frees its own links' probes in one cycle.
+//   * Unreachable, it is freed.  With two live spaces the states are roots
+//     (docs/GLOBAL_MUTABLE_TABLE.md, "Several spaces"), so it unravels one
+//     link per cycle: cycles of both spaces are run until every probe is
+//     freed, and at least one per link are needed.
 TEST(MutableStatesNotRoots, CrossSpaceChainIsKeptWhileHeldAndFreedWhenDropped) {
 #ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
     GTEST_SKIP() << "without survivor re-inclusion the table's states stay roots";
@@ -227,7 +230,7 @@ TEST(MutableStatesNotRoots, CrossSpaceChainIsKeptWhileHeldAndFreedWhenDropped) {
     g_freed.store(0);
     const ProtoString* nextKey = sym(&ca, "next");
     const ProtoString* probeKey = sym(&ca, "probe");
-    constexpr int kLinks = 400;  // per space
+    constexpr int kLinks = 40;  // per space
 
     // Each space's root is a list of all its own handles.
     {
@@ -287,12 +290,39 @@ TEST(MutableStatesNotRoots, CrossSpaceChainIsKeptWhileHeldAndFreedWhenDropped) {
         }
     }
 
-    // Drop both roots.  One cycle of each space frees that space's probes.
+    // Drop both roots.
     ca.setAutomaticLocal(0, nullptr);
     cb.setAutomaticLocal(0, nullptr);
-    ASSERT_TRUE(runOneFreshCycle(sa, &ca));
-    ASSERT_TRUE(runOneFreshCycle(sb, &cb));
+    int rounds = 0;
+    while (g_freed.load() < 2 * kLinks && rounds < 20 * kLinks) {
+        ASSERT_TRUE(runOneFreshCycle(sa, &ca));
+        ASSERT_TRUE(runOneFreshCycle(sb, &cb));
+        ++rounds;
+    }
     EXPECT_EQ(g_freed.load(), 2 * kLinks);
+    EXPECT_GE(rounds, kLinks / 2) << "two live spaces root the states: one link per cycle";
+}
+
+// The rule is chosen per cycle: once the second space is destroyed, a chain
+// of the remaining space is freed in one cycle again.
+TEST(MutableStatesNotRoots, OneSpaceAgainAfterTheOtherIsDestroyed) {
+#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
+    GTEST_SKIP() << "without survivor re-inclusion the table's states stay roots";
+#endif
+    ProtoSpace sa;
+    ProtoContext ca(&sa);
+    ca.resizeAutomaticLocals(2);
+    g_freed.store(0);
+    {
+        ProtoSpace sb;
+        ProtoContext cb(&sb);
+        buildChain(sa, ca, 500, /*keepHead=*/false, 0, 1);
+        ASSERT_TRUE(runOneFreshCycle(sa, &ca));
+        EXPECT_LT(g_freed.load(), 500) << "two live spaces: the states are roots";
+    }
+    ASSERT_TRUE(runOneFreshCycle(sa, &ca));
+    ASSERT_TRUE(runOneFreshCycle(sa, &ca));
+    EXPECT_EQ(g_freed.load(), 500);
 }
 
 // A handle of space A, rooted in A, whose state a context of space B wrote:

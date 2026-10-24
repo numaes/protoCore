@@ -124,6 +124,24 @@ is freed in one cycle.
   never be released and would name a freed state for ever. That
   configuration keeps the shard roots as roots, as before.
 
+**Several spaces.** A cycle that starts with more than one live space in the
+process keeps the table's states as roots, as before 3.1.0. A state is a cell
+of the space whose context wrote it, and a handle is reached only by its own
+space's roots: when a context of space B writes the state of a handle of space
+A, only A reaches the handle, and a B cycle that did not root the states would
+free a state of a live handle (shown by
+`MutableStatesNotRoots.StateWrittenByAnotherSpaceLivesWhileItsHandleLives`).
+The rule is chosen per cycle, at the pause (`multispace::liveSpaceCount()`):
+with one space, states are not roots; with several, they are. A cycle that
+roots the states reads every value of its snapshot, so it must not snapshot an
+entry whose state an earlier cycle has freed: its token wait also waits until
+no cycle that did not root the states is before its Phase 5b
+(`multispace::mutableReleasesPending`). That is only ever the case when a space
+was created during such a cycle, whose release then follows the grace period.
+With several spaces live, chains of mutable objects are therefore freed one
+link per cycle again, and cycles among them are retained, until the process is
+back to one space.
+
 **Implementation.** Before the trace, one walk of the snapshot's shard trees
 builds an open-addressing index of the entries by ref (`MutableStateIndex`,
 `indexSnapshot`), reading keys and value pointers only; the edge then costs one
@@ -188,17 +206,11 @@ the earlier property.
 - **Collections wait for each other.** One space's cycle waits for another's
   to finish, and a multi-space cycle waits for the grace period before its
   freed cells can be reused. Pauses themselves are unchanged.
-- **A state written by another space (open, found 2026-10-24).** A state is
-  a cell of the space whose context wrote it. When a context of space B
-  writes the state of a handle of space A, and only A's roots reach that
-  handle, B's collector never reaches the handle, so it never marks the
-  state, and frees it while A's handle is live: A then reads a freed state.
-  Under states-as-roots every space marked every state, which is what kept
-  such a state alive. `MutableStatesNotRoots.StateWrittenByAnotherSpaceLivesWhileItsHandleLives`
-  shows it deterministically with a probe (its finalizer runs, and the read
-  answers `PROTO_NONE`); `GlobalMutableTable.StateAllocatedInAnotherSpaceSurvivesBothCollectors`
-  fails as well when the freed cells are reused. Both tests fail on this
-  branch.
+- **With several spaces live, the states are roots** ("Several spaces"
+  above): chains of mutable objects are freed one link per cycle and cycles
+  among them are retained while more than one space is live. Measured
+  before 3.1.0: 300,000 protoClojure atoms in a chain took 461 cycles and
+  101 s under a 1,000,000-cell ceiling.
 
 ## Tests
 

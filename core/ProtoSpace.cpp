@@ -690,8 +690,21 @@ namespace proto {
                 // bit of those cells (docs/GLOBAL_MUTABLE_TABLE.md).  The wait
                 // releases globalMutex, so the mutators of this space keep
                 // running, and it is uncontended with a single space.
+                //
+                // It also waits until no cycle that did not root the table's
+                // states is still before its Phase 5b
+                // (multispace::mutableReleasesPending, raised only by such a
+                // cycle).  A cycle of a several-space process roots the
+                // states (Phase 2) and reads every value of its snapshot, so
+                // its snapshot must not hold an entry whose state another
+                // cycle has freed.  A cycle releases before it hands the
+                // token on, except with several spaces, where its release
+                // follows the grace period; this wait covers a space created
+                // during such a cycle.
                 multispace::cycleCV().wait(lock, [space] {
-                    return !multispace::cycleActive || space->state == SPACE_STATE_ENDING;
+                    return (!multispace::cycleActive
+                            && multispace::mutableReleasesPending.load(std::memory_order_seq_cst) == 0)
+                        || space->state == SPACE_STATE_ENDING;
                 });
                 if (space->state == SPACE_STATE_ENDING) break;
                 multispace::cycleActive = true;
@@ -947,24 +960,34 @@ namespace proto {
                 // released and would keep naming a freed state for ever: in
                 // that configuration the shard roots stay roots, as before.
                 //
+                // With more than one live space at the pause they stay roots
+                // too.  A state is a cell of the space whose context wrote
+                // it, and a handle of another space is reached only by that
+                // space's roots: this space would free a state it allocated
+                // for a handle it never reaches, while the handle lives
+                // (docs/GLOBAL_MUTABLE_TABLE.md, "Several spaces").
+                //
                 // Cost: O(MUTABLE_ROOT_SHARDS) atomic reads, ~2 KB store.
                 // Independent of heap size or live-object count.  No write
                 // barriers anywhere in the runtime — the snapshot replaces
                 // them.  See docs/STW_ELIMINATION_RESEARCH.md § 13.
+#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
+                const bool statesAreRoots = multispace::liveSpaceCount() > 1;
+#else
+                constexpr bool statesAreRoots = true;
+#endif
                 for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
                     ProtoSparseList* r =
                         globalMutableShards[s].root.load(std::memory_order_acquire);
                     space->gcMutableSnapshot[s] = r;
-#ifndef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                    if (r) addRootObj(reinterpret_cast<const ProtoObject*>(r));
-#endif
+                    if (statesAreRoots && r) addRootObj(reinterpret_cast<const ProtoObject*>(r));
                 }
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
                 // From here until this cycle's Phase 5b, an entry whose handle
                 // the sweep finds dead may name a freed state: whole-table
-                // walkers that read values wait for it (findMutableCycles).
-                multispace::mutableReleasesPending.fetch_add(1, std::memory_order_seq_cst);
-#endif
+                // walkers that read values wait for it (findMutableCycles,
+                // and the next cycle's token wait above).
+                if (!statesAreRoots)
+                    multispace::mutableReleasesPending.fetch_add(1, std::memory_order_seq_cst);
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
                 // Scan embedder-registered root sets.  Each set owns a
@@ -1238,10 +1261,10 @@ namespace proto {
                 markStack.beginCycle(gcmark::markStackCapacity());
                 Marker marker{markStack, markedList, space->rootContext};
                 // The index of the snapshot's states (indexSnapshot).
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                indexSnapshot(mutableStates, space->gcMutableSnapshot, tableNodeStack);
-                marker.mutableStates = &mutableStates;
-#endif
+                if (!statesAreRoots) {
+                    indexSnapshot(mutableStates, space->gcMutableSnapshot, tableNodeStack);
+                    marker.mutableStates = &mutableStates;
+                }
                 std::size_t youngCellsWalked = 0;
                 auto traceSources = [&](bool firstPass) {
                     for (const Cell* root : rootList) {
@@ -1294,10 +1317,8 @@ namespace proto {
                         marker.drain();
                     }
                 }
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
                 // The table's own nodes, now that the trace has closed.
-                markTableNodes(marker, space->gcMutableSnapshot, tableNodeStack);
-#endif
+                if (!statesAreRoots) markTableNodes(marker, space->gcMutableSnapshot, tableNodeStack);
                 {
                     gcmark::MarkStats ms;
                     ms.peakStackEntries = markStack.peak();
@@ -1399,9 +1420,8 @@ namespace proto {
                 // releaseFinalizedMutableEntries.
                 if (!deferFree) {
                     releaseFinalizedMutableEntries(space);
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                    multispace::mutableReleasesPending.fetch_sub(1, std::memory_order_seq_cst);
-#endif
+                    if (!statesAreRoots)
+                        multispace::mutableReleasesPending.fetch_sub(1, std::memory_order_seq_cst);
                 }
 
 #ifdef PROTOCORE_GC_INSTRUMENT
@@ -1520,9 +1540,12 @@ namespace proto {
                     // meanwhile: another space's grace period waits for it.
                     multispace::setQuiescenceOut(false);
                     releaseFinalizedMutableEntries(space);
-#ifdef PROTOCORE_GC_REINCLUDE_SURVIVORS
-                    multispace::mutableReleasesPending.fetch_sub(1, std::memory_order_seq_cst);
-#endif
+                    if (!statesAreRoots) {
+                        multispace::mutableReleasesPending.fetch_sub(1, std::memory_order_seq_cst);
+                        // A cycle may wait for it at the token (see there).
+                        { std::lock_guard<std::recursive_mutex> wake(ProtoSpace::globalMutex); }
+                        multispace::cycleCV().notify_all();
+                    }
                     multispace::setQuiescenceOut(true);
                 }
 #ifdef PROTOCORE_GC_INSTRUMENT
