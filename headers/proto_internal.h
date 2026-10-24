@@ -1705,7 +1705,7 @@ namespace proto {
         uint8_t  utf8_payload[36];
         uint64_t content_hash;
 
-        static constexpr uint8_t MAX_PAYLOAD        = 32;
+        static constexpr uint8_t MAX_PAYLOAD        = sizeof(utf8_payload);   // 36
         static constexpr uint8_t PARTIAL_THRESHOLD  = 8;
         static constexpr uint8_t MERGE_FILL         = 16;
 
@@ -2562,7 +2562,7 @@ namespace proto {
         //   charIndex     4 bytes — current codepoint position
         //   currentLeaf*  8 bytes — active StringLeafNode* (nullptr = needs descent)
         //   leafBytePos   1 byte  — byte offset within currentLeaf->utf8_payload
-        //                           uint8_t is sufficient: utf8_payload is 32 bytes and
+        //                           uint8_t is sufficient: utf8_payload is 36 bytes and
         //                           byte_count is already uint8_t, so max value is 32.
         //   _pad         15 bytes — explicit padding to reach 64 bytes
         //   Total: 16 + 8 + 4 + 4 + 8 + 1 + 15 = 56... pad to 64: remaining 8 more bytes covered by alignment
@@ -2570,14 +2570,14 @@ namespace proto {
         // Traversal strategy: O(1) amortized per codepoint.
         //   - Within a leaf: decode UTF-8 at leafBytePos, advance leafBytePos and charIndex. O(1).
         //   - Leaf boundary: descend AVL tree using charIndex to locate the next leaf. O(log N)
-        //     but amortised over the leaf's codepoints (~10-32 chars), giving O(1) amortised overall.
+        //     but amortised over the leaf's codepoints (~9-36 chars), giving O(1) amortised overall.
         //   - implHasNext(): charIndex < totalSize — always O(1).
 
         const ProtoObject*       base;         // Root string (inline or heap rope root).
         uint32_t                 totalSize;    // Cached total codepoint count.
         uint32_t                 charIndex;    // Current codepoint position.
         const StringLeafNode*    currentLeaf;  // Active leaf, or nullptr when descent is needed.
-        uint8_t                  leafBytePos;  // Byte offset within currentLeaf->utf8_payload (max 32).
+        uint8_t                  leafBytePos;  // Byte offset within currentLeaf->utf8_payload (max 36).
         uint8_t                  _pad[15];     // Explicit padding — do not use.
 
         CellType getType() const override { return CellType::StringIterator; }

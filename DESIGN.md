@@ -343,7 +343,7 @@ All core collection types in protoCore are implemented as persistent, immutable 
   * **A heap string is its rope root** (3.2.0). The handle of a heap string or a symbol points directly at the root node of its AVL tree; there is no header cell. A string that fits in one leaf is **one Cell**, and every longer string is exactly its tree. Inside the tree, children carry the node tags (`POINTER_TAG_STRING_LEAF_NODE` = 23, `POINTER_TAG_STRING_INTERNAL_NODE` = 24). The handle keeps tag 6 or 22, because `ProtoObject::isStringTagFast` is inlined into embedders and knows only those, so both node types begin with a `node_kind` byte, their first data member (offset 16, right after `Cell`), from which `heapStringRoot()` re-tags the root. `heapStringFromRoot()` is the inverse and allocates nothing. Since the root cell is a node, a string's hash never comes from `Cell::getHash`: `ProtoObject::getHash` hashes every string by content.
 
   * **Persistent AVL tree** — two 64-byte Cell types:
-    * `StringLeafNode`: `node_kind` (with the partial-leaf bit), `byte_count`, `char_count`, up to `MAX_PAYLOAD` UTF-8 bytes, FNV-1a `content_hash`. `processReferences()` is a no-op.
+    * `StringLeafNode`: `node_kind` (with the partial-leaf bit), `byte_count`, `char_count`, up to `MAX_PAYLOAD` (36) UTF-8 bytes, FNV-1a `content_hash`. The builder fills every leaf but the last, so B bytes are `ceil(B / 36)` leaves and `2 * ceil(B / 36) - 1` cells. `processReferences()` is a no-op.
     * `StringInternalNode`: `node_kind`, AVL `height`, `total_chars`, left/right children, `left_chars` (for O(log N) `charAt` navigation), `total_bytes`, `subtree_hash`. `processReferences()` visits both children for GC tracing.
 
   * **Two primitives** compose all string operations:

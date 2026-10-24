@@ -49,6 +49,16 @@ All notable changes to protoCore are documented in this file.
   `ProtoSpace` does not change.
 - Tests: `test/StringRootTests.cpp` (node_kind offset in both node types, the
   handle is the root, cell counts per string).
+- **36-byte leaves, filled.** The leaf layout gave its padding to the
+  payload: `StringLeafNode::MAX_PAYLOAD` is 36 (was 32). The builder splits at
+  a leaf boundary instead of halving the length, so every leaf but the last
+  is full: B bytes are `ceil(B / 36)` leaves and `2 * ceil(B / 36) - 1` cells
+  (was `2 * ceil(B / 32)` at best; halving left a power-of-two length in
+  32-byte leaves). Measured by the tests: 7 to 36 bytes are one cell (was 2, and 4 for 33 to
+  36 bytes);
+  467 ASCII characters are 25 cells (was 32); 1 MiB is 29,128 leaves (was
+  32,768). Content, size and hash goldens are unchanged; the rope-shape
+  goldens of `StringBuildTests` were updated.
 
 ### Improved -- the mutable table's states are not roots (3.1.0, no API change: SOVERSION stays 4)
 

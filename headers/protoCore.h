@@ -1173,10 +1173,11 @@ namespace proto
          * Creates a ProtoString from a zero-terminated UTF-8 C string.
          *
          * Cost: one pass over the bytes, then one bottom-up build of the rope.
-         * B bytes of text cost exactly `2 * ceil(B / 32)` cells — one 32-byte
-         * leaf plus one internal node per 32 bytes, about 4 bytes of heap per
-         * ASCII character — and leave no garbage behind. Up to 6 bytes of pure
-         * ASCII cost no cell at all: the text lives in the tagged pointer.
+         * B bytes of text cost `2 * ceil(B / 36) - 1` cells — full 36-byte
+         * leaves joined by internal nodes, the handle pointing at the root,
+         * about 3.6 bytes of heap per ASCII character — and leave no garbage
+         * behind: 7 to 36 bytes are one cell. Up to 6 UTF-8 bytes cost no cell
+         * at all: the text lives in the tagged pointer.
          *
          * Malformed UTF-8 is tolerated rather than rejected: the bytes are
          * decoded to code points and re-encoded, so a truncated sequence

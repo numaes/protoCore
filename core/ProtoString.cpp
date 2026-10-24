@@ -556,7 +556,7 @@ namespace proto {
     //   - When a leaf is exhausted (or on the very first next() call after
     //     construction), locateLeaf() descends the AVL tree from the root to
     //     find the leaf that contains charIndex.  This descent is O(log N), but
-    //     because a leaf holds up to 32 bytes (≈10–32 codepoints) the amortised
+    //     because a leaf holds up to 36 bytes (≈9–36 codepoints) the amortised
     //     cost per codepoint is O(log N / leafSize) ≈ O(1).
     //   - Inline strings (all ASCII, ≤6 bytes) are handled without any tree
     //     descent: inlineStringCharAt() decodes them in O(1).
@@ -766,8 +766,12 @@ namespace proto {
                 bytes, static_cast<uint8_t>(len), char_cnt))->asObject();
         }
 
-        // Split roughly in half at a codepoint boundary.
-        size_t mid_byte = len / 2;
+        // Split at the leaf boundary nearest the middle, so that every leaf
+        // but the last is full: ceil(len / MAX_PAYLOAD) leaves.  Halving the
+        // length instead left a power-of-two length in 32-byte leaves however
+        // large a leaf is.
+        const size_t leaves = (len + StringLeafNode::MAX_PAYLOAD - 1) / StringLeafNode::MAX_PAYLOAD;
+        size_t mid_byte = ((leaves + 1) / 2) * StringLeafNode::MAX_PAYLOAD;
         // Back up to a lead byte if we landed in the middle of a multibyte sequence.
         while (mid_byte > 0 && (bytes[mid_byte] & 0xC0u) == 0x80u) --mid_byte;
 

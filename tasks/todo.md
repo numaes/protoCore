@@ -175,5 +175,5 @@ A string of one leaf is ONE cell; every heap string saves one cell.
       test_string) on the root API.
 - [x] Cell-count test: 7..32-byte string = 1 cell; 33..64 = 3 cells.
 - [x] ctest green; commit.
-- [ ] Step 2: MAX_PAYLOAD 32 -> 36, goldens' rope shapes updated; ctest; commit.
-- [ ] Docs: DESIGN.md string tiers, CHANGELOG.
+- [x] Step 2: MAX_PAYLOAD 32 -> 36, goldens' rope shapes updated; ctest; commit.
+- [x] Docs: DESIGN.md string tiers, CHANGELOG.

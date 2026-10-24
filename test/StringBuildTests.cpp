@@ -14,7 +14,9 @@
 //
 // The golden table was captured from protoCore at ff532024 before any change
 // to the string builder, with the probe in
-// .agent_scratch/protoCore-strings/probes/corpus.cpp.  In 3.2.0 the rows whose
+// .agent_scratch/protoCore-strings/probes/corpus.cpp.  In 3.2.0 leaves grew to
+// 36 bytes and the builder fills them (ceil(B / 36) leaves), which changed the
+// rope shape of every row longer than 32 bytes; and the rows whose
 // produced bytes fit in INLINE_STRING_MAX_BYTES changed representation only:
 // every spelling of at most 6 UTF-8 bytes, ASCII or not, is an inline string
 // (its canonical form).  Their bytes, size and hash are unchanged.
@@ -184,15 +186,15 @@ std::vector<Golden> corpus() {
         {"combining",           "e\xCC\x81 a\xCC\x80 o\xCC\x82",
                                                          8,  6054595488278041435UL,  1,  0, 1, false, "65CC812061CC80206FCC82"},
         {"ascii32_exact",       asciiN(32),             32, PROTO_UL(17329703966457997997),  1,  0, 1, false, nullptr},
-        {"ascii33",             asciiN(33),             33,  PROTO_UL(1208933092337694014),  2,  1, 2, false, nullptr},
+        {"ascii33",             asciiN(33),             33,  PROTO_UL(1208933092337694014),  1,  0, 1, false, nullptr},
         {"ascii64",             asciiN(64),             64,  PROTO_UL(9275208735646692041),  2,  1, 2, false, nullptr},
-        {"ascii467",            asciiN(467),           467,  PROTO_UL(7674823378295929201), 16, 15, 5, false, nullptr},
-        {"ascii4096",           asciiN(4096),         4096,  PROTO_UL(4646423504542175237),128,127, 8, false, nullptr},
-        {"ascii65536",          asciiN(65536),       65536,  PROTO_UL(1498516194919556229),2048,2047,12,false, nullptr},
+        {"ascii467",            asciiN(467),           467,  PROTO_UL(7674823378295929201), 13, 12, 5, false, nullptr},
+        {"ascii4096",           asciiN(4096),         4096,  PROTO_UL(4646423504542175237),114,113, 8, false, nullptr},
+        {"ascii65536",          asciiN(65536),       65536,  PROTO_UL(1498516194919556229),1821,1820,12,false, nullptr},
         {"utf8_2byte_467",      repeatUnit("\xC3\xA9", 467),
-                                                       467, PROTO_UL(17983208637607857065), 32, 31, 6, false, nullptr},
+                                                       467, PROTO_UL(17983208637607857065), 26, 25, 6, false, nullptr},
         {"utf8_3byte_4096",     repeatUnit("\xE4\xB8\xAD", 4096),
-                                                      4096, PROTO_UL(11454319136226620197),512,511,10, false, nullptr},
+                                                      4096, PROTO_UL(11454319136226620197),342,341,10, false, nullptr},
 
         // ---- malformed UTF-8: tolerated exactly as before ------------------
         // The builder decodes to codepoints and re-encodes, so malformed input
@@ -216,9 +218,9 @@ std::vector<Golden> corpus() {
         // 10 codepoints of 0, i.e. ten NUL bytes.
         {"m_cont_run_40",       repeatUnit("\x80", 40), 10,  7625447167376158605UL,  1,  0, 1, false, "00000000000000000000"},
         {"m_cont_run_200",      repeatUnit("\x80", 200),50,  PROTO_UL(9712894080799832493),  2,  1, 2, false, nullptr},
-        {"m_lead_run_40",       repeatUnit("\xC3", 40), 40, PROTO_UL(16437702613407666997),  4,  3, 3, false, nullptr},
+        {"m_lead_run_40",       repeatUnit("\xC3", 40), 40, PROTO_UL(16437702613407666997),  3,  2, 3, false, nullptr},
         {"m_mixed_long",        repeatUnit("ab\xC3\xA9\xFF", 30),
-                                                       120,  PROTO_UL(8021544138131661125),  8,  7, 4, false, nullptr},
+                                                       120,  PROTO_UL(8021544138131661125),  5,  4, 4, false, nullptr},
         {"m_ascii_then_trunc",  asciiN(40) + "\xE4\xB8", 42,  PROTO_UL(2001875717336544560), 2,  1, 2, false, nullptr},
     };
 }
@@ -395,8 +397,9 @@ TEST_F(StringBuildTest, OneMebibyteBulkBuildShapeAndContent) {
     EXPECT_EQ(s->getHash(ctx), PROTO_UL(7815921241789043789));
 
     const RopeShape sh = shapeOf(s, "ascii1Mi");
-    EXPECT_EQ(sh.leaves, 32768);
-    EXPECT_EQ(sh.internals, 32767);
+    // Full 36-byte leaves: ceil(1048576 / 36) = 29128, under 2^15, so depth 16.
+    EXPECT_EQ(sh.leaves, 29128);
+    EXPECT_EQ(sh.internals, 29127);
     EXPECT_EQ(sh.depth, 16);
     EXPECT_EQ(sh.leafBytes, 1048576);
     EXPECT_EQ(sh.leafChars, 1048576);
@@ -409,7 +412,7 @@ TEST_F(StringBuildTest, OneMebibyteBulkBuildShapeAndContent) {
 // Codepoint counting must be exact for every leaf-boundary alignment, which
 // is where an incorrectly hoisted count would show up first.
 TEST_F(StringBuildTest, MultiByteSequencesAcrossEveryLeafBoundary) {
-    // 2-, 3- and 4-byte sequences at every length around the 32-byte leaf.
+    // 2-, 3- and 4-byte sequences at every length around the 36-byte leaf.
     const char* units[] = {"\xC3\xA9", "\xE4\xB8\xAD", "\xF0\x9F\x98\x80"};
     for (const char* unit : units) {
         for (size_t count = 1; count <= 40; ++count) {
@@ -551,7 +554,7 @@ TEST_F(StringBuildTest, MatchesTheReferenceCodepointListConstruction) {
     }
 }
 
-// Building a string must cost the cells of the rope it produces — O(N/32) —
+// Building a string must cost the cells of the rope it produces — O(N/36) —
 // and not the O(N log N) that one-code-point-at-a-time list construction cost.
 // This bound fails by two orders of magnitude against the list route.
 TEST_F(StringBuildTest, AllocationIsLinearInLength) {
@@ -565,9 +568,11 @@ TEST_F(StringBuildTest, AllocationIsLinearInLength) {
         ASSERT_NE(s, nullptr) << n;
         ASSERT_EQ(s->getSize(&sub), n) << n;
 
-        // One 32-byte leaf plus one internal node per 32 bytes, plus the
-        // wrapper: leaves + (leaves-1) + 1 == 2*ceil(B/32).
-        const proto::proto_ulong minimum = PROTO_UL(2) * ((n + PROTO_UL(31)) / PROTO_UL(32));
+        // Full leaves joined by internal nodes, the handle pointing at the
+        // root: leaves + (leaves-1) == 2*ceil(B/MAX_PAYLOAD) - 1.
+        const proto::proto_ulong leaves =
+            (n + StringLeafNode::MAX_PAYLOAD - 1) / StringLeafNode::MAX_PAYLOAD;
+        const proto::proto_ulong minimum = PROTO_UL(2) * leaves - 1;
         EXPECT_LE(used, minimum + minimum / PROTO_UL(2) + PROTO_UL(8))
             << n << " characters allocated " << used
             << " cells to produce a " << minimum << "-cell rope";
@@ -582,7 +587,7 @@ TEST_F(StringBuildTest, AllocationIsLinearInLength) {
 // ProtoSpace is constructed — it is read at the end of construction and caps
 // each refill batch, and a limit applied afterwards does not bind because the
 // startup pool is already in the freelist. And a fresh space starts with a pool
-// of 262,144 cells while one build of a 467-character string now costs 32, so
+// of 262,144 cells while one build of a 467-character string now costs 25, so
 // the workload has to be big enough to consume that pool before the collector
 // is asked for anything at all.
 //
@@ -655,8 +660,9 @@ TEST_F(StringBuildTest, OneMebibytePublicPathShapeAndContent) {
     EXPECT_EQ(s->getHash(ctx), PROTO_UL(7815921241789043789));
 
     const RopeShape sh = shapeOf(s, "ascii1Mi-public");
-    EXPECT_EQ(sh.leaves, 32768);
-    EXPECT_EQ(sh.internals, 32767);
+    // Full 36-byte leaves: ceil(1048576 / 36) = 29128, under 2^15, so depth 16.
+    EXPECT_EQ(sh.leaves, 29128);
+    EXPECT_EQ(sh.internals, 29127);
     EXPECT_EQ(sh.depth, 16);
     EXPECT_EQ(sh.leafBytes, 1048576);
     EXPECT_EQ(sh.leafChars, 1048576);
