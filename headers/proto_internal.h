@@ -431,13 +431,21 @@ namespace proto {
 
     /** Builds a string object from `len` UTF-8 bytes in one bottom-up pass.
      *  Shared by ProtoContext::fromUTF8String and ProtoString::fromStdString.
-     *  The caller handles the <= 6-byte inline fast path first; malformed input
+     *  A result of at most INLINE_STRING_MAX_BYTES bytes is an inline string,
+     *  the canonical form of every short spelling; malformed input
      *  is normalised here exactly as the historical codepoint-list route did
      *  (a truncated sequence degrades to its lead byte, an overlong sequence
      *  collapses to its shortest form). Allocates no intermediate objects. */
     const ProtoObject* buildStringFromUTF8Bytes(ProtoContext* context,
                                                  const uint8_t* bytes,
                                                  size_t len);
+
+    /** The inline string with the content of string `strObj` (inline or
+     *  heap), or nullptr when the content exceeds INLINE_STRING_MAX_BYTES or
+     *  `strObj` is not a string.  Allocates nothing.  The symbol table uses
+     *  it so that it never holds a spelling whose canonical form is inline. */
+    const ProtoObject* inlineFormOfString(ProtoContext* context,
+                                          const ProtoObject* strObj);
 
 #define ITERATOR_NEXT_PREVIOUS 0
 #define ITERATOR_NEXT_THIS 1

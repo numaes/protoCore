@@ -173,6 +173,9 @@ const ProtoObject* SymbolTable::intern(ProtoContext* ctx,
     // Embedded values (inline strings, small integers, etc.) cannot be
     // interned as symbols — return unchanged.
     if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) return strObj;
+    // A spelling of at most INLINE_STRING_MAX_BYTES bytes is canonical as an
+    // inline string, so the table never holds one.
+    if (const ProtoObject* inl = inlineFormOfString(ctx, strObj)) return inl;
 
     // Already interned?  Look it up first: normalizeForSymbol below builds a
     // perennial copy of the string (Cells from posix_memalign that no cycle
@@ -285,6 +288,7 @@ const ProtoObject* SymbolTable::lookupByContent(ProtoContext* ctx,
     ProtoObjectPointer pa{}; pa.oid = strObj;
     if (pa.op.pointer_tag == POINTER_TAG_SYMBOL) return strObj;
     if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE) return strObj;
+    if (const ProtoObject* inl = inlineFormOfString(ctx, strObj)) return inl;
 
     auto* impl = reinterpret_cast<const ProtoStringImplementation*>(
         toImpl<const ProtoStringImplementation>(strObj));

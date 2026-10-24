@@ -14,7 +14,10 @@
 //
 // The golden table was captured from protoCore at ff532024 before any change
 // to the string builder, with the probe in
-// .agent_scratch/protoCore-strings/probes/corpus.cpp.
+// .agent_scratch/protoCore-strings/probes/corpus.cpp.  In 3.2.0 the rows whose
+// produced bytes fit in INLINE_STRING_MAX_BYTES changed representation only:
+// every spelling of at most 6 UTF-8 bytes, ASCII or not, is an inline string
+// (its canonical form).  Their bytes, size and hash are unchanged.
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
@@ -182,13 +185,13 @@ std::vector<Golden> corpus() {
         {"ascii6",              asciiN(6),               6, PROTO_UL(15567776504244095498),  0,  0, 0, true,  "616263646566"},
         {"ascii7",              asciiN(7),               7,  PROTO_UL(4642726675185563447),  1,  0, 1, false, "61626364656667"},
         {"ascii8",              asciiN(8),               8,  PROTO_UL(2727646559950394989),  1,  0, 1, false, "6162636465666768"},
-        {"utf8_2byte_1",        "\xC3\xA9",              1,   775207407765167617UL,  1,  0, 1, false, "C3A9"},
+        {"utf8_2byte_1",        "\xC3\xA9",              1,   775207407765167617UL,  0,  0, 0, true, "C3A9"},
         {"utf8_2byte_3",        "\xC3\xA9\xC3\xA9\xC3\xA9",
-                                                         3,  6248735914807110505UL,  1,  0, 1, false, "C3A9C3A9C3A9"},
-        {"utf8_3byte_1",        "\xE4\xB8\xAD",          1,  2186921048766284500UL,  1,  0, 1, false, "E4B8AD"},
+                                                         3,  6248735914807110505UL,  0,  0, 0, true, "C3A9C3A9C3A9"},
+        {"utf8_3byte_1",        "\xE4\xB8\xAD",          1,  2186921048766284500UL,  0,  0, 0, true, "E4B8AD"},
         {"utf8_3byte_2",        "\xE4\xB8\xAD\xE4\xB8\xAD",
-                                                         2,  4653907925545105519UL,  1,  0, 1, false, "E4B8ADE4B8AD"},
-        {"utf8_4byte_1",        "\xF0\x9F\x98\x80",      1, 18374412943757542024UL,  1,  0, 1, false, "F09F9880"},
+                                                         2,  4653907925545105519UL,  0,  0, 0, true, "E4B8ADE4B8AD"},
+        {"utf8_4byte_1",        "\xF0\x9F\x98\x80",      1, 18374412943757542024UL,  0,  0, 0, true, "F09F9880"},
         {"combining",           "e\xCC\x81 a\xCC\x80 o\xCC\x82",
                                                          8,  6054595488278041435UL,  1,  0, 1, false, "65CC812061CC80206FCC82"},
         {"ascii32_exact",       asciiN(32),             32, PROTO_UL(17329703966457997997),  1,  0, 1, false, nullptr},
@@ -206,19 +209,19 @@ std::vector<Golden> corpus() {
         // The builder decodes to codepoints and re-encodes, so malformed input
         // is normalised rather than passed through.  These rows pin that
         // normalisation byte for byte.
-        {"m_lone_lead_2",       "\xC3",                  1,   775161228276782755UL,  1,  0, 1, false, "C383"},
-        {"m_lead2_then_ascii",  "\xC3" "A",              2,  6871549771144897030UL,  1,  0, 1, false, "C38341"},
-        {"m_trunc_3byte",       "\xE4\xB8",              2, 14652567794796899560UL,  1,  0, 1, false, "C3A4C2B8"},
-        {"m_trunc_3byte_ascii", "\xE4\xB8" "Z",          3, 13391774417816351350UL,  1,  0, 1, false, "C3A4C2B85A"},
-        {"m_trunc_4byte",       "\xF0\x9F\x98",          3,  4821221736834053931UL,  1,  0, 1, false, "C3B0C29FC298"},
-        {"m_stray_cont_1",      "\x80",                  1,   776118902904765311UL,  1,  0, 1, false, "C280"},
+        {"m_lone_lead_2",       "\xC3",                  1,   775161228276782755UL,  0,  0, 0, true, "C383"},
+        {"m_lead2_then_ascii",  "\xC3" "A",              2,  6871549771144897030UL,  0,  0, 0, true, "C38341"},
+        {"m_trunc_3byte",       "\xE4\xB8",              2, 14652567794796899560UL,  0,  0, 0, true, "C3A4C2B8"},
+        {"m_trunc_3byte_ascii", "\xE4\xB8" "Z",          3, 13391774417816351350UL,  0,  0, 0, true, "C3A4C2B85A"},
+        {"m_trunc_4byte",       "\xF0\x9F\x98",          3,  4821221736834053931UL,  0,  0, 0, true, "C3B0C29FC298"},
+        {"m_stray_cont_1",      "\x80",                  1,   776118902904765311UL,  0,  0, 0, true, "C280"},
         // Four continuation bytes decode as ONE codepoint 0 and stay inline.
         {"m_stray_cont_4",      "\x80\x80\x80\x80",      1, 12638153115695167455UL,  0,  0, 0, true,  "00"},
         {"m_overlong_nul",      "\xC0\x80",              1, 12638153115695167455UL,  0,  0, 0, true,  "00"},
         {"m_overlong_c1",       "\xC1\xBF",              1, 12638211389811462638UL,  0,  0, 0, true,  "7F"},
-        {"m_five_byte_lead",    "\xF8\x88\x80\x80\x80",  2,  9728368832312511669UL,  1,  0, 1, false, "E88080C280"},
-        {"m_ff",                "\xFF",                  1,   775192014602372663UL,  1,  0, 1, false, "C3BF"},
-        {"m_surrogate",         "\xED\xA0\x80",          1,  6624692915571543480UL,  1,  0, 1, false, "EDA080"},
+        {"m_five_byte_lead",    "\xF8\x88\x80\x80\x80",  2,  9728368832312511669UL,  0,  0, 0, true, "E88080C280"},
+        {"m_ff",                "\xFF",                  1,   775192014602372663UL,  0,  0, 0, true, "C3BF"},
+        {"m_surrogate",         "\xED\xA0\x80",          1,  6624692915571543480UL,  0,  0, 0, true, "EDA080"},
         {"m_mixed",             "abc\xC3\xA9\xFF def",   9, 11501672892280938950UL,  1,  0, 1, false, "616263C3A9C3BF20646566"},
         // A run of continuation bytes longer than one leaf: 40 bytes decode to
         // 10 codepoints of 0, i.e. ten NUL bytes.
@@ -477,10 +480,12 @@ TEST_F(StringBuildTest, InlineBoundaryPreserved) {
     const ProtoString* seven = ProtoString::fromUTF8(ctx, asciiN(7).c_str());
     EXPECT_FALSE(isInlineRep(reinterpret_cast<const ProtoObject*>(seven)));
 
-    // Six UTF-8 *bytes* that are not ASCII are NOT inline today (the probe
-    // requires every codepoint below 128), and must stay that way.
+    // The limit is in UTF-8 bytes, not codepoints: six non-ASCII bytes are
+    // inline (3.2.0), seven are not.
     const ProtoString* threeAccents = ProtoString::fromUTF8(ctx, "\xC3\xA9\xC3\xA9\xC3\xA9");
-    EXPECT_FALSE(isInlineRep(reinterpret_cast<const ProtoObject*>(threeAccents)));
+    EXPECT_TRUE(isInlineRep(reinterpret_cast<const ProtoObject*>(threeAccents)));
+    const ProtoString* sevenBytes = ProtoString::fromUTF8(ctx, "\xC3\xA9\xC3\xA9\xC3\xA9" "a");
+    EXPECT_FALSE(isInlineRep(reinterpret_cast<const ProtoObject*>(sevenBytes)));
 }
 
 // Symbols: interning, pointer identity and the symbol flag are unaffected by
@@ -497,7 +502,8 @@ TEST_F(StringBuildTest, SymbolBehaviourUnchanged) {
     EXPECT_EQ(plain->cmp_to_string(ctx, s1), 0);
     EXPECT_EQ(plain->getHash(ctx), s1->getHash(ctx));
 
-    // Short ASCII symbols are inline and never reach the symbol table.
+    // Short symbols (at most 6 UTF-8 bytes) are inline and never reach the
+    // symbol table.
     const ProtoString* shortSym = ProtoString::createSymbol(ctx, "abc");
     EXPECT_TRUE(isInlineRep(reinterpret_cast<const ProtoObject*>(shortSym)));
     EXPECT_EQ(shortSym, ProtoString::createSymbol(ctx, "abc"));

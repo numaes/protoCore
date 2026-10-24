@@ -334,7 +334,7 @@ All core collection types in protoCore are implemented as persistent, immutable 
 
 * **`ProtoString`** — Three-tier architecture, all tiers sharing a uniform public API:
 
-  * **Tier 1 — Embedded pointer** (`POINTER_TAG_EMBEDDED_VALUE`): strings ≤6 UTF-8 bytes encoded directly in the tagged pointer. Zero heap allocation; pointer equality implies content equality.
+  * **Tier 1 — Embedded pointer** (`POINTER_TAG_EMBEDDED_VALUE`): strings ≤6 UTF-8 bytes encoded directly in the tagged pointer. Zero heap allocation; pointer equality implies content equality. **This is the canonical form of every spelling of at most 6 UTF-8 bytes, ASCII or not**: every constructor (`createSymbol`, `fromUTF8`, `ProtoContext::fromUTF8String`, `create(list)`, concatenation, slicing) produces it, and the `SymbolTable` never holds such a spelling (since 3.2.0; before, `createSymbol`, `fromUTF8` and `create(list)` inlined ASCII only, so a short non-ASCII name had two pointers).
 
   * **Tier 2 — Symbol** (`POINTER_TAG_SYMBOL` = 22): interned strings used as identifiers and attribute keys. Backed by a `ProtoStringImplementation` wrapping a persistent AVL tree. A **64-shard `SymbolTable`** (one `std::mutex` per shard, double-checked locking) guarantees that equal content always returns the same pointer. Every symbol is **perennial**: `intern` always builds it with a null `ProtoContext`, so it is allocated outside the GC entirely — never marked, never swept, never a root, never evicted — and a name keeps its canonical pointer for the lifetime of the process. Read-only lookups use the non-inserting `lookupByContent()` path with no allocation or lock side effects.
 
@@ -350,14 +350,17 @@ All core collection types in protoCore are implemented as persistent, immutable 
 
   * **Iterators**: `RopeCharacterIterator` (internal, byte-offset based, O(1) amortized per codepoint) and `ProtoStringIteratorImplementation` (public API, leaf-caching, fits in a 64-byte Cell, `hasNext()` is O(1)).
 
-  * **Auto-interning**: `setAttribute` automatically interns non-interned String keys (tag 6 → Symbol). Attribute lookup methods (`getAttribute`, `hasAttribute`) use `SymbolTable::lookupByContent()` with no insertion side effects.
+  * **Canonical form, `ProtoString::intern`** (3.2.0): `intern(context)` returns the canonical form of any string: the same pointer for an inline string or a symbol, otherwise the symbol with the same content, looked up from the string itself (no C string is built; no allocation when the spelling is already interned) and interned on first sight. Runtimes intern the attribute names of the source once, at module initialization, with `createSymbol`, and a name computed at run time with `intern` before the access. See [the tutorial](docs/tutorials/strings/01_attribute_names.md).
+
+  * **Auto-interning**: `setAttribute` automatically interns non-interned String keys (tag 6 → Symbol). Attribute lookup methods (`getAttribute`, `hasAttribute`) use `SymbolTable::lookupByContent()` with no insertion side effects. `getOwnAttributeDirect` does neither: its name must already be canonical.
 
 * **`ProtoTuple`**: Implemented as a rope of small, fixed-size leaf arrays forming a persistent AVL tree. `ProtoString` no longer uses tuples internally; tuples are interned by `TupleInterner`, so tuples built from the same elements are the same object.
 
 * **Interning summary**:
   * **Tuples**: `TupleInterner` (64-shard hash table keyed by size and slot pointers, per-shard mutex). Interned tuples are perennial; the table is a GC root whose entries mark walks outside the STW window.
-  * **Symbols**: `SymbolTable` (64-shard hash table, per-shard mutex).
+  * **Symbols**: `SymbolTable` (64-shard hash table, per-shard mutex). Holds only spellings longer than 6 UTF-8 bytes.
   * **Inline Strings**: pointer equality is content equality — no interning table needed.
+  * **Public entry points**: `ProtoString::createSymbol(context, utf8)` from bytes, `ProtoString::intern(context)` from a string; both return the same canonical pointer for the same content.
 
 *   **Sets & Multisets**:
     *   **`ProtoSet`**: Implemented using a `ProtoSparseList` where keys are the hash of elements and values are the elements themselves.

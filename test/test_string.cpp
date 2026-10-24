@@ -51,12 +51,15 @@ TEST_F(StringTest, TupleStringInvariantLength) {
 }
 
 TEST_F(StringTest, TupleStringInvariantNonAscii) {
+    // "héllo" is 6 UTF-8 bytes: inline, like every spelling that fits (3.2.0).
     const ProtoObject* shortNonAscii = ctx->fromUTF8String("héllo"); // Note the accent
     ASSERT_NE(shortNonAscii, nullptr);
     ASSERT_TRUE(shortNonAscii->isString(ctx));
-    
-    // contains non-ascii = tuple backed string
-    ProtoObjectPointer pa{}; pa.oid = shortNonAscii;
+    ASSERT_TRUE(isInlineString(shortNonAscii));
+
+    // One byte more is a heap string.
+    const ProtoObject* longerNonAscii = ctx->fromUTF8String("héllos");
+    ProtoObjectPointer pa{}; pa.oid = longerNonAscii;
     ASSERT_EQ(pa.op.pointer_tag, POINTER_TAG_STRING);
 }
 

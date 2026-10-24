@@ -700,7 +700,9 @@ space, so two spaces disagreed about the key for the same name — *except* for
 names protoCore embeds in the pointer word, which match by accident. The boundary
 is `INLINE_STRING_MAX_BYTES 6` (`headers/proto_internal.h:300`), and only for
 pure ASCII (`core/ProtoString.cpp:1337-1341`): a 6-byte name containing any byte
-≥ 0x80 missed too.
+≥ 0x80 missed too. (Since 3.2.0 every spelling of at most 6 UTF-8 bytes, ASCII
+or not, is inline whichever constructor builds it; the line numbers above are
+those of the time.)
 
 The failure was **silent**. A missed symbol lookup returns `PROTO_NONE`
 (`core/ProtoObject.cpp:798`), which is also a legitimate attribute value, so
