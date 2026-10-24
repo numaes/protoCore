@@ -38,6 +38,7 @@ protoCore is intended for developers who embed a scripting layer in a C++ applic
 - **Public inline SmallInt helpers** *(April 2026)*: `proto::isSmallInt`, `proto::asSmallInt`, `proto::smallIntInRange` and `proto::makeSmallInt` in `protoCore.h` let embedders handle SmallInt arithmetic without calling into the shared library.
 - **Cooperative safepoint** *(April 2026)*: `ProtoContext::safepoint()` lets CPU-bound loops that do not allocate take part in the stop-the-world handshake.
 - **Mutable hot path** *(April 2026)*: `mutableRoot` has 256 cache-line-padded shards, and each thread has a 1024-entry cache of current mutable values. Design: [docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md](docs/MUTABLE_SHARDING_AND_CACHE_REFACTOR.md).
+- **`ProtoString::intern`** *(October 2026, 3.2.0)*: the canonical form of a string, looked up from the string itself, so a runtime interns a name computed at run time (`obj['a' + '1']`) before the access; source names are interned once at module initialization with `createSymbol`. Every spelling of at most 6 UTF-8 bytes, ASCII or not, is now an inline string whichever constructor builds it. See [the tutorial](docs/tutorials/strings/01_attribute_names.md).
 - **Three-tier strings** *(April 2026)*: strings of up to 6 UTF-8 bytes are embedded in the pointer, identifiers are interned symbols in a 64-shard `SymbolTable`, and other strings are heap strings backed by a persistent AVL tree. Design: [2026-03-31-string-refactoring-design.md](docs/archive/design-specs/2026-03-31-string-refactoring-design.md).
 
 ---
@@ -252,6 +253,7 @@ Main documents:
 - **[docs/CALLING_CONVENTION.md](docs/CALLING_CONVENTION.md)**: the method type and its two call forms (lists or caller-owned arrays), the argument descriptors, and migrating from 2.x
 - **[docs/EXCEPTIONS.md](docs/EXCEPTIONS.md)**: normative — one exception type for every language, selected by prototype; protoCore's own errors and the error factory; obligations of a runtime
 - **[docs/tutorials/exceptions/](docs/tutorials/exceptions/README.md)**: tutorials, from raising an error in a module to writing a runtime's handlers, each backed by a compiled example in [examples/exceptions/](examples/exceptions/)
+- **[docs/tutorials/strings/](docs/tutorials/strings/README.md)**: tutorials on strings, starting with attribute names and `ProtoString::intern`, each backed by a compiled example in [examples/strings/](examples/strings/)
 - **[docs/EMBEDDER-CONFORMANCE.md](docs/EMBEDDER-CONFORMANCE.md)**: normative — the participation obligations an embedder must meet, each one executable
 - **[docs/FIELD-NOTES.md](docs/FIELD-NOTES.md)**: the fourteen defects of 2026-09-23 to 2026-09-25, how each was found, and a command to reproduce it; the teaching material for the ITBA course, and the evidence behind the conformance rules
 - **[docs/USER_GUIDE_UMD_MODULES.md](docs/USER_GUIDE_UMD_MODULES.md)**: generating a module for Unified Module Discovery

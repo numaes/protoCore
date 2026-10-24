@@ -14,7 +14,12 @@
 //
 // The golden table was captured from protoCore at ff532024 before any change
 // to the string builder, with the probe in
-// .agent_scratch/protoCore-strings/probes/corpus.cpp.
+// .agent_scratch/protoCore-strings/probes/corpus.cpp.  In 3.2.0 leaves grew to
+// 36 bytes and the builder fills them (ceil(B / 36) leaves), which changed the
+// rope shape of every row longer than 32 bytes; and the rows whose
+// produced bytes fit in INLINE_STRING_MAX_BYTES changed representation only:
+// every spelling of at most 6 UTF-8 bytes, ASCII or not, is an inline string
+// (its canonical form).  Their bytes, size and hash are unchanged.
 
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
@@ -88,17 +93,6 @@ std::string repeatUnit(const char* unit, size_t times) {
 
 // ---- representation / rope inspection -------------------------------------
 
-const ProtoStringImplementation* implOf(const ProtoObject* o) {
-    if (!o) return nullptr;
-    ProtoObjectPointer pa{}; pa.oid = o;
-    const proto::proto_ulong tag = pa.op.pointer_tag;
-    if (tag == POINTER_TAG_STRING || tag == POINTER_TAG_SYMBOL) {
-        const uintptr_t raw =
-            reinterpret_cast<uintptr_t>(o) & ~static_cast<uintptr_t>(0x3F);
-        return reinterpret_cast<const ProtoStringImplementation*>(raw);
-    }
-    return nullptr;
-}
 
 bool isInlineRep(const ProtoObject* o) {
     ProtoObjectPointer pa{}; pa.oid = o;
@@ -151,8 +145,8 @@ void walkRope(const ProtoObject* n, RopeShape& sh, int d, const char* label) {
 
 RopeShape shapeOf(const ProtoString* s, const char* label) {
     RopeShape sh;
-    const auto* impl = implOf(reinterpret_cast<const ProtoObject*>(s));
-    if (impl) walkRope(impl->avl_root, sh, 1, label);
+    if (const ProtoObject* root = heapStringRoot(reinterpret_cast<const ProtoObject*>(s)))
+        walkRope(root, sh, 1, label);
     return sh;
 }
 
@@ -182,51 +176,51 @@ std::vector<Golden> corpus() {
         {"ascii6",              asciiN(6),               6, PROTO_UL(15567776504244095498),  0,  0, 0, true,  "616263646566"},
         {"ascii7",              asciiN(7),               7,  PROTO_UL(4642726675185563447),  1,  0, 1, false, "61626364656667"},
         {"ascii8",              asciiN(8),               8,  PROTO_UL(2727646559950394989),  1,  0, 1, false, "6162636465666768"},
-        {"utf8_2byte_1",        "\xC3\xA9",              1,   775207407765167617UL,  1,  0, 1, false, "C3A9"},
+        {"utf8_2byte_1",        "\xC3\xA9",              1,   775207407765167617UL,  0,  0, 0, true, "C3A9"},
         {"utf8_2byte_3",        "\xC3\xA9\xC3\xA9\xC3\xA9",
-                                                         3,  6248735914807110505UL,  1,  0, 1, false, "C3A9C3A9C3A9"},
-        {"utf8_3byte_1",        "\xE4\xB8\xAD",          1,  2186921048766284500UL,  1,  0, 1, false, "E4B8AD"},
+                                                         3,  6248735914807110505UL,  0,  0, 0, true, "C3A9C3A9C3A9"},
+        {"utf8_3byte_1",        "\xE4\xB8\xAD",          1,  2186921048766284500UL,  0,  0, 0, true, "E4B8AD"},
         {"utf8_3byte_2",        "\xE4\xB8\xAD\xE4\xB8\xAD",
-                                                         2,  4653907925545105519UL,  1,  0, 1, false, "E4B8ADE4B8AD"},
-        {"utf8_4byte_1",        "\xF0\x9F\x98\x80",      1, 18374412943757542024UL,  1,  0, 1, false, "F09F9880"},
+                                                         2,  4653907925545105519UL,  0,  0, 0, true, "E4B8ADE4B8AD"},
+        {"utf8_4byte_1",        "\xF0\x9F\x98\x80",      1, 18374412943757542024UL,  0,  0, 0, true, "F09F9880"},
         {"combining",           "e\xCC\x81 a\xCC\x80 o\xCC\x82",
                                                          8,  6054595488278041435UL,  1,  0, 1, false, "65CC812061CC80206FCC82"},
         {"ascii32_exact",       asciiN(32),             32, PROTO_UL(17329703966457997997),  1,  0, 1, false, nullptr},
-        {"ascii33",             asciiN(33),             33,  PROTO_UL(1208933092337694014),  2,  1, 2, false, nullptr},
+        {"ascii33",             asciiN(33),             33,  PROTO_UL(1208933092337694014),  1,  0, 1, false, nullptr},
         {"ascii64",             asciiN(64),             64,  PROTO_UL(9275208735646692041),  2,  1, 2, false, nullptr},
-        {"ascii467",            asciiN(467),           467,  PROTO_UL(7674823378295929201), 16, 15, 5, false, nullptr},
-        {"ascii4096",           asciiN(4096),         4096,  PROTO_UL(4646423504542175237),128,127, 8, false, nullptr},
-        {"ascii65536",          asciiN(65536),       65536,  PROTO_UL(1498516194919556229),2048,2047,12,false, nullptr},
+        {"ascii467",            asciiN(467),           467,  PROTO_UL(7674823378295929201), 13, 12, 5, false, nullptr},
+        {"ascii4096",           asciiN(4096),         4096,  PROTO_UL(4646423504542175237),114,113, 8, false, nullptr},
+        {"ascii65536",          asciiN(65536),       65536,  PROTO_UL(1498516194919556229),1821,1820,12,false, nullptr},
         {"utf8_2byte_467",      repeatUnit("\xC3\xA9", 467),
-                                                       467, PROTO_UL(17983208637607857065), 32, 31, 6, false, nullptr},
+                                                       467, PROTO_UL(17983208637607857065), 26, 25, 6, false, nullptr},
         {"utf8_3byte_4096",     repeatUnit("\xE4\xB8\xAD", 4096),
-                                                      4096, PROTO_UL(11454319136226620197),512,511,10, false, nullptr},
+                                                      4096, PROTO_UL(11454319136226620197),342,341,10, false, nullptr},
 
         // ---- malformed UTF-8: tolerated exactly as before ------------------
         // The builder decodes to codepoints and re-encodes, so malformed input
         // is normalised rather than passed through.  These rows pin that
         // normalisation byte for byte.
-        {"m_lone_lead_2",       "\xC3",                  1,   775161228276782755UL,  1,  0, 1, false, "C383"},
-        {"m_lead2_then_ascii",  "\xC3" "A",              2,  6871549771144897030UL,  1,  0, 1, false, "C38341"},
-        {"m_trunc_3byte",       "\xE4\xB8",              2, 14652567794796899560UL,  1,  0, 1, false, "C3A4C2B8"},
-        {"m_trunc_3byte_ascii", "\xE4\xB8" "Z",          3, 13391774417816351350UL,  1,  0, 1, false, "C3A4C2B85A"},
-        {"m_trunc_4byte",       "\xF0\x9F\x98",          3,  4821221736834053931UL,  1,  0, 1, false, "C3B0C29FC298"},
-        {"m_stray_cont_1",      "\x80",                  1,   776118902904765311UL,  1,  0, 1, false, "C280"},
+        {"m_lone_lead_2",       "\xC3",                  1,   775161228276782755UL,  0,  0, 0, true, "C383"},
+        {"m_lead2_then_ascii",  "\xC3" "A",              2,  6871549771144897030UL,  0,  0, 0, true, "C38341"},
+        {"m_trunc_3byte",       "\xE4\xB8",              2, 14652567794796899560UL,  0,  0, 0, true, "C3A4C2B8"},
+        {"m_trunc_3byte_ascii", "\xE4\xB8" "Z",          3, 13391774417816351350UL,  0,  0, 0, true, "C3A4C2B85A"},
+        {"m_trunc_4byte",       "\xF0\x9F\x98",          3,  4821221736834053931UL,  0,  0, 0, true, "C3B0C29FC298"},
+        {"m_stray_cont_1",      "\x80",                  1,   776118902904765311UL,  0,  0, 0, true, "C280"},
         // Four continuation bytes decode as ONE codepoint 0 and stay inline.
         {"m_stray_cont_4",      "\x80\x80\x80\x80",      1, 12638153115695167455UL,  0,  0, 0, true,  "00"},
         {"m_overlong_nul",      "\xC0\x80",              1, 12638153115695167455UL,  0,  0, 0, true,  "00"},
         {"m_overlong_c1",       "\xC1\xBF",              1, 12638211389811462638UL,  0,  0, 0, true,  "7F"},
-        {"m_five_byte_lead",    "\xF8\x88\x80\x80\x80",  2,  9728368832312511669UL,  1,  0, 1, false, "E88080C280"},
-        {"m_ff",                "\xFF",                  1,   775192014602372663UL,  1,  0, 1, false, "C3BF"},
-        {"m_surrogate",         "\xED\xA0\x80",          1,  6624692915571543480UL,  1,  0, 1, false, "EDA080"},
+        {"m_five_byte_lead",    "\xF8\x88\x80\x80\x80",  2,  9728368832312511669UL,  0,  0, 0, true, "E88080C280"},
+        {"m_ff",                "\xFF",                  1,   775192014602372663UL,  0,  0, 0, true, "C3BF"},
+        {"m_surrogate",         "\xED\xA0\x80",          1,  6624692915571543480UL,  0,  0, 0, true, "EDA080"},
         {"m_mixed",             "abc\xC3\xA9\xFF def",   9, 11501672892280938950UL,  1,  0, 1, false, "616263C3A9C3BF20646566"},
         // A run of continuation bytes longer than one leaf: 40 bytes decode to
         // 10 codepoints of 0, i.e. ten NUL bytes.
         {"m_cont_run_40",       repeatUnit("\x80", 40), 10,  7625447167376158605UL,  1,  0, 1, false, "00000000000000000000"},
         {"m_cont_run_200",      repeatUnit("\x80", 200),50,  PROTO_UL(9712894080799832493),  2,  1, 2, false, nullptr},
-        {"m_lead_run_40",       repeatUnit("\xC3", 40), 40, PROTO_UL(16437702613407666997),  4,  3, 3, false, nullptr},
+        {"m_lead_run_40",       repeatUnit("\xC3", 40), 40, PROTO_UL(16437702613407666997),  3,  2, 3, false, nullptr},
         {"m_mixed_long",        repeatUnit("ab\xC3\xA9\xFF", 30),
-                                                       120,  PROTO_UL(8021544138131661125),  8,  7, 4, false, nullptr},
+                                                       120,  PROTO_UL(8021544138131661125),  5,  4, 4, false, nullptr},
         {"m_ascii_then_trunc",  asciiN(40) + "\xE4\xB8", 42,  PROTO_UL(2001875717336544560), 2,  1, 2, false, nullptr},
     };
 }
@@ -403,8 +397,9 @@ TEST_F(StringBuildTest, OneMebibyteBulkBuildShapeAndContent) {
     EXPECT_EQ(s->getHash(ctx), PROTO_UL(7815921241789043789));
 
     const RopeShape sh = shapeOf(s, "ascii1Mi");
-    EXPECT_EQ(sh.leaves, 32768);
-    EXPECT_EQ(sh.internals, 32767);
+    // Full 36-byte leaves: ceil(1048576 / 36) = 29128, under 2^15, so depth 16.
+    EXPECT_EQ(sh.leaves, 29128);
+    EXPECT_EQ(sh.internals, 29127);
     EXPECT_EQ(sh.depth, 16);
     EXPECT_EQ(sh.leafBytes, 1048576);
     EXPECT_EQ(sh.leafChars, 1048576);
@@ -417,7 +412,7 @@ TEST_F(StringBuildTest, OneMebibyteBulkBuildShapeAndContent) {
 // Codepoint counting must be exact for every leaf-boundary alignment, which
 // is where an incorrectly hoisted count would show up first.
 TEST_F(StringBuildTest, MultiByteSequencesAcrossEveryLeafBoundary) {
-    // 2-, 3- and 4-byte sequences at every length around the 32-byte leaf.
+    // 2-, 3- and 4-byte sequences at every length around the 36-byte leaf.
     const char* units[] = {"\xC3\xA9", "\xE4\xB8\xAD", "\xF0\x9F\x98\x80"};
     for (const char* unit : units) {
         for (size_t count = 1; count <= 40; ++count) {
@@ -477,10 +472,12 @@ TEST_F(StringBuildTest, InlineBoundaryPreserved) {
     const ProtoString* seven = ProtoString::fromUTF8(ctx, asciiN(7).c_str());
     EXPECT_FALSE(isInlineRep(reinterpret_cast<const ProtoObject*>(seven)));
 
-    // Six UTF-8 *bytes* that are not ASCII are NOT inline today (the probe
-    // requires every codepoint below 128), and must stay that way.
+    // The limit is in UTF-8 bytes, not codepoints: six non-ASCII bytes are
+    // inline (3.2.0), seven are not.
     const ProtoString* threeAccents = ProtoString::fromUTF8(ctx, "\xC3\xA9\xC3\xA9\xC3\xA9");
-    EXPECT_FALSE(isInlineRep(reinterpret_cast<const ProtoObject*>(threeAccents)));
+    EXPECT_TRUE(isInlineRep(reinterpret_cast<const ProtoObject*>(threeAccents)));
+    const ProtoString* sevenBytes = ProtoString::fromUTF8(ctx, "\xC3\xA9\xC3\xA9\xC3\xA9" "a");
+    EXPECT_FALSE(isInlineRep(reinterpret_cast<const ProtoObject*>(sevenBytes)));
 }
 
 // Symbols: interning, pointer identity and the symbol flag are unaffected by
@@ -497,7 +494,8 @@ TEST_F(StringBuildTest, SymbolBehaviourUnchanged) {
     EXPECT_EQ(plain->cmp_to_string(ctx, s1), 0);
     EXPECT_EQ(plain->getHash(ctx), s1->getHash(ctx));
 
-    // Short ASCII symbols are inline and never reach the symbol table.
+    // Short symbols (at most 6 UTF-8 bytes) are inline and never reach the
+    // symbol table.
     const ProtoString* shortSym = ProtoString::createSymbol(ctx, "abc");
     EXPECT_TRUE(isInlineRep(reinterpret_cast<const ProtoObject*>(shortSym)));
     EXPECT_EQ(shortSym, ProtoString::createSymbol(ctx, "abc"));
@@ -556,7 +554,7 @@ TEST_F(StringBuildTest, MatchesTheReferenceCodepointListConstruction) {
     }
 }
 
-// Building a string must cost the cells of the rope it produces — O(N/32) —
+// Building a string must cost the cells of the rope it produces — O(N/36) —
 // and not the O(N log N) that one-code-point-at-a-time list construction cost.
 // This bound fails by two orders of magnitude against the list route.
 TEST_F(StringBuildTest, AllocationIsLinearInLength) {
@@ -570,9 +568,11 @@ TEST_F(StringBuildTest, AllocationIsLinearInLength) {
         ASSERT_NE(s, nullptr) << n;
         ASSERT_EQ(s->getSize(&sub), n) << n;
 
-        // One 32-byte leaf plus one internal node per 32 bytes, plus the
-        // wrapper: leaves + (leaves-1) + 1 == 2*ceil(B/32).
-        const proto::proto_ulong minimum = PROTO_UL(2) * ((n + PROTO_UL(31)) / PROTO_UL(32));
+        // Full leaves joined by internal nodes, the handle pointing at the
+        // root: leaves + (leaves-1) == 2*ceil(B/MAX_PAYLOAD) - 1.
+        const proto::proto_ulong leaves =
+            (n + StringLeafNode::MAX_PAYLOAD - 1) / StringLeafNode::MAX_PAYLOAD;
+        const proto::proto_ulong minimum = PROTO_UL(2) * leaves - 1;
         EXPECT_LE(used, minimum + minimum / PROTO_UL(2) + PROTO_UL(8))
             << n << " characters allocated " << used
             << " cells to produce a " << minimum << "-cell rope";
@@ -587,7 +587,7 @@ TEST_F(StringBuildTest, AllocationIsLinearInLength) {
 // ProtoSpace is constructed — it is read at the end of construction and caps
 // each refill batch, and a limit applied afterwards does not bind because the
 // startup pool is already in the freelist. And a fresh space starts with a pool
-// of 262,144 cells while one build of a 467-character string now costs 32, so
+// of 262,144 cells while one build of a 467-character string now costs 25, so
 // the workload has to be big enough to consume that pool before the collector
 // is asked for anything at all.
 //
@@ -660,8 +660,9 @@ TEST_F(StringBuildTest, OneMebibytePublicPathShapeAndContent) {
     EXPECT_EQ(s->getHash(ctx), PROTO_UL(7815921241789043789));
 
     const RopeShape sh = shapeOf(s, "ascii1Mi-public");
-    EXPECT_EQ(sh.leaves, 32768);
-    EXPECT_EQ(sh.internals, 32767);
+    // Full 36-byte leaves: ceil(1048576 / 36) = 29128, under 2^15, so depth 16.
+    EXPECT_EQ(sh.leaves, 29128);
+    EXPECT_EQ(sh.internals, 29127);
     EXPECT_EQ(sh.depth, 16);
     EXPECT_EQ(sh.leafBytes, 1048576);
     EXPECT_EQ(sh.leafChars, 1048576);

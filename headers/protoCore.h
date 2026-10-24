@@ -536,7 +536,9 @@ namespace proto
          * Returns the value of an own-attribute by interned symbol pointer key, or nullptr if not
          * found. Resolves mutable state once internally. Does NOT traverse the prototype chain and
          * does NOT invoke descriptor protocol — use only for plain instance own-attribute reads
-         * where the caller guarantees name is a POINTER_TAG_SYMBOL (e.g. co_names entries).
+         * where the caller guarantees name is canonical: a symbol or an inline string, as
+         * ProtoString::createSymbol and ProtoString::intern return (e.g. co_names entries).
+         * A plain heap string misses silently.
          */
         const ProtoObject* getOwnAttributeDirect(ProtoContext* context, const ProtoString* name) const;
         /**
@@ -1171,10 +1173,11 @@ namespace proto
          * Creates a ProtoString from a zero-terminated UTF-8 C string.
          *
          * Cost: one pass over the bytes, then one bottom-up build of the rope.
-         * B bytes of text cost exactly `2 * ceil(B / 32)` cells — one 32-byte
-         * leaf plus one internal node per 32 bytes, about 4 bytes of heap per
-         * ASCII character — and leave no garbage behind. Up to 6 bytes of pure
-         * ASCII cost no cell at all: the text lives in the tagged pointer.
+         * B bytes of text cost `2 * ceil(B / 36) - 1` cells — full 36-byte
+         * leaves joined by internal nodes, the handle pointing at the root,
+         * about 3.6 bytes of heap per ASCII character — and leave no garbage
+         * behind: 7 to 36 bytes are one cell. Up to 6 UTF-8 bytes cost no cell
+         * at all: the text lives in the tagged pointer.
          *
          * Malformed UTF-8 is tolerated rather than rejected: the bytes are
          * decoded to code points and re-encoded, so a truncated sequence
@@ -1253,6 +1256,23 @@ namespace proto
          * circuit content comparison when both sides are symbols.
          */
         bool isSymbol() const;
+
+        /**
+         * @brief The canonical, interned form of this string (3.2.0).
+         *
+         * Returns `this` when the string is already canonical: an inline
+         * string (at most INLINE_STRING_MAX_BYTES UTF-8 bytes, canonical by
+         * value) or a symbol.  Otherwise returns the symbol with the same
+         * content, looked up from this string without building a C string,
+         * and interned on first sight.  A lookup of an interned spelling
+         * allocates nothing.
+         *
+         * Attribute names are compared by pointer.  A runtime interns the
+         * names it knows at module initialization with createSymbol, and
+         * interns a name computed at run time (`obj['a' + '1']`) with this
+         * method before the attribute access.
+         */
+        const ProtoString* intern(ProtoContext* context) const;
 
         //- Accessors
         const ProtoObject* getAt(ProtoContext* context, int index) const;

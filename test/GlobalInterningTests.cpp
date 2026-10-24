@@ -161,7 +161,7 @@ TEST(GlobalInterning, AttributeWrittenInOneSpaceIsReadableFromAnother) {
 //
 // MUTATION THAT MUST TURN THIS RED: in SymbolTable::normalizeForSymbol and in
 // ProtoString::createSymbol, pass the caller's context instead of /*ctx=*/nullptr
-// to ProtoStringImplementation::fromUTF8Bytes.  The symbol's cells become young
+// to buildRopeFromUTF8.  The symbol's cells become young
 // cells of a context that then dies, and the canonical pointer is swept.
 //
 // The symbol is deliberately interned in a SHORT-LIVED child context that is

@@ -53,7 +53,7 @@ namespace proto {
     // =========================================================================
     // Forward declarations for AVL primitives and UTF-8 output helper.
     // These are defined later in the file but are needed by
-    // ProtoStringImplementation methods and RopeCharacterIterator.
+    // RopeCharacterIterator and the string accessors.
     // =========================================================================
     const ProtoObject* strConcat(ProtoContext* ctx,
                                   const ProtoObject* a,
@@ -62,7 +62,6 @@ namespace proto {
     SplitResult strSplit(ProtoContext* ctx, const ProtoObject* node, uint32_t char_index);
     void strCharAt(const ProtoObject* node, uint32_t index, uint32_t* out);
     static void appendUTF8CodePoint(std::string& out, unsigned int codepoint);
-    const ProtoStringImplementation* internString(ProtoContext* context, const ProtoStringImplementation* newString);
 
     // =========================================================================
     // StringLeafNode
@@ -72,13 +71,13 @@ namespace proto {
                                    const uint8_t* bytes, uint8_t byte_cnt,
                                    uint16_t char_cnt, bool partial)
         : Cell(ctx)
+        , node_kind(static_cast<uint8_t>(STRING_NODE_LEAF | (partial ? STRING_LEAF_PARTIAL : 0)))
         , byte_count(byte_cnt)
-        , _pad_char_count(0)
         , char_count(char_cnt)
-        , flags(partial ? 1u : 0u)
-        , _pad{}
+        , utf8_payload{}
         , content_hash(computeHash(bytes, byte_cnt))
     {
+        assert(byte_cnt <= MAX_PAYLOAD);
         std::memcpy(utf8_payload, bytes, byte_cnt);
     }
 
@@ -139,9 +138,6 @@ namespace proto {
         return pa.inlineString.inline_byte_count;
     }
 
-    // Forward declaration — defined later in the AVL helpers section.
-    static const ProtoStringImplementation* getImpl(const ProtoObject* obj);
-
     /** Returns the Unicode codepoint at index i for an inline ASCII string (0..127). */
     static unsigned int inlineStringCharAt(const ProtoObject* o, int i) {
         ProtoObjectPointer pa{};
@@ -160,7 +156,7 @@ namespace proto {
             }
             return chars;
         }
-        return static_cast<proto_ulong>(getImpl(o)->implGetSize());
+        return static_cast<proto_ulong>(StringInternalNode::charCount(heapStringRoot(o)));
     }
 
     static const ProtoObject* getProtoStringGetAt(ProtoContext* context, const ProtoObject* o, int index) {
@@ -168,7 +164,11 @@ namespace proto {
             const unsigned int cp = inlineStringCharAt(o, index);
             return context->fromUnicodeChar(cp);
         }
-        return getImpl(o)->implGetAt(context, index);
+        const ProtoObject* root = heapStringRoot(o);
+        if (!root || index < 0) return nullptr;
+        uint32_t cp = 0;
+        strCharAt(root, static_cast<uint32_t>(index), &cp);
+        return context->fromUnicodeChar(cp);
     }
 
     const ProtoObject* createInlineString(ProtoContext* context, int len, const unsigned int* codepoints) {
@@ -210,21 +210,6 @@ namespace proto {
     // Helpers for ProtoString public operations (AVL-based)
     // =========================================================================
 
-    /** Unwrap any ProtoString* to its ProtoStringImplementation (for POINTER_TAG_STRING or POINTER_TAG_SYMBOL).
-     *  Bypasses toImpl's strict single-tag check because both POINTER_TAG_STRING and POINTER_TAG_SYMBOL
-     *  use the same underlying ProtoStringImplementation layout; only the tag differs. */
-    static const ProtoStringImplementation* getImpl(const ProtoObject* obj) {
-        if (!obj) return nullptr;
-        ProtoObjectPointer pa{}; pa.oid = obj;
-        proto_ulong tag = pa.op.pointer_tag;
-        if (tag == POINTER_TAG_STRING || tag == POINTER_TAG_SYMBOL) {
-            // Manually clear the lower 6 tag bits to obtain the raw Cell pointer.
-            uintptr_t raw = reinterpret_cast<uintptr_t>(obj) & ~static_cast<uintptr_t>(0x3F);
-            return reinterpret_cast<const ProtoStringImplementation*>(raw);
-        }
-        return nullptr;
-    }
-
     /** Materialize any string representation to its AVL root node. */
     static const ProtoObject* getRoot(ProtoContext* ctx, const ProtoObject* strObj) {
         if (!strObj) return nullptr;
@@ -241,15 +226,14 @@ namespace proto {
             }
             return (new(ctx) StringLeafNode(ctx, bytes, static_cast<uint8_t>(bc), chars))->asObject();
         }
-        auto* impl = getImpl(strObj);
-        return impl ? impl->avl_root : nullptr;
+        return heapStringRoot(strObj);
     }
 
-    /** Wrap an AVL root back to the best ProtoString representation (inline if small enough, interned otherwise). */
-    static const ProtoObject* wrapRoot(ProtoContext* ctx, const ProtoObject* root) {
-        if (!root) {
-            return createInlineStringUTF8(ctx, nullptr, 0);
-        }
+    /**
+     * The inline string with the content of a non-empty AVL root, or nullptr
+     * when the content exceeds INLINE_STRING_MAX_BYTES.  Allocates nothing.
+     */
+    static const ProtoObject* inlineFormOfRoot(ProtoContext* ctx, const ProtoObject* root) {
         // For a leaf node, copy raw UTF-8 bytes directly — no decode/re-encode needed.
         // This correctly handles all codepoint widths (1-4 bytes).
         if (StringLeafNode::isStringLeafNode(root)) {
@@ -286,8 +270,24 @@ namespace proto {
                 return createInlineStringUTF8(ctx, buf, static_cast<uint8_t>(pos));
             }
         }
-        auto* pendingStr = new(ctx) ProtoStringImplementation(ctx, root);
-        // Do not call internString here: the global stringInternMap was
+        return nullptr;
+    }
+
+    const ProtoObject* inlineFormOfString(ProtoContext* ctx, const ProtoObject* strObj) {
+        if (isInlineString(strObj)) return strObj;
+        const ProtoObject* root = heapStringRoot(strObj);
+        return root ? inlineFormOfRoot(ctx, root) : nullptr;
+    }
+
+    /** Wrap an AVL root back to the best ProtoString representation (inline if small enough, a heap string otherwise). */
+    static const ProtoObject* wrapRoot(ProtoContext* ctx, const ProtoObject* root) {
+        if (!root) {
+            return createInlineStringUTF8(ctx, nullptr, 0);
+        }
+        if (const ProtoObject* inl = inlineFormOfRoot(ctx, root)) return inl;
+        // The root is the string: no header cell, nothing to allocate.
+        //
+        // No interning here: the global stringInternMap was
         // a content-keyed dedup, and computeContentHash walks the entire
         // rope (O(N)).  Insertion of N runtime concats becomes O(N²) —
         // the dominant cost of `s += 'x'` loops.  Symbols (attribute
@@ -298,7 +298,7 @@ namespace proto {
         // structure-independent content hash.  Skipping the intern saves the
         // global mutex, the rope-walk hash, and the unbounded-growth
         // intern set.
-        return pendingStr->implAsObject(ctx);
+        return heapStringFromRoot(root);
     }
 
     /** O(N) rope/AVL traversal: iterates codepoints without repeated descent.
@@ -348,10 +348,9 @@ namespace proto {
                 }
 
                 if (current->isString(context)) {
-                    const ProtoStringImplementation* sImpl = getImpl(current);
                     if (idx == 0) {
                         idx = 1;
-                        if (sImpl && sImpl->avl_root) push(sImpl->avl_root);
+                        if (const ProtoObject* root = heapStringRoot(current)) push(root);
                         continue;
                     }
                     top--; continue;
@@ -431,8 +430,7 @@ namespace proto {
                 if (current->isString(ctx)) {
                     if (idx == 0) {
                         idx = 1;
-                        const ProtoStringImplementation* sImpl = getImpl(current);
-                        const ProtoObject* root = sImpl ? sImpl->avl_root : nullptr;
+                        const ProtoObject* root = heapStringRoot(current);
                         if (root) {
                             tempTop++;
                             if (tempTop >= MAX_DEPTH) return false;
@@ -542,7 +540,7 @@ namespace proto {
                 bytes[i] = inlineStringByte(o, i);
             return fnv1a(bytes, len);
         }
-        return getImpl(o)->getHash(context);
+        return static_cast<proto_ulong>(computeContentHash(heapStringRoot(o)));
     }
 
     //=========================================================================
@@ -558,7 +556,7 @@ namespace proto {
     //   - When a leaf is exhausted (or on the very first next() call after
     //     construction), locateLeaf() descends the AVL tree from the root to
     //     find the leaf that contains charIndex.  This descent is O(log N), but
-    //     because a leaf holds up to 32 bytes (≈10–32 codepoints) the amortised
+    //     because a leaf holds up to 36 bytes (≈9–36 codepoints) the amortised
     //     cost per codepoint is O(log N / leafSize) ≈ O(1).
     //   - Inline strings (all ASCII, ≤6 bytes) are handled without any tree
     //     descent: inlineStringCharAt() decodes them in O(1).
@@ -604,8 +602,7 @@ namespace proto {
         // leaf that contains charIndex.
         if (this->currentLeaf == nullptr ||
             static_cast<uint32_t>(this->leafBytePos) >= static_cast<uint32_t>(this->currentLeaf->byte_count)) {
-            const ProtoStringImplementation* sImpl = getImpl(this->base);
-            locateLeaf(sImpl ? sImpl->avl_root : nullptr);
+            locateLeaf(heapStringRoot(this->base));
         }
 
         if (!this->currentLeaf) {
@@ -745,45 +742,6 @@ namespace proto {
         return 14695981039346656037ULL;
     }
 
-    // ===== ProtoStringImplementation (wraps AVL root) ==========================
-
-    ProtoStringImplementation::ProtoStringImplementation(ProtoContext* ctx,
-                                                          const ProtoObject* root)
-        : Cell(ctx), avl_root(root) {}
-
-    uint32_t ProtoStringImplementation::implGetSize() const {
-        return StringInternalNode::charCount(avl_root);
-    }
-
-    uint64_t ProtoStringImplementation::implGetHash() const {
-        // The content hash, not the cached subtree_hash: subtree_hash mixes
-        // child hashes, so equal content split differently by concatenation
-        // hashed differently, and hash-keyed lookups (sparse lists, tuple
-        // hashes, protoPython dicts) missed equal strings.
-        return computeContentHash(avl_root);
-    }
-
-    const ProtoObject* ProtoStringImplementation::implAsObject(ProtoContext* /*ctx*/) const {
-        ProtoObjectPointer pa{};
-        pa.stringImplementation = this;
-        pa.op.pointer_tag = POINTER_TAG_STRING;
-        return pa.oid;
-    }
-
-    const ProtoString* ProtoStringImplementation::asProtoString(ProtoContext* /*ctx*/) const {
-        ProtoObjectPointer p{};
-        p.stringImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_STRING;
-        return p.string;
-    }
-
-    const ProtoStringImplementation* ProtoStringImplementation::implAsSymbol(ProtoContext* /*ctx*/) const {
-        ProtoObjectPointer pa{};
-        pa.symbolImplementation = this;
-        pa.op.pointer_tag = POINTER_TAG_SYMBOL;
-        return reinterpret_cast<const ProtoStringImplementation*>(pa.oid);
-    }
-
     // Build a balanced AVL tree from a contiguous UTF-8 byte array.
     //
     // The codepoint count is computed in the leaf branch only.  Counting the
@@ -808,8 +766,12 @@ namespace proto {
                 bytes, static_cast<uint8_t>(len), char_cnt))->asObject();
         }
 
-        // Split roughly in half at a codepoint boundary.
-        size_t mid_byte = len / 2;
+        // Split at the leaf boundary nearest the middle, so that every leaf
+        // but the last is full: ceil(len / MAX_PAYLOAD) leaves.  Halving the
+        // length instead left a power-of-two length in 32-byte leaves however
+        // large a leaf is.
+        const size_t leaves = (len + StringLeafNode::MAX_PAYLOAD - 1) / StringLeafNode::MAX_PAYLOAD;
+        size_t mid_byte = ((leaves + 1) / 2) * StringLeafNode::MAX_PAYLOAD;
         // Back up to a lead byte if we landed in the middle of a multibyte sequence.
         while (mid_byte > 0 && (bytes[mid_byte] & 0xC0u) == 0x80u) --mid_byte;
 
@@ -818,9 +780,8 @@ namespace proto {
         return strConcat(ctx, left, right);
     }
 
-    const ProtoStringImplementation* ProtoStringImplementation::fromUTF8Bytes(
-            ProtoContext* ctx, const uint8_t* bytes, size_t len) {
-        return new(ctx) ProtoStringImplementation(ctx, buildAVL(ctx, bytes, len));
+    const ProtoObject* buildRopeFromUTF8(ProtoContext* ctx, const uint8_t* bytes, size_t len) {
+        return buildAVL(ctx, bytes, len);
     }
 
     // =========================================================================
@@ -882,6 +843,32 @@ namespace proto {
         }
     }
 
+    /** Length of the longest prefix of `bytes` that is well-formed UTF-8 in
+     *  shortest form: the prefix the decode/re-encode round trip leaves as is. */
+    static size_t wellFormedUTF8Prefix(const uint8_t* bytes, size_t len) {
+        size_t i = 0;
+        uint8_t encoded[4];
+        while (i < len) {
+            int seq = 0;
+            const unsigned int cp = decodeLegacySequence(bytes + i, len - i, &seq);
+            if (utf8EncodedLength(cp) != seq) break;
+            encodeUTF8CodePoint(cp, encoded);
+            if (std::memcmp(encoded, bytes + i, static_cast<size_t>(seq)) != 0) break;
+            i += static_cast<size_t>(seq);
+        }
+        return i;
+    }
+
+    /** The canonical form of well-formed UTF-8 bytes: an inline string up to
+     *  INLINE_STRING_MAX_BYTES bytes, a heap string beyond. */
+    static const ProtoObject* stringFromWellFormedUTF8(ProtoContext* ctx,
+                                                       const uint8_t* bytes,
+                                                       size_t len) {
+        if (len <= INLINE_STRING_MAX_BYTES)
+            return createInlineStringUTF8(ctx, bytes, static_cast<uint8_t>(len));
+        return heapStringFromRoot(buildAVL(ctx, bytes, len));
+    }
+
     const ProtoObject* buildStringFromUTF8Bytes(ProtoContext* ctx,
                                                  const uint8_t* bytes,
                                                  size_t len) {
@@ -897,25 +884,8 @@ namespace proto {
         // For every well-formed input the round trip is the identity, so scan
         // for that first and, when it holds, build straight from the caller's
         // bytes with no intermediate copy at all.
-        size_t i = 0;
-        uint8_t encoded[4];
-        while (i < len) {
-            int seq = 0;
-            const unsigned int cp = decodeLegacySequence(bytes + i, len - i, &seq);
-            if (utf8EncodedLength(cp) != seq) break;
-            encodeUTF8CodePoint(cp, encoded);
-            if (std::memcmp(encoded, bytes + i, static_cast<size_t>(seq)) != 0) break;
-            i += static_cast<size_t>(seq);
-        }
-
-        if (i == len) {
-            // An empty result is the one inline string the non-inline path can
-            // produce: ProtoString::create returns an inline string for an
-            // empty codepoint list, and that is what callers saw before.
-            if (len == 0) return createInlineStringUTF8(ctx, nullptr, 0);
-            return ProtoStringImplementation::fromUTF8Bytes(ctx, bytes, len)
-                       ->implAsObject(ctx);
-        }
+        size_t i = wellFormedUTF8Prefix(bytes, len);
+        if (i == len) return stringFromWellFormedUTF8(ctx, bytes, len);
 
         // Diverged at byte `i`: keep the canonical prefix, re-encode the rest.
         std::string normalised(reinterpret_cast<const char*>(bytes), i);
@@ -926,74 +896,8 @@ namespace proto {
             appendUTF8CodePoint(normalised, cp);
             i += static_cast<size_t>(seq);
         }
-        if (normalised.empty()) return createInlineStringUTF8(ctx, nullptr, 0);
-        return ProtoStringImplementation::fromUTF8Bytes(
-                   ctx,
-                   reinterpret_cast<const uint8_t*>(normalised.data()),
-                   normalised.size())->implAsObject(ctx);
-    }
-
-    void ProtoStringImplementation::processReferences(
-        ProtoContext* context,
-        void* self,
-        void (*method)(ProtoContext*, void*, const Cell*)
-    ) const {
-        if (const Cell* c = ProtoObject::asCellPointer(avl_root)) {
-            method(context, self, c);
-        }
-    }
-
-    // Legacy compatibility: O(n) character access via AVL charAt.
-    const ProtoObject* ProtoStringImplementation::implGetAt(ProtoContext* context, int index) const {
-        if (!avl_root || index < 0) return nullptr;
-        uint32_t cp = 0;
-        strCharAt(avl_root, static_cast<uint32_t>(index), &cp);
-        return context->fromUnicodeChar(cp);
-    }
-
-    // Legacy compatibility: size via AVL charCount.
-    proto_ulong ProtoStringImplementation::implGetSizeCompat(ProtoContext* /*context*/) const {
-        return static_cast<proto_ulong>(implGetSize());
-    }
-
-    // Legacy compatibility: convert to list of unicode char objects.
-    const ProtoList* ProtoStringImplementation::implAsList(ProtoContext* context) const {
-        const ProtoList* list = context->newList();
-        const uint32_t size = implGetSize();
-        for (uint32_t i = 0; i < size; ++i) {
-            uint32_t cp = 0;
-            strCharAt(avl_root, i, &cp);
-            list = list->appendLast(context, context->fromUnicodeChar(cp));
-        }
-        return list;
-    }
-
-    // Legacy compatibility: append via AVL concat.
-    const ProtoStringImplementation* ProtoStringImplementation::implAppendLast(
-            ProtoContext* context, const ProtoString* otherString) const {
-        // Build a temporary AVL from the other string's characters.
-        std::string utf8;
-        otherString->toUTF8String(context, utf8);
-        const ProtoObject* otherRoot = buildAVL(
-            context,
-            reinterpret_cast<const uint8_t*>(utf8.data()),
-            utf8.size());
-        return new(context) ProtoStringImplementation(context,
-            strConcat(context, avl_root, otherRoot));
-    }
-
-    void ProtoStringImplementation::finalize(ProtoContext* /*context*/) const {}
-
-    proto_ulong ProtoStringImplementation::getHash(ProtoContext* /*context*/) const {
-        return static_cast<proto_ulong>(implGetHash());
-    }
-
-    int ProtoStringImplementation::implCompare(ProtoContext* context, const ProtoString* other) const {
-        return compareStrings(context, this->implAsObject(context), other->asObject(context));
-    }
-
-    const ProtoStringIteratorImplementation* ProtoStringImplementation::implGetIterator(ProtoContext* context) const {
-        return new(context) ProtoStringIteratorImplementation(context, this->implAsObject(context), 0);
+        return stringFromWellFormedUTF8(
+            ctx, reinterpret_cast<const uint8_t*>(normalised.data()), normalised.size());
     }
 
     //=========================================================================
@@ -1011,8 +915,7 @@ namespace proto {
             }
             return chars;
         }
-        auto* impl = getImpl(self);
-        return impl ? static_cast<proto_ulong>(impl->implGetSize()) : 0;
+        return static_cast<proto_ulong>(StringInternalNode::charCount(heapStringRoot(self)));
     }
 
     const ProtoObject* ProtoString::getAt(ProtoContext* context, int index) const {
@@ -1060,14 +963,15 @@ namespace proto {
         return p.op.pointer_tag == POINTER_TAG_SYMBOL;
     }
 
+    const ProtoString* ProtoString::intern(ProtoContext* context) const {
+        return reinterpret_cast<const ProtoString*>(context->space->symbolTable->intern(
+            context, reinterpret_cast<const ProtoObject*>(this)));
+    }
+
     const ProtoObject* ProtoString::asObject(ProtoContext* context) const {
-        auto* self = reinterpret_cast<const ProtoObject*>(this);
-        if (isInlineString(self)) return self;
-        // For both POINTER_TAG_STRING and POINTER_TAG_SYMBOL the tagged pointer
-        // already IS the canonical object handle — return it directly.
-        ProtoObjectPointer pa{}; pa.oid = self;
-        if (pa.op.pointer_tag == POINTER_TAG_STRING || pa.op.pointer_tag == POINTER_TAG_SYMBOL) return self;
-        return getImpl(self)->implAsObject(context);
+        // Inline, POINTER_TAG_STRING and POINTER_TAG_SYMBOL: the tagged
+        // pointer already IS the canonical object handle.
+        return reinterpret_cast<const ProtoObject*>(this);
     }
 
     const ProtoString* ProtoString::setAt(ProtoContext* context, int index, const ProtoObject* character) const {
@@ -1183,9 +1087,8 @@ namespace proto {
     }
 
     const ProtoStringIterator* ProtoString::getIterator(ProtoContext* context) const {
-        if (isInlineString(reinterpret_cast<const ProtoObject*>(this)))
-            return (new (context) ProtoStringIteratorImplementation(context, reinterpret_cast<const ProtoObject*>(this), 0))->asProtoStringIterator(context);
-        return getImpl(reinterpret_cast<const ProtoObject*>(this))->implGetIterator(context)->asProtoStringIterator(context);
+        return (new (context) ProtoStringIteratorImplementation(
+                    context, reinterpret_cast<const ProtoObject*>(this), 0))->asProtoStringIterator(context);
     }
 
     static void appendUTF8CodePoint(std::string& out, unsigned int codepoint) {
@@ -1244,27 +1147,15 @@ namespace proto {
 #include <unordered_set>
 
 namespace proto {
+    // The content-keyed intern map was retired: symbols live in the
+    // SymbolTable and runtime strings are not deduplicated (see wrapRoot).
+    // ProtoSpace keeps the field, held null, so its layout does not change.
     void initStringInternMap(ProtoSpace* space) {
-        space->stringInternMap = new StringInternSet();
-    }
-
-    void freeStringInternMap(ProtoSpace* space) {
-        delete static_cast<StringInternSet*>(space->stringInternMap);
         space->stringInternMap = nullptr;
     }
 
-    const ProtoStringImplementation* internString(ProtoContext* context, const ProtoStringImplementation* newString) {
-        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-        StringInternSet* map = static_cast<StringInternSet*>(context->space->stringInternMap);
-        if (!map) return newString; // Should not happen if initialized
-
-        auto it = map->find(newString);
-        if (it != map->end()) {
-            return *it;
-        }
-
-        map->insert(newString);
-        return newString;
+    void freeStringInternMap(ProtoSpace* space) {
+        space->stringInternMap = nullptr;
     }
     const ProtoObject* ProtoString::modulo(ProtoContext* context, const ProtoObject* other) const {
         // TODO: Implement string formatting (%)
@@ -1279,8 +1170,6 @@ namespace proto {
 
         // Collect codepoints from the list.
         std::string utf8;
-        unsigned int codepoints[INLINE_STRING_MAX_BYTES];
-        bool allASCII = (size <= INLINE_STRING_MAX_BYTES);
 
         for (proto_ulong i = 0; i < size; ++i) {
             const ProtoObject* charObj = list->getAt(context, static_cast<int>(i));
@@ -1294,13 +1183,13 @@ namespace proto {
                 RopeCharacterIterator it(context, charObj);
                 cp = it.next();
             }
-            if (i < INLINE_STRING_MAX_BYTES) codepoints[i] = cp;
-            if (cp >= 128u) allASCII = false;
             appendUTF8CodePoint(utf8, cp);
         }
 
-        if (allASCII && size <= INLINE_STRING_MAX_BYTES) {
-            return reinterpret_cast<const ProtoString*>(createInlineString(context, static_cast<int>(size), codepoints));
+        if (utf8.size() <= INLINE_STRING_MAX_BYTES) {
+            return reinterpret_cast<const ProtoString*>(createInlineStringUTF8(
+                context, reinterpret_cast<const uint8_t*>(utf8.data()),
+                static_cast<uint8_t>(utf8.size())));
         }
 
         // GC critical section: fromUTF8Bytes builds an AVL of
@@ -1310,15 +1199,13 @@ namespace proto {
         // build and the pendingRoot assignment would orphan the
         // pendingStr subtree.
         ProtoContext::CriticalSection cs(context);
-        const ProtoStringImplementation* pendingStr = ProtoStringImplementation::fromUTF8Bytes(
+        const ProtoObject* root = buildAVL(
             context,
             reinterpret_cast<const uint8_t*>(utf8.data()),
             utf8.size());
 
-        // No interning — see wrapRoot for the rationale.  The global
-        // stringInternMap caused O(N²) growth on runtime concat loops
-        // because computeContentHash walks the entire rope.
-        return pendingStr->asProtoString(context);
+        // No interning — see wrapRoot for the rationale.
+        return reinterpret_cast<const ProtoString*>(heapStringFromRoot(root));
     }
 
     const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* str) {
@@ -1329,22 +1216,23 @@ namespace proto {
         if (!utf8) utf8 = "";
         size_t len = std::strlen(utf8);
 
-        // Short ASCII paths can live as inline strings — they already guarantee
-        // pointer equality without SymbolTable involvement.
+        const auto* bytes = reinterpret_cast<const uint8_t*>(utf8);
+
+        // Malformed input has the canonical form of the string fromUTF8
+        // builds from it, which normalises the bytes; intern that string.
+        if (wellFormedUTF8Prefix(bytes, len) != len) {
+            ProtoContext::CriticalSection cs(ctx);
+            const ProtoObject* normalised = buildStringFromUTF8Bytes(ctx, bytes, len);
+            return reinterpret_cast<const ProtoString*>(
+                ctx->space->symbolTable->intern(ctx, normalised));
+        }
+
+        // A spelling of at most INLINE_STRING_MAX_BYTES bytes, ASCII or not,
+        // is canonical as an inline string: equal by pointer without the
+        // SymbolTable.
         if (len <= INLINE_STRING_MAX_BYTES) {
-            // Verify the bytes are pure ASCII (no multi-byte sequences that could
-            // exceed codepoint count). If so, create an inline string directly.
-            bool allAscii = true;
-            for (size_t i = 0; i < len; ++i) {
-                if (static_cast<unsigned char>(utf8[i]) >= 0x80u) { allAscii = false; break; }
-            }
-            if (allAscii) {
-                const ProtoObject* inl = createInlineStringUTF8(
-                    ctx,
-                    reinterpret_cast<const uint8_t*>(utf8),
-                    static_cast<uint8_t>(len));
-                return reinterpret_cast<const ProtoString*>(inl);
-            }
+            return reinterpret_cast<const ProtoString*>(
+                createInlineStringUTF8(ctx, bytes, static_cast<uint8_t>(len)));
         }
 
         // One perennial copy per new spelling, none for an interned one
@@ -1352,8 +1240,7 @@ namespace proto {
         // ProtoContext: its cells come from posix_memalign, outside every
         // freelist and young generation, so no GC cycle can reclaim it while
         // it is held only by a C++ local before the table records it.
-        const ProtoObject* sym = ctx->space->symbolTable->internUTF8(
-            ctx, reinterpret_cast<const uint8_t*>(utf8), len);
+        const ProtoObject* sym = ctx->space->symbolTable->internUTF8(ctx, bytes, len);
         return reinterpret_cast<const ProtoString*>(sym);
     }
 
@@ -1362,7 +1249,7 @@ namespace proto {
     }
 
     proto_ulong ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
-    const Cell* ProtoString::asCell(ProtoContext* context) const { return isInlineString(reinterpret_cast<const ProtoObject*>(this)) ? nullptr : getImpl(reinterpret_cast<const ProtoObject*>(this)); }
+    const Cell* ProtoString::asCell(ProtoContext* context) const { return ProtoObject::asCellPointer(heapStringRoot(reinterpret_cast<const ProtoObject*>(this))); }
     const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* other) const {
         auto* self     = reinterpret_cast<const ProtoObject*>(this);
         auto* otherObj = reinterpret_cast<const ProtoObject*>(other);
@@ -1394,15 +1281,16 @@ namespace proto {
                                            const ProtoObject* l,
                                            const ProtoObject* r)
         : Cell(ctx)
+        , node_kind(STRING_NODE_INTERNAL)
+        , height(static_cast<uint8_t>(1 + std::max(nodeHeight(l), nodeHeight(r))))
+        , _pad(0)
+        , total_chars(charCount(l) + charCount(r))
         , left(l)
         , right(r)
-        , total_chars(charCount(l) + charCount(r))
         , left_chars(charCount(l))
         , total_bytes(byteCount(l) + byteCount(r))
-        , _pad_align(0)
         , subtree_hash(hashCombine(subtreeHash(l), subtreeHash(r)))
-        , height(static_cast<uint8_t>(1 + std::max(nodeHeight(l), nodeHeight(r))))
-        , _pad{}
+        , _pad_tail(0)
     {}
 
     int StringInternalNode::nodeHeight(const ProtoObject* n) {
@@ -1694,9 +1582,8 @@ namespace proto {
             return reinterpret_cast<const ProtoString*>(
                 createInlineStringUTF8(context, full.data(),
                                        static_cast<uint8_t>(full.size())));
-        auto* impl = ProtoStringImplementation::fromUTF8Bytes(
-            context, full.data(), full.size());
-        return reinterpret_cast<const ProtoString*>(impl->implAsObject(context));
+        return reinterpret_cast<const ProtoString*>(
+            heapStringFromRoot(buildAVL(context, full.data(), full.size())));
     }
 
     const ProtoString* ProtoString::fromCodepointTuple(ProtoContext* context,

@@ -51,12 +51,15 @@ TEST_F(StringTest, TupleStringInvariantLength) {
 }
 
 TEST_F(StringTest, TupleStringInvariantNonAscii) {
+    // "héllo" is 6 UTF-8 bytes: inline, like every spelling that fits (3.2.0).
     const ProtoObject* shortNonAscii = ctx->fromUTF8String("héllo"); // Note the accent
     ASSERT_NE(shortNonAscii, nullptr);
     ASSERT_TRUE(shortNonAscii->isString(ctx));
-    
-    // contains non-ascii = tuple backed string
-    ProtoObjectPointer pa{}; pa.oid = shortNonAscii;
+    ASSERT_TRUE(isInlineString(shortNonAscii));
+
+    // One byte more is a heap string.
+    const ProtoObject* longerNonAscii = ctx->fromUTF8String("héllos");
+    ProtoObjectPointer pa{}; pa.oid = longerNonAscii;
     ASSERT_EQ(pa.op.pointer_tag, POINTER_TAG_STRING);
 }
 
@@ -317,28 +320,28 @@ TEST_F(StringAVLTest, CharAtInTree) {
     proto::strCharAt(tree, 4, &cp); EXPECT_EQ(cp, (uint32_t)'e');
 }
 
-TEST_F(StringAVLTest, StringImplFromUTF8) {
+TEST_F(StringAVLTest, RopeFromUTF8) {
     const char* src = "hello";
-    auto* s = proto::ProtoStringImplementation::fromUTF8Bytes(
+    const proto::ProtoObject* root = proto::buildRopeFromUTF8(
         c, reinterpret_cast<const uint8_t*>(src), 5);
-    ASSERT_NE(s, nullptr);
-    EXPECT_EQ(s->implGetSize(), 5u);
+    ASSERT_NE(root, nullptr);
+    EXPECT_EQ(proto::StringInternalNode::charCount(root), 5u);
 }
 
-TEST_F(StringAVLTest, StringImplHashIsRootHash) {
+TEST_F(StringAVLTest, OneLeafContentHashIsTheLeafHash) {
     const char* src = "abc";
-    auto* s = proto::ProtoStringImplementation::fromUTF8Bytes(
+    const proto::ProtoObject* root = proto::buildRopeFromUTF8(
         c, reinterpret_cast<const uint8_t*>(src), 3);
-    EXPECT_EQ(s->implGetHash(),
-              proto::StringInternalNode::subtreeHash(s->avl_root));
+    EXPECT_EQ(proto::computeContentHash(root),
+              proto::StringInternalNode::subtreeHash(root));
 }
 
-TEST_F(StringAVLTest, StringImplLargeFromUTF8) {
+TEST_F(StringAVLTest, LargeRopeFromUTF8) {
     std::string long_str(100, 'a');
-    auto* s = proto::ProtoStringImplementation::fromUTF8Bytes(
+    const proto::ProtoObject* root = proto::buildRopeFromUTF8(
         c, reinterpret_cast<const uint8_t*>(long_str.data()), long_str.size());
-    EXPECT_EQ(s->implGetSize(), 100u);
-    EXPECT_LE(proto::StringInternalNode::nodeHeight(s->avl_root), 2);
+    EXPECT_EQ(proto::StringInternalNode::charCount(root), 100u);
+    EXPECT_LE(proto::StringInternalNode::nodeHeight(root), 2);
 }
 
 // ===== ProtoString Public API Tests (Task 7) =================================
@@ -712,7 +715,7 @@ TEST_F(StringTest, BufferBoundarySplitThreeByte) {
 
 TEST_F(SymbolTest, AutoInternOnSetAttribute) {
     // "myLongKey" is 9 bytes — exceeds INLINE_STRING_MAX_BYTES (6), so it goes
-    // through ProtoStringImplementation (heap allocation, POINTER_TAG_STRING).
+    // to the heap (a rope root, POINTER_TAG_STRING).
     // After setAttribute auto-interns it, a lookup with the matching symbol
     // (POINTER_TAG_SYMBOL) must find the stored value.
     auto* obj = c->newObject();
@@ -775,7 +778,7 @@ TEST_F(SymbolTest, ConcurrentInternSamePointer) {
 
 TEST_F(SymbolTest, SymbolOutlivesItsInterningContext) {
     // 19 bytes — well past the inline-string limit, so this is a real
-    // SymbolTable entry (a heap ProtoStringImplementation), not an inline
+    // SymbolTable entry (a heap rope), not an inline
     // string that would be perpetual for the trivial reason of having no Cell.
     const char* name = "perennialSymbolName";
     const ProtoString* sym = nullptr;

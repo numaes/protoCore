@@ -4,6 +4,62 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Added -- `ProtoString::intern` and one canonical form per short spelling (3.2.0, additive: SOVERSION stays 4)
+
+- **`ProtoString::intern(context)`**: the canonical, interned form of a
+  string. It returns the same pointer for a string that is already
+  canonical (an inline string or a symbol); otherwise it returns the symbol
+  with the same content, looked up from the string itself (no C string is
+  built) and interned on first sight. A lookup of an interned spelling
+  allocates nothing. A runtime interns the attribute names it knows at
+  module initialization with `createSymbol`, and a name computed at run time
+  (`obj['a' + '1']`) with `intern` before the attribute access. A runtime
+  that calls it requires protoCore >= 3.2.0.
+- **Fixed: a short non-ASCII spelling had two pointers.** A spelling of at
+  most `INLINE_STRING_MAX_BYTES` (6) UTF-8 bytes is canonical as an inline
+  string, whatever its codepoints. Concatenation and slicing already produced
+  that form; `createSymbol`, `ProtoString::fromUTF8` /
+  `ProtoContext::fromUTF8String` and `ProtoString::create(list)` produced it
+  for ASCII only, so `createSymbol("año")` was a table symbol while
+  `"a" + "ño"` was an inline string, and an attribute set under one was not
+  found under the other. All constructors now produce the inline form, and
+  the symbol table never holds a short spelling (`SymbolTable::intern` and
+  `lookupByContent` return the inline form of a short heap string).
+- `createSymbol` of malformed UTF-8 now interns the string `fromUTF8` builds
+  from the same bytes (normalised), so both give one pointer; it used to
+  intern the raw bytes.
+- Embedders should be fully rebuilt: no signature changes, but which
+  representation a short non-ASCII string has changed.
+- Tests: `test/StringCanonicalFormTests.cpp`.
+
+### Changed -- a heap string is its rope root (3.2.0, internal: SOVERSION stays 4)
+
+- **No header cell.** A heap string or symbol handle points directly at the
+  root of its AVL tree, a `StringLeafNode` or `StringInternalNode`;
+  `ProtoStringImplementation`, which only held that root, is gone. A string
+  that fits in one leaf is one Cell instead of two, and every longer string
+  saves one Cell. The handle keeps `POINTER_TAG_STRING` / `POINTER_TAG_SYMBOL`
+  (`isStringTagFast` is inlined in embedders), and both node types start with
+  a `node_kind` byte from which `heapStringRoot` re-tags the root.
+- `ProtoObject::getHash` hashes every string by content: the cell of a heap
+  string is now a node, whose `Cell::getHash` is its address.
+- `ProtoString::asCell` returns the root node's cell.
+- The retired content-keyed intern map (`internString`, `StringInternSet`) is
+  removed; `ProtoSpace::stringInternMap` stays, held null, so the layout of
+  `ProtoSpace` does not change.
+- Tests: `test/StringRootTests.cpp` (node_kind offset in both node types, the
+  handle is the root, cell counts per string).
+- **36-byte leaves, filled.** The leaf layout gave its padding to the
+  payload: `StringLeafNode::MAX_PAYLOAD` is 36 (was 32). The builder splits at
+  a leaf boundary instead of halving the length, so every leaf but the last
+  is full: B bytes are `ceil(B / 36)` leaves and `2 * ceil(B / 36) - 1` cells
+  (was `2 * ceil(B / 32)` at best; halving left a power-of-two length in
+  32-byte leaves). Measured by the tests: 7 to 36 bytes are one cell (was 2, and 4 for 33 to
+  36 bytes);
+  467 ASCII characters are 25 cells (was 32); 1 MiB is 29,128 leaves (was
+  32,768). Content, size and hash goldens are unchanged; the rope-shape
+  goldens of `StringBuildTests` were updated.
+
 ### Improved -- the mutable table's states are not roots (3.1.0, no API change: SOVERSION stays 4)
 
 - **A state is live only while the mark reaches its handle.** When the mark
