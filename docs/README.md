@@ -10,6 +10,7 @@ This directory holds protoCore's documentation. The index of all documentation, 
 - [USER_GUIDE_UMD_MODULES.md](USER_GUIDE_UMD_MODULES.md) — Short guide to creating and registering a module for Unified Module Discovery.
 - [EXCEPTIONS.md](EXCEPTIONS.md) — **Normative.** One exception type for every language, selected by prototype; protoCore's errors and the error factory.
 - [tutorials/exceptions/](tutorials/exceptions/README.md) — Tutorials on exceptions, each backed by a compiled example in [../examples/exceptions/](../examples/exceptions/).
+- [tutorials/linked-list/](tutorials/linked-list/README.md) — Tutorials on `ProtoLinkedList`, the collectable list built at the front, each backed by a compiled example in [../examples/linked-list/](../examples/linked-list/).
 - [tutorials/strings/](tutorials/strings/README.md) — Tutorials on strings: attribute names, canonical forms and `ProtoString::intern`, each backed by a compiled example in [../examples/strings/](../examples/strings/).
 - [MemoryModel.md](MemoryModel.md) — Memory model and the process sizing rule: perennials, the sum of every `ProtoSpace`'s peak working set, and memory not managed by protoCore.
 - [GarbageCollector.md](GarbageCollector.md) — Garbage collector implementation and the phases of a collection cycle.

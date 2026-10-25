@@ -137,6 +137,7 @@ const char* typeName(const Cell* c)
         case CellType::MPSCQueue:           return "MPSCQueue";
         case CellType::MPSCQueueNode:       return "MPSCQueueNode";
         case CellType::MPSCQueueRetain:     return "MPSCQueueRetain";
+        case CellType::LinkedList:          return "LinkedList";
         case CellType::TupleDictionary:     return "TupleDictionary";
         default:                            return "Cell";
     }
