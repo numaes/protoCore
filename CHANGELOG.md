@@ -4,6 +4,16 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+## [3.3.0] - 2026-10-25
+
+Since 3.0.0. Released 2026-10-25. Collects the 3.1.0 and 3.2.0 work, which
+was not tagged on its own. Additive throughout: SOVERSION stays 4, and no
+data member of a public class changed since 3.0.0 (only functions and new
+types were added). Verified: a protoClojure built against 3.2.0 passes its
+suite against the 3.3.0 library without a rebuild. A runtime that uses a
+3.1, 3.2 or 3.3 function requires that version
+(`find_package(protoCore 3.3 REQUIRED)`; Debian: `protocore (>= 3.3.0)`).
+
 ### Added -- `ProtoLinkedList`, a collectable list built at the front (3.3.0, additive: SOVERSION stays 4)
 
 - **New type `ProtoLinkedList`**: an immutable singly linked list of 64-byte

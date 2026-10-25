@@ -19,7 +19,22 @@ Spec: docs/specs/2026-10-25-linked-list-design.md (approved 2026-10-25).
       prototype to a root set and the empty list to a perennial cell.
       Residual cycle deltas match a dead-padding layout control.
 - [x] 7. Docs: CHANGELOG 3.3.0, DESIGN.md, tutorial + example; version 3.3.0.
-- [ ] 8. (next, not started) protoClojure migration measured (rest walk, retained memory, vec).
+- [ ] 8. protoClojure migration (branch feature/linked-list-lists, worktree
+      .agent_scratch/linked-list/clj-lists), built against protoCore 3.3.0:
+      - [ ] a. SeqTypes: a non-empty list is a ProtoLinkedList (tag 29), `()` the
+            process's empty list; list prototype removed; ListCursor helper.
+      - [ ] b. Walk sites (~22 `listRest` loops) on the cursor; nth on getAt;
+            SeqWalk advances a cell at a time (no allocation, no head retention).
+      - [ ] c. Tag audits: MapOps keyIsIdentity / SequenceView, valueTypeName,
+            readMember, IO, ExecutionEngine object-tag checks.
+      - [ ] d. Tests: ctest Release + ASan; heap-limit list walk test still two-way.
+      - [ ] e. A/B against main 9df518a on the same 3.3.0 library (A/A control):
+            list-cost cases, bench.sh, start-up, showcase.
+      - [ ] f. Docs (DESIGN M46, STATUS, CHANGELOG), protoCore >= 3.3.0 in CMake
+            and CI; merge after CI is green.
+- [x] 9. Release 3.3.0: CHANGELOG section, tag v3.3.0, Linux .deb (pc-deb-build
+      docker), GitHub release.
+- [ ] 10. Cleanup: bench worktrees and prefixes of linked-list and string-intern.
 
 # Write path and cross-runtime re-measurement (2.14.7)
 
