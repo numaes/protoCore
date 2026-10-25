@@ -93,6 +93,8 @@ namespace proto
     class ProtoMap;
     class ProtoMapIterator;
     class ProtoMPSCQueue;
+    class ProtoLinkedList;
+    class ProtoLinkedListCursor;
     class ProtoSet;
     class ProtoSetIterator;
     class ProtoMultiset;
@@ -910,6 +912,7 @@ namespace proto
         bool isNativeRangeIterator(ProtoContext* context) const;
         bool isMap(ProtoContext* context) const;
         bool isMPSCQueue(ProtoContext* context) const;
+        bool isLinkedList(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
@@ -952,6 +955,7 @@ namespace proto
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
         const ProtoMap* asMap(ProtoContext* context) const;
         const ProtoMPSCQueue* asMPSCQueue(ProtoContext* context) const;
+        const ProtoLinkedList* asLinkedList(ProtoContext* context) const;
         const ProtoSet* asSet(ProtoContext* context) const;
         const ProtoSetIterator* asSetIterator(ProtoContext* context) const;
         const ProtoMultiset* asMultiset(ProtoContext* context) const;
@@ -1598,6 +1602,86 @@ namespace proto
     private:
         ProtoKeywordArgument inline_[kInline];
         std::vector<ProtoKeywordArgument> heap_;
+    };
+
+    /**
+     * @class ProtoLinkedList
+     * @brief Immutable, collectable singly linked list, built at the front.
+     *
+     * Each cell holds up to four elements, the total count and the next
+     * cell; every cell is full except the head (the list is aligned at its
+     * end), so equal lists have the same cell boundaries and every suffix
+     * is itself a list.  Nothing is interned: a list nobody references is
+     * garbage.  `asTuple` gives the canonical, interned (perennial) tuple
+     * when identity is needed.
+     *
+     * Costs: `prepend` allocates one cell; `getFirst`, `getSize` and
+     * `isEmpty` none; `getRest` none when the head holds one element and one
+     * cell otherwise.  `getAt(i)` walks i / 4 cells.  There are no
+     * operations at the end and no random access: use ProtoList for those.
+     * nullptr is not an element (`prepend(nullptr)` returns the receiver).
+     *
+     * Since 3.3.0.  See docs/specs/2026-10-25-linked-list-design.md.
+     */
+    class ProtoLinkedList
+    {
+    public:
+        //- Front access, O(1)
+        /** The first element, or nullptr when the list is empty. */
+        const ProtoObject* getFirst(ProtoContext* context) const;
+        /** Every element but the first; the empty list when size <= 1. */
+        const ProtoLinkedList* getRest(ProtoContext* context) const;
+        proto_ulong getSize(ProtoContext* context) const;
+        bool isEmpty(ProtoContext* context) const;
+
+        //- Construction at the front: one cell
+        const ProtoLinkedList* prepend(ProtoContext* context, const ProtoObject* value) const;
+
+        //- Walks of O(k / 4) cells; only the result allocates
+        /** The element at `index`, or nullptr when out of range. */
+        const ProtoObject* getAt(ProtoContext* context, proto_ulong index) const;
+        /** The list without its first `count` elements. */
+        const ProtoLinkedList* removeFirst(ProtoContext* context, proto_ulong count) const;
+        /** The first `count` elements (ceil(count / 4) cells). */
+        const ProtoLinkedList* takeFirst(ProtoContext* context, proto_ulong count) const;
+
+        //- O(n) builders
+        /** This list followed by `tail`; `tail` is shared, not copied. */
+        const ProtoLinkedList* prependAll(ProtoContext* context, const ProtoLinkedList* tail) const;
+        const ProtoLinkedList* reverse(ProtoContext* context) const;
+
+        //- Comparison
+        /** Same size and the same element words, in order. */
+        bool isEqual(ProtoContext* context, const ProtoLinkedList* other) const;
+        /** ProtoTuple's hash of the same elements. */
+        proto_ulong getHash(ProtoContext* context) const;
+
+        //- Conversion
+        /** A new ProtoList with the same elements. */
+        const ProtoList* asList(ProtoContext* context) const;
+        /** The interned (perennial) ProtoTuple with the same elements. */
+        const ProtoTuple* asTuple(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+    };
+
+    /**
+     * @class ProtoLinkedListCursor
+     * @brief Walks a ProtoLinkedList without allocating.
+     *
+     * A value the caller keeps in a C++ local.  It is valid while the list it
+     * started from is reachable, as is any `ProtoObject*` in a local.
+     * Since 3.3.0.
+     */
+    class ProtoLinkedListCursor
+    {
+    public:
+        explicit ProtoLinkedListCursor(const ProtoLinkedList* list);
+        bool hasNext() const;
+        /** The next element, or nullptr when the walk is over. */
+        const ProtoObject* next();
+    private:
+        const void* node;
+        proto_ulong index;
     };
 
     /**
@@ -2266,6 +2350,18 @@ namespace proto
         const ProtoMap* newMap();
         /** Empty lock-free MPSC queue (PMQ-SPEC section 2.1). */
         const ProtoMPSCQueue* newMPSCQueue();
+        /** The empty ProtoLinkedList (one per process). Since 3.3.0. */
+        const ProtoLinkedList* newLinkedList();
+        /**
+         * A ProtoLinkedList holding `values[0..count)` in order: ceil(n / 4)
+         * cells, the cheapest way to return several values.  nullptr entries
+         * are skipped.  Since 3.3.0.
+         */
+        const ProtoLinkedList* newLinkedListFromArray(proto_ulong count, const ProtoObject* const* values);
+        /** A ProtoLinkedList with the elements of `list`, in order. Since 3.3.0. */
+        const ProtoLinkedList* newLinkedListFromList(const ProtoList* list);
+        /** A ProtoLinkedList with the elements of `tuple`, in order. Since 3.3.0. */
+        const ProtoLinkedList* newLinkedListFromTuple(const ProtoTuple* tuple);
         // Returns an empty AVL-form sparse list implementation as a raw
         // C++ pointer. Used for internal struct fields that should not
         // carry a tag (e.g. ProtoObjectCell::attributes); the public
@@ -3093,6 +3189,15 @@ namespace proto
         const ProtoObject* getErrorRootPrototype(ProtoContext* context);
         /** @brief "InvalidArgument", "TypeMismatch", "Overflow", "DivisionByZero", "ArityMismatch". */
         static const char* errorKindName(ProtoErrorKind kind);
+
+        /**
+         * @brief The prototype of every ProtoLinkedList of this space.
+         *
+         * An accessor rather than a public field, so that the layout of
+         * ProtoSpace stays that of 3.2.0.  Since 3.3.0.
+         */
+        ProtoObject* getLinkedListPrototype() const;
+        void setLinkedListPrototype(ProtoObject* prototype);
 
         //- Thread Management
         void allocThread(ProtoContext* context, const ProtoThread* thread);

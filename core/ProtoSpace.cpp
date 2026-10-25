@@ -237,6 +237,7 @@ namespace proto {
                 case CellType::MPSCQueue: return "MPSCQueue";
                 case CellType::MPSCQueueNode: return "MPSCQueueNode";
                 case CellType::MPSCQueueRetain: return "MPSCQueueRetain";
+                case CellType::LinkedList: return "LinkedList";
             }
             return "unknown";
         }
@@ -1821,6 +1822,17 @@ namespace proto {
         this->sparseListPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->mapPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
         this->mpscQueuePrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        {
+            // State added after the 3.2.0 public layout (ProtoLinkedList spec, D7).
+            // Its objects are rooted by a root set of their own, which the
+            // collector already scans: nothing is added to the collector's
+            // own root scan.
+            auto* extension = new ProtoSpaceImplementation();
+            extension->roots = this->createRootSet("protoCore-space-extension");
+            extension->linkedListPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+            extension->linkedListPrototypeHandle = extension->roots->add(extension->linkedListPrototype);
+            this->impl = extension;
+        }
         // Mutable so embedders (protoJS Object.prototype, protoPython
         // object.__class__, etc.) can install methods and accept user-
         // level setattr without forking the identity on every write.
@@ -2073,6 +2085,8 @@ namespace proto {
         // BYTES, which are not.
         delete tupleInterner;
         tupleInterner = nullptr;
+        delete impl;
+        impl = nullptr;
 
         // Drain DirtySegment lists (live, free pool, and survivor pen)
         // and free the underlying heap nodes.  GC thread is already

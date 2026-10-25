@@ -165,6 +165,7 @@ namespace proto {
     class ProtoMPSCQueueImplementation;
     class ProtoMPSCQueueNodeImplementation;
     class ProtoMPSCQueueRetainImplementation;
+    class ProtoLinkedListNode;
     class ProtoSetImplementation;
     class ProtoSetIteratorImplementation;
     class ProtoMultisetImplementation;
@@ -220,6 +221,8 @@ namespace proto {
         const ProtoMapImplementation *mapImplementation;
         const ProtoMapSmallImplementation *mapSmallImplementation;
         const ProtoMPSCQueue *mpscQueue;
+        const ProtoLinkedList *linkedList;
+        const ProtoLinkedListNode *linkedListNode;
         const ProtoMPSCQueueImplementation *mpscQueueImplementation;
         const ProtoListImplementation *listImplementation;
         const ProtoListSmallImplementation *listSmallImplementation;
@@ -368,11 +371,12 @@ namespace proto {
 #define POINTER_TAG_SPARSE_LIST_SMALL   26 // ProtoSparseListSmallImplementation — inline (key,value) sparse list (size ≤ 3)
 #define POINTER_TAG_MAP  27 // ProtoMap handle: AVL node OR Small form, told apart by CellType
 #define POINTER_TAG_MPSC_QUEUE 28 // ProtoMPSCQueueImplementation - the lock-free MPSC queue handle
+#define POINTER_TAG_LINKED_LIST 29 // ProtoLinkedListNode - the head cell of a ProtoLinkedList (3.3.0)
 
 // ---------------------------------------------------------------------
 // Tagged-pointer budget (platform-wide, scarce).
 //
-//   Pointer tags (6 bits, 64 values):   used 0-28 (29), free 29-63 (35)
+//   Pointer tags (6 bits, 64 values):   used 0-29 (30), free 30-63 (34)
 //   Embedded types (4 bits, 16 values): used 0, 2, 3, 4, 5 (5),
 //                                       free 1, 6-15 (11)
 //
@@ -393,6 +397,10 @@ namespace proto {
 // Its node and retain cells are internal: they are told apart by
 // CellType, are never handed out as ProtoObject* words, and therefore
 // take no tag (protoScala/docs/platform/PMQ-SPEC.md, section 4).
+//
+// Tag 29 carries exactly one cell type (ProtoLinkedListNode); approved by
+// the maintainer on 2026-10-25 (docs/specs/2026-10-25-linked-list-design.md,
+// decision D1).  Its cursor is a C++ value and takes no tag.
 // ---------------------------------------------------------------------
 
 #define EMBEDDED_TYPE_SMALLINT 0
@@ -501,6 +509,9 @@ namespace proto {
 
     template<> struct ExpectedTag<const ProtoMPSCQueueImplementation> { static constexpr proto_ulong value = POINTER_TAG_MPSC_QUEUE; };
     template<> struct ExpectedTag<ProtoMPSCQueueImplementation> { static constexpr proto_ulong value = POINTER_TAG_MPSC_QUEUE; };
+
+    template<> struct ExpectedTag<const ProtoLinkedListNode> { static constexpr proto_ulong value = POINTER_TAG_LINKED_LIST; };
+    template<> struct ExpectedTag<ProtoLinkedListNode> { static constexpr proto_ulong value = POINTER_TAG_LINKED_LIST; };
 
     // Internal cells of ProtoMPSCQueue (PMQ-SPEC section 4, decision D6): the
     // handle is the raw cell address (tag 0, POINTER_TAG_OBJECT), never a
@@ -771,7 +782,8 @@ namespace proto {
         MapIterator,
         MPSCQueue,
         MPSCQueueNode,
-        MPSCQueueRetain
+        MPSCQueueRetain,
+        LinkedList
     };
 
     class Cell {
@@ -2635,6 +2647,59 @@ namespace proto {
         proto_ulong getHash(ProtoContext* context) const override;
     };
 
+    /**
+     * A cell of a ProtoLinkedList (3.3.0; docs/specs/2026-10-25-linked-list-design.md).
+     *
+     * A list handle is the word of its head cell with POINTER_TAG_LINKED_LIST.
+     * `counts` packs the elements of this cell (bits 0-2, 0..4) and of the
+     * whole list from this cell on (bits 3-63), so every cell is the head of
+     * its own suffix.  Canonical form: every cell is full except the head,
+     * which holds ((n - 1) mod 4) + 1 elements.  The empty list is one
+     * perennial cell per process with counts == 0, allocated outside the
+     * collector.
+     */
+    class ProtoLinkedListNode final : public Cell {
+    public:
+        static constexpr unsigned SLOTS = 4;
+        static constexpr unsigned NODE_COUNT_BITS = 3;
+        static constexpr proto_ulong NODE_COUNT_MASK = (PROTO_UL(1) << NODE_COUNT_BITS) - 1;
+
+        const proto_ulong counts;
+        const ProtoLinkedListNode* const next;   // nullptr in the last cell
+        const ProtoObject* slot[SLOTS];          // slot[0 .. nodeCount()) valid
+
+        CellType getType() const override { return CellType::LinkedList; }
+
+        // `n` <= SLOTS values, none nullptr, followed by the list `rest`
+        // (nullptr or a non-empty cell).
+        ProtoLinkedListNode(ProtoContext* context, unsigned n,
+                            const ProtoObject* const* values,
+                            const ProtoLinkedListNode* rest);
+
+        unsigned nodeCount() const { return static_cast<unsigned>(counts & NODE_COUNT_MASK); }
+        proto_ulong totalCount() const { return counts >> NODE_COUNT_BITS; }
+
+        const ProtoLinkedList* asLinkedList() const;
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void processReferences(ProtoContext* context, void* self,
+                               void (*method)(ProtoContext*, void*, const Cell*)) const override;
+        proto_ulong getHash(ProtoContext* context) const override;
+    };
+
+    /**
+     * Per-space state added after the 3.2.0 public layout of ProtoSpace was
+     * fixed: reached through ProtoSpace::impl, so that new state never moves
+     * a public field (ProtoLinkedList spec, decision D7).  The objects it
+     * holds are pinned in `roots`, a root set the space destroys with the
+     * others; the collector's own root scan is unchanged.
+     */
+    class ProtoSpaceImplementation {
+    public:
+        ProtoRootSet* roots = nullptr;
+        ProtoObject* linkedListPrototype = nullptr;
+        unsigned long long linkedListPrototypeHandle = 0;
+    };
+
     class BigCell final {
         union {
             char byteData[64] = {};
@@ -2651,6 +2716,7 @@ namespace proto {
             ProtoMPSCQueueImplementation mpscQueueCell;
             ProtoMPSCQueueNodeImplementation mpscQueueNodeCell;
             ProtoMPSCQueueRetainImplementation mpscQueueRetainCell;
+            ProtoLinkedListNode linkedListCell;
             ProtoTupleIteratorImplementation tupleIteratorCell;
             ProtoTupleImplementation tupleCell;
             ProtoStringIteratorImplementation stringIteratorCell;
@@ -2688,6 +2754,7 @@ namespace proto {
     static_assert(sizeof(ProtoSparseListSmallImplementation) <= 64, "ProtoSparseListSmallImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMapImplementation) <= 64, "ProtoMapImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMapSmallImplementation) <= 64, "ProtoMapSmallImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoLinkedListNode) == 64, "ProtoLinkedListNode must fill exactly one 64-byte cell");
     static_assert(sizeof(ProtoMapIteratorImplementation) <= 64, "ProtoMapIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMPSCQueueImplementation) <= 64, "ProtoMPSCQueueImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMPSCQueueNodeImplementation) <= 64, "ProtoMPSCQueueNodeImplementation exceeds 64 bytes!");

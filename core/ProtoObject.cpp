@@ -656,6 +656,7 @@ namespace proto
         case POINTER_TAG_SPARSE_LIST_ITERATOR: return context->space->sparseListIteratorPrototype;
         case POINTER_TAG_MAP: return context->space->mapPrototype;
         case POINTER_TAG_MPSC_QUEUE: return context->space->mpscQueuePrototype;
+        case POINTER_TAG_LINKED_LIST: return context->space->getLinkedListPrototype();
         case POINTER_TAG_TUPLE: return context->space->tuplePrototype;
         case POINTER_TAG_TUPLE_ITERATOR: return context->space->tupleIteratorPrototype;
         case POINTER_TAG_STRING: return context->space->stringPrototype;

@@ -4,6 +4,51 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Added -- `ProtoLinkedList`, a collectable list built at the front (3.3.0, additive: SOVERSION stays 4)
+
+- **New type `ProtoLinkedList`**: an immutable singly linked list of 64-byte
+  cells of up to four elements, for sequences built at the front, read at
+  their head and dropped: returned values, Lisp lists, arguments a method
+  keeps. Nothing is interned, so a list nobody references is garbage; a
+  `ProtoTuple`, by contrast, is interned and perennial, and must not be built
+  per operation.
+  - Every cell is full except the head (the list is aligned at its end) and
+    holds the count of its suffix, so every suffix is a list and equal lists
+    have the same cell boundaries.
+  - `prepend` (cons) allocates one cell; `getFirst`, `getSize` and `isEmpty`
+    none; `getRest` none when the head holds one element, one cell
+    otherwise. `getAt`, `removeFirst` and `takeFirst` walk k / 4 cells.
+    `prependAll` shares its tail; `reverse`, the builders and the conversions
+    are O(n). n elements take ceil(n / 4) cells.
+  - `ProtoLinkedListCursor` walks a list without allocating.
+  - `isEqual` compares element words; `getHash` is `ProtoTuple`'s hash of the
+    same elements. `asList` returns a new `ProtoList`; `asTuple` the interned
+    tuple, for when identity is needed.
+  - `ProtoContext::newLinkedList`, `newLinkedListFromArray` (several returned
+    values in one cell), `newLinkedListFromList`, `newLinkedListFromTuple`;
+    `ProtoObject::isLinkedList` / `asLinkedList`;
+    `ProtoSpace::getLinkedListPrototype` / `setLinkedListPrototype`.
+- **Pointer tag 29** (`POINTER_TAG_LINKED_LIST`), approved by the
+  maintainer; 34 tags remain free. `CellType::LinkedList` is appended at the
+  end of the enum.
+- **No change for a program that does not use the type**: no existing type,
+  allocation path or collector phase changes, and the public layout of
+  `ProtoSpace` is that of 3.2.0. The prototype is reached through accessors
+  backed by `ProtoSpaceImplementation` (the `impl` field, unused until now)
+  instead of a new public field, so a binary built against 3.2 runs against
+  3.3 without a rebuild; it is pinned in a root set of the space, so the
+  collector's root scan is unchanged, and the empty list is one perennial
+  cell per process. `test/LinkedListTests.cpp` pins `sizeof(ProtoSpace)`
+  and the offsets of its fields on libstdc++ x86-64.
+- **A runtime that uses the type requires 3.3.0**:
+  `find_package(protoCore 3.3 REQUIRED)`; such a binary fails to load against
+  an older 3.x library with an undefined symbol at start-up; a Debian package
+  declares `Depends: protocore (>= 3.3.0)`.
+- Specification: `docs/specs/2026-10-25-linked-list-design.md`. Tutorial:
+  `docs/tutorials/linked-list/`, with the example
+  `examples/linked-list/01_front_built_sequences.cpp`. Tests:
+  `test/LinkedListTests.cpp`.
+
 ### Added -- `ProtoString::intern` and one canonical form per short spelling (3.2.0, additive: SOVERSION stays 4)
 
 - **`ProtoString::intern(context)`**: the canonical, interned form of a

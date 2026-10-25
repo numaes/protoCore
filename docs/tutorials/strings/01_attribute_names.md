@@ -16,7 +16,7 @@ A `ProtoString` has two representations:
 | Representation | When | Canonical? |
 |---|---|---|
 | Inline string, in the pointer word | the spelling is at most `INLINE_STRING_MAX_BYTES` (6) UTF-8 bytes, ASCII or not | always: the content *is* the pointer |
-| Heap string, a persistent AVL tree (one leaf up to 32 bytes, a rope beyond) | longer spellings | only when it is a **symbol** (`POINTER_TAG_SYMBOL`): the one copy the `SymbolTable` holds |
+| Heap string, a persistent AVL tree (one leaf up to 36 bytes, a rope beyond) | longer spellings | only when it is a **symbol** (`POINTER_TAG_SYMBOL`): the one copy the `SymbolTable` holds |
 
 A heap string built at run time (`fromUTF8`, concatenation, slicing) is not a
 symbol, because interning every string would hash every rope it builds. A

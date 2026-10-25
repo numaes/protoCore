@@ -1,3 +1,26 @@
+# ProtoLinkedList (3.3.0) -- branch feature/linked-list
+
+Spec: docs/specs/2026-10-25-linked-list-design.md (approved 2026-10-25).
+
+- [x] 1. Facts gathered: tuple interner is perennial; protoPython avoids
+      ProtoTuple since 29158d41 (measured: RSS flat at 4M tuples); tag budget
+      (29 next free); marker uses an explicit stack; embedders construct
+      ProtoSpace by value (a new public field breaks 3.2 binaries).
+- [x] 2. Spec written: representation, canonical form, API, cost, GC, tags,
+      tests, versioning, rollout, decisions D1-D8.
+- [x] 3. Maintainer review of D1-D8: all recommendations approved (2026-10-25).
+- [x] 4. Implementation: node cell + empty list, ProtoLinkedList, cursor,
+      context builders, ProtoObject is/as, getPrototype case, prototype
+      accessors in ProtoSpaceImplementation.
+- [x] 5. Tests of spec section 8: ctest 760/760, ASan 750/750, TSan 750/750 (0 warnings).
+- [x] 6. No-regression evidence: ProtoSpace layout pinned; a 3.2.0 protoclj
+      runs on 3.3.0 (869/869); instructions identical. Root-scan lines in
+      gcThreadLoop cost reduce-list 11-13 % cycles (bisected) -> moved the
+      prototype to a root set and the empty list to a perennial cell.
+      Residual cycle deltas match a dead-padding layout control.
+- [x] 7. Docs: CHANGELOG 3.3.0, DESIGN.md, tutorial + example; version 3.3.0.
+- [ ] 8. (next, not started) protoClojure migration measured (rest walk, retained memory, vec).
+
 # Write path and cross-runtime re-measurement (2.14.7)
 
 - [x] 1. Attribute lookup baseline, per-call cache statistics, real-workload

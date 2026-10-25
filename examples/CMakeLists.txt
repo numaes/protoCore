@@ -2,3 +2,4 @@
 # example that stops compiling or stops doing what its tutorial says fails CI.
 add_subdirectory(exceptions)
 add_subdirectory(strings)
+add_subdirectory(linked-list)
