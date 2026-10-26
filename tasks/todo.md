@@ -1,4 +1,4 @@
-# Unmanaged-scope wakeup and block-copy toStdString (Unreleased) -- branch perf/unmanaged-scope-tostdstring
+# Unmanaged-scope wakeup and block-copy toStdString (3.3.1) -- branch perf/unmanaged-scope-tostdstring
 
 From protoClojure's grep investigation (protoClojure branch
 investigate/grep-gap, benchmarks/reports/2026-10-25-grep-gap).
@@ -15,7 +15,7 @@ investigate/grep-gap, benchmarks/reports/2026-10-25-grep-gap).
 - [x] 4. ctest 770/770; ASan and TSan on the affected suites; CI all platforms.
 - [x] 5. Five runtimes rebuilt against the branch, full suites green; A/B with
       A/A control: no regression outside noise; grep 18.7 s -> 13.2 s.
-- [ ] 6. Release 3.3.1 so the runtimes' CI (pinned to v3.3.0) picks it up.
+- [x] 6. Release 3.3.1 so the runtimes' CI (pinned to v3.3.0) picks it up.
 
 # ProtoLinkedList (3.3.0) -- branch feature/linked-list
 

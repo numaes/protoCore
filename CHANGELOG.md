@@ -2,9 +2,11 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased]
+## [3.3.1] - 2026-10-26
 
-Internal changes only: no public type, function or contract changed, and
+Released 2026-10-26. A patch release that makes unmanaged regions and
+string conversion cheaper. Internal changes only: no public type, function
+or contract changed, the installed headers are those of 3.3.0, and
 SOVERSION stays 4. A runtime gets them by running against the new library;
 it needs no rebuild and no source change.
 
