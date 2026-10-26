@@ -149,6 +149,19 @@ std::vector<Entry>& registry() {
 }
 proto_ulong nextSpaceId = 0;
 
+// The id of the one registered space while the process has exactly one, and
+// kNoSoleSpace otherwise.  Written under globalMutex by registerSpace and
+// unregisterSpace; read without it by goOut / comeBack (see "Leaving and
+// rejoining the quorum" below).  Ids are never reused, so an equal id names
+// the same registration, not merely a space at the same address.
+constexpr proto_ulong kNoSoleSpace = ~static_cast<proto_ulong>(0);
+std::atomic<proto_ulong> soleSpaceId{kNoSoleSpace};
+
+void updateSoleSpaceLocked() {
+    const auto& r = registry();
+    soleSpaceId.store(r.size() == 1 ? r.front().id : kNoSoleSpace, std::memory_order_release);
+}
+
 // The space that started the calling OS thread, if any, and that thread's
 // ProtoThreadImplementation in it.
 thread_local ProtoSpace* tlWorkerSpace = nullptr;
@@ -278,6 +291,7 @@ proto_ulong registerSpace(ProtoSpace* space) {
     // The constructing thread is the space's adopted main thread.
     ensureQuiescenceRecord();
     registry().push_back(Entry{space, id});
+    updateSoleSpaceLocked();
     return id;
 }
 
@@ -287,6 +301,7 @@ void unregisterSpace(ProtoSpace* space) {
     for (auto it = r.begin(); it != r.end(); ++it) {
         if (it->space == space) { r.erase(it); break; }
     }
+    updateSoleSpaceLocked();
 }
 
 proto_ulong liveSpaceCount() {
@@ -322,11 +337,68 @@ void parkForAnyStop(ProtoContext* context) {
     quiesce(context);
 }
 
+// ---- Leaving and rejoining the quorum ----------------------------------------
+//
+// A collector waits for its quorum (parkedThreads >= runningThreads) on gcCV
+// in exactly one place: Phase 1 of gcThreadLoop, after raising stwFlag.  It
+// raises the flag, evaluates the predicate and blocks, all under globalMutex
+// (the wait releases the mutex atomically).  A thread leaving the quorum must
+// wake it only then: an idle collector waits on the same condition variable
+// for gcStarted, which parkedThreads does not affect, and waking it for every
+// unmanaged region cost a futex wake, a mutex hand-off and a context switch
+// on the collector per region (protoClojure's grep: one per input line).
+//
+// So goOut increments parkedThreads, THEN reads stwFlag, and notifies only
+// when the flag is up; both operations are seq_cst, as are the collector's
+// store of the flag and its predicate's load of the counter.  In the single
+// total order of seq_cst operations either
+//
+//   * the thread's load of stwFlag precedes the collector's store: then its
+//     increment precedes it too, so the predicate, evaluated after the store,
+//     sees the increment and the collector does not block for this thread; or
+//   * the load follows the store and returns true: the thread takes
+//     globalMutex and notifies.  The collector holds the mutex from the store
+//     until it blocks, so the notify cannot fall between its predicate and
+//     its wait: it is either still to evaluate the predicate (and sees the
+//     increment), already waiting (and is woken), or past the wait.
+//
+// No wakeup is lost.  comeBack is the mirror image: it decrements
+// parkedThreads, THEN reads stwFlag (both seq_cst) and parks when the flag
+// is up.  If the load precedes the collector's store, so does the decrement,
+// and the predicate sees this thread as running and waits for it to park at
+// a safepoint; otherwise the thread parks before touching any cell.  Either
+// way no thread runs managed code while a stop-the-world it was counted out
+// of is in progress.  A decrement needs no notify: it never satisfies the
+// predicate.
+//
+// The registry walk needs globalMutex.  With one registered space (every
+// runtime's normal case, docs/GLOBAL_MUTABLE_TABLE.md "One ProtoSpace per
+// process") the walk can only find `own`, so both functions skip the mutex
+// when soleSpaceId names `own`:
+//
+//   * a thread is a member of a space only if it constructed it or was
+//     started by it, both done by the thread itself, so no space registered
+//     concurrently by another thread can count the calling thread;
+//   * comeBack takes the fast path only when the one space it left is still
+//     the sole registered one, by id; any other case takes the mutex and
+//     checks every space it left, as before.  Destroying the space a thread
+//     is running in while the thread runs is a contract violation in both
+//     paths (the space's own threads must be joined first).
 void goOut(ProtoSpace* own) {
     if (tlOutDepth++ != 0) return;  // only the 0 -> 1 transition
     setOut(+1);
-    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
     tlOutOf.clear();
+    if (own && soleSpaceId.load(std::memory_order_acquire) == spaceIdOf(own)) {
+        if (isGcThreadOf(own)) return;
+        own->parkedThreads.fetch_add(1, std::memory_order_seq_cst);
+        tlOutOf.push_back(Entry{own, spaceIdOf(own)});
+        if (own->stwFlag.load(std::memory_order_seq_cst)) {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            own->gcCV.notify_all();
+        }
+        return;
+    }
+    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
     for (const Entry& e : registry()) {
         ProtoSpace* s = e.space;
         const bool mine = (s == own) || isMember(s);
@@ -337,21 +409,30 @@ void goOut(ProtoSpace* own) {
         // spaces are left only when this thread holds none of their cells in
         // a critical section.
         if (s != own && criticalDepthIn(s) > 0) continue;
-        s->parkedThreads.fetch_add(1, std::memory_order_acq_rel);
+        s->parkedThreads.fetch_add(1, std::memory_order_seq_cst);
         tlOutOf.push_back(e);
-        s->gcCV.notify_all();
+        // Holding globalMutex: the collector of `s` is either before its
+        // quorum predicate or blocked in the wait, never in between.
+        if (s->stwFlag.load(std::memory_order_seq_cst)) s->gcCV.notify_all();
     }
 }
 
 void comeBack(ProtoSpace* own, ProtoContext* context) {
-    (void) own;
     if (tlOutDepth-- != 1) return;  // only the 1 -> 0 transition (an orphan return is a no-op)
+    // Spaces rejoined: at most one per registered space.  One in the
+    // single-space case, which then allocates nothing.
+    ProtoSpace* single = nullptr;
     std::vector<ProtoSpace*> rejoined;
-    {
+    if (tlOutOf.size() == 1
+        && soleSpaceId.load(std::memory_order_acquire) == tlOutOf.front().id) {
+        single = tlOutOf.front().space;
+        single->parkedThreads.fetch_sub(1, std::memory_order_seq_cst);
+        tlOutOf.clear();
+    } else if (!tlOutOf.empty()) {
         std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
         for (const Entry& e : tlOutOf) {
             if (!registered(e.space, e.id)) continue;  // destroyed meanwhile
-            e.space->parkedThreads.fetch_sub(1, std::memory_order_acq_rel);
+            e.space->parkedThreads.fetch_sub(1, std::memory_order_seq_cst);
             rejoined.push_back(e.space);
         }
         tlOutOf.clear();
@@ -359,8 +440,9 @@ void comeBack(ProtoSpace* own, ProtoContext* context) {
     // Back in managed code: if a member space is stopped, wait it out as a
     // safepoint would.  Cycles are serialized, so one pass finds at most one.
     setOut(-1);
+    if (single && single->stwFlag.load(std::memory_order_seq_cst)) parkIn(single);
     for (ProtoSpace* s : rejoined) {
-        if (!s->stwFlag.load(std::memory_order_acquire)) continue;
+        if (!s->stwFlag.load(std::memory_order_seq_cst)) continue;
         parkIn(s);
     }
     quiesce(context);
