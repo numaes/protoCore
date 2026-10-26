@@ -4,6 +4,43 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+Internal changes only: no public type, function or contract changed, and
+SOVERSION stays 4. A runtime gets them by running against the new library;
+it needs no rebuild and no source change.
+
+### Changed -- cheaper unmanaged regions and string conversion
+
+- **`UnmanagedScope` no longer wakes the collector at every entry.** The
+  outermost entry of an unmanaged region (`goUnmanaged`) took the global
+  mutex and notified the collector's condition variable every time, which
+  woke an idle collector once per region: a futex wake and a context switch
+  per region, for example per input line when a runtime reads lines through
+  `blocking()`. The entry now notifies only while a stop-the-world is raised,
+  the only time the collector waits for the quorum. Increment then flag
+  read, both seq_cst, so no wakeup is lost; the argument is written above
+  `multispace::goOut` (core/MultiSpace.cpp). With a single registered space,
+  the normal case, entry and exit also skip the global mutex. With several
+  spaces they take it as before.
+  Empty scope, one thread: 262-284 ns -> 51-70 ns, with no system time left
+  (it was 0.4 s per 2 M scopes). Four threads: 1.66-1.72 us -> 0.28-0.31 us
+  per scope (`performance/unmanaged_tostring_benchmark.cpp`, 3 interleaved
+  runs per library).
+- **`ProtoString::toUTF8String` / `toStdString` copy leaf bytes in blocks.**
+  The conversion decoded and re-encoded every code point through the rope
+  iterator, about 15 ns per byte, and an inline string went through a newly
+  allocated leaf. It now appends each leaf's payload with one copy when the
+  leaf is ASCII, and runs the old per-code-point conversion over that one
+  leaf otherwise. The output is the same byte for byte, malformed leaves
+  included. 80-byte ASCII line: 1.20-1.25 us -> 73-78 ns; 45-byte non-ASCII
+  line: 586-632 ns -> 128-135 ns; 3-byte inline string: 118-125 ns -> 17-18 ns;
+  64 KiB rope: 17-19 ns/byte -> 0.7 ns/byte.
+- Measured end to end with the same runtime binaries loading either
+  library (3 interleaved rounds, load average 7-8): protoClojure's
+  `examples/showcase/grep.clj` over a 115 MB log 18.7 s -> 13.2 s. The
+  standard workloads of protoClojure, protoScala, protoST, protoPython and
+  protoJS show no change outside the spread of an A/A control of the 3.3.0
+  library against itself (0.94-1.15 on the same jobs).
+
 ## [3.3.0] - 2026-10-25
 
 Since 3.0.0. Released 2026-10-25. Collects the 3.1.0 and 3.2.0 work, which

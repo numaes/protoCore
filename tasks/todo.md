@@ -1,3 +1,22 @@
+# Unmanaged-scope wakeup and block-copy toStdString (Unreleased) -- branch perf/unmanaged-scope-tostdstring
+
+From protoClojure's grep investigation (protoClojure branch
+investigate/grep-gap, benchmarks/reports/2026-10-25-grep-gap).
+
+- [x] 1. Characterization tests first: StringToStdStringTests (3.3.0 algorithm
+      as oracle, checked against 3.3.0), UnmanagedScopeWakeupTests (late entry
+      completes the quorum; cycle with a thread in a region; 6+2 thread stress
+      under a heap ceiling).
+- [x] 2. toUTF8String copies ASCII leaves in one block; other leaves run the old
+      per-code-point conversion over their own bytes.
+- [x] 3. goOut notifies only while stwFlag is up (seq_cst increment, then flag
+      read); single-space fast path without globalMutex.  Removing the notify
+      makes the late-entry test hang (checked).
+- [x] 4. ctest 770/770; ASan and TSan on the affected suites; CI all platforms.
+- [x] 5. Five runtimes rebuilt against the branch, full suites green; A/B with
+      A/A control: no regression outside noise; grep 18.7 s -> 13.2 s.
+- [ ] 6. Release 3.3.1 so the runtimes' CI (pinned to v3.3.0) picks it up.
+
 # ProtoLinkedList (3.3.0) -- branch feature/linked-list
 
 Spec: docs/specs/2026-10-25-linked-list-design.md (approved 2026-10-25).
