@@ -211,13 +211,11 @@ const ProtoObject* scopeChurnMain(ProtoContext* ctx, const ProtoObject*, const P
     Stress& st = *gStress;
     const ProtoList* canary = ctx->newList();
     for (int i = 0; i < kCanary; ++i) canary = canary->appendLast(ctx, ctx->fromInteger(i * 7));
-    long n = 0;
     for (long i = 0; !st.stop.load(std::memory_order_relaxed); ++i) {
         {
             ProtoContext::UnmanagedScope out(ctx);
             if ((i & 63) == 0) std::this_thread::yield();
         }
-        ++n;
         if ((i & 15) == 0) {
             // Managed work between regions, in a child context so the
             // canary's context never hands its young cells to the collector.
@@ -229,9 +227,9 @@ const ProtoObject* scopeChurnMain(ProtoContext* ctx, const ProtoObject*, const P
             for (int k = 0; ok && k < kCanary; ++k)
                 ok = canary->getAt(ctx, k)->asLong(ctx) == k * 7;
             if (!ok) st.corrupted.fetch_add(1);
+            st.scopes.fetch_add(256, std::memory_order_relaxed);
         }
     }
-    st.scopes.fetch_add(n);
     return PROTO_NONE;
 }
 
@@ -270,7 +268,10 @@ TEST(UnmanagedScopeWakeup, ManyThreadsInAndOutOfRegionsWhileCyclesRun) {
     {
         ProtoContext::UnmanagedScope out(space.rootContext);
         const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(60);
-        while (space.getGCCycleCount() - start < 30 && std::chrono::steady_clock::now() < deadline)
+        // Both conditions: on a fast machine 30 cycles take a fraction of a
+        // second, before the region threads have done much.
+        while ((space.getGCCycleCount() - start < 30 || st.scopes.load() < 50000)
+               && std::chrono::steady_clock::now() < deadline)
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
         st.stop = true;
     }
@@ -278,7 +279,7 @@ TEST(UnmanagedScopeWakeup, ManyThreadsInAndOutOfRegionsWhileCyclesRun) {
     space.setHeapLimits(0, 0);
     gStress = nullptr;
     EXPECT_GE(space.getGCCycleCount() - start, 30u) << "the collector did not keep cycling";
-    EXPECT_GT(st.scopes.load(), 10000);
+    EXPECT_GE(st.scopes.load(), 50000);
     EXPECT_EQ(st.corrupted.load(), 0);
     EXPECT_EQ(space.parkedThreads.load(), before);
 }
