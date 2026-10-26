@@ -1109,15 +1109,78 @@ namespace proto {
         }
     }
 
+    // Appends the UTF-8 of one leaf payload to `out`.
+    //
+    // The output is defined as the per-code-point conversion: decode at each
+    // lead byte (decodeCodepoint, which may read up to three bytes past
+    // `count`, inside the same object, exactly as RopeCharacterIterator does)
+    // and re-encode (appendUTF8CodePoint, which drops values above U+10FFFF).
+    // Every constructor stores well-formed UTF-8, for which that is the
+    // identity, so the common case is one block copy.  The check is ASCII
+    // only: a leaf with a non-ASCII byte takes the per-code-point loop over
+    // its own bytes, which reproduces the definition for any content,
+    // malformed bytes included, and still avoids the rope iterator.
+    static void appendLeafUTF8(std::string& out, const uint8_t* payload, uint32_t count) {
+        uint8_t high = 0;
+        for (uint32_t i = 0; i < count; ++i) high |= payload[i];
+        if ((high & 0x80u) == 0) {
+            out.append(reinterpret_cast<const char*>(payload), count);
+            return;
+        }
+        for (uint32_t pos = 0; pos < count; ) {
+            const uint8_t lead = payload[pos];
+            if (lead < 0x80u) {
+                out += static_cast<char>(lead);
+                ++pos;
+                continue;
+            }
+            appendUTF8CodePoint(out, decodeCodepoint(payload + pos));
+            pos += utf8SeqLen(lead);
+        }
+    }
+
     void ProtoString::toUTF8String(ProtoContext* context, std::string& out) const {
         auto* self = reinterpret_cast<const ProtoObject*>(this);
-        const ProtoObject* root = getRoot(context, self);
-        uint32_t sz = StringInternalNode::charCount(root);
         out.clear();
-        out.reserve(sz);  // approximate — at least one byte per codepoint
-        RopeCharacterIterator it(context, root);
-        while (it.hasNext(context)) {
-            appendUTF8CodePoint(out, it.next());
+        if (isInlineString(self)) {
+            // The bytes live in the tagged pointer.  Up to 3.3.0 they went
+            // through a freshly allocated leaf (getRoot); a zero-filled
+            // payload of the same size gives the same output without it.
+            uint8_t payload[StringLeafNode::MAX_PAYLOAD] = {};
+            const proto_ulong n = inlineStringByteCount(self);
+            for (proto_ulong i = 0; i < n; ++i) payload[i] = inlineStringByte(self, i);
+            appendLeafUTF8(out, payload, static_cast<uint32_t>(n));
+            return;
+        }
+        const ProtoObject* root = heapStringRoot(self);
+        if (!root) return;
+        out.reserve(StringInternalNode::byteCount(root));  // exact for well-formed text
+        // Left-to-right walk over the rope's leaves, one block per leaf.  An
+        // AVL rope of 2^32 characters is under 50 levels deep; a node of any
+        // other kind (none is built today) is converted by the iterator, which
+        // defines the output.
+        constexpr int MAX_DEPTH = 64;
+        const ProtoObject* stack[MAX_DEPTH];
+        int top = -1;
+        stack[++top] = root;
+        while (top >= 0) {
+            const ProtoObject* node = stack[top--];
+            if (!node) continue;
+            if (StringLeafNode::isStringLeafNode(node)) {
+                const StringLeafNode* leaf = StringLeafNode::fromObject(node);
+                appendLeafUTF8(out, leaf->utf8_payload, leaf->byte_count);
+                continue;
+            }
+            if (StringInternalNode::isStringInternalNode(node) && top + 2 < MAX_DEPTH) {
+                const StringInternalNode* in = StringInternalNode::fromObject(node);
+                stack[++top] = in->right;   // below the left child: left comes out first
+                stack[++top] = in->left;
+                continue;
+            }
+            // Deeper than any balanced rope, or a node of another kind: the
+            // iterator converts this subtree, in order.
+            RopeCharacterIterator it(context, node);
+            while (it.hasNext(context)) appendUTF8CodePoint(out, it.next());
         }
     }
 
