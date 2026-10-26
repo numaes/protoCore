@@ -255,6 +255,13 @@ add_executable(string_concat_benchmark performance/string_concat_benchmark.cpp)
 target_link_libraries(string_concat_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: string_concat_benchmark")
 
+# getrusage: POSIX only.
+if(UNIX)
+    add_executable(unmanaged_tostring_benchmark performance/unmanaged_tostring_benchmark.cpp)
+    target_link_libraries(unmanaged_tostring_benchmark PRIVATE protoCore)
+    message(STATUS "Configured benchmark: unmanaged_tostring_benchmark")
+endif()
+
 add_executable(cache_timing_benchmark performance/cache_timing_benchmark.cpp)
 target_link_libraries(cache_timing_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: cache_timing_benchmark")
