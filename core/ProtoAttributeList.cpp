@@ -134,6 +134,17 @@ namespace proto
                 return AttributeStorage(new(context) List(context, head, key, value, 0, nullptr));
             }
             if (old == value) return self;
+            // Overwrite in the head cell (the common case for a field written
+            // repeatedly): one cell, the new pair first, the head's other pair
+            // kept, the rest shared.  The general path below builds the same.
+            if (hit == head) {
+                if (!head->value1)
+                    return AttributeStorage(new(context) List(context, head->next, key, value, 0, nullptr));
+                const bool first = head->key0 == key;
+                return AttributeStorage(new(context) List(context, head->next, key, value,
+                                                          first ? head->key1 : head->key0,
+                                                          first ? head->value1 : head->value0));
+            }
             // Overwrite: copy the cells up to the old pair, drop it, put the
             // new pair at the head, share the rest.
             Pair pairs[kMaxPairs * 2 + 2];
