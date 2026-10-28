@@ -1,0 +1,1775 @@
+Test project /home/gamarino/Documentos/proyectos/.agent_scratch/pc-attr-list-work/rt/protoClojure/build-branch
+        Start   1: cli/adaptive-heap-on-by-default
+        Start   2: cli/adaptive-heap-off-by-env
+        Start   3: cli/adaptive-heap-bounded-memory
+        Start   4: cli/help
+  1/885 Test   #4: cli/help ....................................................................   Passed    0.02 sec
+        Start   5: cli/large-program
+  2/885 Test   #2: cli/adaptive-heap-off-by-env ................................................   Passed    0.98 sec
+        Start   6: cli/bulk-builders-under-heap-limit
+  3/885 Test   #5: cli/large-program ...........................................................   Passed    0.96 sec
+        Start   7: cli/loop-garbage-is-reclaimed
+  4/885 Test   #1: cli/adaptive-heap-on-by-default .............................................   Passed    1.02 sec
+        Start   8: cli/blocking-joins-park-for-gc
+  5/885 Test   #6: cli/bulk-builders-under-heap-limit ..........................................   Passed    0.35 sec
+        Start   9: cli/waiters-park-for-gc
+  6/885 Test   #3: cli/adaptive-heap-bounded-memory ............................................   Passed    2.69 sec
+        Start  10: cli/actor-payloads-survive-gc
+  7/885 Test  #10: cli/actor-payloads-survive-gc ...............................................   Passed    0.19 sec
+        Start  11: cli/repl-stack-overflow
+  8/885 Test  #11: cli/repl-stack-overflow .....................................................   Passed    0.19 sec
+        Start  12: cli/repl-nil-global
+  9/885 Test  #12: cli/repl-nil-global .........................................................   Passed    0.06 sec
+        Start  13: cli/repl-literals
+ 10/885 Test  #13: cli/repl-literals ...........................................................   Passed    0.08 sec
+        Start  14: cli/reader-values-under-heap-limit
+ 11/885 Test  #14: cli/reader-values-under-heap-limit ..........................................   Passed    0.75 sec
+        Start  15: cli/repl-quote
+ 12/885 Test  #15: cli/repl-quote ..............................................................   Passed    0.07 sec
+        Start  16: cli/quoted-data-survive-gc
+ 13/885 Test   #7: cli/loop-garbage-is-reclaimed ...............................................   Passed    4.10 sec
+        Start  17: cli/repl-macros
+ 14/885 Test  #17: cli/repl-macros .............................................................   Passed    0.08 sec
+        Start  18: cli/core-embedded
+ 15/885 Test  #18: cli/core-embedded ...........................................................   Passed    0.10 sec
+        Start  19: cli/macro-expansion-survives-gc
+ 16/885 Test  #16: cli/quoted-data-survive-gc ..................................................   Passed    1.37 sec
+        Start  20: cli/destructuring-survives-gc
+ 17/885 Test   #9: cli/waiters-park-for-gc .....................................................   Passed    4.15 sec
+        Start  21: cli/primitive-callbacks-survive-gc
+ 18/885 Test  #20: cli/destructuring-survives-gc ...............................................   Passed    1.00 sec
+        Start  22: cli/sets-survive-gc
+ 19/885 Test   #8: cli/blocking-joins-park-for-gc ..............................................   Passed    5.97 sec
+        Start  23: cli/regex-survives-gc
+ 20/885 Test  #21: cli/primitive-callbacks-survive-gc ..........................................   Passed    2.15 sec
+        Start  24: cli/for-format-survive-gc
+ 21/885 Test  #22: cli/sets-survive-gc .........................................................   Passed    2.21 sec
+        Start  25: cli/lazy-seqs-survive-gc
+ 22/885 Test  #23: cli/regex-survives-gc .......................................................   Passed    2.79 sec
+        Start  26: cli/list-walk-under-heap-limit
+ 23/885 Test  #24: cli/for-format-survive-gc ...................................................   Passed    2.42 sec
+        Start  27: cli/lazy-head-retention
+ 24/885 Test  #25: cli/lazy-seqs-survive-gc ....................................................   Passed    2.71 sec
+        Start  28: cli/lazy-grep-under-heap-limit
+ 25/885 Test  #19: cli/macro-expansion-survives-gc .............................................   Passed    7.50 sec
+        Start  29: cli/repl-lazy-seqs
+ 26/885 Test  #29: cli/repl-lazy-seqs ..........................................................   Passed    0.04 sec
+        Start  30: cli/script-top-words
+ 27/885 Test  #30: cli/script-top-words ........................................................   Passed    0.08 sec
+        Start  31: cli/repl-scripting
+ 28/885 Test  #31: cli/repl-scripting ..........................................................   Passed    0.10 sec
+        Start  32: cli/repl-data-formats
+ 29/885 Test  #32: cli/repl-data-formats .......................................................   Passed    0.09 sec
+        Start  33: cli/json-under-heap-limit
+ 30/885 Test  #28: cli/lazy-grep-under-heap-limit ..............................................   Passed    6.53 sec
+        Start  34: docs/snippets
+ 31/885 Test  #33: cli/json-under-heap-limit ...................................................   Passed    5.81 sec
+        Start  35: docs/vm-examples
+ 32/885 Test  #35: docs/vm-examples ............................................................   Passed    0.52 sec
+        Start  36: cli/dap-session
+ 33/885 Test  #27: cli/lazy-head-retention .....................................................   Passed    9.88 sec
+        Start  37: cli/pmap-joins-workers
+ 34/885 Test  #37: cli/pmap-joins-workers ......................................................   Passed    2.07 sec
+        Start  38: cli/file-form-by-form
+ 35/885 Test  #38: cli/file-form-by-form .......................................................   Passed    0.21 sec
+        Start  39: cli/repl-forms-in-order
+ 36/885 Test  #39: cli/repl-forms-in-order .....................................................   Passed    0.10 sec
+        Start  40: cli/deeply-nested-source
+ 37/885 Test  #36: cli/dap-session .............................................................   Passed    4.41 sec
+        Start  41: cli/uncaught-exception
+ 38/885 Test  #41: cli/uncaught-exception ......................................................   Passed    0.10 sec
+        Start  42: cli/exceptions-survive-gc
+ 39/885 Test  #40: cli/deeply-nested-source ....................................................   Passed    1.88 sec
+        Start  43: cli/io-stdin-read-line
+ 40/885 Test  #43: cli/io-stdin-read-line ......................................................   Passed    0.13 sec
+        Start  44: cli/io-command-line-args
+ 41/885 Test  #44: cli/io-command-line-args ....................................................   Passed    0.10 sec
+        Start  45: cli/io-exit-codes
+ 42/885 Test  #45: cli/io-exit-codes ...........................................................   Passed    0.19 sec
+        Start  46: cli/io-sh-dir-env-native
+ 43/885 Test  #46: cli/io-sh-dir-env-native ....................................................   Passed    0.16 sec
+        Start  47: cli/shebang-scripts
+ 44/885 Test  #34: docs/snippets ...............................................................   Passed    7.25 sec
+        Start  48: cli/http-localhost-latency
+ 45/885 Test  #47: cli/shebang-scripts .........................................................   Passed    0.33 sec
+        Start  49: cli/http-server-under-heap-limit
+ 46/885 Test  #48: cli/http-localhost-latency ..................................................   Passed    0.20 sec
+        Start  50: conformance/00-binary/version-flag.clj
+ 47/885 Test  #50: conformance/00-binary/version-flag.clj ......................................   Passed    0.08 sec
+        Start  51: conformance/01-literals/hash-bang-comment.clj
+ 48/885 Test  #51: conformance/01-literals/hash-bang-comment.clj ...............................   Passed    0.08 sec
+        Start  52: conformance/01-literals/hello-world.clj
+ 49/885 Test  #52: conformance/01-literals/hello-world.clj .....................................   Passed    0.08 sec
+        Start  53: conformance/02-special-forms/def-and-var-ref.clj
+ 50/885 Test  #42: cli/exceptions-survive-gc ...................................................   Passed    1.63 sec
+        Start  54: conformance/02-special-forms/def-false.clj
+ 51/885 Test  #53: conformance/02-special-forms/def-and-var-ref.clj ............................   Passed    0.07 sec
+        Start  55: conformance/02-special-forms/def-nil.clj
+ 52/885 Test  #54: conformance/02-special-forms/def-false.clj ..................................   Passed    0.07 sec
+        Start  56: conformance/02-special-forms/do-sequence.clj
+ 53/885 Test  #55: conformance/02-special-forms/def-nil.clj ....................................   Passed    0.07 sec
+        Start  57: conformance/02-special-forms/if-else-branch.clj
+ 54/885 Test  #56: conformance/02-special-forms/do-sequence.clj ................................   Passed    0.07 sec
+        Start  58: conformance/02-special-forms/if-then-branch.clj
+ 55/885 Test  #57: conformance/02-special-forms/if-else-branch.clj .............................   Passed    0.08 sec
+        Start  59: conformance/02-special-forms/let-top-level.clj
+ 56/885 Test  #58: conformance/02-special-forms/if-then-branch.clj .............................   Passed    0.08 sec
+        Start  60: conformance/02-special-forms/nil-global-from-fn-and-future.clj
+ 57/885 Test  #59: conformance/02-special-forms/let-top-level.clj ..............................   Passed    0.07 sec
+        Start  61: conformance/02-special-forms/redef-to-nil.clj
+ 58/885 Test  #60: conformance/02-special-forms/nil-global-from-fn-and-future.clj ..............   Passed    0.07 sec
+        Start  62: conformance/02-special-forms/unresolved-symbol.clj
+ 59/885 Test  #61: conformance/02-special-forms/redef-to-nil.clj ...............................   Passed    0.08 sec
+        Start  63: conformance/03-arithmetic/comparison.clj
+ 60/885 Test  #62: conformance/02-special-forms/unresolved-symbol.clj ..........................   Passed    0.08 sec
+        Start  64: conformance/03-arithmetic/inc-dec.clj
+ 61/885 Test  #49: cli/http-server-under-heap-limit ............................................   Passed    0.84 sec
+        Start  65: conformance/03-arithmetic/integer-division-by-zero.clj
+ 62/885 Test  #63: conformance/03-arithmetic/comparison.clj ....................................   Passed    0.07 sec
+        Start  66: conformance/03-arithmetic/many-distinct-constants.clj
+ 63/885 Test  #64: conformance/03-arithmetic/inc-dec.clj .......................................   Passed    0.07 sec
+        Start  67: conformance/03-arithmetic/multiplication.clj
+ 64/885 Test  #65: conformance/03-arithmetic/integer-division-by-zero.clj ......................   Passed    0.07 sec
+        Start  68: conformance/03-arithmetic/numeric-operands-accepted.clj
+ 65/885 Test  #66: conformance/03-arithmetic/many-distinct-constants.clj .......................   Passed    0.08 sec
+        Start  69: conformance/03-arithmetic/primitive-big-integer-arguments.clj
+ 66/885 Test  #67: conformance/03-arithmetic/multiplication.clj ................................   Passed    0.07 sec
+        Start  70: conformance/03-arithmetic/primitive-overflow-promotes.clj
+ 67/885 Test  #68: conformance/03-arithmetic/numeric-operands-accepted.clj .....................   Passed    0.07 sec
+        Start  71: conformance/03-arithmetic/reciprocal-of-zero.clj
+ 68/885 Test  #69: conformance/03-arithmetic/primitive-big-integer-arguments.clj ...............   Passed    0.07 sec
+        Start  72: conformance/03-arithmetic/redefined-operator.clj
+ 69/885 Test  #70: conformance/03-arithmetic/primitive-overflow-promotes.clj ...................   Passed    0.08 sec
+        Start  73: conformance/03-arithmetic/str-concat.clj
+ 70/885 Test  #71: conformance/03-arithmetic/reciprocal-of-zero.clj ............................   Passed    0.07 sec
+        Start  74: conformance/03-arithmetic/sum.clj
+ 71/885 Test  #72: conformance/03-arithmetic/redefined-operator.clj ............................   Passed    0.07 sec
+        Start  75: conformance/03-arithmetic/type-error-add-float-string.clj
+ 72/885 Test  #73: conformance/03-arithmetic/str-concat.clj ....................................   Passed    0.07 sec
+        Start  76: conformance/03-arithmetic/type-error-add-nil.clj
+ 73/885 Test  #74: conformance/03-arithmetic/sum.clj ...........................................   Passed    0.07 sec
+        Start  77: conformance/03-arithmetic/type-error-apply-mul.clj
+ 74/885 Test  #75: conformance/03-arithmetic/type-error-add-float-string.clj ...................   Passed    0.08 sec
+        Start  78: conformance/03-arithmetic/type-error-dec-fn.clj
+ 75/885 Test  #76: conformance/03-arithmetic/type-error-add-nil.clj ............................   Passed    0.07 sec
+        Start  79: conformance/03-arithmetic/type-error-div-nil.clj
+ 76/885 Test  #77: conformance/03-arithmetic/type-error-apply-mul.clj ..........................   Passed    0.07 sec
+        Start  80: conformance/03-arithmetic/type-error-ge-vector.clj
+ 77/885 Test  #78: conformance/03-arithmetic/type-error-dec-fn.clj .............................   Passed    0.07 sec
+        Start  81: conformance/03-arithmetic/type-error-gt-bigint-map.clj
+ 78/885 Test  #79: conformance/03-arithmetic/type-error-div-nil.clj ............................   Passed    0.07 sec
+        Start  82: conformance/03-arithmetic/type-error-inc-keyword.clj
+ 79/885 Test  #80: conformance/03-arithmetic/type-error-ge-vector.clj ..........................   Passed    0.07 sec
+        Start  83: conformance/03-arithmetic/type-error-le-nil.clj
+ 80/885 Test  #81: conformance/03-arithmetic/type-error-gt-bigint-map.clj ......................   Passed    0.07 sec
+        Start  84: conformance/03-arithmetic/type-error-lt-string.clj
+ 81/885 Test  #82: conformance/03-arithmetic/type-error-inc-keyword.clj ........................   Passed    0.08 sec
+        Start  85: conformance/03-arithmetic/type-error-mul-string.clj
+ 82/885 Test  #83: conformance/03-arithmetic/type-error-le-nil.clj .............................   Passed    0.08 sec
+        Start  86: conformance/03-arithmetic/type-error-reduce-lt-atom.clj
+ 83/885 Test  #84: conformance/03-arithmetic/type-error-lt-string.clj ..........................   Passed    0.08 sec
+        Start  87: conformance/03-arithmetic/type-error-sub-keyword.clj
+ 84/885 Test  #85: conformance/03-arithmetic/type-error-mul-string.clj .........................   Passed    0.08 sec
+        Start  88: conformance/03-arithmetic/variadic-division-by-zero.clj
+ 85/885 Test  #86: conformance/03-arithmetic/type-error-reduce-lt-atom.clj .....................   Passed    0.08 sec
+        Start  89: conformance/04-functions/defn-square.clj
+ 86/885 Test  #87: conformance/03-arithmetic/type-error-sub-keyword.clj ........................   Passed    0.08 sec
+        Start  90: conformance/04-functions/defn-two-args.clj
+ 87/885 Test  #88: conformance/03-arithmetic/variadic-division-by-zero.clj .....................   Passed    0.08 sec
+ 88/885 Test  #89: conformance/04-functions/defn-square.clj ....................................   Passed    0.08 sec
+        Start  91: conformance/04-functions/let-and-loop-nil-binding.clj
+        Start  92: conformance/04-functions/let-beyond-255-locals.clj
+ 89/885 Test  #90: conformance/04-functions/defn-two-args.clj ..................................   Passed    0.08 sec
+        Start  93: conformance/04-functions/let-binding.clj
+ 90/885 Test  #91: conformance/04-functions/let-and-loop-nil-binding.clj .......................   Passed    0.08 sec
+        Start  94: conformance/04-functions/let-multiple-bindings.clj
+ 91/885 Test  #92: conformance/04-functions/let-beyond-255-locals.clj ..........................   Passed    0.08 sec
+        Start  95: conformance/04-functions/many-fn-bodies.clj
+ 92/885 Test  #93: conformance/04-functions/let-binding.clj ....................................   Passed    0.08 sec
+        Start  96: conformance/04-functions/str-primitive-fn.clj
+ 93/885 Test  #94: conformance/04-functions/let-multiple-bindings.clj ..........................   Passed    0.07 sec
+        Start  97: conformance/04-functions/symbol-non-ascii.clj
+ 94/885 Test  #95: conformance/04-functions/many-fn-bodies.clj .................................   Passed    0.08 sec
+        Start  98: conformance/05-recursion/deep-non-tail-recursion.clj
+ 95/885 Test  #96: conformance/04-functions/str-primitive-fn.clj ...............................   Passed    0.07 sec
+        Start  99: conformance/05-recursion/factorial.clj
+ 96/885 Test  #97: conformance/04-functions/symbol-non-ascii.clj ...............................   Passed    0.07 sec
+        Start 100: conformance/05-recursion/loop-body-beyond-255-instructions.clj
+ 97/885 Test  #98: conformance/05-recursion/deep-non-tail-recursion.clj ........................   Passed    0.08 sec
+        Start 101: conformance/05-recursion/sum-to-n.clj
+ 98/885 Test  #99: conformance/05-recursion/factorial.clj ......................................   Passed    0.07 sec
+        Start 102: conformance/05-recursion/unbounded-recursion-raises-stack-overflow.clj
+ 99/885 Test #100: conformance/05-recursion/loop-body-beyond-255-instructions.clj ..............   Passed    0.07 sec
+        Start 103: conformance/06-closures/closure-with-loop.clj
+100/885 Test #101: conformance/05-recursion/sum-to-n.clj .......................................   Passed    0.07 sec
+        Start 104: conformance/06-closures/higher-order-compose.clj
+101/885 Test #103: conformance/06-closures/closure-with-loop.clj ...............................   Passed    0.07 sec
+        Start 105: conformance/06-closures/immediate-invoke.clj
+102/885 Test #104: conformance/06-closures/higher-order-compose.clj ............................   Passed    0.08 sec
+        Start 106: conformance/06-closures/single-capture.clj
+103/885 Test #105: conformance/06-closures/immediate-invoke.clj ................................   Passed    0.08 sec
+        Start 107: conformance/06-closures/triple-nested.clj
+104/885 Test #106: conformance/06-closures/single-capture.clj ..................................   Passed    0.08 sec
+        Start 108: conformance/06-closures/two-captures.clj
+105/885 Test #102: conformance/05-recursion/unbounded-recursion-raises-stack-overflow.clj ......   Passed    0.20 sec
+        Start 109: conformance/07-variadic/empty-rest.clj
+106/885 Test #107: conformance/06-closures/triple-nested.clj ...................................   Passed    0.08 sec
+        Start 110: conformance/07-variadic/rest-count.clj
+107/885 Test #108: conformance/06-closures/two-captures.clj ....................................   Passed    0.08 sec
+        Start 111: conformance/07-variadic/single-rest.clj
+108/885 Test #109: conformance/07-variadic/empty-rest.clj ......................................   Passed    0.07 sec
+        Start 112: conformance/08-collections/call-with-300-arguments.clj
+109/885 Test #110: conformance/07-variadic/rest-count.clj ......................................   Passed    0.08 sec
+        Start 113: conformance/08-collections/count-empty.clj
+110/885 Test #111: conformance/07-variadic/single-rest.clj .....................................   Passed    0.08 sec
+        Start 114: conformance/08-collections/deeply-nested-list-raises-stack-overflow.clj
+111/885 Test #112: conformance/08-collections/call-with-300-arguments.clj ......................   Passed    0.07 sec
+        Start 115: conformance/08-collections/direct-primitive-calls.clj
+112/885 Test #113: conformance/08-collections/count-empty.clj ..................................   Passed    0.07 sec
+        Start 116: conformance/08-collections/empty-list-literal.clj
+113/885 Test #115: conformance/08-collections/direct-primitive-calls.clj .......................   Passed    0.07 sec
+        Start 117: conformance/08-collections/equal-derived-seqs.clj
+114/885 Test #116: conformance/08-collections/empty-list-literal.clj ...........................   Passed    0.07 sec
+        Start 118: conformance/08-collections/equal-empty-sequential.clj
+115/885 Test #117: conformance/08-collections/equal-derived-seqs.clj ...........................   Passed    0.07 sec
+        Start 119: conformance/08-collections/equal-large-sequential.clj
+116/885 Test #118: conformance/08-collections/equal-empty-sequential.clj .......................   Passed    0.07 sec
+        Start 120: conformance/08-collections/equal-lists.clj
+117/885 Test #119: conformance/08-collections/equal-large-sequential.clj .......................   Passed    0.07 sec
+        Start 121: conformance/08-collections/equal-nested-sequential.clj
+118/885 Test #120: conformance/08-collections/equal-lists.clj ..................................   Passed    0.07 sec
+        Start 122: conformance/08-collections/equal-sequential-vs-other.clj
+119/885 Test #121: conformance/08-collections/equal-nested-sequential.clj ......................   Passed    0.07 sec
+        Start 123: conformance/08-collections/equal-vector-list.clj
+120/885 Test #122: conformance/08-collections/equal-sequential-vs-other.clj ....................   Passed    0.07 sec
+        Start 124: conformance/08-collections/first-rest-cons.clj
+121/885 Test #123: conformance/08-collections/equal-vector-list.clj ............................   Passed    0.07 sec
+        Start 125: conformance/08-collections/list-cell-boundaries.clj
+122/885 Test #124: conformance/08-collections/first-rest-cons.clj ..............................   Passed    0.07 sec
+        Start 126: conformance/08-collections/list-cells.clj
+123/885 Test #125: conformance/08-collections/list-cell-boundaries.clj .........................   Passed    0.08 sec
+        Start 127: conformance/08-collections/list-roundtrip.clj
+124/885 Test #126: conformance/08-collections/list-cells.clj ...................................   Passed    0.09 sec
+        Start 128: conformance/08-collections/long-list-iterative.clj
+125/885 Test #127: conformance/08-collections/list-roundtrip.clj ...............................   Passed    0.08 sec
+        Start 129: conformance/08-collections/nth-big-integer-index-not-found.clj
+126/885 Test #129: conformance/08-collections/nth-big-integer-index-not-found.clj ..............   Passed    0.07 sec
+        Start 130: conformance/08-collections/nth-big-integer-index.clj
+127/885 Test #114: conformance/08-collections/deeply-nested-list-raises-stack-overflow.clj .....   Passed    0.67 sec
+        Start 131: conformance/08-collections/nth-float-index.clj
+128/885 Test #130: conformance/08-collections/nth-big-integer-index.clj ........................   Passed    0.07 sec
+        Start 132: conformance/08-collections/nth-index-out-of-bounds.clj
+129/885 Test #131: conformance/08-collections/nth-float-index.clj ..............................   Passed    0.08 sec
+        Start 133: conformance/08-collections/nth-negative-big-integer-index.clj
+130/885 Test #132: conformance/08-collections/nth-index-out-of-bounds.clj ......................   Passed    0.08 sec
+        Start 134: conformance/08-collections/nth-nil.clj
+131/885 Test #133: conformance/08-collections/nth-negative-big-integer-index.clj ...............   Passed    0.09 sec
+        Start 135: conformance/08-collections/nth-string-code-points.clj
+132/885 Test #134: conformance/08-collections/nth-nil.clj ......................................   Passed    0.09 sec
+        Start 136: conformance/08-collections/nth-string-not-found.clj
+133/885 Test #135: conformance/08-collections/nth-string-code-points.clj .......................   Passed    0.09 sec
+        Start 137: conformance/08-collections/nth-string-out-of-bounds.clj
+134/885 Test #136: conformance/08-collections/nth-string-not-found.clj .........................   Passed    0.09 sec
+        Start 138: conformance/08-collections/nth-string.clj
+135/885 Test #137: conformance/08-collections/nth-string-out-of-bounds.clj .....................   Passed    0.08 sec
+        Start 139: conformance/08-collections/nth-unsupported-type.clj
+136/885 Test #138: conformance/08-collections/nth-string.clj ...................................   Passed    0.08 sec
+        Start 140: conformance/08-collections/reverse-list.clj
+137/885 Test #139: conformance/08-collections/nth-unsupported-type.clj .........................   Passed    0.08 sec
+        Start 141: conformance/09-higher-order/apply-arity-error.clj
+138/885 Test #140: conformance/08-collections/reverse-list.clj .................................   Passed    0.08 sec
+        Start 142: conformance/09-higher-order/apply-leading-args.clj
+139/885 Test  #26: cli/list-walk-under-heap-limit ..............................................   Passed   18.63 sec
+        Start 143: conformance/09-higher-order/apply-plus.clj
+140/885 Test #141: conformance/09-higher-order/apply-arity-error.clj ...........................   Passed    0.09 sec
+        Start 144: conformance/09-higher-order/closure-into-map.clj
+141/885 Test #142: conformance/09-higher-order/apply-leading-args.clj ..........................   Passed    0.08 sec
+        Start 145: conformance/09-higher-order/filter-gt.clj
+142/885 Test #143: conformance/09-higher-order/apply-plus.clj ..................................   Passed    0.08 sec
+        Start 146: conformance/09-higher-order/keyword-as-fn-value.clj
+143/885 Test #144: conformance/09-higher-order/closure-into-map.clj ............................   Passed    0.08 sec
+        Start 147: conformance/09-higher-order/map-inc.clj
+144/885 Test #145: conformance/09-higher-order/filter-gt.clj ...................................   Passed    0.07 sec
+        Start 148: conformance/09-higher-order/map-multi-coll.clj
+145/885 Test #146: conformance/09-higher-order/keyword-as-fn-value.clj .........................   Passed    0.07 sec
+        Start 149: conformance/09-higher-order/reduce-sum.clj
+146/885 Test #147: conformance/09-higher-order/map-inc.clj .....................................   Passed    0.08 sec
+        Start 150: conformance/10-multi-arity/anonymous-fn.clj
+147/885 Test #148: conformance/09-higher-order/map-multi-coll.clj ..............................   Passed    0.08 sec
+        Start 151: conformance/10-multi-arity/multi-arity-reduce.clj
+148/885 Test #149: conformance/09-higher-order/reduce-sum.clj ..................................   Passed    0.08 sec
+        Start 152: conformance/10-multi-arity/pick-arity.clj
+149/885 Test #150: conformance/10-multi-arity/anonymous-fn.clj .................................   Passed    0.08 sec
+        Start 153: conformance/11-sugar-forms/and-short-circuits.clj
+150/885 Test #151: conformance/10-multi-arity/multi-arity-reduce.clj ...........................   Passed    0.09 sec
+        Start 154: conformance/11-sugar-forms/and-truthy.clj
+151/885 Test #152: conformance/10-multi-arity/pick-arity.clj ...................................   Passed    0.09 sec
+        Start 155: conformance/11-sugar-forms/cond-fallthrough.clj
+152/885 Test #153: conformance/11-sugar-forms/and-short-circuits.clj ...........................   Passed    0.09 sec
+        Start 156: conformance/11-sugar-forms/cond-many-clauses.clj
+153/885 Test #154: conformance/11-sugar-forms/and-truthy.clj ...................................   Passed    0.10 sec
+        Start 157: conformance/11-sugar-forms/cond-middle-clause.clj
+154/885 Test #155: conformance/11-sugar-forms/cond-fallthrough.clj .............................   Passed    0.09 sec
+        Start 158: conformance/11-sugar-forms/or-all-falsy.clj
+155/885 Test #156: conformance/11-sugar-forms/cond-many-clauses.clj ............................   Passed    0.09 sec
+        Start 159: conformance/11-sugar-forms/or-first-truthy.clj
+156/885 Test #157: conformance/11-sugar-forms/cond-middle-clause.clj ...........................   Passed    0.09 sec
+        Start 160: conformance/11-sugar-forms/when-no.clj
+157/885 Test #158: conformance/11-sugar-forms/or-all-falsy.clj .................................   Passed    0.11 sec
+        Start 161: conformance/11-sugar-forms/when-not-yes.clj
+158/885 Test #159: conformance/11-sugar-forms/or-first-truthy.clj ..............................   Passed    0.11 sec
+        Start 162: conformance/11-sugar-forms/when-yes.clj
+159/885 Test #160: conformance/11-sugar-forms/when-no.clj ......................................   Passed    0.12 sec
+        Start 163: conformance/12-literals/booleans-nil.clj
+160/885 Test #161: conformance/11-sugar-forms/when-not-yes.clj .................................   Passed    0.10 sec
+        Start 164: conformance/12-literals/equal-constants-stay-distinct.clj
+161/885 Test #162: conformance/11-sugar-forms/when-yes.clj .....................................   Passed    0.10 sec
+        Start 165: conformance/12-literals/keyword-non-ascii.clj
+162/885 Test #163: conformance/12-literals/booleans-nil.clj ....................................   Passed    0.10 sec
+        Start 166: conformance/12-literals/keyword-not-equal-string.clj
+163/885 Test #164: conformance/12-literals/equal-constants-stay-distinct.clj ...................   Passed    0.10 sec
+        Start 167: conformance/12-literals/keyword-not-string.clj
+164/885 Test #165: conformance/12-literals/keyword-non-ascii.clj ...............................   Passed    0.09 sec
+        Start 168: conformance/12-literals/keyword.clj
+165/885 Test #166: conformance/12-literals/keyword-not-equal-string.clj ........................   Passed    0.09 sec
+        Start 169: conformance/12-literals/symbol-non-letter-rejected.clj
+166/885 Test #167: conformance/12-literals/keyword-not-string.clj ..............................   Passed    0.09 sec
+        Start 170: conformance/12-literals/symbol-not-equal-string.clj
+167/885 Test #168: conformance/12-literals/keyword.clj .........................................   Passed    0.10 sec
+        Start 171: conformance/13-floats/exponent-format.clj
+168/885 Test #169: conformance/12-literals/symbol-non-letter-rejected.clj ......................   Passed    0.10 sec
+        Start 172: conformance/13-floats/float-comparison.clj
+169/885 Test #170: conformance/12-literals/symbol-not-equal-string.clj .........................   Passed    0.10 sec
+        Start 173: conformance/13-floats/float-division-by-zero.clj
+170/885 Test #171: conformance/13-floats/exponent-format.clj ...................................   Passed    0.10 sec
+        Start 174: conformance/13-floats/float-literal.clj
+171/885 Test #172: conformance/13-floats/float-comparison.clj ..................................   Passed    0.10 sec
+        Start 175: conformance/13-floats/infinity-and-nan.clj
+172/885 Test #173: conformance/13-floats/float-division-by-zero.clj ............................   Passed    0.10 sec
+        Start 176: conformance/13-floats/integer-division.clj
+173/885 Test #174: conformance/13-floats/float-literal.clj .....................................   Passed    0.11 sec
+        Start 177: conformance/13-floats/large-whole-doubles.clj
+174/885 Test #175: conformance/13-floats/infinity-and-nan.clj ..................................   Passed    0.10 sec
+        Start 178: conformance/13-floats/mixed-arith.clj
+175/885 Test #176: conformance/13-floats/integer-division.clj ..................................   Passed    0.08 sec
+        Start 179: conformance/13-floats/nan-comparison.clj
+176/885 Test #177: conformance/13-floats/large-whole-doubles.clj ...............................   Passed    0.08 sec
+        Start 180: conformance/13-floats/nan-equal-to-itself.clj
+177/885 Test #178: conformance/13-floats/mixed-arith.clj .......................................   Passed    0.08 sec
+        Start 181: conformance/13-floats/negative-zero.clj
+178/885 Test #179: conformance/13-floats/nan-comparison.clj ....................................   Passed    0.08 sec
+        Start 182: conformance/13-floats/read-symbolic-values.clj
+179/885 Test #180: conformance/13-floats/nan-equal-to-itself.clj ...............................   Passed    0.08 sec
+        Start 183: conformance/13-floats/shortest-round-trip.clj
+180/885 Test #181: conformance/13-floats/negative-zero.clj .....................................   Passed    0.08 sec
+        Start 184: conformance/13-floats/str-infinity-and-nan.clj
+181/885 Test #182: conformance/13-floats/read-symbolic-values.clj ..............................   Passed    0.08 sec
+        Start 185: conformance/13-floats/symbolic-values-are-doubles.clj
+182/885 Test #183: conformance/13-floats/shortest-round-trip.clj ...............................   Passed    0.07 sec
+        Start 186: conformance/13-floats/unknown-symbolic-value.clj
+183/885 Test #184: conformance/13-floats/str-infinity-and-nan.clj ..............................   Passed    0.08 sec
+        Start 187: conformance/14-vectors/empty-vector.clj
+184/885 Test #185: conformance/13-floats/symbolic-values-are-doubles.clj .......................   Passed    0.09 sec
+        Start 188: conformance/14-vectors/higher-order-over-vector.clj
+185/885 Test #186: conformance/13-floats/unknown-symbolic-value.clj ............................   Passed    0.09 sec
+        Start 189: conformance/14-vectors/nth-and-count.clj
+186/885 Test #187: conformance/14-vectors/empty-vector.clj .....................................   Passed    0.09 sec
+        Start 190: conformance/14-vectors/predicates.clj
+187/885 Test #188: conformance/14-vectors/higher-order-over-vector.clj .........................   Passed    0.09 sec
+        Start 191: conformance/14-vectors/println-strings-unquoted.clj
+188/885 Test #189: conformance/14-vectors/nth-and-count.clj ....................................   Passed    0.09 sec
+        Start 192: conformance/14-vectors/str-nested-collections.clj
+189/885 Test #190: conformance/14-vectors/predicates.clj .......................................   Passed    0.09 sec
+        Start 193: conformance/14-vectors/str-readable-strings.clj
+190/885 Test #191: conformance/14-vectors/println-strings-unquoted.clj .........................   Passed    0.09 sec
+        Start 194: conformance/14-vectors/vec-from-list.clj
+191/885 Test #192: conformance/14-vectors/str-nested-collections.clj ...........................   Passed    0.09 sec
+        Start 195: conformance/14-vectors/vector-literal-100-items.clj
+192/885 Test #193: conformance/14-vectors/str-readable-strings.clj .............................   Passed    0.09 sec
+        Start 196: conformance/14-vectors/vector-literal.clj
+193/885 Test #194: conformance/14-vectors/vec-from-list.clj ....................................   Passed    0.08 sec
+        Start 197: conformance/15-bigint/big-integer-division-by-zero.clj
+194/885 Test #195: conformance/14-vectors/vector-literal-100-items.clj .........................   Passed    0.08 sec
+        Start 198: conformance/15-bigint/bigint-and-primed-ops.clj
+195/885 Test #196: conformance/14-vectors/vector-literal.clj ...................................   Passed    0.08 sec
+        Start 199: conformance/15-bigint/bigint-bad-string.clj
+196/885 Test #197: conformance/15-bigint/big-integer-division-by-zero.clj ......................   Passed    0.08 sec
+        Start 200: conformance/15-bigint/factorial-21.clj
+197/885 Test #199: conformance/15-bigint/bigint-bad-string.clj .................................   Passed    0.08 sec
+        Start 201: conformance/15-bigint/factorial-30.clj
+198/885 Test #198: conformance/15-bigint/bigint-and-primed-ops.clj .............................   Passed    0.09 sec
+        Start 202: conformance/15-bigint/large-add.clj
+199/885 Test #200: conformance/15-bigint/factorial-21.clj ......................................   Passed    0.08 sec
+        Start 203: conformance/15-bigint/literal-arithmetic.clj
+200/885 Test #201: conformance/15-bigint/factorial-30.clj ......................................   Passed    0.08 sec
+        Start 204: conformance/15-bigint/literal-beyond-long.clj
+201/885 Test #202: conformance/15-bigint/large-add.clj .........................................   Passed    0.09 sec
+        Start 205: conformance/15-bigint/literal-equality-hash.clj
+202/885 Test #203: conformance/15-bigint/literal-arithmetic.clj ................................   Passed    0.09 sec
+        Start 206: conformance/15-bigint/n-suffix-on-float-rejected.clj
+203/885 Test #204: conformance/15-bigint/literal-beyond-long.clj ...............................   Passed    0.09 sec
+        Start 207: conformance/15-bigint/n-suffix.clj
+204/885 Test #205: conformance/15-bigint/literal-equality-hash.clj .............................   Passed    0.09 sec
+        Start 208: conformance/16-maps/assoc-existing-replaces-value.clj
+205/885 Test #206: conformance/15-bigint/n-suffix-on-float-rejected.clj ........................   Passed    0.09 sec
+        Start 209: conformance/16-maps/assoc-multi.clj
+206/885 Test #207: conformance/15-bigint/n-suffix.clj ..........................................   Passed    0.09 sec
+        Start 210: conformance/16-maps/contains.clj
+207/885 Test #208: conformance/16-maps/assoc-existing-replaces-value.clj .......................   Passed    0.10 sec
+        Start 211: conformance/16-maps/count-assoc-existing-key.clj
+208/885 Test #209: conformance/16-maps/assoc-multi.clj .........................................   Passed    0.10 sec
+        Start 212: conformance/16-maps/count-map.clj
+209/885 Test #210: conformance/16-maps/contains.clj ............................................   Passed    0.11 sec
+        Start 213: conformance/16-maps/dissoc-by-value.clj
+210/885 Test #211: conformance/16-maps/count-assoc-existing-key.clj ............................   Passed    0.10 sec
+        Start 214: conformance/16-maps/dissoc-not-a-map.clj
+211/885 Test #212: conformance/16-maps/count-map.clj ...........................................   Passed    0.09 sec
+        Start 215: conformance/16-maps/dissoc.clj
+212/885 Test #213: conformance/16-maps/dissoc-by-value.clj .....................................   Passed    0.09 sec
+        Start 216: conformance/16-maps/empty-map-predicate.clj
+213/885 Test #214: conformance/16-maps/dissoc-not-a-map.clj ....................................   Passed    0.09 sec
+        Start 217: conformance/16-maps/empty.clj
+214/885 Test #215: conformance/16-maps/dissoc.clj ..............................................   Passed    0.08 sec
+        Start 218: conformance/16-maps/equal-collection-keys.clj
+215/885 Test #216: conformance/16-maps/empty-map-predicate.clj .................................   Passed    0.08 sec
+        Start 219: conformance/16-maps/equal-different-keys.clj
+216/885 Test #217: conformance/16-maps/empty.clj ...............................................   Passed    0.08 sec
+        Start 220: conformance/16-maps/equal-different-sizes.clj
+217/885 Test #218: conformance/16-maps/equal-collection-keys.clj ...............................   Passed    0.08 sec
+        Start 221: conformance/16-maps/equal-insertion-order.clj
+218/885 Test #219: conformance/16-maps/equal-different-keys.clj ................................   Passed    0.08 sec
+        Start 222: conformance/16-maps/equal-keyword-vs-string-keys.clj
+219/885 Test #220: conformance/16-maps/equal-different-sizes.clj ...............................   Passed    0.08 sec
+        Start 223: conformance/16-maps/equal-map-vs-sequential.clj
+220/885 Test #221: conformance/16-maps/equal-insertion-order.clj ...............................   Passed    0.09 sec
+        Start 224: conformance/16-maps/equal-nested.clj
+221/885 Test #222: conformance/16-maps/equal-keyword-vs-string-keys.clj ........................   Passed    0.08 sec
+        Start 225: conformance/16-maps/equal-unequal-values.clj
+222/885 Test #223: conformance/16-maps/equal-map-vs-sequential.clj .............................   Passed    0.08 sec
+        Start 226: conformance/16-maps/equal-variadic-first-class.clj
+223/885 Test #224: conformance/16-maps/equal-nested.clj ........................................   Passed    0.08 sec
+        Start 227: conformance/16-maps/get-default.clj
+224/885 Test #225: conformance/16-maps/equal-unequal-values.clj ................................   Passed    0.07 sec
+        Start 228: conformance/16-maps/key-bigint-two-ways.clj
+225/885 Test #226: conformance/16-maps/equal-variadic-first-class.clj ..........................   Passed    0.08 sec
+        Start 229: conformance/16-maps/key-double-bits.clj
+226/885 Test #227: conformance/16-maps/get-default.clj .........................................   Passed    0.07 sec
+        Start 230: conformance/16-maps/key-keyword-vs-long-string.clj
+227/885 Test #228: conformance/16-maps/key-bigint-two-ways.clj .................................   Passed    0.08 sec
+        Start 231: conformance/16-maps/key-keyword-vs-string.clj
+228/885 Test #229: conformance/16-maps/key-double-bits.clj .....................................   Passed    0.08 sec
+        Start 232: conformance/16-maps/key-large-map-by-value.clj
+229/885 Test #128: conformance/08-collections/long-list-iterative.clj ..........................   Passed    3.31 sec
+        Start 233: conformance/16-maps/key-map-by-value.clj
+230/885 Test #230: conformance/16-maps/key-keyword-vs-long-string.clj ..........................   Passed    0.08 sec
+        Start 234: conformance/16-maps/key-map-nested-values.clj
+231/885 Test #231: conformance/16-maps/key-keyword-vs-string.clj ...............................   Passed    0.08 sec
+        Start 235: conformance/16-maps/key-marker-collision.clj
+232/885 Test #232: conformance/16-maps/key-large-map-by-value.clj ..............................   Passed    0.07 sec
+        Start 236: conformance/16-maps/key-nan.clj
+233/885 Test #233: conformance/16-maps/key-map-by-value.clj ....................................   Passed    0.08 sec
+        Start 237: conformance/16-maps/key-nested-by-value.clj
+234/885 Test #234: conformance/16-maps/key-map-nested-values.clj ...............................   Passed    0.08 sec
+        Start 238: conformance/16-maps/key-nested-non-canonical.clj
+235/885 Test #235: conformance/16-maps/key-marker-collision.clj ................................   Passed    0.07 sec
+        Start 239: conformance/16-maps/key-numbers-collapse.clj
+236/885 Test #236: conformance/16-maps/key-nan.clj .............................................   Passed    0.07 sec
+        Start 240: conformance/16-maps/key-numbers-cross-type.clj
+237/885 Test #237: conformance/16-maps/key-nested-by-value.clj .................................   Passed    0.07 sec
+        Start 241: conformance/16-maps/key-persistence-derived.clj
+238/885 Test #238: conformance/16-maps/key-nested-non-canonical.clj ............................   Passed    0.07 sec
+        Start 242: conformance/16-maps/key-sequential-by-value.clj
+239/885 Test #239: conformance/16-maps/key-numbers-collapse.clj ................................   Passed    0.07 sec
+        Start 243: conformance/16-maps/key-string-runtime-built.clj
+240/885 Test #240: conformance/16-maps/key-numbers-cross-type.clj ..............................   Passed    0.07 sec
+        Start 244: conformance/16-maps/keys-vals-consistent.clj
+241/885 Test #241: conformance/16-maps/key-persistence-derived.clj .............................   Passed    0.07 sec
+        Start 245: conformance/16-maps/keyword-call-arity-error.clj
+242/885 Test #242: conformance/16-maps/key-sequential-by-value.clj .............................   Passed    0.07 sec
+        Start 246: conformance/16-maps/keyword-call-default.clj
+243/885 Test #243: conformance/16-maps/key-string-runtime-built.clj ............................   Passed    0.07 sec
+        Start 247: conformance/16-maps/keyword-call-non-map.clj
+244/885 Test #244: conformance/16-maps/keys-vals-consistent.clj ................................   Passed    0.07 sec
+        Start 248: conformance/16-maps/keyword-call.clj
+245/885 Test #245: conformance/16-maps/keyword-call-arity-error.clj ............................   Passed    0.07 sec
+        Start 249: conformance/16-maps/large-map.clj
+246/885 Test #246: conformance/16-maps/keyword-call-default.clj ................................   Passed    0.07 sec
+        Start 250: conformance/16-maps/literal-duplicate-key-is-read-error.clj
+247/885 Test #247: conformance/16-maps/keyword-call-non-map.clj ................................   Passed    0.07 sec
+        Start 251: conformance/16-maps/literal-evaluates-in-source-order.clj
+248/885 Test #248: conformance/16-maps/keyword-call.clj ........................................   Passed    0.07 sec
+        Start 252: conformance/16-maps/literal.clj
+249/885 Test #249: conformance/16-maps/large-map.clj ...........................................   Passed    0.07 sec
+        Start 253: conformance/16-maps/map-call.clj
+250/885 Test #250: conformance/16-maps/literal-duplicate-key-is-read-error.clj .................   Passed    0.08 sec
+        Start 254: conformance/16-maps/nil-value-vs-missing.clj
+251/885 Test #251: conformance/16-maps/literal-evaluates-in-source-order.clj ...................   Passed    0.07 sec
+        Start 255: conformance/16-maps/not-equal.clj
+252/885 Test #252: conformance/16-maps/literal.clj .............................................   Passed    0.07 sec
+        Start 256: conformance/16-maps/persistent-branches.clj
+253/885 Test #253: conformance/16-maps/map-call.clj ............................................   Passed    0.07 sec
+        Start 257: conformance/16-maps/predicates.clj
+254/885 Test #254: conformance/16-maps/nil-value-vs-missing.clj ................................   Passed    0.07 sec
+        Start 258: conformance/16-maps/print-original-keys.clj
+255/885 Test #255: conformance/16-maps/not-equal.clj ...........................................   Passed    0.07 sec
+        Start 259: conformance/16-maps/str-map.clj
+256/885 Test #256: conformance/16-maps/persistent-branches.clj .................................   Passed    0.07 sec
+        Start 260: conformance/17-kw-destructuring/closure-captures-kw.clj
+257/885 Test #257: conformance/16-maps/predicates.clj ..........................................   Passed    0.08 sec
+        Start 261: conformance/17-kw-destructuring/missing-keys-nil.clj
+258/885 Test #258: conformance/16-maps/print-original-keys.clj .................................   Passed    0.08 sec
+        Start 262: conformance/17-kw-destructuring/multi-arity-kwargs.clj
+259/885 Test #259: conformance/16-maps/str-map.clj .............................................   Passed    0.08 sec
+        Start 263: conformance/17-kw-destructuring/multi-keys.clj
+260/885 Test #260: conformance/17-kw-destructuring/closure-captures-kw.clj .....................   Passed    0.09 sec
+        Start 264: conformance/17-kw-destructuring/non-ascii-keys.clj
+261/885 Test #261: conformance/17-kw-destructuring/missing-keys-nil.clj ........................   Passed    0.09 sec
+        Start 265: conformance/17-kw-destructuring/positional-and-kw.clj
+262/885 Test #262: conformance/17-kw-destructuring/multi-arity-kwargs.clj ......................   Passed    0.09 sec
+        Start 266: conformance/18-kw-callsite/assoc-still-works.clj
+263/885 Test #263: conformance/17-kw-destructuring/multi-keys.clj ..............................   Passed    0.09 sec
+        Start 267: conformance/18-kw-callsite/call-kw-beyond-255-arguments.clj
+264/885 Test #264: conformance/17-kw-destructuring/non-ascii-keys.clj ..........................   Passed    0.09 sec
+        Start 268: conformance/18-kw-callsite/get-default-still-works.clj
+265/885 Test #265: conformance/17-kw-destructuring/positional-and-kw.clj .......................   Passed    0.09 sec
+        Start 269: conformance/18-kw-callsite/kw-callee-duplicate-last-wins.clj
+266/885 Test #266: conformance/18-kw-callsite/assoc-still-works.clj ............................   Passed    0.09 sec
+        Start 270: conformance/18-kw-callsite/kw-callee-keyword-positionals.clj
+267/885 Test #267: conformance/18-kw-callsite/call-kw-beyond-255-arguments.clj .................   Passed    0.09 sec
+        Start 271: conformance/18-kw-callsite/multiple-kv-pairs.clj
+268/885 Test #268: conformance/18-kw-callsite/get-default-still-works.clj ......................   Passed    0.09 sec
+        Start 272: conformance/18-kw-callsite/non-kw-callee-duplicate-keys.clj
+269/885 Test #269: conformance/18-kw-callsite/kw-callee-duplicate-last-wins.clj ................   Passed    0.08 sec
+        Start 273: conformance/18-kw-callsite/non-kw-callee-order.clj
+270/885 Test #270: conformance/18-kw-callsite/kw-callee-keyword-positionals.clj ................   Passed    0.08 sec
+        Start 274: conformance/18-kw-callsite/non-kw-callee-str-order.clj
+271/885 Test #271: conformance/18-kw-callsite/multiple-kv-pairs.clj ............................   Passed    0.07 sec
+        Start 275: conformance/18-kw-callsite/non-kw-callee-unchanged.clj
+272/885 Test #272: conformance/18-kw-callsite/non-kw-callee-duplicate-keys.clj .................   Passed    0.08 sec
+        Start 276: conformance/18-kw-callsite/trailing-kv-pair.clj
+273/885 Test #273: conformance/18-kw-callsite/non-kw-callee-order.clj ..........................   Passed    0.07 sec
+        Start 277: conformance/19-or-and-as/as-empty.clj
+274/885 Test #274: conformance/18-kw-callsite/non-kw-callee-str-order.clj ......................   Passed    0.08 sec
+        Start 278: conformance/19-or-and-as/as-snapshot.clj
+275/885 Test #275: conformance/18-kw-callsite/non-kw-callee-unchanged.clj ......................   Passed    0.08 sec
+        Start 279: conformance/19-or-and-as/or-default-overridden.clj
+276/885 Test #276: conformance/18-kw-callsite/trailing-kv-pair.clj .............................   Passed    0.07 sec
+        Start 280: conformance/19-or-and-as/or-default.clj
+277/885 Test #277: conformance/19-or-and-as/as-empty.clj .......................................   Passed    0.07 sec
+        Start 281: conformance/19-or-and-as/or-plus-as.clj
+278/885 Test #278: conformance/19-or-and-as/as-snapshot.clj ....................................   Passed    0.08 sec
+        Start 282: conformance/20-strings/blank.clj
+279/885 Test #279: conformance/19-or-and-as/or-default-overridden.clj ..........................   Passed    0.07 sec
+        Start 283: conformance/20-strings/case.clj
+280/885 Test #280: conformance/19-or-and-as/or-default.clj .....................................   Passed    0.07 sec
+        Start 284: conformance/20-strings/count-string.clj
+281/885 Test #281: conformance/19-or-and-as/or-plus-as.clj .....................................   Passed    0.08 sec
+        Start 285: conformance/20-strings/index-of-from-index-range.clj
+282/885 Test #282: conformance/20-strings/blank.clj ............................................   Passed    0.07 sec
+        Start 286: conformance/20-strings/index-of.clj
+283/885 Test #283: conformance/20-strings/case.clj .............................................   Passed    0.08 sec
+        Start 287: conformance/20-strings/join-collections.clj
+284/885 Test #284: conformance/20-strings/count-string.clj .....................................   Passed    0.08 sec
+        Start 288: conformance/20-strings/join-nil.clj
+285/885 Test #285: conformance/20-strings/index-of-from-index-range.clj ........................   Passed    0.11 sec
+        Start 289: conformance/20-strings/join.clj
+286/885 Test #286: conformance/20-strings/index-of.clj .........................................   Passed    0.12 sec
+        Start 290: conformance/20-strings/pipeline.clj
+287/885 Test #287: conformance/20-strings/join-collections.clj .................................   Passed    0.13 sec
+        Start 291: conformance/20-strings/predicate.clj
+288/885 Test #288: conformance/20-strings/join-nil.clj .........................................   Passed    0.13 sec
+        Start 292: conformance/20-strings/replace.clj
+289/885 Test #289: conformance/20-strings/join.clj .............................................   Passed    0.12 sec
+        Start 293: conformance/20-strings/reverse.clj
+290/885 Test #290: conformance/20-strings/pipeline.clj .........................................   Passed    0.13 sec
+        Start 294: conformance/20-strings/split.clj
+291/885 Test #291: conformance/20-strings/predicate.clj ........................................   Passed    0.14 sec
+        Start 295: conformance/20-strings/starts-ends-includes.clj
+292/885 Test #292: conformance/20-strings/replace.clj ..........................................   Passed    0.13 sec
+        Start 296: conformance/20-strings/str-nil.clj
+293/885 Test #293: conformance/20-strings/reverse.clj ..........................................   Passed    0.10 sec
+        Start 297: conformance/20-strings/subs-big-integer-end.clj
+294/885 Test #294: conformance/20-strings/split.clj ............................................   Passed    0.12 sec
+        Start 298: conformance/20-strings/subs-big-integer-start.clj
+295/885 Test #295: conformance/20-strings/starts-ends-includes.clj .............................   Passed    0.10 sec
+        Start 299: conformance/20-strings/subs-out-of-range.clj
+296/885 Test #296: conformance/20-strings/str-nil.clj ..........................................   Passed    0.10 sec
+        Start 300: conformance/20-strings/subs.clj
+297/885 Test #297: conformance/20-strings/subs-big-integer-end.clj .............................   Passed    0.10 sec
+        Start 301: conformance/20-strings/trim.clj
+298/885 Test #298: conformance/20-strings/subs-big-integer-start.clj ...........................   Passed    0.08 sec
+        Start 302: conformance/21-atoms/atom-predicate.clj
+299/885 Test #299: conformance/20-strings/subs-out-of-range.clj ................................   Passed    0.08 sec
+        Start 303: conformance/21-atoms/closure-with-atom.clj
+300/885 Test #300: conformance/20-strings/subs.clj .............................................   Passed    0.07 sec
+        Start 304: conformance/21-atoms/compare-and-set.clj
+301/885 Test #301: conformance/20-strings/trim.clj .............................................   Passed    0.08 sec
+        Start 305: conformance/21-atoms/create-deref.clj
+302/885 Test #302: conformance/21-atoms/atom-predicate.clj .....................................   Passed    0.07 sec
+        Start 306: conformance/21-atoms/deref-macro.clj
+303/885 Test #303: conformance/21-atoms/closure-with-atom.clj ..................................   Passed    0.07 sec
+        Start 307: conformance/21-atoms/print-form.clj
+304/885 Test #304: conformance/21-atoms/compare-and-set.clj ....................................   Passed    0.07 sec
+        Start 308: conformance/21-atoms/reset-bang.clj
+305/885 Test #305: conformance/21-atoms/create-deref.clj .......................................   Passed    0.07 sec
+        Start 309: conformance/21-atoms/reset-watch-old-values-concurrent.clj
+306/885 Test #306: conformance/21-atoms/deref-macro.clj ........................................   Passed    0.07 sec
+        Start 310: conformance/21-atoms/str-atom.clj
+307/885 Test #307: conformance/21-atoms/print-form.clj .........................................   Passed    0.07 sec
+        Start 311: conformance/21-atoms/swap-bang-extra-args.clj
+308/885 Test #308: conformance/21-atoms/reset-bang.clj .........................................   Passed    0.07 sec
+        Start 312: conformance/21-atoms/swap-bang.clj
+309/885 Test #309: conformance/21-atoms/reset-watch-old-values-concurrent.clj ..................   Passed    0.07 sec
+        Start 313: conformance/21-atoms/swap-into-map.clj
+310/885 Test #310: conformance/21-atoms/str-atom.clj ...........................................   Passed    0.07 sec
+        Start 314: conformance/21-atoms/swap-watch-concurrent.clj
+311/885 Test #311: conformance/21-atoms/swap-bang-extra-args.clj ...............................   Passed    0.07 sec
+        Start 315: conformance/22-futures/basic-future.clj
+312/885 Test #312: conformance/21-atoms/swap-bang.clj ..........................................   Passed    0.07 sec
+        Start 316: conformance/22-futures/clean-exit-without-deref.clj
+313/885 Test #313: conformance/21-atoms/swap-into-map.clj ......................................   Passed    0.07 sec
+        Start 317: conformance/22-futures/computation-in-thread.clj
+314/885 Test #314: conformance/21-atoms/swap-watch-concurrent.clj ..............................   Passed    0.07 sec
+        Start 318: conformance/22-futures/deep-recursion-in-future.clj
+315/885 Test #315: conformance/22-futures/basic-future.clj .....................................   Passed    0.07 sec
+        Start 319: conformance/22-futures/deep-recursion-in-pmap.clj
+316/885 Test #316: conformance/22-futures/clean-exit-without-deref.clj .........................   Passed    0.11 sec
+        Start 320: conformance/22-futures/deref-rethrows-body-error.clj
+317/885 Test #318: conformance/22-futures/deep-recursion-in-future.clj .........................   Passed    0.10 sec
+        Start 321: conformance/22-futures/future-with-atom.clj
+318/885 Test #317: conformance/22-futures/computation-in-thread.clj ............................   Passed    0.13 sec
+        Start 322: conformance/22-futures/keyword-interned-across-threads.clj
+319/885 Test #319: conformance/22-futures/deep-recursion-in-pmap.clj ...........................   Passed    0.10 sec
+        Start 323: conformance/22-futures/manual-parallel-via-futures.clj
+320/885 Test #320: conformance/22-futures/deref-rethrows-body-error.clj ........................   Passed    0.07 sec
+        Start 324: conformance/22-futures/nested-future-error.clj
+321/885 Test #321: conformance/22-futures/future-with-atom.clj .................................   Passed    0.07 sec
+        Start 325: conformance/22-futures/pmap-parallel.clj
+322/885 Test #322: conformance/22-futures/keyword-interned-across-threads.clj ..................   Passed    0.08 sec
+        Start 326: conformance/22-futures/pmap-rethrows-first-error.clj
+323/885 Test #323: conformance/22-futures/manual-parallel-via-futures.clj ......................   Passed    0.07 sec
+        Start 327: conformance/22-futures/predicates.clj
+324/885 Test #324: conformance/22-futures/nested-future-error.clj ..............................   Passed    0.08 sec
+        Start 328: conformance/22-futures/print-realised.clj
+325/885 Test #327: conformance/22-futures/predicates.clj .......................................   Passed    0.07 sec
+        Start 329: conformance/22-futures/realized-after-deref.clj
+326/885 Test #326: conformance/22-futures/pmap-rethrows-first-error.clj ........................   Passed    0.08 sec
+        Start 330: conformance/22-futures/stack-overflow-in-future-rethrows.clj
+327/885 Test #328: conformance/22-futures/print-realised.clj ...................................   Passed    0.08 sec
+        Start 331: conformance/22-futures/stack-overflow-in-pmap-rethrows.clj
+328/885 Test #325: conformance/22-futures/pmap-parallel.clj ....................................   Passed    0.13 sec
+        Start 332: conformance/22-futures/three-futures.clj
+329/885 Test #329: conformance/22-futures/realized-after-deref.clj .............................   Passed    0.08 sec
+        Start 333: conformance/23-watches/add-watch-fires.clj
+330/885 Test #332: conformance/22-futures/three-futures.clj ....................................   Passed    0.08 sec
+        Start 334: conformance/23-watches/many-watches-run-user-code.clj
+331/885 Test #333: conformance/23-watches/add-watch-fires.clj ..................................   Passed    0.09 sec
+        Start 335: conformance/23-watches/remove-then-readd.clj
+332/885 Test #334: conformance/23-watches/many-watches-run-user-code.clj .......................   Passed    0.09 sec
+        Start 336: conformance/23-watches/remove-watch.clj
+333/885 Test #330: conformance/22-futures/stack-overflow-in-future-rethrows.clj ................   Passed    0.23 sec
+        Start 337: conformance/23-watches/two-keys.clj
+334/885 Test #335: conformance/23-watches/remove-then-readd.clj ................................   Passed    0.08 sec
+        Start 338: conformance/24-promises/deliver-deref.clj
+335/885 Test #331: conformance/22-futures/stack-overflow-in-pmap-rethrows.clj ..................   Passed    0.23 sec
+        Start 339: conformance/24-promises/deliver-nil-and-once.clj
+336/885 Test #336: conformance/23-watches/remove-watch.clj .....................................   Passed    0.08 sec
+        Start 340: conformance/24-promises/predicate.clj
+337/885 Test #337: conformance/23-watches/two-keys.clj .........................................   Passed    0.08 sec
+        Start 341: conformance/24-promises/realized-implies-value.clj
+338/885 Test #338: conformance/24-promises/deliver-deref.clj ...................................   Passed    0.08 sec
+        Start 342: conformance/24-promises/realized.clj
+339/885 Test #339: conformance/24-promises/deliver-nil-and-once.clj ............................   Passed    0.09 sec
+        Start 343: conformance/24-promises/single-shot.clj
+340/885 Test #340: conformance/24-promises/predicate.clj .......................................   Passed    0.08 sec
+        Start 344: conformance/24-promises/str-promise-and-fn.clj
+341/885 Test #342: conformance/24-promises/realized.clj ........................................   Passed    0.08 sec
+        Start 345: conformance/25-actors/actor-predicate.clj
+342/885 Test #343: conformance/24-promises/single-shot.clj .....................................   Passed    0.09 sec
+        Start 346: conformance/25-actors/concurrent-sends-no-race.clj
+343/885 Test #344: conformance/24-promises/str-promise-and-fn.clj ..............................   Passed    0.08 sec
+        Start 347: conformance/25-actors/create-and-deref.clj
+344/885 Test #345: conformance/25-actors/actor-predicate.clj ...................................   Passed    0.08 sec
+        Start 348: conformance/25-actors/deep-recursion-in-actor.clj
+345/885 Test #346: conformance/25-actors/concurrent-sends-no-race.clj ..........................   Passed    0.08 sec
+        Start 349: conformance/25-actors/many-actors.clj
+346/885 Test #347: conformance/25-actors/create-and-deref.clj ..................................   Passed    0.08 sec
+        Start 350: conformance/25-actors/print-form.clj
+347/885 Test #349: conformance/25-actors/many-actors.clj .......................................   Passed    0.09 sec
+        Start 351: conformance/25-actors/priorities.clj
+348/885 Test #350: conformance/25-actors/print-form.clj ........................................   Passed    0.08 sec
+        Start 352: conformance/25-actors/send-inc.clj
+349/885 Test #351: conformance/25-actors/priorities.clj ........................................   Passed    0.09 sec
+        Start 353: conformance/25-actors/send-with-extra-args.clj
+350/885 Test #352: conformance/25-actors/send-inc.clj ..........................................   Passed    0.09 sec
+        Start 354: conformance/26-exceptions/body-after-catch-rejected.clj
+351/885 Test #348: conformance/25-actors/deep-recursion-in-actor.clj ...........................   Passed    0.24 sec
+        Start 355: conformance/26-exceptions/catch-after-finally-rejected.clj
+352/885 Test #353: conformance/25-actors/send-with-extra-args.clj ..............................   Passed    0.10 sec
+        Start 356: conformance/26-exceptions/catch-binding-in-closure.clj
+353/885 Test #354: conformance/26-exceptions/body-after-catch-rejected.clj .....................   Passed    0.10 sec
+        Start 357: conformance/26-exceptions/catch-first-match-wins.clj
+354/885 Test #355: conformance/26-exceptions/catch-after-finally-rejected.clj ..................   Passed    0.10 sec
+        Start 358: conformance/26-exceptions/catch-object-catches-everything.clj
+355/885 Test #356: conformance/26-exceptions/catch-binding-in-closure.clj ......................   Passed    0.09 sec
+        Start 359: conformance/26-exceptions/catch-skips-non-matching.clj
+356/885 Test #357: conformance/26-exceptions/catch-first-match-wins.clj ........................   Passed    0.10 sec
+        Start 360: conformance/26-exceptions/catch-superclass.clj
+357/885 Test #358: conformance/26-exceptions/catch-object-catches-everything.clj ...............   Passed    0.10 sec
+        Start 361: conformance/26-exceptions/catch-type-not-a-prototype.clj
+358/885 Test #359: conformance/26-exceptions/catch-skips-non-matching.clj ......................   Passed    0.12 sec
+        Start 362: conformance/26-exceptions/deep-throw-unwinds-calls.clj
+359/885 Test #360: conformance/26-exceptions/catch-superclass.clj ..............................   Passed    0.12 sec
+        Start 363: conformance/26-exceptions/ex-data-round-trip.clj
+360/885 Test #361: conformance/26-exceptions/catch-type-not-a-prototype.clj ....................   Passed    0.18 sec
+        Start 364: conformance/26-exceptions/ex-functions-on-other-values.clj
+361/885 Test #341: conformance/24-promises/realized-implies-value.clj ..........................   Passed    0.85 sec
+        Start 365: conformance/26-exceptions/ex-info-cause.clj
+362/885 Test #362: conformance/26-exceptions/deep-throw-unwinds-calls.clj ......................   Passed    0.17 sec
+        Start 366: conformance/26-exceptions/ex-info-requires-map.clj
+363/885 Test #363: conformance/26-exceptions/ex-data-round-trip.clj ............................   Passed    0.14 sec
+        Start 367: conformance/26-exceptions/finally-after-catch.clj
+364/885 Test #364: conformance/26-exceptions/ex-functions-on-other-values.clj ..................   Passed    0.09 sec
+        Start 368: conformance/26-exceptions/finally-nested-order.clj
+365/885 Test #365: conformance/26-exceptions/ex-info-cause.clj .................................   Passed    0.09 sec
+        Start 369: conformance/26-exceptions/finally-normal-path.clj
+366/885 Test #366: conformance/26-exceptions/ex-info-requires-map.clj ..........................   Passed    0.09 sec
+        Start 370: conformance/26-exceptions/finally-without-catch-propagates.clj
+367/885 Test #367: conformance/26-exceptions/finally-after-catch.clj ...........................   Passed    0.09 sec
+        Start 371: conformance/26-exceptions/future-exception-deref.clj
+368/885 Test #368: conformance/26-exceptions/finally-nested-order.clj ..........................   Passed    0.10 sec
+        Start 372: conformance/26-exceptions/future-primitive-error-cause.clj
+369/885 Test #369: conformance/26-exceptions/finally-normal-path.clj ...........................   Passed    0.09 sec
+        Start 373: conformance/26-exceptions/loop-inside-try.clj
+370/885 Test #371: conformance/26-exceptions/future-exception-deref.clj ........................   Passed    0.08 sec
+        Start 374: conformance/26-exceptions/nested-try-inner-handles.clj
+371/885 Test #370: conformance/26-exceptions/finally-without-catch-propagates.clj ..............   Passed    0.09 sec
+        Start 375: conformance/26-exceptions/no-match-propagates.clj
+372/885 Test #372: conformance/26-exceptions/future-primitive-error-cause.clj ..................   Passed    0.08 sec
+        Start 376: conformance/26-exceptions/pmap-exception-cause.clj
+373/885 Test #373: conformance/26-exceptions/loop-inside-try.clj ...............................   Passed    0.09 sec
+        Start 377: conformance/26-exceptions/primitive-arithmetic.clj
+374/885 Test #374: conformance/26-exceptions/nested-try-inner-handles.clj ......................   Passed    0.09 sec
+        Start 378: conformance/26-exceptions/primitive-class-cast.clj
+375/885 Test #375: conformance/26-exceptions/no-match-propagates.clj ...........................   Passed    0.08 sec
+        Start 379: conformance/26-exceptions/primitive-index-out-of-bounds.clj
+376/885 Test #376: conformance/26-exceptions/pmap-exception-cause.clj ..........................   Passed    0.08 sec
+        Start 380: conformance/26-exceptions/primitive-unclassified-is-runtime-exception.clj
+377/885 Test #377: conformance/26-exceptions/primitive-arithmetic.clj ..........................   Passed    0.08 sec
+        Start 381: conformance/26-exceptions/primitive-unsupported-operation.clj
+378/885 Test #378: conformance/26-exceptions/primitive-class-cast.clj ..........................   Passed    0.08 sec
+        Start 382: conformance/26-exceptions/print-exception-with-cause.clj
+379/885 Test #379: conformance/26-exceptions/primitive-index-out-of-bounds.clj .................   Passed    0.08 sec
+        Start 383: conformance/26-exceptions/print-exception.clj
+380/885 Test #380: conformance/26-exceptions/primitive-unclassified-is-runtime-exception.clj ...   Passed    0.08 sec
+        Start 384: conformance/26-exceptions/qualified-class-names.clj
+381/885 Test #381: conformance/26-exceptions/primitive-unsupported-operation.clj ...............   Passed    0.07 sec
+        Start 385: conformance/26-exceptions/recur-across-try.clj
+382/885 Test #382: conformance/26-exceptions/print-exception-with-cause.clj ....................   Passed    0.07 sec
+        Start 386: conformance/26-exceptions/rethrow-same-object.clj
+383/885 Test #383: conformance/26-exceptions/print-exception.clj ...............................   Passed    0.07 sec
+        Start 387: conformance/26-exceptions/stack-overflow-catchable.clj
+384/885 Test #384: conformance/26-exceptions/qualified-class-names.clj .........................   Passed    0.07 sec
+        Start 388: conformance/26-exceptions/str-exception.clj
+385/885 Test #385: conformance/26-exceptions/recur-across-try.clj ..............................   Passed    0.07 sec
+        Start 389: conformance/26-exceptions/throw-ex-info-caught.clj
+386/885 Test #386: conformance/26-exceptions/rethrow-same-object.clj ...........................   Passed    0.07 sec
+        Start 390: conformance/26-exceptions/throw-in-catch.clj
+387/885 Test #388: conformance/26-exceptions/str-exception.clj .................................   Passed    0.07 sec
+        Start 391: conformance/26-exceptions/throw-in-finally.clj
+388/885 Test #389: conformance/26-exceptions/throw-ex-info-caught.clj ..........................   Passed    0.07 sec
+        Start 392: conformance/26-exceptions/throw-non-throwable.clj
+389/885 Test #390: conformance/26-exceptions/throw-in-catch.clj ................................   Passed    0.07 sec
+        Start 393: conformance/26-exceptions/top-level-try.clj
+390/885 Test #391: conformance/26-exceptions/throw-in-finally.clj ..............................   Passed    0.07 sec
+        Start 394: conformance/26-exceptions/try-empty-and-body-only.clj
+391/885 Test #392: conformance/26-exceptions/throw-non-throwable.clj ...........................   Passed    0.07 sec
+        Start 395: conformance/26-exceptions/try-in-fn-and-let.clj
+392/885 Test #393: conformance/26-exceptions/top-level-try.clj .................................   Passed    0.07 sec
+        Start 396: conformance/26-exceptions/try-in-loop-body.clj
+393/885 Test #394: conformance/26-exceptions/try-empty-and-body-only.clj .......................   Passed    0.08 sec
+        Start 397: conformance/26-exceptions/try-inside-actor.clj
+394/885 Test #395: conformance/26-exceptions/try-in-fn-and-let.clj .............................   Passed    0.08 sec
+        Start 398: conformance/26-exceptions/try-inside-future.clj
+395/885 Test #396: conformance/26-exceptions/try-in-loop-body.clj ..............................   Passed    0.08 sec
+        Start 399: conformance/26-exceptions/try-no-exception.clj
+396/885 Test #387: conformance/26-exceptions/stack-overflow-catchable.clj ......................   Passed    0.30 sec
+        Start 400: conformance/26-exceptions/uncaught-ex-info.clj
+397/885 Test #397: conformance/26-exceptions/try-inside-actor.clj ..............................   Passed    0.08 sec
+        Start 401: conformance/26-exceptions/uncaught-no-match.clj
+398/885 Test #398: conformance/26-exceptions/try-inside-future.clj .............................   Passed    0.07 sec
+        Start 402: conformance/26-exceptions/unknown-class-in-catch.clj
+399/885 Test #399: conformance/26-exceptions/try-no-exception.clj ..............................   Passed    0.08 sec
+        Start 403: conformance/26-exceptions/unknown-class-not-reached.clj
+400/885 Test #400: conformance/26-exceptions/uncaught-ex-info.clj ..............................   Passed    0.08 sec
+        Start 404: conformance/27-io/command-line-args-nil.clj
+401/885 Test #401: conformance/26-exceptions/uncaught-no-match.clj .............................   Passed    0.08 sec
+        Start 405: conformance/27-io/copy-to-string-refused.clj
+402/885 Test #402: conformance/26-exceptions/unknown-class-in-catch.clj ........................   Passed    0.08 sec
+        Start 406: conformance/27-io/copy.clj
+403/885 Test #403: conformance/26-exceptions/unknown-class-not-reached.clj .....................   Passed    0.08 sec
+        Start 407: conformance/27-io/delete-file-missing.clj
+404/885 Test #404: conformance/27-io/command-line-args-nil.clj .................................   Passed    0.07 sec
+        Start 408: conformance/27-io/file-helpers.clj
+405/885 Test #405: conformance/27-io/copy-to-string-refused.clj ................................   Passed    0.07 sec
+        Start 409: conformance/27-io/file-seq.clj
+406/885 Test #407: conformance/27-io/delete-file-missing.clj ...................................   Passed    0.07 sec
+        Start 410: conformance/27-io/getenv.clj
+407/885 Test #406: conformance/27-io/copy.clj ..................................................   Passed    0.08 sec
+        Start 411: conformance/27-io/handles-print.clj
+408/885 Test #408: conformance/27-io/file-helpers.clj ..........................................   Passed    0.08 sec
+        Start 412: conformance/27-io/http-404-throws.clj
+409/885 Test #409: conformance/27-io/file-seq.clj ..............................................   Passed    0.11 sec
+        Start 413: conformance/27-io/http-bad-response-500.clj
+410/885 Test #410: conformance/27-io/getenv.clj ................................................   Passed    0.11 sec
+        Start 414: conformance/27-io/http-body-too-large-chunked.clj
+411/885 Test #411: conformance/27-io/handles-print.clj .........................................   Passed    0.11 sec
+        Start 415: conformance/27-io/http-chunked-utf8-split.clj
+412/885 Test #412: conformance/27-io/http-404-throws.clj .......................................   Passed    0.12 sec
+        Start 416: conformance/27-io/http-client-header-injection.clj
+413/885 Test #413: conformance/27-io/http-bad-response-500.clj .................................   Passed    0.11 sec
+        Start 417: conformance/27-io/http-client-refused.clj
+414/885 Test #414: conformance/27-io/http-body-too-large-chunked.clj ...........................   Passed    0.11 sec
+        Start 418: conformance/27-io/http-concurrent-clients.clj
+415/885 Test #416: conformance/27-io/http-client-header-injection.clj ..........................   Passed    0.10 sec
+        Start 419: conformance/27-io/http-file-body.clj
+416/885 Test #415: conformance/27-io/http-chunked-utf8-split.clj ...............................   Passed    0.17 sec
+        Start 420: conformance/27-io/http-get-loopback.clj
+417/885 Test #417: conformance/27-io/http-client-refused.clj ...................................   Passed    0.10 sec
+        Start 421: conformance/27-io/http-handler-exception-500.clj
+418/885 Test #419: conformance/27-io/http-file-body.clj ........................................   Passed    0.10 sec
+        Start 422: conformance/27-io/http-handler-stops-server.clj
+419/885 Test #418: conformance/27-io/http-concurrent-clients.clj ...............................   Passed    0.12 sec
+        Start 423: conformance/27-io/http-handler-uses-actor.clj
+420/885 Test #420: conformance/27-io/http-get-loopback.clj .....................................   Passed    0.09 sec
+        Start 424: conformance/27-io/http-limits-raw.clj
+421/885 Test #421: conformance/27-io/http-handler-exception-500.clj ............................   Passed    0.10 sec
+        Start 425: conformance/27-io/http-post-json-body.clj
+422/885 Test #422: conformance/27-io/http-handler-stops-server.clj .............................   Passed    0.09 sec
+        Start 426: conformance/27-io/http-query-params.clj
+423/885 Test #423: conformance/27-io/http-handler-uses-actor.clj ...............................   Passed    0.11 sec
+        Start 427: conformance/27-io/http-redirect-not-followed.clj
+424/885 Test #424: conformance/27-io/http-limits-raw.clj .......................................   Passed    0.10 sec
+        Start 428: conformance/27-io/http-redirect-origin.clj
+425/885 Test #425: conformance/27-io/http-post-json-body.clj ...................................   Passed    0.09 sec
+        Start 429: conformance/27-io/http-request-headers-joined.clj
+426/885 Test #426: conformance/27-io/http-query-params.clj .....................................   Passed    0.09 sec
+        Start 430: conformance/27-io/http-request-map.clj
+427/885 Test #427: conformance/27-io/http-redirect-not-followed.clj ............................   Passed    0.09 sec
+        Start 431: conformance/27-io/http-response-headers-repeat.clj
+428/885 Test #428: conformance/27-io/http-redirect-origin.clj ..................................   Passed    0.09 sec
+        Start 432: conformance/27-io/http-server-left-running.clj
+429/885 Test #429: conformance/27-io/http-request-headers-joined.clj ...........................   Passed    0.09 sec
+        Start 433: conformance/27-io/http-stop-server.clj
+430/885 Test #430: conformance/27-io/http-request-map.clj ......................................   Passed    0.09 sec
+        Start 434: conformance/27-io/io-unknown-option.clj
+431/885 Test #431: conformance/27-io/http-response-headers-repeat.clj ..........................   Passed    0.08 sec
+        Start 435: conformance/27-io/line-seq-read-line-interleaved.clj
+432/885 Test #432: conformance/27-io/http-server-left-running.clj ..............................   Passed    0.08 sec
+        Start 436: conformance/27-io/line-seq.clj
+433/885 Test #433: conformance/27-io/http-stop-server.clj ......................................   Passed    0.08 sec
+        Start 437: conformance/27-io/missing-file-caught-as-ioexception.clj
+434/885 Test #434: conformance/27-io/io-unknown-option.clj .....................................   Passed    0.08 sec
+        Start 438: conformance/27-io/missing-file-uncaught.clj
+435/885 Test #436: conformance/27-io/line-seq.clj ..............................................   Passed    0.09 sec
+        Start 439: conformance/27-io/reader-read-line.clj
+436/885 Test #437: conformance/27-io/missing-file-caught-as-ioexception.clj ....................   Passed    0.09 sec
+        Start 440: conformance/27-io/sh-basic.clj
+437/885 Test #438: conformance/27-io/missing-file-uncaught.clj .................................   Passed    0.08 sec
+        Start 441: conformance/27-io/sh-dir.clj
+438/885 Test #439: conformance/27-io/reader-read-line.clj ......................................   Passed    0.09 sec
+        Start 442: conformance/27-io/sh-env.clj
+439/885 Test #440: conformance/27-io/sh-basic.clj ..............................................   Passed    0.09 sec
+        Start 443: conformance/27-io/sh-in.clj
+440/885 Test #441: conformance/27-io/sh-dir.clj ................................................   Passed    0.10 sec
+        Start 444: conformance/27-io/sh-large-input-echoed.clj
+441/885 Test #442: conformance/27-io/sh-env.clj ................................................   Passed    0.08 sec
+        Start 445: conformance/27-io/sh-large-input-unread.clj
+442/885 Test #443: conformance/27-io/sh-in.clj .................................................   Passed    0.09 sec
+        Start 446: conformance/27-io/sh-missing-dir.clj
+443/885 Test #446: conformance/27-io/sh-missing-dir.clj ........................................   Passed    0.07 sec
+        Start 447: conformance/27-io/sh-missing-program.clj
+444/885 Test #444: conformance/27-io/sh-large-input-echoed.clj .................................   Passed    0.14 sec
+        Start 448: conformance/27-io/sh-nonzero-exit.clj
+445/885 Test #445: conformance/27-io/sh-large-input-unread.clj .................................   Passed    0.12 sec
+        Start 449: conformance/27-io/slurp-http-url.clj
+446/885 Test #447: conformance/27-io/sh-missing-program.clj ....................................   Passed    0.08 sec
+        Start 450: conformance/27-io/slurp-missing-file.clj
+447/885 Test #448: conformance/27-io/sh-nonzero-exit.clj .......................................   Passed    0.08 sec
+        Start 451: conformance/27-io/slurp-unsupported-encoding.clj
+448/885 Test #449: conformance/27-io/slurp-http-url.clj ........................................   Passed    0.08 sec
+        Start 452: conformance/27-io/slurp-utf8.clj
+449/885 Test #450: conformance/27-io/slurp-missing-file.clj ....................................   Passed    0.07 sec
+        Start 453: conformance/27-io/socket-closed-use.clj
+450/885 Test #451: conformance/27-io/slurp-unsupported-encoding.clj ............................   Passed    0.07 sec
+        Start 454: conformance/27-io/spit-append.clj
+451/885 Test #452: conformance/27-io/slurp-utf8.clj ............................................   Passed    0.08 sec
+        Start 455: conformance/27-io/spit-slurp-round-trip.clj
+452/885 Test #453: conformance/27-io/socket-closed-use.clj .....................................   Passed    0.07 sec
+        Start 456: conformance/27-io/spit-str-of-value.clj
+453/885 Test #454: conformance/27-io/spit-append.clj ...........................................   Passed    0.09 sec
+        Start 457: conformance/27-io/tcp-accept-timeout.clj
+454/885 Test #455: conformance/27-io/spit-slurp-round-trip.clj .................................   Passed    0.08 sec
+        Start 458: conformance/27-io/tcp-connect-refused.clj
+455/885 Test #456: conformance/27-io/spit-str-of-value.clj .....................................   Passed    0.08 sec
+        Start 459: conformance/27-io/tcp-loopback.clj
+456/885 Test #458: conformance/27-io/tcp-connect-refused.clj ...................................   Passed    0.08 sec
+        Start 460: conformance/27-io/tcp-read-timeout.clj
+457/885 Test #459: conformance/27-io/tcp-loopback.clj ..........................................   Passed    0.07 sec
+        Start 461: conformance/27-io/tcp-read-to-end.clj
+458/885 Test #435: conformance/27-io/line-seq-read-line-interleaved.clj ........................   Passed    0.75 sec
+        Start 462: conformance/27-io/tcp-refused-is-socket-exception.clj
+459/885 Test #457: conformance/27-io/tcp-accept-timeout.clj ....................................   Passed    0.18 sec
+        Start 463: conformance/27-io/tcp-unknown-host.clj
+460/885 Test #461: conformance/27-io/tcp-read-to-end.clj .......................................   Passed    0.07 sec
+        Start 464: conformance/27-io/tls-handshake-timeout.clj
+461/885 Test #462: conformance/27-io/tcp-refused-is-socket-exception.clj .......................   Passed    0.07 sec
+        Start 465: conformance/27-io/tutorial-ch14-line-seq-lazy.clj
+462/885 Test #463: conformance/27-io/tcp-unknown-host.clj ......................................   Passed    0.07 sec
+        Start 466: conformance/27-io/udp-loopback.clj
+463/885 Test #465: conformance/27-io/tutorial-ch14-line-seq-lazy.clj ...........................   Passed    0.08 sec
+        Start 467: conformance/27-io/udp-receive-timeout.clj
+464/885 Test #466: conformance/27-io/udp-loopback.clj ..........................................   Passed    0.07 sec
+        Start 468: conformance/27-io/with-open-closes-on-exception.clj
+465/885 Test #460: conformance/27-io/tcp-read-timeout.clj ......................................   Passed    0.27 sec
+        Start 469: conformance/27-io/with-open-closes.clj
+466/885 Test #468: conformance/27-io/with-open-closes-on-exception.clj .........................   Passed    0.07 sec
+        Start 470: conformance/27-io/with-open-inside-fn.clj
+467/885 Test #469: conformance/27-io/with-open-closes.clj ......................................   Passed    0.08 sec
+        Start 471: conformance/27-io/with-open-non-symbol.clj
+468/885 Test #467: conformance/27-io/udp-receive-timeout.clj ...................................   Passed    0.17 sec
+        Start 472: conformance/27-io/with-open-odd-bindings.clj
+469/885 Test #470: conformance/27-io/with-open-inside-fn.clj ...................................   Passed    0.08 sec
+        Start 473: conformance/27-io/with-open-several-bindings.clj
+470/885 Test #471: conformance/27-io/with-open-non-symbol.clj ..................................   Passed    0.07 sec
+        Start 474: conformance/27-io/writer-append.clj
+471/885 Test #472: conformance/27-io/with-open-odd-bindings.clj ................................   Passed    0.07 sec
+        Start 475: conformance/28-quote/apply-over-vector-and-nil.clj
+472/885 Test #473: conformance/27-io/with-open-several-bindings.clj ............................   Passed    0.08 sec
+        Start 476: conformance/28-quote/deref-reads-qualified.clj
+473/885 Test #464: conformance/27-io/tls-handshake-timeout.clj .................................   Passed    0.38 sec
+        Start 477: conformance/28-quote/quote-at-end-of-input.clj
+474/885 Test #475: conformance/28-quote/apply-over-vector-and-nil.clj ..........................   Passed    0.07 sec
+        Start 478: conformance/28-quote/quote-in-function-is-stable.clj
+475/885 Test #474: conformance/27-io/writer-append.clj .........................................   Passed    0.08 sec
+        Start 479: conformance/28-quote/quote-is-not-evaluated.clj
+476/885 Test #476: conformance/28-quote/deref-reads-qualified.clj ..............................   Passed    0.07 sec
+        Start 480: conformance/28-quote/quote-list-is-a-list.clj
+477/885 Test #477: conformance/28-quote/quote-at-end-of-input.clj ..............................   Passed    0.07 sec
+        Start 481: conformance/28-quote/quote-nested-data.clj
+478/885 Test #478: conformance/28-quote/quote-in-function-is-stable.clj ........................   Passed    0.07 sec
+        Start 482: conformance/28-quote/quote-special-form.clj
+479/885 Test #479: conformance/28-quote/quote-is-not-evaluated.clj .............................   Passed    0.07 sec
+        Start 483: conformance/28-quote/quote-symbol-is-a-symbol.clj
+480/885 Test #480: conformance/28-quote/quote-list-is-a-list.clj ...............................   Passed    0.08 sec
+        Start 484: conformance/28-quote/readme-code-is-data.clj
+481/885 Test #481: conformance/28-quote/quote-nested-data.clj ..................................   Passed    0.08 sec
+        Start 485: conformance/28-quote/seq-and-concat.clj
+482/885 Test #483: conformance/28-quote/quote-symbol-is-a-symbol.clj ...........................   Passed    0.08 sec
+        Start 486: conformance/28-quote/splice-not-in-list.clj
+483/885 Test #482: conformance/28-quote/quote-special-form.clj .................................   Passed    0.08 sec
+        Start 487: conformance/28-quote/syntax-quote-expansion.clj
+484/885 Test #484: conformance/28-quote/readme-code-is-data.clj ................................   Passed    0.08 sec
+        Start 488: conformance/28-quote/syntax-quote-literals.clj
+485/885 Test #485: conformance/28-quote/seq-and-concat.clj .....................................   Passed    0.08 sec
+        Start 489: conformance/28-quote/syntax-quote-nested.clj
+486/885 Test #486: conformance/28-quote/splice-not-in-list.clj .................................   Passed    0.08 sec
+        Start 490: conformance/28-quote/syntax-quote-not-shadowed.clj
+487/885 Test #487: conformance/28-quote/syntax-quote-expansion.clj .............................   Passed    0.08 sec
+        Start 491: conformance/28-quote/syntax-quote-unquote.clj
+488/885 Test #488: conformance/28-quote/syntax-quote-literals.clj ..............................   Passed    0.08 sec
+        Start 492: conformance/28-quote/tutorial-ch02-quote.clj
+489/885 Test #489: conformance/28-quote/syntax-quote-nested.clj ................................   Passed    0.08 sec
+        Start 493: conformance/28-quote/tutorial-ch04-lists.clj
+490/885 Test #490: conformance/28-quote/syntax-quote-not-shadowed.clj ..........................   Passed    0.08 sec
+        Start 494: conformance/28-quote/tutorial-code-is-data.clj
+491/885 Test #491: conformance/28-quote/syntax-quote-unquote.clj ...............................   Passed    0.08 sec
+        Start 495: conformance/28-quote/tutorial-syntax-quote-template.clj
+492/885 Test #492: conformance/28-quote/tutorial-ch02-quote.clj ................................   Passed    0.08 sec
+        Start 496: conformance/28-quote/unquote-outside-syntax-quote.clj
+493/885 Test #493: conformance/28-quote/tutorial-ch04-lists.clj ................................   Passed    0.08 sec
+        Start 497: conformance/28-quote/unquote-splicing-outside-syntax-quote.clj
+494/885 Test #494: conformance/28-quote/tutorial-code-is-data.clj ..............................   Passed    0.08 sec
+        Start 498: conformance/29-loading/compile-error-names-its-form.clj
+495/885 Test #495: conformance/28-quote/tutorial-syntax-quote-template.clj .....................   Passed    0.08 sec
+        Start 499: conformance/29-loading/later-form-sees-earlier-definition.clj
+496/885 Test #496: conformance/28-quote/unquote-outside-syntax-quote.clj .......................   Passed    0.08 sec
+        Start 500: conformance/30-macros/conj-second-next.clj
+497/885 Test #497: conformance/28-quote/unquote-splicing-outside-syntax-quote.clj ..............   Passed    0.08 sec
+        Start 501: conformance/30-macros/defmacro-then-use-in-fn.clj
+498/885 Test #498: conformance/29-loading/compile-error-names-its-form.clj .....................   Passed    0.08 sec
+        Start 502: conformance/30-macros/docstrings.clj
+499/885 Test #499: conformance/29-loading/later-form-sees-earlier-definition.clj ...............   Passed    0.08 sec
+        Start 503: conformance/30-macros/error-eval-compile-error.clj
+500/885 Test #500: conformance/30-macros/conj-second-next.clj ..................................   Passed    0.07 sec
+        Start 504: conformance/30-macros/error-macro-infinite.clj
+501/885 Test #501: conformance/30-macros/defmacro-then-use-in-fn.clj ...........................   Passed    0.08 sec
+        Start 505: conformance/30-macros/error-macro-throws.clj
+502/885 Test #502: conformance/30-macros/docstrings.clj ........................................   Passed    0.07 sec
+        Start 506: conformance/30-macros/error-macro-value.clj
+503/885 Test #503: conformance/30-macros/error-eval-compile-error.clj ..........................   Passed    0.08 sec
+        Start 507: conformance/30-macros/error-macro-wrong-arity.clj
+504/885 Test #505: conformance/30-macros/error-macro-throws.clj ................................   Passed    0.08 sec
+        Start 508: conformance/30-macros/eval-builds-code.clj
+505/885 Test #506: conformance/30-macros/error-macro-value.clj .................................   Passed    0.08 sec
+        Start 509: conformance/30-macros/form-and-env.clj
+506/885 Test #507: conformance/30-macros/error-macro-wrong-arity.clj ...........................   Passed    0.08 sec
+        Start 510: conformance/30-macros/language-macros.clj
+507/885 Test #508: conformance/30-macros/eval-builds-code.clj ..................................   Passed    0.09 sec
+        Start 511: conformance/30-macros/local-shadows-macro.clj
+508/885 Test #509: conformance/30-macros/form-and-env.clj ......................................   Passed    0.08 sec
+        Start 512: conformance/30-macros/macroexpand-non-macro.clj
+509/885 Test #510: conformance/30-macros/language-macros.clj ...................................   Passed    0.09 sec
+        Start 513: conformance/30-macros/multi-arity-macro.clj
+510/885 Test #511: conformance/30-macros/local-shadows-macro.clj ...............................   Passed    0.08 sec
+        Start 514: conformance/30-macros/print-family.clj
+511/885 Test #512: conformance/30-macros/macroexpand-non-macro.clj .............................   Passed    0.08 sec
+        Start 515: conformance/30-macros/readme-macros.clj
+512/885 Test #513: conformance/30-macros/multi-arity-macro.clj .................................   Passed    0.08 sec
+        Start 516: conformance/30-macros/recursive-macro.clj
+513/885 Test #514: conformance/30-macros/print-family.clj ......................................   Passed    0.08 sec
+        Start 517: conformance/30-macros/redefinition-timing.clj
+514/885 Test #515: conformance/30-macros/readme-macros.clj .....................................   Passed    0.08 sec
+        Start 518: conformance/30-macros/threading-macro.clj
+515/885 Test #516: conformance/30-macros/recursive-macro.clj ...................................   Passed    0.08 sec
+        Start 519: conformance/30-macros/top-level-do-defines-then-uses.clj
+516/885 Test #504: conformance/30-macros/error-macro-infinite.clj ..............................   Passed    0.39 sec
+        Start 520: conformance/30-macros/tutorial-ch11-my-when.clj
+517/885 Test #517: conformance/30-macros/redefinition-timing.clj ...............................   Passed    0.07 sec
+        Start 521: conformance/30-macros/tutorial-ch11-timing.clj
+518/885 Test #518: conformance/30-macros/threading-macro.clj ...................................   Passed    0.07 sec
+        Start 522: conformance/30-macros/unless.clj
+519/885 Test #519: conformance/30-macros/top-level-do-defines-then-uses.clj ....................   Passed    0.07 sec
+        Start 523: conformance/30-macros/with-macro.clj
+520/885 Test #520: conformance/30-macros/tutorial-ch11-my-when.clj .............................   Passed    0.07 sec
+        Start 524: conformance/31-syntax-quote/anaphoric-capture.clj
+521/885 Test #521: conformance/30-macros/tutorial-ch11-timing.clj ..............................   Passed    0.07 sec
+        Start 525: conformance/31-syntax-quote/auto-gensym.clj
+522/885 Test #522: conformance/30-macros/unless.clj ............................................   Passed    0.07 sec
+        Start 526: conformance/31-syntax-quote/catch-in-template.clj
+523/885 Test #523: conformance/30-macros/with-macro.clj ........................................   Passed    0.07 sec
+        Start 527: conformance/31-syntax-quote/error-qualified-let.clj
+524/885 Test #524: conformance/31-syntax-quote/anaphoric-capture.clj ...........................   Passed    0.07 sec
+        Start 528: conformance/31-syntax-quote/error-qualified-parameter.clj
+525/885 Test #525: conformance/31-syntax-quote/auto-gensym.clj .................................   Passed    0.07 sec
+        Start 529: conformance/31-syntax-quote/gensym-in-macro.clj
+526/885 Test #526: conformance/31-syntax-quote/catch-in-template.clj ...........................   Passed    0.07 sec
+        Start 530: conformance/31-syntax-quote/gensym.clj
+527/885 Test #527: conformance/31-syntax-quote/error-qualified-let.clj .........................   Passed    0.07 sec
+        Start 531: conformance/31-syntax-quote/hygiene-builtins-not-captured.clj
+528/885 Test #528: conformance/31-syntax-quote/error-qualified-parameter.clj ...................   Passed    0.07 sec
+        Start 532: conformance/31-syntax-quote/language-hygiene.clj
+529/885 Test #529: conformance/31-syntax-quote/gensym-in-macro.clj .............................   Passed    0.07 sec
+        Start 533: conformance/31-syntax-quote/list-star.clj
+530/885 Test #530: conformance/31-syntax-quote/gensym.clj ......................................   Passed    0.07 sec
+        Start 534: conformance/31-syntax-quote/my-or-hygiene.clj
+531/885 Test #531: conformance/31-syntax-quote/hygiene-builtins-not-captured.clj ...............   Passed    0.07 sec
+        Start 535: conformance/31-syntax-quote/qualifies-symbols.clj
+532/885 Test #532: conformance/31-syntax-quote/language-hygiene.clj ............................   Passed    0.08 sec
+        Start 536: conformance/31-syntax-quote/symbol-keyword-name.clj
+533/885 Test #533: conformance/31-syntax-quote/list-star.clj ...................................   Passed    0.08 sec
+        Start 537: conformance/31-syntax-quote/tutorial-ch11-bad-once.clj
+534/885 Test #534: conformance/31-syntax-quote/my-or-hygiene.clj ...............................   Passed    0.08 sec
+        Start 538: conformance/31-syntax-quote/tutorial-ch11-gensym.clj
+535/885 Test #535: conformance/31-syntax-quote/qualifies-symbols.clj ...........................   Passed    0.08 sec
+        Start 539: conformance/31-syntax-quote/tutorial-ch11-quasiquote.clj
+536/885 Test #536: conformance/31-syntax-quote/symbol-keyword-name.clj .........................   Passed    0.08 sec
+        Start 540: conformance/31-syntax-quote/user-redefinition-qualifies-as-user.clj
+537/885 Test #537: conformance/31-syntax-quote/tutorial-ch11-bad-once.clj ......................   Passed    0.08 sec
+        Start 541: conformance/32-core-macros/case-no-match.clj
+538/885 Test #538: conformance/31-syntax-quote/tutorial-ch11-gensym.clj ........................   Passed    0.08 sec
+        Start 542: conformance/32-core-macros/case.clj
+539/885 Test #539: conformance/31-syntax-quote/tutorial-ch11-quasiquote.clj ....................   Passed    0.08 sec
+        Start 543: conformance/32-core-macros/comment-while.clj
+540/885 Test #540: conformance/31-syntax-quote/user-redefinition-qualifies-as-user.clj .........   Passed    0.08 sec
+        Start 544: conformance/32-core-macros/cond-from-core.clj
+541/885 Test #541: conformance/32-core-macros/case-no-match.clj ................................   Passed    0.08 sec
+        Start 545: conformance/32-core-macros/cond-threading.clj
+542/885 Test #542: conformance/32-core-macros/case.clj .........................................   Passed    0.08 sec
+        Start 546: conformance/32-core-macros/condp.clj
+543/885 Test #543: conformance/32-core-macros/comment-while.clj ................................   Passed    0.08 sec
+        Start 547: conformance/32-core-macros/core-in-functions-and-loops.clj
+544/885 Test #544: conformance/32-core-macros/cond-from-core.clj ...............................   Passed    0.07 sec
+        Start 548: conformance/32-core-macros/doseq.clj
+545/885 Test #545: conformance/32-core-macros/cond-threading.clj ...............................   Passed    0.07 sec
+        Start 549: conformance/32-core-macros/dotimes.clj
+546/885 Test #546: conformance/32-core-macros/condp.clj ........................................   Passed    0.07 sec
+        Start 550: conformance/32-core-macros/doto.clj
+547/885 Test #547: conformance/32-core-macros/core-in-functions-and-loops.clj ..................   Passed    0.07 sec
+        Start 551: conformance/32-core-macros/error-cond-odd.clj
+548/885 Test #548: conformance/32-core-macros/doseq.clj ........................................   Passed    0.07 sec
+        Start 552: conformance/32-core-macros/error-if-let-binding.clj
+549/885 Test #549: conformance/32-core-macros/dotimes.clj ......................................   Passed    0.07 sec
+        Start 553: conformance/32-core-macros/language-core-macros.clj
+550/885 Test #550: conformance/32-core-macros/doto.clj .........................................   Passed    0.07 sec
+        Start 554: conformance/32-core-macros/readme-core-macros.clj
+551/885 Test #551: conformance/32-core-macros/error-cond-odd.clj ...............................   Passed    0.07 sec
+        Start 555: conformance/32-core-macros/some-threading.clj
+552/885 Test #552: conformance/32-core-macros/error-if-let-binding.clj .........................   Passed    0.07 sec
+        Start 556: conformance/32-core-macros/threading.clj
+553/885 Test #553: conformance/32-core-macros/language-core-macros.clj .........................   Passed    0.07 sec
+        Start 557: conformance/32-core-macros/tutorial-ch11-threading.clj
+554/885 Test #554: conformance/32-core-macros/readme-core-macros.clj ...........................   Passed    0.07 sec
+        Start 558: conformance/32-core-macros/user-shadows-core-macro.clj
+555/885 Test #555: conformance/32-core-macros/some-threading.clj ...............................   Passed    0.07 sec
+        Start 559: conformance/32-core-macros/when-let-if-let.clj
+556/885 Test #557: conformance/32-core-macros/tutorial-ch11-threading.clj ......................   Passed    0.07 sec
+        Start 560: conformance/32-core-macros/when-macroexpand.clj
+557/885 Test #556: conformance/32-core-macros/threading.clj ....................................   Passed    0.08 sec
+        Start 561: conformance/32-core-macros/when-not-if-not.clj
+558/885 Test #558: conformance/32-core-macros/user-shadows-core-macro.clj ......................   Passed    0.07 sec
+        Start 562: conformance/33-destructuring/binding-macros.clj
+559/885 Test #559: conformance/32-core-macros/when-let-if-let.clj ..............................   Passed    0.07 sec
+        Start 563: conformance/33-destructuring/defmacro-params.clj
+560/885 Test #560: conformance/32-core-macros/when-macroexpand.clj .............................   Passed    0.08 sec
+        Start 564: conformance/33-destructuring/errors-keys-not-vector.clj
+561/885 Test #561: conformance/32-core-macros/when-not-if-not.clj ..............................   Passed    0.08 sec
+        Start 565: conformance/33-destructuring/errors-keyword.clj
+562/885 Test #562: conformance/33-destructuring/binding-macros.clj .............................   Passed    0.08 sec
+        Start 566: conformance/33-destructuring/errors-number.clj
+563/885 Test #563: conformance/33-destructuring/defmacro-params.clj ............................   Passed    0.08 sec
+        Start 567: conformance/33-destructuring/errors-odd-map-seq.clj
+564/885 Test #564: conformance/33-destructuring/errors-keys-not-vector.clj .....................   Passed    0.08 sec
+        Start 568: conformance/33-destructuring/errors-rest.clj
+565/885 Test #565: conformance/33-destructuring/errors-keyword.clj .............................   Passed    0.08 sec
+        Start 569: conformance/33-destructuring/fn-params.clj
+566/885 Test #566: conformance/33-destructuring/errors-number.clj ..............................   Passed    0.08 sec
+        Start 570: conformance/33-destructuring/fn-recur.clj
+567/885 Test #567: conformance/33-destructuring/errors-odd-map-seq.clj .........................   Passed    0.08 sec
+        Start 571: conformance/33-destructuring/fn-rest-map.clj
+568/885 Test #568: conformance/33-destructuring/errors-rest.clj ................................   Passed    0.08 sec
+        Start 572: conformance/33-destructuring/language-destructuring.clj
+569/885 Test #569: conformance/33-destructuring/fn-params.clj ..................................   Passed    0.08 sec
+        Start 573: conformance/33-destructuring/loop-init-sees-earlier.clj
+570/885 Test #570: conformance/33-destructuring/fn-recur.clj ...................................   Passed    0.07 sec
+        Start 574: conformance/33-destructuring/loop.clj
+571/885 Test #571: conformance/33-destructuring/fn-rest-map.clj ................................   Passed    0.07 sec
+        Start 575: conformance/33-destructuring/map-from-seq.clj
+572/885 Test #572: conformance/33-destructuring/language-destructuring.clj .....................   Passed    0.07 sec
+        Start 576: conformance/33-destructuring/map-keys-strs-syms.clj
+573/885 Test #573: conformance/33-destructuring/loop-init-sees-earlier.clj .....................   Passed    0.07 sec
+        Start 577: conformance/33-destructuring/map-namespaced-keys.clj
+574/885 Test #574: conformance/33-destructuring/loop.clj .......................................   Passed    0.07 sec
+        Start 578: conformance/33-destructuring/map-or-missing-only.clj
+575/885 Test #575: conformance/33-destructuring/map-from-seq.clj ...............................   Passed    0.07 sec
+        Start 579: conformance/33-destructuring/multi-arity.clj
+576/885 Test #576: conformance/33-destructuring/map-keys-strs-syms.clj .........................   Passed    0.07 sec
+        Start 580: conformance/33-destructuring/readme-destructuring.clj
+577/885 Test #577: conformance/33-destructuring/map-namespaced-keys.clj ........................   Passed    0.07 sec
+        Start 581: conformance/33-destructuring/tutorial-ch05-destructuring.clj
+578/885 Test #578: conformance/33-destructuring/map-or-missing-only.clj ........................   Passed    0.07 sec
+        Start 582: conformance/33-destructuring/vector-let.clj
+579/885 Test #579: conformance/33-destructuring/multi-arity.clj ................................   Passed    0.07 sec
+        Start 583: conformance/33-destructuring/vector-nested.clj
+580/885 Test #580: conformance/33-destructuring/readme-destructuring.clj .......................   Passed    0.07 sec
+        Start 584: conformance/33-destructuring/vector-strings-and-lists.clj
+581/885 Test #581: conformance/33-destructuring/tutorial-ch05-destructuring.clj ................   Passed    0.07 sec
+        Start 585: conformance/34-sets/clojure-set.clj
+582/885 Test #582: conformance/33-destructuring/vector-let.clj .................................   Passed    0.07 sec
+        Start 586: conformance/34-sets/conj-disj.clj
+583/885 Test #583: conformance/33-destructuring/vector-nested.clj ..............................   Passed    0.07 sec
+        Start 587: conformance/34-sets/constructors.clj
+584/885 Test #584: conformance/33-destructuring/vector-strings-and-lists.clj ...................   Passed    0.07 sec
+        Start 588: conformance/34-sets/destructuring.clj
+585/885 Test #585: conformance/34-sets/clojure-set.clj .........................................   Passed    0.07 sec
+        Start 589: conformance/34-sets/equality-and-keys.clj
+586/885 Test #586: conformance/34-sets/conj-disj.clj ...........................................   Passed    0.07 sec
+        Start 590: conformance/34-sets/error-disj-not-set.clj
+587/885 Test #587: conformance/34-sets/constructors.clj ........................................   Passed    0.07 sec
+        Start 591: conformance/34-sets/error-duplicate.clj
+588/885 Test #588: conformance/34-sets/destructuring.clj .......................................   Passed    0.07 sec
+        Start 592: conformance/34-sets/error-unterminated.clj
+589/885 Test #589: conformance/34-sets/equality-and-keys.clj ...................................   Passed    0.07 sec
+        Start 593: conformance/34-sets/into.clj
+590/885 Test #590: conformance/34-sets/error-disj-not-set.clj ..................................   Passed    0.07 sec
+        Start 594: conformance/34-sets/language-sets.clj
+591/885 Test #591: conformance/34-sets/error-duplicate.clj .....................................   Passed    0.08 sec
+        Start 595: conformance/34-sets/literal-and-functions.clj
+592/885 Test #592: conformance/34-sets/error-unterminated.clj ..................................   Passed    0.07 sec
+        Start 596: conformance/34-sets/print-and-quote.clj
+593/885 Test #593: conformance/34-sets/into.clj ................................................   Passed    0.07 sec
+        Start 597: conformance/34-sets/readme-sets.clj
+594/885 Test #594: conformance/34-sets/language-sets.clj .......................................   Passed    0.07 sec
+        Start 598: conformance/34-sets/seq-functions.clj
+595/885 Test #595: conformance/34-sets/literal-and-functions.clj ...............................   Passed    0.07 sec
+        Start 599: conformance/34-sets/tutorial-ch04-into.clj
+596/885 Test #596: conformance/34-sets/print-and-quote.clj .....................................   Passed    0.07 sec
+        Start 600: conformance/34-sets/tutorial-ch04-sets.clj
+597/885 Test #597: conformance/34-sets/readme-sets.clj .........................................   Passed    0.08 sec
+        Start 601: conformance/35-regex/clojure-string-names.clj
+598/885 Test #598: conformance/34-sets/seq-functions.clj .......................................   Passed    0.07 sec
+        Start 602: conformance/35-regex/engine-limit.clj
+599/885 Test #599: conformance/34-sets/tutorial-ch04-into.clj ..................................   Passed    0.07 sec
+        Start 603: conformance/35-regex/error-not-a-pattern.clj
+600/885 Test #600: conformance/34-sets/tutorial-ch04-sets.clj ..................................   Passed    0.07 sec
+        Start 604: conformance/35-regex/error-re-pattern.clj
+601/885 Test #601: conformance/35-regex/clojure-string-names.clj ...............................   Passed    0.07 sec
+        Start 605: conformance/35-regex/error-syntax.clj
+602/885 Test #603: conformance/35-regex/error-not-a-pattern.clj ................................   Passed    0.07 sec
+        Start 606: conformance/35-regex/inline-flags.clj
+603/885 Test #604: conformance/35-regex/error-re-pattern.clj ...................................   Passed    0.07 sec
+        Start 607: conformance/35-regex/java-constructs.clj
+604/885 Test #605: conformance/35-regex/error-syntax.clj .......................................   Passed    0.07 sec
+        Start 608: conformance/35-regex/language-regex.clj
+605/885 Test #606: conformance/35-regex/inline-flags.clj .......................................   Passed    0.07 sec
+        Start 609: conformance/35-regex/literal-escapes.clj
+606/885 Test #607: conformance/35-regex/java-constructs.clj ....................................   Passed    0.07 sec
+        Start 610: conformance/35-regex/long-subject.clj
+607/885 Test #608: conformance/35-regex/language-regex.clj .....................................   Passed    0.07 sec
+        Start 611: conformance/35-regex/matching-on-several-threads.clj
+608/885 Test #602: conformance/35-regex/engine-limit.clj .......................................   Passed    0.23 sec
+        Start 612: conformance/35-regex/re-find.clj
+609/885 Test #609: conformance/35-regex/literal-escapes.clj ....................................   Passed    0.07 sec
+        Start 613: conformance/35-regex/re-matcher-groups.clj
+610/885 Test #611: conformance/35-regex/matching-on-several-threads.clj ........................   Passed    0.08 sec
+        Start 614: conformance/35-regex/re-matches.clj
+611/885 Test #612: conformance/35-regex/re-find.clj ............................................   Passed    0.07 sec
+        Start 615: conformance/35-regex/re-pattern-and-print.clj
+612/885 Test #610: conformance/35-regex/long-subject.clj .......................................   Passed    0.10 sec
+        Start 616: conformance/35-regex/re-seq.clj
+613/885 Test #613: conformance/35-regex/re-matcher-groups.clj ..................................   Passed    0.08 sec
+        Start 617: conformance/35-regex/readme-regex.clj
+614/885 Test #614: conformance/35-regex/re-matches.clj .........................................   Passed    0.07 sec
+        Start 618: conformance/35-regex/replace-fn-groups.clj
+615/885 Test #615: conformance/35-regex/re-pattern-and-print.clj ...............................   Passed    0.07 sec
+        Start 619: conformance/35-regex/replace.clj
+616/885 Test #616: conformance/35-regex/re-seq.clj .............................................   Passed    0.07 sec
+        Start 620: conformance/35-regex/split.clj
+617/885 Test #617: conformance/35-regex/readme-regex.clj .......................................   Passed    0.07 sec
+        Start 621: conformance/35-regex/tutorial-ch03-regex.clj
+618/885 Test #618: conformance/35-regex/replace-fn-groups.clj ..................................   Passed    0.09 sec
+        Start 622: conformance/36-format-for/doseq-errors.clj
+619/885 Test #619: conformance/35-regex/replace.clj ............................................   Passed    0.11 sec
+        Start 623: conformance/36-format-for/doseq-modifiers.clj
+620/885 Test #620: conformance/35-regex/split.clj ..............................................   Passed    0.12 sec
+        Start 624: conformance/36-format-for/for-basic.clj
+621/885 Test #621: conformance/35-regex/tutorial-ch03-regex.clj ................................   Passed    0.14 sec
+        Start 625: conformance/36-format-for/for-errors.clj
+622/885 Test #622: conformance/36-format-for/doseq-errors.clj ..................................   Passed    0.15 sec
+        Start 626: conformance/36-format-for/for-in-fn.clj
+623/885 Test #623: conformance/36-format-for/doseq-modifiers.clj ...............................   Passed    0.15 sec
+        Start 627: conformance/36-format-for/for-macroexpand.clj
+624/885 Test #624: conformance/36-format-for/for-basic.clj .....................................   Passed    0.15 sec
+        Start 628: conformance/36-format-for/for-modifiers.clj
+625/885 Test #625: conformance/36-format-for/for-errors.clj ....................................   Passed    0.16 sec
+        Start 629: conformance/36-format-for/format-errors.clj
+626/885 Test #626: conformance/36-format-for/for-in-fn.clj .....................................   Passed    0.14 sec
+        Start 630: conformance/36-format-for/format-floats.clj
+627/885 Test #627: conformance/36-format-for/for-macroexpand.clj ...............................   Passed    0.14 sec
+        Start 631: conformance/36-format-for/format-half-up.clj
+628/885 Test #628: conformance/36-format-for/for-modifiers.clj .................................   Passed    0.13 sec
+        Start 632: conformance/36-format-for/format-integers.clj
+629/885 Test #629: conformance/36-format-for/format-errors.clj .................................   Passed    0.14 sec
+        Start 633: conformance/36-format-for/format-misc.clj
+630/885 Test #630: conformance/36-format-for/format-floats.clj .................................   Passed    0.12 sec
+        Start 634: conformance/36-format-for/format-strings.clj
+631/885 Test #631: conformance/36-format-for/format-half-up.clj ................................   Passed    0.11 sec
+        Start 635: conformance/36-format-for/language-format-for.clj
+632/885 Test #632: conformance/36-format-for/format-integers.clj ...............................   Passed    0.11 sec
+        Start 636: conformance/36-format-for/printf.clj
+633/885 Test #633: conformance/36-format-for/format-misc.clj ...................................   Passed    0.10 sec
+        Start 637: conformance/36-format-for/range-endless.clj
+634/885 Test #634: conformance/36-format-for/format-strings.clj ................................   Passed    0.10 sec
+        Start 638: conformance/36-format-for/range.clj
+635/885 Test #635: conformance/36-format-for/language-format-for.clj ...........................   Passed    0.11 sec
+        Start 639: conformance/36-format-for/readme-format-for.clj
+636/885 Test #636: conformance/36-format-for/printf.clj ........................................   Passed    0.10 sec
+        Start 640: conformance/37-lazy-seqs/chunked-vector-range.clj
+637/885 Test #637: conformance/36-format-for/range-endless.clj .................................   Passed    0.09 sec
+        Start 641: conformance/37-lazy-seqs/concat-mapcat.clj
+638/885 Test #638: conformance/36-format-for/range.clj .........................................   Passed    0.08 sec
+        Start 642: conformance/37-lazy-seqs/conj-cons-list-star.clj
+639/885 Test #639: conformance/36-format-for/readme-format-for.clj .............................   Passed    0.08 sec
+        Start 643: conformance/37-lazy-seqs/destructure-lazy.clj
+640/885 Test #640: conformance/37-lazy-seqs/chunked-vector-range.clj ...........................   Passed    0.08 sec
+        Start 644: conformance/37-lazy-seqs/doall-dorun.clj
+641/885 Test #641: conformance/37-lazy-seqs/concat-mapcat.clj ..................................   Passed    0.08 sec
+        Start 645: conformance/37-lazy-seqs/equality-and-keys.clj
+642/885 Test #642: conformance/37-lazy-seqs/conj-cons-list-star.clj ............................   Passed    0.08 sec
+        Start 646: conformance/37-lazy-seqs/for-lazy.clj
+643/885 Test #643: conformance/37-lazy-seqs/destructure-lazy.clj ...............................   Passed    0.08 sec
+        Start 647: conformance/37-lazy-seqs/futures-share-a-seq.clj
+644/885 Test #644: conformance/37-lazy-seqs/doall-dorun.clj ....................................   Passed    0.08 sec
+        Start 648: conformance/37-lazy-seqs/into-vec-apply.clj
+645/885 Test #645: conformance/37-lazy-seqs/equality-and-keys.clj ..............................   Passed    0.08 sec
+        Start 649: conformance/37-lazy-seqs/iterate-infinite.clj
+646/885 Test #646: conformance/37-lazy-seqs/for-lazy.clj .......................................   Passed    0.08 sec
+        Start 650: conformance/37-lazy-seqs/language-s10-examples.clj
+647/885 Test #648: conformance/37-lazy-seqs/into-vec-apply.clj .................................   Passed    0.08 sec
+        Start 651: conformance/37-lazy-seqs/lazy-seq-macro.clj
+648/885 Test #647: conformance/37-lazy-seqs/futures-share-a-seq.clj ............................   Passed    0.09 sec
+        Start 652: conformance/37-lazy-seqs/line-seq-lazy.clj
+649/885 Test #649: conformance/37-lazy-seqs/iterate-infinite.clj ...............................   Passed    0.08 sec
+        Start 653: conformance/37-lazy-seqs/line-seq-stream-closed.clj
+650/885 Test #650: conformance/37-lazy-seqs/language-s10-examples.clj ..........................   Passed    0.08 sec
+        Start 654: conformance/37-lazy-seqs/macro-builds-lazy-form.clj
+651/885 Test #651: conformance/37-lazy-seqs/lazy-seq-macro.clj .................................   Passed    0.08 sec
+        Start 655: conformance/37-lazy-seqs/map-transducer-arity-error.clj
+652/885 Test #652: conformance/37-lazy-seqs/line-seq-lazy.clj ..................................   Passed    0.08 sec
+        Start 656: conformance/37-lazy-seqs/not-seqable-error.clj
+653/885 Test #653: conformance/37-lazy-seqs/line-seq-stream-closed.clj .........................   Passed    0.09 sec
+        Start 657: conformance/37-lazy-seqs/partition-interleave-distinct.clj
+654/885 Test #654: conformance/37-lazy-seqs/macro-builds-lazy-form.clj .........................   Passed    0.08 sec
+        Start 658: conformance/37-lazy-seqs/range.clj
+655/885 Test #655: conformance/37-lazy-seqs/map-transducer-arity-error.clj .....................   Passed    0.08 sec
+        Start 659: conformance/37-lazy-seqs/re-seq-lazy.clj
+656/885 Test #656: conformance/37-lazy-seqs/not-seqable-error.clj ..............................   Passed    0.07 sec
+        Start 660: conformance/37-lazy-seqs/readme-lazy-seqs.clj
+657/885 Test #657: conformance/37-lazy-seqs/partition-interleave-distinct.clj ..................   Passed    0.07 sec
+        Start 661: conformance/37-lazy-seqs/realized.clj
+658/885 Test #658: conformance/37-lazy-seqs/range.clj ..........................................   Passed    0.11 sec
+        Start 662: conformance/37-lazy-seqs/repeat-cycle-repeatedly.clj
+659/885 Test #660: conformance/37-lazy-seqs/readme-lazy-seqs.clj ...............................   Passed    0.08 sec
+        Start 663: conformance/37-lazy-seqs/retry-after-error.clj
+660/885 Test #661: conformance/37-lazy-seqs/realized.clj .......................................   Passed    0.08 sec
+        Start 664: conformance/37-lazy-seqs/self-reference-error.clj
+661/885 Test #662: conformance/37-lazy-seqs/repeat-cycle-repeatedly.clj ........................   Passed    0.07 sec
+        Start 665: conformance/37-lazy-seqs/seq-fns-on-lazy.clj
+662/885 Test #663: conformance/37-lazy-seqs/retry-after-error.clj ..............................   Passed    0.07 sec
+        Start 666: conformance/37-lazy-seqs/seq-predicates.clj
+663/885 Test #664: conformance/37-lazy-seqs/self-reference-error.clj ...........................   Passed    0.07 sec
+        Start 667: conformance/37-lazy-seqs/side-effects-deferred.clj
+664/885 Test #665: conformance/37-lazy-seqs/seq-fns-on-lazy.clj ................................   Passed    0.07 sec
+        Start 668: conformance/37-lazy-seqs/str-and-print.clj
+665/885 Test #666: conformance/37-lazy-seqs/seq-predicates.clj .................................   Passed    0.07 sec
+        Start 669: conformance/37-lazy-seqs/take-drop.clj
+666/885 Test #667: conformance/37-lazy-seqs/side-effects-deferred.clj ..........................   Passed    0.08 sec
+        Start 670: conformance/37-lazy-seqs/take-wrong-type-error.clj
+667/885 Test #668: conformance/37-lazy-seqs/str-and-print.clj ..................................   Passed    0.08 sec
+        Start 671: conformance/37-lazy-seqs/tutorial-ch05-head.clj
+668/885 Test #669: conformance/37-lazy-seqs/take-drop.clj ......................................   Passed    0.08 sec
+        Start 672: conformance/37-lazy-seqs/tutorial-ch05-lazy.clj
+669/885 Test #670: conformance/37-lazy-seqs/take-wrong-type-error.clj ..........................   Passed    0.08 sec
+        Start 673: conformance/38-vocabulary/compare-error.clj
+670/885 Test #659: conformance/37-lazy-seqs/re-seq-lazy.clj ....................................   Passed    0.40 sec
+        Start 674: conformance/38-vocabulary/fn-literal-nested-error.clj
+671/885 Test #672: conformance/37-lazy-seqs/tutorial-ch05-lazy.clj .............................   Passed    0.08 sec
+        Start 675: conformance/38-vocabulary/fn-literal-reads-as-fn-star.clj
+672/885 Test #673: conformance/38-vocabulary/compare-error.clj .................................   Passed    0.08 sec
+        Start 676: conformance/38-vocabulary/fn-literal.clj
+673/885 Test #674: conformance/38-vocabulary/fn-literal-nested-error.clj .......................   Passed    0.08 sec
+        Start 677: conformance/38-vocabulary/frequencies-group-by.clj
+674/885 Test #675: conformance/38-vocabulary/fn-literal-reads-as-fn-star.clj ...................   Passed    0.08 sec
+        Start 678: conformance/38-vocabulary/higher-order.clj
+675/885 Test #676: conformance/38-vocabulary/fn-literal.clj ....................................   Passed    0.08 sec
+        Start 679: conformance/38-vocabulary/language-examples.clj
+676/885 Test #677: conformance/38-vocabulary/frequencies-group-by.clj ..........................   Passed    0.09 sec
+        Start 680: conformance/38-vocabulary/letfn.clj
+677/885 Test #678: conformance/38-vocabulary/higher-order.clj ..................................   Passed    0.09 sec
+        Start 681: conformance/38-vocabulary/maps.clj
+678/885 Test #679: conformance/38-vocabulary/language-examples.clj .............................   Passed    0.09 sec
+        Start 682: conformance/38-vocabulary/max-min-keys.clj
+679/885 Test #680: conformance/38-vocabulary/letfn.clj .........................................   Passed    0.08 sec
+        Start 683: conformance/38-vocabulary/no-such-var-error.clj
+680/885 Test #681: conformance/38-vocabulary/maps.clj ..........................................   Passed    0.08 sec
+        Start 684: conformance/38-vocabulary/ns-require-aliases.clj
+681/885 Test #682: conformance/38-vocabulary/max-min-keys.clj ..................................   Passed    0.08 sec
+        Start 685: conformance/38-vocabulary/pop-empty-vector.clj
+682/885 Test #683: conformance/38-vocabulary/no-such-var-error.clj .............................   Passed    0.09 sec
+        Start 686: conformance/38-vocabulary/quot-divide-by-zero-error.clj
+683/885 Test #684: conformance/38-vocabulary/ns-require-aliases.clj ............................   Passed    0.09 sec
+        Start 687: conformance/38-vocabulary/quot-rem-mod.clj
+684/885 Test #685: conformance/38-vocabulary/pop-empty-vector.clj ..............................   Passed    0.09 sec
+        Start 688: conformance/38-vocabulary/readme-vocabulary.clj
+685/885 Test #686: conformance/38-vocabulary/quot-divide-by-zero-error.clj .....................   Passed    0.08 sec
+        Start 689: conformance/38-vocabulary/require-top-level.clj
+686/885 Test #687: conformance/38-vocabulary/quot-rem-mod.clj ..................................   Passed    0.09 sec
+        Start 690: conformance/38-vocabulary/require-unknown-error.clj
+687/885 Test #688: conformance/38-vocabulary/readme-vocabulary.clj .............................   Passed    0.09 sec
+        Start 691: conformance/38-vocabulary/slurp-spit-println.clj
+688/885 Test #689: conformance/38-vocabulary/require-top-level.clj .............................   Passed    0.10 sec
+        Start 692: conformance/38-vocabulary/sort-compare.clj
+689/885 Test #690: conformance/38-vocabulary/require-unknown-error.clj .........................   Passed    0.10 sec
+        Start 693: conformance/38-vocabulary/strings.clj
+690/885 Test #691: conformance/38-vocabulary/slurp-spit-println.clj ............................   Passed    0.11 sec
+        Start 694: conformance/38-vocabulary/system-exit.clj
+691/885 Test #692: conformance/38-vocabulary/sort-compare.clj ..................................   Passed    0.10 sec
+        Start 695: conformance/38-vocabulary/vector-call-out-of-range.clj
+692/885 Test #693: conformance/38-vocabulary/strings.clj .......................................   Passed    0.10 sec
+        Start 696: conformance/38-vocabulary/vectors-numbers-peek-pop.clj
+693/885 Test #694: conformance/38-vocabulary/system-exit.clj ...................................   Passed    0.10 sec
+        Start 697: conformance/38-vocabulary/word-frequencies-script.clj
+694/885 Test #695: conformance/38-vocabulary/vector-call-out-of-range.clj ......................   Passed    0.10 sec
+        Start 698: conformance/39-data-formats/discard.clj
+695/885 Test #696: conformance/38-vocabulary/vectors-numbers-peek-pop.clj ......................   Passed    0.09 sec
+        Start 699: conformance/39-data-formats/edn-read-string.clj
+696/885 Test #697: conformance/38-vocabulary/word-frequencies-script.clj .......................   Passed    0.09 sec
+        Start 700: conformance/39-data-formats/edn-rejects-fn-literal.clj
+697/885 Test #698: conformance/39-data-formats/discard.clj .....................................   Passed    0.08 sec
+        Start 701: conformance/39-data-formats/edn-rejects-quote.clj
+698/885 Test #699: conformance/39-data-formats/edn-read-string.clj .............................   Passed    0.08 sec
+        Start 702: conformance/39-data-formats/edn-rejects-syntax-quote.clj
+699/885 Test #700: conformance/39-data-formats/edn-rejects-fn-literal.clj ......................   Passed    0.08 sec
+        Start 703: conformance/39-data-formats/edn-unknown-tag.clj
+700/885 Test #701: conformance/39-data-formats/edn-rejects-quote.clj ...........................   Passed    0.08 sec
+        Start 704: conformance/39-data-formats/edn-unterminated-error.clj
+701/885 Test #702: conformance/39-data-formats/edn-rejects-syntax-quote.clj ....................   Passed    0.08 sec
+        Start 705: conformance/39-data-formats/json-cannot-encode-error.clj
+702/885 Test #703: conformance/39-data-formats/edn-unknown-tag.clj .............................   Passed    0.08 sec
+        Start 706: conformance/39-data-formats/json-cheshire-generate.clj
+703/885 Test #704: conformance/39-data-formats/edn-unterminated-error.clj ......................   Passed    0.08 sec
+        Start 707: conformance/39-data-formats/json-cheshire-parse.clj
+704/885 Test #705: conformance/39-data-formats/json-cannot-encode-error.clj ....................   Passed    0.08 sec
+        Start 708: conformance/39-data-formats/json-cheshire-pretty.clj
+705/885 Test #706: conformance/39-data-formats/json-cheshire-generate.clj ......................   Passed    0.07 sec
+        Start 709: conformance/39-data-formats/json-data-json-eof-error.clj
+706/885 Test #707: conformance/39-data-formats/json-cheshire-parse.clj .........................   Passed    0.08 sec
+        Start 710: conformance/39-data-formats/json-data-json-extra-data-error.clj
+707/885 Test #708: conformance/39-data-formats/json-cheshire-pretty.clj ........................   Passed    0.08 sec
+        Start 711: conformance/39-data-formats/json-data-json-nan-error.clj
+708/885 Test #709: conformance/39-data-formats/json-data-json-eof-error.clj ....................   Passed    0.08 sec
+        Start 712: conformance/39-data-formats/json-data-json-nil-key-error.clj
+709/885 Test #710: conformance/39-data-formats/json-data-json-extra-data-error.clj .............   Passed    0.09 sec
+        Start 713: conformance/39-data-formats/json-data-json.clj
+710/885 Test #711: conformance/39-data-formats/json-data-json-nan-error.clj ....................   Passed    0.08 sec
+        Start 714: conformance/39-data-formats/json-error-bad-escape.clj
+711/885 Test #712: conformance/39-data-formats/json-data-json-nil-key-error.clj ................   Passed    0.08 sec
+        Start 715: conformance/39-data-formats/json-error-bad-token.clj
+712/885 Test #671: conformance/37-lazy-seqs/tutorial-ch05-head.clj .............................   Passed    1.27 sec
+        Start 716: conformance/39-data-formats/json-error-is-catchable.clj
+713/885 Test #713: conformance/39-data-formats/json-data-json.clj ..............................   Passed    0.08 sec
+        Start 717: conformance/39-data-formats/json-error-leading-zero.clj
+714/885 Test #714: conformance/39-data-formats/json-error-bad-escape.clj .......................   Passed    0.08 sec
+        Start 718: conformance/39-data-formats/json-error-malformed-object.clj
+715/885 Test #715: conformance/39-data-formats/json-error-bad-token.clj ........................   Passed    0.07 sec
+        Start 719: conformance/39-data-formats/json-error-missing-key-quote.clj
+716/885 Test #716: conformance/39-data-formats/json-error-is-catchable.clj .....................   Passed    0.07 sec
+        Start 720: conformance/39-data-formats/json-error-multiline-position.clj
+717/885 Test #717: conformance/39-data-formats/json-error-leading-zero.clj .....................   Passed    0.07 sec
+        Start 721: conformance/39-data-formats/json-error-trailing-comma.clj
+718/885 Test #718: conformance/39-data-formats/json-error-malformed-object.clj .................   Passed    0.07 sec
+        Start 722: conformance/39-data-formats/json-error-unpaired-surrogate.clj
+719/885 Test #719: conformance/39-data-formats/json-error-missing-key-quote.clj ................   Passed    0.08 sec
+        Start 723: conformance/39-data-formats/json-error-unterminated-array.clj
+720/885 Test #720: conformance/39-data-formats/json-error-multiline-position.clj ...............   Passed    0.07 sec
+        Start 724: conformance/39-data-formats/json-error-unterminated-string.clj
+721/885 Test #721: conformance/39-data-formats/json-error-trailing-comma.clj ...................   Passed    0.07 sec
+        Start 725: conformance/39-data-formats/json-functions-are-values.clj
+722/885 Test #722: conformance/39-data-formats/json-error-unpaired-surrogate.clj ...............   Passed    0.07 sec
+        Start 726: conformance/39-data-formats/json-no-such-var-error.clj
+723/885 Test #723: conformance/39-data-formats/json-error-unterminated-array.clj ...............   Passed    0.07 sec
+        Start 727: conformance/39-data-formats/json-ns-require.clj
+724/885 Test #724: conformance/39-data-formats/json-error-unterminated-string.clj ..............   Passed    0.07 sec
+        Start 728: conformance/39-data-formats/json-round-trip.clj
+725/885 Test #725: conformance/39-data-formats/json-functions-are-values.clj ...................   Passed    0.07 sec
+        Start 729: conformance/39-data-formats/json-streams.clj
+726/885 Test #726: conformance/39-data-formats/json-no-such-var-error.clj ......................   Passed    0.07 sec
+        Start 730: conformance/39-data-formats/parse-long-not-a-string-error.clj
+727/885 Test #727: conformance/39-data-formats/json-ns-require.clj .............................   Passed    0.07 sec
+        Start 731: conformance/39-data-formats/parse-numbers.clj
+728/885 Test #728: conformance/39-data-formats/json-round-trip.clj .............................   Passed    0.07 sec
+        Start 732: conformance/39-data-formats/pr-str-read-string-round-trip.clj
+729/885 Test #729: conformance/39-data-formats/json-streams.clj ................................   Passed    0.08 sec
+        Start 733: conformance/39-data-formats/read-string-eof-error.clj
+730/885 Test #730: conformance/39-data-formats/parse-long-not-a-string-error.clj ...............   Passed    0.07 sec
+        Start 734: conformance/39-data-formats/read-string-eof-option.clj
+731/885 Test #731: conformance/39-data-formats/parse-numbers.clj ...............................   Passed    0.07 sec
+        Start 735: conformance/39-data-formats/read-string-error-position.clj
+732/885 Test #732: conformance/39-data-formats/pr-str-read-string-round-trip.clj ...............   Passed    0.08 sec
+        Start 736: conformance/39-data-formats/read-string-reads-code.clj
+733/885 Test #733: conformance/39-data-formats/read-string-eof-error.clj .......................   Passed    0.08 sec
+        Start 737: conformance/39-data-formats/string-bad-unicode-escape-error.clj
+734/885 Test #734: conformance/39-data-formats/read-string-eof-option.clj ......................   Passed    0.07 sec
+        Start 738: conformance/39-data-formats/string-escapes.clj
+735/885 Test #735: conformance/39-data-formats/read-string-error-position.clj ..................   Passed    0.07 sec
+        Start 739: conformance/39-data-formats/string-unpaired-surrogate-error.clj
+736/885 Test #736: conformance/39-data-formats/read-string-reads-code.clj ......................   Passed    0.07 sec
+        Start 740: BytecodeModule.EqualConstantsOfOneKindShareAnEntry
+737/885 Test #740: BytecodeModule.EqualConstantsOfOneKindShareAnEntry ..........................   Passed    0.02 sec
+        Start 741: BytecodeModule.ConstantsOfDifferentKindsOrBitsStayDistinct
+738/885 Test #737: conformance/39-data-formats/string-bad-unicode-escape-error.clj .............   Passed    0.07 sec
+        Start 742: BytecodeModule.SymbolConstantsCarryTheirInternedKey
+739/885 Test #738: conformance/39-data-formats/string-escapes.clj ..............................   Passed    0.07 sec
+        Start 743: BytecodeModule.ManyDistinctConstantsGetSequentialIndices
+740/885 Test #741: BytecodeModule.ConstantsOfDifferentKindsOrBitsStayDistinct ..................   Passed    0.02 sec
+        Start 744: BytecodeModule.OperandsUseTwentyFourBits
+741/885 Test #742: BytecodeModule.SymbolConstantsCarryTheirInternedKey .........................   Passed    0.02 sec
+        Start 745: BytecodeModuleMaxStack.StraightLineCountsTheDeepestPush
+742/885 Test #744: BytecodeModule.OperandsUseTwentyFourBits ....................................   Passed    0.01 sec
+        Start 746: BytecodeModuleMaxStack.ACallHoldsTheCallableAndItsArguments
+743/885 Test #739: conformance/39-data-formats/string-unpaired-surrogate-error.clj .............   Passed    0.08 sec
+744/885 Test #743: BytecodeModule.ManyDistinctConstantsGetSequentialIndices ....................   Passed    0.03 sec
+        Start 747: BytecodeModuleMaxStack.BranchesKeepTheDeeperPath
+        Start 748: BytecodeModuleMaxStack.ALoopBackEdgeTerminatesTheAnalysis
+745/885 Test #745: BytecodeModuleMaxStack.StraightLineCountsTheDeepestPush .....................   Passed    0.01 sec
+        Start 749: BytecodeModuleMaxStack.AHandlerStartsOneDeeper
+746/885 Test #747: BytecodeModuleMaxStack.BranchesKeepTheDeeperPath ............................   Passed    0.01 sec
+747/885 Test #748: BytecodeModuleMaxStack.ALoopBackEdgeTerminatesTheAnalysis ...................   Passed    0.01 sec
+        Start 750: BytecodeModuleMaxStack.AnEmptyBodyNeedsNoStack
+        Start 751: ExceptionClasses.SimpleAndQualifiedNamesNameTheSameClass
+748/885 Test #746: BytecodeModuleMaxStack.ACallHoldsTheCallableAndItsArguments .................   Passed    0.02 sec
+749/885 Test #749: BytecodeModuleMaxStack.AHandlerStartsOneDeeper ..............................   Passed    0.01 sec
+        Start 752: ExceptionClasses.HierarchyMirrorsJava
+        Start 753: ExceptionsFixture.PrimitiveErrorMessagesMapOntoClasses
+750/885 Test #750: BytecodeModuleMaxStack.AnEmptyBodyNeedsNoStack ..............................   Passed    0.01 sec
+751/885 Test #751: ExceptionClasses.SimpleAndQualifiedNamesNameTheSameClass ....................   Passed    0.01 sec
+        Start 754: ExceptionsFixture.ThrowClassedCarriesClassMessageAndToString
+        Start 755: ExceptionsFixture.InFlightExceptionSurvivesCollections
+752/885 Test #752: ExceptionClasses.HierarchyMirrorsJava .......................................   Passed    0.01 sec
+        Start 756: ExceptionsFixture.ProtoCoreErrorsArriveAsClojureClasses
+753/885 Test #753: ExceptionsFixture.PrimitiveErrorMessagesMapOntoClasses ......................   Passed    0.02 sec
+        Start 757: FormatDouble.MatchesJavaDoubleToString
+754/885 Test #754: ExceptionsFixture.ThrowClassedCarriesClassMessageAndToString ................   Passed    0.02 sec
+        Start 758: FormatDouble.RoundTripsAndChoosesNotationByMagnitude
+755/885 Test #757: FormatDouble.MatchesJavaDoubleToString ......................................   Passed    0.01 sec
+        Start 759: Lexer.EmptyInputYieldsEOF
+756/885 Test #756: ExceptionsFixture.ProtoCoreErrorsArriveAsClojureClasses .....................   Passed    0.02 sec
+        Start 760: Lexer.SkipsWhitespaceAndCommas
+757/885 Test #759: Lexer.EmptyInputYieldsEOF ...................................................   Passed    0.01 sec
+        Start 761: Lexer.SkipsLineComments
+758/885 Test #760: Lexer.SkipsWhitespaceAndCommas ..............................................   Passed    0.01 sec
+        Start 762: Lexer.SkipsHashBangComments
+759/885 Test #761: Lexer.SkipsLineComments .....................................................   Passed    0.01 sec
+        Start 763: Lexer.PositiveInteger
+760/885 Test #762: Lexer.SkipsHashBangComments .................................................   Passed    0.01 sec
+        Start 764: Lexer.NegativeIntegerAtPrimaryPosition
+761/885 Test #763: Lexer.PositiveInteger .......................................................   Passed    0.01 sec
+        Start 765: Lexer.MinusAfterOperandIsBinarySymbol
+762/885 Test #764: Lexer.NegativeIntegerAtPrimaryPosition ......................................   Passed    0.01 sec
+        Start 766: Lexer.NegativeLiteralAfterWhitespace
+763/885 Test #755: ExceptionsFixture.InFlightExceptionSurvivesCollections ......................   Passed    0.05 sec
+764/885 Test #765: Lexer.MinusAfterOperandIsBinarySymbol .......................................   Passed    0.01 sec
+        Start 767: Lexer.SimpleString
+        Start 768: Lexer.StringWithEscapes
+765/885 Test #766: Lexer.NegativeLiteralAfterWhitespace ........................................   Passed    0.01 sec
+        Start 769: Lexer.UnterminatedStringIsError
+766/885 Test #767: Lexer.SimpleString ..........................................................   Passed    0.01 sec
+        Start 770: Lexer.Symbol
+767/885 Test #768: Lexer.StringWithEscapes .....................................................   Passed    0.01 sec
+        Start 771: Lexer.SymbolWithSpecialChars
+768/885 Test #769: Lexer.UnterminatedStringIsError .............................................   Passed    0.01 sec
+        Start 772: Lexer.Parens
+769/885 Test #770: Lexer.Symbol ................................................................   Passed    0.01 sec
+        Start 773: Lexer.HelloWorldShape
+770/885 Test #771: Lexer.SymbolWithSpecialChars ................................................   Passed    0.01 sec
+        Start 774: Lexer.BracketsAreLexedAsTokens
+771/885 Test #772: Lexer.Parens ................................................................   Passed    0.01 sec
+        Start 775: Lexer.BracesAreLexedAsTokens
+772/885 Test #773: Lexer.HelloWorldShape .......................................................   Passed    0.01 sec
+        Start 776: Lexer.LineColumnTracked
+773/885 Test #774: Lexer.BracketsAreLexedAsTokens ..............................................   Passed    0.01 sec
+        Start 777: Lexer.PeekDoesNotConsume
+774/885 Test #775: Lexer.BracesAreLexedAsTokens ................................................   Passed    0.01 sec
+        Start 778: Lexer.NonAsciiLettersInSymbolsAndKeywords
+775/885 Test #776: Lexer.LineColumnTracked .....................................................   Passed    0.01 sec
+776/885 Test #777: Lexer.PeekDoesNotConsume ....................................................   Passed    0.01 sec
+        Start 779: Lexer.NonLetterCodePointsEndSymbolsAndAreErrors
+        Start 780: Lexer.MalformedUtf8IsAnError
+777/885 Test #778: Lexer.NonAsciiLettersInSymbolsAndKeywords ...................................   Passed    0.01 sec
+        Start 781: Lexer.NumberFollowedByNonAsciiLetterIsMalformed
+778/885 Test #779: Lexer.NonLetterCodePointsEndSymbolsAndAreErrors .............................   Passed    0.01 sec
+        Start 782: Lexer.ColumnsCountCodePoints
+779/885 Test #780: Lexer.MalformedUtf8IsAnError ................................................   Passed    0.01 sec
+        Start 783: Lexer.IntegerBeyondLongRangeKeepsItsDigits
+780/885 Test #781: Lexer.NumberFollowedByNonAsciiLetterIsMalformed .............................   Passed    0.01 sec
+        Start 784: Lexer.BigIntegerSuffixOnIntegersOnly
+781/885 Test #782: Lexer.ColumnsCountCodePoints ................................................   Passed    0.01 sec
+        Start 785: Lexer.SymbolicValuesReadAsFloats
+782/885 Test #783: Lexer.IntegerBeyondLongRangeKeepsItsDigits ..................................   Passed    0.01 sec
+        Start 786: Lexer.SymbolicValueAllowsWhitespaceAfterHashes
+783/885 Test #784: Lexer.BigIntegerSuffixOnIntegersOnly ........................................   Passed    0.01 sec
+        Start 787: Lexer.UnknownSymbolicValueIsError
+784/885 Test #785: Lexer.SymbolicValuesReadAsFloats ............................................   Passed    0.01 sec
+        Start 788: Lexer.SymbolicValueNeedsASymbol
+785/885 Test #786: Lexer.SymbolicValueAllowsWhitespaceAfterHashes ..............................   Passed    0.01 sec
+786/885 Test #787: Lexer.UnknownSymbolicValueIsError ...........................................   Passed    0.01 sec
+        Start 789: Lexer.QuotingReaderMacros
+        Start 790: Lexer.HashInsideSymbol
+787/885 Test #788: Lexer.SymbolicValueNeedsASymbol .............................................   Passed    0.01 sec
+        Start 791: Lexer.HashBraceOpensASet
+788/885 Test #789: Lexer.QuotingReaderMacros ...................................................   Passed    0.01 sec
+        Start 792: Lexer.HashQuoteIsARegexLiteral
+789/885 Test #790: Lexer.HashInsideSymbol ......................................................   Passed    0.01 sec
+        Start 793: Lexer.StringEscapes
+790/885 Test #791: Lexer.HashBraceOpensASet ....................................................   Passed    0.01 sec
+        Start 794: Lexer.BadStringEscapesAreErrors
+791/885 Test #792: Lexer.HashQuoteIsARegexLiteral ..............................................   Passed    0.01 sec
+792/885 Test #793: Lexer.StringEscapes .........................................................   Passed    0.01 sec
+        Start 795: Lexer.DiscardAndTags
+        Start 796: MapOpsFixture.MapsAreProtoMapsRecognisedByTag
+793/885 Test #758: FormatDouble.RoundTripsAndChoosesNotationByMagnitude ........................   Passed    0.13 sec
+794/885 Test #794: Lexer.BadStringEscapesAreErrors .............................................   Passed    0.01 sec
+        Start 797: MapOpsFixture.CountIsTheNumberOfEntriesAndAssocOfAnEqualKeyAddsNone
+        Start 798: MapOpsFixture.AssocOfAnEqualKeyKeepsTheStoredKeyObject
+795/885 Test #795: Lexer.DiscardAndTags ........................................................   Passed    0.01 sec
+        Start 799: MapOpsFixture.AssocOfAnIdenticalValueReturnsTheSameMap
+796/885 Test #796: MapOpsFixture.MapsAreProtoMapsRecognisedByTag ...............................   Passed    0.02 sec
+        Start 800: MapOpsFixture.DissocRemovesOnlyThatKeyAndReturnsTheSameMapWhenAbsent
+797/885 Test #797: MapOpsFixture.CountIsTheNumberOfEntriesAndAssocOfAnEqualKeyAddsNone .........   Passed    0.02 sec
+        Start 801: MapOpsFixture.WalkVisitsEveryEntryOnceBeyondTheSmallForm
+798/885 Test #798: MapOpsFixture.AssocOfAnEqualKeyKeepsTheStoredKeyObject ......................   Passed    0.02 sec
+        Start 802: MapOpsFixture.RepeatedKeyInOnePairListKeepsTheFirstKeyAndTheLastValue
+799/885 Test #799: MapOpsFixture.AssocOfAnIdenticalValueReturnsTheSameMap ......................   Passed    0.02 sec
+        Start 803: MapOpsFixture.RuntimeBuiltStringsFindLiteralKeys
+800/885 Test #800: MapOpsFixture.DissocRemovesOnlyThatKeyAndReturnsTheSameMapWhenAbsent ........   Passed    0.02 sec
+        Start 804: MapOpsFixture.EqualVectorsAndListsAreOneKey
+801/885 Test #801: MapOpsFixture.WalkVisitsEveryEntryOnceBeyondTheSmallForm ....................   Passed    0.02 sec
+        Start 805: MapOpsFixture.NestedElementsAreComparedByTheSameRules
+802/885 Test #802: MapOpsFixture.RepeatedKeyInOnePairListKeepsTheFirstKeyAndTheLastValue .......   Passed    0.02 sec
+        Start 806: MapOpsFixture.DoublesKeyByBitPattern
+803/885 Test #803: MapOpsFixture.RuntimeBuiltStringsFindLiteralKeys ............................   Passed    0.02 sec
+        Start 807: MapOpsFixture.BigIntegersBuiltTwoWaysAreOneKey
+804/885 Test #804: MapOpsFixture.EqualVectorsAndListsAreOneKey .................................   Passed    0.02 sec
+        Start 808: MapOpsFixture.NumericKeysAreDistinctAcrossTypes
+805/885 Test #805: MapOpsFixture.NestedElementsAreComparedByTheSameRules .......................   Passed    0.02 sec
+        Start 809: MapOpsFixture.MapsAsKeysMatchByValueWhateverTheInsertionOrder
+806/885 Test #806: MapOpsFixture.DoublesKeyByBitPattern ........................................   Passed    0.02 sec
+        Start 810: MapOpsFixture.KeywordsAndStringsWithTheSameSpellingAreDifferentKeys
+807/885 Test #807: MapOpsFixture.BigIntegersBuiltTwoWaysAreOneKey ..............................   Passed    0.02 sec
+        Start 811: MapOpsFixture.KeysOfDifferentClassesAreNeverConfused
+808/885 Test #808: MapOpsFixture.NumericKeysAreDistinctAcrossTypes .............................   Passed    0.02 sec
+        Start 812: MapOpsFixture.DerivedMapsAreIndependent
+809/885 Test #809: MapOpsFixture.MapsAsKeysMatchByValueWhateverTheInsertionOrder ...............   Passed    0.02 sec
+        Start 813: MapOpsFixture.EqualityIgnoresInsertionOrderBeyondTheSmallForm
+810/885 Test #810: MapOpsFixture.KeywordsAndStringsWithTheSameSpellingAreDifferentKeys .........   Passed    0.02 sec
+        Start 814: MapOpsFixture.EqualityRequiresTheSameKeysAndSize
+811/885 Test #811: MapOpsFixture.KeysOfDifferentClassesAreNeverConfused ........................   Passed    0.02 sec
+        Start 815: MapOpsFixture.EqualityComparesValuesThroughTheCallback
+812/885 Test #812: MapOpsFixture.DerivedMapsAreIndependent .....................................   Passed    0.02 sec
+        Start 816: MapOpsFixture.MapsWithCollectionKeysCompareByValue
+813/885 Test #813: MapOpsFixture.EqualityIgnoresInsertionOrderBeyondTheSmallForm ...............   Passed    0.02 sec
+        Start 817: MapOpsFixture.IdentityKeysAndHashedKeysLandInTheSlotTheSemanticsSay
+814/885 Test #814: MapOpsFixture.EqualityRequiresTheSameKeysAndSize ............................   Passed    0.02 sec
+        Start 818: MapOpsFixture.HashedAndIdentityKeysCoexistInOneMap
+815/885 Test #815: MapOpsFixture.EqualityComparesValuesThroughTheCallback ......................   Passed    0.02 sec
+        Start 819: MapOpsFixture.CountAndWalksSeeEveryEntryOfACollisionBucket
+816/885 Test #816: MapOpsFixture.MapsWithCollectionKeysCompareByValue ..........................   Passed    0.02 sec
+        Start 820: MapOpsFixture.EmptinessIsReadOffTheSlotCount
+817/885 Test #817: MapOpsFixture.IdentityKeysAndHashedKeysLandInTheSlotTheSemanticsSay .........   Passed    0.02 sec
+        Start 821: MapOpsFixture.SetsAreValueKeys
+818/885 Test #818: MapOpsFixture.HashedAndIdentityKeysCoexistInOneMap ..........................   Passed    0.02 sec
+        Start 822: MapKeyLifetime.DistinctCollectionKeysDoNotAccumulate
+819/885 Test #819: MapOpsFixture.CountAndWalksSeeEveryEntryOfACollisionBucket ..................   Passed    0.02 sec
+        Start 823: VectorLifetime.DistinctVectorsDoNotAccumulate
+820/885 Test #820: MapOpsFixture.EmptinessIsReadOffTheSlotCount ................................   Passed    0.02 sec
+        Start 824: VectorRepresentation.IsVectorIsATagTestAndItemsAreNotCopied
+821/885 Test #821: MapOpsFixture.SetsAreValueKeys ..............................................   Passed    0.02 sec
+        Start 825: ReaderFixture.IntegerLiteral
+822/885 Test #824: VectorRepresentation.IsVectorIsATagTestAndItemsAreNotCopied .................   Passed    0.02 sec
+        Start 826: ReaderFixture.NegativeInteger
+823/885 Test #825: ReaderFixture.IntegerLiteral ................................................   Passed    0.02 sec
+        Start 827: ReaderFixture.StringLiteral
+824/885 Test #826: ReaderFixture.NegativeInteger ...............................................   Passed    0.02 sec
+        Start 828: ReaderFixture.SymbolIsInterned
+825/885 Test #827: ReaderFixture.StringLiteral .................................................   Passed    0.02 sec
+        Start 829: ReaderFixture.KeywordIsANamedValueWithItsColon
+826/885 Test #828: ReaderFixture.SymbolIsInterned ..............................................   Passed    0.03 sec
+        Start 830: ReaderFixture.NilTrueFalseAreTheValues
+827/885 Test #829: ReaderFixture.KeywordIsANamedValueWithItsColon ..............................   Passed    0.02 sec
+        Start 831: ReaderFixture.VectorLiteralIsARuntimeVector
+828/885 Test #822: MapKeyLifetime.DistinctCollectionKeysDoNotAccumulate ........................   Passed    0.10 sec
+        Start 832: ReaderFixture.MapLiteralIsARuntimeMap
+829/885 Test #830: ReaderFixture.NilTrueFalseAreTheValues ......................................   Passed    0.03 sec
+        Start 833: ReaderFixture.MapLiteralWithARepeatedKeyIsAReadError
+830/885 Test #831: ReaderFixture.VectorLiteralIsARuntimeVector .................................   Passed    0.03 sec
+        Start 834: ReaderFixture.MapLiteralWithAnOddNumberOfFormsIsAReadError
+831/885 Test #832: ReaderFixture.MapLiteralIsARuntimeMap .......................................   Passed    0.03 sec
+        Start 835: ReaderFixture.DerefIsAListOfTheDerefSymbol
+832/885 Test #823: VectorLifetime.DistinctVectorsDoNotAccumulate ...............................   Passed    0.13 sec
+        Start 836: ReaderFixture.SymbolVsStringDistinctIdentity
+833/885 Test #833: ReaderFixture.MapLiteralWithARepeatedKeyIsAReadError ........................   Passed    0.03 sec
+        Start 837: ReaderFixture.EmptyList
+834/885 Test #834: ReaderFixture.MapLiteralWithAnOddNumberOfFormsIsAReadError ..................   Passed    0.03 sec
+        Start 838: ReaderFixture.HelloWorldShape
+835/885 Test #835: ReaderFixture.DerefIsAListOfTheDerefSymbol ..................................   Passed    0.03 sec
+        Start 839: ReaderFixture.NestedLists
+836/885 Test #836: ReaderFixture.SymbolVsStringDistinctIdentity ................................   Passed    0.02 sec
+        Start 840: ReaderFixture.MultipleTopLevelForms
+837/885 Test #837: ReaderFixture.EmptyList .....................................................   Passed    0.02 sec
+        Start 841: ReaderFixture.EOFReturnsNullptr
+838/885 Test #838: ReaderFixture.HelloWorldShape ...............................................   Passed    0.02 sec
+        Start 842: ReaderFixture.UnmatchedOpenIsError
+839/885 Test #839: ReaderFixture.NestedLists ...................................................   Passed    0.02 sec
+        Start 843: ReaderFixture.UnmatchedCloseIsError
+840/885 Test #840: ReaderFixture.MultipleTopLevelForms .........................................   Passed    0.02 sec
+        Start 844: ReaderFixture.MalformedNumberIsError
+841/885 Test #841: ReaderFixture.EOFReturnsNullptr .............................................   Passed    0.02 sec
+        Start 845: ReaderFixture.IntegerBeyondLongRangeReadsExactly
+842/885 Test #842: ReaderFixture.UnmatchedOpenIsError ..........................................   Passed    0.03 sec
+        Start 846: ReaderFixture.MapLiteralKeysAreRecordedInSourceOrder
+843/885 Test #843: ReaderFixture.UnmatchedCloseIsError .........................................   Passed    0.03 sec
+        Start 847: ReaderFixture.QuoteUnquoteAndSpliceAreTwoElementLists
+844/885 Test #844: ReaderFixture.MalformedNumberIsError ........................................   Passed    0.02 sec
+        Start 848: ReaderFixture.SyntaxQuoteExpandsAsClojuresReader
+845/885 Test #845: ReaderFixture.IntegerBeyondLongRangeReadsExactly ............................   Passed    0.02 sec
+        Start 849: ReaderFixture.SyntaxQuoteErrors
+846/885 Test #846: ReaderFixture.MapLiteralKeysAreRecordedInSourceOrder ........................   Passed    0.02 sec
+        Start 850: ReaderFixture.SetLiteral
+847/885 Test #847: ReaderFixture.QuoteUnquoteAndSpliceAreTwoElementLists .......................   Passed    0.02 sec
+        Start 851: Regex.CacheReturnsOneCompiledPatternPerSource
+848/885 Test #848: ReaderFixture.SyntaxQuoteExpandsAsClojuresReader ............................   Passed    0.02 sec
+        Start 852: Regex.JitIsUsedWhereTheLibraryHasOne
+849/885 Test #851: Regex.CacheReturnsOneCompiledPatternPerSource ...............................   Passed    0.01 sec
+        Start 853: Regex.JavaInlineFlagsAnywhere
+850/885 Test #849: ReaderFixture.SyntaxQuoteErrors .............................................   Passed    0.03 sec
+851/885 Test #852: Regex.JitIsUsedWhereTheLibraryHasOne ........................................   Passed    0.01 sec
+        Start 854: Regex.JavaConstructsStdRegexLacked
+        Start 855: Regex.CharactersAreCodePoints
+852/885 Test #850: ReaderFixture.SetLiteral ....................................................   Passed    0.03 sec
+853/885 Test #853: Regex.JavaInlineFlagsAnywhere ...............................................   Passed    0.01 sec
+        Start 856: Regex.UnsupportedSyntaxIsAPatternSyntaxError
+        Start 857: Regex.TranslationIsMinimal
+854/885 Test #854: Regex.JavaConstructsStdRegexLacked ..........................................   Passed    0.01 sec
+855/885 Test #855: Regex.CharactersAreCodePoints ...............................................   Passed    0.01 sec
+        Start 858: Regex.WholeMatchIsJavasMatches
+        Start 859: Regex.SearchesFromAnOffsetSeeThePrecedingText
+856/885 Test #856: Regex.UnsupportedSyntaxIsAPatternSyntaxError ................................   Passed    0.02 sec
+857/885 Test #857: Regex.TranslationIsMinimal ..................................................   Passed    0.01 sec
+858/885 Test #858: Regex.WholeMatchIsJavasMatches ..............................................   Passed    0.01 sec
+        Start 860: Regex.SuccessiveMatchesWalkAsJavasFind
+        Start 861: Regex.GroupsThatDidNotTakePartAreUnset
+        Start 862: Regex.LongSubjectsMatchOnTheJitStack
+859/885 Test #859: Regex.SearchesFromAnOffsetSeeThePrecedingText ...............................   Passed    0.02 sec
+860/885 Test #860: Regex.SuccessiveMatchesWalkAsJavasFind ......................................   Passed    0.01 sec
+        Start 863: Regex.TheEngineGivingUpIsAStackOverflowErrorNotANoMatch
+        Start 864: Regex.PatternValuesKeepTheirSource
+861/885 Test #861: Regex.GroupsThatDidNotTakePartAreUnset ......................................   Passed    0.02 sec
+        Start 865: RethrowFixture.NoMatchingClauseRethrowsTheOriginalException
+862/885 Test #862: Regex.LongSubjectsMatchOnTheJitStack ........................................   Passed    0.02 sec
+        Start 866: RethrowFixture.FinallyRethrowsTheOriginalException
+863/885 Test #864: Regex.PatternValuesKeepTheirSource ..........................................   Passed    0.02 sec
+        Start 867: RethrowFixture.NestedTriesAndAHandledInnerExceptionKeepTheOriginal
+864/885 Test #865: RethrowFixture.NoMatchingClauseRethrowsTheOriginalException .................   Passed    0.02 sec
+        Start 868: RethrowFixture.AHandlingClauseSeesTheSameValue
+865/885 Test #866: RethrowFixture.FinallyRethrowsTheOriginalException ..........................   Passed    0.02 sec
+        Start 869: StackGuard.ExhaustedStackRaisesStackOverflowError
+866/885 Test #869: StackGuard.ExhaustedStackRaisesStackOverflowError ...........................   Passed    0.01 sec
+        Start 870: StackGuard.SourceNestingNamesForms
+867/885 Test #867: RethrowFixture.NestedTriesAndAHandledInnerExceptionKeepTheOriginal ..........   Passed    0.02 sec
+        Start 871: StackGuard.LimitFollowsTheThreadStackSize
+868/885 Test #868: RethrowFixture.AHandlingClauseSeesTheSameValue ..............................   Passed    0.02 sec
+        Start 872: StackGuard.MainThreadIsGuarded
+869/885 Test #870: StackGuard.SourceNestingNamesForms ..........................................   Passed    0.01 sec
+        Start 873: StackGuard.EvaluatorThreadHasTheConfiguredStack
+870/885 Test #863: Regex.TheEngineGivingUpIsAStackOverflowErrorNotANoMatch .....................   Passed    0.07 sec
+        Start 874: StackGuard.EvaluatorThreadRethrowsOnTheCaller
+871/885 Test #873: StackGuard.EvaluatorThreadHasTheConfiguredStack .............................   Passed    0.02 sec
+        Start 875: StackGuard.ConfiguredDefaultAppliesToNewThreads
+872/885 Test #872: StackGuard.MainThreadIsGuarded ..............................................   Passed    0.03 sec
+        Start 876: ValuesFixture.ListsAndTuplesCompareElementWiseBeyondTheSmallForm
+873/885 Test #871: StackGuard.LimitFollowsTheThreadStackSize ...................................   Passed    0.04 sec
+        Start 877: ValuesFixture.EmptySequentialCollectionsAreEqual
+874/885 Test #875: StackGuard.ConfiguredDefaultAppliesToNewThreads .............................   Passed    0.02 sec
+        Start 878: ValuesFixture.NestedSequentialCollectionsCompareByValue
+875/885 Test #876: ValuesFixture.ListsAndTuplesCompareElementWiseBeyondTheSmallForm ............   Passed    0.02 sec
+        Start 879: ValuesFixture.SequentialNeverEqualsMapsStringsOrNumbers
+876/885 Test #877: ValuesFixture.EmptySequentialCollectionsAreEqual ............................   Passed    0.02 sec
+        Start 880: ValuesFixture.KeywordsAndSymbolsAreInternedAndNeverEqualStrings
+877/885 Test #878: ValuesFixture.NestedSequentialCollectionsCompareByValue .....................   Passed    0.02 sec
+        Start 881: ValuesFixture.SequentialElementsUseNumericCrossTypeEquality
+878/885 Test #879: ValuesFixture.SequentialNeverEqualsMapsStringsOrNumbers .....................   Passed    0.02 sec
+        Start 882: ValuesFixture.NaNIsEqualOnlyToItself
+879/885 Test #880: ValuesFixture.KeywordsAndSymbolsAreInternedAndNeverEqualStrings .............   Passed    0.02 sec
+        Start 883: ValuesFixture.EqualValuesAreOneMapKeyExceptAcrossNumericTypes
+880/885 Test #874: StackGuard.EvaluatorThreadRethrowsOnTheCaller ...............................   Passed    0.07 sec
+        Start 884: ValuesFixture.ValueTypeNamesForErrorMessages
+881/885 Test #881: ValuesFixture.SequentialElementsUseNumericCrossTypeEquality .................   Passed    0.02 sec
+        Start 885: NamedCaches.AFreshLayoutIsNeverAnsweredWithAnotherRunsValues
+882/885 Test #882: ValuesFixture.NaNIsEqualOnlyToItself ........................................   Passed    0.02 sec
+883/885 Test #883: ValuesFixture.EqualValuesAreOneMapKeyExceptAcrossNumericTypes ...............   Passed    0.02 sec
+884/885 Test #884: ValuesFixture.ValueTypeNamesForErrorMessages ................................   Passed    0.02 sec
+885/885 Test #885: NamedCaches.AFreshLayoutIsNeverAnsweredWithAnotherRunsValues ................   Passed    0.04 sec
+
+100% tests passed, 0 tests failed out of 885
+
+Total Test time (real) =  43.73 sec

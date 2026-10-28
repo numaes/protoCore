@@ -1,0 +1,40 @@
+
+**tak** (median of 5 interleaved runs; whole process incl. start-up)  check: OK (7; clj/bb 7)
+
+| arm | instructions | cycles | wall ms (median) | wall ms (min-max) |
+|---|---|---|---|---|
+| scala-base | 105 M | 55 M | 33.5 | 32.7-34.3 |
+| scala-branch | 104 M | 53 M | 34.3 | 32.8-35.2 |
+| clj-base | 153 M | 67 M | 34.4 | 33.2-35.8 |
+| clj-branch | 153 M | 68 M | 34.8 | 33.9-37.2 |
+| bb | 115 M | 50 M | 22.5 | 19.8-128.6 |
+
+**fib30** (median of 5 interleaved runs; whole process incl. start-up)  check: OK (832040; clj/bb 832040)
+
+| arm | instructions | cycles | wall ms (median) | wall ms (min-max) |
+|---|---|---|---|---|
+| scala-base | 3157 M | 1254 M | 400.0 | 384.5-445.2 |
+| scala-branch | 3151 M | 1246 M | 391.7 | 385.1-409.5 |
+| clj-base | 3708 M | 1328 M | 412.4 | 408.9-438.6 |
+| clj-branch | 3703 M | 1316 M | 415.2 | 405.8-420.7 |
+| bb | 3771 M | 1456 M | 478.3 | 441.5-501.5 |
+
+**sum_loop** (median of 5 interleaved runs; whole process incl. start-up)  check: OK (500000500000; clj/bb 500000500000)
+
+| arm | instructions | cycles | wall ms (median) | wall ms (min-max) |
+|---|---|---|---|---|
+| scala-base | 564 M | 193 M | 76.8 | 72.2-77.9 |
+| scala-branch | 563 M | 194 M | 77.0 | 73.3-83.3 |
+| clj-base | 689 M | 179 M | 70.2 | 68.9-75.0 |
+| clj-branch | 689 M | 184 M | 72.1 | 70.1-74.4 |
+| bb | 1516 M | 483 M | 170.9 | 169.2-178.3 |
+
+**factorial_100** (median of 5 interleaved runs; whole process incl. start-up)  check: FAILED [('bb', 0, 1, []), ('bb', 1, 1, []), ('bb', 2, 1, []), ('bb', 3, 1, []), ('bb', 4, 1, []), ('clj/bb outputs differ', [(), ('93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000',)])]
+
+| arm | instructions | cycles | wall ms (median) | wall ms (min-max) |
+|---|---|---|---|---|
+| scala-base | 31 M | 24 M | 26.5 | 25.5-29.4 |
+| scala-branch | 31 M | 24 M | 26.2 | 25.0-27.8 |
+| clj-base | 28 M | 21 M | 22.0 | 20.5-22.1 |
+| clj-branch | 28 M | 21 M | 21.3 | 20.7-35.1 |
+| bb | 16 M | 13 M | 11.4 | 10.4-35.1 |

@@ -1,0 +1,14 @@
+heap mode: PROTOCORE_ADAPTIVE_HEAP=1  ops/rep=1000000
+W1 setAttribute mutable (n=100)       396.9 ns      1404 instr       516 cyc    7.86 cells  check=999999
+W2 setAttribute immutable (n=100)     315.9 ns      1135 instr       407 cyc    6.86 cells  check=999999
+C1 AVL replace (n=100)                274.7 ns       967 instr       367 cyc    5.86 cells  check=100
+C1b AVL insert (n=100 -> 101)         616.2 ns      2300 instr       758 cyc   11.00 cells  check=101
+C2 new ProtoObjectCell                 46.4 ns       164 instr        51 cyc    1.00 cells  check=1000000
+C3 shard setAt (M=1)                   57.8 ns       336 instr        87 cyc    1.00 cells  check=1
+C3 shard setAt (M=4)                   57.2 ns       295 instr        82 cyc    1.00 cells  check=4
+C3 shard setAt (M=64)                 156.1 ns       673 instr       217 cyc    3.00 cells  check=64
+C3 shard setAt (M=400)                227.3 ns       954 instr       318 cyc    4.50 cells  check=400
+C4 cache invalidation                   2.9 ns        44 instr         9 cyc    0.00 cells  check=1000000
+C5 bare cell alloc                     47.3 ns       188 instr        57 cyc    1.00 cells  check=1000000
+C6 critical section                     5.7 ns        37 instr        17 cyc    0.00 cells  check=1000000
+C7 loop + fromInteger                   2.2 ns        20 instr         7 cyc    0.00 cells  check=1000000

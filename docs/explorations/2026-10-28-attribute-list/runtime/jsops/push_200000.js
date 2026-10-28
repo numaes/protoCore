@@ -1,0 +1,3 @@
+
+function runOne() { const a = []; for (let i = 0; i < 200000; i++) { a.push(i); } }
+runOne();

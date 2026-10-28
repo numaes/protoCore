@@ -1,0 +1,22 @@
+records  node    seq N=1  median      13 ms  build    49 ms  rss    69 MB
+records  node    par N=1  median     145 ms  build    48 ms  rss   157 MB  post 49 clone 131 compute 19
+records  protojs seq N=1  median    1096 ms  build   830 ms  rss  2091 MB  gc 0
+records  protojs par N=1  median    1129 ms  build   806 ms  rss   526 MB  gc 5
+join     node    seq N=1  median      22 ms  build    17 ms  rss    59 MB
+join     node    par N=1  median      81 ms  build    17 ms  rss    86 MB  post 17 clone 53 compute 28
+join     protojs seq N=1  median     967 ms  build   281 ms  rss  1187 MB  gc 0
+join     protojs par N=1  median     985 ms  build   279 ms  rss   209 MB  gc 12
+doctree  node    seq N=1  median      16 ms  build    20 ms  rss    56 MB
+doctree  node    par N=1  median      40 ms  build    19 ms  rss    78 MB  post 7 clone 19 compute 21
+doctree  protojs seq N=1  median     687 ms  build   331 ms  rss   902 MB  gc 0
+doctree  protojs par N=1  median     719 ms  build   327 ms  rss   161 MB  gc 13
+wordfreq node    seq N=1  median      16 ms  build    17 ms  rss    40 MB
+wordfreq node    par N=1  median      19 ms  build    17 ms  rss    56 MB  post 0 clone 1 compute 18
+wordfreq protojs seq N=1  median     676 ms  build   491 ms  rss   980 MB  gc 0
+wordfreq protojs par N=1  median     801 ms  build   519 ms  rss   185 MB  gc 6
+graph    node    seq N=1  median      20 ms  build    26 ms  rss    50 MB
+graph    node    par N=1  did NOT complete: FAILED: RangeError: Maximum call stack size exceeded |     at Worker.postMessage (node:internal/worker:381:5)
+graph    protojs seq N=1  median    1599 ms  build   313 ms  rss  2380 MB  gc 0
+graph    protojs par N=1  median    1426 ms  build   287 ms  rss   488 MB  gc 12
+
+Tables: python3 tabulate.py /home/gamarino/Documentos/proyectos/.agent_scratch/pc-attr-list-work/results/struct-base-17744.json
