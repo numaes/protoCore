@@ -16,6 +16,8 @@
 #include <atomic>
 #include <chrono>
 #include <cstddef>
+#include <cstdio>
+#include <mutex>
 #include <thread>
 #include <vector>
 
@@ -377,6 +379,109 @@ TEST(LinkedList, RetainedListSurvivesCollections) {
         EXPECT_EQ(stored->asLong(root), i++);
     }
     EXPECT_EQ(i, 1000);
+}
+
+namespace {
+// A plain OS thread (not a ProtoThread, so it is not part of the
+// stop-the-world quorum) that keeps asking for cycles until it is stopped.
+class LinkedListCycleKicker {
+public:
+    explicit LinkedListCycleKicker(ProtoSpace& space)
+        : thread_([this, &space]() {
+              while (!stop_.load(std::memory_order_relaxed)) {
+                  requestCycle(space);
+                  std::this_thread::sleep_for(std::chrono::microseconds(100));
+              }
+          }) {}
+    ~LinkedListCycleKicker() {
+        stop_.store(true, std::memory_order_relaxed);
+        thread_.join();
+    }
+private:
+    std::atomic<bool> stop_{false};
+    std::thread thread_;
+};
+}  // namespace
+
+// A long build parks for stop-the-world between cells and keeps the chain
+// built so far only in a C++ local.  What keeps that chain alive is the
+// building context's young generation, which the builder never submits.
+//
+// Two checks.  Structural, and deterministic: every cell the build allocated
+// is still on the building context's young chain when it returns, i.e. the
+// chain was never handed to the collector mid-build.  Behavioural: cycles are
+// forced throughout, the per-context submission threshold is at its minimum
+// (any safepoint() of the building context submits), and every element is
+// read back.  A builder that calls safepoint() between cells instead of
+// parkForStopTheWorld fails the structural check on every run (that variant
+// was built and run against this test); the read-back alone caught it only
+// in some runs.
+TEST(LinkedList, YoungGenerationRootsALongBuild) {
+    constexpr int kRepeats = 20;
+    constexpr int kElements = 400000;   // 100,000 cells per build
+
+    ProtoSpace space;
+    ProtoContext* root = space.rootContext;
+    const unsigned savedThreshold = space.maxAllocatedCellsPerContext;
+    // 1: every safepoint() of a context that allocated since its last
+    // submission hands its young generation over (0 disables submission).
+    space.maxAllocatedCellsPerContext = 1;
+
+    // Every second element is a heap object carrying its index, held by the
+    // enclosing context `holder`; the others are small integers.
+    ProtoContext holder(&space, root, nullptr, nullptr, nullptr, nullptr);
+    const ProtoString* key = ProtoString::createSymbol(&holder, "idx");
+    std::vector<const ProtoObject*> values;
+    values.reserve(kElements);
+    for (int i = 0; i < kElements; ++i) {
+        if (i & 1) values.push_back(holder.newObject(false)->setAttribute(&holder, key, holder.fromInteger(i)));
+        else values.push_back(holder.fromInteger(i));
+    }
+
+    long long bad = 0;
+    int submittedMidBuild = 0;
+    uint64_t cyclesDuringBuild = 0;
+    {
+        LinkedListCycleKicker kicker(space);
+        for (int rep = 0; rep < kRepeats; ++rep) {
+            ProtoContext build(&space, &holder, nullptr, nullptr, nullptr, nullptr);
+            const proto_ulong countBefore = build.allocatedCellsCount;
+            const uint64_t before = space.getGCCycleCount();
+            const ProtoLinkedList* list = build.newLinkedListFromArray(values.size(), values.data());
+            cyclesDuringBuild += space.getGCCycleCount() - before;
+            // Structural: the young chain holds exactly the cells counted
+            // since the context was created, every node of the list among
+            // them.
+            proto_ulong chainLength = 0;
+            for (const Cell* c = build.lastAllocatedCell; c; c = c->getNext()) ++chainLength;
+            const proto_ulong allocated = build.allocatedCellsCount - countBefore;
+            if (chainLength != allocated || chainLength < cellsFor(kElements)) ++submittedMidBuild;
+            // Behavioural: read every element back.
+            if (list->getSize(&build) != static_cast<proto_ulong>(kElements)) { bad += kElements; continue; }
+            int i = 0;
+            ProtoLinkedListCursor cursor(list);
+            while (cursor.hasNext() && i < kElements) {
+                const ProtoObject* element = cursor.next();
+                const ProtoObject* stored = (i & 1) ? element->getAttribute(&build, key) : element;
+                if (!stored || !stored->isInteger(&build) || stored->asLong(&build) != i) ++bad;
+                ++i;
+            }
+            if (i != kElements) bad += kElements;
+        }
+    }
+    space.maxAllocatedCellsPerContext = savedThreshold;
+
+    std::printf("[ YoungGenerationRootsALongBuild ] %d builds of %d elements, "
+                "%llu cycles completed during builds, %d builds submitted their "
+                "young generation, %lld bad elements\n",
+                kRepeats, kElements, static_cast<unsigned long long>(cyclesDuringBuild),
+                submittedMidBuild, bad);
+    EXPECT_EQ(submittedMidBuild, 0)
+        << "the builder handed its young generation to the collector mid-build";
+    EXPECT_EQ(bad, 0) << "a linked list lost cells to a collection that ran during its build";
+    EXPECT_GE(cyclesDuringBuild, 2u)
+        << "too few cycles completed while builds were in flight; the test did "
+           "not exercise a collection mid-build";
 }
 
 // ---------------------------------------------------------------------------

@@ -25,8 +25,11 @@
 //     does not depend on the speed of the machine or on how loaded it is.
 //
 // The pause test FAILS when the builder holds a critical section across the
-// build, and passes when the running intermediate is anchored in a GC root
-// the collector scans (ProtoContext::pendingRoot) instead.
+// build.  The running intermediate needs no anchor of its own: every cell of
+// it is on the building context's young generation, which the root scan
+// records as a root until the generation is submitted, and the builder never
+// submits it.  `YoungGenerationRootsTheBuild` FAILS when it does (a builder
+// that calls safepoint() mid-build instead of parking).
 
 #include <gtest/gtest.h>
 #include "ClockDependent.h"
@@ -239,52 +242,71 @@ TEST(BulkListBuild, ConcurrentBuildersSurviveForcedCollections) {
         << "elements of a concurrently built list did not survive collection";
 }
 
-// The mechanism the builder's anchor relies on: a value named by
-// `ProtoContext::pendingRoot` stays reachable across collections even once the
-// context's young generation has been handed to the collector, so it no longer
-// covers the cells the value is built from.
+// What keeps the running intermediate alive: the building context's young
+// generation, and nothing else.  The per-context submission threshold is set
+// to its minimum, so any safepoint() of the building context would hand its
+// young chain over to the collector; cycles are forced throughout every
+// build.  The elements live in a separate, enclosing context, so the only
+// cells the build depends on that could be lost are the AVL intermediates
+// themselves.
 //
-// This is what `newList` buys by parking every intermediate in that slot.  It
-// is asserted separately because the builder's own tests cannot discriminate:
-// while a build is in flight the context's young chain has not been submitted,
-// and it keeps the same cells reachable on its own.  The anchor is what makes
-// the guarantee independent of that.
-TEST(BulkListBuild, PendingRootKeepsASubmittedValueReachable) {
-    constexpr int kRepeats = 30;
+// The test discriminates: a builder that submits its young generation in the
+// middle of the build (calls `this->safepoint()` where it now calls
+// `parkForStopTheWorld(this)`) leaves the intermediate held only in a C++
+// local, and the sweep frees the spine under the loop.  That variant was
+// built and run against this test and failed it: the structural check (the
+// young chain holds every cell the build allocated) catches it on every run,
+// deterministically; the read-back crashed on the runs observed.
+TEST(BulkListBuild, YoungGenerationRootsTheBuild) {
+    constexpr int kRepeats = 40;
+    constexpr unsigned kElements = 20000;
 
     ProtoSpace space;
     ProtoContext* root = space.rootContext;
-    // A low threshold makes every safepoint() hand this context's young chain
-    // over, so the anchored value's cells become sweep candidates.
-    space.maxAllocatedCellsPerContext = 500;
+    const unsigned savedThreshold = space.maxAllocatedCellsPerContext;
+    // 1: every safepoint() of a context that allocated since its last
+    // submission hands its young generation over (0 disables submission).
+    space.maxAllocatedCellsPerContext = 1;
 
-    ProtoContext ctx(&space, root, nullptr, nullptr, nullptr, nullptr);
+    ProtoContext holder(&space, root, nullptr, nullptr, nullptr, nullptr);
     std::vector<const ProtoObject*> items;
-    fillItems(&ctx, items, 200);
-    const ProtoList* anchored = ctx.newList(200, items.data());
-    ASSERT_EQ(anchored->getSize(&ctx), 200u);
+    fillItems(&holder, items, kElements);
 
-    Cell* const saved = ctx.pendingRoot;
-    ctx.pendingRoot = const_cast<Cell*>(
-        ProtoObject::asCellPointer(reinterpret_cast<const ProtoObject*>(anchored)));
+    unsigned badElements = 0;
+    int submittedMidBuild = 0;
+    uint64_t cyclesDuringBuild = 0;
     {
-        CycleKicker kicker(space, std::chrono::microseconds(200));
+        CycleKicker kicker(space, std::chrono::microseconds(100));
         for (int rep = 0; rep < kRepeats; ++rep) {
-            // Churn in a child context and submit this context's young chain,
-            // so the anchored list is held by nothing but pendingRoot.
-            {
-                ProtoContext garbage(&space, &ctx, nullptr, nullptr, nullptr, nullptr);
-                for (int i = 0; i < 2000; ++i) (void) garbage.newObject(false);
-            }
-            ctx.safepoint();
+            ProtoContext build(&space, &holder, nullptr, nullptr, nullptr, nullptr);
+            const proto::proto_ulong countBefore = build.allocatedCellsCount;
+            const uint64_t before = space.getGCCycleCount();
+            const ProtoList* list = build.newList(kElements, items.data());
+            cyclesDuringBuild += space.getGCCycleCount() - before;
+            // Structural, and deterministic: the young chain holds exactly
+            // the cells the build allocated -- it was never submitted.
+            proto::proto_ulong chainLength = 0;
+            for (const Cell* c = build.lastAllocatedCell; c; c = c->getNext()) ++chainLength;
+            if (chainLength != build.allocatedCellsCount - countBefore || chainLength < kElements)
+                ++submittedMidBuild;
+            badElements += verifyList(&build, list, kElements);
         }
     }
-    const unsigned bad = verifyList(&ctx, anchored, 200);
-    ctx.pendingRoot = saved;
+    space.maxAllocatedCellsPerContext = savedThreshold;
 
-    EXPECT_EQ(bad, 0u)
-        << "a value named by ProtoContext::pendingRoot did not survive the "
-           "collections that ran while it was anchored there";
+    std::printf("[ YoungGenerationRootsTheBuild ] %d builds of %u elements, "
+                "%llu cycles completed during builds, %d builds submitted their "
+                "young generation, %u bad elements\n",
+                kRepeats, kElements, static_cast<unsigned long long>(cyclesDuringBuild),
+                submittedMidBuild, badElements);
+    EXPECT_EQ(submittedMidBuild, 0)
+        << "newList handed its young generation to the collector mid-build";
+    EXPECT_EQ(badElements, 0u)
+        << "a list built by newList(n, items) lost cells to a collection that "
+           "ran during the build";
+    EXPECT_GE(cyclesDuringBuild, 2u)
+        << "too few cycles completed while builds were in flight; the test did "
+           "not exercise a collection mid-build";
 }
 
 // ---------------------------------------------------------------------------

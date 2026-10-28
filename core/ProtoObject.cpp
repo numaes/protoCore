@@ -2677,31 +2677,45 @@ namespace proto
     
     namespace {
         /**
-         * RAII anchor for one Cell in `ProtoContext::pendingRoot`.
+         * RAII pin of a mutable object's resolved state in the space's own
+         * root set (ProtoSpaceImplementation::roots) for the duration of a
+         * walk -- the same mechanism ProtoException uses for a value in
+         * flight (core/ProtoException.cpp).
          *
-         * `pendingRoot` is collected as a GC root by the stop-the-world root
-         * scan (see ProtoSpace's scanContexts), so parking a snapshot there
-         * keeps it — and everything reachable from it, i.e. the whole
-         * attribute tree — marked while a callback runs outside any critical
-         * section.  The previous value is saved and restored so the anchor
-         * nests with any other user of the slot.
+         * Why a pin is needed at all: a state is reached by the collector
+         * only through its handle, as the entry the handle's ref names in
+         * the table snapshot taken at the pause (Marker::reportMutableState,
+         * docs/GLOBAL_MUTABLE_TABLE.md "States are not roots").  Once a
+         * write -- from the callback or from another thread -- replaces the
+         * state, the superseded one is reachable from nothing, and it is
+         * not young either unless this very context wrote it since its last
+         * submission.  A collection that the callback lets run (it may
+         * allocate and call safepoint()) would then free the tree the walk
+         * is standing on.
+         *
+         * Why this mechanism: the walk allocates no Cell, so it cannot put
+         * the state on the caller's young generation; the caller's
+         * automatic locals belong to the activation that owns the context
+         * (a primitive runs in the caller's context and creates none), so
+         * protoCore has no slot of its own there.  A root-set entry is a
+         * C++-side root the collector already scans, it nests (every walk
+         * holds its own entry), and it is released on every exit path,
+         * including an exception thrown by the callback.
          */
-        class PendingRootAnchor {
+        class WalkPin {
         public:
-            PendingRootAnchor(ProtoContext* context, const ProtoObject* obj)
-                : context_(context), saved_(context ? context->pendingRoot : nullptr) {
-                if (context_) {
-                    if (const Cell* cell = ProtoObject::asCellPointer(obj)) {
-                        context_->pendingRoot = const_cast<Cell*>(cell);
-                    }
+            WalkPin(ProtoContext* context, const ProtoObject* state) {
+                if (context->space && context->space->impl && ProtoObject::isCellPointer(state)) {
+                    roots_ = context->space->impl->roots;
+                    handle_ = roots_->add(state);
                 }
             }
-            ~PendingRootAnchor() { if (context_) context_->pendingRoot = saved_; }
-            PendingRootAnchor(const PendingRootAnchor&) = delete;
-            PendingRootAnchor& operator=(const PendingRootAnchor&) = delete;
+            ~WalkPin() { if (roots_) roots_->remove(handle_); }
+            WalkPin(const WalkPin&) = delete;
+            WalkPin& operator=(const WalkPin&) = delete;
         private:
-            ProtoContext* context_;
-            Cell* saved_;
+            ProtoRootSet* roots_ = nullptr;
+            ProtoRootSet::Handle handle_ = ProtoRootSet::kNullHandle;
         };
     }
 
@@ -2719,7 +2733,7 @@ namespace proto
         // getAttribute and getOwnAttributes do, so the walk reports one
         // coherent view even if the receiver is mutated meanwhile.
         auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoObject* snapshot = this;
+        const ProtoObject* snapshot = nullptr;
         const ProtoSparseListImplementation* attributes = oc->attributes;
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
@@ -2730,11 +2744,19 @@ namespace proto
         }
         if (!attributes) return;
 
-        // Keep the snapshot reachable for the whole walk.  Without this a
-        // concurrent write to a mutable receiver would orphan the snapshot,
-        // and a collection triggered from the callback would sweep the very
-        // nodes this loop is standing on.
-        PendingRootAnchor anchor(context, snapshot);
+        // Keep the tree reachable for the whole walk.  An immutable
+        // receiver's tree hangs off the receiver itself, which the caller
+        // keeps reachable as it keeps any argument it passes
+        // (docs/EMBEDDER-CONFORMANCE.md rule 3): nothing to do.  A mutable
+        // receiver's tree hangs off a state that a write may supersede at
+        // any time, so that state is pinned (see WalkPin).
+        //
+        // The resolution above and the pin below run with no allocation and
+        // no park between them, so no pause can fall between reading the
+        // state and pinning it; a cycle whose pause came earlier marks the
+        // state through its handle, the state the pause's table snapshot
+        // named for it (or the state is young, written after that pause).
+        WalkPin pin(context, snapshot);
 
         // Iterative in-order traversal over the attribute AVL.  The explicit
         // stack lives in C++ automatic storage: no Cell is allocated, and no

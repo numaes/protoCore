@@ -2691,7 +2691,10 @@ namespace proto {
      * fixed: reached through ProtoSpace::impl, so that new state never moves
      * a public field (ProtoLinkedList spec, decision D7).  The objects it
      * holds are pinned in `roots`, a root set the space destroys with the
-     * others; the collector's own root scan is unchanged.
+     * others; the collector's own root scan is unchanged.  `roots` also
+     * holds protoCore's own transient pins: the mutable state a
+     * ProtoObject::processOwnAttributes walk is standing on, for the
+     * duration of that walk (core/ProtoObject.cpp, WalkPin).
      */
     class ProtoSpaceImplementation {
     public:

@@ -106,7 +106,7 @@ void probeThread(void* user, const Host::ThreadKind& kind, ProtoContext* ctx)
 //
 // Now read GC Phase 2: root collection walks space->threads and calls
 // scanContexts on each registered thread's context chain, taking
-// automaticLocals, returnValue, pendingRoot and the young-chain head.  A thread
+// automaticLocals, closureLocals, returnValue and the young-chain head.  A thread
 // ABSENT from that list is never root-scanned, so its live objects are swept
 // under it.
 //
@@ -162,7 +162,7 @@ CaseResult caseThreadRegistered(Host& host)
                         "context has thread == nullptr and/or the thread is "
                         "NOT present in space->threads.  GC Phase 2 finds root-scanning "
                         "candidates by walking space->threads, so this thread's "
-                        "automaticLocals, returnValue, pendingRoot and young chain "
+                        "automaticLocals, closureLocals, returnValue and young chain "
                         "are never scanned and anything it holds unpinned is swept "
                         "while live.  Create it through ProtoSpace::newThread, or "
                         "declare HoldsNothing/OwnSpace and make that true.  ";
