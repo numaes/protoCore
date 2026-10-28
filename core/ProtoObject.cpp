@@ -2656,8 +2656,12 @@ namespace proto
             }
         }
         // Trampoline boundary: the public result is a sparse list.  The AVL
-        // form is shared; the list form is converted into a new tree (the
-        // object keeps its form: a read never changes it).
+        // form is shared, exactly as on master; the list form is converted
+        // into a new tree (the object keeps its form: a read never changes it).
+        if (!attributes.isList()) {
+            const ProtoSparseListImplementation* avl = attributes.avl();
+            return avl ? avl->asSparseList(context) : context->newSparseList();
+        }
         ProtoContext::CriticalSection cs(context);
         const ProtoSparseListImplementation* tree = attributes.toAVL(context);
         return tree ? tree->asSparseList(context) : context->newSparseList();
