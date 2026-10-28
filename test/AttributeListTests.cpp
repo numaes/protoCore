@@ -423,7 +423,11 @@ TEST_F(AttributeListTest, ValuesSurviveCollectionUnderPressure) {
     ProtoRootSet::Handle h = roots->add(imm);
     const uint64_t startCycles = space->getGCCycleCount();
     space->setHeapLimits(0, space->heapSize + 40000);
-    for (int round = 0; round < 3000; ++round) {
+    // Run until at least ten cycles have completed (and 3,000 rounds), so
+    // the result does not depend on how fast the collector is (ASan).
+    int rounds = 0;
+    for (int round = 0; round < 200000; ++round, rounds = round) {
+        if (round >= 3000 && space->getGCCycleCount() >= startCycles + 10) break;
         ProtoContext c(space, ctx, nullptr, nullptr, nullptr, nullptr);
         const int k = round % 8;
         const std::string text = "v" + std::to_string(round);
@@ -435,11 +439,12 @@ TEST_F(AttributeListTest, ValuesSurviveCollectionUnderPressure) {
         c.safepoint();
     }
     space->setHeapLimits(0, 0);
-    EXPECT_GT(space->getGCCycleCount(), startCycles + 2) << "too few cycles; the test proved little";
+    EXPECT_GE(space->getGCCycleCount(), startCycles + 10) << "too few cycles; the test proved little";
     ASSERT_TRUE(storageOf(ctx, mut).isList());
     for (int k = 0; k < 8; ++k) {
-        // The last round that wrote ks[k] into `mut` is the largest r < 3000 with r % 8 == k.
-        const int last = 2992 + k;
+        // The last round that wrote ks[k] into `mut`: the largest r < rounds with r % 8 == k.
+        int last = rounds - 1;
+        while (last % 8 != k) --last;
         const ProtoObject* v = mut->getAttribute(ctx, ks[k]);
         ASSERT_TRUE(v->isString(ctx));
         EXPECT_EQ(v->compare(ctx, ctx->fromUTF8String(("v" + std::to_string(last)).c_str())), 0);
