@@ -166,6 +166,7 @@ namespace proto {
     class ProtoMPSCQueueNodeImplementation;
     class ProtoMPSCQueueRetainImplementation;
     class ProtoLinkedListNode;
+    class ProtoAttributeListImplementation;
     class ProtoSetImplementation;
     class ProtoSetIteratorImplementation;
     class ProtoMultisetImplementation;
@@ -783,7 +784,8 @@ namespace proto {
         MPSCQueue,
         MPSCQueueNode,
         MPSCQueueRetain,
-        LinkedList
+        LinkedList,
+        AttributeList
     };
 
     class Cell {
@@ -961,6 +963,111 @@ namespace proto {
         }
     };
 
+    /*
+     * AttributeStorage — the own-attribute slot of a ProtoObjectCell.
+     *
+     * An object's attributes live in one of two internal forms, chosen by the
+     * mutator that builds them from the resulting number of attributes:
+     *
+     *   - the AVL form, ProtoSparseListImplementation (any size);
+     *   - the list form, ProtoAttributeListImplementation: a singly linked
+     *     list of 64-byte cells holding two (key, value) pairs each, for
+     *     objects with at most attributeListMax() attributes.
+     *
+     * The slot is one word.  Both forms are 64-byte-aligned cells, so bit 0
+     * of the word records which form it holds (set for the list form); the
+     * word is never a public-API handle and is never seen outside this class:
+     * every reader goes through avl(), list() or cell(), each of which
+     * answers a precise raw implementation pointer.  A zero word is an object
+     * with no attributes and no storage cell.
+     *
+     * Keys are the interned symbol pointers, compared by pointer, exactly as
+     * the AVL form keys them.  A nullptr value means "absent" everywhere.
+     *
+     * Form rules (the mutators below):
+     *   - growth past attributeListMax() promotes a list to the AVL form;
+     *   - a removal that leaves at most attributeListMax() / 2 attributes
+     *     demotes an AVL to the list form (hysteresis: an object oscillating
+     *     around the threshold does not rebuild on every write);
+     *   - every other mutation keeps the form it found;
+     *   - read-only operations never change the form.
+     * attributeListMax() == 0 disables the list form: every object then uses
+     * the AVL form exactly as before.  A new object starts with the empty AVL
+     * cell in both cases (unchanged cell count); the empty tree has no form,
+     * so its first write builds the form the resulting size calls for.
+     */
+    class AttributeStorage {
+    public:
+        constexpr AttributeStorage() noexcept : word_(0) {}
+        constexpr AttributeStorage(std::nullptr_t) noexcept : word_(0) {}
+        AttributeStorage(const ProtoSparseListImplementation *avl) noexcept
+            : word_(reinterpret_cast<uintptr_t>(avl)) {}
+        AttributeStorage(const ProtoAttributeListImplementation *list) noexcept
+            : word_(list ? (reinterpret_cast<uintptr_t>(list) | LIST_BIT) : 0) {}
+
+        bool isNull() const { return word_ == 0; }
+        bool isList() const { return (word_ & LIST_BIT) != 0; }
+        /// The AVL form, or nullptr when the slot is empty or a list.
+        const ProtoSparseListImplementation *avl() const {
+            return isList() ? nullptr : reinterpret_cast<const ProtoSparseListImplementation *>(word_);
+        }
+        /// The list form, or nullptr when the slot is empty or an AVL.
+        const ProtoAttributeListImplementation *list() const {
+            return isList() ? reinterpret_cast<const ProtoAttributeListImplementation *>(word_ & ~LIST_BIT)
+                            : nullptr;
+        }
+        /// The storage cell, whatever its form (the collector's view).
+        const Cell *cell() const { return reinterpret_cast<const Cell *>(word_ & ~LIST_BIT); }
+
+        bool operator==(const AttributeStorage &o) const { return word_ == o.word_; }
+        bool operator!=(const AttributeStorage &o) const { return word_ != o.word_; }
+
+        /// The value of `key`, nullptr when absent.  Allocates nothing.
+        inline const ProtoObject *getAt(proto_ulong key) const;
+        /// Number of attributes.
+        inline proto_ulong size() const;
+        /// Every (key, value) pair; allocates nothing.  The list form visits
+        /// pairs newest first, the AVL form in key order.
+        template<class Fn> void forEach(Fn &&fn) const;
+
+        // Mutators.  Each answers a new storage, or *this when nothing
+        // changes.  The caller holds a critical section.
+        /// `value` nullptr removes `key`.
+        AttributeStorage setAt(ProtoContext *context, proto_ulong key, const ProtoObject *value) const;
+        AttributeStorage removeAt(ProtoContext *context, proto_ulong key) const;
+        /// A group of writes, keys sorted ascending and unique; nullptr
+        /// values remove.
+        AttributeStorage setSorted(ProtoContext *context, const proto_ulong *keys,
+                                   const ProtoObject *const *values, size_t count) const;
+
+        /// The AVL form of the same attributes, for the public API that
+        /// answers a ProtoSparseList: the tree itself when the slot holds
+        /// one, a new tree built from the list otherwise, nullptr when empty.
+        const ProtoSparseListImplementation *toAVL(ProtoContext *context) const;
+
+        /// The storage of a new object with no attributes (the empty AVL
+        /// cell, as before the list form existed).
+        static AttributeStorage empty(ProtoContext *context);
+        /// No attributes: a null word or the empty AVL cell.
+        bool isEmptyTree() const;
+
+    private:
+        static constexpr uintptr_t LIST_BIT = 1;
+        uintptr_t word_;
+    };
+
+    /// The tunable list-form ceiling (attributes).  0 disables the list form.
+    /// Read once from PROTOCORE_ATTR_LIST_MAX (default kAttributeListMaxDefault)
+    /// and clamped to kAttributeListMaxCeiling.
+    constexpr unsigned kAttributeListMaxDefault = 8;
+    constexpr unsigned kAttributeListMaxCeiling = 64;
+    extern std::atomic<unsigned> g_attributeListMax;
+    inline unsigned attributeListMax() { return g_attributeListMax.load(std::memory_order_relaxed); }
+    /// For tests and benchmarks: changes the ceiling for objects built from
+    /// now on.  Existing storages keep their form until a mutator applies
+    /// the rules above with the new value.
+    void setAttributeListMax(unsigned n);
+
     class ParentLinkImplementation : public Cell {
     public:
         const ParentLinkImplementation *parent;
@@ -996,14 +1103,18 @@ namespace proto {
         // The Small variant of sparse list does not appear here: the
         // AVL-vs-Small dispatch was a public-API optimisation that
         // leaked into a private slot and produced inconsistent type
-        // discipline. Object attribute storage is always AVL form.
-        const ProtoSparseListImplementation *attributes;
+        // discipline.  Object attribute storage is either the AVL form or
+        // the attribute list form (ProtoAttributeListImplementation), a
+        // type of its own made for this slot; AttributeStorage keeps the
+        // dispatch between the two internal and answers precise raw
+        // implementation pointers.
+        AttributeStorage attributes;
         const proto_ulong mutable_ref;
 
         CellType getType() const override { return CellType::Object; }
 
         ProtoObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
-                        const ProtoSparseListImplementation *attributes, proto_ulong mutable_ref);
+                        AttributeStorage attributes, proto_ulong mutable_ref);
 
         ~ProtoObjectCell() override = default;
 
@@ -1093,7 +1204,7 @@ namespace proto {
         mutable std::atomic<uint64_t> stateEpoch;
 
         ProtoLazyObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
-                            const ProtoSparseListImplementation *attributes,
+                            AttributeStorage attributes,
                             const ProtoObject *producer);
 
         void processReferences(ProtoContext *context, void *self,
@@ -2208,6 +2319,98 @@ namespace proto {
     };
 
     /*
+     * ProtoAttributeListImplementation — the list form of an object's own
+     * attributes (see AttributeStorage).  One cell:
+     *
+     *   Cell base               16 B  (vtable + next_and_flags)
+     *   next                     8 B
+     *   count                    8 B  pairs in this cell and every later one
+     *   key0, value0            16 B  the newer pair
+     *   key1, value1            16 B  value1 == nullptr: this cell holds one pair
+     *                          -----
+     *                           64 B
+     *
+     * Every cell is full except possibly the head (the ProtoLinkedList
+     * convention), so a list of n pairs takes ceil(n / 2) cells and the head
+     * holds one pair exactly when n is odd.  Pairs run newest first: a new
+     * attribute enters at the head (one cell: a copy of a one-pair head
+     * completed with it, or a new one-pair head), and an overwrite copies the
+     * cells up to the old pair, drops it, puts the new pair at the head and
+     * shares the rest.  Lookup is a walk comparing interned keys by pointer.
+     * Keys are interned symbols (perennial) and are not reported to the
+     * collector, as in the AVL form; values and `next` are.
+     */
+    class ProtoAttributeListImplementation final : public Cell {
+    public:
+        const ProtoAttributeListImplementation *const next;
+        const proto_ulong count;
+        const proto_ulong key0;
+        const ProtoObject *const value0;
+        const proto_ulong key1;
+        const ProtoObject *const value1;
+
+        CellType getType() const override { return CellType::AttributeList; }
+
+        /// (k1, v1) == (0, nullptr) builds a one-pair cell.
+        ProtoAttributeListImplementation(ProtoContext *context, const ProtoAttributeListImplementation *next,
+                                         proto_ulong k0, const ProtoObject *v0,
+                                         proto_ulong k1, const ProtoObject *v1);
+
+        unsigned pairsHere() const { return value1 ? 2u : 1u; }
+
+        /// The value of `key` in the list starting at `head`, nullptr when absent.
+        static const ProtoObject *find(const ProtoAttributeListImplementation *head, proto_ulong key) {
+            for (const ProtoAttributeListImplementation *n = head; n; n = n->next) {
+                if (n->key0 == key) return n->value0;
+                if (n->key1 == key) return n->value1;   // key1 == 0 in a one-pair cell
+            }
+            return nullptr;
+        }
+
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
+    inline const ProtoObject *AttributeStorage::getAt(proto_ulong key) const {
+        if (isList()) return ProtoAttributeListImplementation::find(list(), key);
+        if (word_ == 0) return nullptr;
+        return avl()->implGetAt(nullptr, key);
+    }
+
+    inline proto_ulong AttributeStorage::size() const {
+        if (isList()) return list()->count;
+        if (word_ == 0) return 0;
+        const ProtoSparseListImplementation *t = avl();
+        return t->isEmpty ? 0 : t->size;
+    }
+
+    template<class Fn> void AttributeStorage::forEach(Fn &&fn) const {
+        if (isList()) {
+            for (const ProtoAttributeListImplementation *n = list(); n; n = n->next) {
+                fn(n->key0, n->value0);
+                if (n->value1) fn(n->key1, n->value1);
+            }
+            return;
+        }
+        // In-order walk of the AVL with an explicit stack: the size field
+        // has 24 bits, so the tree is at most ~35 levels deep.
+        const ProtoSparseListImplementation *stack[64];
+        int sp = 0;
+        const ProtoSparseListImplementation *node = avl();
+        while (node || sp > 0) {
+            while (node && !node->isEmpty && sp < 64) {
+                stack[sp++] = node;
+                node = node->previous;
+            }
+            if (sp == 0) break;
+            node = stack[--sp];
+            if (node->value) fn(node->key, node->value);
+            node = node->next;
+        }
+    }
+
+    /*
      * ProtoSparseListSmallImplementation — single-cell inline storage for
      * sparse lists with up to MAX_INLINE = 3 (key, value) pairs.  Layout:
      *
@@ -2755,6 +2958,8 @@ namespace proto {
     static_assert(sizeof(ProtoMapImplementation) <= 64, "ProtoMapImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMapSmallImplementation) <= 64, "ProtoMapSmallImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoLinkedListNode) == 64, "ProtoLinkedListNode must fill exactly one 64-byte cell");
+    static_assert(sizeof(ProtoAttributeListImplementation) == 64, "ProtoAttributeListImplementation must fill exactly one 64-byte cell");
+    static_assert(sizeof(AttributeStorage) == sizeof(void *), "AttributeStorage is one word");
     static_assert(sizeof(ProtoMapIteratorImplementation) <= 64, "ProtoMapIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMPSCQueueImplementation) <= 64, "ProtoMPSCQueueImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMPSCQueueNodeImplementation) <= 64, "ProtoMPSCQueueNodeImplementation exceeds 64 bytes!");

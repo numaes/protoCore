@@ -245,16 +245,16 @@ namespace proto
      * @brief Constructs a new object cell.
      * @param context The current execution context.
      * @param parent A pointer to the `ParentLink` that forms the head of the prototype chain.
-     * @param attributes A `ProtoSparseList` holding the object's own key-value attributes.
+     * @param attributes The object's own attributes (AVL or list form; empty when null).
      * @param mutable_ref A non-zero ID if this object is a mutable reference, otherwise 0.
      */
     ProtoObjectCell::ProtoObjectCell(
         ProtoContext* context,
         const ParentLinkImplementation* parent,
-        const ProtoSparseListImplementation* attributes,
+        AttributeStorage attributes,
         const proto_ulong mutable_ref
     ) : Cell(context), parent(parent),
-        attributes(attributes ? attributes : context->newSparseListImpl()),
+        attributes(attributes.isNull() ? AttributeStorage::empty(context) : attributes),
         mutable_ref(mutable_ref)
     {
     }
@@ -598,12 +598,10 @@ namespace proto
             method(context, self, this->parent);
         }
 
-        // Report the attribute list. `attributes` is now a raw
-        // ProtoSparseListImplementation* (internal IMPL) — the same
-        // type the GC tracer expects (Cell*-derived). No conversion.
-        if (this->attributes)
+        // Report the attribute storage cell, whatever its form.
+        if (!this->attributes.isNull())
         {
-            method(context, self, this->attributes);
+            method(context, self, this->attributes.cell());
         }
     }
 
@@ -695,7 +693,7 @@ namespace proto
         // written since it was created — for a freshly built mutable object,
         // an empty one.
         const ParentLinkImplementation* parent = oc->parent;
-        const ProtoSparseListImplementation* attributes = oc->attributes;
+        AttributeStorage attributes = oc->attributes;
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
             if (storedState != nullptr) {
@@ -743,7 +741,7 @@ namespace proto
         // call — see the header doc comment for the "capture at creation
         // time" contract this gives newChild.
         const ProtoObjectCell* oc = resolveOwnCell(context, this);
-        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), context->newSparseListImpl(), ref);
+        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), AttributeStorage::empty(context), ref);
         const ProtoObject* result = newObject->asObject(context);
         return result;
     }
@@ -765,7 +763,7 @@ namespace proto
         const ProtoObjectCell* oc = resolveOwnCell(context, this);
         auto* newObject = new(context) ProtoLazyObjectCell(
             context, new(context) ParentLinkImplementation(context, oc->parent, this),
-            context->newSparseListImpl(), producer);
+            AttributeStorage::empty(context), producer);
         return newObject->asObject(context);
     }
 
@@ -1092,9 +1090,7 @@ namespace proto
                 // nullptr for absent keys and the actual value
                 // (possibly PROTO_NONE) for present keys — the
                 // distinction `x = None` vs `hasattr(x)` is preserved.
-                result = ocValue->attributes
-                    ? ocValue->attributes->implGetAt(context, attr_hash)
-                    : nullptr;
+                result = ocValue->attributes.getAt(attr_hash);
                 if (cache) {
                     // Persist the own-fact (positive OR negative).  A
                     // cached miss prevents the next chain walk from
@@ -1249,8 +1245,8 @@ namespace proto
                  // Direct IMPL setAt: returns a new AVL impl pointer
                  // (raw, untagged), suitable for storage in the next
                  // ProtoObjectCell's `attributes` field.
-                 const ProtoSparseListImplementation* newAttributes =
-                     currentOc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
+                 const AttributeStorage newAttributes =
+                     currentOc->attributes.setAt(context, reinterpret_cast<uintptr_t>(name), value);
 
                  // CRITICAL: newState MUST have mutable_ref = 0 to avoid infinite loop during lookup
                  auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
@@ -1288,8 +1284,8 @@ namespace proto
         // reachable through this function's return value once both are
         // wired up; sweeping mid-build would orphan them.
         ProtoContext::CriticalSection cs(context);
-        const ProtoSparseListImplementation* newAttributes =
-            oc->attributes->implSetAt(context, (uintptr_t)name, value);
+        const AttributeStorage newAttributes =
+            oc->attributes.setAt(context, (uintptr_t)name, value);
         const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         return result;
     }
@@ -1371,11 +1367,8 @@ namespace proto
 
         // The new attribute tree from `attrs`, built in one pass.  Answers
         // `attrs` itself when the group changes nothing.
-        auto applyGroup = [&](const ProtoSparseListImplementation* attrs)
-                -> const ProtoSparseListImplementation* {
-            const ProtoSparseListImplementation* r =
-                sparse_avl::setSorted(context, attrs, sortedKeys, sortedValues, 0, m);
-            return r ? r : sparse_avl::makeEmpty<ProtoSparseListImplementation>(context);
+        auto applyGroup = [&](AttributeStorage attrs) -> AttributeStorage {
+            return attrs.setSorted(context, sortedKeys, sortedValues, m);
         };
 
         auto* oc = toImpl<const ProtoObjectCell>(this);
@@ -1387,7 +1380,7 @@ namespace proto
         ProtoContext::CriticalSection cs(context);
 
         if (oc->mutable_ref == 0) {
-            const ProtoSparseListImplementation* newAttributes = applyGroup(oc->attributes);
+            const AttributeStorage newAttributes = applyGroup(oc->attributes);
             return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         }
 
@@ -1407,7 +1400,7 @@ namespace proto
             if (!proto::isObjectFast(currentObjState)) return this;
             auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
 
-            const ProtoSparseListImplementation* newAttributes = applyGroup(currentOc->attributes);
+            const AttributeStorage newAttributes = applyGroup(currentOc->attributes);
             if (newAttributes == currentOc->attributes) {
                 return this;   // every name already holds its value: nothing to publish
             }
@@ -1495,9 +1488,7 @@ namespace proto
             auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
 
             // The current OWN value of `name` (nullptr == attribute absent).
-            const ProtoObject* currentValue = currentOc->attributes
-                ? currentOc->attributes->implGetAt(context, key)
-                : nullptr;
+            const ProtoObject* currentValue = currentOc->attributes.getAt(key);
 
             // Precondition: the attribute must still hold `expected`.  A
             // mismatch is a genuine concurrent write — report failure so the
@@ -1509,8 +1500,8 @@ namespace proto
             }
 
             // Build the new snapshot with name := newValue.
-            const ProtoSparseListImplementation* newAttributes =
-                currentOc->attributes->implSetAt(context, key, newValue);
+            const AttributeStorage newAttributes =
+                currentOc->attributes.setAt(context, key, newValue);
             auto* newState = (new(context) ProtoObjectCell(
                 context, currentOc->parent, newAttributes, 0))->asObject(context);
 
@@ -1593,12 +1584,12 @@ namespace proto
                  // the allocation+CAS entirely and return `this` unchanged.
                  // Matches the "no allocation if no change" contract callers
                  // can rely on for cheap idempotent del.
-                 if (!currentOc->attributes->implHas(context, reinterpret_cast<uintptr_t>(name))) {
+                 if (currentOc->attributes.getAt(reinterpret_cast<uintptr_t>(name)) == nullptr) {
                      return this;
                  }
 
-                 const ProtoSparseListImplementation* newAttributes =
-                     currentOc->attributes->implRemoveAt(context, reinterpret_cast<uintptr_t>(name));
+                 const AttributeStorage newAttributes =
+                     currentOc->attributes.removeAt(context, reinterpret_cast<uintptr_t>(name));
 
                  auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
 
@@ -1621,12 +1612,12 @@ namespace proto
         }
 
         // Immutable path: copy-on-write.  No-op when the name isn't OWN.
-        if (!oc->attributes->implHas(context, reinterpret_cast<uintptr_t>(name))) {
+        if (oc->attributes.getAt(reinterpret_cast<uintptr_t>(name)) == nullptr) {
             return this;
         }
         ProtoContext::CriticalSection cs(context);
-        const ProtoSparseListImplementation* newAttributes =
-            oc->attributes->implRemoveAt(context, reinterpret_cast<uintptr_t>(name));
+        const AttributeStorage newAttributes =
+            oc->attributes.removeAt(context, reinterpret_cast<uintptr_t>(name));
         const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         return result;
     }
@@ -2095,7 +2086,7 @@ namespace proto
         // above — so once we have the snapshot we can short-circuit
         // the AVL probe on repeat reads.
         const ProtoObject* snapshot = this;
-        const ProtoSparseListImplementation* attrs = oc->attributes;
+        AttributeStorage attrs = oc->attributes;
         if (oc->mutable_ref > 0) {
             const ProtoObject* ss = resolveMutableSnapshot(context, oc->mutable_ref);
             if (ss != nullptr) {
@@ -2137,9 +2128,7 @@ namespace proto
         // an attribute legitimately set to PROTO_NONE (Python's
         // `x = None`) returns PROTO_NONE here, not nullptr — callers
         // that want existence semantics use hasOwnAttribute.
-        const ProtoObject* result = attrs
-            ? attrs->implGetAt(context, reinterpret_cast<uintptr_t>(name))
-            : nullptr;
+        const ProtoObject* result = attrs.getAt(reinterpret_cast<uintptr_t>(name));
 
         if (cache) {
             cache[hash_idx] = {snapshot, result, name, nullptr};
@@ -2542,7 +2531,7 @@ namespace proto
             // Direct IMPL probe. nullptr means absent; anything else
             // (including PROTO_NONE) means present — `attr = None` still
             // answers True (vs missing).
-            if (ocValue->attributes && ocValue->attributes->implGetAt(context, attr_hash) != nullptr) {
+            if (ocValue->attributes.getAt(attr_hash) != nullptr) {
                 return PROTO_TRUE;
             }
 
@@ -2606,7 +2595,9 @@ namespace proto
         // structural sharing, no allocation — matching the fast path an
         // object with no ancestors always had. Ancestors (if any) are
         // merged in below, only adding a key not already present.
-        const ProtoSparseListImplementation* attrs = oc->attributes;
+        // The public result is a sparse list: a list-form storage is
+        // converted (the object itself keeps its form).
+        const ProtoSparseListImplementation* attrs = oc->attributes.toAVL(context);
 
         const ParentLinkImplementation* link = oc->parent;
         while (link && ((uintptr_t)link & 0x3F) == 0) {
@@ -2633,18 +2624,12 @@ namespace proto
 
             if (attrSource && proto::isObjectFast(attrSource)) {
                 const ProtoObjectCell* ancOc = resolveOwnCell(context, attrSource);
-                if (ancOc->attributes) {
-                    const ProtoSparseListIteratorImplementation* it = ancOc->attributes->implGetIterator(context);
-                    while (it && it->implHasNext()) {
-                        proto_ulong key = it->implNextKey();
-                        const ProtoObject* value = it->implNextValue();
-                        if (!attrs || attrs->implGetAt(context, key) == nullptr) {
-                            attrs = attrs ? attrs->implSetAt(context, key, value)
-                                          : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
-                        }
-                        it = it->implAdvance(context);
+                ancOc->attributes.forEach([&](proto_ulong key, const ProtoObject* value) {
+                    if (!attrs || attrs->implGetAt(context, key) == nullptr) {
+                        attrs = attrs ? attrs->implSetAt(context, key, value)
+                                      : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
                     }
-                }
+                });
             }
 
             link = pl->getParent(context);
@@ -2661,7 +2646,7 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return context->newSparseList();
         auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseListImplementation* attributes = oc->attributes;
+        AttributeStorage attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
@@ -2670,9 +2655,12 @@ namespace proto
                 attributes = storedOc->attributes;
             }
         }
-        // Trampoline boundary: convert the internal IMPL pointer to the
-        // public-API tagged handle.
-        return attributes ? attributes->asSparseList(context) : context->newSparseList();
+        // Trampoline boundary: the public result is a sparse list.  The AVL
+        // form is shared; the list form is converted into a new tree (the
+        // object keeps its form: a read never changes it).
+        ProtoContext::CriticalSection cs(context);
+        const ProtoSparseListImplementation* tree = attributes.toAVL(context);
+        return tree ? tree->asSparseList(context) : context->newSparseList();
     }
     
     namespace {
@@ -2720,7 +2708,7 @@ namespace proto
         // coherent view even if the receiver is mutated meanwhile.
         auto oc = toImpl<const ProtoObjectCell>(this);
         const ProtoObject* snapshot = this;
-        const ProtoSparseListImplementation* attributes = oc->attributes;
+        AttributeStorage attributes = oc->attributes;
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
             if (storedState != nullptr) {
@@ -2728,13 +2716,28 @@ namespace proto
                 attributes = toImpl<const ProtoObjectCell>(storedState)->attributes;
             }
         }
-        if (!attributes) return;
+        if (attributes.isNull()) return;
 
         // Keep the snapshot reachable for the whole walk.  Without this a
         // concurrent write to a mutable receiver would orphan the snapshot,
         // and a collection triggered from the callback would sweep the very
         // nodes this loop is standing on.
         PendingRootAnchor anchor(context, snapshot);
+
+        // The list form: a walk from the head, newest pair first.  Each
+        // cell's pairs are read out before the callback runs.
+        if (const ProtoAttributeListImplementation* cellList = attributes.list()) {
+            for (const ProtoAttributeListImplementation* n = cellList; n != nullptr; ) {
+                const proto_ulong k0 = n->key0, k1 = n->key1;
+                const ProtoObject* v0 = n->value0;
+                const ProtoObject* v1 = n->value1;
+                const ProtoAttributeListImplementation* following = n->next;
+                method(context, self, reinterpret_cast<const ProtoString*>(k0), v0);
+                if (v1 != nullptr) method(context, self, reinterpret_cast<const ProtoString*>(k1), v1);
+                n = following;
+            }
+            return;
+        }
 
         // Iterative in-order traversal over the attribute AVL.  The explicit
         // stack lives in C++ automatic storage: no Cell is allocated, and no
@@ -2744,7 +2747,7 @@ namespace proto
         constexpr int kMaxDepth = 64;
         const ProtoSparseListImplementation* stack[kMaxDepth];
         int sp = 0;
-        const ProtoSparseListImplementation* node = attributes;
+        const ProtoSparseListImplementation* node = attributes.avl();
 
         while (node != nullptr || sp > 0) {
             while (node != nullptr && !node->isEmpty && sp < kMaxDepth) {
@@ -2796,7 +2799,7 @@ namespace proto
 
         if (!proto::isObjectFast(this)) return PROTO_FALSE;
         auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseListImplementation* attributes = oc->attributes;
+        AttributeStorage attributes = oc->attributes;
 
         if (oc->mutable_ref > 0) {
             const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
@@ -2804,10 +2807,10 @@ namespace proto
                 attributes = toImpl<const ProtoObjectCell>(storedState)->attributes;
             }
         }
-        // Direct IMPL probe — an attribute set to PROTO_NONE is still
-        // "present" (implGetAt returns PROTO_NONE, not nullptr).
+        // Direct probe — an attribute set to PROTO_NONE is still
+        // "present" (getAt returns PROTO_NONE, not nullptr).
         return context->fromBoolean(
-            attributes && attributes->implGetAt(context, reinterpret_cast<uintptr_t>(name)) != nullptr);
+            attributes.getAt(reinterpret_cast<uintptr_t>(name)) != nullptr);
     }
     
     const ProtoObject* ProtoObject::divmod(ProtoContext* context, const ProtoObject* other) const {

@@ -966,10 +966,9 @@ namespace proto
         // ProtoObject::newChild (which already wraps); this is the
         // simpler factory path used everywhere else.
         ProtoContext::CriticalSection cs(this);
-        // ProtoObjectCell::attributes is a raw ProtoSparseListImplementation*
-        // (internal IMPL pointer) — pass an empty AVL impl directly. No
-        // tag, no public-API handle, no Small-form dispatch.
-        const ProtoSparseListImplementation* attributes = newSparseListImpl();
+        // An empty attribute storage: no cell in the list form, the empty
+        // AVL cell when the list form is disabled (attributeListMax() == 0).
+        const AttributeStorage attributes = AttributeStorage::empty(this);
         const ProtoObject* result = (new(this) ProtoObjectCell(this, nullptr, attributes, ref))->asObject(this);
         return result;
     }

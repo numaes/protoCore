@@ -238,6 +238,7 @@ namespace proto {
                 case CellType::MPSCQueueNode: return "MPSCQueueNode";
                 case CellType::MPSCQueueRetain: return "MPSCQueueRetain";
                 case CellType::LinkedList: return "LinkedList";
+                case CellType::AttributeList: return "AttributeList";
             }
             return "unknown";
         }
@@ -546,7 +547,7 @@ namespace proto {
                 if (cell->isMarked()) continue;
                 auto* state = const_cast<ProtoObjectCell*>(static_cast<const ProtoObjectCell*>(cell));
                 state->parent = nullptr;
-                state->attributes = nullptr;
+                state->attributes = AttributeStorage();
                 ++emptied;
             }
             return emptied;

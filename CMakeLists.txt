@@ -73,6 +73,7 @@ add_library(protoCore SHARED
     core/ProtoRootSet.cpp
     core/ProtoException.cpp
     core/ProtoSparseList.cpp
+    core/ProtoAttributeList.cpp
     core/ProtoMap.cpp
     core/ProtoMPSCQueue.cpp
     core/ProtoLazyObject.cpp

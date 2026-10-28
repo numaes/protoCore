@@ -308,8 +308,21 @@ TEST_F(SetAttributesTest, RandomGroupsMatchChainedWritesAndStayBalanced) {
 
         bool ok = true;
         proto_ulong size = 0;
-        checkAvl(toImpl<const ProtoObjectCell>(grouped)->attributes, 0, UINTPTR_MAX, ok, &size);
-        ASSERT_TRUE(ok) << "round " << round << ": the built tree is not a valid AVL tree";
+        const AttributeStorage storage = toImpl<const ProtoObjectCell>(grouped)->attributes;
+        if (storage.isList() || storage.isNull()) {
+            // The list form (objects of up to attributeListMax() attributes):
+            // the sizes recorded in the cells must agree with the walk, and
+            // every cell but the head must be full.
+            for (const ProtoAttributeListImplementation* n = storage.list(); n; n = n->next) {
+                size += n->pairsHere();
+                if (n != storage.list() && n->pairsHere() != 2) ok = false;
+                if (n->count != n->pairsHere() + (n->next ? n->next->count : 0)) ok = false;
+            }
+            ASSERT_TRUE(ok) << "round " << round << ": the built list is malformed";
+        } else {
+            checkAvl(storage.avl(), 0, UINTPTR_MAX, ok, &size);
+            ASSERT_TRUE(ok) << "round " << round << ": the built tree is not a valid AVL tree";
+        }
         ASSERT_EQ(size, ownEntries(ctx, chained).size()) << "round " << round;
     }
 }

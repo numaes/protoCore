@@ -55,7 +55,7 @@ namespace proto
 
     ProtoLazyObjectCell::ProtoLazyObjectCell(ProtoContext* context,
                                              const ParentLinkImplementation* parent,
-                                             const ProtoSparseListImplementation* attributes,
+                                             AttributeStorage attributes,
                                              const ProtoObject* producer)
         : ProtoObjectCell(context, parent, attributes, 0),
           producer(producer ? producer : PROTO_NONE),

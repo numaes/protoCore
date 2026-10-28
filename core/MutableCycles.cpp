@@ -138,6 +138,7 @@ const char* typeName(const Cell* c)
         case CellType::MPSCQueueNode:       return "MPSCQueueNode";
         case CellType::MPSCQueueRetain:     return "MPSCQueueRetain";
         case CellType::LinkedList:          return "LinkedList";
+        case CellType::AttributeList:       return "AttributeList";
         case CellType::TupleDictionary:     return "TupleDictionary";
         default:                            return "Cell";
     }
@@ -268,8 +269,8 @@ private:
                 const auto* oc = static_cast<const ProtoObjectCell*>(cell);
                 if (oc->parent)
                     out.push_back({oc->parent, NodeKind::Other, "prototype"});
-                if (oc->attributes)
-                    out.push_back({oc->attributes, NodeKind::AttributeList, ""});
+                if (!oc->attributes.isNull())
+                    out.push_back({oc->attributes.cell(), NodeKind::AttributeList, ""});
                 // The synthetic edge that makes the whole scan work.
                 if (oc->mutable_ref > 0) {
                     auto it = entries_.find(oc->mutable_ref);
@@ -312,6 +313,20 @@ private:
                 }
                 if (n->previous) out.push_back({n->previous, kind, ""});
                 if (n->next)     out.push_back({n->next,     kind, ""});
+                return;
+            }
+            case CellType::AttributeList: {
+                const auto* n = static_cast<const ProtoAttributeListImplementation*>(cell);
+                const proto_ulong keys[2] = {n->key0, n->key1};
+                const ProtoObject* values[2] = {n->value0, n->value1};
+                for (unsigned i = 0; i < n->pairsHere(); ++i) {
+                    if (const Cell* v = ProtoObject::asCellPointer(values[i])) {
+                        const std::string name = attributeName(readCtx_, keys[i]);
+                        out.push_back({v, NodeKind::Other,
+                                       name.empty() ? std::string(".<attr>") : ("." + name)});
+                    }
+                }
+                if (n->next) out.push_back({n->next, kind, ""});
                 return;
             }
             case CellType::SparseListSmall: {
