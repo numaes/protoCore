@@ -166,7 +166,36 @@ namespace proto {
             // could observe a phantom running thread (counted in
             // runningThreads but not yet able to park on stwFlag), and would
             // wait forever for parkedThreads to catch up.
-            context->space->runningThreads++;
+            //
+            // Join the quorum under globalMutex, as the exit path below leaves
+            // it.  The collector raises stwFlag and `attention`, evaluates its
+            // quorum (parkedThreads >= runningThreads) and runs its Phase 2
+            // root scan -- which reads this thread's
+            // ProtoThreadImplementation::context, since the thread is already
+            // in `space->threads` -- all while holding that mutex.  An
+            // increment made without it could land just after the quorum
+            // check: the stop-the-world would then proceed without this
+            // thread, and nothing would order the thread's first context
+            // construction (ProtoContext's constructor publishes the context
+            // there) after the scan's read of the same field.  The poll below
+            // is a relaxed load of `attention`, so a thread that missed the
+            // stop-the-world could run past it with no synchronisation at all
+            // (ThreadSanitizer saw exactly that), and on a weakly ordered CPU
+            // could even read a stale zero while the scan was still running.
+            //
+            // Under the mutex there are three cases, all ordered: the
+            // increment precedes the collector's stop-the-world (the
+            // collector counts this thread and waits for it to park); it
+            // falls while the collector waits for its quorum inside
+            // gcCV.wait (the mutex hand-off orders the raised flags before
+            // the poll below, which therefore parks); or it follows the
+            // stop-the-world (the mutex hand-off orders the scan before
+            // everything this thread does).  Taken once per thread start,
+            // never on a hot path.
+            {
+                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                context->space->runningThreads++;
+            }
             // This OS thread is a member of the space that started it; it
             // answers that space's stop-the-world whatever code it runs.
             multispace::setWorkerSpace(context->space,

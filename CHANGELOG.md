@@ -4,6 +4,37 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Fixed -- a starting thread joins the stop-the-world quorum under `globalMutex`
+
+- **`thread_main` incremented `runningThreads` without `globalMutex`**, then
+  polled for a stop-the-world with a relaxed load. A thread created by
+  `ProtoSpace::newThread` is in `space->threads` before its OS thread runs, so
+  every cycle's Phase 2 root scan reads its `ProtoThreadImplementation::context`.
+  The collector raises `stwFlag`, evaluates its quorum and runs that scan while
+  holding `globalMutex`; an increment that landed just after the quorum check
+  left the starting thread out of a stop-the-world whose scan was still
+  running, and nothing ordered the thread's first `ProtoContext` construction
+  (which publishes the context in that field) after the scan's read.
+  ThreadSanitizer reported it once in CI
+  (`ProtoLazyObject.EightThreadsRealiseOneSharedChainUnderCollection`: write in
+  `implSetCurrentContext`, `core/Thread.cpp`, after a read in `gcThreadLoop`'s
+  thread scan with `globalMutex` held). On a weakly ordered CPU the relaxed
+  poll could also read a stale "no stop-the-world" and run managed code during
+  the scan.
+- **The increment is now made under `globalMutex`**, as the exit path already
+  makes the decrement. Whatever the interleaving, the start is ordered against
+  the collector: before its stop-the-world (the collector waits for the thread
+  to park), during its quorum wait (the mutex hand-off makes the raised flag
+  visible, so the thread parks at its first poll), or after its scan (the mutex
+  hand-off orders the scan before the thread's first write). One uncontended
+  lock per thread start; no hot path changes and no field changes type.
+- **Tests.** `ThreadStartQuorum.NewThreadWaitsForAStopTheWorldInProgress` holds
+  `globalMutex` -- what a collector holds for its whole stop-the-world -- while
+  a thread starts: before the fix the thread's method ran inside that window,
+  now it runs only after it. `ThreadStartQuorum.ThreadsStartingDuringStopTheWorldsRunAndJoin`
+  starts 1,200 threads while another thread requests cycles without pause (the
+  ThreadSanitizer CI job runs it).
+
 ### Changed -- a cycle in progress at space destruction no longer purges the space's own table entries
 
 - **`~ProtoSpace` records the space as destroyed before it joins the
