@@ -4,6 +4,35 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Changed -- a cycle in progress at space destruction no longer purges the space's own table entries
+
+- **`~ProtoSpace` records the space as destroyed before it joins the
+  collector**, so a cycle still running at that moment found the space's own
+  id in the destroyed list in its Phase 5b (`releaseFinalizedMutableEntries`
+  -> `multispace::appendRefsOfDestroyedSpaces`): it walked the whole global
+  mutable table, sorted every live entry of the space and removed them all
+  with `sparseListRemoveSorted` -- O(table), at exit, while the destructor
+  waited. protoJS sampled ~30 % of a 90 s macOS shutdown there (1,918 of
+  6,461 samples). That cycle now keeps its own id recorded and removes only
+  the entries of the handles its sweep finalized, as every cycle does; the
+  next cycle of a live space purges the rest, exactly as when the space is
+  destroyed with its collector idle.
+- **Measured** (`performance/mutable_release_benchmark <n> <dead%> exit 1500`,
+  destructor wall time, three interleaved runs against 43fae387): 4 M
+  mutables, 5 % dead: 4.34 s -> 3.50 s median; 50 % dead: 3.69 s -> 3.28 s.
+  The rest of the wait is the mark and sweep of the cycle in progress.
+- **`sparseListRemoveSorted` itself is not per-entry**: one join-based pass
+  per shard (`performance/bulk_remove_benchmark`, 4 M entries over 256
+  shards: 19-23 ns per removed entry when whole runs die, 116 ns at 50 %
+  random, 322 ns at 10 %, 805 ns at 1 %). A rebuild-from-survivors variant
+  was measured and not adopted: 1.7x faster at 90 % random deaths, 2.4x
+  slower when the oldest half dies.
+- **Tests.** `SpaceTeardown.CycleInProgressLeavesTheSpacesLiveEntriesToALiveSpace`
+  holds a dying space's sweep in a finalizer until its destructor has begun;
+  on 43fae387 the space's 200 live entries are gone right after the
+  destructor (its own cycle purged them), now they stay until a live space's
+  cycle purges them.
+
 ### Removed -- `ProtoContext::pendingRoot`
 
 - **`ProtoContext::pendingRoot` is gone, and with it the three

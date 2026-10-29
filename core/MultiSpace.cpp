@@ -106,11 +106,18 @@ void recordDestroyedSpace(proto_ulong spaceId) {
     destroyedIds().push_back(spaceId);
 }
 
-void appendRefsOfDestroyedSpaces(std::vector<proto_ulong>& refs) {
+void appendRefsOfDestroyedSpaces(std::vector<proto_ulong>& refs, const proto_ulong* keepId) {
     std::vector<proto_ulong> ids;
     {
         std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
         ids.swap(destroyedIds());
+        if (keepId) {
+            const auto kept = std::remove(ids.begin(), ids.end(), *keepId);
+            if (kept != ids.end()) {
+                ids.erase(kept, ids.end());
+                destroyedIds().push_back(*keepId);
+            }
+        }
     }
     if (ids.empty()) return;
     std::sort(ids.begin(), ids.end());
