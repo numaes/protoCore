@@ -274,6 +274,14 @@ add_executable(sweep_contention_benchmark performance/sweep_contention_benchmark
 target_link_libraries(sweep_contention_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: sweep_contention_benchmark")
 
+add_executable(bulk_remove_benchmark performance/bulk_remove_benchmark.cpp)
+target_link_libraries(bulk_remove_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: bulk_remove_benchmark")
+
+add_executable(mutable_release_benchmark performance/mutable_release_benchmark.cpp)
+target_link_libraries(mutable_release_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: mutable_release_benchmark")
+
 add_executable(mpsc_queue_benchmark performance/mpsc_queue_benchmark.cpp)
 target_link_libraries(mpsc_queue_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: mpsc_queue_benchmark")

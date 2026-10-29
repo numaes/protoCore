@@ -587,7 +587,24 @@ namespace proto {
             std::vector<proto_ulong>& refs = space->gcFinalizedMutableRefs;
             // The entries of spaces destroyed since the last cycle of any
             // space go with them: nothing can reach those handles any more.
-            multispace::appendRefsOfDestroyedSpaces(refs);
+            //
+            // Except this space's own.  ~ProtoSpace records the space as
+            // destroyed before it joins the collector, so a cycle in progress
+            // at destruction used to find its own id here and, in its Phase
+            // 5b, walk the whole table and remove every live entry of the
+            // space -- O(table), at exit, while the destructor waited (a
+            // runtime measured ~30 % of a 90 s shutdown here).  The id stays
+            // recorded instead and the next cycle of a live space purges those
+            // entries, exactly as when the space is destroyed with its
+            // collector idle; this cycle still removes the entries of the
+            // handles its own sweep finalized, as every cycle does.
+            bool ending;
+            {
+                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                ending = space->state == SPACE_STATE_ENDING;
+            }
+            const proto_ulong ownId = spaceIdOf(space);
+            multispace::appendRefsOfDestroyedSpaces(refs, ending ? &ownId : nullptr);
             if (refs.empty()) return;
             ProtoContext* gc = space->gcContext;
             constexpr proto_ulong kShards = ProtoSpace::MUTABLE_ROOT_SHARDS;

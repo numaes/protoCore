@@ -1671,7 +1671,11 @@ namespace proto {
         // id, and Phase 5b appends every ref carrying a recorded id to the
         // refs it releases.  Takes the recorded ids, so one cycle does it.
         void recordDestroyedSpace(proto_ulong spaceId);
-        void appendRefsOfDestroyedSpaces(std::vector<proto_ulong>& refs);
+        // Appends the table keys of every destroyed space to `refs` and
+        // forgets those spaces, except `*keepId` when given (a space's own id
+        // while its destructor waits for its last cycle), which stays
+        // recorded for the next cycle of a live space.
+        void appendRefsOfDestroyedSpaces(std::vector<proto_ulong>& refs, const proto_ulong* keepId = nullptr);
 
         // Entries of the global mutable table whose ref carries `spaceId`.
         // O(table); for tests and diagnostics.

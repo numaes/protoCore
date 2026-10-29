@@ -911,7 +911,12 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   statics, and a collector that published swept cells
   (`adaptive::cellsPublished`) after their destruction crashed the exit
   (`ProcessExitDeathTest.*`).  Destroying the space before exit is still the
-  clean shutdown: it joins the collector and runs the finalizers.
+  clean shutdown: it joins the collector, which first finishes the cycle in
+  progress, if any (so that cycle's sweep runs its finalizers).  No final
+  cycle is run: garbage no cycle has swept is never finalized
+  (docs/MemoryModel.md).  The cycle in progress leaves the space's live
+  entries in the global mutable table to the next cycle of a live space, as
+  an idle collector does.
 
 ## Synchronization Mechanisms
 
