@@ -1459,7 +1459,22 @@ namespace proto
         const ProtoSparseListIterator* getIterator(ProtoContext* context) const;
         proto_ulong getHash(ProtoContext* context) const;
 
+        /**
+         * @brief Visit every (key, value) entry in ascending key order.
+         *
+         * Allocates no Cell and holds NO GC critical section across
+         * `method` (up to 3.3.1 the AVL form ran the whole walk, callbacks
+         * included, inside one): the callback may allocate, call
+         * `safepoint()`, park for a collection, wait on another ProtoThread
+         * and run arbitrary embedder code.  For the duration of the walk the
+         * receiver is pinned in a root set of the space, so the tree stays
+         * reachable even when the caller holds it only in a C++ local -- for
+         * instance the result of getOwnAttributes() on a mutable object,
+         * whose state a concurrent write can supersede.  An exception thrown
+         * by `method` propagates and releases the pin.
+         */
         void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, proto_ulong, const ProtoObject*)) const;
+        /** @brief processElements without the keys; same guarantees. */
         void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const;
     };
 
