@@ -836,11 +836,6 @@ namespace proto {
                         if (currentCtx->returnValue) {
                             addRootObj(currentCtx->returnValue);
                         }
-                        // Push pending root
-                        if (currentCtx->pendingRoot) {
-                            rootList.push_back(currentCtx->pendingRoot);
-                        }
-                        
                         // Roots: the young generation (cells allocated in this
                         // context and not yet submitted).  They are not
                         // candidates of this cycle, because they are not in the

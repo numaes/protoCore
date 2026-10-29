@@ -109,8 +109,7 @@ namespace proto
         returnValue(PROTO_NONE),
         currentFileName(nullptr),
         currentLineNumber(0),
-        freeCells(nullptr),
-        pendingRoot(nullptr)
+        freeCells(nullptr)
     {
         // Step 1: Inherit essential services from the parent context.
         // This must be done first so that this context can allocate objects.
@@ -298,8 +297,7 @@ namespace proto
           lastAllocatedCell(nullptr),
           allocatedCellsCount(0),
           freeCells(nullptr),
-          mutableValueCache_(nullptr),
-          pendingRoot(nullptr)
+          mutableValueCache_(nullptr)
     {
     }
 
@@ -765,47 +763,6 @@ namespace proto
         return (new(this) ProtoListSmallImplementation(this, 0, nullptr))->asProtoList(this);
     }
 
-    namespace {
-        /**
-         * @brief RAII anchor for a running intermediate in
-         *        `ProtoContext::pendingRoot`.
-         *
-         * `pendingRoot` is collected as a GC root by the stop-the-world root
-         * scan (ProtoSpace's scanContexts), so a value parked there — and
-         * everything reachable from it — stays reachable while the thread
-         * runs outside any critical section.  Same mechanism, and the same
-         * save/restore discipline, as the anchor
-         * `ProtoObject::processOwnAttributes` uses to run its callback
-         * outside a critical section (core/ProtoObject.cpp).
-         *
-         * `reseat` moves the anchor to the next intermediate.  It must be
-         * called before the next allocation, so that no allocation ever runs
-         * with the anchor pointing at a superseded intermediate.
-         *
-         * The slot holds one value, so a nested anchor displaces its
-         * caller's for as long as it is open — exactly as the
-         * processOwnAttributes anchor does.  That is why the previous value
-         * is saved and restored here instead of simply cleared.
-         */
-        class PendingRootAnchor {
-        public:
-            explicit PendingRootAnchor(ProtoContext* context)
-                : context_(context), saved_(context ? context->pendingRoot : nullptr) {}
-            ~PendingRootAnchor() { if (context_) context_->pendingRoot = saved_; }
-
-            void reseat(const ProtoObject* obj) {
-                if (!context_) return;
-                context_->pendingRoot = const_cast<Cell*>(ProtoObject::asCellPointer(obj));
-            }
-
-            PendingRootAnchor(const PendingRootAnchor&) = delete;
-            PendingRootAnchor& operator=(const PendingRootAnchor&) = delete;
-        private:
-            ProtoContext* context_;
-            Cell* saved_;
-        };
-    }
-
     const ProtoList* ProtoContext::newList(unsigned n, const ProtoObject* const* items)
     {
         if (n <= ProtoListSmallImplementation::MAX_INLINE) {
@@ -819,48 +776,44 @@ namespace proto
         // O(n) construction — the collector cannot start its pause until the
         // last element is in, so phase P1 grows with the length of the list
         // being built, which is exactly the cost no collection is allowed to
-        // carry.  What the section bought was reachability: the running
-        // intermediate is a fresh tree that no caller holds yet, and between
-        // two allocations it lived only in a C++ local, invisible to the root
-        // scan.
+        // carry.
         //
-        // The anchor below buys the same reachability without suppressing
-        // anything.  Every intermediate is parked in `pendingRoot`, which the
-        // stop-the-world root scan reads (ProtoSpace's scanContexts), before
-        // the allocation that could park this thread; a collection that lands
-        // mid-build therefore traces the spine the loop is standing on from a
-        // real root, and appendLast's own short critical section still covers
-        // the path copy it performs internally.  The previous occupant of the
-        // slot is saved and restored, so a nested or re-entrant use cannot
-        // lose a caller's anchor.
+        // No anchor either: the running intermediate is already rooted.
+        // Every cell the build allocates — the empty AVL list and every path
+        // copy appendLast makes — is allocated through `this`, so it is on
+        // this context's young generation (addCell2Context), which the
+        // stop-the-world root scan records as a root and whose outgoing
+        // references the mark traces (ProtoSpace.cpp, scanContexts).  A young
+        // chain stops being a root only when it is handed to dirtySegments,
+        // and that happens in exactly two places: ProtoContext::safepoint()
+        // and ~ProtoContext.  Nothing this loop runs reaches either one:
+        // appendLast and allocCell never submit (allocCell only parks, see
+        // the PROTOCORE_GC_REINCLUDE_SURVIVORS note there; the heap-ceiling
+        // wait appendLast's critical section may take at depth 0 only parks
+        // too), neither creates or destroys a context, and
+        // parkForStopTheWorld parks without submitting (its own comment says
+        // why).  The same reasoning covers
+        // newStringFromUTF8 above and the ProtoLinkedList builders.
         //
         // What the section also contributed is the heap-ceiling backpressure
         // its constructor takes at depth 0; that is kept, at the same point in
         // the control flow: before the first allocation, with nothing
-        // half-built.  (See newStringFromUTF8 above for the same reasoning on
-        // the string builder.)
+        // half-built.
         this->heapLimitCheckpoint();
 
-        PendingRootAnchor anchor(this);
         const ProtoList* result =
             (new(this) ProtoListImplementation(this, PROTO_NONE, true, nullptr, nullptr))
                 ->asProtoList(this);
-        anchor.reseat(reinterpret_cast<const ProtoObject*>(result));
         for (unsigned i = 0; i < n; ++i) {
             result = result->appendLast(this, items[i]);
-            // Re-seated before the next iteration allocates anything: no
-            // allocation, and therefore no stop-the-world poll, runs between
-            // appendLast returning and the anchor naming its result.
-            anchor.reseat(reinterpret_cast<const ProtoObject*>(result));
             // The only point in this loop where the thread is outside a
             // critical section: appendLast takes one of its own for the path
             // copy it performs, so allocCell's every-64-allocations poll is
             // always suppressed while it runs, and the loop would otherwise
-            // offer the collector no chance to stop this thread at all.  Here
-            // the depth is 0, the anchor names the whole result, and the young
-            // chain still carries the elements not yet appended, so a
-            // collection that starts now traces everything this build needs.
-            // Fast path is one relaxed atomic load.
+            // offer the collector no chance to stop this thread at all.  It
+            // parks; it must never call safepoint(), whose submission of the
+            // young generation would leave the intermediate rooted by nothing
+            // but this C++ local.  Fast path is one relaxed atomic load.
             parkForStopTheWorld(this);
         }
         return result;

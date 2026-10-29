@@ -1255,12 +1255,9 @@ namespace proto {
                 static_cast<uint8_t>(utf8.size())));
         }
 
-        // GC critical section: fromUTF8Bytes builds an AVL of
-        // StringInternalNode + StringLeafNode cells; pendingStr is
-        // reachable only via this C++ local until the pendingRoot
-        // assignment.  Without the guard a sweep landing between the
-        // build and the pendingRoot assignment would orphan the
-        // pendingStr subtree.
+        // GC critical section: buildAVL builds an AVL of
+        // StringInternalNode + StringLeafNode cells that are reachable
+        // only through C++ locals until the string handle is returned.
         ProtoContext::CriticalSection cs(context);
         const ProtoObject* root = buildAVL(
             context,

@@ -19,24 +19,6 @@ namespace proto
         using Node = ProtoLinkedListNode;
         constexpr unsigned SLOTS = Node::SLOTS;
 
-        // Saves the context's pendingRoot, names the chain under
-        // construction there, and restores the previous value on exit
-        // (the same anchor as ProtoContext::newList(n, items)).
-        class PendingRootAnchor {
-        public:
-            explicit PendingRootAnchor(ProtoContext* context)
-                : context_(context), saved_(context->pendingRoot) {}
-            ~PendingRootAnchor() { context_->pendingRoot = saved_; }
-
-            void reseat(const Node* node) { context_->pendingRoot = const_cast<Node*>(node); }
-
-            PendingRootAnchor(const PendingRootAnchor&) = delete;
-            PendingRootAnchor& operator=(const PendingRootAnchor&) = delete;
-        private:
-            ProtoContext* context_;
-            Cell* saved_;
-        };
-
         inline const Node* nodeOf(const ProtoLinkedList* list) {
             return toImpl<const Node>(list);
         }
@@ -80,13 +62,15 @@ namespace proto
             if (count == head) {
                 return new(context) Node(context, head, values, node);
             }
-            // A long build stays open to stop-the-world: the chain built so
-            // far is named by pendingRoot, which the root scan reads, before
-            // each point where the thread may park.
-            PendingRootAnchor anchor(context);
+            // A long build stays open to stop-the-world.  The chain built so
+            // far needs no anchor: every cell of it was allocated through
+            // `context`, so it is on that context's young generation, which
+            // the stop-the-world root scan records as a root, and nothing
+            // here submits that generation (only ProtoContext::safepoint()
+            // and ~ProtoContext do; parkForStopTheWorld parks without
+            // submitting).  See ProtoContext::newList(n, items).
             for (proto_ulong end = count; end > head; end -= SLOTS) {
                 node = new(context) Node(context, SLOTS, values + (end - SLOTS), node);
-                anchor.reseat(node);
                 parkForStopTheWorld(context);
             }
             return new(context) Node(context, head, values, node);

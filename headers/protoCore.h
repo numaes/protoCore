@@ -577,10 +577,15 @@ namespace proto
          * `ProtoContext::allocatedCellsCount` is unchanged by it — and runs
          * `method` OUTSIDE any GC critical section, so the callback may
          * allocate, call `safepoint()`, park for a collection and run
-         * arbitrary embedder code.  For the duration of the walk the
-         * snapshot is anchored in `ProtoContext::pendingRoot` (saved and
-         * restored around the call), which is what keeps the attribute tree
-         * reachable while the callback runs.
+         * arbitrary embedder code.  What keeps the attribute tree
+         * reachable while the callback runs is the caller's own root for
+         * the receiver plus, for a MUTABLE receiver, a pin of the resolved
+         * snapshot in a root set of the space for the duration of the walk:
+         * a mutable object's superseded state is not reachable from its
+         * handle (states are not roots, docs/GLOBAL_MUTABLE_TABLE.md), so a
+         * write from the callback or from another thread followed by a
+         * collection would otherwise free the tree being walked.  The pin
+         * is a C++-side root-set entry, not a Cell.
          *
          * Non-object receivers (integers, strings, ...) have no own
          * attributes: the callback is simply never invoked.
@@ -2567,7 +2572,6 @@ namespace proto
         // nullptr when the thread has no extension yet (e.g. early
         // bootstrap, off-thread alloc with NULL context).
         MutableValueCacheEntry* mutableValueCache_;
-        Cell* pendingRoot;
         std::atomic_flag lock = ATOMIC_FLAG_INIT;
 
         /**

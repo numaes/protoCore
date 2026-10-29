@@ -2,6 +2,67 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased]
+
+### Removed -- `ProtoContext::pendingRoot`
+
+- **`ProtoContext::pendingRoot` is gone, and with it the three
+  `PendingRootAnchor` guards** (`ProtoContext::newList(n, items)`, the
+  `ProtoLinkedList` builders, `ProtoObject::processOwnAttributes`) and the
+  slot's line in the stop-the-world root scan. It was a single `Cell*` outside
+  protoCore's rooting design (automatic locals, closure locals, the return
+  value, each context's young generation, root sets, the mutables table,
+  prototypes), and it had a defect of its own: one slot per context, so a
+  nested anchor displaced the outer one for its duration. `newList(n)` called
+  from a `processOwnAttributes` callback on the same context unrooted the
+  walked mutable state for the length of the build; a collection in that
+  window freed the tree under the walk
+  (`AttributeWalkRooting.NewListInsideTheCallbackKeepsTheWalkedState` fails
+  on 3.3.1).
+- **`newList(n, items)` and the `ProtoLinkedList` builders** need no anchor:
+  every intermediate is allocated through the building context, so it is on
+  that context's young generation, which the root scan records as a root until
+  the generation is submitted, and only `ProtoContext::safepoint()` and
+  `~ProtoContext` submit it. The builders park with `parkForStopTheWorld`,
+  which does not submit, and no path they run creates or destroys a context or
+  calls `safepoint()`. Unchanged: no critical section spans the build, the
+  builders still park for stop-the-world, and the heap-ceiling checkpoint
+  still runs before the first allocation.
+- **`processOwnAttributes`** pins the resolved state of a MUTABLE receiver in
+  the space's own root set (`ProtoSpaceImplementation::roots`, the set that
+  already holds the `ProtoLinkedList` prototype) for the duration of the walk,
+  as `ProtoException` pins a value in flight. A superseded state is reachable
+  from nothing -- states are reached only through their handle, as the entry
+  of the pause's table snapshot -- so the pin is what keeps the tree alive
+  when the callback lets a collection run. It allocates no Cell (the walk
+  still allocates nothing), nests, and is released on every exit path. An
+  immutable receiver is not pinned: its tree hangs off the receiver, which
+  the caller keeps reachable. Cost, mutable receivers only: the root set's
+  mutex on entry and on exit, measured at about 75 cycles (~226 instructions)
+  per walk -- 38 -> 112 cycles for a one-attribute walk, +7 % cycles for a
+  64-attribute walk (`perf stat -r 3`, 3 interleaved rounds, a fresh library
+  copy per round). Immutable receivers pay nothing measurable beyond the
+  layout shift below.
+- **Measured, not claimed.** `newList(n, items)` executes 0.4-0.5 % fewer
+  instructions without the anchor (n = 1,000 and 100,000), yet ran 2-3 % more
+  cycles in the same runs; the immutable walk, whose code did not change, moved
+  by +3.5 % cycles at +0.2 % instructions. That pattern points at code layout
+  rather than at the change, but no A/A or dead-padding control was run to
+  prove it.
+- **ABI.** Removing a public field changes the layout of `ProtoContext`
+  (`lock`, `criticalSectionDepth` and every later field move), and
+  `ProtoContext::CriticalSection` is inline in the header: every embedder
+  must be rebuilt against this version, and the release that carries it must
+  bump SOVERSION. No runtime of the ecosystem referenced `pendingRoot`. The
+  public layout of `ProtoSpace` is unchanged.
+- **Tests.** `test/AttributeWalkRootingTests.cpp` (superseded state, nested
+  `newList` in the callback, a concurrent writer thread with an allocating
+  callback) fail when the pin is removed; `BulkListBuild.YoungGenerationRootsTheBuild`
+  and `LinkedList.YoungGenerationRootsALongBuild` fail when a builder submits
+  its young generation mid-build (calls `safepoint()` instead of parking).
+  `BulkListBuild.PendingRootKeepsASubmittedValueReachable` is removed with the
+  mechanism it tested.
+
 ## [3.3.1] - 2026-10-26
 
 Released 2026-10-26. A patch release that makes unmanaged regions and

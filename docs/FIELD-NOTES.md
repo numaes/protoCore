@@ -591,14 +591,24 @@ ctest -R '^BulkListBuild\.LargeBuildDoesNotBlockStopTheWorld$' -V < /dev/null
 Its bound is a quarter of one measured build, so it does not depend on the speed
 or the load of the machine.
 
-**Fix.** protoCore `ab0d9501`. Every intermediate is anchored in
-`ProtoContext::pendingRoot`, which the stop-the-world root scan reads, by an RAII
-guard that saves and restores the slot's previous occupant. `pendingRoot` rather
-than `automaticLocals` because `newList` receives the *caller's* context, so the
-anchor must not disturb the caller's frame. The loop then parks explicitly every
-16 elements — and parks rather than calling `safepoint()`, because `safepoint()`
+**Fix.** protoCore `ab0d9501`. Every intermediate was anchored in
+`ProtoContext::pendingRoot`, which the stop-the-world root scan read, by an RAII
+guard that saved and restored the slot's previous occupant. The loop then parks
+explicitly — and parks rather than calling `safepoint()`, because `safepoint()`
 would also submit the young generation, and the elements not yet appended are
 reachable only from the caller's array and that chain.
+
+**Later (branch `refactor/remove-pending-root`, after 3.3.1).** The anchor was
+redundant and `pendingRoot` was removed. Every intermediate is allocated through
+the building context, so it is on that context's young generation, which the
+root scan records as a root until the generation is submitted — and the builder
+never submits it (only `safepoint()` and `~ProtoContext` do; the parking above
+does not). The same parking discipline that made the anchor unnecessary is what
+keeps the build safe. The single slot also had a defect of its own: a nested
+anchor displaced the outer one, so `newList(n)` called from a
+`processOwnAttributes` callback unrooted the walked state for the length of the
+build (`AttributeWalkRooting.NewListInsideTheCallbackKeepsTheWalkedState`
+fails on 3.3.1).
 
 **A methodological detail worth more than the fix.** An earlier version of the
 pause test measured *cycle completion* instead of the interval over which

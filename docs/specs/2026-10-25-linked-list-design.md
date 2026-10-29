@@ -363,7 +363,9 @@ All eight recommendations were approved by the maintainer on 2026-10-25.
   `reverse`) build from the end and anchor the chain under construction in
   `ProtoContext::pendingRoot`, parking for stop-the-world after each cell,
   as `ProtoContext::newList(n, items)` does. No critical section spans the
-  build.
+  build. (Superseded after 3.3.1: `pendingRoot` was removed; the chain under
+  construction is rooted by the building context's young generation, which
+  the builder never submits. See CHANGELOG, Unreleased.)
 - **`isEqual`** stops at the first shared cell: equal sizes give equal cell
   boundaries, so a shared suffix is detected by pointer.
 - **Verified for no regression** (section 9): the layout of `ProtoSpace`
