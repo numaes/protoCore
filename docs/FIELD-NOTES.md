@@ -621,6 +621,19 @@ unfixed for as long as it took to notice.
 reachable, and that claim has to be checked against the file it is written in
 before it is checked against anything else.
 
+**Later still: the replacement serialised every walker.** Removing the
+critical sections of the callback walks (`processOwnAttributes`, then
+`ProtoSparseList::processElements`) needed a root for what the walk stands on,
+and the fix pinned it in the space's own root set -- correct, measured
+single-threaded, and merged. Measured with N ProtoThreads walking at once, the
+set's one mutex, taken twice per walk, turned 30 M walks/s on one thread into
+7.9 M on two and 3.7 M on eight: adding threads made the total *smaller*. The
+pins now go to one of 16 root sets chosen per thread (CHANGELOG, Unreleased),
+and the same walk reaches 128 M walks/s on six threads and 117 M on eight. A
+correctness fix that introduces a lock shared by every thread is a scalability
+change too, and a single-thread benchmark cannot see it; the contention curve
+belongs in the same pull request as the fix.
+
 ---
 
 # 6. Bulk list building allocates nineteen cells per element to leave one

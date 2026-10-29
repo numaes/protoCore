@@ -33,6 +33,141 @@ All notable changes to protoCore are documented in this file.
   destructor (its own cycle purged them), now they stay until a live space's
   cycle purges them.
 
+### Changed -- walk pins are sharded by thread: concurrent walks no longer serialise
+
+- **The walk pin serialised every walking thread.** `WalkPin` -- the pin of a
+  mutable receiver's state in `ProtoObject::processOwnAttributes` (since the
+  removal of `pendingRoot` below) and of the receiver of
+  `ProtoSparseList::processElements` / `processValues` (entry below) -- pinned
+  in one root set of the space, behind one mutex taken twice per walk. N
+  ProtoThreads walking at once queued on that mutex and bounced its line: total
+  throughput fell *below* the single-thread figure from two threads on.
+- **The space now owns 16 root sets for walk pins**
+  (`ProtoSpaceImplementation::walkPins`, created with `createRootSet` beside the
+  space's own), and each OS thread pins in one of them for its whole life,
+  assigned round-robin at its first walk (a constant-initialised thread-local
+  index; one relaxed atomic increment per thread, ever). Same mechanism, same
+  lifetime and nesting rules: the collector already visits every root set of
+  the space, so no line is added to the stop-the-world root scan -- it visits
+  16 more, normally empty, sets. Up to 16 concurrently walking threads never
+  share a lock. **Beyond 16 walking threads, threads share shards** (thread k
+  and k + 16): correctness is unaffected, contention returns only between
+  threads that share a shard and only while both are inside a walk. Not
+  measured beyond 8 threads (the machine has 6 cores, 12 logical).
+- **Measured** (`performance/walk_pin_benchmark threads <case> 2 1,2,4,6,8`, N
+  ProtoThreads each walking its own receiver for 2 s, median of three rounds
+  interleaved with master 6ec3f7bf, every point self-verified; total walks per
+  second, millions):
+
+  | case | | 1 | 2 | 4 | 6 | 8 threads |
+  |---|---|---:|---:|---:|---:|---:|
+  | processOwnAttributes, mutable, 1 attribute | master | 30.9 | 7.9 | 9.3 | 5.1 | 3.7 |
+  | | this change | 25.0 | 54.5 | 97.8 | 127.5 | 116.7 |
+  | processOwnAttributes, mutable, 16 attributes | master | 12.3 | 3.4 | 4.1 | 2.8 | 2.2 |
+  | | this change | 11.5 | 22.7 | 37.9 | 38.0 | 57.4 |
+  | ProtoSparseList::processElements, 16 entries | master | 1.4 | 2.9 | 4.3 | 4.0 | 2.9 |
+  | | this change | 12.1 | 23.2 | 40.0 | 56.7 | 58.3 |
+  | processOwnAttributes, immutable, 1 (no pin; control) | master | 113.7 | 216.3 | 364.2 | 549.0 | 550.4 |
+  | | this change | 115.1 | 232.3 | 425.7 | 550.7 | 548.8 |
+
+  On master the mutable rows collapse because of the single-set pin that came
+  with the removal of `pendingRoot` (entry below); the sparse-list row is the
+  old walk's critical section and iterator chain.
+- **Single-thread cost** (`walk_pin_benchmark single`, `perf stat -r 3`, three
+  interleaved rounds, a fresh library copy per run; A/A control = this change
+  rebuilt with a dead padding function, within 1.5 % of it in every case;
+  cycles per walk):
+
+  | case | master | single pin set | this change | this change + padding |
+  |---|---:|---:|---:|---:|
+  | processOwnAttributes, mutable, 1 | 101.1 | 102.5 | 110.6 | 109.9 |
+  | processOwnAttributes, mutable, 16 | 268.5 | 250.1 | 272.4 | 268.6 |
+  | sparse list, 3 (small form) | 67.5 | 136.2 | 140.4 | 141.2 |
+  | sparse list, 16 | 2,420.6 | 257.0 | 265.0 | 261.3 |
+  | processOwnAttributes, immutable, 1 (no pin) | 28.3 | 25.5 | 25.1 | 25.5 |
+
+  The shard lookup is +9 instructions per pinned walk. Against the single pin
+  set the 16-attribute mutable walk pays +22 cycles for those 9 instructions;
+  hardware counters put the difference in instruction fetch (`ic_fetch_stall`
+  +19 cycles per walk, frontend stalls +15), with instruction-cache, branch and
+  data-cache misses unchanged -- the layout of `processOwnAttributes`'s loop
+  around the larger inlined pin, not the lock or memory. The same walk measures
+  268.5 cycles on master and 250.1 with the single pin set at the same
+  instruction count (837 / 839), so layout alone moves it by that much. A
+  variant with the pin out of line was measured and rejected: +21 instructions
+  per walk, and the unpinned immutable walk paid the two calls too
+  (25 -> 37 cycles).
+- **Tests.** `SparseListWalk.ConcurrentWalkersArePinnedInTheirOwnShards`: 20
+  ProtoThreads (more than the 16 shards) each walk a list only their pin keeps
+  alive, all held inside their callbacks while the main thread runs
+  collections; the pins are spread over every shard with at most two per
+  shard, no probe is freed during the walks, all are freed after them, and
+  every pin is released. With every thread forced onto one shard the
+  distribution assertions fail; with the pin removed the probes are freed
+  mid-walk.
+
+### Changed -- `ProtoSparseList::processElements` holds no critical section across its callback
+
+- **The AVL form ran the whole walk, every callback included, inside one GC
+  critical section** (`core/ProtoSparseList.cpp`, 3.3.1 lines 412-419): it
+  walked an iterator chain of Cells allocated on the caller's context and held
+  only in a C++ local, and the critical section was what kept the chain alive.
+  A thread inside a critical section never parks, so no stop-the-world could
+  begin until the walk ended: a callback that waited for a collection, or for
+  another ProtoThread that needed one, waited for the whole walk or forever
+  (rule 12 of docs/EMBEDDER-CONFORMANCE.md, reached through protoCore's own
+  API), and a callback that allocated under a hard heap limit could not wait
+  for headroom, so the heap overshot the ceiling by one batch per refill.
+- **The walk now allocates nothing and holds no critical section**: an
+  in-order walk of the tree (`sparse_avl::inorder`, as `ProtoMap` already
+  does) or of the small form's inline pairs. The callback may allocate, call
+  `safepoint()`, park, wait on another ProtoThread and run arbitrary code.
+- **The receiver is pinned for the duration of the walk**, with the root-set
+  pin `processOwnAttributes` uses (`WalkPin`, moved to
+  `headers/proto_internal.h`; no new root mechanism and no new line in the
+  root scan). The critical section used to keep the receiver alive
+  implicitly -- no collection could run -- and runtimes rely on that: the tree
+  `getOwnAttributes()` answers for a MUTABLE object is reachable, once a write
+  supersedes the state, from nothing but the caller's C++ local (protoPython
+  and protoJS walk such trees). The small form held no critical section even
+  before, so its receiver was unprotected; it is pinned too. Cost: one root-set
+  mutex pair per walk of a non-empty list, in the walking thread's own root set
+  (see the next entry).
+- **`ProtoSparseList::processValues`** was declared in `protoCore.h` and never
+  defined (a call failed to link). It is defined now, with the same
+  guarantees. Additive symbol.
+- **protoCore's own walks whose callback neither allocates nor parks**
+  (copying keyword pairs out of a dict in `ProtoObject::call` and
+  `ProtoSparseListKeywordArguments`, counting a dead space's table entries)
+  use a new internal walker, `walkSparseListNoPark`, that pins nothing and
+  allocates nothing; before, a keyword dict of more than three entries
+  allocated an iterator chain per call.
+- **Measured** (`performance/walk_pin_benchmark single`, `perf stat -r 3`,
+  three interleaved rounds against master 43fae387, a fresh library copy per
+  run; cycles per walk, whole process divided by walks):
+
+  | list            | 43fae387 | this change | |
+  |---|---:|---:|---|
+  | 3 entries (small form) | 67 | 138 | +70: the pin; the small form allocated nothing before either |
+  | 16 entries      | 2,420 | 262 | 9.2x fewer |
+  | 64 entries      | 9,560 | 706 | 13.5x fewer |
+  | 1,000 entries   | 151,000 | 13,600 | 11x fewer |
+
+  The AVL gain is the iterator chain no longer allocated (one Cell per node
+  per walk, plus its sweep, which this single-thread figure does not even
+  include). The small form pays the root-set mutex pair and nothing else
+  (+256 instructions per walk). `processOwnAttributes`, whose code did not
+  change, measured the same on both (mutable 16 attributes 261 / 257,
+  immutable 195 / 193).
+- **Tests.** `test/SparseListWalkTests.cpp`. Against master 43fae387 the
+  critical-section, waiting-callback, heap-ceiling, superseded-receiver and
+  pin-nesting tests fail (the waiting callback times out after its bounded
+  8 s wait; the heap peaked at 4.1 M cells against a 662 k ceiling), and the
+  small-form garbage-receiver test fails there too (all three probes freed
+  mid-walk: the small form was never protected). With the pin removed from
+  this change, all four receiver tests fail (the walk reads a freed tree:
+  wrong pairs, short walks).
+
 ### Removed -- `ProtoContext::pendingRoot`
 
 - **`ProtoContext::pendingRoot` is gone, and with it the three
