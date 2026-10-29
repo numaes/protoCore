@@ -585,7 +585,16 @@ namespace proto
          * handle (states are not roots, docs/GLOBAL_MUTABLE_TABLE.md), so a
          * write from the callback or from another thread followed by a
          * collection would otherwise free the tree being walked.  The pin
-         * is a C++-side root-set entry, not a Cell.
+         * is a C++-side root-set entry, not a Cell, held in a root set of
+         * the calling thread's own (see "Concurrent walks" below).
+         *
+         * Concurrent walks: any number of threads may walk, the same
+         * receiver or different ones, at the same time.  The space keeps
+         * 16 root sets for walk pins and gives each OS thread one of them
+         * for its whole life, round-robin at its first walk, so up to 16
+         * concurrently walking threads never contend for a lock; beyond 16,
+         * threads share a set two (or more) to one, which costs contention,
+         * never correctness.  An immutable receiver is not pinned at all.
          *
          * Non-object receivers (integers, strings, ...) have no own
          * attributes: the callback is simply never invoked.
@@ -1471,7 +1480,11 @@ namespace proto
          * reachable even when the caller holds it only in a C++ local -- for
          * instance the result of getOwnAttributes() on a mutable object,
          * whose state a concurrent write can supersede.  An exception thrown
-         * by `method` propagates and releases the pin.
+         * by `method` propagates and releases the pin.  The pin lives in the
+         * calling thread's own walk-pin root set, so concurrent walks on
+         * different threads do not contend (as for
+         * ProtoObject::processOwnAttributes: 16 sets, shared beyond 16
+         * walking threads).  An empty list is not pinned.
          */
         void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, proto_ulong, const ProtoObject*)) const;
         /** @brief processElements without the keys; same guarantees. */

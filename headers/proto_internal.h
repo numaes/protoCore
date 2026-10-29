@@ -2695,9 +2695,9 @@ namespace proto {
      * fixed: reached through ProtoSpace::impl, so that new state never moves
      * a public field (ProtoLinkedList spec, decision D7).  The objects it
      * holds are pinned in `roots`, a root set the space destroys with the
-     * others; the collector's own root scan is unchanged.  `roots` also
-     * holds protoCore's own transient pins (WalkPin below): the mutable
-     * state a ProtoObject::processOwnAttributes walk is standing on, and the
+     * others; the collector's own root scan is unchanged.  `walkPins` hold
+     * protoCore's own transient pins (WalkPin below): the mutable state a
+     * ProtoObject::processOwnAttributes walk is standing on, and the
      * receiver of a ProtoSparseList::processElements / processValues walk,
      * for the duration of that walk.
      */
@@ -2706,13 +2706,49 @@ namespace proto {
         ProtoRootSet* roots = nullptr;
         ProtoObject* linkedListPrototype = nullptr;
         unsigned long long linkedListPrototypeHandle = 0;
+
+        /**
+         * The root sets WalkPin pins in, one per shard.  Each is an ordinary
+         * root set of the space (createRootSet), destroyed with the others:
+         * the collector already scans every root set of the space, so the
+         * shards add no line to the stop-the-world root scan, only up to
+         * kWalkPinShards more (normally empty) sets to visit.
+         *
+         * Why shards: a root set is guarded by one mutex, taken by `add` and
+         * by `remove`.  With a single set, every walk of every thread took
+         * that mutex twice, and N concurrent walkers serialised on it and
+         * bounced its cache line: total walks per second fell below the
+         * single-thread figure from two threads on (processOwnAttributes on
+         * a one-attribute mutable object: 30 M/s on one thread, 9 M/s on
+         * two, 4.8 M/s on eight).  Each OS thread is given one shard for its
+         * whole life, round-robin at its first walk, so up to kWalkPinShards
+         * concurrently walking threads never share a mutex.
+         *
+         * More than kWalkPinShards walking threads: thread k and thread
+         * k + kWalkPinShards share a shard.  Correctness is unaffected (a
+         * root set is safe for any number of threads; every pin holds its
+         * own entry); only contention returns, between the threads that
+         * share a shard and only while both are inside a pin.  The
+         * assignment counts every thread that ever walked, so threads that
+         * exited still advance it: a long-lived process that creates and
+         * retires threads keeps distributing them evenly over the shards.
+         */
+        static constexpr unsigned kWalkPinShards = 16;
+        ProtoRootSet* walkPins[kWalkPinShards] = {};
+
+        /**
+         * The calling OS thread's shard index: assigned round-robin at the
+         * thread's first walk and kept for its life (core/ProtoSpace.cpp).
+         * The same index serves every space of the process.
+         */
+        static unsigned walkPinShard();
     };
 
     /**
-     * RAII pin of one object in the space's own root set
-     * (ProtoSpaceImplementation::roots) for the duration of a walk that hands
-     * control to a callback outside any critical section -- the same
-     * mechanism ProtoException uses for a value in flight
+     * RAII pin of one object in this thread's walk-pin root set
+     * (ProtoSpaceImplementation::walkPins) for the duration of a walk that
+     * hands control to a callback outside any critical section -- the same
+     * root-set mechanism ProtoException uses for a value in flight
      * (core/ProtoException.cpp).
      *
      * A walk that allocates no Cell cannot put what it stands on in the
@@ -2721,15 +2757,19 @@ namespace proto {
      * context and creates none), so protoCore has no slot of its own there.
      * A root-set entry is a C++-side root the collector already scans; it
      * nests (every walk holds its own entry) and it is released on every
-     * exit path, including an exception thrown by the callback.
+     * exit path, including an exception thrown by the callback.  The entry
+     * lives in the shard of the thread that created the pin and is removed
+     * from that same shard, whatever thread the destructor runs on.
      *
      * Non-cell values and a context without a space are not pinned.
+     * Inline on purpose: out of line, the two calls cost 21 more
+     * instructions per walk (measured), more than the sharding itself.
      */
     class WalkPin {
     public:
         WalkPin(ProtoContext* context, const ProtoObject* obj) {
             if (context && context->space && context->space->impl && ProtoObject::isCellPointer(obj)) {
-                roots_ = context->space->impl->roots;
+                roots_ = context->space->impl->walkPins[ProtoSpaceImplementation::walkPinShard()];
                 handle_ = roots_->add(obj);
             }
         }

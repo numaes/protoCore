@@ -132,6 +132,27 @@ rule-2b failure ("no collection cycle could complete"), because its own main
 thread then waited in an unbracketed `std::thread::join` and itself held the
 quorum; the case's waits now run inside an `UnmanagedScope`.
 
+### Rule 12 and protoCore's own callback walks (Unreleased)
+
+Up to 3.3.1, `ProtoSparseList::processElements` ran its whole AVL walk -- every
+callback included -- inside a `CriticalSection`, so an embedder callback that
+waited on another ProtoThread, or allocated under a hard heap ceiling, broke
+rule 12 without containing a critical section of its own.  As of the next
+release no callback walk holds one: `ProtoObject::processOwnAttributes`,
+`ProtoSparseList::processElements` / `processValues`, `ProtoMap::processElements`
+/ `processValues` and `ProtoKeywordArguments::processElements` all run the
+callback at the caller's critical-section depth.  The callback may allocate,
+call `safepoint()`, park, and wait on other threads.
+
+What the walk stands on stays reachable **for the duration of the walk**:
+`processOwnAttributes` pins a mutable receiver's resolved state, and
+`ProtoSparseList::processElements` / `processValues` pin their receiver, in a
+root set of the space owned by the walking thread (one of 16; threads beyond
+the sixteenth share them, which costs contention, never correctness).  The pin
+ends with the walk.  A tree obtained from `getOwnAttributes()` on a mutable
+object and kept in a C++ local *after* the walk is rule 3's concern again: root
+it as any other value.
+
 ### Rule 13 — why the verdict is a declaration and not "no cycles"
 
 **What the collector does with a cycle among mutable objects** (since 3.1.0,
