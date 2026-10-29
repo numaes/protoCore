@@ -349,7 +349,7 @@ namespace proto
         struct PairFill {
             ProtoKeywordArgument* pairs;
             unsigned at;
-            static void add(ProtoContext*, void* self, proto_ulong key, const ProtoObject* value) {
+            static void add(void* self, proto_ulong key, const ProtoObject* value) {
                 auto* f = static_cast<PairFill*>(self);
                 f->pairs[f->at++] = {reinterpret_cast<const ProtoString*>(key), value};
             }
@@ -366,7 +366,7 @@ namespace proto
             slots = heap_.data();
         }
         PairFill fill{slots, 0};
-        if (n) dict->processElements(context, &fill, &PairFill::add);
+        if (n) walkSparseListNoPark(dict, &fill, &PairFill::add);
         pairs_ = slots;
         count_ = fill.at;
     }
@@ -395,28 +395,74 @@ namespace proto
         return impl ? reinterpret_cast<const ProtoSparseListIterator*>(impl->implAsObject(context)) : nullptr;
     }
 
-    void ProtoSparseList::processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, proto_ulong, const ProtoObject*)) const {
-        if (isSparseListSmall(this)) {
-            // Small fast path: walk the inline pairs in key-asc order
-            // without allocating an iterator chain.
-            const auto* small = toImpl<const ProtoSparseListSmallImplementation>(this);
-            proto_ulong n = small->implCount();
-            for (unsigned i = 0; i < n; ++i) {
-                proto_ulong k;
-                const ProtoObject* v;
-                if (small->implPairAt(i, &k, &v)) {
-                    method(context, self, k, v);
+    namespace {
+        // Visits every entry of `list` in ascending key order: the inline
+        // pairs of the small form, or an in-order walk of the AVL form.
+        // Allocates nothing, takes no critical section and never parks; what
+        // `fn` does in between is the caller's business.
+        template<class Fn>
+        void walkEntries(const ProtoSparseList* list, Fn&& fn) {
+            if (isSparseListSmall(list)) {
+                // Copy the used slots out and sort them once (implPairAt
+                // would rebuild and re-sort them for every index).
+                using Small = ProtoSparseListSmallImplementation;
+                const auto* small = toImpl<const Small>(list);
+                Small::KeyType ks[Small::MAX_INLINE];
+                const ProtoObject* vs[Small::MAX_INLINE];
+                unsigned n = 0;
+                for (unsigned j = 0; j < Small::MAX_INLINE; ++j) {
+                    if (sparse_avl::keyWord(small->keys[j]) != 0) {
+                        ks[n] = small->keys[j];
+                        vs[n] = small->values[j];
+                        ++n;
+                    }
                 }
+                sparse_avl::sortPairs<Small>(ks, vs, n);
+                for (unsigned i = 0; i < n; ++i) fn(ks[i], vs[i]);
+                return;
             }
-            return;
+            sparse_avl::inorder(toImpl<const ProtoSparseListImplementation>(list), fn);
         }
-        const auto* impl = toImpl<const ProtoSparseListImplementation>(this);
-        ProtoContext::CriticalSection cs(context);
-        const ProtoSparseListIteratorImplementation* it = impl->implGetIterator(context);
-        while (it && it->implHasNext()) {
-            method(context, self, it->implNextKey(), it->implNextValue());
-            it = it->implAdvance(context);
+
+        inline bool hasNoEntries(const ProtoSparseList* list) {
+            if (isSparseListSmall(list))
+                return toImpl<const ProtoSparseListSmallImplementation>(list)->implCount() == 0;
+            return toImpl<const ProtoSparseListImplementation>(list)->isEmpty;
         }
+    }
+
+    void walkSparseListNoPark(const ProtoSparseList* list, void* self,
+                              void (*fn)(void*, proto_ulong, const ProtoObject*)) {
+        if (!list || !fn) return;
+        walkEntries(list, [&](proto_ulong k, const ProtoObject* v) { fn(self, k, v); });
+    }
+
+    // The walk holds no GC critical section across `method`: the callback may
+    // allocate, call safepoint(), park for a collection, wait on another
+    // ProtoThread and run arbitrary embedder code.  Up to 3.3.1 the AVL form
+    // was walked with an iterator chain of Cells allocated on `context` and
+    // held only in a C++ local, which is why it ran the whole walk -- every
+    // callback included -- inside a critical section: no stop-the-world could
+    // begin until the walk ended, and a callback that waited for a collection
+    // (or for a thread that needed one) waited forever.
+    //
+    // The receiver is pinned for the duration of the walk.  The critical
+    // section used to keep it alive implicitly -- no collection could run --
+    // and embedders rely on that: the tree getOwnAttributes() answers for a
+    // MUTABLE object hangs off that object's current state, which a write
+    // from another thread can supersede, after which only the caller's C++
+    // local reaches it.  The pin keeps that guarantee without the critical
+    // section, for both forms.
+    void ProtoSparseList::processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, proto_ulong, const ProtoObject*)) const {
+        if (!this || !method || hasNoEntries(this)) return;
+        WalkPin pin(context, asObject(context));
+        walkEntries(this, [&](proto_ulong k, const ProtoObject* v) { method(context, self, k, v); });
+    }
+
+    void ProtoSparseList::processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const {
+        if (!this || !method || hasNoEntries(this)) return;
+        WalkPin pin(context, asObject(context));
+        walkEntries(this, [&](proto_ulong, const ProtoObject* v) { method(context, self, v); });
     }
 
     int ProtoSparseListIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoSparseListIteratorImplementation>(this)->implHasNext(); }

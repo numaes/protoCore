@@ -55,12 +55,16 @@ std::atomic<int> cyclesMax{0};
 }  // namespace
 
 proto_ulong countMutableEntriesOfSpace(ProtoContext* context, proto_ulong spaceId) {
+    (void) context;
     struct Count { proto_ulong id; proto_ulong n; } count{spaceId, 0};
     for (int s = 0; s < ProtoSpace::MUTABLE_ROOT_SHARDS; ++s) {
         ProtoSparseList* root = globalMutableShards[s].root.load(std::memory_order_acquire);
         if (!root) continue;
-        root->processElements(context, &count,
-            [](ProtoContext*, void* self, proto_ulong key, const ProtoObject*) {
+        // A shard root is reachable from the table only until the next CAS
+        // replaces it: the walk must not let a collection run, and it does
+        // not -- it allocates nothing and never parks.
+        walkSparseListNoPark(root, &count,
+            [](void* self, proto_ulong key, const ProtoObject*) {
                 auto* c = static_cast<Count*>(self);
                 if ((key >> kMutableRefSpaceShift) == c->id) ++c->n;
             });

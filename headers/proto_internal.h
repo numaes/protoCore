@@ -2696,9 +2696,10 @@ namespace proto {
      * a public field (ProtoLinkedList spec, decision D7).  The objects it
      * holds are pinned in `roots`, a root set the space destroys with the
      * others; the collector's own root scan is unchanged.  `roots` also
-     * holds protoCore's own transient pins: the mutable state a
-     * ProtoObject::processOwnAttributes walk is standing on, for the
-     * duration of that walk (core/ProtoObject.cpp, WalkPin).
+     * holds protoCore's own transient pins (WalkPin below): the mutable
+     * state a ProtoObject::processOwnAttributes walk is standing on, and the
+     * receiver of a ProtoSparseList::processElements / processValues walk,
+     * for the duration of that walk.
      */
     class ProtoSpaceImplementation {
     public:
@@ -2706,6 +2707,51 @@ namespace proto {
         ProtoObject* linkedListPrototype = nullptr;
         unsigned long long linkedListPrototypeHandle = 0;
     };
+
+    /**
+     * RAII pin of one object in the space's own root set
+     * (ProtoSpaceImplementation::roots) for the duration of a walk that hands
+     * control to a callback outside any critical section -- the same
+     * mechanism ProtoException uses for a value in flight
+     * (core/ProtoException.cpp).
+     *
+     * A walk that allocates no Cell cannot put what it stands on in the
+     * caller's young generation, and the caller's automatic locals belong to
+     * the activation that owns the context (a primitive runs in its caller's
+     * context and creates none), so protoCore has no slot of its own there.
+     * A root-set entry is a C++-side root the collector already scans; it
+     * nests (every walk holds its own entry) and it is released on every
+     * exit path, including an exception thrown by the callback.
+     *
+     * Non-cell values and a context without a space are not pinned.
+     */
+    class WalkPin {
+    public:
+        WalkPin(ProtoContext* context, const ProtoObject* obj) {
+            if (context && context->space && context->space->impl && ProtoObject::isCellPointer(obj)) {
+                roots_ = context->space->impl->roots;
+                handle_ = roots_->add(obj);
+            }
+        }
+        ~WalkPin() { if (roots_) roots_->remove(handle_); }
+        WalkPin(const WalkPin&) = delete;
+        WalkPin& operator=(const WalkPin&) = delete;
+    private:
+        ProtoRootSet* roots_ = nullptr;
+        ProtoRootSet::Handle handle_ = ProtoRootSet::kNullHandle;
+    };
+
+    /**
+     * Visits every entry of `list` in ascending key order, for protoCore's
+     * own walks whose callback neither allocates nor parks (copying keyword
+     * pairs out, counting keys).  Allocates nothing, takes no critical
+     * section and pins nothing, so it costs no root-set entry: the caller
+     * guarantees `list` stays reachable, which holds trivially when `fn`
+     * cannot let a collection run.  Embedder-facing walks go through
+     * ProtoSparseList::processElements, which pins its receiver.
+     */
+    void walkSparseListNoPark(const ProtoSparseList* list, void* self,
+                              void (*fn)(void*, proto_ulong, const ProtoObject*));
 
     class BigCell final {
         union {

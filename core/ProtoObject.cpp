@@ -822,12 +822,12 @@ namespace proto
         struct Fill {
             ProtoKeywordArgument* pairs;
             unsigned at;
-            static void add(ProtoContext*, void* self, proto_ulong key, const ProtoObject* value) {
+            static void add(void* self, proto_ulong key, const ProtoObject* value) {
                 auto* f = static_cast<Fill*>(self);
                 f->pairs[f->at++] = {reinterpret_cast<const ProtoString*>(key), value};
             }
         } fill{localPairs, 0};
-        if (kn) keywordParametersDict->processElements(context, &fill, &Fill::add);
+        if (kn) walkSparseListNoPark(keywordParametersDict, &fill, &Fill::add);
         const ProtoKeywordArguments keywords(localPairs, fill.at, keywordParametersDict);
         return dispatchCall(this, context, nextParent, method, self, &positional, &keywords);
     }
@@ -2675,49 +2675,30 @@ namespace proto
         return attributes ? attributes->asSparseList(context) : context->newSparseList();
     }
     
-    namespace {
-        /**
-         * RAII pin of a mutable object's resolved state in the space's own
-         * root set (ProtoSpaceImplementation::roots) for the duration of a
-         * walk -- the same mechanism ProtoException uses for a value in
-         * flight (core/ProtoException.cpp).
-         *
-         * Why a pin is needed at all: a state is reached by the collector
-         * only through its handle, as the entry the handle's ref names in
-         * the table snapshot taken at the pause (Marker::reportMutableState,
-         * docs/GLOBAL_MUTABLE_TABLE.md "States are not roots").  Once a
-         * write -- from the callback or from another thread -- replaces the
-         * state, the superseded one is reachable from nothing, and it is
-         * not young either unless this very context wrote it since its last
-         * submission.  A collection that the callback lets run (it may
-         * allocate and call safepoint()) would then free the tree the walk
-         * is standing on.
-         *
-         * Why this mechanism: the walk allocates no Cell, so it cannot put
-         * the state on the caller's young generation; the caller's
-         * automatic locals belong to the activation that owns the context
-         * (a primitive runs in the caller's context and creates none), so
-         * protoCore has no slot of its own there.  A root-set entry is a
-         * C++-side root the collector already scans, it nests (every walk
-         * holds its own entry), and it is released on every exit path,
-         * including an exception thrown by the callback.
-         */
-        class WalkPin {
-        public:
-            WalkPin(ProtoContext* context, const ProtoObject* state) {
-                if (context->space && context->space->impl && ProtoObject::isCellPointer(state)) {
-                    roots_ = context->space->impl->roots;
-                    handle_ = roots_->add(state);
-                }
-            }
-            ~WalkPin() { if (roots_) roots_->remove(handle_); }
-            WalkPin(const WalkPin&) = delete;
-            WalkPin& operator=(const WalkPin&) = delete;
-        private:
-            ProtoRootSet* roots_ = nullptr;
-            ProtoRootSet::Handle handle_ = ProtoRootSet::kNullHandle;
-        };
-    }
+    /**
+     * processOwnAttributes pins a mutable receiver's resolved state with
+     * WalkPin (headers/proto_internal.h) for the duration of the walk.
+     *
+     * Why a pin is needed at all: a state is reached by the collector
+     * only through its handle, as the entry the handle's ref names in
+     * the table snapshot taken at the pause (Marker::reportMutableState,
+     * docs/GLOBAL_MUTABLE_TABLE.md "States are not roots").  Once a
+     * write -- from the callback or from another thread -- replaces the
+     * state, the superseded one is reachable from nothing, and it is
+     * not young either unless this very context wrote it since its last
+     * submission.  A collection that the callback lets run (it may
+     * allocate and call safepoint()) would then free the tree the walk
+     * is standing on.
+     *
+     * Why this mechanism: the walk allocates no Cell, so it cannot put
+     * the state on the caller's young generation; the caller's
+     * automatic locals belong to the activation that owns the context
+     * (a primitive runs in the caller's context and creates none), so
+     * protoCore has no slot of its own there.  A root-set entry is a
+     * C++-side root the collector already scans, it nests (every walk
+     * holds its own entry), and it is released on every exit path,
+     * including an exception thrown by the callback.
+     */
 
     void ProtoObject::processOwnAttributes(
         ProtoContext* context, void* self,

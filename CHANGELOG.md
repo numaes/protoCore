@@ -33,6 +33,67 @@ All notable changes to protoCore are documented in this file.
   destructor (its own cycle purged them), now they stay until a live space's
   cycle purges them.
 
+### Changed -- `ProtoSparseList::processElements` holds no critical section across its callback
+
+- **The AVL form ran the whole walk, every callback included, inside one GC
+  critical section** (`core/ProtoSparseList.cpp`, 3.3.1 lines 412-419): it
+  walked an iterator chain of Cells allocated on the caller's context and held
+  only in a C++ local, and the critical section was what kept the chain alive.
+  A thread inside a critical section never parks, so no stop-the-world could
+  begin until the walk ended: a callback that waited for a collection, or for
+  another ProtoThread that needed one, waited for the whole walk or forever
+  (rule 12 of docs/EMBEDDER-CONFORMANCE.md, reached through protoCore's own
+  API), and a callback that allocated under a hard heap limit could not wait
+  for headroom, so the heap overshot the ceiling by one batch per refill.
+- **The walk now allocates nothing and holds no critical section**: an
+  in-order walk of the tree (`sparse_avl::inorder`, as `ProtoMap` already
+  does) or of the small form's inline pairs. The callback may allocate, call
+  `safepoint()`, park, wait on another ProtoThread and run arbitrary code.
+- **The receiver is pinned for the duration of the walk**, with the root-set
+  pin `processOwnAttributes` uses (`WalkPin`, moved to
+  `headers/proto_internal.h`; no new root mechanism and no new line in the
+  root scan). The critical section used to keep the receiver alive
+  implicitly -- no collection could run -- and runtimes rely on that: the tree
+  `getOwnAttributes()` answers for a MUTABLE object is reachable, once a write
+  supersedes the state, from nothing but the caller's C++ local (protoPython
+  and protoJS walk such trees). The small form held no critical section even
+  before, so its receiver was unprotected; it is pinned too. Cost: one root-set
+  mutex pair per walk of a non-empty list.
+- **`ProtoSparseList::processValues`** was declared in `protoCore.h` and never
+  defined (a call failed to link). It is defined now, with the same
+  guarantees. Additive symbol.
+- **protoCore's own walks whose callback neither allocates nor parks**
+  (copying keyword pairs out of a dict in `ProtoObject::call` and
+  `ProtoSparseListKeywordArguments`, counting a dead space's table entries)
+  use a new internal walker, `walkSparseListNoPark`, that pins nothing and
+  allocates nothing; before, a keyword dict of more than three entries
+  allocated an iterator chain per call.
+- **Measured** (`performance/walk_pin_benchmark single`, `perf stat -r 3`,
+  three interleaved rounds against master 43fae387, a fresh library copy per
+  run; cycles per walk, whole process divided by walks):
+
+  | list            | 43fae387 | this change | |
+  |---|---:|---:|---|
+  | 3 entries (small form) | 67 | 138 | +70: the pin; the small form allocated nothing before either |
+  | 16 entries      | 2,420 | 262 | 9.2x fewer |
+  | 64 entries      | 9,560 | 706 | 13.5x fewer |
+  | 1,000 entries   | 151,000 | 13,600 | 11x fewer |
+
+  The AVL gain is the iterator chain no longer allocated (one Cell per node
+  per walk, plus its sweep, which this single-thread figure does not even
+  include). The small form pays the root-set mutex pair and nothing else
+  (+256 instructions per walk). `processOwnAttributes`, whose code did not
+  change, measured the same on both (mutable 16 attributes 261 / 257,
+  immutable 195 / 193).
+- **Tests.** `test/SparseListWalkTests.cpp`. Against master 43fae387 the
+  critical-section, waiting-callback, heap-ceiling, superseded-receiver and
+  pin-nesting tests fail (the waiting callback times out after its bounded
+  8 s wait; the heap peaked at 4.1 M cells against a 662 k ceiling), and the
+  small-form garbage-receiver test fails there too (all three probes freed
+  mid-walk: the small form was never protected). With the pin removed from
+  this change, all four receiver tests fail (the walk reads a freed tree:
+  wrong pairs, short walks).
+
 ### Removed -- `ProtoContext::pendingRoot`
 
 - **`ProtoContext::pendingRoot` is gone, and with it the three
