@@ -33,6 +33,27 @@
 
 namespace proto {
 
+    namespace {
+        // Shard + 1 for this OS thread; 0 until its first walk.  Constant
+        // initialised, so reading it needs no guard; initial-exec where the
+        // compiler supports it, so reading it needs no __tls_get_addr call.
+#if defined(__GNUC__) || defined(__clang__)
+        __attribute__((tls_model("initial-exec")))
+#endif
+        thread_local unsigned tlsWalkPinShard = 0;
+        std::atomic<unsigned> nextWalkPinShard{0};
+    }
+
+    unsigned ProtoSpaceImplementation::walkPinShard() {
+        unsigned s = tlsWalkPinShard;
+        if (s == 0) {
+            s = nextWalkPinShard.fetch_add(1, std::memory_order_relaxed) % kWalkPinShards + 1;
+            tlsWalkPinShard = s;
+        }
+        return s - 1;
+    }
+
+
 #ifdef PROTOCORE_GC_INSTRUMENT
     namespace gcprof {
         std::atomic<std::uint64_t> mutatorParkNs{0};
@@ -1826,6 +1847,8 @@ namespace proto {
             extension->roots = this->createRootSet("protoCore-space-extension");
             extension->linkedListPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
             extension->linkedListPrototypeHandle = extension->roots->add(extension->linkedListPrototype);
+            for (auto*& shard : extension->walkPins)
+                shard = this->createRootSet("protoCore-walk-pins");
             this->impl = extension;
         }
         // Mutable so embedders (protoJS Object.prototype, protoPython

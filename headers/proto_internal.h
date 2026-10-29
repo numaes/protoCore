@@ -2691,9 +2691,9 @@ namespace proto {
      * fixed: reached through ProtoSpace::impl, so that new state never moves
      * a public field (ProtoLinkedList spec, decision D7).  The objects it
      * holds are pinned in `roots`, a root set the space destroys with the
-     * others; the collector's own root scan is unchanged.  `roots` also
-     * holds protoCore's own transient pins (WalkPin below): the mutable
-     * state a ProtoObject::processOwnAttributes walk is standing on, and the
+     * others; the collector's own root scan is unchanged.  `walkPins` hold
+     * protoCore's own transient pins (WalkPin below): the mutable state a
+     * ProtoObject::processOwnAttributes walk is standing on, and the
      * receiver of a ProtoSparseList::processElements / processValues walk,
      * for the duration of that walk.
      */
@@ -2702,12 +2702,28 @@ namespace proto {
         ProtoRootSet* roots = nullptr;
         ProtoObject* linkedListPrototype = nullptr;
         unsigned long long linkedListPrototypeHandle = 0;
+
+        /**
+         * The root sets WalkPin pins in, one per shard.  A single set behind
+         * one mutex serialised every walk of every thread (measured: total
+         * walks per second fell below the single-thread figure from two
+         * threads on).  Each thread uses one shard for its whole life, so
+         * up to kWalkPinShards concurrent walkers never share a mutex.  They
+         * are ordinary root sets of the space: the collector already scans
+         * every one of them, and nothing is added to its root scan.
+         */
+        static constexpr unsigned kWalkPinShards = 16;
+        ProtoRootSet* walkPins[kWalkPinShards] = {};
+
+        /** This OS thread's shard: assigned round-robin at first use. */
+        static unsigned walkPinShard();
     };
 
     /**
-     * RAII pin of one object in the space's own root set
-     * (ProtoSpaceImplementation::roots) for the duration of a walk that hands
-     * control to a callback outside any critical section -- the same
+     * RAII pin of one object in one of the space's walk-pin root sets
+     * (ProtoSpaceImplementation::walkPins, this thread's shard) for the
+     * duration of a walk that hands control to a callback outside any
+     * critical section -- the same
      * mechanism ProtoException uses for a value in flight
      * (core/ProtoException.cpp).
      *
@@ -2725,7 +2741,7 @@ namespace proto {
     public:
         WalkPin(ProtoContext* context, const ProtoObject* obj) {
             if (context && context->space && context->space->impl && ProtoObject::isCellPointer(obj)) {
-                roots_ = context->space->impl->roots;
+                roots_ = context->space->impl->walkPins[ProtoSpaceImplementation::walkPinShard()];
                 handle_ = roots_->add(obj);
             }
         }

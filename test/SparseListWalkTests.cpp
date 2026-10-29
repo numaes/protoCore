@@ -446,14 +446,22 @@ TEST(SparseListWalk, GarbageReceiverSurvivesCollectionsAvlForm) { runGarbageRece
 TEST(SparseListWalk, PinsNestAndAreReleasedOnException) {
     ProtoSpace space;
     ProtoContext ctx(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr, 1);
-    ProtoRootSet* roots = space.impl->roots;
+    struct AllPins {
+        const ProtoSpaceImplementation* impl;
+        proto_ulong size() const {
+            proto_ulong n = 0;
+            for (auto* shard : impl->walkPins) n += shard->size();
+            return n;
+        }
+    } allPins{space.impl};
+    AllPins* roots = &allPins;
     const proto_ulong base = roots->size();
     const ProtoString* idx = ProtoString::createSymbol(&ctx, "idx");
     const ProtoSparseList* outer = buildIndexedList(&ctx, idx, 50);
     const ProtoSparseList* inner = buildIndexedList(&ctx, idx, 2);
     ctx.getAutomaticLocals()[0] = outer->asObject(&ctx);
 
-    struct Nest { const ProtoSparseList* inner; ProtoRootSet* roots; proto_ulong maxPins; int innerCalls; } nest{inner, roots, 0, 0};
+    struct Nest { const ProtoSparseList* inner; AllPins* roots; proto_ulong maxPins; int innerCalls; } nest{inner, roots, 0, 0};
     outer->processElements(&ctx, &nest, [](ProtoContext* c, void* self, proto_ulong, const ProtoObject*) {
         auto* n = static_cast<Nest*>(self);
         n->inner->processValues(c, n, [](ProtoContext*, void* s, const ProtoObject*) {
