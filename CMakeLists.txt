@@ -79,6 +79,7 @@ add_library(protoCore SHARED
     core/ProtoHashedCollection.cpp
     core/ProtoString.cpp
     core/SymbolTable.cpp
+    core/NonInternedNames.cpp
     core/ProtoTuple.cpp
     core/Thread.cpp
     core/ThreadStack.cpp
@@ -148,7 +149,7 @@ target_include_directories(protoCore PUBLIC
 
 # Find and link the platform-native Threads library.
 find_package(Threads REQUIRED)
-target_link_libraries(protoCore PUBLIC Threads::Threads)
+target_link_libraries(protoCore PUBLIC Threads::Threads ${CMAKE_DL_LIBS})
 
 # Resolve intra-DSO calls directly instead of round-tripping through the
 # PLT/GOT.  Profile of nqueens showed every recursive ProtoContext teardown
@@ -281,6 +282,10 @@ message(STATUS "Configured benchmark: bulk_remove_benchmark")
 add_executable(mutable_release_benchmark performance/mutable_release_benchmark.cpp)
 target_link_libraries(mutable_release_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: mutable_release_benchmark")
+
+add_executable(symbol_intern_benchmark performance/symbol_intern_benchmark.cpp)
+target_link_libraries(symbol_intern_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: symbol_intern_benchmark")
 
 add_executable(walk_pin_benchmark performance/walk_pin_benchmark.cpp)
 target_link_libraries(walk_pin_benchmark PRIVATE protoCore)

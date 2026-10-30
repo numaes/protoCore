@@ -754,6 +754,12 @@ function-local static (`core/SymbolTable.cpp:40-43`), with
 `ProtoSpace::symbolTable` kept as a borrowed pointer so no layout and no call
 site moved. 64 shards, unchanged. Released as 2.2.0 (`9ff3564e`).
 
+*Later (October 2026):* those 64 shards were single chains that never grew, so
+interning slowed with every symbol (2,390 us per new symbol at a million) and
+filling the table was quadratic. The table is now a lock-free, write-once hash
+trie; a growable per-shard design behind locks was rejected first. See
+CHANGELOG, "the symbol table is a lock-free, write-once hash trie".
+
 **What was rejected, and why.** Keeping per-space tables and adding a global one
 they fall back to — *"Two tables means two possible canonical pointers for one
 name, which is the bug this phase closes, restated"*

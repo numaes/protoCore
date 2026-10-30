@@ -1212,7 +1212,8 @@ namespace proto {
 
 
     // ---- SymbolTable ----------------------------------------------------------
-    // 64-shard concurrent interning table for strings.
+    // The process-wide string interning table: a lock-free, write-once hash
+    // trie (core/SymbolTable.cpp).
     //
     // Every interned string (symbol) is PERENNIAL: its Cells are allocated with
     // a null ProtoContext, so they bypass every thread freelist and context
@@ -1220,26 +1221,52 @@ namespace proto {
     // therefore never analysed by the GC's mark/sweep and never participate in
     // root collection — there is nothing to protect and nothing to evict. A
     // name, once interned, keeps its canonical pointer forever, which is what
-    // makes pointer-identity symbol comparison sound. See SymbolTable.cpp.
+    // makes pointer-identity symbol comparison sound.
+    //
+    // Because nothing is ever removed, the index needs no lock and no
+    // reclamation scheme: every published node, leaf and chain entry is
+    // immutable, and a slot changes from empty to a leaf, or from a leaf to a
+    // child node, once.  (The one exception, a full 64-bit hash collision,
+    // turns its slot into a write-once chain that grows by prepending.)
+    // Nothing a reader has seen ever changes, so a lookup is a few acquire
+    // loads and an in-place comparison: no lock, no allocation, no store.
+#define PROTO_SYMBOL_TABLE_TRIE 1
     class SymbolTable {
     public:
-        static constexpr int SHARD_COUNT = 64;
+        // Applied to the 64-bit FNV-1a content hash before it indexes the
+        // trie.  nullptr selects fmix64 (MurmurHash3's finalizer), which makes
+        // every bit depend on every input bit.  Tests construct private tables
+        // with a degenerate mixer to force deep paths and full collisions; the
+        // process-wide table always uses the default.
+        using HashMix = uint64_t (*)(uint64_t);
 
-        struct Bucket {
-            uint64_t           content_hash;
-            const ProtoObject* symbol;          // POINTER_TAG_SYMBOL pointer
-            Bucket*            next;
+        static constexpr int         kRootBits  = 10;   // level 0: 1024 slots
+        static constexpr int         kNodeBits  = 6;    // deeper levels: 64 slots
+        static constexpr std::size_t kRootSlots = std::size_t(1) << kRootBits;
+        static constexpr std::size_t kNodeSlots = std::size_t(1) << kNodeBits;
+        // Levels 1..kMaxLevel consume the remaining 54 hash bits.
+        static constexpr int         kMaxLevel  = (64 - kRootBits) / kNodeBits;
+
+        // A published symbol: immutable, perennial (never freed).
+        struct Leaf {
+            uint64_t           hash;     // mixed content hash
+            const ProtoObject* symbol;   // POINTER_TAG_SYMBOL pointer
+        };
+        // An entry of a full-hash collision chain: every leaf of one chain has
+        // the same 64-bit hash.  Immutable once published.
+        struct Chain {
+            const Leaf*  leaf;
+            const Chain* next;
+        };
+        // An interior node: one atomic tagged slot per index value.
+        struct Node {
+            std::atomic<uintptr_t> slots[kNodeSlots];
         };
 
-        struct Shard {
-            std::mutex  mutex;
-            Bucket*     head = nullptr;
-        };
-
-        Shard shards[SHARD_COUNT];
-
-        SymbolTable()  = default;
+        explicit SymbolTable(HashMix mix = nullptr);
         ~SymbolTable();
+        SymbolTable(const SymbolTable&) = delete;
+        SymbolTable& operator=(const SymbolTable&) = delete;
 
         // Return the canonical, perennial symbol for `strObj`, interning it on
         // first sight. The interned string is always built with a null
@@ -1249,7 +1276,7 @@ namespace proto {
                                    const ProtoObject* strObj);
 
         // Read-only lookup — returns existing symbol if found, nullptr if not interned.
-        // Does NOT insert into the table. Safe to call on hot read paths.
+        // Does NOT insert into the table. Lock-free and allocation-free.
         const ProtoObject* lookupByContent(ProtoContext* ctx,
                                             const ProtoObject* strObj) const;
 
@@ -1271,26 +1298,41 @@ namespace proto {
 
         static bool isSymbol(const ProtoObject* obj);
 
-    private:
-        int shardIndex(uint64_t hash) const {
-            return static_cast<int>(hash & (SHARD_COUNT - 1));
-        }
-        static bool contentEqual(ProtoContext* ctx,
-                                  const ProtoObject* a, const ProtoObject* b);
-        // Build a fresh rope with the same content as `strObj` and return its
-        // root.  `readCtx` traverses `strObj`; every new Cell is allocated
-        // with a NULL ProtoContext so the resulting symbol is perpetual — see
-        // SymbolTable.cpp for the rationale.
-        static const ProtoObject* normalizeForSymbol(
-            ProtoContext* readCtx, const ProtoObject* strObj);
-        // Publish `candidate` (a perennial symbol whose content hash is
-        // `hash`) unless another thread published the same spelling first;
-        // returns the canonical symbol either way.
-        const ProtoObject* insertCandidate(ProtoContext* ctx, uint64_t hash,
-                                            const ProtoObject* candidate);
-
-        friend proto_ulong globalSymbolCount();
+        // Number of symbols published in this table.  One relaxed load.
         proto_ulong entryCount() const;
+
+        // The trie's shape, by a full walk.  Diagnostics and tests only.
+        struct Shape {
+            proto_ulong leaves = 0;      // published symbols
+            proto_ulong nodes = 0;       // interior nodes below level 0
+            proto_ulong chainEntries = 0;
+            proto_ulong maxDepth = 0;    // deepest level holding a leaf (0 = root)
+            std::size_t indexBytes = 0;  // root + nodes + leaves + chain entries
+        };
+        Shape shape() const;
+
+        // The trie index of a mixed hash at `level` (0 = root).
+        static std::size_t indexAt(uint64_t hash, int level) {
+            return level == 0
+                ? static_cast<std::size_t>(hash & (kRootSlots - 1))
+                : static_cast<std::size_t>(
+                      (hash >> (kRootBits + kNodeBits * (level - 1))) & (kNodeSlots - 1));
+        }
+
+    private:
+        struct Key;   // what a lookup compares against (core/SymbolTable.cpp)
+
+        uint64_t mixed(uint64_t contentHash) const;
+        const ProtoObject* find(uint64_t hash, const Key& key) const;
+        // Publish `candidate` (a perennial symbol whose mixed hash is `hash`)
+        // unless a symbol with the same content is published first; returns
+        // the canonical symbol either way.
+        const ProtoObject* insert(uint64_t hash, const Key& key,
+                                  const ProtoObject* candidate);
+
+        HashMix                  mix_;
+        std::atomic<uintptr_t>   root_[kRootSlots];
+        std::atomic<proto_ulong> count_{0};
     };
 
     // The process-wide symbol table.
@@ -1308,16 +1350,28 @@ namespace proto {
     // every space, and a static destructor would race the exit-time teardown of
     // SharedModuleCache and ProviderRegistry.
     //
-    // Thread-safety: 64 shards, each an independent bucket chain behind its own
-    // std::mutex.  A shard mutex is a STRICT LEAF LOCK and is never ordered
-    // against ProtoSpace::globalMutex; no Cell is allocated while one is held.
-    // With one table serving several spaces, breaking that invariant would
-    // deadlock two collectors, not one.
+    // Thread-safety: lock-free (see SymbolTable).  It takes no lock at all, so
+    // it can be ordered against nothing: interning from inside a critical
+    // section, a collector or another space's thread is always safe.
     SymbolTable& globalSymbolTable();
+
+    // Attribute operations that received a non-interned name
+    // (ProtoSpace::nonInternedNameCounts; core/NonInternedNames.cpp).
+    namespace nonInterned {
+        enum Kind { Get, Has, HasOwn, Set, SetBulk, SetIfEqual, Remove, kKinds };
+        // One relaxed increment; with PROTOCORE_NONINTERNED_NAMES set, also
+        // records `caller` (the operation's return address).
+        void note(Kind kind, const void* caller);
+    }
+#if defined(_MSC_VER)
+#define PROTO_RETURN_ADDRESS() _ReturnAddress()
+#else
+#define PROTO_RETURN_ADDRESS() __builtin_return_address(0)
+#endif
 
     // Number of symbols this process has interned.  Diagnostics and tests only
     // (P3 D8: a second ProtoSpace must intern nothing its predecessor already
-    // did).  Walks every bucket chain; not for a hot path.
+    // did).  One relaxed load.
     proto_ulong globalSymbolCount();
 
     // ---- TupleInterner --------------------------------------------------------

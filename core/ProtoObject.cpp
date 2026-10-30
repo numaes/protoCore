@@ -931,6 +931,7 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                nonInterned::note(nonInterned::Get, PROTO_RETURN_ADDRESS());
                 // EXPERIMENT (2026-06-16): when PROTOCORE_TRUST_SYMBOLS=1
                 // is set, treat a STRING-tagged name as definitely-absent
                 // — the embedder contract is "always pass a SYMBOL".  This
@@ -1175,6 +1176,7 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                nonInterned::note(nonInterned::Set, PROTO_RETURN_ADDRESS());
                 const ProtoObject* sym = context->space->symbolTable->intern(
                     context, reinterpret_cast<const ProtoObject*>(name));
                 name = reinterpret_cast<const ProtoString*>(sym);
@@ -1327,6 +1329,7 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                nonInterned::note(nonInterned::SetBulk, PROTO_RETURN_ADDRESS());
                 name = reinterpret_cast<const ProtoString*>(context->space->symbolTable->intern(
                     context, reinterpret_cast<const ProtoObject*>(name)));
             }
@@ -1441,6 +1444,7 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                nonInterned::note(nonInterned::SetIfEqual, PROTO_RETURN_ADDRESS());
                 const ProtoObject* sym = context->space->symbolTable->intern(
                     context, reinterpret_cast<const ProtoObject*>(name));
                 name = reinterpret_cast<const ProtoString*>(sym);
@@ -1543,6 +1547,7 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                nonInterned::note(nonInterned::Remove, PROTO_RETURN_ADDRESS());
                 const ProtoObject* sym = context->space->symbolTable->intern(
                     context, reinterpret_cast<const ProtoObject*>(name));
                 name = reinterpret_cast<const ProtoString*>(sym);
@@ -2492,6 +2497,7 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                nonInterned::note(nonInterned::Has, PROTO_RETURN_ADDRESS());
                 static const bool s_trust =
                     std::getenv("PROTOCORE_TRUST_SYMBOLS") != nullptr;
                 if (s_trust) return PROTO_FALSE;
@@ -2786,6 +2792,7 @@ namespace proto
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
+                nonInterned::note(nonInterned::HasOwn, PROTO_RETURN_ADDRESS());
                 static const bool s_trust =
                     std::getenv("PROTOCORE_TRUST_SYMBOLS") != nullptr;
                 if (s_trust) return PROTO_FALSE;

@@ -277,12 +277,12 @@ While the world is stopped, the GC:
 
 **Not scanned during Phase 2:**
 
-- **`SymbolTable` (canonical interned strings, 64 shards).**  Every
+- **`SymbolTable` (canonical interned strings, a lock-free trie).**  Every
   interned string is **perennial**: `SymbolTable::intern` allocates with
   a null `ProtoContext`, so symbol Cells live via `posix_memalign`
   directly — never in a freelist, never in a context young chain.  The
   GC's mark/sweep machinery never sees a symbol Cell as a candidate,
-  there is nothing to protect, and iterating every shard on every cycle
+  there is nothing to protect, and walking the table on every cycle
   would be pure overhead.  See `SymbolTable` in `headers/proto_internal.h`.
 
   **Since protoCore 2.2.0 there is ONE table for the whole PROCESS**,
