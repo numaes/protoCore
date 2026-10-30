@@ -1718,7 +1718,7 @@ namespace proto {
         // table whose handle the sweep found dead may name a freed state
         // (states are not roots, docs/GLOBAL_MUTABLE_TABLE.md); a walker
         // that reads the values of the whole table waits for zero.
-        extern std::atomic<int> mutableReleasesPending;
+        extern PROTOCORE_DATA std::atomic<int> mutableReleasesPending;
 
         // Diagnostics read by tests: cycles running now, and the most ever
         // observed at once in this process.
