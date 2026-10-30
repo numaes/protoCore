@@ -897,6 +897,16 @@ namespace sweep {
         p.stopping = false;
     }
 
+    namespace {
+        std::atomic<void (*)(ProtoSpace*)> g_beforeSweepForTest{nullptr};
+    }
+    void setBeforeSweepForTest(void (*fn)(ProtoSpace*)) {
+        g_beforeSweepForTest.store(fn, std::memory_order_release);
+    }
+    void (*beforeSweepForTest())(ProtoSpace*) {
+        return g_beforeSweepForTest.load(std::memory_order_acquire);
+    }
+
     void runAsHelperForTest(void (*fn)(void*), void* arg) {
         const bool was = tlHelper;
         tlHelper = true;

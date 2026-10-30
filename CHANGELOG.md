@@ -4,6 +4,41 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Fixed -- three ordering and identity gaps left open by 2.15-3.x work
+
+- **A context without a thread rejoins the running set under globalMutex.**
+  `reclaimWaitLocked` (the wait for heap headroom) took a context without a
+  thread out of the running set and, on its way back, incremented
+  `runningThreads` and read `stwFlag` with globalMutex released: an acq_rel
+  increment against a seq_cst load, a store-load pair that memory order does
+  not keep in order (arm64 may reorder it; x86 does not).  A collector could
+  then reach its quorum without the thread and stop the world while it ran.
+  The collector raises `stwFlag` and evaluates its quorum under globalMutex,
+  so the rejoin now does both under it too and parks on the caller's lock.
+  The race window is gone rather than narrowed, so there is no interleaving
+  left for a deterministic test to pin; the heap-limit suites run it under
+  ThreadSanitizer.
+- **The main thread's walk-pin set is recognised by thread-local storage.**
+  `walkPinSetFor` gave the single-writer set to the OS thread whose id equals
+  `ProtoSpace::mainThreadId`.  Once the constructing thread exited, a new
+  thread given the same id by the OS would have written that lock-free set
+  without being counted in the space's quorum.  The constructor now records
+  the space (and its never-reused id) in thread-local storage, which dies
+  with the thread.  A thread that constructs several spaces owns the set of
+  the last one and pins in the shards of the others.  Test:
+  `SparseListWalk.AReusedMainThreadIdDoesNotAliasTheMainPinSet` (fails on the
+  id comparison).
+- **A deterministic test for a deferred-free space destroyed before its
+  sweep.**  `SpaceTeardown.DeferredFreeSpaceDestroyedBeforeItsSweepWaitsForNoGracePeriod`
+  holds the collector just before its sweep (a new test hook,
+  `sweep::setBeforeSweepForTest`, one null check per cycle) until the
+  destructor has raised `ending`, while a ProtoThread of the live space stays
+  in managed code without a safepoint.  The destructor returns in ~20 ms,
+  finalizes nothing, settles `mutableReleasesPending`, and the live space
+  then collects and purges the destroyed space's entries.  With the
+  abandoned branch disabled the destructor waits for the grace period
+  (15.0 s, the blocker's bound) and the test fails.
+
 ### Changed -- the symbol table is a lock-free, write-once hash trie
 
 - **The defect.** The process-wide symbol table was 64 shards, each one linked

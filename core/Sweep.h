@@ -295,6 +295,13 @@ namespace sweep {
     /** Run `fn` with this thread marked as a helper (the getFreeCells guard
      *  death test). */
     void runAsHelperForTest(void (*fn)(void*), void* arg);
+    /** Install `fn` to be called by a space's collector just before each
+     *  cycle's sweep, with the space; nullptr (the default) calls nothing.
+     *  A test holds a sweep there to make an interleaving deterministic
+     *  (SpaceTeardownTests). */
+    void setBeforeSweepForTest(void (*fn)(ProtoSpace*));
+    /** The function installed by setBeforeSweepForTest, or nullptr. */
+    void (*beforeSweepForTest())(ProtoSpace*);
     /** Engage the helpers on every cycle (setEngagement(Always) /
      *  setEngagement(-1)). */
     void setEngageAlways(bool always);

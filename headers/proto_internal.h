@@ -1718,7 +1718,7 @@ namespace proto {
         // table whose handle the sweep found dead may name a freed state
         // (states are not roots, docs/GLOBAL_MUTABLE_TABLE.md); a walker
         // that reads the values of the whole table waits for zero.
-        extern std::atomic<int> mutableReleasesPending;
+        extern PROTOCORE_DATA std::atomic<int> mutableReleasesPending;
 
         // Diagnostics read by tests: cycles running now, and the most ever
         // observed at once in this process.
@@ -2816,9 +2816,12 @@ namespace proto {
          * only while every counted thread is parked, so the stop-the-world
          * hand-off already orders the two (core/ProtoRootSet.cpp).
          *
-         *  - The space's main thread (the OS thread that constructed it,
-         *    ProtoSpace::mainThreadId) pins in `mainThreadWalkPins`, created
-         *    with the space.
+         *  - The space's main thread (the OS thread that constructed it)
+         *    pins in `mainThreadWalkPins`, created with the space.  It is
+         *    recognised by thread-local storage set by the constructor, not
+         *    by ProtoSpace::mainThreadId: a reused OS thread id must not
+         *    alias it.  A thread that constructs several spaces owns the set
+         *    of the last one; it pins in the shards of the others.
          *  - A ProtoThread started by this space's newThread pins in a set it
          *    creates at its first walk and destroys when it exits
          *    (releaseThreadWalkPins, from thread_main).

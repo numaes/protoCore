@@ -54,13 +54,24 @@ namespace proto {
         // again after releaseThreadWalkPins.
         thread_local ProtoSpace* tlOwnWalkPinSpace = nullptr;
         thread_local ProtoRootSet* tlOwnWalkPins = nullptr;
+
+        // The space whose main-thread walk-pin set this OS thread owns -- the
+        // last space it constructed -- and that space's id.  Thread-local
+        // storage, not ProtoSpace::mainThreadId: an OS thread id can be reused
+        // once the thread that constructed the space has exited, and a new
+        // thread with the old id would then write a single-writer set without
+        // being counted in the space's quorum.  This storage dies with its
+        // thread.  The id (never reused) guards a space constructed later at
+        // the address of a destroyed one.
+        thread_local const ProtoSpace* tlMainWalkPinSpace = nullptr;
+        thread_local proto_ulong tlMainWalkPinSpaceId = 0;
     }
 
     ProtoRootSet* ProtoSpaceImplementation::walkPinSetFor(ProtoSpace* space) {
         const ProtoSpaceImplementation* impl = space->impl;
         if (impl->singleWriterWalkPins) {
             if (tlOwnWalkPinSpace == space) return tlOwnWalkPins;
-            if (space->mainThreadId == std::this_thread::get_id() && impl->mainThreadWalkPins)
+            if (tlMainWalkPinSpace == space && tlMainWalkPinSpaceId == spaceIdOf(space))
                 return impl->mainThreadWalkPins;
             if (!tlOwnWalkPinSpace && multispace::isWorkerOf(space)) {
                 // First walk of a ProtoThread in its home space: once per thread.
@@ -1523,6 +1534,8 @@ namespace proto {
                 // handles already finalized included, are purged by the next
                 // cycle of a live space, as when the space is destroyed with
                 // its collector idle (recordDestroyedSpace).
+                if (auto hook = sweep::beforeSweepForTest())
+                    hook(space);
                 const sweep::CycleSweep sweeper =
                     sweep::sweepCycle(space, segmentsToProcess, deferFree, deadCells,
                                       &space->impl->ending);
@@ -1927,6 +1940,10 @@ namespace proto {
             for (auto*& shard : extension->walkPins)
                 shard = this->createRootSet("protoCore-walk-pins");
             extension->mainThreadWalkPins = createSingleWriterRootSet(this, "protoCore-main-thread-walk-pins");
+            // Owned by the constructing thread, which is the space's main
+            // thread; see tlMainWalkPinSpace.
+            tlMainWalkPinSpace = this;
+            tlMainWalkPinSpaceId = spaceIdOf(this);
             this->impl = extension;
         }
         // Mutable so embedders (protoJS Object.prototype, protoPython
@@ -2416,34 +2433,41 @@ namespace proto {
         // makes those cells candidates while nothing references them; the next
         // cycle frees them.  Young generations are submitted only when a
         // context is destroyed or at a safepoint() the embedder calls.
-        //
-        // Parking re-locks globalMutex and waits on the stop-the-world cv.
-        // Doing that while we still hold globalMutex would leave the lock owned
-        // across the park (recursive_mutex drops only one level) and wedge the
-        // GC, so globalMutex is released around it.
-        lock.unlock();
         if (managed) {
-            // Parks in any member space that is stopped, and drops this
+            // multispace::comeBack re-locks globalMutex (in the multi-space
+            // case) and parks on the stop-the-world cv, so globalMutex is
+            // released around it: holding it across the park would leave it
+            // owned (recursive_mutex drops only one level) and wedge the GC.
+            // It parks in any member space that is stopped, and drops this
             // thread's cache entries if a stop-the-world completed meanwhile
             // (the caches are not GC roots).
+            lock.unlock();
             multispace::comeBack(space, ctx);
-        } else {
-            space->runningThreads.fetch_add(1, std::memory_order_acq_rel);
-            if (ctx && space->stwFlag.load() &&
-                !(space->gcThread && std::this_thread::get_id() == space->gcThread->get_id())
-                && ctx->criticalSectionDepth == 0) {
-                // A context without a thread parks the same way, keyed on the
-                // context's own critical-section depth.
-                space->parkedThreads++;
-                {
-                    std::unique_lock<std::recursive_mutex> parkLock(ProtoSpace::globalMutex);
-                    space->gcCV.notify_all();
-                    space->stopTheWorldCV.wait(parkLock, [space] { return !space->stwFlag.load(); });
-                }
-                space->parkedThreads--;
-            }
+            lock.lock();
+            return;
         }
-        lock.lock();
+        // A context without a thread rejoins UNDER globalMutex.  The collector
+        // raises stwFlag and evaluates its quorum (parkedThreads >=
+        // runningThreads) under globalMutex too, so the increment and the flag
+        // check below are one step for it: either the quorum it evaluates
+        // counts this thread, and it waits for the park below, or this thread
+        // sees the flag and parks.  Done with the mutex released, the two were
+        // ordered only by the atomics' memory order (an acq_rel increment
+        // against a seq_cst load -- a store-load pair that order does not
+        // forbid from reordering), and a collector could stop the world
+        // without this thread, which then ran through it.
+        space->runningThreads.fetch_add(1, std::memory_order_acq_rel);
+        if (ctx && space->stwFlag.load() &&
+            !(space->gcThread && std::this_thread::get_id() == space->gcThread->get_id())
+            && ctx->criticalSectionDepth == 0) {
+            // A context without a thread parks the same way, keyed on the
+            // context's own critical-section depth.  The wait releases
+            // globalMutex (held once, by the caller's `lock`) while parked.
+            space->parkedThreads++;
+            space->gcCV.notify_all();
+            space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
+            space->parkedThreads--;
+        }
     }
 
     void ProtoSpace::waitForHeapHeadroom(ProtoContext* ctx) {

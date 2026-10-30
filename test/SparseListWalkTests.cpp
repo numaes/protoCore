@@ -709,3 +709,29 @@ TEST(SparseListWalk, MainThreadPinsInItsOwnSet) {
     EXPECT_EQ(seen.shardPins, 0u);
     EXPECT_EQ(totalWalkPins(space), 0u);
 }
+
+// The main-thread walk-pin set belongs to the OS thread that constructed the
+// space, recognised by thread-local storage.  A later thread that carries the
+// same std::thread::id -- an id the OS reused after the constructing thread
+// exited, simulated here by writing mainThreadId -- must not write it: it is
+// not counted in the space's quorum, so its lock-free writes would race the
+// collector's scan.
+TEST(SparseListWalk, AReusedMainThreadIdDoesNotAliasTheMainPinSet) {
+    ProtoSpace space;
+    ProtoRootSet* mainPins = space.impl->mainThreadWalkPins;
+    ASSERT_NE(mainPins, nullptr);
+    EXPECT_EQ(ProtoSpaceImplementation::walkPinSetFor(&space), mainPins);
+
+    const std::thread::id original = space.mainThreadId;
+    ProtoRootSet* seenByOther = nullptr;
+    std::thread other([&] {
+        space.mainThreadId = std::this_thread::get_id();   // the reused id
+        seenByOther = ProtoSpaceImplementation::walkPinSetFor(&space);
+        space.mainThreadId = original;
+    });
+    other.join();
+    EXPECT_NE(seenByOther, nullptr);
+    EXPECT_NE(seenByOther, mainPins);
+    // The constructing thread still owns its set.
+    EXPECT_EQ(ProtoSpaceImplementation::walkPinSetFor(&space), mainPins);
+}

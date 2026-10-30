@@ -20,6 +20,7 @@
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
+#include "../core/Sweep.h"
 
 #include <atomic>
 #include <chrono>
@@ -225,5 +226,142 @@ TEST(SpaceTeardown, DestroyedDuringItsSweepStopsTheSweep) {
     // already loaded in the cursors are swept after the flag is raised.
     EXPECT_LT(finalizedByB, kProbeSegments / 4) << "the sweep went on after its space began to be destroyed";
     EXPECT_GE(cCycles, 2u) << "a later space does not collect (cycle token not handed on?)";
+    EXPECT_EQ(bEntries, 0u) << "the destroyed space's table entries were not purged";
+}
+
+namespace {
+
+// Holds the sweep of `g_heldSpace` until released (bounded).
+std::atomic<ProtoSpace*> g_heldSpace{nullptr};
+std::atomic<bool> g_sweepHeld{false};
+std::atomic<bool> g_releaseSweep{false};
+void holdBeforeSweep(ProtoSpace* space) {
+    if (space != g_heldSpace.load()) return;
+    g_sweepHeld.store(true);
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+    while (!g_releaseSweep.load() && std::chrono::steady_clock::now() < deadline)
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+}
+
+// A ProtoThread that stays in managed code without passing a safepoint until
+// released (bounded): while it runs, no grace period of the process can end.
+std::atomic<bool> g_blockerRunning{false};
+std::atomic<bool> g_releaseBlocker{false};
+const ProtoObject* graceBlockerMain(ProtoContext*, const ProtoObject*, const ParentLink*,
+                                    const ProtoArguments*, const ProtoKeywordArguments*) {
+    g_blockerRunning.store(true);
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(15);
+    while (!g_releaseBlocker.load() && std::chrono::steady_clock::now() < deadline)
+        std::this_thread::yield();
+    return PROTO_NONE;
+}
+
+}  // namespace
+
+// With another space live the sweep only collects dead cells; they are
+// finalized after a grace period that every registered thread of the process
+// must pass.  A space destroyed before its sweep runs abandons the sweep, and
+// then neither waits for that grace period nor finalizes anything: protoCore
+// runs no finalizer at exit, and the destructor must not wait on threads of
+// other spaces.  It still settles mutableReleasesPending, so later cycles of
+// the live space run, and those purge the destroyed space's table entries.
+//
+// Deterministic: the collector of b is held just before its sweep (a test
+// hook) until ~ProtoSpace has raised `ending`, so the sweep stops at its first
+// claim; and a ProtoThread of the live space stays in managed code without a
+// safepoint across the destructor, so a grace period could not end.  Waiting
+// for one would hold the destructor until that thread's 15 s bound.
+TEST(SpaceTeardown, DeferredFreeSpaceDestroyedBeforeItsSweepWaitsForNoGracePeriod) {
+    constexpr proto_ulong kLive = 200;
+    constexpr int kProbes = 200;
+    ProtoSpace a;
+    ProtoContext actx(&a, a.rootContext, nullptr, nullptr, nullptr, nullptr, 1);
+    auto* b = new ProtoSpace();
+    const proto_ulong bId = spaceIdOf(b);
+    ASSERT_GE(ProtoSpace::liveSpaceCount(), 2u);
+    g_probesFinalized.store(0);
+    {
+        auto* bctx = new ProtoContext(b, b->rootContext, nullptr, nullptr, nullptr, nullptr, 1);
+        const ProtoString* key = ProtoString::createSymbol(bctx, "value");
+        const ProtoList* keep = bctx->newList();
+        for (proto_ulong i = 0; i < kLive; ++i) {
+            const ProtoObject* o = bctx->newObject(true);
+            o->setAttribute(bctx, key, bctx->fromInteger(static_cast<long long>(i)));
+            keep = keep->appendLast(bctx, o);
+        }
+        b->createRootSet("teardown-test")->add(keep->asObject(bctx));
+        for (int i = 0; i < kProbes; ++i) {
+            ProtoContext garbage(b, bctx, nullptr, nullptr, nullptr, nullptr);
+            (void) garbage.fromExternalPointer(nullptr, &countingFinalizer);
+        }
+        delete bctx;
+    }
+
+    g_heldSpace.store(b);
+    g_sweepHeld.store(false);
+    g_releaseSweep.store(false);
+    sweep::setBeforeSweepForTest(&holdBeforeSweep);
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+    while (!g_sweepHeld.load() && std::chrono::steady_clock::now() < deadline) {
+        {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            b->gcStarted = true;
+            b->gcCV.notify_all();
+        }
+        ProtoContext::UnmanagedScope parked(&actx);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    ASSERT_TRUE(g_sweepHeld.load()) << "b's collector never reached its sweep";
+
+    g_blockerRunning.store(false);
+    g_releaseBlocker.store(false);
+    const ProtoThread* blocker = a.newThread(&actx, ProtoString::createSymbol(&actx, "blocker"),
+                                             graceBlockerMain, nullptr, nullptr);
+    while (!g_blockerRunning.load()) std::this_thread::yield();
+
+    std::thread releaser([b]() {
+        const auto until = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+        for (;;) {
+            bool ending;
+            {
+                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                ending = b->state == SPACE_STATE_ENDING;
+            }
+            if (ending || std::chrono::steady_clock::now() > until) break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        g_releaseSweep.store(true);
+    });
+    const auto t0 = std::chrono::steady_clock::now();
+    {
+        ProtoContext::UnmanagedScope parked(&actx);
+        delete b;
+    }
+    const double destroySeconds =
+        std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+    const bool blockerStillRunning = !g_releaseBlocker.load() && g_blockerRunning.load();
+    g_releaseBlocker.store(true);
+    releaser.join();
+    sweep::setBeforeSweepForTest(nullptr);
+    g_heldSpace.store(nullptr);
+    {
+        ProtoContext::UnmanagedScope parked(&actx);
+        const_cast<ProtoThread*>(blocker)->join(&actx);
+    }
+    const int finalized = g_probesFinalized.load();
+    const int pending = multispace::mutableReleasesPending.load();
+
+    const uint64_t aCycles = forceCycles(a, &actx, 2);
+    const proto_ulong bEntries = multispace::countMutableEntriesOfSpace(&actx, bId);
+    std::printf("[ Teardown ] deferred free: destroy %.3f s, probes finalized %d of %d, "
+                "releases pending %d, a cycles %llu, b entries after %llu\n",
+                destroySeconds, finalized, kProbes, pending,
+                (unsigned long long) aCycles, (unsigned long long) bEntries);
+    EXPECT_TRUE(blockerStillRunning) << "the blocker ended before the destructor returned";
+    EXPECT_LT(destroySeconds, 5.0) << "the destructor waited for a grace period";
+    EXPECT_EQ(finalized, 0) << "a finalizer ran for a space being destroyed";
+    EXPECT_EQ(pending, 0) << "the abandoned cycle did not settle mutableReleasesPending";
+    EXPECT_GE(aCycles, 2u) << "the live space does not collect after the destruction";
     EXPECT_EQ(bEntries, 0u) << "the destroyed space's table entries were not purged";
 }
