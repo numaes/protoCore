@@ -4,6 +4,83 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Changed -- the symbol table is a lock-free, write-once hash trie
+
+- **The defect.** The process-wide symbol table was 64 shards, each one linked
+  chain behind its own mutex, never resized. Lookup and insert walked
+  O(symbols / 64) nodes, so `ProtoString::createSymbol` slowed with every
+  symbol the process had interned and filling the table was quadratic.
+  Measured by the protoJS agent against fec4394c: a new intern cost 79 / 998 /
+  2,390 us at 100k / 500k / 1M symbols, a lookup 21 / 457 / 891 us, and filling
+  1M symbols took about 22 minutes.
+- **The design.** The table is perennial and nothing is ever removed, so the
+  index needs no lock and no reclamation scheme. It is a hash trie over the
+  FNV-1a content hash finished with fmix64 (same value for UTF-8 bytes and for
+  a rope): a root of 1024 atomic slots (10 bits), then nodes of 64 atomic slots
+  (6 bits per level, levels 1..9). A slot holds nothing, a leaf `{hash,
+  symbol}`, a child node, or -- for a full 64-bit hash collision only -- a
+  write-once chain of leaves with that hash. Published nodes, leaves and chain
+  entries are immutable; a slot changes from empty to a leaf, or from a leaf
+  or chain to a child node, once (a chain slot also by prepending), always by
+  a release compare-and-swap.
+  - **Lookup:** an acquire load per level, a hash compare, then an in-place
+    comparison of the symbol's rope with the key (bytes or another rope; leaf
+    boundaries need not match). No lock, no allocation, no store --
+    `lookupUTF8` no longer copies each candidate into a `std::string`.
+  - **Insert:** the perennial candidate is built first, as before; the insert
+    claims an empty slot, or replaces a leaf of another hash with a child node
+    that already holds it, and continues. Index memory built for a CAS that
+    lost was never published and is freed at once; losing candidate symbols
+    are kept reachable on a lock-free stack (LeakSanitizer stays clean).
+  - **No mutex anywhere in intern or lookup**, so the table is ordered against
+    no lock. `entryCount` / `globalSymbolCount` is one relaxed load.
+  - A table can be built with another hash finalizer (`SymbolTable(mix)`), so
+    tests force deep paths and full collisions in a private table;
+    `SymbolTable::shape()` walks the trie for diagnostics.
+- **Measured** (`performance/symbol_intern_benchmark`, new and
+  self-verifying; mean of three rounds interleaved with master fec4394c, a
+  fresh library copy per run, A/A control with a dead padding function
+  appended to `core/SymbolTable.cpp`; microseconds per call; the machine was
+  shared with other builds, so single figures carry +-50 %):
+
+  | symbols | new intern, master | new intern, trie | trie + padding | lookup, master | lookup, trie | trie + padding |
+  |---:|---:|---:|---:|---:|---:|---:|
+  | 1,000 | 0.91 | 0.83 | 0.77 | 0.38 | 0.37 | 0.34 |
+  | 10,000 | 13.3 | 0.71 | 0.76 | 4.01 | 0.50 | 0.65 |
+  | 100,000 | 192.0 | 1.64 | 0.83 | 76.4 | 0.84 | 0.73 |
+  | 1,000,000 | 2,390 (protoJS agent) | 1.22 | 0.90 | 891 (protoJS agent) | 0.96 | 0.85 |
+
+  Filling 1M symbols takes ~0.9 s (0.70 -- 0.92 us per symbol from 10k to
+  1M; the benchmark's linear-fill verdict: last interval 1.47x the second).
+  Lookups per second (total, median of three) on a 100k table while one
+  writer interns new spellings without pause:
+
+  | readers | 1 | 2 | 4 | 6 | 8 |
+  |---|---:|---:|---:|---:|---:|
+  | master | 12.5k | 21.1k | 33.2k | 36.4k | 44.8k |
+  | trie | 1.41M | 2.53M | 4.66M | 6.14M | 7.19M |
+  | trie + padding | 1.56M | 2.65M | 4.72M | 6.20M | 6.67M |
+
+  (two writers: master 10.7k -- 32.0k, trie 1.34M -- 6.72M.) **Index memory at 1M symbols: 98.8 MB**
+  (170,989 nodes of 520 bytes, 1M leaves of 16 bytes), against roughly 32 MB
+  of list nodes before: sparse 64-slot nodes are the price of nodes that never
+  change. A compressed (bitmap) node would have to be copied on every insert,
+  and the replaced copies could not be freed without a reclamation scheme.
+- **New diagnostic: `ProtoSpace::nonInternedNameCounts()`** counts the
+  attribute operations (get, has, hasOwn, set, setBulk, setIfEqual, remove)
+  that received a non-interned STRING-tagged name -- each such call hashes the
+  name and walks the table. One relaxed increment on that already slow path.
+  `PROTOCORE_NONINTERNED_NAMES=1` (stderr) or `=<file>` (appended) adds the 20
+  most frequent call sites at exit.
+- **Tests** (`SymbolTrie.*`): a shallow default trie at 100k spellings; hashes
+  that share all but the top bits reach the last level with one node per
+  level; identical hashes share one chain; two colliding hashes push a chain
+  down nine levels; UTF-8 bytes and a rope of the same spelling give one
+  symbol; 8 ProtoThreads interning the same spellings in different orders
+  agree on every pointer; 4 readers look up while 2 writers insert (run under
+  ThreadSanitizer in CI); the non-interned counter counts heap-string names
+  and not symbols.
+
 ### Changed -- a space being destroyed stops the sweep in progress
 
 - **`~ProtoSpace` waited for the whole cycle in progress**, sweep included:

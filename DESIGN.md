@@ -50,7 +50,7 @@ At a high level, the system is composed of a few key entities:
 | - Owns the Object Prototypes (List, String...)  |
 | - Manages the list of all active threads        |
 | - Holds the global interned tuple dictionary    |
-| - Owns SymbolTable (64-shard string interning)  |
+| - Owns SymbolTable (lock-free interning trie)   |
 |                                                 |
 | +--------------------+   +--------------------+ |
 | |   ProtoThread 1    |   |   ProtoThread 2    | |
@@ -259,7 +259,7 @@ is bit-for-bit the historical unbounded path.
 
 To prevent deadlocks during complex operations (e.g., allocation triggering GC, which then needs to access global metadata), protoCore uses a **Global Reentrant Mutex** (`globalMutex`).
 *   **Reentrancy**: The `std::recursive_mutex` allows a single thread to acquire the same lock multiple times without deadlocking. This is essential for the hybrid execution model where high-level operations (like interning or thread creation) may trigger low-level memory management tasks that also require the global lock.
-*   **Granularity**: While the system avoids a GIL, the `globalMutex` protects specific global registries (Tuple Dictionary, Thread List) and orchestrates the Stop-The-World phase. String interning uses a separate `SymbolTable` with fine-grained per-shard mutexes (one per 64 shards), avoiding contention on the global lock for string operations.
+*   **Granularity**: While the system avoids a GIL, the `globalMutex` protects specific global registries (Tuple Dictionary, Thread List) and orchestrates the Stop-The-World phase. String interning uses a separate `SymbolTable`, a lock-free, write-once hash trie: lookups and inserts take no lock at all.
 
 ### Keeping ProtoObjects alive across allocation boundaries the GC cannot see
 
@@ -362,7 +362,7 @@ All core collection types in protoCore are implemented as persistent, immutable 
 
 * **Interning summary**:
   * **Tuples**: `TupleInterner` (64-shard hash table keyed by size and slot pointers, per-shard mutex). Interned tuples are perennial; the table is a GC root whose entries mark walks outside the STW window. A tuple is therefore for canonical constants and keys; a sequence built per operation is a `ProtoLinkedList` or a `ProtoList`.
-  * **Symbols**: `SymbolTable` (64-shard hash table, per-shard mutex). Holds only spellings longer than 6 UTF-8 bytes.
+  * **Symbols**: `SymbolTable`, a lock-free, write-once hash trie over the content hash (a 1024-slot root, then 64-slot nodes; published nodes and leaves are immutable, so a lookup is acquire loads and an in-place comparison). Holds only spellings longer than 6 UTF-8 bytes.
   * **Inline Strings**: pointer equality is content equality — no interning table needed.
   * **Public entry points**: `ProtoString::createSymbol(context, utf8)` from bytes, `ProtoString::intern(context)` from a string; both return the same canonical pointer for the same content.
 

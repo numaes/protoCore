@@ -1771,3 +1771,34 @@ Where a number here rests on a commit body rather than on a retained log, the
 case says so. Where a claim rests on argument rather than on a measurement, it is
 in "What remains unproven" rather than in a case. That division is the only thing
 in this document worth copying.
+
+## The symbol table never grew (found October 2026)
+
+**Symptom.** The protoJS agent measured `ProtoString::createSymbol` in a
+standalone, self-verifying program against fec4394c: a new intern cost 79 us
+with 100k symbols in the process, 998 us with 500k and 2,390 us with 1M; a
+lookup of an existing symbol 21 / 457 / 891 us. Filling a million symbols took
+about 22 minutes.
+
+**Cause.** The table was 64 shards, each a single linked chain behind its own
+mutex, never resized. At 1M symbols every lookup walked ~15,600 nodes under a
+lock. Nothing in the test suites interned more than a few thousand names, so
+the cost never showed.
+
+**First fix, rejected.** Growable per-shard hash tables (PR #11): linear fill
+and sub-microsecond interning, but still a mutable structure behind locks in
+the core. The maintainer rejected it: the mechanism was wrong, lookups must be
+lock-free, and attribute access must not consult the table on the normal path.
+
+**Fix.** A lock-free, write-once hash trie (`core/SymbolTable.cpp`). Because
+the table is perennial and nothing is ever removed, every published node and
+leaf can be immutable and a slot can change once: readers need no lock and no
+reclamation scheme. The trie costs index memory -- 98.8 MB at a million
+symbols, three times the old list nodes -- because its 64-slot nodes are
+sparse and can never be compacted in place.
+
+**What it does not fix.** An attribute operation that receives a heap string
+rather than a symbol still hashes the name and walks the table on every call.
+`ProtoSpace::nonInternedNameCounts()` (and `PROTOCORE_NONINTERNED_NAMES` for
+the call sites) measures how often each runtime does so, so the runtimes can
+intern earlier; protoCore does not change their call sites.

@@ -39,7 +39,7 @@ The library implements persistent data structures to support efficient copy-on-w
 
 *   **Three-Tier Strings**: `ProtoString` uses a three-tier architecture sharing a uniform public API:
     *   **Embedded** (≤6 UTF-8 bytes): stored directly in the tagged pointer — zero heap allocation, O(1) equality via pointer compare.
-    *   **Symbol** (`POINTER_TAG_SYMBOL`): interned via a 64-shard `SymbolTable` (per-shard mutexes). Equal content always returns the same pointer, enabling O(1) equality for attribute keys and identifiers.
+    *   **Symbol** (`POINTER_TAG_SYMBOL`): interned via the `SymbolTable`, a lock-free, write-once hash trie. Equal content always returns the same pointer, enabling O(1) equality for attribute keys and identifiers.
     *   **String** (`POINTER_TAG_STRING`): non-interned, heap-allocated. Backed by a persistent AVL tree (`StringLeafNode` / `StringInternalNode`). All operations compose from `strConcat` (O(log N)) and `strSplit` (O(log N)); full traversal is O(N) via byte-offset iterator.
 *   **Balanced Trees**: Used for `ProtoList`, `ProtoSparseList`, and heap `ProtoString` to guarantee O(log N) structural operations.
 *   **Interning**: Tuples are interned via `TupleInterner`, a 64-shard hash table whose entries are perennial GC roots. Strings are interned as Symbols via the `SymbolTable`. Embedded (inline) strings need no interning — pointer equality is content equality by construction.
@@ -65,7 +65,7 @@ The project follows a clean separation between public API and internal implement
     *   `ProtoSpace`: The global runtime environment (GC, interning, thread list, `SymbolTable`).
     *   `ProtoContext`: Per-thread execution state (call stack, local memory arena).
     *   `ProtoThread`: New OS thread wrapper.
-    *   `SymbolTable`: 64-shard concurrent string interning table (fine-grained per-shard mutexes).
+    *   `SymbolTable`: the process-wide string interning table, a lock-free, write-once hash trie (no mutex in lookup or insert).
 *   **Types**:
     *   `ProtoObject`: Base handle.
     *   `ProtoList`, `ProtoTuple`, `ProtoString`: Collection types.
