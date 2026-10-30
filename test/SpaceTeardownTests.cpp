@@ -3,7 +3,8 @@
 // table.
 //
 // ~ProtoSpace records the space as destroyed and then joins its collector,
-// which finishes the cycle in progress.  That cycle's Phase 5b used to find
+// whose cycle in progress stops sweeping at its next claim of segments
+// (DestroyedDuringItsSweepStopsTheSweep, below).  That cycle's Phase 5b used to find
 // its own space in the destroyed list and remove every live entry of the
 // space from the table -- a walk of the whole table plus a removal of all of
 // the space's entries, at exit, while the destructor waited.  A runtime
@@ -32,6 +33,8 @@ using namespace proto;
 namespace {
 
 std::atomic<bool> g_inFinalizer{false};
+std::atomic<int> g_probesFinalized{0};
+void countingFinalizer(void*) { g_probesFinalized.fetch_add(1); }
 std::atomic<bool> g_releaseFinalizer{false};
 
 void holdingFinalizer(void*) {
@@ -136,4 +139,91 @@ TEST(SpaceTeardown, CycleInProgressLeavesTheSpacesLiveEntriesToALiveSpace) {
     EXPECT_EQ(afterDestroy, kLive)
         << "the cycle in progress at destruction walked the table and removed the space's live entries";
     EXPECT_EQ(afterLiveCycle, 0u) << "a live space's cycle did not purge the destroyed space's entries";
+}
+
+// The space being destroyed is the only one, so its sweep runs finalizers in
+// place, and a finalizer can hold the sweep at its first segment until the
+// destructor has begun.  Two thousand further segments, each with one counted
+// probe, follow it.  Once the destructor raises `ending`, the sweep claims no
+// further segment: most probes are never finalized (none runs at exit), the
+// destructor returns without sweeping them, and a later space collects
+// normally -- the cycle handed on the token -- and purges the destroyed
+// space's table entries.
+TEST(SpaceTeardown, DestroyedDuringItsSweepStopsTheSweep) {
+    constexpr proto_ulong kLive = 200;
+    constexpr int kProbeSegments = 2000;
+    auto* b = new ProtoSpace();
+    const proto_ulong bId = spaceIdOf(b);
+    g_probesFinalized.store(0);
+    {
+        auto* bctx = new ProtoContext(b, b->rootContext, nullptr, nullptr, nullptr, nullptr, 1);
+        const ProtoString* key = ProtoString::createSymbol(bctx, "value");
+        const ProtoList* keep = bctx->newList();
+        for (proto_ulong i = 0; i < kLive; ++i) {
+            const ProtoObject* o = bctx->newObject(true);
+            o->setAttribute(bctx, key, bctx->fromInteger(static_cast<long long>(i)));
+            keep = keep->appendLast(bctx, o);
+        }
+        b->createRootSet("teardown-test")->add(keep->asObject(bctx));
+        // One segment per destroyed context.  The list of segments is a
+        // stack, so the holder -- pushed last -- is swept first.
+        for (int i = 0; i < kProbeSegments; ++i) {
+            ProtoContext garbage(b, bctx, nullptr, nullptr, nullptr, nullptr);
+            (void) garbage.fromExternalPointer(nullptr, &countingFinalizer);
+        }
+        {
+            ProtoContext garbage(b, bctx, nullptr, nullptr, nullptr, nullptr);
+            (void) garbage.fromExternalPointer(nullptr, &holdingFinalizer);
+        }
+        delete bctx;
+    }
+
+    g_inFinalizer = false;
+    g_releaseFinalizer = false;
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+    while (!g_inFinalizer.load() && std::chrono::steady_clock::now() < deadline) {
+        {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            b->gcStarted = true;
+            b->gcCV.notify_all();
+        }
+        // This thread constructed b, so b's stop-the-world waits for it.
+        ProtoContext::UnmanagedScope parked(b->rootContext);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    ASSERT_TRUE(g_inFinalizer.load()) << "b's collector never swept the held cell";
+    const int finalizedBeforeDestroy = g_probesFinalized.load();
+
+    std::thread releaser([b]() {
+        const auto until = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+        for (;;) {
+            bool ending;
+            {
+                std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                ending = b->state == SPACE_STATE_ENDING;
+            }
+            if (ending || std::chrono::steady_clock::now() > until) break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        g_releaseFinalizer.store(true);
+    });
+    delete b;
+    releaser.join();
+    const int finalizedByB = g_probesFinalized.load();
+
+    ProtoSpace c;
+    ProtoContext cctx(&c, c.rootContext, nullptr, nullptr, nullptr, nullptr, 1);
+    const uint64_t cCycles = forceCycles(c, &cctx, 2);
+    const proto_ulong bEntries = multispace::countMutableEntriesOfSpace(&cctx, bId);
+    std::printf("[ Teardown ] stopped sweep: probes finalized before destroy %d, by b in all %d of %d; "
+                "c cycles %llu; b entries after c's cycles %llu\n",
+                finalizedBeforeDestroy, finalizedByB, kProbeSegments,
+                (unsigned long long) cCycles, (unsigned long long) bEntries);
+    EXPECT_EQ(finalizedBeforeDestroy, 0) << "the holder was not the first segment swept";
+    // At most one claim's worth of segments (sweep::kClaimRun) plus those
+    // already loaded in the cursors are swept after the flag is raised.
+    EXPECT_LT(finalizedByB, kProbeSegments / 4) << "the sweep went on after its space began to be destroyed";
+    EXPECT_GE(cCycles, 2u) << "a later space does not collect (cycle token not handed on?)";
+    EXPECT_EQ(bEntries, 0u) << "the destroyed space's table entries were not purged";
 }

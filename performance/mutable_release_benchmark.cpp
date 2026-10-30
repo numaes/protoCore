@@ -3,14 +3,17 @@
  * objects at once, end to end: the sweep finalizes their handles and Phase 5b
  * removes their entries from the process-wide mutable table.
  *
- *   mutable_release_benchmark <mutables> <deadPercent> [exit [delayMs]]
+ *   mutable_release_benchmark <mutables> <deadPercent> [exit [delayMs [frames]]]
  *
  * Builds `mutables` mutable objects, each written once (so each has a table
  * entry), keeps them in a list, then drops `deadPercent` % of them at random
  * and times the first full cycle that collects them.  With `exit`, the space
  * is destroyed as soon as that cycle has been requested and the time the
  * destructor takes is printed instead (it joins the collector, so it waits
- * for the cycle in progress).
+ * for the cycle in progress).  With `frames`, each mutable is allocated in a
+ * context of its own, destroyed at once, as a call frame of a runtime is: the
+ * heap is then made of many small segments, as a runtime's is, instead of a
+ * few large ones.
  *
  * Self-verifying: the live mutables must still read their attribute back, and
  * (without `exit`) the table must hold exactly the survivors' entries.
@@ -37,6 +40,7 @@ int main(int argc, char** argv) {
     const long n = std::atol(argv[1]);
     const int deadPercent = std::atoi(argv[2]);
     const bool atExit = argc > 3 && !std::strcmp(argv[3], "exit");
+    const bool frames = argc > 5 && !std::strcmp(argv[5], "frames");
 
     auto* space = new ProtoSpace();
     auto* ctx = new ProtoContext(space, space->rootContext, nullptr, nullptr, nullptr, nullptr, 1);
@@ -48,7 +52,17 @@ int main(int argc, char** argv) {
         // Built in chunks, each chunk rooted by the list so far.
         const ProtoList* list = ctx->newList();
         std::vector<const ProtoObject*> chunk;
-        for (long i = 0; i < n; ++i) {
+        for (long i = 0; frames && i < n; ++i) {
+            // One segment per frame; the list, rooted after every append,
+            // keeps each mutable reachable once its frame is gone.
+            ProtoContext frame(space, ctx, nullptr, nullptr, nullptr, nullptr);
+            ProtoObject* o = const_cast<ProtoObject*>(frame.newObject(true));
+            o->setAttribute(&frame, key, frame.fromInteger(i));
+            list = list->appendLast(&frame, o);
+            ctx->getAutomaticLocals()[0] = list->asObject(&frame);
+            all.push_back(o);
+        }
+        for (long i = 0; !frames && i < n; ++i) {
             ProtoObject* o = const_cast<ProtoObject*>(ctx->newObject(true));
             o->setAttribute(ctx, key, ctx->fromInteger(i));
             chunk.push_back(o);

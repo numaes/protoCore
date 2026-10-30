@@ -137,6 +137,10 @@ namespace sweep {
     struct SegmentCursor {
         std::mutex lock;
         DirtySegment* next = nullptr;
+        // Raised when the space is being destroyed: no sweeper claims a
+        // segment once it is up (ProtoSpaceImplementation::ending).
+        const std::atomic<bool>* stop = nullptr;
+        bool stopRequested() const { return stop && stop->load(std::memory_order_relaxed); }
     };
 
     /**
@@ -156,6 +160,7 @@ namespace sweep {
         unsigned helpersJoined = 0;
         proto_ulong wideSegments = 0;     // since 2.14.2: segments of a wide walk
         proto_ulong narrowSegments = 0;   // and of a one-chain walk
+        bool abandoned = false;           // stopped by `stop`, segments left unswept
     };
 
     /**
@@ -165,9 +170,16 @@ namespace sweep {
      * appended to space->gcFinalizedMutableRefs (before Phase 5b reads it),
      * their dead cells to `deadCells` (deferFree), and the embedder
      * finalizers they left have run on this thread.
+     *
+     * Once `*stop` is up (the space is being destroyed) no sweeper claims a
+     * further segment; each finishes the segment it holds.  The segments
+     * left unswept keep their cells as they are -- no finalizer runs for
+     * them, as none runs for a cell still live at exit -- their descriptors
+     * are freed here, and the result says `abandoned`.
      */
     CycleSweep sweepCycle(ProtoSpace* space, DirtySegment* list, bool deferFree,
-                          std::vector<Cell*>& deadCells);
+                          std::vector<Cell*>& deadCells,
+                          const std::atomic<bool>* stop = nullptr);
 
     // --- Configuration and lifecycle ----------------------------------------------
     //

@@ -912,10 +912,14 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   statics, and a collector that published swept cells
   (`adaptive::cellsPublished`) after their destruction crashed the exit
   (`ProcessExitDeathTest.*`).  Destroying the space before exit is still the
-  clean shutdown: it joins the collector, which first finishes the cycle in
-  progress, if any (so that cycle's sweep runs its finalizers).  No final
-  cycle is run: garbage no cycle has swept is never finalized
-  (docs/MemoryModel.md).  The cycle in progress leaves the space's live
+  clean shutdown: it joins the collector.  A cycle in progress finishes its
+  mark if it is marking, but its sweep claims no further segment once the
+  destructor has begun (`ProtoSpaceImplementation::ending`, checked at each
+  claim of `sweep::kClaimRun` segments): the cells it leaves unswept are
+  treated as cells live at exit, whose finalizers never run.  The cycle still
+  clears the mark bits it set, clears its snapshot and hands on the cycle
+  token.  No final cycle is run: garbage no cycle has swept is never
+  finalized (docs/MemoryModel.md).  The cycle in progress leaves the space's
   entries in the global mutable table to the next cycle of a live space, as
   an idle collector does.
 

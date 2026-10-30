@@ -2710,6 +2710,16 @@ namespace proto {
         unsigned long long linkedListPrototypeHandle = 0;
 
         /**
+         * Raised by ~ProtoSpace together with SPACE_STATE_ENDING, before it
+         * joins the collector.  The sweep reads it, without globalMutex, at
+         * each claim of segments (sweep::SegmentSource::next) and stops
+         * claiming once it is up: the destructor does not wait for the rest
+         * of a sweep whose space is going away (gcThreadLoop, "A space being
+         * destroyed abandons the rest of its sweep").
+         */
+        mutable std::atomic<bool> ending{false};
+
+        /**
          * The root sets WalkPin pins in, one per shard.  Each is an ordinary
          * root set of the space (createRootSet), destroyed with the others:
          * the collector already scans every root set of the space, so the

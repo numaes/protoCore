@@ -4,6 +4,49 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Changed -- a space being destroyed stops the sweep in progress
+
+- **`~ProtoSpace` waited for the whole cycle in progress**, sweep included:
+  the sweep finalized and freed cells of a space nothing would allocate from
+  again. It now raises `ProtoSpaceImplementation::ending` (with
+  `SPACE_STATE_ENDING`) before joining the collector, and the sweep reads it
+  at each claim of segments -- the collector's first segment, every
+  `sweep::kClaimRun` (128) segments after it, every helper claim; never per
+  cell. Once it is up no sweeper claims a further segment; each finishes the
+  one it holds, and the unclaimed descriptors are freed.
+- **What is not done:** the cells left unswept are treated as cells live at
+  exit, whose finalizers never run -- the contract already stated in
+  `docs/MemoryModel.md` ("Two further limits"). An abandoned cycle skips
+  Phase 5b and, with other spaces live, the grace period and finalization of
+  the dead cells it had collected; the space's entries in the global mutable
+  table are purged by the next cycle of a live space (entry below).
+- **What is still done:** Phase 6 clears every mark bit the cycle set
+  (perennial and interned cells are shared by the process), Phase 7 clears
+  its snapshot, `mutableReleasesPending` is settled and the cycle token is
+  handed on. A mark in progress still runs to its end.
+- **Measured** (`performance/mutable_release_benchmark 1000000 50 exit <delay>
+  frames`, a new mode that allocates each mutable in a short-lived context of
+  its own, as a runtime's call frames do; three runs each):
+
+  | destroyed | master 6605f26c | this change |
+  |---|---:|---:|
+  | 500 ms into a cycle (sweeping) | 703 -- 716 ms | 137 -- 144 ms |
+  | after the cycle ended | 22 -- 29 ms | 22 -- 23 ms |
+
+  Without `frames` (one context: 32 segments of tens of thousands of cells),
+  the check comes too rarely to cut anything: ~1.1 s either way. A per-cell
+  check in the sweep loop would cover that shape too; it was not made, since
+  it adds a test to the collector's hottest loop for the benefit of teardown
+  only.
+- **Test.** `SpaceTeardown.DestroyedDuringItsSweepStopsTheSweep` holds the
+  sweep of a sole space in a finalizer at its first segment until the
+  destructor has begun: 126 of the 2,000 probe segments behind it are
+  finalized (all 2,000 before the change, where the test fails), and a later
+  space collects and purges the destroyed space's entries. The abandoned
+  path with other spaces live (deferred free) has no deterministic test: its
+  dead cells are finalized only after the grace period, so no finalizer can
+  hold that sweep.
+
 ### Changed -- walk pins of threads in the quorum take no lock
 
 - **Each pinned walk still took a mutex twice** (add and remove in the

@@ -1507,8 +1507,25 @@ namespace proto {
                 // headroom, the helpers of the process-wide pool claim runs
                 // of segments too (core/Sweep.h).  On return everything is
                 // published and the helpers' finalized refs are merged.
+                //
+                // A space being destroyed abandons the rest of its sweep.
+                // ~ProtoSpace raises `ending` and joins this thread; nothing
+                // will allocate from the cells the sweep would free, and
+                // protoCore runs no finalizer at exit (docs/MemoryModel.md,
+                // "Two further limits"), so a cell left unswept is treated as
+                // every cell still live at exit is.  The sweepers stop claiming
+                // segments once the flag is up (sweep::sweepCycle).  What the
+                // cycle still does is what another space depends on: clear the
+                // mark bits it set (Phase 6; perennial and interned cells are
+                // shared by the process), clear its snapshot, settle
+                // mutableReleasesPending and hand on the cycle token.  The
+                // space's entries in the global mutable table, those of the
+                // handles already finalized included, are purged by the next
+                // cycle of a live space, as when the space is destroyed with
+                // its collector idle (recordDestroyedSpace).
                 const sweep::CycleSweep sweeper =
-                    sweep::sweepCycle(space, segmentsToProcess, deferFree, deadCells);
+                    sweep::sweepCycle(space, segmentsToProcess, deferFree, deadCells,
+                                      &space->impl->ending);
                 // Total cells reclaimed this cycle, across all published
                 // chunks — the out-of-memory signal (see reclaimedLastCycle).
                 proto_ulong reclaimedThisCycle = sweeper.reclaimed;
@@ -1543,7 +1560,7 @@ namespace proto {
                 // releaseFinalizedMutableEntries.
                 if (!statesAreRoots) emptyRetiredStates(retiredStates);
                 if (!deferFree) {
-                    releaseFinalizedMutableEntries(space);
+                    if (!sweeper.abandoned) releaseFinalizedMutableEntries(space);
                     if (!statesAreRoots)
                         multispace::mutableReleasesPending.fetch_sub(1, std::memory_order_seq_cst);
                 }
@@ -1630,7 +1647,15 @@ namespace proto {
                 }
                 multispace::cycleCV().notify_all();
 
-                if (deferFree) {
+                if (deferFree && sweeper.abandoned) {
+                    // The space is going away: its dead cells are not
+                    // finalized (no grace period is waited for them either).
+                    if (!statesAreRoots) {
+                        multispace::mutableReleasesPending.fetch_sub(1, std::memory_order_seq_cst);
+                        { std::lock_guard<std::recursive_mutex> wake(ProtoSpace::globalMutex); }
+                        multispace::cycleCV().notify_all();
+                    }
+                } else if (deferFree) {
                     // Grace period: every registered thread of the process
                     // passes a safepoint outside any critical section, or is
                     // parked or out of its quorum, before a dead cell of this
@@ -2046,6 +2071,8 @@ namespace proto {
         {
             std::lock_guard<std::recursive_mutex> lock(globalMutex);
             this->state = SPACE_STATE_ENDING;
+            // The sweep in progress, if any, stops claiming segments.
+            if (impl) impl->ending.store(true, std::memory_order_relaxed);
             // No thread of another space parks for this space, or rejoins its
             // quorum, from here on.
             multispace::unregisterSpace(this);
