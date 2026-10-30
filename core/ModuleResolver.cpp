@@ -122,7 +122,7 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
     space->addModuleRoot(module);
 
     // GC critical section: `wrapper` and `attrName` are held in C++ locals
-    // across newObject + addParent + fromUTF8String + setAttribute, each of
+    // across newObject + addParent + createSymbol + setAttribute, each of
     // which allocates.  Without the guard, a sweep landing between any two
     // could orphan one of them.
     //
@@ -140,7 +140,10 @@ const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context,
         wrapper = wrapper->addParent(ctx, space->objectPrototype);
         if (!wrapper) return PROTO_NONE;
     }
-    const ProtoString* attrName = ProtoString::fromUTF8(ctx, attrName2create);
+    // A symbol, not a heap string: setAttribute would intern a heap-string
+    // name on every import anyway (ProtoSpace::nonInternedNameCounts counted
+    // it), and the attribute is keyed by the same symbol either way.
+    const ProtoString* attrName = ProtoString::createSymbol(ctx, attrName2create);
     if (!attrName) return PROTO_NONE;
     wrapper = wrapper->setAttribute(ctx, attrName, module);
     return wrapper;
