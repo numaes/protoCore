@@ -1706,6 +1706,28 @@ namespace proto {
         void goOut(ProtoSpace* own);
         void comeBack(ProtoSpace* own, ProtoContext* context);
 
+        // Threads still running when their space is destroyed (~ProtoSpace's
+        // terminal stop).
+        //
+        // terminalPark: the calling thread leaves the quorum of every other
+        // space it is a member of and every grace period, for good, and
+        // blocks forever on process-global state.  It never touches a space
+        // again.  Never returns.
+        [[noreturn]] void terminalPark();
+        // Waits out `space`'s stop-the-world on its stopTheWorldCV under
+        // `lock` (globalMutex).  The caller counted itself in
+        // space->impl->parkWaiters and space->parkedThreads.  If the space's
+        // terminal stop is raised instead, it leaves parkWaiters, wakes the
+        // destructor and calls terminalPark.
+        void waitOutStop(ProtoSpace* space, std::unique_lock<std::recursive_mutex>& lock);
+        // True when the calling thread is returning from its outermost
+        // unmanaged region into a home space that has been destroyed (or is
+        // being destroyed) meanwhile.  Reads only thread-local state and the
+        // registry, never the space.
+        bool homeSpaceGoneOnReturn();
+        // True when the calling thread is out of `space`'s quorum now.
+        bool isOutOf(const ProtoSpace* space);
+
         // Collection cycles are serialized in the process: a cycle holds the
         // token from its stop-the-world request to the end of its bulk
         // unmark, so two markers never share the one mark bit of a cell.
@@ -2772,6 +2794,19 @@ namespace proto {
          * destroyed abandons the rest of its sweep").
          */
         mutable std::atomic<bool> ending{false};
+
+        /**
+         * The terminal stop (~ProtoSpace, "Threads still running at
+         * destruction").  `terminal` is raised once every other member thread
+         * of the space is parked or out of its quorum; a thread then waiting
+         * in a park of this space leaves it for multispace::terminalPark and
+         * never returns.  `parkWaiters` counts the threads between their
+         * parkedThreads increment and the end of their park wait, in every
+         * park site; the destructor frees the space only once it is zero, so
+         * no parked thread reads the space after it is gone.
+         */
+        mutable std::atomic<bool> terminal{false};
+        mutable std::atomic<int> parkWaiters{0};
 
         /**
          * The root sets WalkPin pins in, one per shard.  Each is an ordinary

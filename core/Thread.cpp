@@ -681,11 +681,13 @@ namespace proto {
             return;
         }
         if (!this->space->stwFlag.load()) return;
+        this->space->impl->parkWaiters.fetch_add(1, std::memory_order_seq_cst);
         this->space->parkedThreads++;
         {
             std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
             this->space->gcCV.notify_all(); // Notify GC that a thread parked
-            this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+            multispace::waitOutStop(this->space, lock);   // never returns from a terminal stop
+            this->space->impl->parkWaiters.fetch_sub(1, std::memory_order_seq_cst);
         }
         this->space->parkedThreads--;
         if (this->extension) this->extension->clearCachesAfterStopTheWorld(this->space);
@@ -736,6 +738,11 @@ namespace proto {
     // it; if the GC was NOT yet past quorum, our re-park immediately
     // restores the count.
     void ProtoThreadImplementation::implReturnFromUnmanaged() {
+        // The space this thread runs in may have been destroyed while it was
+        // out (~ProtoSpace, "Threads still running at destruction").  Checked
+        // first, from thread-local state and the registry only: this object
+        // and its extension live in that space's heap.
+        if (multispace::homeSpaceGoneOnReturn()) multispace::terminalPark();
         if (!this->extension) return;  // mirror implGoUnmanaged's early-bootstrap guard
         this->extension->unmanagedDepth.fetch_sub(1, std::memory_order_acq_rel);
         // Rejoin every quorum left by the matching goOut.  If a stop-the-world

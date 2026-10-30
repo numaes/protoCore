@@ -88,6 +88,21 @@ assert that a runtime created none of its own.  A thread declared `OwnSpace`
 under rule 11 below is conforming, and is the shape this recommendation
 advises against.
 
+### Threads still running when their space is destroyed (Unreleased)
+
+Join a space's ProtoThreads before destroying it.  A runtime that cannot -- a
+daemon thread still running at process exit -- no longer gets a
+use-after-free: `~ProtoSpace` stops every other thread of the space as a
+collection would, and never resumes them (the terminal stop).  A thread
+blocks for good at its next safepoint, allocation or heap wait, or, if it is
+out in an unmanaged region (blocking I/O, `sleepFor`), when that region
+returns; it never runs code of the space again, its stack and thread-local
+storage are left as they are, and joining it never returns.  The destructor
+waits for each such thread to reach one of those points, so a native loop
+with no safepoint keeps it waiting.  A thread of the space that is also a
+member of another live space is counted out of that space's quorum for good.
+Test: `SpaceTeardown.ThreadsStillRunningAreStoppedForGood`.
+
 ### Rule 11 accepts three conforming shapes
 
 The naive form — "every thread is created through `ProtoSpace::newThread`" —

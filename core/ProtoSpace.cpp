@@ -2122,6 +2122,43 @@ namespace proto {
             adaptive::forgetSpace(this);
         }
 
+        // Threads still running at destruction.  The contract
+        // (docs/EMBEDDER-CONFORMANCE.md) is to join a space's ProtoThreads
+        // before destroying it; a runtime that cannot -- a daemon thread at
+        // process exit -- gets this instead of a use-after-free.  Every
+        // other thread counted in this space's quorum is stopped as for a
+        // collection, and the stop is never lifted:
+        //   - a thread that parks (at an allocation, a safepoint, a heap
+        //     wait) leaves the park for multispace::terminalPark and blocks
+        //     there for the rest of the process;
+        //   - a thread out in an unmanaged region (blocking I/O, sleepFor)
+        //     counts as stopped now and blocks the same way when it returns,
+        //     before it touches anything of the space.
+        // Neither ever runs code of this space again, and nothing of theirs
+        // is torn down: their stacks and thread-local storage stay as they
+        // are, and joining one of them never returns.  The destructor waits
+        // for every such thread to reach a safepoint or leave managed code,
+        // exactly as a collection does; a thread that does neither (a native
+        // loop with no safepoint) keeps it waiting.  The collector has been
+        // joined above, so the stop-the-world flag is this stop's alone.
+        {
+            std::unique_lock<std::recursive_mutex> lock(globalMutex);
+            const int self = (multispace::isMember(this) && !multispace::isOutOf(this)) ? 1 : 0;
+            if (impl && runningThreads.load() > self) {
+                stwFlag.store(true);
+                multispace::attention.fetch_add(1);
+                gcCV.wait(lock, [this, self] {
+                    return parkedThreads.load() + self >= runningThreads.load();
+                });
+                impl->terminal.store(true, std::memory_order_seq_cst);
+                stopTheWorldCV.notify_all();
+                gcCV.wait(lock, [this] {
+                    return impl->parkWaiters.load(std::memory_order_seq_cst) == 0;
+                });
+                multispace::attention.fetch_sub(1);
+            }
+        }
+
         // PROTOCORE_MUTABLE_CYCLE_CHECK -- the zero-code way to ask rule 13's
         // question of a whole program.
         //
@@ -2463,9 +2500,11 @@ namespace proto {
             // A context without a thread parks the same way, keyed on the
             // context's own critical-section depth.  The wait releases
             // globalMutex (held once, by the caller's `lock`) while parked.
+            space->impl->parkWaiters.fetch_add(1, std::memory_order_seq_cst);
             space->parkedThreads++;
             space->gcCV.notify_all();
-            space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
+            multispace::waitOutStop(space, lock);   // never returns from a terminal stop
+            space->impl->parkWaiters.fetch_sub(1, std::memory_order_seq_cst);
             space->parkedThreads--;
         }
     }

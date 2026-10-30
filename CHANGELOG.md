@@ -4,6 +4,33 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Fixed -- threads still running when their space is destroyed are stopped for good
+
+- `~ProtoSpace` freed the space under any ProtoThread still running in it: a
+  daemon thread at process exit (protoPython waits up to 5 s for daemons and
+  then exits) could allocate from, or park on, freed memory.  The destructor
+  now ends with a **terminal stop**: once its collector is joined it raises
+  the stop-the-world flag and waits, as a collection does, until every other
+  thread counted in the space's quorum is parked or out in an unmanaged
+  region; then it marks the stop terminal.  Parked threads leave the space's
+  park for `multispace::terminalPark`, which blocks forever on process-global
+  state; the destructor frees nothing until the last one has left
+  (`parkWaiters`, counted at every park site).  A thread out in an unmanaged
+  region finds, when it returns, that its space is no longer registered and
+  blocks the same way before touching anything of it.  A blocked thread is
+  counted out of every other live space's quorum and grace periods for good.
+- Contract (`~ProtoSpace` in protoCore.h, docs/EMBEDDER-CONFORMANCE.md):
+  joining first is still the rule; a thread that is not joined never runs
+  code of the space again, and joining it never returns.  The destructor
+  waits for each such thread to reach a safepoint, an allocation or a heap
+  wait, or to be out of managed code.
+- Test `SpaceTeardown.ThreadsStillRunningAreStoppedForGood`: a thread
+  spinning in allocation and attribute access, and one asleep in `sleepFor`
+  past the destruction.  The destructor returns at once; the spinner makes no
+  further iteration and the sleeper never returns.  Without the terminal stop
+  the spinner ran on in the destroyed space (20,833 -> 1,783,047 iterations
+  in 2.5 s) and the test fails.
+
 ### Fixed -- three ordering and identity gaps left open by 2.15-3.x work
 
 - **A context without a thread rejoins the running set under globalMutex.**
