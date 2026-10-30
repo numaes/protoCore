@@ -66,6 +66,17 @@ All notable changes to protoCore are documented in this file.
   of list nodes before: sparse 64-slot nodes are the price of nodes that never
   change. A compressed (bitmap) node would have to be copied on every insert,
   and the replaced copies could not be freed without a reclamation scheme.
+- **Whole runtimes** (the five runtimes' benchmark sets built against master
+  5e0df455 and against this change, interleaved, `perf stat -r 3`, results
+  checked): no row moves beyond layout noise. The largest deltas (protoScala
+  fib30 +3 to +8 %) execute the same instruction count on both libraries and
+  flip sign when both libraries are built with `-falign-functions=64`: they
+  are function placement. protoJS's structure benchmarks gain 1 -- 4.5 %
+  under both layouts. Startup with an empty script is unchanged in all five.
+  Details in PR #12.
+- **`getImportModuleImpl` names the import wrapper's attribute with a
+  symbol.** It used a heap string, so every import interned the name inside
+  `setAttribute`; the new counter found it.
 - **New diagnostic: `ProtoSpace::nonInternedNameCounts()`** counts the
   attribute operations (get, has, hasOwn, set, setBulk, setIfEqual, remove)
   that received a non-interned STRING-tagged name -- each such call hashes the
