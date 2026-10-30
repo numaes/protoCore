@@ -63,7 +63,7 @@ namespace proto
     using proto_ulong = unsigned long;
 #endif
 
-    class SymbolTable;  // forward declaration for 64-shard interning table
+    class SymbolTable;  // forward declaration: the process-wide lock-free symbol trie
     class TupleInterner;  // forward declaration for the tuple interning table
     struct MutableValueCacheEntry;  // defined in proto_internal.h
 
@@ -2854,6 +2854,31 @@ namespace proto
         double liveHeadroom = 3.0;
     };
 
+    /**
+     * @brief Attribute operations that received a non-interned name
+     *        (ProtoSpace::nonInternedNameCounts).
+     *
+     * An attribute key is the address of an interned symbol.  A name passed
+     * as a plain heap string (POINTER_TAG_STRING) is canonicalised first --
+     * looked up (get, has, hasOwn) or interned (the writes) in the symbol
+     * table -- which costs a content hash and a trie walk on every call.  The
+     * counts show how often a runtime does that, so it can intern its names
+     * earlier.  Process-wide, since start; inline (<= 6 byte) names and
+     * symbols are never counted.
+     */
+    struct NonInternedNameCounts {
+        proto_ulong get = 0;          // getAttribute
+        proto_ulong has = 0;          // hasAttribute
+        proto_ulong hasOwn = 0;       // hasOwnAttribute
+        proto_ulong set = 0;          // setAttribute
+        proto_ulong setBulk = 0;      // setAttributes
+        proto_ulong setIfEqual = 0;   // setAttributeIfEqual
+        proto_ulong remove = 0;       // removeAttribute
+        proto_ulong total() const {
+            return get + has + hasOwn + set + setBulk + setIfEqual + remove;
+        }
+    };
+
     /** @brief A snapshot of a space's heap controller (adaptiveHeapStats). */
     struct AdaptiveHeapStats
     {
@@ -3268,6 +3293,20 @@ namespace proto
 
         /** @brief Module roots this process holds.  Diagnostics and tests. */
         static proto_ulong moduleRootCount();
+
+        /**
+         * @brief How many attribute operations received a non-interned name
+         *        (NonInternedNameCounts).  Relaxed reads of process-wide
+         *        counters; the counting costs one relaxed increment on the
+         *        already slow path of such a call.
+         *
+         * PROTOCORE_NONINTERNED_NAMES adds the call sites: set to "1" (or
+         * "stderr") it writes, at process exit, the counts and the 20 most
+         * frequent callers (return addresses, symbolised where the platform
+         * can) to stderr; any other value is a file path the report is
+         * appended to.  Unset, it costs nothing beyond the counters.
+         */
+        static NonInternedNameCounts nonInternedNameCounts();
 
         /**
          * @brief The stack size of the threads newThread creates, from now on.
