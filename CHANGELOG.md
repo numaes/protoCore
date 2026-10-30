@@ -4,6 +4,45 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Fixed -- the symbol table grows: interning no longer slows with the number of symbols
+
+- **Each of the 64 shards of the process-wide symbol table was one linked
+  chain**, never resized. A lookup or insert walked O(symbols / 64) nodes, so
+  the cost of `ProtoString::createSymbol` grew with every symbol the process
+  had interned, and filling the table was quadratic. Measured by the protoJS
+  agent against fec4394c: a new intern cost 79 / 998 / 2,390 us at 100k /
+  500k / 1M symbols, a lookup of an existing one 21 / 457 / 891 us, and
+  filling 1M symbols took about 22 minutes.
+- **A shard is now a chained hash table** whose bucket array, indexed by the
+  hash bits above the shard bits, doubles when the shard holds as many entries
+  as buckets (`SymbolTable::Shard::insert`). Growth relinks the index nodes
+  under the shard mutex and allocates only C++ memory, never a Cell: the shard
+  mutex stays a strict leaf lock, and lookups take the same lock as before,
+  with no global lock added. Symbols stay perennial and keep their pointers;
+  only index nodes move.
+- **Measured** (`performance/symbol_intern_benchmark`, new and self-verifying:
+  identity on re-intern, pointer uniqueness, exact table growth; mean of three
+  interleaved rounds against master, A/A control with a dead padding function
+  appended to `core/SymbolTable.cpp`; microseconds per call):
+
+  | symbols in the table | new intern, master | new intern, this change | lookup, master | lookup, this change |
+  |---:|---:|---:|---:|---:|
+  | 1,000 | 0.50 | 0.38 | 0.24 | 0.19 |
+  | 10,000 | 3.48 | 0.36 | 1.24 | 0.22 |
+  | 50,000 | 72.8 | 0.50 | 22.3 | 0.54 |
+  | 100,000 | 171.3 | 0.46 | 59.4 | 0.60 |
+  | 200,000 | 388.1 | 0.52 | 154.0 | 0.66 |
+  | 1,000,000 | 2,390 (protoJS agent) | 0.54 | 891 (protoJS agent) | 0.80 |
+
+  The fill costs 0.47 -- 0.60 us per symbol from 10k to 1M symbols (linear;
+  the 1M fill takes about half a second). The padded control stays within the
+  rounds' spread (new intern 0.37 -- 0.54 us at every size).
+- **Tests.** `SymbolTableGrowth.ChainsStayShortAsTheTableGrows` (200k
+  spellings: longest chain 6, no shard above load factor 1, every pointer
+  stable and distinct) and `SymbolTableGrowth.ConcurrentInternersAgreeWhileShardsGrow`
+  (8 ProtoThreads intern the same 40k new spellings in different orders while
+  the shards grow, and agree on every pointer).
+
 ### Changed -- a space being destroyed stops the sweep in progress
 
 - **`~ProtoSpace` waited for the whole cycle in progress**, sweep included:
