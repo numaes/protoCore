@@ -155,7 +155,8 @@ void ProtoRootSet::forEachRoot(
 // guarantees:
 //
 //   1. One thread writes it: the space's main thread (a set the space owns,
-//      used only when the calling OS thread is space->mainThreadId) or one
+//      used only by the OS thread that constructed the space, recognised by
+//      thread-local storage rather than by a reusable thread id) or one
 //      ProtoThread of the space (a set the thread creates at its first walk
 //      and destroys when it exits).
 //   2. That thread is counted in the space's stop-the-world quorum.  The

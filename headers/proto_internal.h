@@ -2816,9 +2816,12 @@ namespace proto {
          * only while every counted thread is parked, so the stop-the-world
          * hand-off already orders the two (core/ProtoRootSet.cpp).
          *
-         *  - The space's main thread (the OS thread that constructed it,
-         *    ProtoSpace::mainThreadId) pins in `mainThreadWalkPins`, created
-         *    with the space.
+         *  - The space's main thread (the OS thread that constructed it)
+         *    pins in `mainThreadWalkPins`, created with the space.  It is
+         *    recognised by thread-local storage set by the constructor, not
+         *    by ProtoSpace::mainThreadId: a reused OS thread id must not
+         *    alias it.  A thread that constructs several spaces owns the set
+         *    of the last one; it pins in the shards of the others.
          *  - A ProtoThread started by this space's newThread pins in a set it
          *    creates at its first walk and destroys when it exits
          *    (releaseThreadWalkPins, from thread_main).
