@@ -140,6 +140,9 @@ namespace sweep {
     // the single-chain walk produced.
     DirtySegment* SegmentSource::next() {
         if (owner && !*shared) {
+            // A space being destroyed: checked at the first segment and then
+            // once per kClaimRun, like the claim below, never per cell.
+            if (sinceHook == 0 && cursor->stopRequested()) return nullptr;
             // The collector before any helper joined: the list is still its
             // own, so it takes segments straight from it, one at a time, and
             // the next segment's address is prefetched like a cell's.  A
@@ -156,6 +159,7 @@ namespace sweep {
             return seg;
         }
         if (!run) {
+            if (cursor->stopRequested()) return nullptr;
             bool more = false;
             run = claimRun(*cursor, kClaimRun, &more);
             if (!run) return nullptr;
@@ -627,10 +631,11 @@ namespace sweep {
     }
 
     CycleSweep sweepCycle(ProtoSpace* space, DirtySegment* list, bool deferFree,
-                          std::vector<Cell*>& deadCells) {
+                          std::vector<Cell*>& deadCells, const std::atomic<bool>* stop) {
         CycleSweep result;
         SegmentCursor cursor;
         cursor.next = list;
+        cursor.stop = stop;
         Job job;
         job.space = space;
         job.deferFree = deferFree;
@@ -684,6 +689,16 @@ namespace sweep {
         sweepSegments(source, L);
         if (engaged) finishJob(&job);
         L.finish();
+        // Every sweeper has returned.  A stopped sweep leaves the unclaimed
+        // segments on the cursor: their cells stay as they are, and their
+        // descriptors are freed here, as ~ProtoSpace frees the space's own.
+        if (cursor.next) {
+            result.abandoned = true;
+            while (DirtySegment* seg = cursor.next) {
+                cursor.next = seg->next;
+                delete seg;
+            }
+        }
 
         if (mode == Engagement::Measured) {
             const proto_ulong swept = L.swept + job.swept;
