@@ -48,6 +48,37 @@ namespace proto {
         std::atomic<unsigned> nextWalkPinShard{0};
     }
 
+    namespace {
+        // The calling ProtoThread's own walk-pin set and the space it belongs
+        // to; null until the thread's first walk in its home space, null
+        // again after releaseThreadWalkPins.
+        thread_local ProtoSpace* tlOwnWalkPinSpace = nullptr;
+        thread_local ProtoRootSet* tlOwnWalkPins = nullptr;
+    }
+
+    ProtoRootSet* ProtoSpaceImplementation::walkPinSetFor(ProtoSpace* space) {
+        const ProtoSpaceImplementation* impl = space->impl;
+        if (impl->singleWriterWalkPins) {
+            if (tlOwnWalkPinSpace == space) return tlOwnWalkPins;
+            if (space->mainThreadId == std::this_thread::get_id() && impl->mainThreadWalkPins)
+                return impl->mainThreadWalkPins;
+            if (!tlOwnWalkPinSpace && multispace::isWorkerOf(space)) {
+                // First walk of a ProtoThread in its home space: once per thread.
+                tlOwnWalkPins = createSingleWriterRootSet(space, "protoCore-thread-walk-pins");
+                tlOwnWalkPinSpace = space;
+                return tlOwnWalkPins;
+            }
+        }
+        return impl->walkPins[walkPinShard()];
+    }
+
+    void releaseThreadWalkPins(ProtoSpace* space) {
+        if (tlOwnWalkPinSpace != space || !tlOwnWalkPins) return;
+        space->destroyRootSet(tlOwnWalkPins);
+        tlOwnWalkPins = nullptr;
+        tlOwnWalkPinSpace = nullptr;
+    }
+
     unsigned ProtoSpaceImplementation::walkPinShard() {
         unsigned s = tlsWalkPinShard;
         if (s == 0) {
@@ -1870,6 +1901,7 @@ namespace proto {
             extension->linkedListPrototypeHandle = extension->roots->add(extension->linkedListPrototype);
             for (auto*& shard : extension->walkPins)
                 shard = this->createRootSet("protoCore-walk-pins");
+            extension->mainThreadWalkPins = createSingleWriterRootSet(this, "protoCore-main-thread-walk-pins");
             this->impl = extension;
         }
         // Mutable so embedders (protoJS Object.prototype, protoPython

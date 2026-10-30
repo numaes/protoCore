@@ -42,6 +42,21 @@ using namespace proto;
 
 namespace {
 
+// Every walk pin in the space, wherever it is held: the shards, the main
+// thread's set, or a ProtoThread's own set.
+struct WalkPinCount { proto_ulong pins = 0; proto_ulong sets = 0; };
+WalkPinCount countWalkPins(const ProtoSpace& space) {
+    WalkPinCount c;
+    space.forEachRootSet([](void* user, ProtoRootSet* rs) {
+        if (std::string(rs->getName()).find("walk-pins") == std::string::npos) return;
+        auto* out = static_cast<WalkPinCount*>(user);
+        out->pins += rs->size();
+        ++out->sets;
+    }, &c);
+    return c;
+}
+proto_ulong totalWalkPins(const ProtoSpace& space) { return countWalkPins(space).pins; }
+
 void requestCycle(ProtoSpace& space) {
     std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
     space.gcStarted = true;
@@ -449,13 +464,9 @@ TEST(SparseListWalk, PinsNestAndAreReleasedOnException) {
     ProtoSpace space;
     ProtoContext ctx(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr, 1);
     struct AllPins {
-        const ProtoSpaceImplementation* impl;
-        proto_ulong size() const {
-            proto_ulong n = 0;
-            for (auto* shard : impl->walkPins) n += shard->size();
-            return n;
-        }
-    } allPins{space.impl};
+        const ProtoSpace* space;
+        proto_ulong size() const { return totalWalkPins(*space); }
+    } allPins{&space};
     AllPins* roots = &allPins;
     const proto_ulong base = roots->size();
     const ProtoString* idx = ProtoString::createSymbol(&ctx, "idx");
@@ -491,14 +502,7 @@ TEST(SparseListWalk, PinsNestAndAreReleasedOnException) {
 
 namespace {
 
-proto_ulong totalWalkPins(const ProtoSpaceImplementation* impl) {
-    proto_ulong n = 0;
-    for (auto* shard : impl->walkPins) n += shard->size();
-    return n;
-}
 
-// More walking threads than walk-pin shards, so some threads share a shard.
-constexpr int kConcurrentWalkers = static_cast<int>(ProtoSpaceImplementation::kWalkPinShards) + 4;
 constexpr int kEntriesPerWalker = 24;   // AVL form
 
 struct ConcurrentWalk {
@@ -555,74 +559,153 @@ const ProtoObject* concurrentWalkerMain(ProtoContext* ctx, const ProtoObject*, c
     return PROTO_NONE;
 }
 
-}  // namespace
+struct WalkersOutcome {
+    int allInside = 0;
+    std::vector<proto_ulong> perShard;   // pins per shard, all walkers inside
+    proto_ulong threadSetPins = 0;       // pins in ProtoThreads' own sets, all inside
+    proto_ulong threadSetsWhileInside = 0;
+    proto_ulong threadSetsAfter = 0;     // ProtoThreads' own sets left after the joins
+    uint64_t cycles = 0;
+    int freedDuringWalks = 0;
+    int freedAfter = 0;
+    proto_ulong pinsAfter = 0;
+};
 
-// Twenty ProtoThreads walk at once, each standing on a receiver that only its
-// pin keeps alive, while the main thread runs collections.  Every pin lands in
-// the walking thread's own shard: with all walkers inside their callbacks, the
-// pins are spread over every shard and no shard holds more than the
-// round-robin share (two threads per shard beyond the sixteenth).  No probe is
-// freed during the walks; every probe is freed after them; every pin is
-// released.
-TEST(SparseListWalk, ConcurrentWalkersArePinnedInTheirOwnShards) {
+// `walkers` ProtoThreads walk at once, each standing on a receiver that only
+// its pin keeps alive, all held inside their first callback while the main
+// thread runs collections.
+WalkersOutcome runConcurrentWalkers(int walkers, bool sharedShards, ConcurrentWalk& shared) {
+    WalkersOutcome out;
     ProtoSpace space;
+    const_cast<ProtoSpaceImplementation*>(space.impl)->singleWriterWalkPins = !sharedShards;
     ProtoContext caller(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr, 1);
-    const proto_ulong base = totalWalkPins(space.impl);
+    EXPECT_EQ(totalWalkPins(space), 0u);
     g_probesFreed.store(0);
 
-    ConcurrentWalk shared;
     shared.space = &space;
     g_concurrent = &shared;
     std::vector<const ProtoThread*> threads;
-    for (int t = 0; t < kConcurrentWalkers; ++t)
+    for (int t = 0; t < walkers; ++t)
         threads.push_back(space.newThread(&caller,
             ProtoString::createSymbol(&caller, ("walker-" + std::to_string(t)).c_str()),
             concurrentWalkerMain, nullptr, nullptr));
 
-    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
-    while (shared.inside.load() < kConcurrentWalkers && std::chrono::steady_clock::now() < deadline)
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(60);
+    while (shared.inside.load() < walkers && std::chrono::steady_clock::now() < deadline)
         ProtoThread::sleepFor(&caller, 1000);
-    const int allInside = shared.inside.load();
+    out.allInside = shared.inside.load();
 
-    std::vector<proto_ulong> perShard;
-    for (auto* shard : space.impl->walkPins) perShard.push_back(shard->size());
-    const uint64_t cycles = runCycles(space, &caller, 3);
-    const int freedDuringWalks = g_probesFreed.load();
+    for (auto* shard : space.impl->walkPins) out.perShard.push_back(shard->size());
+    space.forEachRootSet([](void* user, ProtoRootSet* rs) {
+        if (std::string(rs->getName()) != "protoCore-thread-walk-pins") return;
+        auto* o = static_cast<WalkersOutcome*>(user);
+        o->threadSetPins += rs->size();
+        ++o->threadSetsWhileInside;
+    }, &out);
+    out.cycles = runCycles(space, &caller, 3);
+    out.freedDuringWalks = g_probesFreed.load();
     shared.release.store(true);
     for (const ProtoThread* t : threads) const_cast<ProtoThread*>(t)->join(&caller);
     g_concurrent = nullptr;
 
     runCycles(space, &caller, 4);
-    const int freedAfter = g_probesFreed.load();
-    const proto_ulong pinsAfter = totalWalkPins(space.impl);
+    out.freedAfter = g_probesFreed.load();
+    out.pinsAfter = totalWalkPins(space);
+    space.forEachRootSet([](void* user, ProtoRootSet* rs) {
+        if (std::string(rs->getName()) == "protoCore-thread-walk-pins")
+            ++static_cast<WalkersOutcome*>(user)->threadSetsAfter;
+    }, &out);
+    return out;
+}
 
+void expectWalksSurvived(const WalkersOutcome& o, const ConcurrentWalk& shared, int walkers) {
+    EXPECT_EQ(o.allInside, walkers) << "not every walker reached its callback";
+    EXPECT_GE(o.cycles, 3u) << "no collection ran while the walkers stood on their receivers";
+    EXPECT_EQ(o.freedDuringWalks, 0) << "a walked list was freed while its walk stood on it";
+    EXPECT_EQ(shared.calls.load(), walkers * kEntriesPerWalker);
+    EXPECT_EQ(shared.wrong.load(), 0);
+    EXPECT_EQ(shared.timedOut.load(), 0);
+    EXPECT_EQ(o.freedAfter, walkers * kEntriesPerWalker)
+        << "probes not freed after the walks (unreachable? pins released?)";
+    EXPECT_EQ(o.pinsAfter, 0u) << "a pin leaked";
+}
+
+// The shared path: threads that pin in the shards (forced here for
+// ProtoThreads; in production, threads that are not counted in the space's
+// quorum, or that walk in a space other than their own).  With more walkers
+// than shards, every shard is used and none holds more than the round-robin
+// share.
+void runShardedWalkers(int walkers) {
+    ConcurrentWalk shared;
+    const WalkersOutcome o = runConcurrentWalkers(walkers, true, shared);
     proto_ulong pinnedInside = 0, maxPerShard = 0, emptyShards = 0;
     std::string occupancy;
-    for (proto_ulong n : perShard) {
+    for (proto_ulong n : o.perShard) {
         pinnedInside += n;
         maxPerShard = std::max(maxPerShard, n);
         if (n == 0) ++emptyShards;
         occupancy += std::to_string(n) + " ";
     }
-    const proto_ulong share = (kConcurrentWalkers + ProtoSpaceImplementation::kWalkPinShards - 1)
+    const proto_ulong share = (walkers + ProtoSpaceImplementation::kWalkPinShards - 1)
                               / ProtoSpaceImplementation::kWalkPinShards;
-    std::printf("[ ConcurrentWalkers ] walkers=%d inside=%d shards=[ %s] cycles=%llu calls=%d wrong=%d "
+    std::printf("[ ShardedWalkers ] walkers=%d inside=%d shards=[ %s] cycles=%llu calls=%d wrong=%d "
                 "timedOut=%d freedDuringWalks=%d freedAfter=%d pinsAfter=%llu\n",
-                kConcurrentWalkers, allInside, occupancy.c_str(), static_cast<unsigned long long>(cycles),
-                shared.calls.load(), shared.wrong.load(), shared.timedOut.load(), freedDuringWalks, freedAfter,
-                static_cast<unsigned long long>(pinsAfter));
-
-    ASSERT_EQ(base, 0u);
-    EXPECT_EQ(allInside, kConcurrentWalkers) << "not every walker reached its callback";
-    EXPECT_EQ(pinnedInside, static_cast<proto_ulong>(kConcurrentWalkers)) << "one pin per walk in progress";
+                walkers, o.allInside, occupancy.c_str(), static_cast<unsigned long long>(o.cycles),
+                shared.calls.load(), shared.wrong.load(), shared.timedOut.load(), o.freedDuringWalks,
+                o.freedAfter, static_cast<unsigned long long>(o.pinsAfter));
+    expectWalksSurvived(o, shared, walkers);
+    EXPECT_EQ(pinnedInside, static_cast<proto_ulong>(walkers)) << "one pin per walk in progress";
+    EXPECT_EQ(o.threadSetsWhileInside, 0u) << "a thread created its own set on the shared path";
     EXPECT_EQ(emptyShards, 0u) << "a shard was left unused while threads shared others";
     EXPECT_LE(maxPerShard, share) << "a shard holds more than its round-robin share";
-    EXPECT_GE(cycles, 3u) << "no collection ran while the walkers stood on their receivers";
-    EXPECT_EQ(freedDuringWalks, 0) << "a walked list was freed while its walk stood on it";
-    EXPECT_EQ(shared.calls.load(), kConcurrentWalkers * kEntriesPerWalker);
-    EXPECT_EQ(shared.wrong.load(), 0);
-    EXPECT_EQ(shared.timedOut.load(), 0);
-    EXPECT_EQ(freedAfter, kConcurrentWalkers * kEntriesPerWalker)
-        << "probes not freed after the walks (unreachable? pins released?)";
-    EXPECT_EQ(pinsAfter, base) << "a pin leaked";
+}
+
+}  // namespace
+
+// Twenty walkers over sixteen shards: four shards are shared by two threads.
+TEST(SparseListWalk, ConcurrentWalkersArePinnedInTheirOwnShards) { runShardedWalkers(20); }
+
+// Sixty-four walkers over sixteen shards: every shard is shared by four
+// threads, whose pins come and go concurrently behind the shard's mutex.
+TEST(SparseListWalk, SixtyFourWalkersShareTheShards) { runShardedWalkers(64); }
+
+// The single-writer path: each ProtoThread pins in a root set of its own,
+// created at its first walk and destroyed when the thread exits; the shards
+// stay empty.
+TEST(SparseListWalk, SixtyFourWalkersPinInTheirOwnSets) {
+    constexpr int walkers = 64;
+    ConcurrentWalk shared;
+    const WalkersOutcome o = runConcurrentWalkers(walkers, false, shared);
+    proto_ulong shardPins = 0;
+    for (proto_ulong n : o.perShard) shardPins += n;
+    std::printf("[ OwnSetWalkers ] walkers=%d inside=%d threadSets=%llu threadSetPins=%llu shardPins=%llu "
+                "cycles=%llu freedDuringWalks=%d freedAfter=%d pinsAfter=%llu threadSetsAfter=%llu\n",
+                walkers, o.allInside, static_cast<unsigned long long>(o.threadSetsWhileInside),
+                static_cast<unsigned long long>(o.threadSetPins), static_cast<unsigned long long>(shardPins),
+                static_cast<unsigned long long>(o.cycles), o.freedDuringWalks, o.freedAfter,
+                static_cast<unsigned long long>(o.pinsAfter), static_cast<unsigned long long>(o.threadSetsAfter));
+    expectWalksSurvived(o, shared, walkers);
+    EXPECT_EQ(o.threadSetsWhileInside, static_cast<proto_ulong>(walkers)) << "one own set per walking thread";
+    EXPECT_EQ(o.threadSetPins, static_cast<proto_ulong>(walkers)) << "one pin per walk, in the walker's own set";
+    EXPECT_EQ(shardPins, 0u) << "a ProtoThread walking in its own space pinned in a shard";
+    EXPECT_EQ(o.threadSetsAfter, 0u) << "an exited thread left its walk-pin set registered";
+}
+
+// The space's main thread pins in the set reserved for it, never in a shard.
+TEST(SparseListWalk, MainThreadPinsInItsOwnSet) {
+    ProtoSpace space;
+    ProtoContext ctx(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr, 1);
+    const ProtoString* idx = ProtoString::createSymbol(&ctx, "idx");
+    const ProtoSparseList* list = buildIndexedList(&ctx, idx, 3);
+    ctx.getAutomaticLocals()[0] = list->asObject(&ctx);
+    struct Seen { const ProtoSpace* space; proto_ulong mainPins = 0, shardPins = 0; } seen{&space};
+    list->processValues(&ctx, &seen, [](ProtoContext*, void* self, const ProtoObject*) {
+        auto* s = static_cast<Seen*>(self);
+        s->mainPins = s->space->impl->mainThreadWalkPins->size();
+        s->shardPins = 0;
+        for (auto* shard : s->space->impl->walkPins) s->shardPins += shard->size();
+    });
+    EXPECT_EQ(seen.mainPins, 1u);
+    EXPECT_EQ(seen.shardPins, 0u);
+    EXPECT_EQ(totalWalkPins(space), 0u);
 }

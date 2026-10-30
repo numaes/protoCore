@@ -2738,6 +2738,9 @@ namespace proto
 
     private:
         friend class ProtoSpace;
+        // protoCore's own walk pins: a root set only one thread ever writes
+        // (headers/proto_internal.h, ProtoSpaceImplementation).
+        friend ProtoRootSet* createSingleWriterRootSet(ProtoSpace* space, const char* name);
         ProtoRootSet(ProtoSpace* owner, const char* name);
         ~ProtoRootSet();
 

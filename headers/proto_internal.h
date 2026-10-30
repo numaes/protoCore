@@ -1634,6 +1634,8 @@ namespace proto {
         // thread) or when the thread was started by the space's newThread.
         void setWorkerSpace(ProtoSpace* space, ProtoThreadImplementation* impl);
         bool isMember(const ProtoSpace* space);
+        // True when the calling OS thread was started by `space`'s newThread.
+        bool isWorkerOf(const ProtoSpace* space);
 
         // Parks the calling thread for the stop-the-world of its context's
         // space, as before, or of any other space it is a member of.  Never
@@ -2742,7 +2744,43 @@ namespace proto {
          * The same index serves every space of the process.
          */
         static unsigned walkPinShard();
+
+        /**
+         * Single-writer walk pins (createSingleWriterRootSet): no mutex at
+         * all on the pin path.  A thread counted in this space's quorum is
+         * the only writer of its own set, and the collector reads root sets
+         * only while every counted thread is parked, so the stop-the-world
+         * hand-off already orders the two (core/ProtoRootSet.cpp).
+         *
+         *  - The space's main thread (the OS thread that constructed it,
+         *    ProtoSpace::mainThreadId) pins in `mainThreadWalkPins`, created
+         *    with the space.
+         *  - A ProtoThread started by this space's newThread pins in a set it
+         *    creates at its first walk and destroys when it exits
+         *    (releaseThreadWalkPins, from thread_main).
+         *  - Any other thread -- one not counted in this space's quorum, or a
+         *    member thread walking in a space other than its own -- pins in
+         *    the shards above, behind their mutexes.
+         *
+         * `singleWriterWalkPins` = false sends every walk to the shards
+         * (tests use it to exercise the shared path).
+         */
+        ProtoRootSet* mainThreadWalkPins = nullptr;
+        bool singleWriterWalkPins = true;
+
+        /** The root set a walk on the calling thread pins in, in `space`. */
+        static ProtoRootSet* walkPinSetFor(ProtoSpace* space);
     };
+
+    /** See ProtoSpaceImplementation::walkPinSetFor (core/ProtoRootSet.cpp). */
+    ProtoRootSet* createSingleWriterRootSet(ProtoSpace* space, const char* name);
+
+    /**
+     * Destroys the calling ProtoThread's own walk-pin set in `space`, if it
+     * created one.  Called by thread_main as the thread leaves its space;
+     * the set is empty by then (every pin is scoped to a walk).
+     */
+    void releaseThreadWalkPins(ProtoSpace* space);
 
     /**
      * RAII pin of one object in this thread's walk-pin root set
@@ -2769,7 +2807,7 @@ namespace proto {
     public:
         WalkPin(ProtoContext* context, const ProtoObject* obj) {
             if (context && context->space && context->space->impl && ProtoObject::isCellPointer(obj)) {
-                roots_ = context->space->impl->walkPins[ProtoSpaceImplementation::walkPinShard()];
+                roots_ = ProtoSpaceImplementation::walkPinSetFor(context->space);
                 handle_ = roots_->add(obj);
             }
         }

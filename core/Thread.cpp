@@ -265,6 +265,9 @@ namespace proto {
                     break;
                 }
             }
+            // The thread's own walk-pin set (empty: every pin is scoped to a
+            // walk) leaves the space with it.
+            releaseThreadWalkPins(context->space);
             multispace::setWorkerSpace(nullptr, nullptr);
             // Everything this thread owns goes back now, on this thread.  After
             // this call `context` is a dangling pointer, so nothing below may
