@@ -15,8 +15,9 @@ marker reads only that snapshot.  Workers may CAS-swap shards freely;
 the marker never reads the live table during mark.
 
 Stop-the-world collects roots only: each thread's stack roots (automatic
-locals, closure locals, return value, pending root, and one handle per
-context for its young generation), the shard snapshot of the mutables tree
+locals, closure locals, return value, and one handle per context for its
+young generation), the space's root sets (embedder sets and protoCore's own
+walk pins), the shard snapshot of the mutables tree
 (not a root: since 3.1.0 a state is marked only through its handle) and the
 roots of the global structures.  Everything reachable
 from those roots is immutable, so the depth traversal, the references of
@@ -203,7 +204,7 @@ thread's context while that thread was still constructing cells in it
 While the world is stopped, the GC:
 
 1. Scans every thread's context chain for roots (automatic locals, closure
-   locals, return value, pending root) and records one root handle per
+   locals, return value) and records one root handle per
    context for its young generation: the head of its young chain
    (`lastAllocatedCell`), read under the context spinlock.  The chains are
    walked in Phase 4.  `space->mainContext` is scanned only when no

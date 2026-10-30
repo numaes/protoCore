@@ -326,6 +326,10 @@ void setWorkerSpace(ProtoSpace* space, ProtoThreadImplementation* impl) {
     if (space) ensureQuiescenceRecord();
 }
 
+bool isWorkerOf(const ProtoSpace* space) {
+    return space == tlWorkerSpace;
+}
+
 bool isMember(const ProtoSpace* space) {
     return space == tlWorkerSpace || space->mainThreadId == std::this_thread::get_id();
 }

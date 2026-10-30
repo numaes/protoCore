@@ -4,6 +4,58 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Changed -- walk pins of threads in the quorum take no lock
+
+- **Each pinned walk still took a mutex twice** (add and remove in the
+  thread's shard). For a thread counted in the space's stop-the-world quorum
+  the lock protects nothing: the only reader of a root set's contents is the
+  collector's Phase 2 scan, which runs while every counted thread is parked or
+  out in an unmanaged region, and parking already orders the thread's writes
+  against the scan (globalMutex and the seq_cst quorum counters).
+- **The space's main thread now pins in a set created with the space, and a
+  ProtoThread walking in the space that started it pins in a set it creates at
+  its first walk and destroys when it exits** (`thread_main`). Both are
+  single-writer root sets (`createSingleWriterRootSet`, internal): add and
+  remove take no lock. Any other thread -- one not counted in the space's
+  quorum, or a member walking in a space other than its own -- keeps the 16
+  mutex-guarded shards of the entry below. `ProtoRootSet`'s layout is
+  unchanged (the flag lives in its private `Impl`).
+- **Measured** (`performance/walk_pin_benchmark single`, cycles per walk, mean
+  of three interleaved rounds of `perf stat -r 3`, a fresh library copy per
+  run; A/A control: the same branch with a dead padding function appended to
+  `core/ProtoSpace.cpp`):
+
+  | case | master fec4394c | this change | this change + padding |
+  |---|---:|---:|---:|
+  | sparse list, 3 entries | 141.8 | 119.8 | 120.7 |
+  | sparse list, 16 entries | 266.4 | 239.9 | 253.5 |
+  | mutable object, 1 attribute | 113.2 | 81.0 | 78.9 |
+  | mutable object, 16 attributes | 274.6 | 244.2 | 249.1 |
+  | immutable object, 1 attribute (not pinned) | 26.9 | 33.1 * | 26.1 |
+
+  Instructions per pinned walk fall by 69-70 in every case (sparse list,
+  3 entries: 496 -> 428). \* one outlier round (44.7; the others 28.1 and
+  26.5); instructions are identical (115). The padding control moves the
+  16-entry list by 14 cycles, so differences below that are layout, not code.
+  Concurrent walks (`threads <case> 2 1,2,4,6,8`, total millions of walks/s):
+  mutable, 1 attribute, 8 threads 117.1 -> 171.7; sparse list, 16 entries,
+  8 threads 49.7 -> 53.8.
+- **Not recovered: the small-list walk is still above its cost before the
+  pin.** A 3-entry list walked in 67.5 cycles when its walk ran inside a
+  critical section and pinned nothing (before the entry below); it now takes
+  ~120. What remains is the pin itself (a slot of the root set's vector, its
+  free list and generation) and the choice of set (a thread-local read and the
+  main-thread check). Skipping the pin is not possible without weakening the
+  guarantee: the receiver may be reachable only from the caller's C++ local
+  (the case the pin exists for), and protoCore cannot tell that case from a
+  rooted receiver without a walk of its own.
+- **Tests.** `SparseListWalk.SixtyFourWalkersPinInTheirOwnSets` (64
+  ProtoThreads inside walks on garbage receivers while the main thread
+  collects: one own set each, no shard used, every probe survives, every set
+  is gone after the threads exit), `SparseListWalk.SixtyFourWalkersShareTheShards`
+  (the shared path forced, 64 walkers on 16 shards: exactly four each),
+  `SparseListWalk.MainThreadPinsInItsOwnSet`.
+
 ### Fixed -- a starting thread joins the stop-the-world quorum under `globalMutex`
 
 - **`thread_main` incremented `runningThreads` without `globalMutex`**, then

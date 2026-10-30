@@ -589,12 +589,15 @@ namespace proto
          * the calling thread's own (see "Concurrent walks" below).
          *
          * Concurrent walks: any number of threads may walk, the same
-         * receiver or different ones, at the same time.  The space keeps
-         * 16 root sets for walk pins and gives each OS thread one of them
-         * for its whole life, round-robin at its first walk, so up to 16
-         * concurrently walking threads never contend for a lock; beyond 16,
-         * threads share a set two (or more) to one, which costs contention,
-         * never correctness.  An immutable receiver is not pinned at all.
+         * receiver or different ones, at the same time.  A thread counted in
+         * the space's stop-the-world quorum -- its main thread, or a
+         * ProtoThread walking in the space that started it -- pins in a root
+         * set only it writes, with no lock at all (the collector reads root
+         * sets only while such threads are parked).  Any other thread pins in
+         * one of 16 mutex-guarded sets, assigned round-robin at its first
+         * walk; beyond 16 such threads, threads share a set, which costs
+         * contention, never correctness.  An immutable receiver is not
+         * pinned at all.
          *
          * Non-object receivers (integers, strings, ...) have no own
          * attributes: the callback is simply never invoked.
@@ -1483,8 +1486,9 @@ namespace proto
          * by `method` propagates and releases the pin.  The pin lives in the
          * calling thread's own walk-pin root set, so concurrent walks on
          * different threads do not contend (as for
-         * ProtoObject::processOwnAttributes: 16 sets, shared beyond 16
-         * walking threads).  An empty list is not pinned.
+         * ProtoObject::processOwnAttributes: a lock-free set of its own for
+         * a thread counted in the space's quorum, otherwise 16 shared sets).
+         * An empty list is not pinned.
          */
         void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, proto_ulong, const ProtoObject*)) const;
         /** @brief processElements without the keys; same guarantees. */
@@ -2738,6 +2742,9 @@ namespace proto
 
     private:
         friend class ProtoSpace;
+        // protoCore's own walk pins: a root set only one thread ever writes
+        // (headers/proto_internal.h, ProtoSpaceImplementation).
+        friend ProtoRootSet* createSingleWriterRootSet(ProtoSpace* space, const char* name);
         ProtoRootSet(ProtoSpace* owner, const char* name);
         ~ProtoRootSet();
 

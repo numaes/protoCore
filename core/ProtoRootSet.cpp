@@ -56,6 +56,11 @@ struct ProtoRootSet::Impl {
     unsigned int nextGeneration = 1;
     proto_ulong liveCount = 0;
     mutable std::mutex mutex;
+
+    // Set by createSingleWriterRootSet: add and remove come from one thread
+    // only, a thread counted in the space's stop-the-world quorum, and take
+    // no lock.  See createSingleWriterRootSet below.
+    bool singleWriter = false;
 };
 
 ProtoRootSet::ProtoRootSet(ProtoSpace* owner, const char* name)
@@ -73,7 +78,8 @@ ProtoRootSet::~ProtoRootSet() {
 
 ProtoRootSet::Handle ProtoRootSet::add(const ProtoObject* obj) {
     if (!obj) return kNullHandle;
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::unique_lock<std::mutex> lock(impl_->mutex, std::defer_lock);
+    if (!impl_->singleWriter) lock.lock();
 
     unsigned int idx;
     if (!impl_->freeList.empty()) {
@@ -107,7 +113,8 @@ void ProtoRootSet::remove(Handle h) {
     if (h == kNullHandle) return;
     unsigned int idx = static_cast<unsigned int>(h & 0xFFFFFFFFu);
     unsigned int gen = static_cast<unsigned int>(h >> 32);
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::unique_lock<std::mutex> lock(impl_->mutex, std::defer_lock);
+    if (!impl_->singleWriter) lock.lock();
     if (idx >= impl_->slots.size()) return;
     auto& slot = impl_->slots[idx];
     if (slot.generation != gen) return;  // stale handle — silent no-op
@@ -142,6 +149,33 @@ void ProtoRootSet::forEachRoot(
 }
 
 // ---- ProtoSpace integration -------------------------------------------
+
+// A root set whose add and remove take no lock.  Correct only under two
+// conditions, which its single caller (ProtoSpaceImplementation::walkPinSetFor)
+// guarantees:
+//
+//   1. One thread writes it: the space's main thread (a set the space owns,
+//      used only when the calling OS thread is space->mainThreadId) or one
+//      ProtoThread of the space (a set the thread creates at its first walk
+//      and destroys when it exits).
+//   2. That thread is counted in the space's stop-the-world quorum.  The
+//      only reader of a root set's contents is the collector's Phase 2 scan
+//      (forEachRootSet in gcThreadLoop), which runs while every counted
+//      thread is parked or out in an unmanaged region.  Parking and leaving
+//      go through globalMutex and the seq_cst quorum counters, so every write
+//      the thread made happens-before the scan, and the scan happens-before
+//      every write the thread makes after it resumes.  A thread in an
+//      unmanaged region touches no ProtoObject, so it adds and removes no
+//      root either.
+//
+// size(), resolve() and forEachRoot() still take the mutex; they need no
+// exclusion against the writer for the reasons above, and protoCore's own
+// tests read size() only at points ordered after the writer's last write.
+ProtoRootSet* createSingleWriterRootSet(ProtoSpace* space, const char* name) {
+    ProtoRootSet* rs = space->createRootSet(name);
+    rs->impl_->singleWriter = true;
+    return rs;
+}
 
 ProtoRootSet* ProtoSpace::createRootSet(const char* name) {
     auto* rs = new ProtoRootSet(this, name);
