@@ -1212,7 +1212,11 @@ namespace proto {
 
 
     // ---- SymbolTable ----------------------------------------------------------
-    // 64-shard concurrent interning table for strings.
+    // 64-shard concurrent interning table for strings.  Each shard is a
+    // chained hash table whose bucket array doubles when it holds as many
+    // entries as buckets, so a lookup walks O(1) nodes at any table size
+    // (until 3.3.x each shard was a single chain: lookup and insert were
+    // O(symbols / 64), and filling the table quadratic).
     //
     // Every interned string (symbol) is PERENNIAL: its Cells are allocated with
     // a null ProtoContext, so they bypass every thread freelist and context
@@ -1224,6 +1228,8 @@ namespace proto {
     class SymbolTable {
     public:
         static constexpr int SHARD_COUNT = 64;
+        static constexpr int SHARD_BITS = 6;   // log2(SHARD_COUNT)
+        static constexpr std::size_t kInitialBuckets = 16;
 
         struct Bucket {
             uint64_t           content_hash;
@@ -1233,7 +1239,20 @@ namespace proto {
 
         struct Shard {
             std::mutex  mutex;
-            Bucket*     head = nullptr;
+            // Chain heads, indexed by the hash bits above the shard bits.
+            // Empty until the shard's first insertion; its size is a power of
+            // two.  Grown (and every node relinked) under `mutex`, which
+            // allocates only C++ memory, never a Cell: the shard mutex stays
+            // a leaf lock.
+            std::vector<Bucket*> buckets;
+            std::size_t          count = 0;
+
+            Bucket* chainFor(uint64_t hash) const {
+                return buckets.empty()
+                    ? nullptr
+                    : buckets[(hash >> SHARD_BITS) & (buckets.size() - 1)];
+            }
+            void insert(Bucket* bucket);
         };
 
         Shard shards[SHARD_COUNT];

@@ -7,9 +7,10 @@
  * cells (they are perennial) — so before P3 every destroyed space leaked its
  * whole symbol set.  One table leaks one set.
  *
- * Each shard holds an independent linked-list bucket chain protected by its
- * own mutex, eliminating the single-mutex bottleneck of TupleDictionary for
- * string lookups.  A shard mutex is a STRICT LEAF LOCK: it is never ordered
+ * Each shard is an independent chained hash table protected by its own
+ * mutex, eliminating the single-mutex bottleneck of TupleDictionary for
+ * string lookups.  A shard's bucket array doubles when the shard holds as many
+ * entries as buckets (Shard::insert), so chains stay O(1) long at any size.  A shard mutex is a STRICT LEAF LOCK: it is never ordered
  * against ProtoSpace::globalMutex, and no Cell is allocated while it is held.
  * With one table serving several spaces, breaking that invariant would deadlock
  * two collectors rather than one.
@@ -48,7 +49,7 @@ proto_ulong SymbolTable::entryCount() const {
     proto_ulong total = 0;
     for (int i = 0; i < SHARD_COUNT; ++i) {
         std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(shards[i].mutex));
-        for (const Bucket* b = shards[i].head; b; b = b->next) ++total;
+        total += shards[i].count;
     }
     return total;
 }
@@ -60,11 +61,12 @@ proto_ulong globalSymbolCount() { return globalSymbolTable().entryCount(); }
 // ---------------------------------------------------------------------------
 SymbolTable::~SymbolTable() {
     for (int i = 0; i < SHARD_COUNT; ++i) {
-        Bucket* b = shards[i].head;
-        while (b) {
-            Bucket* next = b->next;
-            delete b;
-            b = next;
+        for (Bucket* b : shards[i].buckets) {
+            while (b) {
+                Bucket* next = b->next;
+                delete b;
+                b = next;
+            }
         }
     }
 }
@@ -142,7 +144,7 @@ const ProtoObject* SymbolTable::lookupUTF8(ProtoContext* ctx,
     const Shard& shard = shards[shardIndex(hash)];
 
     std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(shard.mutex));
-    for (const Bucket* b = shard.head; b; b = b->next) {
+    for (const Bucket* b = shard.chainFor(hash); b; b = b->next) {
         if (b->content_hash != hash) continue;
         std::string candidate;
         reinterpret_cast<const ProtoString*>(b->symbol)->toUTF8String(ctx, candidate);
@@ -226,21 +228,45 @@ std::vector<const ProtoObject*>& lostCandidates() {   // guarded by lostCandidat
 }
 }  // namespace
 
+// Links `bucket` into its chain; doubles the bucket array first when the
+// shard holds as many entries as buckets (load factor 1), relinking every
+// node.  The caller holds `mutex`.  Amortised O(1): an entry is relinked
+// once per doubling.
+void SymbolTable::Shard::insert(Bucket* bucket) {
+    if (count >= buckets.size()) {
+        const std::size_t size = buckets.empty() ? kInitialBuckets : buckets.size() * 2;
+        std::vector<Bucket*> grown(size, nullptr);
+        for (Bucket* b : buckets) {
+            while (b) {
+                Bucket* next = b->next;
+                Bucket*& head = grown[(b->content_hash >> SHARD_BITS) & (size - 1)];
+                b->next = head;
+                head = b;
+                b = next;
+            }
+        }
+        buckets.swap(grown);
+    }
+    Bucket*& head = buckets[(bucket->content_hash >> SHARD_BITS) & (buckets.size() - 1)];
+    bucket->next = head;
+    head = bucket;
+    ++count;
+}
+
 const ProtoObject* SymbolTable::insertCandidate(ProtoContext* ctx, uint64_t hash,
                                                  const ProtoObject* candidate) {
     Shard& shard = shards[shardIndex(hash)];
     const ProtoObject* winner = nullptr;
     {
         std::lock_guard<std::mutex> lock(shard.mutex);
-        for (Bucket* b = shard.head; b; b = b->next) {
+        for (Bucket* b = shard.chainFor(hash); b; b = b->next) {
             if (b->content_hash == hash && contentEqual(ctx, b->symbol, candidate)) {
                 winner = b->symbol;
                 break;
             }
         }
         if (!winner) {
-            Bucket* bucket = new Bucket{ hash, candidate, shard.head };
-            shard.head = bucket;
+            shard.insert(new Bucket{ hash, candidate, nullptr });
             return candidate;
         }
     }
@@ -294,7 +320,7 @@ const ProtoObject* SymbolTable::lookupByContent(ProtoContext* ctx,
     const Shard& shard = shards[shard_idx];
 
     std::lock_guard<std::mutex> lock(const_cast<std::mutex&>(shard.mutex));
-    for (const Bucket* b = shard.head; b; b = b->next) {
+    for (const Bucket* b = shard.chainFor(hash); b; b = b->next) {
         if (b->content_hash == hash &&
             contentEqual(ctx, b->symbol, strObj))
             return b->symbol;

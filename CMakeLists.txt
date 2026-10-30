@@ -282,6 +282,10 @@ add_executable(mutable_release_benchmark performance/mutable_release_benchmark.c
 target_link_libraries(mutable_release_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: mutable_release_benchmark")
 
+add_executable(symbol_intern_benchmark performance/symbol_intern_benchmark.cpp)
+target_link_libraries(symbol_intern_benchmark PRIVATE protoCore)
+message(STATUS "Configured benchmark: symbol_intern_benchmark")
+
 add_executable(walk_pin_benchmark performance/walk_pin_benchmark.cpp)
 target_link_libraries(walk_pin_benchmark PRIVATE protoCore)
 message(STATUS "Configured benchmark: walk_pin_benchmark")
