@@ -147,8 +147,10 @@ call `safepoint()`, park, and wait on other threads.
 What the walk stands on stays reachable **for the duration of the walk**:
 `processOwnAttributes` pins a mutable receiver's resolved state, and
 `ProtoSparseList::processElements` / `processValues` pin their receiver, in a
-root set of the space owned by the walking thread (one of 16; threads beyond
-the sixteenth share them, which costs contention, never correctness).  The pin
+root set of the space owned by the walking thread: a set only that thread
+writes, without a lock, for the space's main thread and its ProtoThreads; one of
+16 shared, mutex-guarded sets for any other thread (beyond 16 such threads they
+share them, which costs contention, never correctness).  The pin
 ends with the walk.  A tree obtained from `getOwnAttributes()` on a mutable
 object and kept in a C++ local *after* the walk is rule 3's concern again: root
 it as any other value.
