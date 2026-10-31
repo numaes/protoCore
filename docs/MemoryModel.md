@@ -57,9 +57,10 @@ no sawtooth, no decay, no trimming.  Three facts in the code make this exact:
   leak detection reports its own leaks, not protoCore's heap
   ([TESTING.md](TESTING.md) § "LeakSanitizer").  Before 2.14.5 only the cell
   chain was kept, and a destroyed space's blocks were referenced by nothing.
-* `ProtoSpace::~ProtoSpace` (`core/ProtoSpace.cpp:1325`) deletes bookkeeping —
-  root sets, the GC and root contexts, the symbol table, the tuple interner,
-  the `DirtySegment` nodes — and frees no cell memory.  Destroying a space does
+* `ProtoSpace::~ProtoSpace` (`core/ProtoSpace.cpp`) deletes bookkeeping —
+  root sets, the GC and root contexts, the tuple interner, the `DirtySegment`
+  nodes — and frees no cell memory.  It does not delete the symbol table,
+  which is process-wide (one per process since 2.2.0) and never destroyed.  Destroying a space does
   not give its heap back either.
 
 Collection moves cells from live to free *inside* the heap; it does not shrink
@@ -156,13 +157,17 @@ and nothing frees it — not collection, not `~ProtoSpace`.
 `SymbolTable::intern` builds the canonical string, its whole AVL tree (the
 symbol handle points at the root), with a null context, deliberately and without a collectible
 variant, so that a name keeps its canonical pointer for the life of the process
-and pointer-identity symbol comparison is sound
-(`core/SymbolTable.cpp:8-17`, `core/SymbolTable.cpp:65-77`,
-`core/SymbolTable.cpp:143-161`).  That includes
-the candidate that loses an insert race: it is perennial too and simply becomes
-unreferenced (`core/SymbolTable.cpp:160-161`).  `SymbolTable::~SymbolTable`
-frees its bucket chains (`core/SymbolTable.cpp:27-36`) — the C++ nodes, not the
-cells.
+and pointer-identity symbol comparison is sound (the header comment of
+`core/SymbolTable.cpp`, and `SymbolTable::intern` / `internUTF8` there).  That
+includes the candidate that loses an insert race: it is perennial too, and
+since 3.4.0 it is kept reachable on a never-destroyed, lock-free stack
+(`keepLostCandidate`), so LeakSanitizer does not report it.  The index itself
+(the lock-free hash trie's nodes, leaves and collision chains) is C++ memory,
+not cells, and is never freed while the table lives: the process-wide table is
+never destroyed, and `SymbolTable::~SymbolTable`, which runs only for private
+tables built by tests, frees the index, never the symbols.  The index is a
+second perennial term besides the symbol cells: 98.8 MB at 1M symbols as
+measured for 3.4.0 (CHANGELOG § 3.4.0).
 
 Interned tuples are perennial as well
 ([GarbageCollector.md](GarbageCollector.md) § "Phase 2", and the STW cost table

@@ -88,7 +88,7 @@ assert that a runtime created none of its own.  A thread declared `OwnSpace`
 under rule 11 below is conforming, and is the shape this recommendation
 advises against.
 
-### Threads still running when their space is destroyed (Unreleased)
+### Threads still running when their space is destroyed (since 3.4.0)
 
 Join a space's ProtoThreads before destroying it.  A runtime that cannot -- a
 daemon thread still running at process exit -- no longer gets a
@@ -102,6 +102,14 @@ waits for each such thread to reach one of those points, so a native loop
 with no safepoint keeps it waiting.  A thread of the space that is also a
 member of another live space is counted out of that space's quorum for good.
 Test: `SpaceTeardown.ThreadsStillRunningAreStoppedForGood`.
+
+A space may outlive the OS thread that constructed it (a worker's space built
+on the worker and freed from another thread).  The constructing thread is the
+space's implicit main thread and is counted in its quorum from construction;
+since 3.4.0 it uncounts itself from every space it built that is still
+registered when it exits, so later stop-the-world pauses and `~ProtoSpace` do
+not wait for it.  Test:
+`SpaceTeardown.ASpaceOutlivingItsConstructingThreadIsStillDestroyed`.
 
 ### Rule 11 accepts three conforming shapes
 
@@ -147,13 +155,13 @@ rule-2b failure ("no collection cycle could complete"), because its own main
 thread then waited in an unbracketed `std::thread::join` and itself held the
 quorum; the case's waits now run inside an `UnmanagedScope`.
 
-### Rule 12 and protoCore's own callback walks (Unreleased)
+### Rule 12 and protoCore's own callback walks (since 3.4.0)
 
 Up to 3.3.1, `ProtoSparseList::processElements` ran its whole AVL walk -- every
 callback included -- inside a `CriticalSection`, so an embedder callback that
 waited on another ProtoThread, or allocated under a hard heap ceiling, broke
-rule 12 without containing a critical section of its own.  As of the next
-release no callback walk holds one: `ProtoObject::processOwnAttributes`,
+rule 12 without containing a critical section of its own.  Since 3.4.0 no
+callback walk holds one: `ProtoObject::processOwnAttributes`,
 `ProtoSparseList::processElements` / `processValues`, `ProtoMap::processElements`
 / `processValues` and `ProtoKeywordArguments::processElements` all run the
 callback at the caller's critical-section depth.  The callback may allocate,

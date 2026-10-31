@@ -2052,6 +2052,7 @@ namespace proto
          * @brief The thread `context` runs on (`context->thread`): the
          *        ProtoThread whose body is executing, or the space's main
          *        thread.  Null when `context` is null or has no thread.
+         *        Defined since 3.4.0 (declared, but failed to link, before).
          */
         static const ProtoThread* getCurrentThread(ProtoContext* context);
 
@@ -3088,6 +3089,8 @@ namespace proto
          */
         static proto_ulong liveSpaceCount();
 
+        //! Declared, not implemented: no definition exists in the library
+        //! (3.4.0), so a call fails to link.  Kept for ABI stability.
         const ProtoList* getThreads(ProtoContext* context) const;
         const ProtoThread* newThread(
             ProtoContext *c,
@@ -3290,12 +3293,17 @@ namespace proto
         void setLinkedListPrototype(ProtoObject* prototype);
 
         //- Thread Management
-        void allocThread(ProtoContext* context, const ProtoThread* thread);
-        void deallocThread(ProtoContext* context, const ProtoThread* thread);
-        const ProtoList* getThreads(ProtoContext* context);
-        //! Same as ProtoThread::getCurrentThread(context).
+        //
+        // Declared, not implemented: allocThread, deallocThread, getThreads
+        // and getThreadByName have no definition in the library (3.4.0), so a
+        // call fails to link.  Threads are created with newThread and listed
+        // in `threads`.  getCurrentThread is defined (since 3.4.0).
+        void allocThread(ProtoContext* context, const ProtoThread* thread);     //!< Declared, not implemented.
+        void deallocThread(ProtoContext* context, const ProtoThread* thread);   //!< Declared, not implemented.
+        const ProtoList* getThreads(ProtoContext* context);                     //!< Declared, not implemented.
+        //! Same as ProtoThread::getCurrentThread(context).  Defined since 3.4.0.
         const ProtoThread* getCurrentThread(ProtoContext* context);
-        const ProtoThread* getThreadByName(ProtoContext* context, const ProtoString* threadName);
+        const ProtoThread* getThreadByName(ProtoContext* context, const ProtoString* threadName);   //!< Declared, not implemented.
 
         /** Returns the current resolution chain (ProtoList of ProtoString). Default is platform-dependent if not set. */
         const ProtoObject* getResolutionChain() const;
