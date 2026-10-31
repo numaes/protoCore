@@ -190,6 +190,20 @@ bool registered(const ProtoSpace* space, proto_ulong id) {
     return false;
 }
 
+// The spaces the calling OS thread constructed, as their implicit main
+// thread.  A space counts its main thread in runningThreads from construction
+// (ProtoSpace's constructor), and nothing uncounted it when that thread
+// exited while the space lived on -- a runtime that builds a space on a
+// helper thread and destroys it from another one.  Every later
+// stop-the-world then waited for a thread that no longer existed, and so did
+// ~ProtoSpace's terminal stop.  At thread exit each space still registered
+// uncounts it (and drops it from its parked count if it exited while out).
+struct MainThreadHolder {
+    std::vector<Entry> spaces;
+    ~MainThreadHolder();
+};
+thread_local MainThreadHolder tlMainOf;
+
 // The calling thread's ProtoThreadImplementation in `space`, or nullptr.
 ProtoThreadImplementation* implIn(const ProtoSpace* space) {
     if (space == tlWorkerSpace) return tlWorkerImpl;
@@ -304,6 +318,10 @@ proto_ulong registerSpace(ProtoSpace* space) {
     // The constructing thread is the space's adopted main thread.
     ensureQuiescenceRecord();
     registry().push_back(Entry{space, id});
+    // tlOutOf must outlive tlMainOf, whose destructor reads it: thread-locals
+    // are destroyed in the reverse order of their construction.
+    (void)tlOutOf.size();
+    tlMainOf.spaces.push_back(Entry{space, id});
     updateSoleSpaceLocked();
     return id;
 }
@@ -333,7 +351,23 @@ bool isWorkerOf(const ProtoSpace* space) {
 }
 
 bool isMember(const ProtoSpace* space) {
-    return space == tlWorkerSpace || space->mainThreadId == std::this_thread::get_id();
+    if (space == tlWorkerSpace) return true;
+    if (space->mainThreadId != std::this_thread::get_id()) return false;
+    // The main thread's id, unless that thread has exited and the OS has
+    // given its id to the calling thread.
+    return !(space->impl && space->impl->mainThreadExited.load(std::memory_order_acquire));
+}
+
+MainThreadHolder::~MainThreadHolder() {
+    if (spaces.empty()) return;
+    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+    for (const Entry& e : spaces) {
+        if (!registered(e.space, e.id) || !e.space->impl) continue;  // destroyed already
+        e.space->impl->mainThreadExited.store(true, std::memory_order_release);
+        if (isOutOf(e.space)) e.space->parkedThreads.fetch_sub(1, std::memory_order_seq_cst);
+        e.space->runningThreads.fetch_sub(1, std::memory_order_seq_cst);
+        e.space->gcCV.notify_all();
+    }
 }
 
 void parkForAnyStop(ProtoContext* context) {

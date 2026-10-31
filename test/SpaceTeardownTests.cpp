@@ -25,6 +25,7 @@
 #include <atomic>
 #include <chrono>
 #include <cstdio>
+#include <cstdlib>
 #include <memory>
 #include <mutex>
 #include <thread>
@@ -442,4 +443,52 @@ TEST(SpaceTeardown, ThreadsStillRunningAreStoppedForGood) {
     EXPECT_LT(destroySeconds, 5.0);
     EXPECT_EQ(after, atDestroy) << "the spinner ran on after its space was destroyed";
     EXPECT_FALSE(g_sleeperReturned.load()) << "the sleeper returned into a destroyed space";
+}
+
+// A space built on a helper thread that exits while the space lives on, then
+// destroyed from another thread -- what a runtime's worker does when its
+// GC thread frees the worker's state.  The space counted its constructing
+// thread as running from construction; that count must leave with the thread,
+// or every later stop-the-world, ~ProtoSpace's terminal stop among them, waits
+// for a thread that no longer exists.
+TEST(SpaceTeardown, ASpaceOutlivingItsConstructingThreadIsStillDestroyed) {
+    ProtoSpace* b = nullptr;
+    g_spinIterations.store(0);
+    std::thread builder([&b] {
+        b = new ProtoSpace();
+        (void) b->newThread(b->rootContext, ProtoString::createSymbol(b->rootContext, "spinner"),
+                            spinnerMain, nullptr, nullptr);
+    });
+    builder.join();
+    ASSERT_NE(b, nullptr);
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+    while (g_spinIterations.load() < 20000 && std::chrono::steady_clock::now() < deadline)
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    ASSERT_GE(g_spinIterations.load(), 20000);
+
+    // Destroyed from this thread, as protoJS does: a helper destroying it
+    // could be handed the builder's exited id by the OS and pass for the main
+    // thread.  A watchdog turns a hang into a failure of the suite.
+    std::atomic<bool> destroyed{false};
+    std::thread watchdog([&destroyed] {
+        const auto t0 = std::chrono::steady_clock::now();
+        while (!destroyed.load()) {
+            if (std::chrono::steady_clock::now() - t0 > std::chrono::seconds(10)) {
+                std::fprintf(stderr, "~ProtoSpace waited for a constructing thread that had exited\n");
+                std::abort();
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+    });
+    const auto t0 = std::chrono::steady_clock::now();
+    delete b;
+    destroyed.store(true);
+    watchdog.join();
+    const double destroySeconds =
+        std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+    std::printf("[ Teardown ] constructing thread gone: destroy %.3f s\n", destroySeconds);
+    EXPECT_LT(destroySeconds, 5.0);
+    const long atDestroy = g_spinIterations.load();
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    EXPECT_EQ(g_spinIterations.load(), atDestroy) << "the spinner ran on after its space was destroyed";
 }
