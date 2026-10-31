@@ -889,7 +889,7 @@ namespace proto
     {
         // GC critical section: same pattern as newSet().
         ProtoContext::CriticalSection cs(this);
-        return (new(this) ProtoMultisetImplementation(this, newSparseListImpl(), 0))->asProtoMultiset(this);
+        return (new(this) ProtoMultisetImplementation(this, newSparseListImpl(), 0, 0))->asProtoMultiset(this);
     }
 
     const ProtoByteBuffer* ProtoContext::newByteBuffer(const char* data, proto_ulong len)
