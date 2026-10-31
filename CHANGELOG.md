@@ -4,6 +4,23 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Fixed -- a space outliving the thread that constructed it hung its destructor
+
+- A space counts its constructing thread (its implicit main thread) in
+  `runningThreads` from construction, and nothing uncounted it when that
+  thread exited while the space lived on: a runtime that builds a worker's
+  space on the worker thread and frees it from another thread (protoJS's
+  `JSContextWrapper`).  Every later stop-the-world waited for a thread that
+  no longer existed; since the terminal stop, `~ProtoSpace` did too
+  (protoJS's "A worker's wrapper leaves the main thread's pools alone" timed
+  out against 7a783618).  At thread exit the constructing thread now uncounts
+  itself from every space it built that is still registered, and marks it,
+  so `multispace::isMember` no longer matches a new thread the OS gives the
+  same id.
+- Test `SpaceTeardown.ASpaceOutlivingItsConstructingThreadIsStillDestroyed`:
+  a space built, with a spinning ProtoThread, on a helper thread that exits;
+  destroyed from another thread, under a 10 s watchdog.
+
 ### Fixed -- threads still running when their space is destroyed are stopped for good
 
 - `~ProtoSpace` freed the space under any ProtoThread still running in it: a

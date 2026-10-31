@@ -2809,6 +2809,15 @@ namespace proto {
         mutable std::atomic<int> parkWaiters{0};
 
         /**
+         * Raised when the OS thread that constructed the space (its implicit
+         * main thread, counted in runningThreads from construction) exits
+         * while the space lives on: it is then uncounted, and
+         * multispace::isMember no longer matches its id, which the OS may
+         * give to a new thread.
+         */
+        mutable std::atomic<bool> mainThreadExited{false};
+
+        /**
          * The root sets WalkPin pins in, one per shard.  Each is an ordinary
          * root set of the space (createRootSet), destroyed with the others:
          * the collector already scans every root set of the space, so the
