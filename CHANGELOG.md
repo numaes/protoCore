@@ -4,6 +4,13 @@ All notable changes to protoCore are documented in this file.
 
 ## [Unreleased]
 
+### Fixed -- ProtoThread::getCurrentThread and ProtoSpace::getCurrentThread are defined
+
+- Both were declared in protoCore.h but never defined, so any call failed at
+  link time.  They answer `context->thread`: the ProtoThread whose body runs
+  in `context` (inherited by every nested context), or the space's main
+  thread; null for a null context or one with no thread.
+- Test `CurrentThread.AThreadsBodySeesItsOwnThread`.
 ### Fixed -- a space outliving the thread that constructed it hung its destructor
 
 - A space counts its constructing thread (its implicit main thread) in

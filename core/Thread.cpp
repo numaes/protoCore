@@ -882,6 +882,18 @@ namespace proto {
         releaseJoinedOsThread(impl->extension);
     }
 
+    // The thread a context runs on: every context inherits its parent's
+    // thread, and a root context built on a space's main thread adopts the
+    // main thread (ProtoContext's constructor).  Null for a context with no
+    // thread (a threadless root context built off the main thread).
+    const ProtoThread* ProtoThread::getCurrentThread(ProtoContext* context) {
+        return context ? context->thread : nullptr;
+    }
+
+    const ProtoThread* ProtoSpace::getCurrentThread(ProtoContext* context) {
+        return ProtoThread::getCurrentThread(context);
+    }
+
     const ProtoObject* ProtoThread::getName(ProtoContext* context) const {
         return reinterpret_cast<const ProtoObject*>(toImpl<const ProtoThreadImplementation>(this)->name);
     }
