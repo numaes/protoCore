@@ -30,7 +30,10 @@ All notable changes to protoCore are documented in this file.
   hash holding `ProtoList`s, compared by its own rules) rather than relying
   on `ProtoSet`.
 - Every bucket is a `ProtoList`, including a single-element one: one extra
-  cell per distinct hash.
+  cell per distinct hash.  Measured on small integers (one element per
+  bucket), `perf stat -r 3`, interleaved with 3.4.0, two repetitions:
+  `add` costs 11 % more cycles on a 1,000-element set and 6 % more on a
+  100,000-element one; `has` costs 9 % and 6 % more.
 - Tests `SetBuckets.*` and `SetBucketsGC.BucketsAndTheirElementsSurviveCollections`
   (forced collections under a small hard heap limit).  The nine that build
   against 3.4.0's headers all fail against that library.
