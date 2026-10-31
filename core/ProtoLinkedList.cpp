@@ -148,13 +148,15 @@ namespace proto
     proto_ulong ProtoLinkedListNode::getHash(ProtoContext* context) const {
         // ProtoTupleImplementation::getHash over the same elements, so that a
         // list and its asTuple hash alike.
-        proto_ulong h = PROTO_UL(0x345678) ^ (totalCount() * PROTO_UL(0xa6b3f7) + PROTO_UL(1));
+        proto_ulong h = PROTO_UL(2870177450012600261);
         for (const Node* node = this; node; node = node->next) {
             for (unsigned i = 0; i < node->nodeCount(); ++i) {
-                h = (h * PROTO_UL(1000003)) ^ node->slot[i]->getHash(context);
+                h += node->slot[i]->getHash(context) * PROTO_UL(14029467366897019727);
+                h = (h << 31) | (h >> 33);
+                h *= PROTO_UL(11400714785074694791);
             }
         }
-        return h;
+        return h + (static_cast<proto_ulong>(totalCount()) ^ (PROTO_UL(2870177450012600261) ^ PROTO_UL(3527539)));
     }
 
     //=========================================================================
