@@ -40,9 +40,64 @@ namespace proto {
 
     ProtoSetIteratorImplementation::ProtoSetIteratorImplementation(
         ProtoContext* context,
-        const ProtoSparseListIteratorImplementation* it
-    ) : Cell(context), iterator(it)
+        const ProtoSparseListIteratorImplementation* it,
+        proto_ulong index
+    ) : Cell(context), iterator(it), index(index)
     {
+    }
+
+    namespace {
+        // The bucket stored under `hash`, or nullptr.  A bucket is always a
+        // non-empty ProtoList (see ProtoSetImplementation).
+        const ProtoList* bucketAt(ProtoContext* context, const ProtoSparseListImplementation* list, proto_ulong hash) {
+            const ProtoObject* slot = list->implGetAt(context, hash);
+            return slot ? slot->asList(context) : nullptr;
+        }
+
+        // Position of `value` (by pointer) in `bucket`, or -1.
+        int indexInBucket(ProtoContext* context, const ProtoList* bucket, const ProtoObject* value) {
+            const int n = static_cast<int>(bucket->getSize(context));
+            for (int i = 0; i < n; ++i)
+                if (bucket->getAt(context, i) == value) return i;
+            return -1;
+        }
+
+        const ProtoSet* wrap(ProtoContext* context, const ProtoSparseListImplementation* list, proto_ulong size) {
+            return (new (context) ProtoSetImplementation(context, list, size))->asProtoSet(context);
+        }
+
+        const ProtoSet* addUnder(ProtoContext* context, const ProtoSet* self, proto_ulong hash, const ProtoObject* value) {
+            const auto* impl = toImpl<const ProtoSetImplementation>(self);
+            const ProtoList* bucket = bucketAt(context, impl->list, hash);
+            if (bucket && indexInBucket(context, bucket, value) >= 0) return self;
+            // GC critical section: the new bucket and the chain of new
+            // SparseList nodes are reachable only through C++ locals until
+            // the wrapping ProtoSetImplementation stitches them in.
+            ProtoContext::CriticalSection cs(context);
+            const ProtoList* newBucket = bucket
+                ? bucket->appendLast(context, value)
+                : context->newList(1, &value);
+            const auto* newList = impl->list->implSetAt(context, hash, newBucket->asObject(context));
+            return wrap(context, newList, impl->size + 1);
+        }
+
+        bool hasUnder(ProtoContext* context, const ProtoSet* self, proto_ulong hash, const ProtoObject* value) {
+            const ProtoList* bucket = bucketAt(context, toImpl<const ProtoSetImplementation>(self)->list, hash);
+            return bucket && indexInBucket(context, bucket, value) >= 0;
+        }
+
+        const ProtoSet* removeUnder(ProtoContext* context, const ProtoSet* self, proto_ulong hash, const ProtoObject* value) {
+            const auto* impl = toImpl<const ProtoSetImplementation>(self);
+            const ProtoList* bucket = bucketAt(context, impl->list, hash);
+            const int at = bucket ? indexInBucket(context, bucket, value) : -1;
+            if (at < 0) return self;
+            // GC critical section: same rationale as addUnder.
+            ProtoContext::CriticalSection cs(context);
+            const ProtoSparseListImplementation* newList = bucket->getSize(context) == 1
+                ? impl->list->implRemoveAt(context, hash)
+                : impl->list->implSetAt(context, hash, bucket->removeAt(context, at)->asObject(context));
+            return wrap(context, newList, impl->size - 1);
+        }
     }
 
     int ProtoSetIteratorImplementation::implHasNext(ProtoContext* context) const {
@@ -50,7 +105,8 @@ namespace proto {
     }
 
     const ProtoObject* ProtoSetIteratorImplementation::implNext(ProtoContext* context) {
-        return iterator ? iterator->implNextValue() : PROTO_NONE;
+        if (!iterator || !iterator->implHasNext()) return PROTO_NONE;
+        return iterator->implNextValue()->asList(context)->getAt(context, static_cast<int>(index));
     }
 
     const ProtoObject* ProtoSetIteratorImplementation::implAsObject(ProtoContext* context) const {
@@ -68,35 +124,27 @@ namespace proto {
 
     // ProtoSet / ProtoSetIterator external API trampolines
     const ProtoSet* ProtoSet::add(ProtoContext* context, const ProtoObject* value) const {
-        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
-        // GC critical section: implSetAt allocates a chain of new SparseList
-        // nodes that are reachable only via `new_list` (a C++ local)
-        // until the wrapping ProtoSetImplementation stitches them in.
-        ProtoContext::CriticalSection cs(context);
-        const auto* new_list = current_list->implSetAt(context, value->getHash(context), value);
-        return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
+        return addUnder(context, this, value->getHash(context), value);
     }
 
     const ProtoObject* ProtoSet::has(ProtoContext* context, const ProtoObject* value) const {
-        return toImpl<const ProtoSetImplementation>(this)->list->implHas(context, value->getHash(context)) ? PROTO_TRUE : PROTO_FALSE;
+        return hasUnder(context, this, value->getHash(context), value) ? PROTO_TRUE : PROTO_FALSE;
     }
 
     const ProtoSet* ProtoSet::remove(ProtoContext* context, const ProtoObject* value) const {
-        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
-        // GC critical section: same rationale as add().
-        ProtoContext::CriticalSection cs(context);
-        // Direct IMPL removeAt: AVL form only — Small variant cannot
-        // appear in this private slot.
-        const ProtoSparseListImplementation* new_list = current_list->implRemoveAt(context, value->getHash(context));
-        return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
+        return removeUnder(context, this, value->getHash(context), value);
     }
 
     const ProtoSet* ProtoSet::addWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const {
-        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
-        // GC critical section: same rationale as add().
-        ProtoContext::CriticalSection cs(context);
-        const auto* new_list = current_list->implSetAt(context, hash, value);
-        return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
+        return addUnder(context, this, hash, value);
+    }
+
+    bool ProtoSet::hasWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const {
+        return hasUnder(context, this, hash, value);
+    }
+
+    const ProtoSet* ProtoSet::removeWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const {
+        return removeUnder(context, this, hash, value);
     }
 
     bool ProtoSet::hasHash(ProtoContext* context, proto_ulong hash) const {
@@ -105,11 +153,12 @@ namespace proto {
 
     const ProtoSet* ProtoSet::removeHash(ProtoContext* context, proto_ulong hash) const {
         const auto* impl = toImpl<const ProtoSetImplementation>(this);
-        if (!impl->list->implHas(context, hash)) return this;
-        // GC critical section: same rationale as add().
+        const ProtoList* bucket = bucketAt(context, impl->list, hash);
+        if (!bucket) return this;
+        const proto_ulong removed = bucket->getSize(context);
+        // GC critical section: same rationale as addUnder.
         ProtoContext::CriticalSection cs(context);
-        const ProtoSparseListImplementation* new_list = impl->list->implRemoveAt(context, hash);
-        return (new (context) ProtoSetImplementation(context, new_list, new_list->size))->asProtoSet(context);
+        return wrap(context, impl->list->implRemoveAt(context, hash), impl->size - removed);
     }
 
     proto_ulong ProtoSet::getSize(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->size; }
@@ -125,7 +174,14 @@ namespace proto {
     const ProtoSetIterator* ProtoSetIterator::advance(ProtoContext* context) const {
         if (!this) return nullptr;
         const auto* impl = toImpl<const ProtoSetIteratorImplementation>(this);
-        const ProtoSparseListIteratorImplementation* advanced = const_cast<ProtoSparseListIteratorImplementation*>(impl->iterator)->implAdvance(context);
+        if (!impl->iterator || !impl->iterator->implHasNext())
+            return (new (context) ProtoSetIteratorImplementation(context, nullptr))->asSetIterator(context);
+        // The next element of the same bucket, if any; otherwise the first
+        // element of the next bucket.
+        const ProtoList* bucket = impl->iterator->implNextValue()->asList(context);
+        if (impl->index + 1 < bucket->getSize(context))
+            return (new (context) ProtoSetIteratorImplementation(context, impl->iterator, impl->index + 1))->asSetIterator(context);
+        const ProtoSparseListIteratorImplementation* advanced = impl->iterator->implAdvance(context);
         return (new (context) ProtoSetIteratorImplementation(context, advanced))->asSetIterator(context);
     }
     const ProtoObject* ProtoSetIterator::asObject(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoSetIteratorImplementation>(this)->implAsObject(context); }

@@ -1934,6 +1934,10 @@ namespace proto {
         // Raw IMPL pointer (audit/01-layers.md F1.1): the backing
         // sparse list is always the AVL form; never a tagged public-API
         // handle in private struct fields.
+        //
+        // Each key is a hash; its value is the bucket of that hash: a
+        // non-empty ProtoList of the distinct elements (by pointer) stored
+        // under it.  `size` counts elements, not buckets.
         const ProtoSparseListImplementation *list;
         proto_ulong size;
 
@@ -2592,11 +2596,15 @@ namespace proto {
 
     class ProtoSetIteratorImplementation : public Cell {
     public:
+        // `iterator` is positioned on a bucket (see ProtoSetImplementation);
+        // `index` is the position of the current element inside it.
         const ProtoSparseListIteratorImplementation* iterator;
+        proto_ulong index;
 
         CellType getType() const override { return CellType::SetIterator; }
 
-        ProtoSetIteratorImplementation(ProtoContext* context, const ProtoSparseListIteratorImplementation* it);
+        ProtoSetIteratorImplementation(ProtoContext* context, const ProtoSparseListIteratorImplementation* it,
+                                       proto_ulong index = 0);
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context);
         const ProtoObject* implAsObject(ProtoContext* context) const override;

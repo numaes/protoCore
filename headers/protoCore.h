@@ -1920,6 +1920,16 @@ namespace proto
     void hashedForEach(ProtoContext* context, const ProtoMap* map, void* self,
                        void (*fn)(ProtoContext*, void*, const ProtoObject* key, const ProtoObject* value));
 
+// ProtoSet keeps every distinct element under a colliding hash, compares by
+// pointer, and has hasWithHash / removeWithHash (the release after 3.4.0).
+#define PROTOCORE_HAS_SET_BUCKETS 1
+
+    /**
+     * @class ProtoSetIterator
+     * @brief A persistent cursor over a ProtoSet: visits every element exactly once.
+     * @details next() returns the current element and advance() returns a new iterator
+     * on the following one; the set is walked bucket by bucket, in no specified order.
+     */
     class ProtoSetIterator
     {
     public:
@@ -1927,52 +1937,95 @@ namespace proto
         const ProtoObject* next(ProtoContext* context) const;
         const ProtoSetIterator* advance(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
-        //! The hash the element next() returns is stored under (see ProtoSet::addWithHash).
+        /**
+         * @brief The hash the element next() returns is stored under.
+         * @details For an element added with add() it is that element's getHash; for one added
+         * with addWithHash() it is the caller's hash.  Elements that share a bucket report the
+         * same hash, once per element.
+         */
         proto_ulong nextHash(ProtoContext* context) const;
     };
 
     /**
      * @class ProtoSet
-     * @brief An immutable collection of unique objects.
+     * @brief An immutable, persistent collection of distinct objects.
+     *
+     * @details **Equality is pointer identity.**  Two elements are the same element only when
+     * they are the same `ProtoObject*`.  For tagged immediates (small integers, booleans,
+     * inline strings of up to 6 bytes, Unicode characters) identity is value equality; for
+     * heap objects it is not: two distinct heap strings with the same content, two boxed
+     * doubles or two large integers of equal value are two elements.  Intern strings
+     * (ProtoString::intern) to make equal content one element.
+     *
+     * Elements are grouped by hash: each hash slot holds a bucket, the list of the distinct
+     * elements stored under that hash.  Elements whose hashes collide are therefore all
+     * kept; the hash only narrows the search, which then compares pointers inside the
+     * bucket.  add(), has() and remove() use ProtoObject::getHash; the `...WithHash`
+     * variants take the hash from the caller.  A set must be used with one hash function.
+     *
+     * Every operation returns a new set that shares structure with the receiver; no
+     * operation changes an existing set or bucket.
+     *
+     * A language whose equality is not identity (content equality for strings, Python's
+     * `1 == 1.0 == True`, a user-defined `__eq__`) should not try to express it through
+     * ProtoSet: it builds its own structure with the same shape, for example a
+     * ProtoSparseList keyed by the language's hash whose values are ProtoLists of the
+     * elements, searched with the language's own equality (see also hashedPut and
+     * KeySemantics for maps).
      */
     class ProtoSet
     {
     public:
         /**
-         * @brief Returns a new set with the given value added.
+         * @brief Returns a new set with `value` added under value->getHash().
+         * @details Returns the receiver itself when that pointer is already an element.
          */
         const ProtoSet* add(ProtoContext* context, const ProtoObject* value) const;
 
         /**
-         * @brief Returns PROTO_TRUE if the value is in the set, otherwise PROTO_FALSE.
+         * @brief Returns PROTO_TRUE if `value` (this pointer) is an element, otherwise PROTO_FALSE.
          */
         const ProtoObject* has(ProtoContext* context, const ProtoObject* value) const;
 
         /**
-         * @brief Returns a new set with the given value removed.
+         * @brief Returns a new set without `value` (this pointer); the receiver itself if absent.
+         * @details Other elements that share its hash stay.
          */
         const ProtoSet* remove(ProtoContext* context, const ProtoObject* value) const;
 
         /**
-         * @brief Returns a new set with `value` stored under `hash`, replacing any element with that hash.
-         * @details add/has/remove key elements by ProtoObject::getHash. A language whose equality
-         * differs (Python makes 1, 1.0 and True one element, and honours __hash__) supplies its own
-         * hash through these variants; a set must then be accessed with one hash function only.
+         * @brief Returns a new set with `value` added to the bucket of `hash`.
+         * @details Returns the receiver itself when that pointer is already in that bucket.
+         * Elements already stored under `hash` stay: a distinct pointer is appended, never
+         * substituted.  A runtime that wants one element per hash tests hasHash() first.
          */
         const ProtoSet* addWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const;
 
         /**
-         * @brief Returns true if an element is stored under `hash`.
+         * @brief Returns true if `value` (this pointer) is stored in the bucket of `hash`.
+         */
+        bool hasWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns a new set without `value` (this pointer) in the bucket of `hash`.
+         * @details The receiver itself if it is not there.  Removing the last element of a
+         * bucket removes the bucket.
+         */
+        const ProtoSet* removeWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns true if at least one element is stored under `hash`.
          */
         bool hasHash(ProtoContext* context, proto_ulong hash) const;
 
         /**
-         * @brief Returns a new set without the element stored under `hash` (the same set if absent).
+         * @brief Returns a new set without every element stored under `hash` (the whole bucket).
+         * @details The receiver itself if no element is stored under `hash`.
          */
         const ProtoSet* removeHash(ProtoContext* context, proto_ulong hash) const;
 
         /**
-         * @brief Returns the number of unique elements in the set.
+         * @brief Returns the number of elements in the set (not the number of hashes).  O(1).
          */
         proto_ulong getSize(ProtoContext* context) const;
 
@@ -1982,7 +2035,7 @@ namespace proto
         const ProtoObject* asObject(ProtoContext* context) const;
 
         /**
-         * @brief Returns an iterator for the set.
+         * @brief Returns an iterator for the set, or nullptr if the set is empty.
          */
         const ProtoSetIterator* getIterator(ProtoContext* context) const;
     };

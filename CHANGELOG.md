@@ -2,6 +2,39 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased]
+
+### Fixed -- ProtoSet lost elements whose hashes collided
+
+- `ProtoSet` kept one element per hash: adding an element whose hash
+  collided with a stored one replaced it, `has` answered true for any
+  object with that hash, and `remove` took out whichever element held it.
+  Each hash slot now holds a bucket, a `ProtoList` of the distinct elements
+  stored under that hash, and membership compares pointers inside the
+  bucket.  `getSize` counts elements (still O(1)); iteration visits every
+  element once, and `ProtoSetIterator::nextHash` returns the hash the
+  current element is stored under.  `add` of a pointer already present, and
+  `remove` of an absent one, return the receiver itself.
+- `addWithHash(h, v)` appends `v` to bucket `h` unless that pointer is
+  already there (it no longer replaces the stored element); `hasHash(h)` is
+  true while bucket `h` is non-empty; `removeHash(h)` drops the whole
+  bucket.  New pointer-level variants: `hasWithHash(h, v)` and
+  `removeWithHash(h, v)`.  `PROTOCORE_HAS_SET_BUCKETS` marks the change.
+- **Behaviour change: equality is pointer identity.**  It is value equality
+  for tagged immediates (small integers, booleans, inline strings of up to
+  6 bytes), but two distinct heap strings with the same content, two boxed
+  doubles of equal value, or two equal large integers are now two elements;
+  before, they hashed alike and collapsed into the last one added.  Intern
+  strings to make equal content one element.  A language whose equality is
+  not identity builds its own structure (a `ProtoSparseList` keyed by its
+  hash holding `ProtoList`s, compared by its own rules) rather than relying
+  on `ProtoSet`.
+- Every bucket is a `ProtoList`, including a single-element one: one extra
+  cell per distinct hash.
+- Tests `SetBuckets.*` and `SetBucketsGC.BucketsAndTheirElementsSurviveCollections`
+  (forced collections under a small hard heap limit).  The nine that build
+  against 3.4.0's headers all fail against that library.
+
 ## [3.4.0] - 2026-10-31
 
 Released 2026-10-31. **ABI break: SOVERSION 4 -> 5** (`libprotoCore.so.5`,
