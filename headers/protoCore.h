@@ -2048,6 +2048,11 @@ namespace proto
     class ProtoThread
     {
     public:
+        /**
+         * @brief The thread `context` runs on (`context->thread`): the
+         *        ProtoThread whose body is executing, or the space's main
+         *        thread.  Null when `context` is null or has no thread.
+         */
         static const ProtoThread* getCurrentThread(ProtoContext* context);
 
         void detach(ProtoContext* context);
@@ -3288,6 +3293,7 @@ namespace proto
         void allocThread(ProtoContext* context, const ProtoThread* thread);
         void deallocThread(ProtoContext* context, const ProtoThread* thread);
         const ProtoList* getThreads(ProtoContext* context);
+        //! Same as ProtoThread::getCurrentThread(context).
         const ProtoThread* getCurrentThread(ProtoContext* context);
         const ProtoThread* getThreadByName(ProtoContext* context, const ProtoString* threadName);
 
