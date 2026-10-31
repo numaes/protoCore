@@ -1571,6 +1571,15 @@ namespace proto
                 if (reinterpret_cast<proto_ulong>(pairs_[i].name) == key) return true;
             return false;
         }
+        /**
+         * @brief The value passed for `key`, or PROTO_NONE when the call
+         *        passed no such keyword.
+         *
+         * PROTO_NONE is also a value a caller can pass (`f(x=None)`), so the
+         * result cannot tell a missing keyword from one passed as PROTO_NONE:
+         * a callee that must tell them apart (a default applied only when
+         * the keyword is absent) asks has() first.
+         */
         const ProtoObject* getAt(ProtoContext*, proto_ulong key) const {
             for (unsigned i = 0; i < count_; ++i)
                 if (reinterpret_cast<proto_ulong>(pairs_[i].name) == key)
