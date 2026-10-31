@@ -38,6 +38,50 @@ All notable changes to protoCore are documented in this file.
   (forced collections under a small hard heap limit).  The nine that build
   against 3.4.0's headers all fail against that library.
 
+### Fixed -- ProtoMultiset counted colliding elements together and could not be iterated
+
+- `ProtoMultiset` stored one count per hash and never the element: distinct
+  elements whose hashes collided shared one count, `count` answered for any
+  object with that hash, `remove` decremented whichever element held it, and
+  the iterator returned counts, so the elements could not be recovered (and
+  advancing past the last one left an iterator whose `hasNext` dereferenced
+  a null pointer).  Each hash slot now holds a bucket, as in `ProtoSet`: a
+  `ProtoList` of (element, count) pairs laid out flat, `[e0, c0, e1, c1, ...]`,
+  searched by pointer.  `add` increments the element's count or appends a
+  pair with count 1; `remove` decrements, drops the pair at zero and the
+  bucket when it empties, and returns the receiver itself for an absent
+  pointer.
+- `getSize` keeps its meaning, the total of the counts; the new
+  `getDistinctSize` is the number of distinct elements.  Both are O(1).
+- **API change: the iterator yields elements.**  `ProtoMultisetIterator::next`
+  returns the element (it returned the count), once per distinct element;
+  the new `nextCount` returns its count and `nextHash` its bucket's hash.
+  No runtime in the ecosystem iterated a multiset.
+- New: `has`, and the pointer-level hash variants `addWithHash`,
+  `countWithHash`, `hasWithHash`, `removeWithHash` with `ProtoSet`'s
+  contract.  `PROTOCORE_HAS_MULTISET_BUCKETS` marks the change.
+- **Behaviour change: equality is pointer identity,** as for `ProtoSet`:
+  value equality for tagged immediates, but two distinct heap strings with
+  the same content, or two boxed doubles of equal value, are now counted as
+  two elements (before, they hashed alike and shared one count).  Intern
+  strings to count equal content together.  A language whose equality is
+  not identity builds its own structure.
+- Every bucket is a `ProtoList`, including a single-element one.  Measured
+  on small integers (one element per bucket), `perf stat -r 3`, interleaved
+  with master e1b58522, fresh library copy per run, two repetitions: `add`
+  (one insert and one increment per integer) costs 10-13 % more cycles on a
+  1,000-element multiset and 6-11 % more on a 100,000-element one; `count`
+  (half hits, half misses) costs 44 % more at 1,000 and 27-28 % more at
+  100,000.  The extra `count` cost is the read of the bucket cell on a hit;
+  the sparse-list lookup is unchanged.
+- Tests `MultisetBuckets.*` and
+  `MultisetBucketsGC.BucketsElementsAndCountsSurviveCollections` (forced
+  collections under a small hard heap limit).  The eight that build against
+  master e1b58522's headers all fail against that library: five on counts,
+  three by crashing in the iterator.
+  `NumericCompareTest.NaNElementsDoNotAliasNumbersInContainers` now counts a
+  boxed double through the same box.
+
 ## [3.4.0] - 2026-10-31
 
 Released 2026-10-31. **ABI break: SOVERSION 4 -> 5** (`libprotoCore.so.5`,
