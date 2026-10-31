@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 3.3.1
+    VERSION 3.4.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -114,7 +114,12 @@ add_library(protoCore SHARED
 # arguments as ProtoArguments / ProtoKeywordArguments descriptors instead of a
 # ProtoList and a ProtoSparseList, and so do nonMethodCallback and the
 # ProtoContext constructor: every embedder's methods change signature.
-set(PROTOCORE_ABI_SOVERSION 4)
+#
+# 4 -> 5 in 3.4.0 (ProtoContext::pendingRoot removed).  Removing a public field
+# moves `lock`, `criticalSectionDepth` and every later field of ProtoContext,
+# and ProtoContext::CriticalSection is inline in the header, so a binary built
+# against 3.3.x headers would read the wrong offsets from a 3.4.0 library.
+set(PROTOCORE_ABI_SOVERSION 5)
 
 # Shared library versioning (version for linker, soversion for ABI)
 set_target_properties(protoCore PROPERTIES

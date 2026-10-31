@@ -2,7 +2,17 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased]
+## [3.4.0] - 2026-10-31
+
+Released 2026-10-31. **ABI break: SOVERSION 4 -> 5** (`libprotoCore.so.5`,
+`protoCore-5.dll`). `ProtoContext::pendingRoot` is removed, which changes the
+layout of `ProtoContext`; every embedder must be rebuilt against these headers,
+and a binary built against 3.3.x does not load with this library (nor the
+reverse). No runtime of the ecosystem referenced `pendingRoot`, so the rebuild
+needs no source change. The rest of the release: collection walks that hold no
+critical section, lock-free walk pins, a lock-free write-once symbol table,
+teardown that stops threads still running, thread-start and thread-exit
+accounting fixes, and two declared-but-undefined functions now defined.
 
 ### Fixed -- ProtoThread::getCurrentThread and ProtoSpace::getCurrentThread are defined
 
@@ -11,6 +21,7 @@ All notable changes to protoCore are documented in this file.
   in `context` (inherited by every nested context), or the space's main
   thread; null for a null context or one with no thread.
 - Test `CurrentThread.AThreadsBodySeesItsOwnThread`.
+
 ### Fixed -- a space outliving the thread that constructed it hung its destructor
 
 - A space counts its constructing thread (its implicit main thread) in
@@ -526,6 +537,42 @@ All notable changes to protoCore are documented in this file.
   its young generation mid-build (calls `safepoint()` instead of parking).
   `BulkListBuild.PendingRootKeepsASubmittedValueReachable` is removed with the
   mechanism it tested.
+
+### Known limitations of 3.4.0
+
+- **The pinned walk of a small collection costs more than it did in 3.3.1.**
+  A 3-entry sparse list walked in 67.5 cycles inside a critical section that
+  pinned nothing; it now takes about 120 cycles, the price of the pin that
+  makes the walk safe. A walk of a MUTABLE object's own attributes pays the
+  same pin (about 75 cycles when it was a mutex pair, less since the
+  single-writer sets). Skipping the pin would weaken the guarantee.
+- **Walk pins of threads outside the stop-the-world quorum share 16 shards.**
+  Beyond 16 such threads walking at once, threads k and k + 16 contend on one
+  mutex. Concurrent walks were not measured beyond 8 threads.
+- **The terminal stop waits for a safepoint.** A thread still running when
+  its space is destroyed is stopped at its next safepoint, allocation, heap
+  wait or unmanaged region; a native loop with none of these keeps
+  `~ProtoSpace` waiting. A stopped thread never returns, joining it never
+  returns, and its stack and thread-local storage are left as they are.
+  Joining first remains the rule.
+- **A space destroyed during its sweep stops the sweep only at segment
+  claims.** With few, very large segments (one context holding the whole
+  heap) the check comes too rarely to shorten the destructor (about 1.1 s
+  either way in the benchmark). A per-cell check was not added to the
+  collector's hottest loop.
+- **The symbol index uses more memory:** 98.8 MB at 1M symbols, against
+  roughly 32 MB of list nodes before. Sparse, never-changing 64-slot nodes are
+  the price of a lock-free table with no reclamation scheme.
+- **No deterministic test for the threadless rejoin under globalMutex.** The
+  fix removes the race window, so no interleaving is left to pin; the
+  heap-limit suites exercise the path under ThreadSanitizer.
+- **A thread that constructs several spaces owns the main walk-pin set of the
+  last one only**; it pins in the shards of the others.
+- **Unproven layout attribution.** `newList(n, items)` ran 2-3 % more cycles
+  with 0.4-0.5 % fewer instructions after the `pendingRoot` removal; it looks
+  like code layout, but no A/A control was run for that measurement.
+- **Still declared without a definition:** `ProtoSpace::getThreads`,
+  `getThreadByName`, `allocThread` and `deallocThread`. A call fails to link.
 
 ## [3.3.1] - 2026-10-26
 
