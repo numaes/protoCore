@@ -1954,12 +1954,20 @@ namespace proto {
     class ProtoMultisetImplementation : public Cell {
     public:
         // Raw IMPL pointer — see ProtoSetImplementation comment.
+        //
+        // Each key is a hash; its value is the bucket of that hash: a
+        // non-empty ProtoList of (element, count) pairs laid out flat,
+        // [e0, c0, e1, c1, ...], one pair per distinct element (by pointer)
+        // stored under it, each count a SmallInteger >= 1.  `size` is the
+        // total of the counts; `distinct` is the number of pairs.
         const ProtoSparseListImplementation *list;
         proto_ulong size;
+        proto_ulong distinct;
 
         CellType getType() const override { return CellType::Multiset; }
 
-        ProtoMultisetImplementation(ProtoContext *context, const ProtoSparseListImplementation *list, proto_ulong size);
+        ProtoMultisetImplementation(ProtoContext *context, const ProtoSparseListImplementation *list,
+                                    proto_ulong size, proto_ulong distinct);
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
 
@@ -2619,11 +2627,16 @@ namespace proto {
 
     class ProtoMultisetIteratorImplementation : public Cell {
     public:
+        // `iterator` is positioned on a bucket (see ProtoMultisetImplementation);
+        // `index` is the pair number of the current element inside it (the
+        // element is at 2 * index, its count at 2 * index + 1).
         const ProtoSparseListIteratorImplementation* iterator;
+        proto_ulong index;
 
         CellType getType() const override { return CellType::MultisetIterator; }
 
-        ProtoMultisetIteratorImplementation(ProtoContext* context, const ProtoSparseListIteratorImplementation* it);
+        ProtoMultisetIteratorImplementation(ProtoContext* context, const ProtoSparseListIteratorImplementation* it,
+                                            proto_ulong index = 0);
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context);
         const ProtoObject* implAsObject(ProtoContext* context) const override;
@@ -3022,6 +3035,7 @@ namespace proto {
     static_assert(sizeof(DoubleImplementation) <= 64, "DoubleImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSetIteratorImplementation) <= 64, "ProtoSetIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMultisetIteratorImplementation) <= 64, "ProtoMultisetIteratorImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMultisetImplementation) <= 64, "ProtoMultisetImplementation exceeds 64 bytes!");
 
     // UMD: internal implementation called by ProtoSpace::getImportModule
     const ProtoObject* getImportModuleImpl(ProtoSpace* space, ProtoContext* context, const char* logicalPath, const char* attrName2create);

@@ -2040,6 +2040,20 @@ namespace proto
         const ProtoSetIterator* getIterator(ProtoContext* context) const;
     };
 
+// ProtoMultiset keeps every distinct element under a colliding hash with its
+// own count, compares by pointer, iterates elements (nextCount / nextHash),
+// and has has, getDistinctSize and the ...WithHash variants (the release
+// after 3.4.0).
+#define PROTOCORE_HAS_MULTISET_BUCKETS 1
+
+    /**
+     * @class ProtoMultisetIterator
+     * @brief A persistent cursor over a ProtoMultiset: visits every distinct element exactly once.
+     * @details next() returns the current element (not its count; through 3.4.0 it returned
+     * the count) and nextCount() how many times it occurs; advance() returns a new iterator on
+     * the following element.  The multiset is walked bucket by bucket, in no specified order.
+     * A caller that wants one visit per occurrence repeats each element nextCount() times.
+     */
     class ProtoMultisetIterator
     {
     public:
@@ -2047,34 +2061,109 @@ namespace proto
         const ProtoObject* next(ProtoContext* context) const;
         const ProtoMultisetIterator* advance(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
+        /**
+         * @brief How many times the element next() returns occurs in the multiset (at least 1).
+         */
+        proto_ulong nextCount(ProtoContext* context) const;
+        /**
+         * @brief The hash the element next() returns is stored under.
+         * @details For an element added with add() it is that element's getHash; for one added
+         * with addWithHash() it is the caller's hash.  Elements that share a bucket report the
+         * same hash, once per element.
+         */
+        proto_ulong nextHash(ProtoContext* context) const;
     };
 
     /**
      * @class ProtoMultiset
-     * @brief An immutable collection that can store multiple occurrences of the same object.
+     * @brief An immutable, persistent collection that counts occurrences of objects.
+     *
+     * @details **Equality is pointer identity**, as in ProtoSet.  Two occurrences are of the
+     * same element only when they are the same `ProtoObject*`.  For tagged immediates (small
+     * integers, booleans, inline strings of up to 6 bytes, Unicode characters) identity is
+     * value equality; for heap objects it is not: two distinct heap strings with the same
+     * content, two boxed doubles or two large integers of equal value are two elements, each
+     * with its own count.  Intern strings (ProtoString::intern) to count equal content as one
+     * element.
+     *
+     * Elements are grouped by hash: each hash slot holds a bucket of the distinct elements
+     * stored under that hash, each paired with its count.  Elements whose hashes collide keep
+     * separate counts; the hash only narrows the search, which then compares pointers inside
+     * the bucket.  add(), has(), count() and remove() use ProtoObject::getHash; the
+     * `...WithHash` variants take the hash from the caller.  A multiset must be used with one
+     * hash function.
+     *
+     * getSize() is the number of occurrences (the total of the counts) and getDistinctSize()
+     * the number of distinct elements; both are O(1).
+     *
+     * Every operation returns a new multiset that shares structure with the receiver; no
+     * operation changes an existing multiset or bucket.
+     *
+     * A language whose equality is not identity (content equality for strings, Python's
+     * `1 == 1.0 == True`, a user-defined `__eq__`) should not try to express it through
+     * ProtoMultiset: it builds its own structure with the same shape, for example a
+     * ProtoSparseList keyed by the language's hash whose values are ProtoLists of
+     * (element, count) pairs, searched with the language's own equality.
      */
     class ProtoMultiset
     {
     public:
         /**
-         * @brief Returns a new multiset with the given value added.
+         * @brief Returns a new multiset with one more occurrence of `value` (this pointer).
+         * @details Increments its count, or inserts it with count 1, under value->getHash().
          */
         const ProtoMultiset* add(ProtoContext* context, const ProtoObject* value) const;
 
         /**
-         * @brief Returns the number of times the given value appears in the multiset.
+         * @brief Returns how many times `value` (this pointer) occurs, as a SmallInteger (0 if absent).
          */
         const ProtoObject* count(ProtoContext* context, const ProtoObject* value) const;
 
         /**
-         * @brief Returns a new multiset with one occurrence of the given value removed.
+         * @brief Returns PROTO_TRUE if `value` (this pointer) occurs at least once, otherwise PROTO_FALSE.
+         */
+        const ProtoObject* has(ProtoContext* context, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns a new multiset with one occurrence of `value` (this pointer) removed.
+         * @details Decrements its count; at zero the element is dropped.  Returns the receiver
+         * itself if `value` does not occur.  Other elements that share its hash stay.
          */
         const ProtoMultiset* remove(ProtoContext* context, const ProtoObject* value) const;
 
         /**
-         * @brief Returns the total number of elements in the multiset (including duplicates).
+         * @brief Returns a new multiset with one more occurrence of `value` in the bucket of `hash`.
+         * @details Elements already stored under `hash` keep their counts: a distinct pointer is
+         * appended with count 1, never substituted.
+         */
+        const ProtoMultiset* addWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns how many times `value` (this pointer) occurs in the bucket of `hash` (0 if absent).
+         */
+        proto_ulong countWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns true if `value` (this pointer) occurs in the bucket of `hash`.
+         */
+        bool hasWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns a new multiset with one occurrence of `value` removed from the bucket of `hash`.
+         * @details The receiver itself if it is not there.  Removing the last occurrence of the
+         * last element of a bucket removes the bucket.
+         */
+        const ProtoMultiset* removeWithHash(ProtoContext* context, proto_ulong hash, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns the total number of occurrences (the sum of all counts).  O(1).
          */
         proto_ulong getSize(ProtoContext* context) const;
+
+        /**
+         * @brief Returns the number of distinct elements (pointers).  O(1).
+         */
+        proto_ulong getDistinctSize(ProtoContext* context) const;
 
         /**
          * @brief Returns the multiset as a generic ProtoObject.
@@ -2082,7 +2171,7 @@ namespace proto
         const ProtoObject* asObject(ProtoContext* context) const;
 
         /**
-         * @brief Returns an iterator for the multiset.
+         * @brief Returns an iterator over the distinct elements, or nullptr if the multiset is empty.
          */
         const ProtoMultisetIterator* getIterator(ProtoContext* context) const;
     };
