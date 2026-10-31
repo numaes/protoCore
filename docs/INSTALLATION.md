@@ -7,10 +7,10 @@ This guide covers building protoCore from source, installing the shared library 
 ## Platform Support
 
 - **Linux** with GCC or Clang is the platform these instructions are written for.
-- **macOS**: `CMakeLists.txt` configures the TGZ and DragNDrop CPack generators for macOS. This guide does not verify the macOS build.
-- **Windows**: native build with MSVC (Visual Studio 2022). CI (`cross-platform.yml`, Windows Server 2022, MSVC x64) builds Release and Debug at /W3 with warnings as errors, runs the gating suite (519 of the 526 registered cases; the 7 clock-dependent ones run without gating), and builds, unpacks and consumes the ZIP. See [Windows (MSVC)](#windows-msvc) below.
+- **macOS**: CI (`cross-platform.yml`, `macos-15`, Apple clang, arm64) builds Release, runs the gating suite and installs the result. `CMakeLists.txt` also configures the TGZ and DragNDrop CPack generators for macOS, but no CI job or host here has run them (see [Platform verification status](#platform-verification-status)).
+- **Windows**: native build with MSVC (Visual Studio 2022). CI (`cross-platform.yml`, Windows Server 2022, MSVC x64) builds Release and Debug at /W3 with warnings as errors, runs the gating suite, and builds, unpacks and consumes the ZIP. See [Windows (MSVC)](#windows-msvc) below.
 
-No continuous integration is configured in this repository.
+Continuous integration runs on every push to `master` and on every pull request: `.github/workflows/ci.yml` (Linux: Release, AddressSanitizer with leak detection, ThreadSanitizer, and an informational job for the clock-dependent cases) and `.github/workflows/cross-platform.yml` (macOS and Windows). For the 3.4.0 release commit (f63adc08) ctest registered 804 cases on Linux, 803 on macOS and 802 on Windows; all but the 10 clock-dependent cases gate the build, and those 10 run serially without gating. The counts change with every fix, so read them from `ctest -N` rather than from this line.
 
 ---
 
@@ -38,15 +38,38 @@ This builds the shared library, the test executable `build/test/proto_tests` and
 cmake --build build --target protoCore
 ```
 
-The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `2.9.0` as of 2026-10-02 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `3`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `3` for the second. On Linux the build directory contains:
+The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `3.4.0` as of 2026-10-31 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `5`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `5` for the second. On Linux the build directory contains:
 
 | File | Role |
 |------|------|
 | `build/libprotoCore.so.<version>` | The shared library |
-| `build/libprotoCore.so.3` | Link used by the dynamic loader (soname) |
+| `build/libprotoCore.so.5` | Link used by the dynamic loader (soname) |
 | `build/libprotoCore.so` | Link used at link time (`-lprotoCore`) |
 
-On macOS CMake uses the names `libprotoCore.<version>.dylib`, `libprotoCore.3.dylib` and `libprotoCore.dylib`.
+On macOS CMake uses the names `libprotoCore.<version>.dylib`, `libprotoCore.5.dylib` and `libprotoCore.dylib`.
+
+### ABI version 5 (protoCore 3.4.0): rebuild every embedder
+
+protoCore 3.4.0 raised `PROTOCORE_ABI_SOVERSION` from 4 to 5. It removed the
+public field `ProtoContext::pendingRoot`, which moves every later field of
+`ProtoContext` (`lock`, `criticalSectionDepth`, ...), and
+`ProtoContext::CriticalSection` is inline in the header, so a binary built
+against older headers would read the wrong offsets. What this means:
+
+- **Every embedder must be rebuilt** against the 3.4.0 headers. No runtime of
+  the ecosystem referenced `pendingRoot`, so the rebuild needs no source
+  change. A binary built against 3.3.x does not load with
+  `libprotoCore.so.5` (`protoCore-5.dll` on Windows), nor the reverse: the
+  loader reports the missing `libprotoCore.so.4`, never a silent mismatch.
+- **Upgrade the runtime packages together with protoCore.** The runtime
+  packages released before 3.4.0 declare `protocore (>= 3.x), protocore (<< 4.0.0)`,
+  which dpkg considers satisfied by 3.4.0, yet their binaries need
+  `libprotoCore.so.4`. Installing the 3.4.0 DEB replaces the 3.x package and
+  removes `libprotoCore.so.4`, so those runtimes stop loading until they are
+  upgraded to the releases built against 3.4.0 (protoJS 0.3.0, protoPython
+  1.2.0, protoST 0.8.0, protoScala 0.6.3, protoClojure 0.0.4).
+- After installing, check what a binary actually loads with
+  `ldd <binary> | grep protoCore`.
 
 To run the tests after a full build:
 
@@ -69,11 +92,12 @@ ctest --test-dir build -j8
 cmake --install build --prefix %LOCALAPPDATA%\Programs\proto
 ```
 
-The build produces `protoCore-3.dll` and its import library `protoCore.lib`.
+The build produces `protoCore-5.dll` and its import library `protoCore.lib`.
 Executables and the DLL share `build/bin/`, so the tests run in place. CI runs
-the suite on Windows in Release and in Debug (MSVC's checked iterators): 519
-gating cases of the 526 registered, all passing; the 7 clock-dependent cases
-listed in `.github/workflows/ci.yml` run in a separate, non-gating step.
+the suite on Windows in Release and in Debug (MSVC's checked iterators): for
+the 3.4.0 release commit, 792 gating cases of the 802 registered, all passing;
+the 10 clock-dependent cases listed in `.github/workflows/ci.yml` run in a
+separate, non-gating step.
 
 What differs on Windows, and why Linux and macOS are unaffected:
 
@@ -83,8 +107,9 @@ What differs on Windows, and why Linux and macOS are unaffected:
   everywhere else they ARE `long` and `unsigned long`, so the types, the C++
   mangling and the ABI are unchanged (the exported symbols of
   `libprotoCore.so` are identical to those of 2.6.2).
-- **The DLL carries the ABI version in its name**: `protoCore-3.dll`, the
-  counterpart of `libprotoCore.so.3` (since 2.9.0; it was `protoCore.dll`).
+- **The DLL carries the ABI version in its name**: `protoCore-5.dll` as of
+  3.4.0, the counterpart of `libprotoCore.so.5` (since 2.9.0; it was
+  `protoCore.dll`).
   The import library keeps the plain name `protoCore.lib` and records the
   versioned DLL name, so a consumer links as before and its program loads
   exactly the ABI it was built against. `protoCoreConfig.cmake` refuses a
@@ -95,7 +120,7 @@ What differs on Windows, and why Linux and macOS are unaffected:
 - **The Visual C++ runtime is deployed app-local.** `cmake --install`, the ZIP
   and the NSIS installer put `vcruntime140*.dll`, `msvcp140*.dll` and
   `concrt140.dll` (CMake's `InstallRequiredSystemLibraries`) in `bin/` next
-  to `protoCore-3.dll`, so they work on a machine without the Visual C++
+  to `protoCore-5.dll`, so they work on a machine without the Visual C++
   Redistributable. App-local rather than chaining `vc_redist.x64.exe`: a ZIP
   cannot run an installer. The Universal CRT is not shipped; it is part of
   Windows 10 and later.
@@ -136,12 +161,12 @@ sudo ldconfig
 
 | File | Path |
 |------|------|
-| Shared library | `lib/libprotoCore.so.<version>` (`2.9.0` as of 2026-10-02), with the links `lib/libprotoCore.so.3` (the soname) and `lib/libprotoCore.so` |
+| Shared library | `lib/libprotoCore.so.<version>` (`3.4.0` as of 2026-10-31), with the links `lib/libprotoCore.so.5` (the soname) and `lib/libprotoCore.so` |
 | Public header | `include/protoCore.h` |
 | CMake package configuration | `lib/cmake/protoCore/protoCoreConfig.cmake`, `protoCoreConfigVersion.cmake`, `protoCoreTargets.cmake` and one per-configuration targets file |
 | pkg-config metadata | `lib/pkgconfig/protoCore.pc` |
 
-The library and header directories come from `GNUInstallDirs`. With the default `/usr/local` prefix they are `lib` and `include`; with other prefixes or distributions the library directory may be `lib64` or a multiarch directory. On Windows the install rules place the DLL (`protoCore-3.dll`) and the Visual C++ runtime DLLs in `bin/` and the import library in `lib/`.
+The library and header directories come from `GNUInstallDirs`. With the default `/usr/local` prefix they are `lib` and `include`; with other prefixes or distributions the library directory may be `lib64` or a multiarch directory. On Windows the install rules place the DLL (`protoCore-5.dll`) and the Visual C++ runtime DLLs in `bin/` and the import library in `lib/`.
 
 ## Consuming protoCore from CMake
 
@@ -149,7 +174,7 @@ The install rules export a CMake package configuration, so a consumer asks for
 protoCore by name and version rather than searching for files:
 
 ```cmake
-find_package(protoCore 2.0 REQUIRED CONFIG)
+find_package(protoCore 3.4 REQUIRED CONFIG)
 target_link_libraries(my_target PRIVATE protoCore::protoCore)
 ```
 
@@ -164,22 +189,24 @@ The package provides:
 | Name | Meaning |
 |------|---------|
 | `protoCore::protoCore` | The imported shared library, carrying the include directory and `Threads::Threads` |
-| `protoCore_VERSION` | Full version, for example `2.5.0` |
-| `protoCore_SOVERSION` | ABI version of the shared library — `PROTOCORE_ABI_SOVERSION`, `3` as of 2026-09-25 |
+| `protoCore_VERSION` | Full version, for example `3.4.0` |
+| `protoCore_SOVERSION` | ABI version of the shared library — `PROTOCORE_ABI_SOVERSION`, `5` as of 3.4.0 (2026-10-31) |
 | `protoCore_INCLUDE_DIR` | Directory holding `protoCore.h` |
 | `protoCore_LIB_DIR` | Directory holding the shared library |
 
-Version compatibility is `SameMajorVersion`: a request for `2.0` is satisfied by
-any `2.x` and refused for `1.x` and `3.x`. The soname is a separate number —
-`PROTOCORE_ABI_SOVERSION`, bumped only when the ABI breaks, and `3` while the
-project version is `2.6.2` — so do not infer one from the other. The requested
-minor version is still a floor, so
-a consumer that needs a feature added in a minor release asks for that release —
-protoScala asks for `2.1`, because its actor mailbox needs `ProtoMPSCQueue`,
-which protoCore gained in `2.1.0`.
+Version compatibility is `SameMajorVersion`: a request for `3.0` is satisfied by
+any `3.x` and refused for `2.x` and `4.x`. The soname is a separate number —
+`PROTOCORE_ABI_SOVERSION`, bumped only when the ABI breaks: it is `5` while the
+project version is `3.4.0`, and it changed within major version 3 (4 in 3.0.0
+to 3.3.x, 5 from 3.4.0) — so do not infer one from the other, and note that
+`find_package(protoCore 3.0)` alone does not guarantee a binary-compatible
+library: rebuild against the headers you link with. The requested minor
+version is still a floor, so a consumer that needs a feature added in a minor
+release asks for that release — a runtime that uses `ProtoLinkedList` asks for
+`3.3`, the release that added it.
 
-The configuration additionally checks that `libprotoCore.so.3`
-(`libprotoCore.3.dylib` on macOS) exists beside it, so a prefix whose CMake
+The configuration additionally checks that `libprotoCore.so.<SOVERSION>`
+(`libprotoCore.<SOVERSION>.dylib` on macOS) exists beside it, so a prefix whose CMake
 files outlived its library fails with a message rather than a link error.
 
 For consumers that are not CMake projects, `lib/pkgconfig/protoCore.pc` is
@@ -187,12 +214,12 @@ installed:
 
 ```bash
 pkg-config --cflags --libs protoCore
-pkg-config --variable=soversion protoCore   # 3
+pkg-config --variable=soversion protoCore   # 5 as of 3.4.0
 ```
 
 ## Platform verification status
 
-Last verified 2026-09-27 against protoCore 2.5.0 (`PROTOCORE_ABI_SOVERSION 3`).
+Last verified 2026-09-27 against protoCore 2.5.0 (`PROTOCORE_ABI_SOVERSION 3`). The file names in this section (`libprotoCore.so.3`, `protoCore-3.dll`) are those of that verification; as of 3.4.0 the number is 5. The 3.4.0 Linux DEB (`protoCore-3.4.0-Linux.deb`, built on Ubuntu 24.04) was not re-verified by the procedure below.
 
 | Platform | Packaging | Status |
 |----------|-----------|--------|
@@ -290,7 +317,7 @@ conformance suite against their own build.
 
 ### Package file names
 
-The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`2.9.0` as of 2026-10-02):
+The file names follow `CPACK_PACKAGE_FILE_NAME`, which is `protoCore-<version>-<system>`, where `<version>` is the project version in `CMakeLists.txt` (`3.4.0` as of 2026-10-31):
 
 | Platform | Files |
 |----------|-------|
@@ -320,7 +347,7 @@ rpm -ql protocore                      # list the installed files
 sudo rpm -e protocore
 ```
 
-After installing, run `sudo ldconfig` if dependent programs cannot find `libprotoCore.so.3`.
+After installing, run `sudo ldconfig` if dependent programs cannot find `libprotoCore.so.<SOVERSION>` (`libprotoCore.so.5` as of 3.4.0).
 
 ### Minimal archive: `package_protocore_only`
 
@@ -336,7 +363,7 @@ It writes `build/protoCore-<version>-Linux.tar.gz` with this layout:
 - `protoCore-<version>-Linux/include/protoCore.h`
 - `protoCore-<version>-Linux/lib/libprotoCore.so.<version>`
 
-The target copies only the versioned library file (`$<TARGET_FILE:protoCore>`), not the `libprotoCore.so.3` and `libprotoCore.so` links; create them when installing the archive by hand (`ln -s libprotoCore.so.<version> libprotoCore.so.3` and `ln -s libprotoCore.so.3 libprotoCore.so`). The target uses `tar`, names the directory `-Linux` on every platform, and writes to the same file name as the CPack TGZ generator, so running both in the same build directory overwrites one archive with the other.
+The target copies only the versioned library file (`$<TARGET_FILE:protoCore>`), not the `libprotoCore.so.<SOVERSION>` and `libprotoCore.so` links; create them when installing the archive by hand (as of 3.4.0: `ln -s libprotoCore.so.<version> libprotoCore.so.5` and `ln -s libprotoCore.so.5 libprotoCore.so`). The target uses `tar`, names the directory `-Linux` on every platform, and writes to the same file name as the CPack TGZ generator, so running both in the same build directory overwrites one archive with the other.
 
 ---
 

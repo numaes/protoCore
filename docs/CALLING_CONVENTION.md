@@ -77,6 +77,12 @@ uses for attributes. It reads like a `ProtoSparseList`: `getSize`,
 `processElements` (in array order), `pairs()` / `count()`, and
 `asSparseList(ctx)` (the call's own sparse list, or one built in `ctx`).
 
+`getAt` returns `PROTO_NONE` for a missing key, and `PROTO_NONE` is also a
+value a caller can pass (`f(x=None)`), so its result cannot tell a missing
+keyword from one passed as `PROTO_NONE`. A binder that must distinguish the two
+(to apply a default only when the keyword is absent) calls `has(ctx, key)`
+first.
+
 ## 3. The call forms
 
 The same lookup (`getAttribute` on the receiver's chain), the same method, and

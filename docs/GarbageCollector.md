@@ -912,7 +912,24 @@ Full design and limitations: [GLOBAL_MUTABLE_TABLE.md](GLOBAL_MUTABLE_TABLE.md).
   statics, and a collector that published swept cells
   (`adaptive::cellsPublished`) after their destruction crashed the exit
   (`ProcessExitDeathTest.*`).  Destroying the space before exit is still the
-  clean shutdown: it joins the collector.  A cycle in progress finishes its
+  clean shutdown: it joins the collector.  Since 3.4.0 it also ends with a
+  **terminal stop** for ProtoThreads still running in the space (a daemon
+  thread at process exit): once the collector is joined, the destructor
+  raises the stop-the-world flag and waits, as a collection does, until every
+  other thread counted in the space's quorum is parked or out in an unmanaged
+  region, then marks the stop terminal.  Those threads block for good
+  (`multispace::terminalPark`, on process-global state) at their next
+  safepoint, allocation or heap wait, or when their unmanaged region returns;
+  they never run code of the space again, and joining one never returns.  The
+  destructor frees nothing until the last parked thread has left the space's
+  park.  It waits for each thread to reach such a point, so a native loop with
+  no safepoint, allocation or unmanaged region keeps it waiting.  Joining the
+  threads first remains the rule ([EMBEDDER-CONFORMANCE.md](EMBEDDER-CONFORMANCE.md)).
+  A space also counts the OS thread that constructed it (its implicit main
+  thread) in its quorum from construction; since 3.4.0 that thread uncounts
+  itself, at thread exit, from every space it built that is still registered,
+  so a space that outlives its constructing thread is still destroyed without
+  waiting for it.  A cycle in progress finishes its
   mark if it is marking, but its sweep claims no further segment once the
   destructor has begun (`ProtoSpaceImplementation::ending`, checked at each
   claim of `sweep::kClaimRun` segments): the cells it leaves unswept are
@@ -1780,6 +1797,18 @@ operates under.
   `test/ThreadExitQuorumTests.cpp`, which uses the test-only `threadExitHook`
   (`proto_internal.h`) to watch a requested stop-the-world from inside the
   window and failed on every run before the fix.
+
+- ~~**A starting thread joined the stop-the-world quorum without
+  `globalMutex`.**~~  Fixed in 3.4.0 (PR #8).  `thread_main` incremented
+  `runningThreads` without the lock and polled for a stop-the-world with a
+  relaxed load, while the collector raises `stwFlag`, evaluates its quorum and
+  runs the Phase 2 scan under `globalMutex`.  A thread already in
+  `space->threads` could then miss a stop-the-world whose scan read its
+  context field while the thread was publishing it (reported once by
+  ThreadSanitizer in CI).  The join now happens under `globalMutex`; a context
+  without a thread that leaves the running set to wait for heap headroom
+  rejoins it under the same lock (PR #13).  Regression cover:
+  `test/ThreadStartQuorumTests.cpp`.
 
 ## Future Research: Further bounding the STW pause
 

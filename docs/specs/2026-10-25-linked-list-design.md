@@ -365,7 +365,7 @@ All eight recommendations were approved by the maintainer on 2026-10-25.
   as `ProtoContext::newList(n, items)` does. No critical section spans the
   build. (Superseded after 3.3.1: `pendingRoot` was removed; the chain under
   construction is rooted by the building context's young generation, which
-  the builder never submits. See CHANGELOG, Unreleased.)
+  the builder never submits. Released in 3.4.0; see CHANGELOG § 3.4.0.)
 - **`isEqual`** stops at the first shared cell: equal sizes give equal cell
   boundaries, so a shared suffix is detected by pointer.
 - **Verified for no regression** (section 9): the layout of `ProtoSpace`

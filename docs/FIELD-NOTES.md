@@ -598,7 +598,7 @@ explicitly — and parks rather than calling `safepoint()`, because `safepoint()
 would also submit the young generation, and the elements not yet appended are
 reachable only from the caller's array and that chain.
 
-**Later (branch `refactor/remove-pending-root`, after 3.3.1).** The anchor was
+**Later (branch `refactor/remove-pending-root`, released in 3.4.0).** The anchor was
 redundant and `pendingRoot` was removed. Every intermediate is allocated through
 the building context, so it is on that context's young generation, which the
 root scan records as a root until the generation is submitted — and the builder
@@ -628,8 +628,12 @@ and the fix pinned it in the space's own root set -- correct, measured
 single-threaded, and merged. Measured with N ProtoThreads walking at once, the
 set's one mutex, taken twice per walk, turned 30 M walks/s on one thread into
 7.9 M on two and 3.7 M on eight: adding threads made the total *smaller*. The
-pins now go to one of 16 root sets chosen per thread (CHANGELOG, Unreleased),
-and the same walk reaches 128 M walks/s on six threads and 117 M on eight. A
+pins went to one of 16 root sets chosen per thread (PR #9, released in 3.4.0),
+and the same walk reached 128 M walks/s on six threads and 117 M on eight.
+The same release then gave the threads counted in the space's stop-the-world
+quorum (its main thread, and each ProtoThread walking in its own space) a
+single-writer root set of their own that takes no lock; the 16 mutex-guarded
+shards remain for every other thread (CHANGELOG § 3.4.0). A
 correctness fix that introduces a lock shared by every thread is a scalability
 change too, and a single-thread benchmark cannot see it; the contention curve
 belongs in the same pull request as the fix.
@@ -1701,7 +1705,8 @@ exactly the code TSan has never seen.
 | protoScala installs no heap limit, so no cycle ever starts by itself — which qualifies every GC measurement in that repository | `protoScala/docs/CONFORMANCE.md:141-146` | reported, deliberately not failed |
 | protoCore's stop-the-world pause figures are **estimates, not measured percentiles** | `README.md` | measured percentiles |
 | protoCore's stop-the-world-elimination research is entirely estimate — *"We have not measured."* | `docs/STW_ELIMINATION_RESEARCH.md` | a prototype |
-| `ProtoThread::getCurrentThread` and `ProtoSpace::getCurrentThread` are declared in `headers/protoCore.h` and **defined nowhere**; an embedder calling either gets an undefined reference | `CHANGELOG.md`, "Known, and reported rather than fixed" | reported, not fixed |
+| `ProtoThread::getCurrentThread` and `ProtoSpace::getCurrentThread` were declared in `headers/protoCore.h` and **defined nowhere**; an embedder calling either got an undefined reference | `CHANGELOG.md` § 3.4.0 | **fixed in 3.4.0** (PR #17; both answer `context->thread`) |
+| `ProtoSpace::getThreads`, `getThreadByName`, `allocThread` and `deallocThread` are declared in `headers/protoCore.h` and **defined nowhere**; a call fails to link | `CHANGELOG.md` § 3.4.0, "Known limitations" | reported, not fixed |
 | `ProtoSpace::newThread`'s scratch context is never destroyed — a handful of cells per thread, and the reason a thread's release cannot be driven from a finalizer | `docs/GarbageCollector.md:852-860` | reported, not fixed |
 | `getOwnAttributeDirect` cannot distinguish "absent" from "not an object cell" | `docs/EMBEDDER-CONFORMANCE.md` | changing a return convention is ABI-visible; documented, not closed |
 
