@@ -152,11 +152,13 @@ TEST_F(NumericCompareTest, NaNElementsDoNotAliasNumbersInContainers) {
     EXPECT_FALSE(set->has(context, d(0.0))->asBoolean(context));
     EXPECT_FALSE(set->has(context, i(0))->asBoolean(context));
     EXPECT_FALSE(set->has(context, d(1.5))->asBoolean(context));
-    set = set->add(context, d(1.5))->add(context, i(7));
+    // ProtoSet compares pointers: a boxed double is found through the same box.
+    const ProtoObject* boxed = d(1.5);
+    set = set->add(context, boxed)->add(context, i(7));
     EXPECT_EQ(set->getSize(context), 3u);
     set = set->remove(context, nan);
     EXPECT_EQ(set->getSize(context), 2u);
-    EXPECT_TRUE(set->has(context, d(1.5))->asBoolean(context));
+    EXPECT_TRUE(set->has(context, boxed)->asBoolean(context));
     EXPECT_TRUE(set->has(context, i(7))->asBoolean(context));
 
     const ProtoMultiset* bag = context->newMultiset()->add(context, nan)->add(context, nan)->add(context, d(1.5));

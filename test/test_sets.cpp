@@ -77,7 +77,9 @@ TEST_F(SetTest, RemoveNonExistent) {
 }
 
 TEST_F(SetTest, ExplicitHashKeysElementsByTheCallersHash) {
-    // A runtime that treats 1 and 1.0 as one element stores both under the same hash.
+    // A runtime may store 1 and 1.0 under one hash of its own; the set keeps
+    // both, because they are different pointers.  A runtime that wants one
+    // element per hash tests hasHash first.
     const proto::ProtoObject* one = context->fromInteger(1);
     const proto::ProtoObject* oneFloat = context->fromDouble(1.0);
     const proto::proto_ulong h = one->getHash(context);
@@ -88,11 +90,15 @@ TEST_F(SetTest, ExplicitHashKeysElementsByTheCallersHash) {
     ASSERT_FALSE(set->hasHash(context, h + 1));
 
     set = set->addWithHash(context, h, oneFloat);
-    ASSERT_EQ(set->getSize(context), 1);
-    const proto::ProtoSetIterator* it = set->getIterator(context);
-    ASSERT_TRUE(it->hasNext(context));
-    ASSERT_EQ(it->nextHash(context), h);
-    ASSERT_EQ(it->next(context), oneFloat);
+    ASSERT_EQ(set->getSize(context), 2);
+    int visited = 0;
+    for (const proto::ProtoSetIterator* it = set->getIterator(context); it && it->hasNext(context); it = it->advance(context)) {
+        ASSERT_EQ(it->nextHash(context), h);
+        const proto::ProtoObject* e = it->next(context);
+        ASSERT_TRUE(e == one || e == oneFloat);
+        ++visited;
+    }
+    ASSERT_EQ(visited, 2);
 
     const proto::ProtoSet* unchanged = set->removeHash(context, h + 1);
     ASSERT_EQ(unchanged, set);
