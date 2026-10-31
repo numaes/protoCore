@@ -2903,6 +2903,18 @@ namespace proto
     {
     public:
         explicit ProtoSpace();
+        /**
+         * Destroys the space.  Join its ProtoThreads first.  A thread still
+         * running at destruction (a daemon thread at process exit) is
+         * stopped for good instead: the destructor stops the world one last
+         * time and never resumes it.  Such a thread blocks at its next
+         * safepoint, allocation or heap wait -- or, if it is out in an
+         * unmanaged region, when it returns -- and never runs code of the
+         * space again; joining it never returns.  The destructor waits for
+         * each such thread to reach one of those points, as a collection
+         * does.  A context without a thread used after its space is
+         * destroyed is still undefined behaviour.
+         */
         ~ProtoSpace();
 
         //- Core Prototypes

@@ -263,11 +263,13 @@ void parkIn(ProtoSpace* space) {
 #ifdef PROTOCORE_GC_INSTRUMENT
     const auto parkStart = std::chrono::steady_clock::now();
 #endif
+    space->impl->parkWaiters.fetch_add(1, std::memory_order_seq_cst);
     space->parkedThreads++;
     {
         std::unique_lock<std::recursive_mutex> lock(ProtoSpace::globalMutex);
         space->gcCV.notify_all();
-        space->stopTheWorldCV.wait(lock, [space] { return !space->stwFlag.load(); });
+        waitOutStop(space, lock);   // never returns from a terminal stop
+        space->impl->parkWaiters.fetch_sub(1, std::memory_order_seq_cst);
     }
     space->parkedThreads--;
 #ifdef PROTOCORE_GC_INSTRUMENT
@@ -396,9 +398,10 @@ void parkForAnyStop(ProtoContext* context) {
 //     concurrently by another thread can count the calling thread;
 //   * comeBack takes the fast path only when the one space it left is still
 //     the sole registered one, by id; any other case takes the mutex and
-//     checks every space it left, as before.  Destroying the space a thread
-//     is running in while the thread runs is a contract violation in both
-//     paths (the space's own threads must be joined first).
+//     checks every space it left, as before.  A space destroyed while one of
+//     its threads is out is no longer registered, so that thread takes the
+//     mutex path, finds it gone and blocks for good (terminalPark): the
+//     terminal stop of ~ProtoSpace.
 void goOut(ProtoSpace* own) {
     if (tlOutDepth++ != 0) return;  // only the 0 -> 1 transition
     setOut(+1);
@@ -430,6 +433,15 @@ void goOut(ProtoSpace* own) {
         // quorum predicate or blocked in the wait, never in between.
         if (s->stwFlag.load(std::memory_order_seq_cst)) s->gcCV.notify_all();
     }
+    // A space being destroyed is no longer in the registry, but its
+    // destructor's terminal stop still counts the threads out of it: the
+    // calling thread runs in it, so it is alive until that stop's quorum.
+    if (own && !isGcThreadOf(own) && !registered(own, spaceIdOf(own))
+        && own->state == SPACE_STATE_ENDING) {
+        own->parkedThreads.fetch_add(1, std::memory_order_seq_cst);
+        tlOutOf.push_back(Entry{own, spaceIdOf(own)});
+        if (own->stwFlag.load(std::memory_order_seq_cst)) own->gcCV.notify_all();
+    }
 }
 
 void comeBack(ProtoSpace* own, ProtoContext* context) {
@@ -444,13 +456,27 @@ void comeBack(ProtoSpace* own, ProtoContext* context) {
         single->parkedThreads.fetch_sub(1, std::memory_order_seq_cst);
         tlOutOf.clear();
     } else if (!tlOutOf.empty()) {
-        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
-        for (const Entry& e : tlOutOf) {
-            if (!registered(e.space, e.id)) continue;  // destroyed meanwhile
-            e.space->parkedThreads.fetch_sub(1, std::memory_order_seq_cst);
-            rejoined.push_back(e.space);
+        bool homeGone = false;
+        {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            for (const Entry& e : tlOutOf) {
+                if (!registered(e.space, e.id)) {
+                    // Destroyed (or being destroyed) meanwhile.  If it is the
+                    // space this thread runs in, the thread cannot go on: its
+                    // context, caches and cells belong to that space.  The
+                    // pointer is compared, never read.
+                    if (e.space == own || e.space == tlWorkerSpace) homeGone = true;
+                    continue;
+                }
+                e.space->parkedThreads.fetch_sub(1, std::memory_order_seq_cst);
+                rejoined.push_back(e.space);
+            }
+            tlOutOf.clear();
         }
-        tlOutOf.clear();
+        if (homeGone) {
+            setOut(-1);   // terminalPark marks the thread out again, for good
+            terminalPark();
+        }
     }
     // Back in managed code: if a member space is stopped, wait it out as a
     // safepoint would.  Cycles are serialized, so one pass finds at most one.
@@ -500,6 +526,63 @@ void quiesce(ProtoContext* context) {
     if (epoch == seenEpoch) return;
     seenEpoch = epoch;
     clearMemberCaches(context);
+}
+
+void waitOutStop(ProtoSpace* space, std::unique_lock<std::recursive_mutex>& lock) {
+    const ProtoSpaceImplementation* impl = space->impl;
+    space->stopTheWorldCV.wait(lock, [space, impl] {
+        return !space->stwFlag.load() || impl->terminal.load(std::memory_order_seq_cst);
+    });
+    if (!impl->terminal.load(std::memory_order_seq_cst)) return;
+    // The space is being destroyed and will not resume.  Leave its counters
+    // and wake the destructor (it waits for parkWaiters == 0 before it frees
+    // anything), then never touch the space again.
+    impl->parkWaiters.fetch_sub(1, std::memory_order_seq_cst);
+    space->gcCV.notify_all();
+    lock.unlock();
+    terminalPark();
+}
+
+bool isOutOf(const ProtoSpace* space) {
+    if (tlOutDepth == 0) return false;
+    for (const Entry& e : tlOutOf)
+        if (e.space == space) return true;
+    return false;
+}
+
+bool homeSpaceGoneOnReturn() {
+    if (tlOutDepth != 1 || tlOutOf.empty()) return false;
+    // The single-space fast path of comeBack: the one registered space is the
+    // one this thread left, so it is alive.
+    if (tlOutOf.size() == 1
+        && soleSpaceId.load(std::memory_order_acquire) == tlOutOf.front().id)
+        return false;
+    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+    for (const Entry& e : tlOutOf)
+        if (e.space == tlWorkerSpace && !registered(e.space, e.id)) return true;
+    return false;
+}
+
+void terminalPark() {
+    {
+        std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+        // Out of the quorum of every live space this thread is still a member
+        // of, permanently: their collectors must not wait for it.
+        for (const Entry& e : registry()) {
+            ProtoSpace* s = e.space;
+            if (!isMember(s) || isGcThreadOf(s) || isOutOf(s)) continue;
+            s->parkedThreads.fetch_add(1, std::memory_order_seq_cst);
+            if (s->stwFlag.load(std::memory_order_seq_cst)) s->gcCV.notify_all();
+        }
+    }
+    // Out of every grace period, for good (the record stays in use).
+    setOut(+1);
+    // Process-global and never destroyed: the thread waits here past the
+    // space, and past static destruction at exit.
+    static std::mutex* gateMutex = new std::mutex();
+    static std::condition_variable* gate = new std::condition_variable();
+    std::unique_lock<std::mutex> lock(*gateMutex);
+    for (;;) gate->wait(lock);
 }
 
 void waitForGracePeriod() {

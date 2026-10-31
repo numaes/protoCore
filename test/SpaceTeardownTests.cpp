@@ -365,3 +365,81 @@ TEST(SpaceTeardown, DeferredFreeSpaceDestroyedBeforeItsSweepWaitsForNoGracePerio
     EXPECT_GE(aCycles, 2u) << "the live space does not collect after the destruction";
     EXPECT_EQ(bEntries, 0u) << "the destroyed space's table entries were not purged";
 }
+
+namespace {
+
+std::atomic<long> g_spinIterations{0};
+std::atomic<bool> g_sleeperStarted{false};
+std::atomic<bool> g_sleeperReturned{false};
+
+// Allocates and reads and writes attributes without end, passing safepoints.
+const ProtoObject* spinnerMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                               const ProtoArguments*, const ProtoKeywordArguments*) {
+    const ProtoString* key = ProtoString::createSymbol(ctx, "spinner-key");
+    for (long i = 0;; ++i) {
+        const ProtoObject* o = ctx->newObject(true);
+        o->setAttribute(ctx, key, ctx->fromInteger(i));
+        (void) o->getAttribute(ctx, key);
+        const ProtoObject* frozen = ctx->newObject(false)->setAttribute(ctx, key, o);
+        (void) frozen->hasAttribute(ctx, key);
+        g_spinIterations.fetch_add(1);
+        if ((i & 255) == 0) ctx->safepoint();
+    }
+}
+
+// Sleeps (out of the quorum, in an unmanaged region) past the destruction.
+const ProtoObject* sleeperMain(ProtoContext* ctx, const ProtoObject*, const ParentLink*,
+                               const ProtoArguments*, const ProtoKeywordArguments*) {
+    g_sleeperStarted.store(true);
+    ProtoThread::sleepFor(ctx, 1500 * 1000);
+    g_sleeperReturned.store(true);
+    (void) ctx->newObject(false);
+    return PROTO_NONE;
+}
+
+}  // namespace
+
+// A space destroyed while two of its ProtoThreads still run -- one spinning
+// in allocation and attribute access, one asleep in an unmanaged region --
+// stops both for good (the terminal stop in ~ProtoSpace) instead of freeing
+// the space under them.  The destructor returns promptly; the spinner makes no
+// further iteration; the sleeper, waking after the destruction, never returns
+// from sleepFor.  Run under ASan and TSan, a thread that touched the destroyed
+// space would be reported.  (The two threads stay blocked until the process
+// exits; they are never joined.)
+TEST(SpaceTeardown, ThreadsStillRunningAreStoppedForGood) {
+    auto* b = new ProtoSpace();
+    g_spinIterations.store(0);
+    g_sleeperStarted.store(false);
+    g_sleeperReturned.store(false);
+    (void) b->newThread(b->rootContext, ProtoString::createSymbol(b->rootContext, "spinner"),
+                        spinnerMain, nullptr, nullptr);
+    (void) b->newThread(b->rootContext, ProtoString::createSymbol(b->rootContext, "sleeper"),
+                        sleeperMain, nullptr, nullptr);
+    {
+        // This thread constructed b: out of its quorum while it waits, so the
+        // spinner's collections do not wait for it.
+        ProtoContext::UnmanagedScope parked(b->rootContext);
+        const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(20);
+        while ((g_spinIterations.load() < 20000 || !g_sleeperStarted.load())
+               && std::chrono::steady_clock::now() < deadline)
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    ASSERT_GE(g_spinIterations.load(), 20000);
+    ASSERT_TRUE(g_sleeperStarted.load());
+
+    const auto t0 = std::chrono::steady_clock::now();
+    delete b;
+    const double destroySeconds =
+        std::chrono::duration<double>(std::chrono::steady_clock::now() - t0).count();
+    const long atDestroy = g_spinIterations.load();
+    // Past the sleeper's 1.5 s: it has woken up by now.
+    std::this_thread::sleep_for(std::chrono::milliseconds(2500));
+    const long after = g_spinIterations.load();
+    std::printf("[ Teardown ] running threads: destroy %.3f s, spinner iterations %ld then %ld, "
+                "sleeper returned %d\n", destroySeconds, atDestroy, after,
+                (int) g_sleeperReturned.load());
+    EXPECT_LT(destroySeconds, 5.0);
+    EXPECT_EQ(after, atDestroy) << "the spinner ran on after its space was destroyed";
+    EXPECT_FALSE(g_sleeperReturned.load()) << "the sleeper returned into a destroyed space";
+}
