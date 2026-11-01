@@ -2,7 +2,47 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased]
+## [3.5.0] - 2026-10-31
+
+Released 2026-10-31. **No ABI break: SOVERSION stays 5** (`libprotoCore.so.5`,
+`protoCore-5.dll`); a binary built against 3.4.0 loads and links against this
+library. `ProtoSet` and `ProtoMultiset` now keep every element whose hash
+collides with another, in per-hash buckets compared by pointer. The public
+classes are opaque handles and gain only non-virtual member functions; the
+changed layouts are in `proto_internal.h`, which is not installed. **The
+behaviour of both collections changes, though** (see below), and a soname
+cannot express that, so read "Behaviour changes" before upgrading an embedder
+that uses them. The DEB declares `Breaks: protojs (<< 0.3.1)`.
+
+### Behaviour changes
+
+- **Equality inside `ProtoSet` and `ProtoMultiset` is pointer identity.** It
+  is value equality for tagged immediates (small integers, booleans, inline
+  strings of up to 6 bytes, Unicode characters), but two distinct heap
+  strings with the same content, two boxed doubles of equal value, or two
+  equal large integers are now two elements (two counts in a multiset).
+  Through 3.4.0 they hashed alike and collapsed into one, which is also why
+  unequal elements with one hash were lost. Intern strings to make equal
+  content one element. A language whose equality is not identity builds its
+  own structure instead (a `ProtoSparseList` keyed by its hash holding
+  `ProtoList` buckets, searched with its own equality), as protoPython,
+  protoJS, protoST, protoScala and protoClojure all do now.
+- **`ProtoMultisetIterator::next` returns the element**, once per distinct
+  element; through 3.4.0 it returned the count. The count is `nextCount`.
+  The signature is unchanged, so a binary built against 3.4.0 that iterates
+  a multiset links, runs and reads elements where it expected counts. No
+  runtime of the ecosystem iterated a multiset.
+- **`ProtoSet::addWithHash` appends** to the bucket of the hash instead of
+  replacing the element stored under it, and `removeHash` drops the whole
+  bucket. A caller that wants one element per hash tests `hasHash` first
+  (protoPython 1.2.0 did, so its sets kept their old behaviour).
+- **Released runtimes:** protoJS 0.3.0's `protoCore.Set` and
+  `protoCore.Multiset` bindings called `ProtoSet` / `ProtoMultiset` directly,
+  so with this library a long string built at run time or a non-integer
+  number is no longer found through an equal value. protoJS 0.3.1 compares
+  by SameValueZero over its own storage and works with 3.4.0 and 3.5.0. The
+  other released runtimes (protoPython 1.2.0, protoST 0.8.0, protoScala
+  0.6.3, protoClojure 0.0.4) give the same results with 3.4.0 and 3.5.0.
 
 ### Fixed -- ProtoSet lost elements whose hashes collided
 
@@ -81,6 +121,43 @@ All notable changes to protoCore are documented in this file.
   three by crashing in the iterator.
   `NumericCompareTest.NaNElementsDoNotAliasNumbersInContainers` now counts a
   boxed double through the same box.
+
+### Packaging -- the DEB breaks protoJS 0.3.0
+
+- The DEB declares `Breaks: protojs (<< 0.3.1)`, so installing it upgrades
+  protoJS or stops, instead of leaving protoJS 0.3.0's `protoCore.Set` and
+  `protoCore.Multiset` running with different results (see "Behaviour
+  changes"). The soname could not refuse that combination, because the ABI
+  is unchanged.
+
+### Known limitations of 3.5.0
+
+- **Every bucket is a `ProtoList`, even for one element:** one extra 64-byte
+  cell per distinct hash, and the costs measured above (`ProtoSet` add +6 to
+  +11 % and has +6 to +9 % cycles; `ProtoMultiset` add +6 to +13 % and count
+  +27 to +44 %, on small integers, one element per bucket). Storing a lone
+  element directly in the slot would be ambiguous, because an element may
+  itself be a `ProtoList`; it would need a private bucket cell type.
+- **A bucket is searched linearly.** Many distinct elements under one hash
+  (a constant or poor hash function) make add, has, count and remove O(k) in
+  the bucket size k, plus O(k) to copy the bucket on a change.
+- **Pointer identity is the only equality.** Neither collection takes an
+  equality or key semantics from the caller; a language with value equality
+  must build its own structure, as described above.
+- **No load-time protection for other embedders.** A program built against
+  3.4.0 that iterates a `ProtoMultiset`, or relies on equal heap strings or
+  boxed doubles being one element, keeps loading and gives different results.
+  Only protoJS 0.3.0 is known to be affected, and only it is named in the
+  DEB's `Breaks`.
+- **Flaky test carried over from 3.4.0:**
+  `ModuleRootGC.APerennialButUnrootedModuleLosesItsContents` fails under
+  parallel load (9 of 100 concurrent runs locally on 3.4.0, 3 of 100 on the
+  set-bucket branch, once on macOS CI). It does not involve sets; the cause is
+  not established.
+- **Still open from 3.4.0:** `ProtoSpace::getThreads`, `getThreadByName`,
+  `allocThread` and `deallocThread` are declared without a definition, so a
+  call fails to link; the 3.4.0 limitations on walk pins, the terminal stop,
+  the sweep check and the symbol index memory still apply.
 
 ## [3.4.0] - 2026-10-31
 
