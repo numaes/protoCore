@@ -368,7 +368,7 @@ All core collection types in protoCore are implemented as persistent, immutable 
 
 *   **Sets & Multisets**:
     *   **`ProtoSet`**: Implemented using a `ProtoSparseList` where keys are element hashes and each value is a bucket: a `ProtoList` of the distinct elements stored under that hash. Membership compares pointers inside the bucket, so colliding elements are all kept and equality is identity (value equality only for tagged immediates). A language with its own equality builds its own sparse-list-of-lists structure and searches it with its own rules. Through 3.4.0 the set kept one element per hash, so distinct elements with equal hashes overwrote each other.
-    *   **`ProtoMultiset`**: Implemented as a "Bag of Counts". It uses a `ProtoSparseList` where keys are element hashes and values are `SmallInteger` counts, allowing for efficient allocation-free tracking of duplicates.
+    *   **`ProtoMultiset`**: Implemented like `ProtoSet`: a `ProtoSparseList` keyed by element hash whose values are buckets. A bucket is a `ProtoList` of (element, count) pairs laid out flat, `[e0, c0, e1, c1, ...]`, one pair per distinct element stored under that hash, each count a `SmallInteger`. Lookup compares pointers inside the bucket, so colliding elements keep separate counts and equality is identity (value equality only for tagged immediates). `getSize` is the total of the counts and `getDistinctSize` the number of distinct elements, both O(1); iteration visits each distinct element once, with `nextCount` and `nextHash`. Through 3.4.0 the multiset stored only a count per hash, never the element: colliding elements shared one count and the iterator returned counts.
 
 ---
 

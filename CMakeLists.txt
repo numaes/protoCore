@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 3.4.0
+    VERSION 3.5.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -119,6 +119,19 @@ add_library(protoCore SHARED
 # moves `lock`, `criticalSectionDepth` and every later field of ProtoContext,
 # and ProtoContext::CriticalSection is inline in the header, so a binary built
 # against 3.3.x headers would read the wrong offsets from a 3.4.0 library.
+#
+# 3.5.0 keeps 5.  ProtoSet and ProtoMultiset got collision buckets, but their
+# public classes are opaque handles with no data members; the changed layouts
+# (ProtoMultisetImplementation, the two iterator implementations) are in
+# proto_internal.h, which is not installed; no virtual function, inline
+# function or existing signature of protoCore.h changed, and every addition is
+# a new non-virtual member function or macro.  A binary built against 3.4.0
+# loads and links against 3.5.0.  What changed is behaviour, which no soname
+# can express: equality inside ProtoSet and ProtoMultiset is pointer identity,
+# and ProtoMultisetIterator::next returns the element, not its count.  No
+# runtime of the ecosystem iterated a multiset; the one released runtime whose
+# results change (protoJS 0.3.0's protoCore.Set and protoCore.Multiset) is
+# named in the DEB's Breaks field below.
 set(PROTOCORE_ABI_SOVERSION 5)
 
 # Shared library versioning (version for linker, soversion for ABI)
@@ -476,6 +489,16 @@ set(CPACK_RPM_PACKAGE_NAME    "protoCore")
 # the real compatibility statement, which is what SOVERSION is for.
 set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS ON)
 set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY ">=")
+
+# Released runtime packages that load this library but give different results
+# with it.  The soname cannot refuse them, because the ABI is unchanged; the
+# package manager can.  protoJS 0.3.0's protoCore.Set and protoCore.Multiset
+# compared elements through ProtoSet and ProtoMultiset, whose equality became
+# pointer identity in 3.5.0, so equal long strings and equal boxed doubles
+# stopped being one element; protoJS 0.3.1 uses its own SameValueZero storage.
+# With Breaks, installing this package upgrades protojs or refuses to proceed,
+# never leaves the old protojs running against it.
+set(CPACK_DEBIAN_PACKAGE_BREAKS "protojs (<< 0.3.1)")
 set(CPACK_PACKAGE_VENDOR "numaes")
 set(CPACK_PACKAGE_CONTACT "gamarino@gmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "protoCore - High-Performance Embeddable Dynamic Object System for C++")
