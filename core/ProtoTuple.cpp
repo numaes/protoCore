@@ -392,16 +392,21 @@ namespace proto {
         const ProtoTuple* selfT = this->asProtoTuple(context);
         if (!selfT) return reinterpret_cast<uintptr_t>(this);
         proto_ulong size = selfT->getSize(context);
-        // FNV-1a-ish mix with a tuple-distinguishing seed so empty
-        // tuple is non-zero and small tuples don't collide with their
-        // string elements.
-        proto_ulong h = PROTO_UL(0x345678) ^ (size * PROTO_UL(0xa6b3f7) + PROTO_UL(1));
+        // CPython's tuple hash (xxHash's round, Objects/tupleobject.c since
+        // 3.8). The multiply-then-XOR mix used before cancelled out on nested
+        // tuples: (a, (b, c)) and (b, (a, c)) hashed alike, and runtimes that
+        // key dicts and sets by hash treated them as one key.
+        // ProtoLinkedListNode::getHash and protoPython's tupleKeyHash mix the
+        // same way; keep the three in step.
+        proto_ulong h = PROTO_UL(2870177450012600261);
         for (proto_ulong i = 0; i < size; ++i) {
             const ProtoObject* e = selfT->getAt(context, static_cast<int>(i));
             proto_ulong eh = e ? e->getHash(context) : PROTO_UL(0);
-            h = (h * PROTO_UL(1000003)) ^ eh;
+            h += eh * PROTO_UL(14029467366897019727);
+            h = (h << 31) | (h >> 33);
+            h *= PROTO_UL(11400714785074694791);
         }
-        return h;
+        return h + (size ^ (PROTO_UL(2870177450012600261) ^ PROTO_UL(3527539)));
     }
 
     const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const {

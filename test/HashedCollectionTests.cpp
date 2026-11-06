@@ -303,3 +303,29 @@ TEST(HashedCollection, AllocatingCallbacksUnderGcPressure) {
     rs->remove(pinned);
     space.destroyRootSet(rs);
 }
+
+// (a, (b, c)) and (b, (a, c)) hash apart. The old mix h = h * M ^ e cancelled
+// across the two levels, and a runtime keying sets by hash took them for one.
+TEST(HashedCollection, NestedTuplesSwappingElementsAcrossLevelsHashApart) {
+    ProtoSpace space;
+    ProtoContext* ctx = space.rootContext;
+    auto pair = [&](int x, int y) {
+        return ctx->newTuple({ctx->fromInteger(x), ctx->fromInteger(y)})->asObject(ctx);
+    };
+    auto state = [&](const ProtoObject* p, const ProtoObject* q, const ProtoObject* r) {
+        return ctx->newTuple({p, ctx->newTuple({q, r})->asObject(ctx)})->asObject(ctx);
+    };
+    const ProtoObject* a = pair(6, 6);
+    const ProtoObject* b = pair(5, 6);
+    const ProtoObject* c = pair(7, 6);
+    EXPECT_NE(state(a, b, c)->getHash(ctx), state(b, a, c)->getHash(ctx));
+
+    std::set<proto_ulong> hashes;
+    int count = 0;
+    for (int px = 0; px < 5; ++px) for (int py = 0; py < 4; ++py)
+        for (int qx = 0; qx < 5; ++qx) for (int qy = 0; qy < 4; ++qy) {
+            hashes.insert(state(pair(px, py), pair(qx, qy), c)->getHash(ctx));
+            ++count;
+        }
+    EXPECT_EQ(hashes.size(), static_cast<size_t>(count));
+}
