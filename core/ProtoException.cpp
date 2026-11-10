@@ -20,7 +20,9 @@
  */
 
 #include "../headers/protoCore.h"
+#include "../headers/proto_internal.h"
 #include <mutex>
+#include <string>
 
 namespace proto {
 
@@ -64,18 +66,36 @@ namespace {
 // The default factory: a child of protoCore's prototype for the kind, with
 // the message as its `message` attribute.
 const ProtoObject* defaultErrorFactory(ProtoContext* context, ProtoErrorKind kind,
-                                       const char* message) {
+                                       const std::string& message) {
     const ProtoObject* error = context->space->getErrorPrototype(context, kind)->newChild(context);
     return error->setAttribute(context, ProtoString::createSymbol(context, "message"),
-                               context->fromUTF8String(message ? message : ""));
+                               context->fromUTF8String(message));
+}
+
+// Builds the error value for `message` (every byte of it) with the space's
+// factory: the length-aware one when installed, else the zero-terminated one
+// (which sees the message up to its first NUL), else the default.
+const ProtoObject* buildErrorValue(ProtoContext* context, ProtoErrorKind kind,
+                                   const std::string& message) {
+    ProtoSpace* space = context->space;
+    if (space) {
+        if (ProtoErrorFactoryWithLength f = space->getErrorFactoryWithLength())
+            return f(context, kind, message.c_str(), static_cast<proto_ulong>(message.size()));
+        if (ProtoErrorFactory f = space->getErrorFactory())
+            return f(context, kind, message.c_str());
+    }
+    return defaultErrorFactory(context, kind, message);
 }
 
 }  // namespace
 
 void ProtoContext::raiseError(ProtoErrorKind kind, const char* message) {
-    ProtoErrorFactory factory = space ? space->getErrorFactory() : nullptr;
-    const ProtoObject* value = factory ? factory(this, kind, message)
-                                       : defaultErrorFactory(this, kind, message);
+    const ProtoObject* value = buildErrorValue(this, kind, std::string(message ? message : ""));
+    throw ProtoException(this, value);
+}
+
+void ProtoContext::raiseError(ProtoErrorKind kind, const std::string& message) {
+    const ProtoObject* value = buildErrorValue(this, kind, message);
     throw ProtoException(this, value);
 }
 
@@ -87,6 +107,14 @@ void ProtoSpace::setErrorFactory(ProtoErrorFactory factory) {
 
 ProtoErrorFactory ProtoSpace::getErrorFactory() const {
     return errorFactory_.load(std::memory_order_acquire);
+}
+
+void ProtoSpace::setErrorFactoryWithLength(ProtoErrorFactoryWithLength factory) {
+    if (impl) impl->errorFactoryWithLength.store(factory, std::memory_order_release);
+}
+
+ProtoErrorFactoryWithLength ProtoSpace::getErrorFactoryWithLength() const {
+    return impl ? impl->errorFactoryWithLength.load(std::memory_order_acquire) : nullptr;
 }
 
 const char* ProtoSpace::errorKindName(ProtoErrorKind kind) {

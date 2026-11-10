@@ -1272,12 +1272,16 @@ namespace proto {
         // Deprecated: delegates to fromUTF8.
         return ProtoString::fromUTF8(context, str);
     }
-    const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const char* utf8) {
-        if (!utf8) utf8 = "";
-        size_t len = std::strlen(utf8);
-
-        const auto* bytes = reinterpret_cast<const uint8_t*>(utf8);
-
+    /**
+     * The canonical symbol for the UTF-8 spelling `bytes[0, len)`.
+     *
+     * Every step is length-based: an embedded NUL byte is an ordinary
+     * one-byte code point (U+0000), so "a\0b" is a three-code-point symbol
+     * distinct from "a".  Both createSymbol overloads funnel through here.
+     */
+    static const ProtoString* createSymbolFromUTF8Bytes(ProtoContext* ctx,
+                                                        const uint8_t* bytes,
+                                                        size_t len) {
         // Malformed input has the canonical form of the string fromUTF8
         // builds from it, which normalises the bytes; intern that string.
         if (wellFormedUTF8Prefix(bytes, len) != len) {
@@ -1304,8 +1308,17 @@ namespace proto {
         return reinterpret_cast<const ProtoString*>(sym);
     }
 
+    const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const char* utf8) {
+        if (!utf8) utf8 = "";
+        return createSymbolFromUTF8Bytes(
+            ctx, reinterpret_cast<const uint8_t*>(utf8), std::strlen(utf8));
+    }
+
     const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const std::string& s) {
-        return ProtoString::createSymbol(ctx, s.c_str());
+        // Length-aware: the std::string may hold embedded NUL bytes, which a
+        // c_str() round trip would silently truncate.
+        return createSymbolFromUTF8Bytes(
+            ctx, reinterpret_cast<const uint8_t*>(s.data()), s.size());
     }
 
     proto_ulong ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
@@ -1576,7 +1589,9 @@ namespace proto {
 
     const ProtoString* ProtoString::fromStdString(ProtoContext* context,
                                                    const std::string& s) {
-        return ProtoString::fromUTF8(context, s.c_str());
+        // Length-aware since 3.5.1: through 3.5.0 this forwarded s.c_str()
+        // and stopped at the first NUL.  The result is always a string.
+        return reinterpret_cast<const ProtoString*>(context->fromUTF8String(s));
     }
 
     std::string ProtoString::toStdString(ProtoContext* context) const {
@@ -1672,7 +1687,9 @@ namespace proto {
                 utf8 += static_cast<char>(0x80u | (cp & 0x3Fu));
             }
         }
-        return ProtoString::fromUTF8(context, utf8.c_str());
+        // Length-aware: a U+0000 element encodes as a NUL byte, which a
+        // c_str() round trip would have taken for the end of the text.
+        return reinterpret_cast<const ProtoString*>(context->fromUTF8String(utf8));
     }
 
 }

@@ -754,6 +754,17 @@ namespace proto
             std::strlen(zeroTerminatedUtf8String));
     }
 
+    const ProtoObject* ProtoContext::fromUTF8String(const std::string& utf8)
+    {
+        // Length-aware: s.data() / s.size(), never c_str(), so an embedded NUL
+        // is a U+0000 code point.  Same heap-ceiling checkpoint and the same
+        // builder as the zero-terminated overload's non-inline path; the
+        // builder produces the inline form itself for up to 6 bytes.
+        this->heapLimitCheckpoint();
+        return buildStringFromUTF8Bytes(
+            this, reinterpret_cast<const unsigned char*>(utf8.data()), utf8.size());
+    }
+
     const ProtoList* ProtoContext::newList()
     {
         // Empty list lives in the inline form (1 cell).  Subsequent

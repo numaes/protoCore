@@ -175,6 +175,18 @@ namespace proto
         ProtoContext* context, ProtoErrorKind kind, const char* message);
 
     /**
+     * @brief A length-aware error factory: `message` holds `length` bytes of
+     *        UTF-8 and may contain NUL bytes (it is also NUL-terminated).
+     *
+     * Installed with ProtoSpace::setErrorFactoryWithLength; when one is
+     * installed it takes precedence over a ProtoErrorFactory.  A
+     * ProtoErrorFactory sees the message only up to its first NUL.  Since
+     * 3.5.1.
+     */
+    typedef const ProtoObject* (*ProtoErrorFactoryWithLength)(
+        ProtoContext* context, ProtoErrorKind kind, const char* message, proto_ulong length);
+
+    /**
      * @brief The one C++ exception of every language on protoCore.
      *
      * A language-level `throw` / `raise` / `signal` that unwinds is a C++
@@ -1101,6 +1113,18 @@ namespace proto
         const ProtoObject* asObject(ProtoContext* context) const;
     };
 
+    /**
+     * An immutable sequence.  Every modifier returns a new list and leaves the
+     * receiver unchanged; unchanged structure is shared.
+     *
+     * Output form: a list of at most 5 elements is stored inline in one cell,
+     * a longer one as a balanced tree.  Every modifier picks the form of its
+     * result by the result's size; read-only operations never change form.
+     *
+     * Elements are returned as stored, with one exception: getAt, getFirst
+     * and getLast return PROTO_NONE for a stored nullptr.  The modifiers copy
+     * stored elements as they are, nullptr included.
+     */
     class ProtoList
     {
     public:
@@ -1108,22 +1132,54 @@ namespace proto
         const ProtoObject* getAt(ProtoContext* context, int index) const;
         const ProtoObject* getFirst(ProtoContext* context) const;
         const ProtoObject* getLast(ProtoContext* context) const;
+        /**
+         * The elements at [from, to).  The range is clamped into [0, size]:
+         * a negative `from` counts as 0 and a `to` past the end as size; there
+         * is no negative (from-the-end) indexing.  An empty range (from >= to
+         * after clamping) yields an empty list, the full range the receiver
+         * itself.  O(log n) cells and time, whatever the slice length.
+         */
         const ProtoList* getSlice(ProtoContext* context, int from, int to) const;
         proto_ulong getSize(ProtoContext* context) const;
         bool has(ProtoContext* context, const ProtoObject* value) const;
 
         //- Modifiers that return a new list
+        /** Replaces the element at `index`; an index outside [0, size) returns the receiver. */
         const ProtoList* setAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        /**
+         * Inserts `value` before the element at `index`.  The index is
+         * clamped into [0, size]: a negative index inserts at the front, an
+         * index past the end appends.
+         */
         const ProtoList* insertAt(ProtoContext* context, int index, const ProtoObject* value) const;
         const ProtoList* appendFirst(ProtoContext* context, const ProtoObject* value) const;
         const ProtoList* appendLast(ProtoContext* context, const ProtoObject* value) const;
+        /**
+         * The receiver followed by the elements of `other`.  O(log n + log m)
+         * cells and time.  A null or empty `other` returns the receiver.
+         */
         const ProtoList* extend(ProtoContext* context, const ProtoList* other) const;
+        /** The first `index` elements: empty for index <= 0, the receiver for index >= size. O(log n). */
         const ProtoList* splitFirst(ProtoContext* context, int index) const;
+        /** The last `index` elements: empty for index <= 0, the receiver for index >= size. O(log n). */
         const ProtoList* splitLast(ProtoContext* context, int index) const;
         const ProtoList* removeFirst(ProtoContext* context) const;
         const ProtoList* removeLast(ProtoContext* context) const;
+        /** Removes the element at `index`; an index outside [0, size) returns the receiver. */
         const ProtoList* removeAt(ProtoContext* context, int index) const;
+        /**
+         * Removes the elements at [from, to), clamped into [0, size] as in
+         * getSlice.  An empty range (from >= to after clamping) returns the
+         * receiver.  O(log n) cells and time, whatever the range length.
+         */
         const ProtoList* removeSlice(ProtoContext* context, int from, int to) const;
+        /**
+         * The receiver repeated `count` times (an integer; nullptr when it is
+         * not one).  count <= 0 gives an empty list, 1 the receiver.  Built by
+         * doubling: O(log count * log(size * count)) cells, with the
+         * repetitions sharing structure.  A result of more than 2^64 - 1
+         * elements raises ProtoErrorKind::Overflow.
+         */
         const ProtoList* multiply(ProtoContext* context, const ProtoObject* count) const;
 
         //- Conversion
@@ -1206,7 +1262,8 @@ namespace proto
          * shortest form. The result therefore does not always hold the
          * caller's exact bytes.
          *
-         * Reads up to the first NUL. When the source is a buffer, prefer
+         * Reads up to the first NUL (fromStdString keeps every byte of a
+         * std::string). When the source is a buffer, prefer
          * fromUTF8Buffer: it takes an explicit length, can carry a NUL, and is
          * the only constructor that handles a multi-byte sequence split across
          * two reads.
@@ -1216,10 +1273,9 @@ namespace proto
         /**
          * Creates a ProtoString from a std::string (UTF-8 encoded).
          *
-         * Same cost and same malformed-input handling as fromUTF8, which it
-         * delegates to. Note that it reads up to the first NUL, so a
-         * std::string carrying an embedded NUL is truncated there; use
-         * fromUTF8Buffer to build from the whole buffer.
+         * Same cost and same malformed-input handling as fromUTF8, but
+         * length-aware: every byte of `s` is read, and an embedded NUL is a
+         * U+0000 code point.  (Through 3.5.0 it stopped at the first NUL.)
          */
         static const ProtoString* fromStdString(ProtoContext* context, const std::string& s);
 
@@ -1260,6 +1316,8 @@ namespace proto
         /** Creates or retrieves an interned symbol for the given UTF-8 string. Symbols with the same
          *  content share a unique pointer identity. Strong symbols (created here) are never GC-collected. */
         static const ProtoString* createSymbol(ProtoContext* context, const char* zeroTerminatedUtf8);
+        /** Same as above, but length-aware: every byte of `s` is part of the spelling, including
+         *  embedded NUL bytes (each one a U+0000 code point). */
         static const ProtoString* createSymbol(ProtoContext* context, const std::string& s);
 
         int cmp_to_string(ProtoContext* context, const ProtoString* otherString) const;
@@ -2481,6 +2539,8 @@ namespace proto
         const ProtoObject* fromDouble(double value);
         const ProtoObject* fromUnicodeChar(unsigned int unicodeChar);
         const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
+        /** Length-aware: every byte of `utf8` is read; an embedded NUL is U+0000.  Since 3.5.1. */
+        const ProtoObject* fromUTF8String(const std::string& utf8);
         /**
          * @brief Wraps a C function pointer, optionally bound to a receiver.
          *
@@ -2581,6 +2641,13 @@ namespace proto
          *        a `ProtoException`.
          */
         [[noreturn]] void raiseError(ProtoErrorKind kind, const char* message);
+        /**
+         * @brief Same, with every byte of `message` (embedded NUL bytes
+         *        included) handed to a ProtoErrorFactoryWithLength or to the
+         *        default factory.  A ProtoErrorFactory sees it up to its
+         *        first NUL.  Since 3.5.1.
+         */
+        [[noreturn]] void raiseError(ProtoErrorKind kind, const std::string& message);
 
         /** Allocates a contiguous buffer (aligned_alloc). GC finalize frees it when descriptor is collected (Shadow GC). */
         const ProtoObject* newExternalBuffer(proto_ulong size);
@@ -3411,6 +3478,17 @@ namespace proto
         void setErrorFactory(ProtoErrorFactory factory);
         /** @brief The installed factory, or nullptr for the default one. */
         ProtoErrorFactory getErrorFactory() const;
+        /**
+         * @brief Installs a length-aware factory, which receives the whole
+         *        message, embedded NUL bytes included; nullptr uninstalls it.
+         *
+         * When installed it is used instead of the ProtoErrorFactory, so a
+         * runtime installs one or the other.  Same rules as setErrorFactory.
+         * Since 3.5.1.
+         */
+        void setErrorFactoryWithLength(ProtoErrorFactoryWithLength factory);
+        /** @brief The installed length-aware factory, or nullptr. */
+        ProtoErrorFactoryWithLength getErrorFactoryWithLength() const;
 
         /**
          * @brief protoCore's own prototype for errors of `kind`, created on

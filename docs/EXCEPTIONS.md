@@ -157,6 +157,7 @@ destroys them before the space, which it already must do for every
 ```cpp
 [[noreturn]] void ProtoContext::raise(const ProtoObject* value);
 [[noreturn]] void ProtoContext::raiseError(ProtoErrorKind kind, const char* message);
+[[noreturn]] void ProtoContext::raiseError(ProtoErrorKind kind, const std::string& message); // since 3.5.1
 ```
 
 - `ctx->raise(v)` is `throw ProtoException(ctx, v)`. It is the C++ spelling
@@ -165,6 +166,10 @@ destroys them before the space, which it already must do for every
   factory (§3.4) and raises it. protoCore uses it for its own errors; a C++
   module may use it for an error that is one of the five kinds, so the caller
   sees the language's own class.
+- The `std::string` overload (since 3.5.1) keeps every byte of the message,
+  embedded NUL bytes included, for a length-aware factory and for the
+  default factory (§3.4). The `const char*` overload reads the message up to
+  its first NUL; `nullptr` counts as the empty message.
 
 ### 3.3 `ProtoErrorKind`: the errors protoCore raises
 
@@ -172,7 +177,7 @@ destroys them before the space, which it already must do for every
 |---|---|---|
 | `InvalidArgument` | `fromString` with an empty or malformed literal or a base outside 2..36; integer `toString` with a base outside 2..36; `shiftLeft`/`shiftRight` by a negative amount | "Invalid argument for Integer::fromString.", "Invalid base ...", "Shift amount cannot be negative." |
 | `TypeMismatch` | An integer operation (`asLong`, `negate`, `abs`, `sign`, `compare`, `add`, `subtract`, `multiply`, `divide`, `modulo`, bitwise operations, shifts) on a value that is not an integer; `modulo` mixing an integer and a double | "Object is not an integer type.", "Objects are not integer types for ..." |
-| `Overflow` | `asLong` of a LargeInteger outside the 64-bit range | "LargeInteger value exceeds long long range." |
+| `Overflow` | `asLong` of a LargeInteger outside the 64-bit range; `ProtoList::multiply` whose result would exceed 2^64 - 1 elements (since 3.5.1) | "LargeInteger value exceeds long long range.", "List repetition count too large." |
 | `DivisionByZero` | Integer `divide` and `modulo` by zero | "Division by zero." |
 | `ArityMismatch` | A call that binds more positional arguments than the method's parameters (the `ProtoContext` constructor) | "Too many positional arguments provided." |
 
@@ -200,6 +205,13 @@ typedef const ProtoObject* (*ProtoErrorFactory)(
 
 void              ProtoSpace::setErrorFactory(ProtoErrorFactory factory);
 ProtoErrorFactory ProtoSpace::getErrorFactory() const;
+
+// Since 3.5.1: the message with its length; it may hold NUL bytes.
+typedef const ProtoObject* (*ProtoErrorFactoryWithLength)(
+    ProtoContext* context, ProtoErrorKind kind, const char* message, proto_ulong length);
+
+void                        ProtoSpace::setErrorFactoryWithLength(ProtoErrorFactoryWithLength factory);
+ProtoErrorFactoryWithLength ProtoSpace::getErrorFactoryWithLength() const;
 const ProtoObject* ProtoSpace::getErrorPrototype(ProtoContext* context, ProtoErrorKind kind);
 const ProtoObject* ProtoSpace::getErrorRootPrototype(ProtoContext* context);
 static const char* ProtoSpace::errorKindName(ProtoErrorKind kind);
@@ -233,6 +245,22 @@ The factory's contract:
 - **One factory per space.** A space hosts one runtime's main program. A
   module written in another language raises its own language's classes, and
   those are caught under E4.
+
+**Which factory runs.** `raiseError` picks, in order:
+1. the length-aware factory, when one is installed: it receives
+   `length` bytes of message (NUL bytes included), also followed by a NUL
+   terminator;
+2. otherwise the `ProtoErrorFactory`, when one is installed: it receives the
+   message only up to its first NUL, which is all its signature can carry;
+3. otherwise the default factory, which keeps every byte of the message.
+
+A runtime installs one of the two kinds; installing a length-aware factory
+makes an installed `ProtoErrorFactory` unused until it is uninstalled
+(`setErrorFactoryWithLength(nullptr)`). Both follow the contract above.
+**The `message` pointer is valid only during the call** (since 3.5.1 it
+points into a temporary copy, never at the caller's own string): a factory
+copies the text it keeps, as every factory that builds a string value from
+it does.
 
 Tutorial [02](tutorials/exceptions/02_error_factory.md) builds a factory step
 by step. Each runtime's mapping table is in
