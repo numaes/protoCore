@@ -2,7 +2,7 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [3.5.1] - Unreleased
+## [3.5.1] - 2026-11-10
 
 Patch release. **No ABI break: SOVERSION stays 5**; no class layout, virtual
 function, inline function or existing signature in `protoCore.h` changed.
