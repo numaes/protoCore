@@ -302,6 +302,44 @@ namespace proto
     }
 
     /**
+     * @brief Constructs the root context of a new ProtoThread.
+     *
+     * Bound to `thread` from the start, so the registration below writes
+     * only that thread's own current-context slot.  The general constructor,
+     * given `previous == nullptr`, would instead register the context as
+     * space->mainContext (or, on the main thread, as the main thread's
+     * current context): a write to another thread's root slot, which made
+     * concurrent ProtoSpace::newThread calls race on space->mainContext
+     * (3.5.1 and earlier).  The new thread is not running yet, so nothing
+     * else reads its slot; std::thread's construction publishes it.
+     */
+    ProtoContext::ProtoContext(ThreadRootTag, ProtoSpace* space, ProtoThread* thread)
+        : automaticLocals(nullptr),
+          automaticLocalsCount(0),
+          slotsSource_(kSlotsExternal),
+          gcOwned_(false),
+          previous(nullptr),
+          space(space),
+          thread(thread),
+          currentFileName(nullptr),
+          currentLineNumber(0),
+          closureLocals(nullptr),
+          returnValue(PROTO_NONE),
+          lastAllocatedCell(nullptr),
+          allocatedCellsCount(0),
+          freeCells(nullptr),
+          mutableValueCache_(nullptr)
+    {
+        if (thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(thread);
+            this->mutableValueCache_ = threadImpl->extension
+                ? threadImpl->extension->mutableValueCache
+                : nullptr;
+            threadImpl->implSetCurrentContext(this);
+        }
+    }
+
+    /**
      * @brief Destructor for the context.
      * Reports allocated cells to the GC and frees automatic local variable storage.
      */

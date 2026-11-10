@@ -461,49 +461,23 @@ namespace proto {
     ) : Cell(context), name(name), space(space), args(args), kwargs(kwargs) {
         this->extension = new (context) ProtoThreadExtension(context);
 
-        // Building the NEW thread's root context must not leave the CREATING
-        // thread registered against it.
+        // The NEW thread's root context, bound to this thread from the start
+        // (ProtoContext's ThreadRootTag constructor).  It registers only as
+        // this thread's current context: it writes neither
+        // ProtoSpace::mainContext nor the creating thread's current context.
         //
-        // ProtoContext's constructor registers every context it builds as the
-        // current context of the thread it belongs to, or - when it belongs to
-        // no thread - as ProtoSpace::mainContext (core/ProtoContext.cpp, step
-        // 3).  `previous == nullptr` makes the new thread's root context look
-        // like a thread root to that code, so on the main thread it silently
-        // becomes the main thread's current context, and on a worker it
-        // silently becomes space->mainContext.  Both of those slots are GC root
-        // sources for a thread that does not own this context.
-        //
-        // That was merely wrong until now (one thread's roots scanned from
-        // another thread's context, healed by the creator's next context
-        // construction).  It becomes a dangling pointer the moment the exiting
-        // thread destroys its own root context, which releaseExitingThread
-        // above now does.  So snapshot both slots and put them back.
-        // The context below adopts the thread it runs on the way the
-        // ProtoContext constructor does: the allocation context's thread, or
-        // the main thread when it runs there.  ProtoSpace::newThread passes a
-        // never-registered allocation context with no thread, so the calling
-        // main thread is found through the same detection.
-        ProtoThreadImplementation* callerImpl = nullptr;
-        if (context && context->thread) {
-            callerImpl = toImpl<ProtoThreadImplementation>(context->thread);
-        } else if (space && space->rootContext && space->rootContext->thread &&
-                   space->mainThreadId == std::this_thread::get_id()) {
-            callerImpl = toImpl<ProtoThreadImplementation>(space->rootContext->thread);
-        }
-        ProtoContext* const callerCurrent = callerImpl ? callerImpl->context : nullptr;
-        ProtoContext* const savedMainContext = space ? space->mainContext : nullptr;
-
+        // Through 3.5.1 it was built with the general constructor and
+        // `previous == nullptr`, which registered it as space->mainContext
+        // (on a worker) or as the main thread's current context (on the main
+        // thread), and the creator snapshotted and restored both slots.  Two
+        // threads calling newThread at once interleaved those plain reads and
+        // writes, and could leave space->mainContext on one worker's root
+        // context: scanned as the main thread's roots meanwhile, dangling
+        // once that worker exited (found by ThreadSanitizer in protoST).
         // No parameter names, so no binding: the arguments reach the
         // thread's method through thread_main, not through this context.
-        this->context = new ProtoContext(space, nullptr, nullptr, nullptr, nullptr, nullptr);
-        this->context->thread = (ProtoThread*)this->asThread(context);
-        // Stash the per-thread mutable-value cache pointer in the
-        // freshly-created context so resolveMutableState's hot path
-        // can reach it with one load (see ProtoObject.cpp).
-        this->context->mutableValueCache_ = this->extension->mutableValueCache;
-
-        if (callerImpl) callerImpl->implSetCurrentContext(callerCurrent);
-        if (space) space->mainContext = savedMainContext;
+        this->context = new ProtoContext(ProtoContext::ThreadRootTag{}, space,
+                                         (ProtoThread*)this->asThread(context));
         // Build the new `space->threads` list OUTSIDE the global mutex.
         //
         // Why: `implSetAt` walks the SparseList and allocates new node
