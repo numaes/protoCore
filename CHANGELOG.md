@@ -5,9 +5,14 @@ All notable changes to protoCore are documented in this file.
 ## [3.5.1] - Unreleased
 
 Patch release. **No ABI break: SOVERSION stays 5**; no class layout, virtual
-function, inline function or signature in `protoCore.h` changed (the only
-header edit is a documentation comment). A binary built against 3.4.0 or
-3.5.0 loads and links against this library.
+function, inline function or existing signature in `protoCore.h` changed.
+The additions are new non-virtual functions and a typedef
+(`ProtoContext::fromUTF8String(const std::string&)`,
+`ProtoContext::raiseError(ProtoErrorKind, const std::string&)`,
+`ProtoErrorFactoryWithLength`, `ProtoSpace::setErrorFactoryWithLength` and
+`getErrorFactoryWithLength`), plus documentation comments; the new factory
+is stored in the internal `ProtoSpaceImplementation`, not in `ProtoSpace`. A
+binary built against 3.4.0 or 3.5.0 loads and links against this library.
 
 ### Behaviour changes
 
@@ -16,13 +21,37 @@ header edit is a documentation comment). A binary built against 3.4.0 or
   or compared tuple hashes across processes, or mirrors the mix in its own
   code, must follow.
 - **`ProtoList::getSlice` clamps its range.** Through 3.5.0 an out-of-range
-  index was not checked: `to` past the end appended `PROTO_NONE` padding and
-  a negative `from` read out of the tree. The range is now clamped into
-  `[0, size]` (no Python-style negative indexing), the same rule
-  `ProtoString::getSlice` and `ProtoTuple::getSlice` already follow, and
-  `removeSlice` uses the same rule. A search of the runtimes' sources (protoJS,
-  protoPython, protoST, protoScala) found list call sites whose bounds derive
-  from the list size; that was a reading of the call lines, not a test run.
+  index was not checked. On an inline list (at most 5 elements) a `to` past
+  the end padded the result with `PROTO_NONE`; on a tree list it was
+  undefined behaviour (a null dereference in `implGetAt`), and so was a
+  negative `from` on either form. The range is now clamped into `[0, size]`
+  (no Python-style negative indexing), the rule `ProtoString::getSlice` and
+  `ProtoTuple::getSlice` already follow, and documented in `protoCore.h`.
+  `removeSlice` already ignored out-of-range indices (it removed one index
+  at a time); its range rule is unchanged, only its cost and its output form.
+  A search of the runtimes' sources found list call sites in protoJS,
+  protoPython, protoST and protoScala whose bounds derive from the list size,
+  and no list call sites in protoClojure; that was a reading of the call
+  lines, not a test run.
+- **`ProtoList::extend(nullptr)` returns the receiver;** through 3.5.0 it
+  crashed.
+- **`ProtoList` modifiers copy stored elements as they are.** Through 3.5.0
+  `getSlice` (and `splitFirst` / `splitLast`, which call it) rebuilt its
+  result through `getAt`, which turns a stored `nullptr` into `PROTO_NONE`;
+  every modifier now keeps a `nullptr` element as `nullptr`. `getAt`,
+  `getFirst` and `getLast` still return `PROTO_NONE` for it.
+- **The single-element list modifiers pick the output form by size.**
+  `removeAt`, `insertAt`, `setAt` and `appendLast` on a tree list now return
+  the inline form when the result has at most 5 elements, like every other
+  modifier; through 3.5.0, removing one element from a 6-element list gave a
+  5-element tree. An out-of-range `removeAt` or `setAt` returns the receiver.
+  Code that tests the representation tag of a list sees the difference;
+  contents are unchanged.
+- **`ProtoString::fromStdString` keeps every byte.** Through 3.5.0 it stopped
+  at the first NUL (as documented then); it is now length-aware, as are the
+  new `ProtoContext::fromUTF8String(const std::string&)` and
+  `raiseError(kind, const std::string&)`. `fromCodepointTuple` no longer cuts
+  the text at a U+0000 element.
 
 ### Fixed -- tuple and linked-list hashes collided on nested tuples
 
@@ -47,6 +76,24 @@ header edit is a documentation comment). A binary built against 3.4.0 or
   explicit byte count; U+0000 is an ordinary one-byte code point, for inline
   (up to 6 bytes) and table spellings alike. Tests `SymbolEmbeddedNul.*`.
 
+### Fixed -- text APIs taking a `std::string` cut it at the first NUL
+
+- `ProtoString::fromStdString` forwarded `s.c_str()` to `fromUTF8`, and
+  `ProtoString::fromCodepointTuple` re-encoded its code points into a
+  `std::string` and did the same, so both stopped at the first NUL byte.
+  Both now pass the bytes with their length.
+- New: `ProtoContext::fromUTF8String(const std::string&)`, the length-aware
+  counterpart of the zero-terminated overload.
+- Errors: `ProtoErrorFactory` receives a zero-terminated message, so a
+  runtime could not raise an error whose message holds a NUL. New:
+  `ProtoContext::raiseError(ProtoErrorKind, const std::string&)`, the
+  factory type `ProtoErrorFactoryWithLength` (message plus byte count) and
+  `ProtoSpace::setErrorFactoryWithLength`. An installed length-aware factory
+  takes precedence; a `ProtoErrorFactory` still sees the message up to its
+  first NUL, as its signature implies; the default factory keeps every byte.
+- Tests `TextEmbeddedNul.*` and
+  `SymbolEmbeddedNul.TrailingNulBytesAreDistinctSpellings`.
+
 ### Fixed -- `ProtoList` slicing and concatenation cost O(k log n)
 
 - `getSlice` rebuilt its result one `appendLast` at a time (O(k log n) cells
@@ -58,13 +105,22 @@ header edit is a documentation comment). A binary built against 3.4.0 or
   `removeSlice` are O(log n), `extend` O(log n + log m). Slicing the middle
   half of a 131,072-element list allocates 18 cells (3.5.0: 1,179,601), and
   removing its middle third 26 (3.5.0: 601,146), measured with the context's
-  allocation counter. Results keep the output-form policy of every list mutator
-  (SmallList up to `MAX_INLINE` elements, AVL beyond), and `getSlice` of the
-  full range returns the receiver.
+  allocation counter. Concatenation takes the middle element of the join
+  from the shorter operand, so extending a large list by one element costs
+  about one `appendLast` (131,072 elements: 17 cells, against 18 for
+  `appendLast`). Results keep the
+  output-form policy of every list mutator (SmallList up to `MAX_INLINE`
+  elements, AVL beyond), and `getSlice` of the full range returns the
+  receiver.
 - Tests `ListStructuralOpsTest.*`: every split point and every range
-  (including out-of-range ones) up to 300 elements against a naive model, a
-  walk of every node checking size, height and AVL balance, concatenation of
-  trees of very different heights, and the cell count of a large slice.
+  (including out-of-range and extreme `INT_MIN` / `INT_MAX` ones) up to 300
+  elements against a naive model, a walk of every node checking size,
+  height and AVL balance, tree-form inputs of at most 5 elements, `nullptr`
+  elements, concatenation of trees of very different heights, a random walk
+  over every modifier, collections forced between operations on lists held
+  only in a root set, and the cell count of a large slice and of extending
+  by one to three elements. The random walk, the forced-collection and the
+  trailing-NUL tests are adapted from the 3.5.1 review.
 
 ### Known limitations of 3.5.1
 
