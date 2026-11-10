@@ -402,6 +402,9 @@ TEST_F(ListStructuralOpsTest, NullElementsAreCopiedAsStored) {
         EXPECT_EQ(rawContents(c, l->getSlice(c, 0, n - 1)), naiveSlice(items, 0, n - 1)) << "getSlice " << tag;
         EXPECT_EQ(rawContents(c, l->removeSlice(c, 1, 2)), naiveRemove(items, 1, 2)) << "removeSlice " << tag;
         EXPECT_EQ(rawContents(c, l->splitLast(c, n - 1)), naiveSlice(items, 1, n)) << "splitLast " << tag;
+        std::vector<const ProtoObject*> thrice(twice);
+        thrice.insert(thrice.end(), items.begin(), items.end());
+        EXPECT_EQ(rawContents(c, l->multiply(c, c->fromInteger(3))), thrice) << "multiply " << tag;
         // A one-element list holding nullptr, on either side of a tree.
         const ProtoObject* none[1] = {nullptr};
         const ProtoList* one = c->newList(1, none);
@@ -663,6 +666,68 @@ TEST_F(ListStructuralOpsTest, RandomWalkOverEveryModifier) {
             ASSERT_TRUE(checkList(l).empty()) << checkList(l) << " op " << op;
             ASSERT_TRUE(canonicalForm(c, l)) << "op " << op;
             if (step % 25 == 0) ASSERT_EQ(rawContents(c, l), model) << "op " << op;
+        }
+    }
+}
+
+// multiply builds the repetition by doubling: contents, shape and form for
+// every small size and count, and a cell count logarithmic in the count.
+TEST_F(ListStructuralOpsTest, MultiplyByDoubling) {
+    for (int n = 0; n <= 12; ++n) {
+        Scoped scope(this);
+        const auto items = ints(0, n);
+        for (const ProtoList* l : {listOf(items), treeFormList(c, items)}) {
+            for (int k = -1; k <= 9; ++k) {
+                const ProtoList* r = l->multiply(c, c->fromInteger(k));
+                const std::string tag = "n=" + std::to_string(n) + " k=" + std::to_string(k);
+                if (k == 1) {
+                    EXPECT_EQ(r, l) << tag;
+                    continue;
+                }
+                std::vector<const ProtoObject*> expected;
+                for (int i = 0; i < k; ++i) expected.insert(expected.end(), items.begin(), items.end());
+                expectList(r, expected, "multiply " + tag);
+            }
+        }
+    }
+    EXPECT_EQ(listOf(ints(0, 3))->multiply(c, c->fromUTF8String("x")), nullptr);
+
+    const ProtoList* l = bigList(0, 1000);
+    const proto_ulong before = c->allocatedCellsCount;
+    const ProtoList* r = l->multiply(c, c->fromInteger(1000));
+    const proto_ulong after = c->allocatedCellsCount;
+    ASSERT_GE(after, before);
+    ASSERT_EQ(r->getSize(c), 1000000u);
+    ASSERT_TRUE(checkList(r).empty()) << checkList(r);
+    for (int i : {0, 999, 1000, 123456, 999999}) EXPECT_EQ(r->getAt(c, i), c->fromInteger(i % 1000)) << i;
+    std::printf("[ListStructuralOps] multiply of 1000 elements by 1000: %llu cells\n",
+                static_cast<unsigned long long>(after - before));
+    // 3.5.0 appended one element at a time: about 10^6 * 20 cells.
+    EXPECT_LT(after - before, 2000u);
+
+    const ProtoList* tiny = listOf(ints(0, 3));   // 3 * LLONG_MAX > 2^64 - 1
+    EXPECT_THROW(tiny->multiply(c, c->fromInteger(LLONG_MAX)), ProtoException);
+}
+
+// insertAt clamps its index into [0, size] in both forms: a negative index
+// inserts at the front, an index past the end appends.
+TEST_F(ListStructuralOpsTest, InsertAtClampsInBothForms) {
+    for (int n : {0, 3, 5, 6, 8, 40}) {
+        const auto items = ints(0, n);
+        for (const ProtoList* l : {listOf(items), treeFormList(c, items)}) {
+            const ProtoObject* x = c->fromInteger(-1);
+            for (int idx : {INT_MIN, -5, -1}) {
+                auto expected = items;
+                expected.insert(expected.begin(), x);
+                expectList(l->insertAt(c, idx, x), expected, "insertAt " + std::to_string(idx) +
+                           " n=" + std::to_string(n));
+            }
+            for (int idx : {n, n + 1, INT_MAX}) {
+                auto expected = items;
+                expected.push_back(x);
+                expectList(l->insertAt(c, idx, x), expected, "insertAt " + std::to_string(idx) +
+                           " n=" + std::to_string(n));
+            }
         }
     }
 }

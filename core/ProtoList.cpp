@@ -784,8 +784,14 @@ namespace proto {
             for (unsigned i = static_cast<unsigned>(index); i < n; ++i) buf[i + 1] = small->slots[i];
             return makeOutputList(context, buf, n + 1);
         }
-        return outputFromImpl(context,
-            toImpl<const ProtoListImplementation>(this)->implInsertAt(context, index, value));
+        // Clamp into [0, size] as the small path does: implInsertAt compares
+        // the index with unsigned sizes, so a negative one would land at the
+        // end of the list instead of the front.
+        const auto* impl = toImpl<const ProtoListImplementation>(this);
+        const proto_ulong size = impl->isEmpty ? 0 : impl->size;
+        if (index < 0) index = 0;
+        if (static_cast<proto_ulong>(index) > size) index = static_cast<int>(size);
+        return outputFromImpl(context, impl->implInsertAt(context, index, value));
     }
     const ProtoList* ProtoList::appendFirst(ProtoContext* context, const ProtoObject* value) const { return insertAt(context, 0, value); }
     const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const {
@@ -959,20 +965,37 @@ namespace proto {
     const ProtoObject* ProtoListIterator::asObject(ProtoContext* context) const { if (!this) return nullptr; return toImpl<const ProtoListIteratorImplementation>(this)->implAsObject(context); }
 
     const ProtoList* ProtoList::multiply(ProtoContext* context, const ProtoObject* count) const {
+        // The receiver repeated `count` times, built by binary doubling over
+        // join2: O(log count) concatenations of O(log n) each, sharing the
+        // receiver's nodes, instead of n * count appends.  Elements are
+        // copied as stored (a nullptr element stays nullptr).
         if (!count->isInteger(context)) return nullptr;
         long long n = count->asLong(context);
         if (n <= 0) return context->newList();
         if (n == 1) return const_cast<ProtoList*>(this);
+        const proto_ulong selfSize = getSize(context);
+        if (selfSize == 0) return context->newList();
+        if (static_cast<proto_ulong>(n) > ~static_cast<proto_ulong>(0) / selfSize)
+            context->raiseError(ProtoErrorKind::Overflow, "List repetition count too large.");
 
-        // Nested loop holds `result` across many appendLast calls.
         ProtoContext::CriticalSection cs(context);
-        const ProtoList* result = context->newList();
-        proto_ulong self_size = getSize(context);
-        for (long long i = 0; i < n; ++i) {
-            for (proto_ulong j = 0; j < self_size; ++j) {
-                result = result->appendLast(context, getAt(context, static_cast<int>(j)));
-            }
+        if (selfSize * static_cast<proto_ulong>(n) <= ProtoListSmallImplementation::MAX_INLINE) {
+            const ProtoObject* once[ProtoListSmallImplementation::MAX_INLINE];
+            const unsigned k = rawElementsToBuffer(context, this, once, 0);
+            const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
+            unsigned out = 0;
+            for (long long r = 0; r < n; ++r)
+                for (unsigned i = 0; i < k; ++i) buf[out++] = once[i];
+            return makeOutputList(context, buf, out);
         }
-        return result;
+        const ProtoListImplementation* base = treeOf(context, this);
+        const ProtoListImplementation* acc = nullptr;
+        unsigned long long k = static_cast<unsigned long long>(n);
+        while (k) {
+            if (k & 1ULL) acc = join2(context, acc, base);
+            k >>= 1;
+            if (k) base = join2(context, base, base);
+        }
+        return outputFromTree(context, acc);
     }
 }

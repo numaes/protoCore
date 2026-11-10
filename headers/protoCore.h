@@ -1146,6 +1146,11 @@ namespace proto
         //- Modifiers that return a new list
         /** Replaces the element at `index`; an index outside [0, size) returns the receiver. */
         const ProtoList* setAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        /**
+         * Inserts `value` before the element at `index`.  The index is
+         * clamped into [0, size]: a negative index inserts at the front, an
+         * index past the end appends.
+         */
         const ProtoList* insertAt(ProtoContext* context, int index, const ProtoObject* value) const;
         const ProtoList* appendFirst(ProtoContext* context, const ProtoObject* value) const;
         const ProtoList* appendLast(ProtoContext* context, const ProtoObject* value) const;
@@ -1168,6 +1173,13 @@ namespace proto
          * receiver.  O(log n) cells and time, whatever the range length.
          */
         const ProtoList* removeSlice(ProtoContext* context, int from, int to) const;
+        /**
+         * The receiver repeated `count` times (an integer; nullptr when it is
+         * not one).  count <= 0 gives an empty list, 1 the receiver.  Built by
+         * doubling: O(log count * log(size * count)) cells, with the
+         * repetitions sharing structure.  A result of more than 2^64 - 1
+         * elements raises ProtoErrorKind::Overflow.
+         */
         const ProtoList* multiply(ProtoContext* context, const ProtoObject* count) const;
 
         //- Conversion
