@@ -7,6 +7,7 @@
 
 #include "../headers/proto_internal.h"
 #include <algorithm> // For std::max
+#include <climits>
 
 namespace proto {
 
@@ -438,12 +439,31 @@ namespace proto {
             return join(context, t->previousNode, t->value, rest);
         }
 
+        // `t` without its first element, which is stored in *first.  t != nullptr.
+        const ListNode* popFirst(ProtoContext* context, const ListNode* t,
+                                 const ProtoObject** first) {
+            if (!t->previousNode) {
+                *first = t->value;
+                return t->nextNode;
+            }
+            const ListNode* rest = popFirst(context, t->previousNode, first);
+            return join(context, rest, t->value, t->nextNode);
+        }
+
         // Concatenation: the balanced tree whose sequence is left ++ right.
+        // The middle element of the join is taken from the shorter tree, so
+        // the pop costs O(height of the shorter tree) and the join
+        // O(height difference): extending a large list by one element costs
+        // about what one appendLast costs.
         const ListNode* join2(ProtoContext* context, const ListNode* left,
                               const ListNode* right) {
             if (!left) return right;
             if (!right) return left;
             const ProtoObject* middle = nullptr;
+            if (get_node_height(left) >= get_node_height(right)) {
+                const ListNode* rest = popFirst(context, right, &middle);
+                return join(context, left, middle, rest);
+            }
             const ListNode* rest = popLast(context, left, &middle);
             return join(context, rest, middle, right);
         }
@@ -490,6 +510,22 @@ namespace proto {
             return (avl->isEmpty || avl->size == 0) ? nullptr : avl;
         }
 
+        // Appends the stored elements of a list of at most MAX_INLINE elements
+        // to `out` at `at`, as stored: unlike ProtoList::getAt, a nullptr
+        // element is not turned into PROTO_NONE.  Returns the new end.
+        unsigned rawElementsToBuffer(ProtoContext* context, const ProtoList* list,
+                                     const ProtoObject** out, unsigned at) {
+            ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(list);
+            if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+                const auto* small = toImpl<const ProtoListSmallImplementation>(list);
+                for (proto_ulong i = 0; i < small->size; ++i) out[at++] = small->slots[i];
+                return at;
+            }
+            const auto* avl = toImpl<const ListNode>(list);
+            if (avl->isEmpty) return at;
+            return treeToBuffer(avl, out, at);
+        }
+
         // The output form of a result tree, chosen by size like every other
         // mutator: at most MAX_INLINE elements -> SmallList, more -> AVL.
         const ProtoList* outputFromTree(ProtoContext* context, const ListNode* t) {
@@ -502,13 +538,25 @@ namespace proto {
             return t->asProtoList(context);
         }
 
-        // Clamp a [from, to) range into [0, size].
+        // Clamp a [from, to) range into [0, size].  The comparison is done in
+        // 64 bits, so a size beyond INT_MAX is never narrowed; the clamped
+        // values fit in an int because each is at most its own non-negative
+        // input.
         void clampRange(proto_ulong size, int& from, int& to) {
-            const int s = static_cast<int>(size);
-            if (from < 0) from = 0;
-            if (to > s) to = s;
-            if (from > s) from = s;
-            if (to < 0) to = 0;
+            const long long s = size > static_cast<proto_ulong>(LLONG_MAX)
+                ? LLONG_MAX : static_cast<long long>(size);
+            const long long f = std::clamp(static_cast<long long>(from), 0LL, s);
+            const long long t = std::clamp(static_cast<long long>(to), 0LL, s);
+            from = static_cast<int>(f);
+            to = static_cast<int>(t);
+        }
+
+        // The output form of a tree mutator's result, chosen by size: an AVL
+        // result of at most MAX_INLINE elements becomes a SmallList.  Accepts
+        // the isEmpty root cell an AVL list may carry.
+        const ProtoList* outputFromImpl(ProtoContext* context, const ListNode* impl) {
+            if (impl->isEmpty || impl->size == 0) return context->newList();
+            return outputFromTree(context, impl);
         }
     }
 
@@ -715,7 +763,10 @@ namespace proto {
             buf[index] = value;
             return makeOutputList(context, buf, n);
         }
-        return toImpl<const ProtoListImplementation>(this)->implSetAt(context, index, value)->asProtoList(context);
+        const auto* impl = toImpl<const ProtoListImplementation>(this);
+        const ProtoListImplementation* result = impl->implSetAt(context, index, value);
+        if (result == impl) return const_cast<ProtoList*>(this);   // out of range: unchanged
+        return outputFromImpl(context, result);
     }
     const ProtoList* ProtoList::insertAt(ProtoContext* context, int index, const ProtoObject* value) const {
         ProtoContext::CriticalSection cs(context);
@@ -733,7 +784,8 @@ namespace proto {
             for (unsigned i = static_cast<unsigned>(index); i < n; ++i) buf[i + 1] = small->slots[i];
             return makeOutputList(context, buf, n + 1);
         }
-        return toImpl<const ProtoListImplementation>(this)->implInsertAt(context, index, value)->asProtoList(context);
+        return outputFromImpl(context,
+            toImpl<const ProtoListImplementation>(this)->implInsertAt(context, index, value));
     }
     const ProtoList* ProtoList::appendFirst(ProtoContext* context, const ProtoObject* value) const { return insertAt(context, 0, value); }
     const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const {
@@ -746,11 +798,13 @@ namespace proto {
             buf[n] = value;
             return makeOutputList(context, buf, n + 1);
         }
-        return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context);
+        return outputFromImpl(context,
+            toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value));
     }
     const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* other) const {
-        // Concatenation by join2: O(log n + log m) cells and time, whatever
-        // the sizes.  The guard keeps the intermediate trees rooted.
+        // Concatenation: O(log n + log m) cells and time, whatever the sizes.
+        // Elements are copied as stored (a nullptr element stays nullptr).
+        // The guard keeps the intermediate trees rooted.
         if (!other) return const_cast<ProtoList*>(this);
         const proto_ulong otherSize = other->getSize(context);
         if (otherSize == 0) return const_cast<ProtoList*>(this);
@@ -758,10 +812,29 @@ namespace proto {
         const proto_ulong selfSize = getSize(context);
         if (selfSize + otherSize <= ProtoListSmallImplementation::MAX_INLINE) {
             const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
-            unsigned n = 0;
-            for (proto_ulong i = 0; i < selfSize; ++i) buf[n++] = getAt(context, static_cast<int>(i));
-            for (proto_ulong i = 0; i < otherSize; ++i) buf[n++] = other->getAt(context, static_cast<int>(i));
+            unsigned n = rawElementsToBuffer(context, this, buf, 0);
+            n = rawElementsToBuffer(context, other, buf, n);
             return makeOutputList(context, buf, n);
+        }
+        // A SmallList operand next to a tree: join around one of its own
+        // elements, so the small side costs at most MAX_INLINE - 1 cells and
+        // the join only the height difference.
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        ProtoObjectPointer pb{}; pb.oid = reinterpret_cast<const ProtoObject*>(other);
+        if (pb.op.pointer_tag == POINTER_TAG_LIST_SMALL && pa.op.pointer_tag != POINTER_TAG_LIST_SMALL) {
+            const auto* small = toImpl<const ProtoListSmallImplementation>(other);
+            const unsigned k = static_cast<unsigned>(small->size);
+            const ProtoListImplementation* rest =
+                k > 1 ? buildBalancedFromArray(context, small->slots + 1, k - 1) : nullptr;
+            return outputFromTree(context, join(context, treeOf(context, this), small->slots[0], rest));
+        }
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL && pb.op.pointer_tag != POINTER_TAG_LIST_SMALL) {
+            const auto* small = toImpl<const ProtoListSmallImplementation>(this);
+            const unsigned k = static_cast<unsigned>(small->size);
+            if (k == 0) return outputFromTree(context, treeOf(context, other));
+            const ProtoListImplementation* head =
+                k > 1 ? buildBalancedFromArray(context, small->slots, k - 1) : nullptr;
+            return outputFromTree(context, join(context, head, small->slots[k - 1], treeOf(context, other)));
         }
         return outputFromTree(context, join2(context, treeOf(context, this), treeOf(context, other)));
     }
@@ -769,14 +842,14 @@ namespace proto {
         // The first `index` elements; index <= 0 -> empty, index >= size -> this.
         proto_ulong size = getSize(context);
         if (index <= 0) return context->newList();
-        if (index >= (int)size) return const_cast<ProtoList*>(this);
+        if (static_cast<proto_ulong>(index) >= size) return const_cast<ProtoList*>(this);
         return getSlice(context, 0, index);
     }
     const ProtoList* ProtoList::splitLast(ProtoContext* context, int index) const {
         // The last `index` elements; index <= 0 -> empty, index >= size -> this.
         proto_ulong size = getSize(context);
         if (index <= 0) return context->newList();
-        if (index >= (int)size) return const_cast<ProtoList*>(this);
+        if (static_cast<proto_ulong>(index) >= size) return const_cast<ProtoList*>(this);
         return getSlice(context, toIndex(size - index), toIndex(size));
     }
     const ProtoList* ProtoList::removeFirst(ProtoContext* context) const {
@@ -806,7 +879,10 @@ namespace proto {
             }
             return makeOutputList(context, buf, out);
         }
-        return toImpl<const ProtoListImplementation>(this)->implRemoveAt(context, index)->asProtoList(context);
+        const auto* impl = toImpl<const ProtoListImplementation>(this);
+        const ProtoListImplementation* result = impl->implRemoveAt(context, index);
+        if (result == impl) return const_cast<ProtoList*>(this);   // out of range: unchanged
+        return outputFromImpl(context, result);
     }
     const ProtoList* ProtoList::removeSlice(ProtoContext* context, int from, int to) const {
         // Removes the elements at [from, to).  The range is clamped into
