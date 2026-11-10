@@ -343,6 +343,176 @@ namespace proto {
     }
 
     //=========================================================================
+    // Structural operations on the AVL form (file-local)
+    //=========================================================================
+    //
+    // The classic persistent-AVL join/split algebra (Blelloch, Ferizovic and
+    // Sun, "Just Join for Parallel Ordered Sets", SPAA 2016), specialised to a
+    // positional sequence: the in-order traversal is the list, so `join` needs
+    // no key comparison.  Every operation path-copies: an existing node is
+    // never written, only shared, so every list that reached the caller stays
+    // exactly as it was.
+    //
+    // Inside this block a tree is a `const ProtoListImplementation*` whose
+    // nodes are all non-empty; nullptr is the empty tree.  The isEmpty root
+    // cell that an AVL list may carry is mapped to nullptr on the way in
+    // (treeOf) and never produced on the way out (outputFromTree).
+    //
+    // Costs, with n and m the sizes of the operands:
+    //   join(l, v, r)  O(|h(l) - h(r)| + 1) cells and time
+    //   join2(l, r)    O(log n + log m)
+    //   take(t, k)     O(log n)  -- the left half of split(t, k)
+    //   drop(t, k)     O(log n)  -- the right half of split(t, k)
+    // take and drop are the two halves of the usual split(t, k) -> (l, r);
+    // they are kept separate because no caller needs both halves of the same
+    // split, and building the unused half would only allocate garbage.
+    //
+    // GC: the intermediate trees live only in C++ locals.  Every public entry
+    // point that calls into this block holds a ProtoContext::CriticalSection,
+    // the same discipline as the single-element mutators above.
+    namespace {
+        using ListNode = ProtoListImplementation;
+
+        inline const ListNode* mkNode(ProtoContext* context, const ListNode* left,
+                                      const ProtoObject* value, const ListNode* right) {
+            return new (context) ListNode(context, value, false, left, right);
+        }
+
+        // `left` is taller than `right` by at least 2.  Descends the right
+        // spine of `left` to the first subtree no more than one level taller
+        // than `right`, joins there and repairs balance on the way up.
+        const ListNode* joinRight(ProtoContext* context, const ListNode* left,
+                                  const ProtoObject* value, const ListNode* right) {
+            const ListNode* l = left->previousNode;
+            const ListNode* c = left->nextNode;
+            if (get_node_height(c) <= get_node_height(right) + 1) {
+                const ListNode* t = mkNode(context, c, value, right);
+                if (get_node_height(t) <= get_node_height(l) + 1) {
+                    return mkNode(context, l, left->value, t);
+                }
+                return leftRotate(context, mkNode(context, l, left->value, rightRotate(context, t)));
+            }
+            const ListNode* t = joinRight(context, c, value, right);
+            const ListNode* t2 = mkNode(context, l, left->value, t);
+            if (get_node_height(t) <= get_node_height(l) + 1) return t2;
+            return leftRotate(context, t2);
+        }
+
+        // Mirror image of joinRight: `right` is taller than `left` by at
+        // least 2.
+        const ListNode* joinLeft(ProtoContext* context, const ListNode* left,
+                                 const ProtoObject* value, const ListNode* right) {
+            const ListNode* c = right->previousNode;
+            const ListNode* r = right->nextNode;
+            if (get_node_height(c) <= get_node_height(left) + 1) {
+                const ListNode* t = mkNode(context, left, value, c);
+                if (get_node_height(t) <= get_node_height(r) + 1) {
+                    return mkNode(context, t, right->value, r);
+                }
+                return rightRotate(context, mkNode(context, leftRotate(context, t), right->value, r));
+            }
+            const ListNode* t = joinLeft(context, left, value, c);
+            const ListNode* t2 = mkNode(context, t, right->value, r);
+            if (get_node_height(t) <= get_node_height(r) + 1) return t2;
+            return rightRotate(context, t2);
+        }
+
+        // The balanced tree whose in-order sequence is left ++ [value] ++ right.
+        const ListNode* join(ProtoContext* context, const ListNode* left,
+                             const ProtoObject* value, const ListNode* right) {
+            const int hl = get_node_height(left);
+            const int hr = get_node_height(right);
+            if (hl > hr + 1) return joinRight(context, left, value, right);
+            if (hr > hl + 1) return joinLeft(context, left, value, right);
+            return mkNode(context, left, value, right);
+        }
+
+        // `t` without its last element, which is stored in *last.  t != nullptr.
+        const ListNode* popLast(ProtoContext* context, const ListNode* t,
+                                const ProtoObject** last) {
+            if (!t->nextNode) {
+                *last = t->value;
+                return t->previousNode;
+            }
+            const ListNode* rest = popLast(context, t->nextNode, last);
+            return join(context, t->previousNode, t->value, rest);
+        }
+
+        // Concatenation: the balanced tree whose sequence is left ++ right.
+        const ListNode* join2(ProtoContext* context, const ListNode* left,
+                              const ListNode* right) {
+            if (!left) return right;
+            if (!right) return left;
+            const ProtoObject* middle = nullptr;
+            const ListNode* rest = popLast(context, left, &middle);
+            return join(context, rest, middle, right);
+        }
+
+        // The first k elements of t (left half of split(t, k)).
+        const ListNode* take(ProtoContext* context, const ListNode* t, proto_ulong k) {
+            if (!t || k == 0) return nullptr;
+            if (k >= t->size) return t;
+            const proto_ulong ls = get_node_size(t->previousNode);
+            if (k <= ls) return take(context, t->previousNode, k);
+            return join(context, t->previousNode, t->value,
+                        take(context, t->nextNode, k - ls - 1));
+        }
+
+        // Every element of t after the first k (right half of split(t, k)).
+        const ListNode* drop(ProtoContext* context, const ListNode* t, proto_ulong k) {
+            if (!t || k >= t->size) return nullptr;
+            if (k == 0) return t;
+            const proto_ulong ls = get_node_size(t->previousNode);
+            if (k > ls) return drop(context, t->nextNode, k - ls - 1);
+            return join(context, drop(context, t->previousNode, k), t->value, t->nextNode);
+        }
+
+        // In-order copy of a tree into `out`, starting at `at`; returns the
+        // index past the last element written.  The caller sizes `out`.
+        unsigned treeToBuffer(const ListNode* t, const ProtoObject** out, unsigned at) {
+            if (!t) return at;
+            at = treeToBuffer(t->previousNode, out, at);
+            out[at++] = t->value;
+            return treeToBuffer(t->nextNode, out, at);
+        }
+
+        // A list in the tree vocabulary of this block.  A SmallList becomes a
+        // freshly built balanced tree of at most MAX_INLINE nodes.
+        const ListNode* treeOf(ProtoContext* context, const ProtoList* list) {
+            ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(list);
+            if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+                const auto* small = toImpl<const ProtoListSmallImplementation>(list);
+                if (small->size == 0) return nullptr;
+                return buildBalancedFromArray(context, small->slots,
+                                              static_cast<unsigned>(small->size));
+            }
+            const auto* avl = toImpl<const ListNode>(list);
+            return (avl->isEmpty || avl->size == 0) ? nullptr : avl;
+        }
+
+        // The output form of a result tree, chosen by size like every other
+        // mutator: at most MAX_INLINE elements -> SmallList, more -> AVL.
+        const ProtoList* outputFromTree(ProtoContext* context, const ListNode* t) {
+            const proto_ulong n = get_node_size(t);
+            if (n <= ProtoListSmallImplementation::MAX_INLINE) {
+                const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
+                const unsigned count = treeToBuffer(t, buf, 0);
+                return makeOutputList(context, buf, count);
+            }
+            return t->asProtoList(context);
+        }
+
+        // Clamp a [from, to) range into [0, size].
+        void clampRange(proto_ulong size, int& from, int& to) {
+            const int s = static_cast<int>(size);
+            if (from < 0) from = 0;
+            if (to > s) to = s;
+            if (from > s) from = s;
+            if (to < 0) to = 0;
+        }
+    }
+
+    //=========================================================================
     // ProtoListIteratorImplementation
     //=========================================================================
 
@@ -579,24 +749,31 @@ namespace proto {
         return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context);
     }
     const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* other) const {
-        // The loop holds `result` (a fresh tree) in a C++ local across
-        // every appendLast; the guard keeps it rooted between iterations.
+        // Concatenation by join2: O(log n + log m) cells and time, whatever
+        // the sizes.  The guard keeps the intermediate trees rooted.
+        if (!other) return const_cast<ProtoList*>(this);
+        const proto_ulong otherSize = other->getSize(context);
+        if (otherSize == 0) return const_cast<ProtoList*>(this);
         ProtoContext::CriticalSection cs(context);
-        const ProtoList* result = const_cast<ProtoList*>(this);
-        const ProtoListIterator* it = other->getIterator(context);
-        while (it->hasNext(context)) {
-            result = result->appendLast(context, it->next(context));
-            it = it->advance(context);
+        const proto_ulong selfSize = getSize(context);
+        if (selfSize + otherSize <= ProtoListSmallImplementation::MAX_INLINE) {
+            const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
+            unsigned n = 0;
+            for (proto_ulong i = 0; i < selfSize; ++i) buf[n++] = getAt(context, static_cast<int>(i));
+            for (proto_ulong i = 0; i < otherSize; ++i) buf[n++] = other->getAt(context, static_cast<int>(i));
+            return makeOutputList(context, buf, n);
         }
-        return result;
+        return outputFromTree(context, join2(context, treeOf(context, this), treeOf(context, other)));
     }
     const ProtoList* ProtoList::splitFirst(ProtoContext* context, int index) const {
+        // The first `index` elements; index <= 0 -> empty, index >= size -> this.
         proto_ulong size = getSize(context);
         if (index <= 0) return context->newList();
         if (index >= (int)size) return const_cast<ProtoList*>(this);
         return getSlice(context, 0, index);
     }
     const ProtoList* ProtoList::splitLast(ProtoContext* context, int index) const {
+        // The last `index` elements; index <= 0 -> empty, index >= size -> this.
         proto_ulong size = getSize(context);
         if (index <= 0) return context->newList();
         if (index >= (int)size) return const_cast<ProtoList*>(this);
@@ -632,23 +809,48 @@ namespace proto {
         return toImpl<const ProtoListImplementation>(this)->implRemoveAt(context, index)->asProtoList(context);
     }
     const ProtoList* ProtoList::removeSlice(ProtoContext* context, int from, int to) const {
-        // Loop holds `result` between removeAt calls.
+        // Removes the elements at [from, to).  The range is clamped into
+        // [0, size]; an empty range (from >= to after clamping) returns this
+        // list unchanged.  O(log n): join2(take(from), drop(to)).
+        const proto_ulong size = getSize(context);
+        clampRange(size, from, to);
+        if (from >= to) return const_cast<ProtoList*>(this);
         ProtoContext::CriticalSection cs(context);
-        const ProtoList* result = const_cast<ProtoList*>(this);
-        // Remove from end to start to preserve indices
-        for (int i = to - 1; i >= from; --i) {
-            result = result->removeAt(context, i);
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            const auto* small = toImpl<const ProtoListSmallImplementation>(this);
+            const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
+            unsigned n = 0;
+            for (unsigned i = 0; i < static_cast<unsigned>(small->size); ++i) {
+                if (static_cast<int>(i) >= from && static_cast<int>(i) < to) continue;
+                buf[n++] = small->slots[i];
+            }
+            return makeOutputList(context, buf, n);
         }
-        return result;
+        const ProtoListImplementation* t = treeOf(context, this);
+        return outputFromTree(context,
+            join2(context, take(context, t, static_cast<proto_ulong>(from)),
+                           drop(context, t, static_cast<proto_ulong>(to))));
     }
-    const ProtoList* ProtoList::getSlice(ProtoContext* context, int start, int end) const {
-        // Loop holds `list` between appendLast calls.
+    const ProtoList* ProtoList::getSlice(ProtoContext* context, int from, int to) const {
+        // The elements at [from, to).  The range is clamped into [0, size]:
+        // a negative `from` counts as 0 and a `to` past the end as size (no
+        // Python-style negative indexing).  An empty range (from >= to after
+        // clamping) yields an empty list; the full range yields this list.
+        // O(log n) cells and time, independent of the slice length.
+        const proto_ulong size = getSize(context);
+        clampRange(size, from, to);
+        if (from >= to) return context->newList();
+        if (from == 0 && static_cast<proto_ulong>(to) == size) return const_cast<ProtoList*>(this);
         ProtoContext::CriticalSection cs(context);
-        const ProtoList* list = context->newList();
-        for (int i = start; i < end; ++i) {
-            list = list->appendLast(context, getAt(context, i));
+        ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
+        if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
+            const auto* small = toImpl<const ProtoListSmallImplementation>(this);
+            return makeOutputList(context, small->slots + from, static_cast<unsigned>(to - from));
         }
-        return list;
+        const ProtoListImplementation* t = treeOf(context, this);
+        const ProtoListImplementation* tail = drop(context, t, static_cast<proto_ulong>(from));
+        return outputFromTree(context, take(context, tail, static_cast<proto_ulong>(to - from)));
     }
     const ProtoObject* ProtoList::asObject(ProtoContext* context) const {
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
