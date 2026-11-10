@@ -133,7 +133,12 @@ An unregistered thread that builds its own `ProtoContext` is also a data race,
 not only a rooting gap: a context with no thread registers itself as
 `ProtoSpace::mainContext`, one slot for the whole space, so two such threads
 write it concurrently (ThreadSanitizer reports it in `~ProtoContext` and the
-constructor).  protoCore's own suite had six tests of that shape until 2.9.4.
+constructor).  protoCore's own suite had six tests of that shape until 2.9.4,
+and `ProtoSpace::newThread` itself wrote that slot (it built the new thread's
+root context as a thread-less context and restored the slot afterwards) until
+3.5.1: concurrent `newThread` calls raced on it.  Since 3.5.2 the root context
+is built bound to its thread (`ProtoContext::ThreadRootTag`), and creating a
+thread writes no other thread's slot.
 
 **The release flag of `Host::joinBlockingThread` is written by another
 thread.**  Read it with `proto::conformance::releaseFlagRaised(releaseFlag)`
