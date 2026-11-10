@@ -2,6 +2,60 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [3.5.2] - 2026-11-10
+
+Patch release. **No ABI break: SOVERSION stays 5.** The one addition to
+`protoCore.h` is a new non-virtual constructor,
+`ProtoContext(ProtoContext::ThreadRootTag, ProtoSpace*, ProtoThread*)`, with
+its empty tag type; `ProtoContext`'s layout and every existing signature are
+unchanged. A binary built against 3.4.0 or later loads and links against this
+library.
+
+### Fixed
+
+- **Data race on `ProtoSpace::mainContext` in `ProtoSpace::newThread`.**
+  Through 3.5.1 the new thread's root context was built with the general
+  `ProtoContext` constructor and `previous == nullptr`. That constructor
+  registers a context with no thread as `space->mainContext` (and, on the
+  main thread, as the main thread's current context), so the thread
+  constructor snapshotted both slots and restored them afterwards with plain,
+  unsynchronised accesses. Two threads calling `newThread` at once could
+  interleave read, write and restore and leave `space->mainContext` on one
+  worker's root context: the collector then scanned that context as the main
+  thread's roots (the real thread-less contexts went unscanned), and the
+  pointer dangled once the worker exited and destroyed its root context.
+  protoST's ThreadSanitizer run found it: its worker pool grows from worker
+  threads that enter blocking I/O together.
+
+  The root context is now built with the new `ThreadRootTag` constructor,
+  bound to the new thread from the start. It registers only as that thread's
+  current context; it never writes `space->mainContext` or the creator's
+  current context, and the snapshot/restore is gone. The audit of every
+  writer found no other one off the main thread: `space->mainContext` is
+  written only by the general constructor and destructor of a context with
+  no thread (embedder contexts on unregistered threads, which the embedding
+  rules already forbid sharing between threads), and a thread's current
+  context only by that thread's own contexts and by the embedder API
+  `ProtoThread::setCurrentContext`, which protoCore itself never calls.
+
+  Tests: `test/NewThreadMainContextTests.cpp`. The constructor's contract is
+  checked directly on a worker (no timing); a child's root context is checked
+  to be its own thread's, for children of the main thread and of a worker;
+  and four workers create twelve threads each at once. Under ThreadSanitizer
+  (the CI `tsan` job runs every case) the 3.5.1 code reports the race at
+  `core/Thread.cpp:494` on every run, and once in five runs also failed the
+  test's main-context check; 3.5.2 reports nothing.
+
+### Documentation
+
+- `docs/EXCEPTIONS.md` §3.1 ("Lifetime") and §4 obligation 6: a
+  `ProtoException` must not outlive its `ProtoSpace`, with the usual mistake
+  (a `catch` outside the scope that owns the space) and its symptom (a
+  use-after-free in `ProtoRootSet::remove` from the exception's pin). protoST
+  hit it in a test helper.
+- `docs/EMBEDDER-CONFORMANCE.md` (rule 11) notes that `newThread` itself wrote
+  `space->mainContext` until 3.5.1.
+
 ## [3.5.1] - 2026-11-10
 
 Patch release. **No ABI break: SOVERSION stays 5**; no class layout, virtual
