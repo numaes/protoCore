@@ -1260,6 +1260,8 @@ namespace proto
         /** Creates or retrieves an interned symbol for the given UTF-8 string. Symbols with the same
          *  content share a unique pointer identity. Strong symbols (created here) are never GC-collected. */
         static const ProtoString* createSymbol(ProtoContext* context, const char* zeroTerminatedUtf8);
+        /** Same as above, but length-aware: every byte of `s` is part of the spelling, including
+         *  embedded NUL bytes (each one a U+0000 code point). */
         static const ProtoString* createSymbol(ProtoContext* context, const std::string& s);
 
         int cmp_to_string(ProtoContext* context, const ProtoString* otherString) const;

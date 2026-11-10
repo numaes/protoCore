@@ -1272,12 +1272,16 @@ namespace proto {
         // Deprecated: delegates to fromUTF8.
         return ProtoString::fromUTF8(context, str);
     }
-    const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const char* utf8) {
-        if (!utf8) utf8 = "";
-        size_t len = std::strlen(utf8);
-
-        const auto* bytes = reinterpret_cast<const uint8_t*>(utf8);
-
+    /**
+     * The canonical symbol for the UTF-8 spelling `bytes[0, len)`.
+     *
+     * Every step is length-based: an embedded NUL byte is an ordinary
+     * one-byte code point (U+0000), so "a\0b" is a three-code-point symbol
+     * distinct from "a".  Both createSymbol overloads funnel through here.
+     */
+    static const ProtoString* createSymbolFromUTF8Bytes(ProtoContext* ctx,
+                                                        const uint8_t* bytes,
+                                                        size_t len) {
         // Malformed input has the canonical form of the string fromUTF8
         // builds from it, which normalises the bytes; intern that string.
         if (wellFormedUTF8Prefix(bytes, len) != len) {
@@ -1304,8 +1308,17 @@ namespace proto {
         return reinterpret_cast<const ProtoString*>(sym);
     }
 
+    const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const char* utf8) {
+        if (!utf8) utf8 = "";
+        return createSymbolFromUTF8Bytes(
+            ctx, reinterpret_cast<const uint8_t*>(utf8), std::strlen(utf8));
+    }
+
     const ProtoString* ProtoString::createSymbol(ProtoContext* ctx, const std::string& s) {
-        return ProtoString::createSymbol(ctx, s.c_str());
+        // Length-aware: the std::string may hold embedded NUL bytes, which a
+        // c_str() round trip would silently truncate.
+        return createSymbolFromUTF8Bytes(
+            ctx, reinterpret_cast<const uint8_t*>(s.data()), s.size());
     }
 
     proto_ulong ProtoString::getHash(ProtoContext* context) const { return getProtoStringHash(context, reinterpret_cast<const ProtoObject*>(this)); }
