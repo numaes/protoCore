@@ -36,8 +36,9 @@ binary built against 3.4.0 or 3.5.0 loads and links against this library.
 - **`ProtoList::extend(nullptr)` returns the receiver;** through 3.5.0 it
   crashed.
 - **`ProtoList` modifiers copy stored elements as they are.** Through 3.5.0
-  `getSlice` (and `splitFirst` / `splitLast`, which call it) rebuilt its
-  result through `getAt`, which turns a stored `nullptr` into `PROTO_NONE`;
+  `getSlice` (and `splitFirst` / `splitLast`, which call it) and `multiply`
+  rebuilt their result through `getAt`, which turns a stored `nullptr` into
+  `PROTO_NONE`;
   every modifier now keeps a `nullptr` element as `nullptr`. `getAt`,
   `getFirst` and `getLast` still return `PROTO_NONE` for it.
 - **The single-element list modifiers pick the output form by size.**
@@ -47,6 +48,24 @@ binary built against 3.4.0 or 3.5.0 loads and links against this library.
   5-element tree. An out-of-range `removeAt` or `setAt` returns the receiver.
   Code that tests the representation tag of a list sees the difference;
   contents are unchanged.
+- **`ProtoList::insertAt` clamps its index into `[0, size]` in both forms.**
+  Through 3.5.0 a negative index inserted at the front of an inline list but
+  at the end of a tree list (the tree path compared the index with an
+  unsigned size). It now inserts at the front in both, as documented in
+  `protoCore.h`.
+- **`ProtoList::multiply` is built by doubling** (O(log count) concatenations
+  sharing structure, instead of one append per element: repeating a
+  1,000-element list 1,000 times allocates 274 cells,
+  where 3.5.0 made 10^6 appends), and a result of
+  more than 2^64 - 1 elements raises `ProtoErrorKind::Overflow`; through
+  3.5.0 such a call never finished.
+- **Error factories and the message pointer.** `raiseError(kind, const
+  char*)` now copies the message before calling a `ProtoErrorFactory`: the
+  factory receives a pointer valid only during the call (it used to be the
+  caller's own pointer, often a string literal), and `raiseError(kind,
+  nullptr)` hands it `""` instead of `nullptr`. Every factory of the
+  ecosystem's runtimes copies the text synchronously and treats `nullptr` as
+  `""`, so none is affected; docs/EXCEPTIONS.md states the rule.
 - **`ProtoString::fromStdString` keeps every byte.** Through 3.5.0 it stopped
   at the first NUL (as documented then); it is now length-aware, as are the
   new `ProtoContext::fromUTF8String(const std::string&)` and
@@ -91,6 +110,8 @@ binary built against 3.4.0 or 3.5.0 loads and links against this library.
   `ProtoSpace::setErrorFactoryWithLength`. An installed length-aware factory
   takes precedence; a `ProtoErrorFactory` still sees the message up to its
   first NUL, as its signature implies; the default factory keeps every byte.
+  docs/EXCEPTIONS.md (§3.2, §3.4) describes the new overload, the factory
+  type, its setter and getter, and the precedence.
 - Tests `TextEmbeddedNul.*` and
   `SymbolEmbeddedNul.TrailingNulBytesAreDistinctSpellings`.
 
