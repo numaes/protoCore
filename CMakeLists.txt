@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 3.5.0
+    VERSION 3.5.1
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -132,6 +132,11 @@ add_library(protoCore SHARED
 # runtime of the ecosystem iterated a multiset; the one released runtime whose
 # results change (protoJS 0.3.0's protoCore.Set and protoCore.Multiset) is
 # named in the DEB's Breaks field below.
+#
+# 3.5.1 keeps 5.  A patch release: ProtoList slicing and concatenation are
+# reimplemented inside core/ProtoList.cpp, createSymbol(std::string) became
+# length-aware and the tuple hash changed its mix; no class layout, virtual
+# function, inline function or signature of protoCore.h changed.
 set(PROTOCORE_ABI_SOVERSION 5)
 
 # Shared library versioning (version for linker, soversion for ABI)

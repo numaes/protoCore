@@ -2,6 +2,76 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [3.5.1] - Unreleased
+
+Patch release. **No ABI break: SOVERSION stays 5**; no class layout, virtual
+function, inline function or signature in `protoCore.h` changed (the only
+header edit is a documentation comment). A binary built against 3.4.0 or
+3.5.0 loads and links against this library.
+
+### Behaviour changes
+
+- **`ProtoTuple` and `ProtoLinkedList` hash values differ from 3.5.0** (see
+  below). Hashes are not persisted by protoCore, but an embedder that stored
+  or compared tuple hashes across processes, or mirrors the mix in its own
+  code, must follow.
+- **`ProtoList::getSlice` clamps its range.** Through 3.5.0 an out-of-range
+  index was not checked: `to` past the end appended `PROTO_NONE` padding and
+  a negative `from` read out of the tree. The range is now clamped into
+  `[0, size]` (no Python-style negative indexing), the same rule
+  `ProtoString::getSlice` and `ProtoTuple::getSlice` already follow, and
+  `removeSlice` uses the same rule. A search of the runtimes' sources (protoJS,
+  protoPython, protoST, protoScala) found list call sites whose bounds derive
+  from the list size; that was a reading of the call lines, not a test run.
+
+### Fixed -- tuple and linked-list hashes collided on nested tuples
+
+- `ProtoTupleImplementation::getHash` mixed elements with
+  `h = (h * 1000003) ^ e`, which cancelled across nesting levels:
+  `(a, (b, c))` and `(b, (a, c))` hashed alike, and a runtime keying dicts or
+  sets by hash took them for one key. It now uses CPython's tuple hash
+  (the xxHash round of `Objects/tupleobject.c` since CPython 3.8).
+  `ProtoLinkedListNode::getHash` mixes the same way, so a linked list and its
+  `asTuple` still hash alike. Test
+  `HashedCollection.NestedTuplesSwappingElementsAcrossLevelsHashApart`.
+  Contributed by Tobias Noceda and Tomás Raiti (PR #23, commit 4d8e4876).
+
+### Fixed -- `createSymbol(std::string)` truncated at an embedded NUL
+
+- `ProtoString::createSymbol(ProtoContext*, const std::string&)` forwarded
+  `s.c_str()` to the zero-terminated overload, so `std::string("a\0b", 3)`
+  became the symbol `"a"`. Both overloads now share one length-based helper
+  (the `const char*` one measures with `strlen`). Every step of the path
+  (`wellFormedUTF8Prefix`, `createInlineStringUTF8`,
+  `SymbolTable::internUTF8`, `buildStringFromUTF8Bytes`) already took an
+  explicit byte count; U+0000 is an ordinary one-byte code point, for inline
+  (up to 6 bytes) and table spellings alike. Tests `SymbolEmbeddedNul.*`.
+
+### Fixed -- `ProtoList` slicing and concatenation cost O(k log n)
+
+- `getSlice` rebuilt its result one `appendLast` at a time (O(k log n) cells
+  and time for a slice of k elements); `splitFirst` and `splitLast` called
+  it; `removeSlice` removed one element at a time; `extend` appended one
+  element at a time. They now use the persistent-AVL join/split algebra
+  (`join(l, v, r)` in O(|h(l) - h(r)|), concatenation, and the two halves of
+  `split(t, k)`), all path-copying: `getSlice`, `splitFirst`, `splitLast` and
+  `removeSlice` are O(log n), `extend` O(log n + log m). Slicing the middle
+  half of a 131,072-element list allocates 18 cells (3.5.0: 1,179,601), and
+  removing its middle third 26 (3.5.0: 601,146), measured with the context's
+  allocation counter. Results keep the output-form policy of every list mutator
+  (SmallList up to `MAX_INLINE` elements, AVL beyond), and `getSlice` of the
+  full range returns the receiver.
+- Tests `ListStructuralOpsTest.*`: every split point and every range
+  (including out-of-range ones) up to 300 elements against a naive model, a
+  walk of every node checking size, height and AVL balance, concatenation of
+  trees of very different heights, and the cell count of a large slice.
+
+### Known limitations of 3.5.1
+
+- **`ProtoList::getHash` is the identity hash of the root cell**
+  (`Cell::getHash`): two lists with equal content hash differently, whatever
+  their shape. Unchanged from earlier releases; reported, not changed here.
+
 ## [3.5.0] - 2026-10-31
 
 Released 2026-10-31. **No ABI break: SOVERSION stays 5** (`libprotoCore.so.5`,
