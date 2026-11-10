@@ -2458,6 +2458,23 @@ namespace proto
          */
         ProtoContext(GCOwnedTag, ProtoSpace* space);
 
+        /** @brief Selects the constructor of a new ProtoThread's root context. */
+        struct ThreadRootTag {};
+
+        /**
+         * @brief Constructs the root context of a new ProtoThread, already
+         *        bound to that thread.
+         *
+         * Used by ProtoSpace::newThread; embedders never need it.  The
+         * context has no previous context and no local slots, and it
+         * registers only as `thread`'s current context: unlike the general
+         * constructor with `previous == nullptr`, it never writes
+         * `space->mainContext` and never adopts the calling thread, so
+         * building it on any thread, concurrently with any other, touches no
+         * state of another thread.  Since 3.5.2.
+         */
+        ProtoContext(ThreadRootTag, ProtoSpace* space, ProtoThread* thread);
+
         ~ProtoContext();
 
         //- Execution State

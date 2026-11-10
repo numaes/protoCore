@@ -152,6 +152,34 @@ pin in freed memory. A runtime that stores errors in futures or promises
 destroys them before the space, which it already must do for every
 `ProtoObject*` it holds.
 
+The easy way to break this is a `catch` placed outside the scope that owns
+the space, typically in an embedder's or a test's helper:
+
+```cpp
+// WRONG: the exception unwinds past `runtime`, which destroys the space,
+// and the handler (or the stack copy gtest keeps) destroys the exception
+// afterwards: its pin is removed from a freed root set.
+try {
+    Runtime runtime;          // owns the ProtoSpace
+    runtime.run(program);     // throws a ProtoException
+} catch (const proto::ProtoException& e) { report(e); }
+
+// RIGHT: handle (or convert) the exception while the space is alive.
+{
+    Runtime runtime;
+    try { runtime.run(program); }
+    catch (const proto::ProtoException& e) { report(e); }   // the space is alive here
+}
+```
+
+When the error must leave that scope, convert it first: copy what the
+caller needs (the message, the class name) into plain C++ values, or into
+an object of another space that outlives the call. The symptom of a
+violation is a use-after-free in `ProtoRootSet::remove`, reached from the
+exception's destructor (`ProtoException::Pin`): AddressSanitizer reports
+it as heap-use-after-free, ThreadSanitizer as a race on freed memory.
+protoST's ThreadSanitizer run found one in a test helper (2026-11).
+
 ### 3.2 Raising
 
 ```cpp
@@ -313,6 +341,9 @@ The checklist a runtime meets. Conformance rule 14 checks the observable part.
    exception object.
 6. **Do not pin thrown values.** protoCore does (E8). A runtime's own root set
    for in-flight errors is redundant and should be removed.
+   **Never let a `ProtoException` outlive its space** (§3.1, "Lifetime"):
+   every handler that can run after the runtime owning the space is
+   destroyed converts the error to plain values first.
 7. **Document** in the runtime's own docs: the catch-all form, how a module's
    type is named in a handler, the factory's mapping table and the top-level
    behaviour.

@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 3.5.1
+    VERSION 3.5.2
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -137,6 +137,11 @@ add_library(protoCore SHARED
 # reimplemented inside core/ProtoList.cpp, createSymbol(std::string) became
 # length-aware and the tuple hash changed its mix; no class layout, virtual
 # function, inline function or signature of protoCore.h changed.
+#
+# 3.5.2 keeps 5.  A patch release: ProtoSpace::newThread builds the new
+# thread's root context with a new non-virtual ProtoContext constructor
+# (ProtoContext::ThreadRootTag), an addition; ProtoContext's layout and every
+# existing signature are unchanged.
 set(PROTOCORE_ABI_SOVERSION 5)
 
 # Shared library versioning (version for linker, soversion for ABI)
