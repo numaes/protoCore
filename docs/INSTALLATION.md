@@ -51,10 +51,13 @@ On macOS CMake uses the names `libprotoCore.<version>.dylib`, `libprotoCore.5.dy
 ### protoCore 3.5.1: patch release, same ABI
 
 protoCore 3.5.1 keeps `PROTOCORE_ABI_SOVERSION` 5 and needs no rebuild of an
-embedder built against 3.4.0 or 3.5.0. Two behaviours change (CHANGELOG,
-3.5.1): `ProtoTuple` and `ProtoLinkedList` hash values differ from 3.5.0, and
-`ProtoList::getSlice` / `removeSlice` clamp an out-of-range index into
-`[0, size]` instead of reading past the list.
+embedder built against 3.4.0 or 3.5.0; it adds a few non-virtual functions
+(length-aware text and error APIs). Behaviours that change (CHANGELOG, 3.5.1,
+"Behaviour changes"): `ProtoTuple` and `ProtoLinkedList` hash values differ
+from 3.5.0; `ProtoList::getSlice` clamps an out-of-range index into
+`[0, size]`; list modifiers keep `nullptr` elements and return the inline
+form for results of at most 5 elements; `ProtoString::fromStdString` keeps
+bytes after an embedded NUL.
 
 ### protoCore 3.5.0: same ABI, changed set semantics
 
