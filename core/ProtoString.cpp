@@ -1589,7 +1589,9 @@ namespace proto {
 
     const ProtoString* ProtoString::fromStdString(ProtoContext* context,
                                                    const std::string& s) {
-        return ProtoString::fromUTF8(context, s.c_str());
+        // Length-aware since 3.5.1: through 3.5.0 this forwarded s.c_str()
+        // and stopped at the first NUL.  The result is always a string.
+        return reinterpret_cast<const ProtoString*>(context->fromUTF8String(s));
     }
 
     std::string ProtoString::toStdString(ProtoContext* context) const {
@@ -1685,7 +1687,9 @@ namespace proto {
                 utf8 += static_cast<char>(0x80u | (cp & 0x3Fu));
             }
         }
-        return ProtoString::fromUTF8(context, utf8.c_str());
+        // Length-aware: a U+0000 element encodes as a NUL byte, which a
+        // c_str() round trip would have taken for the end of the text.
+        return reinterpret_cast<const ProtoString*>(context->fromUTF8String(utf8));
     }
 
 }

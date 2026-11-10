@@ -2803,6 +2803,10 @@ namespace proto {
     class ProtoSpaceImplementation {
     public:
         ProtoRootSet* roots = nullptr;
+
+        /** ProtoSpace::setErrorFactoryWithLength (since 3.5.1; kept here so
+         *  the public ProtoSpace layout does not change). */
+        mutable std::atomic<ProtoErrorFactoryWithLength> errorFactoryWithLength{nullptr};
         ProtoObject* linkedListPrototype = nullptr;
         unsigned long long linkedListPrototypeHandle = 0;
 
