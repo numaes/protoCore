@@ -330,18 +330,29 @@ protoST `list_append` −18 %, `parallel_speedup` (pool) −21 %,
 `ProtoTuple`). Their suites pass against the branch: protoST 1,291,
 protoClojure 886, protoScala 2,524 tests.
 
-### Open: the adaptive-heap storm gate
+### The adaptive-heap storm gate
 
-`AdaptiveHeapStorm.SoftLimitRisesUnderStall` fails in CI (Linux release,
-macOS, Windows x64) and on DEV12 under `taskset -c 0,1`; v3.5.2 passes under
-the same restriction. The controller's trace shows the collector's throughput
-never measured (`T = 0` every cycle): the controller takes it only from wide
-sweeps, and every sweep of this single-mutator storm is narrow. Under the AVL
-list, building the live set allocated beyond the initial soft limit and the
-storm's sweeps were wide, so `T` was measured and S grew. Without `T` the law
-keeps S although the mutator waits 20–40 % of the time. Why every storm sweep
-is narrow with the RRB live set is not established yet. The fix belongs to the
-controller, so the branch is not merged until that is decided.
+`AdaptiveHeapStorm.SoftLimitRisesUnderStall` failed in CI (Linux release,
+macOS, Windows x64) and on DEV12 under `taskset -c 0,1`; v3.5.2 passed under
+the same restriction. The controller's trace showed the collector's
+throughput never measured (`T = 0` every cycle): the controller took it only
+from wide sweeps. Under the AVL list, building the live set allocated beyond
+the initial soft limit, its first cycles ran short of cells and swept wide,
+so `T` was measured and S grew. With the RRB live set no cycle ran during the
+build; in the storm the mutator stalls every cycle (it reaches no safepoint),
+the heap grows past S meanwhile, the free cells never fall below the sweep's
+threshold, and every sweep walks one chain. Without `T` the law kept S at S0
+while the mutator waited 20–40 % of the time and the heap grew past S
+anyway.
+
+The gap was the controller's, reachable by any workload whose sweeps are all
+narrow. A narrow sweep's throughput is a lower bound of the collector's
+capacity, as is the last wide sweep's: the controller now takes the larger of
+the two, so `T` is never unmeasured after a cycle that freed cells. A lower
+bound of `T` overestimates ρ, so the law errs toward a larger S, within B and
+the probes' stop. With the fix the storm under two cores probes S from 2 M to
+32 M cells in 4 cycles and the wait share falls from 0.26 to 0.05 (5 of 5
+runs pass; full suite 852/852).
 
 ## References
 

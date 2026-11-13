@@ -492,8 +492,10 @@ the whole trace from the sources and `trace` the overflow rescans; compare
     ends with most of its cells already taken, so the next cycle would start
     without its runway -- hence the conditions.  A cycle whose sweep walked
     one chain for most of its segments measured the mutator's pace, not
-    the collector's capacity: the adaptive controller then keeps the
-    throughput T of the last wide sweep.  The one-chain walk keeps its
+    the collector's capacity, which is at least that: the adaptive
+    controller then takes the larger of that T and the last wide sweep's
+    (since 3.6.0; before, a workload whose sweeps were all narrow was left
+    unmeasured and S stayed at S0).  The one-chain walk keeps its
     prefetch.  `sweep::walkStats()` counts the segments taken by wide and by
     one-chain walks, and the instrumented build prints them
     (`wide_segments`, `narrow_segments`).  Measured in
@@ -1108,7 +1110,7 @@ nothing on the allocation path):
 |---|---|
 | L | live set (`liveCellsLastCycle`) |
 | r | the mutators' allocation rate while not waiting: cells handed out in the interval (from the occupied-cell accounting), divided by the interval less the mean wait per thread |
-| T | the collector's reclamation throughput: cells freed per second of collector busy time (token taken to cycle end); since 2.14.2, after a sweep that walked one chain for most segments, the T of the last wide sweep |
+| T | the collector's reclamation throughput: cells freed per second of collector busy time (token taken to cycle end); since 2.14.2, after a sweep that walked one chain for most segments, the T of the last wide sweep; since 3.6.0 the larger of that and the narrow sweep's own |
 | w | the wait share: time in `reclaimWaitLocked` summed over threads, over the interval times the threads (`AdaptiveHeapStats::lastPressure` since 2.13.0) |
 | C | the cycle duration from request to completion (pacing) |
 

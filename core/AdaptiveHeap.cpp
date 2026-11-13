@@ -432,7 +432,8 @@ namespace adaptive {
             // whether another one did too.
             const void* refiller = nullptr;
             bool severalRefillers = false;
-            // T of the last cycle whose sweep walked wide for most segments.
+            // T of the last cycle whose sweep walked wide for most segments
+            // (0 until one does; a narrow cycle's T is then its own).
             double wideThroughput = 0.0;
             WaitStats stats;
         };
@@ -804,10 +805,16 @@ namespace adaptive {
         in.throughput = busy > 0.0 ? static_cast<double>(measures.freedCells) / busy : 0.0;
         // A sweep that walked one chain for most of its segments ran just
         // ahead of a single mutator on purpose (sweep::mutatorsShort): its
-        // time measures the mutator's pace, not the collector's capacity.
-        // The law keeps the throughput of the last wide sweep (none yet:
-        // unmeasured, S is kept).
-        if (measures.narrowSegments > measures.wideSegments) in.throughput = s->wideThroughput;
+        // time measures the mutator's pace, not the collector's capacity,
+        // which is at least that.  Both are lower bounds of the capacity, so
+        // the law takes the larger: the last wide sweep's when one ran.  A
+        // workload whose sweeps were all narrow (one mutator stalling every
+        // cycle with headroom left) is thus never left unmeasured, which kept
+        // S at S0 however long the mutator waited.  A lower bound of T is an
+        // upper bound of rho: the law errs toward a larger S, within B and
+        // the probes' stop.
+        if (measures.narrowSegments > measures.wideSegments)
+            in.throughput = std::max(s->wideThroughput, in.throughput);
         else s->wideThroughput = in.throughput;
         in.waitShare = s->waitShare;
         in.reclaimedCells = measures.freedCells;
