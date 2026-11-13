@@ -61,6 +61,7 @@ add_library(protoCore SHARED
     core/ProtoByteBuffer.cpp
     core/ProtoContext.cpp
     core/ProtoList.cpp
+    core/ProtoListRrb.cpp
     core/ModuleCache.cpp
     core/ModuleProvider.cpp
     core/ModuleResolver.cpp

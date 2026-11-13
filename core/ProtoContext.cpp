@@ -7,6 +7,7 @@
 
 #include "../headers/proto_internal.h"
 #include "AdaptiveHeap.h"
+#include "ProtoListRrb.h"
 #include <stdexcept>
 #include <vector>
 #include <cstdlib>
@@ -893,17 +894,11 @@ namespace proto
             }
             return ProtoTupleImplementation::tupleFromVector(this, elements)->asProtoTuple(this);
         }
-        if (pa.op.pointer_tag == POINTER_TAG_LIST) {
-            // The trie form shares POINTER_TAG_LIST with the AVL form; its
-            // cell type tells them apart (ProtoList.cpp).
-            const Cell* cell = reinterpret_cast<const Cell*>(
-                reinterpret_cast<uintptr_t>(sourceList) & ~static_cast<uintptr_t>(0x3F));
-            if (cell->getType() == CellType::ListTrie) {
-                const auto* trie = static_cast<const ProtoListTrieImplementation*>(cell);
-                std::vector<const ProtoObject*> elements(trie->size);
-                trie->toBuffer(elements.data());
-                return ProtoTupleImplementation::tupleFromVector(this, elements)->asProtoTuple(this);
-            }
+        if (const auto* r = rrb::rootOf(sourceList)) {
+            // The RRB form shares POINTER_TAG_LIST with the AVL form (ProtoListRrb.h).
+            std::vector<const ProtoObject*> elements(r->size);
+            rrb::toBuffer(r, elements.data());
+            return ProtoTupleImplementation::tupleFromVector(this, elements)->asProtoTuple(this);
         }
         return ProtoTupleImplementation::tupleFromList(this, toImpl<const ProtoListImplementation>(sourceList))->asProtoTuple(this);
     }

@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include "ProtoListRrb.h"
 #include <algorithm> // For std::max
 #include <climits>
 
@@ -306,320 +307,6 @@ namespace proto {
     }
 
     //=========================================================================
-    // ProtoListTrieNode / ProtoListTrieImplementation (the trie form)
-    //=========================================================================
-    //
-    // A persistent vector with six slots per node, so that every node is one
-    // 64-byte cell.  Element i (i < tailOffset) lives in the leaf reached by
-    // the base-6 digits of i, most significant first; the last 1..6 elements
-    // live in `tail`.  Every leaf under `tree` is full, so tailOffset is a
-    // multiple of 6 and element i always sits in slot i % 6 of its leaf, in
-    // the tree or in the tail.
-    //
-    // Costs: getAt O(levels) reads and no cell; appendLast 2 cells (tail and
-    // root), plus the path to the new leaf every sixth append; setAt and
-    // removeLast copy one path.  levels = ceil(log6(size)) - 1, 6 for 100 k
-    // elements.
-    //
-    // GC: nodes are immutable once reachable; every public entry point that
-    // builds nodes holds a ProtoContext::CriticalSection, as the AVL mutators
-    // do, so a half-built path held in C++ locals is never swept.
-
-    ProtoListTrieNode::ProtoListTrieNode(ProtoContext* context, unsigned n, const void* const* items)
-        : Cell(context)
-    {
-        for (unsigned i = 0; i < WIDTH; ++i) slots[i] = (i < n) ? items[i] : nullptr;
-    }
-
-    const ProtoObject* ProtoListTrieNode::implAsObject(ProtoContext*) const {
-        // Internal cell: never handed to the object API (same rule as the
-        // MPSC queue's node cells), so the raw, untagged address.
-        return reinterpret_cast<const ProtoObject*>(this);
-    }
-
-    void ProtoListTrieNode::processReferences(
-        ProtoContext* context, void* self,
-        void (*method)(ProtoContext*, void*, const Cell*)) const
-    {
-        // An inner node's slots are raw node addresses (tag bits zero), a
-        // leaf's are elements as stored; asCellPointer reports the cells of
-        // both and skips nullptr and embedded values.
-        for (unsigned i = 0; i < WIDTH; ++i) {
-            if (const Cell* c = ProtoObject::asCellPointer(static_cast<const ProtoObject*>(slots[i]))) {
-                method(context, self, c);
-            }
-        }
-    }
-
-    ProtoListTrieImplementation::ProtoListTrieImplementation(
-        ProtoContext* context, proto_ulong n, const ProtoListTrieNode* t,
-        const ProtoListTrieNode* tl, unsigned lv, unsigned tlen)
-        : Cell(context), size(n), tree(t), tail(tl),
-          levels(static_cast<unsigned char>(lv)), tailLen(static_cast<unsigned char>(tlen))
-    {
-    }
-
-    namespace {
-        using TrieNode = ProtoListTrieNode;
-        using Trie = ProtoListTrieImplementation;
-        constexpr unsigned TW = ProtoListTrieNode::WIDTH;
-        // 6^25 > 2^64: no list can need more digits than this.
-        constexpr unsigned kMaxTrieDigits = 26;
-
-        // The base-6 digits of `index`, least significant first, for digits
-        // 0..levels.  The divisor is a constant, so the compiler multiplies.
-        inline void trieDigits(proto_ulong index, unsigned levels, unsigned* d) {
-            for (unsigned k = 0; k <= levels; ++k) {
-                d[k] = static_cast<unsigned>(index % TW);
-                index /= TW;
-            }
-        }
-
-        // 6^(levels + 1): how many elements a tree of `levels` inner levels holds.
-        inline proto_ulong trieCapacity(unsigned levels) {
-            proto_ulong c = TW;
-            for (unsigned k = 0; k < levels; ++k) c *= TW;
-            return c;
-        }
-
-        inline const TrieNode* childAt(const TrieNode* n, unsigned slot) {
-            return static_cast<const TrieNode*>(n->slots[slot]);
-        }
-
-        // `leaf` under `level` single-child inner nodes.
-        const TrieNode* newPath(ProtoContext* context, unsigned level, const TrieNode* leaf) {
-            const TrieNode* node = leaf;
-            for (unsigned k = 0; k < level; ++k) {
-                const void* s[1] = {node};
-                node = new (context) TrieNode(context, 1, s);
-            }
-            return node;
-        }
-
-        // A copy of `node` (an inner node at `level` >= 1) with the full leaf
-        // `leaf`, whose first element has the digits `d`, hung in its place.
-        const TrieNode* pushTail(ProtoContext* context, unsigned level, const TrieNode* node,
-                                 const unsigned* d, const TrieNode* leaf) {
-            const void* s[TW];
-            for (unsigned i = 0; i < TW; ++i) s[i] = node->slots[i];
-            const unsigned slot = d[level];
-            if (level == 1) {
-                s[slot] = leaf;
-            } else {
-                const TrieNode* child = childAt(node, slot);
-                s[slot] = child ? pushTail(context, level - 1, child, d, leaf)
-                                : newPath(context, level - 1, leaf);
-            }
-            return new (context) TrieNode(context, TW, s);
-        }
-
-        // A copy of the path to the element with digits `d`, the element replaced.
-        const TrieNode* setInTree(ProtoContext* context, unsigned level, const TrieNode* node,
-                                  const unsigned* d, const ProtoObject* value) {
-            const void* s[TW];
-            for (unsigned i = 0; i < TW; ++i) s[i] = node->slots[i];
-            const unsigned slot = d[level];
-            if (level == 0) s[slot] = value;
-            else s[slot] = setInTree(context, level - 1, childAt(node, slot), d, value);
-            return new (context) TrieNode(context, TW, s);
-        }
-
-        // `node` (an inner node at `level` >= 1) without its last leaf, whose
-        // first element has the digits `d`; nullptr when nothing is left.
-        const TrieNode* popTail(ProtoContext* context, unsigned level, const TrieNode* node,
-                                const unsigned* d) {
-            const unsigned slot = d[level];
-            const TrieNode* rest = nullptr;
-            if (level > 1) {
-                rest = popTail(context, level - 1, childAt(node, slot), d);
-            }
-            if (!rest && slot == 0) return nullptr;
-            const void* s[TW];
-            for (unsigned i = 0; i < TW; ++i) s[i] = node->slots[i];
-            s[slot] = rest;
-            return new (context) TrieNode(context, TW, s);
-        }
-
-        // Calls fn(element) for every element of the full leaves under `node`.
-        template <typename Fn>
-        bool walkLeaves(unsigned level, const TrieNode* node, Fn& fn) {
-            if (level == 0) {
-                for (unsigned i = 0; i < TW; ++i) {
-                    if (fn(static_cast<const ProtoObject*>(node->slots[i]))) return true;
-                }
-                return false;
-            }
-            for (unsigned i = 0; i < TW && node->slots[i]; ++i) {
-                if (walkLeaves(level - 1, childAt(node, i), fn)) return true;
-            }
-            return false;
-        }
-
-        // Calls fn(element) for every element in order; stops when fn returns true.
-        template <typename Fn>
-        bool forEachTrieElement(const Trie* t, Fn fn) {
-            if (t->tree && walkLeaves(t->levels, t->tree, fn)) return true;
-            for (unsigned i = 0; i < t->tailLen; ++i) {
-                if (fn(static_cast<const ProtoObject*>(t->tail->slots[i]))) return true;
-            }
-            return false;
-        }
-
-        // A trie holding items[0..n), n > MAX_INLINE, built bottom up: full
-        // leaves, then each inner level grouping the one below six at a
-        // time, then the last 1..6 elements as the tail.  The same shape a
-        // run of appendLast produces, for about n / 5 cells.
-        const Trie* trieFromArray(ProtoContext* context, const ProtoObject* const* items, proto_ulong n) {
-            const proto_ulong tailLen = n - ((n - 1) / TW) * TW;     // 1..6
-            const proto_ulong off = n - tailLen;
-            const TrieNode* tail = new (context) TrieNode(
-                context, static_cast<unsigned>(tailLen), reinterpret_cast<const void* const*>(items + off));
-            if (off == 0) {
-                return new (context) Trie(context, n, nullptr, tail, 0, static_cast<unsigned>(tailLen));
-            }
-            std::vector<const void*> level;
-            level.reserve(off / TW);
-            for (proto_ulong i = 0; i < off; i += TW) {
-                level.push_back(new (context) TrieNode(context, TW, reinterpret_cast<const void* const*>(items + i)));
-            }
-            unsigned levels = 0;
-            while (level.size() > 1) {
-                std::vector<const void*> up;
-                up.reserve((level.size() + TW - 1) / TW);
-                for (size_t i = 0; i < level.size(); i += TW) {
-                    const unsigned k = static_cast<unsigned>(std::min<size_t>(TW, level.size() - i));
-                    up.push_back(new (context) TrieNode(context, k, level.data() + i));
-                }
-                level.swap(up);
-                ++levels;
-            }
-            return new (context) Trie(context, n, static_cast<const TrieNode*>(level[0]), tail,
-                                      levels, static_cast<unsigned>(tailLen));
-        }
-    }
-
-    const ProtoListTrieNode* ProtoListTrieImplementation::leafFor(proto_ulong index) const {
-        if (index >= tailOffset()) return tail;
-        unsigned d[kMaxTrieDigits];
-        trieDigits(index, levels, d);
-        const TrieNode* node = tree;
-        for (unsigned k = levels; k > 0; --k) node = childAt(node, d[k]);
-        return node;
-    }
-
-    const ProtoObject* ProtoListTrieImplementation::implGetAt(ProtoContext*, proto_ulong index) const {
-        if (index >= size) return nullptr;
-        return static_cast<const ProtoObject*>(leafFor(index)->slots[index % TW]);
-    }
-
-    bool ProtoListTrieImplementation::implHas(ProtoContext* context, const ProtoObject* targetValue) const {
-        if (!targetValue) return false;
-        return forEachTrieElement(this, [&](const ProtoObject* e) {
-            return listElementEquals(context, e, targetValue);
-        });
-    }
-
-    const ProtoListTrieImplementation* ProtoListTrieImplementation::implAppendLast(
-        ProtoContext* context, const ProtoObject* value) const
-    {
-        if (tailLen < TW) {
-            const void* s[TW];
-            for (unsigned i = 0; i < tailLen; ++i) s[i] = tail->slots[i];
-            s[tailLen] = value;
-            const TrieNode* newTail = new (context) TrieNode(context, tailLen + 1u, s);
-            return new (context) Trie(context, size + 1, tree, newTail, levels, tailLen + 1u);
-        }
-        // The tail is full: it becomes a leaf of the tree, and the new
-        // element starts a new tail.
-        const proto_ulong off = tailOffset();
-        const TrieNode* newTree;
-        unsigned newLevels = levels;
-        if (!tree) {
-            newTree = tail;
-        } else if (off == trieCapacity(levels)) {
-            const void* s[2] = {tree, newPath(context, levels, tail)};
-            newTree = new (context) TrieNode(context, 2, s);
-            newLevels = levels + 1u;
-        } else {
-            unsigned d[kMaxTrieDigits];
-            trieDigits(off, levels, d);
-            newTree = pushTail(context, levels, tree, d, tail);
-        }
-        const void* one[1] = {value};
-        const TrieNode* newTail = new (context) TrieNode(context, 1, one);
-        return new (context) Trie(context, size + 1, newTree, newTail, newLevels, 1);
-    }
-
-    const ProtoListTrieImplementation* ProtoListTrieImplementation::implSetAt(
-        ProtoContext* context, proto_ulong index, const ProtoObject* value) const
-    {
-        if (index >= size) return this;
-        const proto_ulong off = tailOffset();
-        if (index >= off) {
-            const void* s[TW];
-            for (unsigned i = 0; i < TW; ++i) s[i] = tail->slots[i];
-            s[index - off] = value;
-            const TrieNode* newTail = new (context) TrieNode(context, tailLen, s);
-            return new (context) Trie(context, size, tree, newTail, levels, tailLen);
-        }
-        unsigned d[kMaxTrieDigits];
-        trieDigits(index, levels, d);
-        return new (context) Trie(context, size, setInTree(context, levels, tree, d, value),
-                                  tail, levels, tailLen);
-    }
-
-    const ProtoListTrieImplementation* ProtoListTrieImplementation::implRemoveLast(ProtoContext* context) const {
-        if (tailLen > 1) {
-            const TrieNode* newTail = new (context) TrieNode(
-                context, tailLen - 1u, tail->slots);
-            return new (context) Trie(context, size - 1, tree, newTail, levels, tailLen - 1u);
-        }
-        // The tail held one element: the tree's last leaf (shared, never
-        // copied) becomes the tail.
-        const proto_ulong lastLeafStart = tailOffset() - TW;
-        const TrieNode* newTail = leafFor(lastLeafStart);
-        const TrieNode* newTree = nullptr;
-        unsigned newLevels = 0;
-        if (levels > 0) {
-            unsigned d[kMaxTrieDigits];
-            trieDigits(lastLeafStart, levels, d);
-            newTree = popTail(context, levels, tree, d);
-            newLevels = levels;
-            // A root left with a single child gives up one level.
-            if (newTree && !newTree->slots[1]) {
-                newTree = childAt(newTree, 0);
-                --newLevels;
-            }
-        }
-        return new (context) Trie(context, size - 1, newTree, newTail, newLevels, TW);
-    }
-
-    proto_ulong ProtoListTrieImplementation::toBuffer(const ProtoObject** out) const {
-        proto_ulong at = 0;
-        forEachTrieElement(this, [&](const ProtoObject* e) { out[at++] = e; return false; });
-        return at;
-    }
-
-    const ProtoObject* ProtoListTrieImplementation::implAsObject(ProtoContext*) const {
-        ProtoObjectPointer p{};
-        p.oid = reinterpret_cast<const ProtoObject*>(this);
-        p.op.pointer_tag = POINTER_TAG_LIST;
-        return p.oid;
-    }
-
-    const ProtoList* ProtoListTrieImplementation::asProtoList(ProtoContext* context) const {
-        return reinterpret_cast<const ProtoList*>(implAsObject(context));
-    }
-
-    void ProtoListTrieImplementation::processReferences(
-        ProtoContext* context, void* self,
-        void (*method)(ProtoContext*, void*, const Cell*)) const
-    {
-        if (tree) method(context, self, tree);
-        if (tail) method(context, self, tail);
-    }
-
-    //=========================================================================
     // Output-form selection helpers (file-local)
     //=========================================================================
     namespace {
@@ -643,10 +330,9 @@ namespace proto {
                 (right && right->isEmpty) ? nullptr : right);
         }
 
-        // Picks the inline form when the resulting size fits, the trie
+        // Picks the inline form when the resulting size fits, the RRB form
         // otherwise.  Used by every mutator output path so SmallList stays
-        // small as long as possible without forcing a one-way upgrade; a
-        // SmallList that outgrows its cell becomes a trie.
+        // small as long as possible without forcing a one-way upgrade.
         const ProtoList* makeOutputList(
             ProtoContext* context, const ProtoObject* const* items, unsigned n)
         {
@@ -654,13 +340,8 @@ namespace proto {
                 return (new (context) ProtoListSmallImplementation(context, n, items))
                     ->asProtoList(context);
             }
-            return trieFromArray(context, items, n)->asProtoList(context);
+            return rrb::fromArray(context, items, n)->asProtoList(context);
         }
-
-        // extend() on a trie appends `other` element by element up to this
-        // many elements (about 3 cells each); a longer `other` goes through
-        // the AVL join, which costs a conversion of the trie.
-        constexpr unsigned kTrieExtendByAppend = 64;
 
         // The cell behind a list handle of any form.
         inline const Cell* listCell(const ProtoList* list) {
@@ -668,23 +349,49 @@ namespace proto {
                 reinterpret_cast<uintptr_t>(list) & ~static_cast<uintptr_t>(0x3F));
         }
 
-        // The trie behind `list`, or nullptr when the list is in another
-        // form.  The trie and the AVL form share POINTER_TAG_LIST (the
-        // runtimes recognise a list by its tag), so the cell type tells
-        // them apart, as for ProtoMap's two forms.
-        inline const Trie* asTrie(const ProtoList* list) {
+        using Rrb = ProtoListRrbImplementation;
+
+        // True for the AVL form, which every mutator still accepts as input
+        // (code that builds AVL cells directly) and keeps on its own
+        // algorithms; an operation produces it only when an operand is AVL.
+        inline bool isAvlList(const ProtoList* list) {
             ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(list);
-            if (pa.op.pointer_tag != POINTER_TAG_LIST) return nullptr;
-            const Cell* c = listCell(list);
-            return c->getType() == CellType::ListTrie ? static_cast<const Trie*>(c) : nullptr;
+            return pa.op.pointer_tag == POINTER_TAG_LIST && !rrb::rootOf(list);
         }
 
-        // The AVL tree holding a trie's elements (the structural operations
-        // run on the AVL form).  O(n): one cell per element.
-        const ProtoListImplementation* trieToTree(ProtoContext* context, const Trie* t) {
-            std::vector<const ProtoObject*> buf(t->size);
-            t->toBuffer(buf.data());
-            return buildBalancedFromArray(context, buf.data(), static_cast<unsigned>(t->size));
+        // The RRB root holding the elements of a list that is not AVL: an
+        // RRB list itself, an inline one rebuilt (at most MAX_INLINE
+        // elements, one or two cells).  nullptr for the empty list.
+        const Rrb* rrbOf(ProtoContext* context, const ProtoList* list) {
+            if (const Rrb* r = rrb::rootOf(list)) return r;
+            const auto* small = toImpl<const ProtoListSmallImplementation>(list);
+            return rrb::fromArray(context, small->slots, small->size);
+        }
+
+        // The output form of an RRB result, chosen by size like every other
+        // mutator's: at most MAX_INLINE elements -> SmallList.
+        const ProtoList* outputFromRrb(ProtoContext* context, const Rrb* r) {
+            if (!r) return context->newList();
+            if (r->size <= ProtoListSmallImplementation::MAX_INLINE) {
+                const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
+                const unsigned n = static_cast<unsigned>(rrb::toBuffer(r, buf));
+                return makeOutputList(context, buf, n);
+            }
+            return r->asProtoList(context);
+        }
+
+        // An RRB list as an AVL tree, for an operation that mixes it with an
+        // AVL operand (the AVL side's algorithms run).  O(n).
+        const ProtoListImplementation* rrbToTree(ProtoContext* context, const Rrb* r) {
+            std::vector<const ProtoObject*> buf(r->size);
+            rrb::toBuffer(r, buf.data());
+            return buildBalancedFromArray(context, buf.data(), static_cast<unsigned>(r->size));
+        }
+
+        // Size limit of the RRB form (48-bit size tables): an operation that
+        // would pass it raises instead of corrupting a size table.
+        void checkRrbSize(ProtoContext* context, proto_ulong n) {
+            if (n > rrb::kMaxSize) context->raiseError(ProtoErrorKind::Overflow, "List too large.");
         }
     }
 
@@ -845,7 +552,7 @@ namespace proto {
         // freshly built balanced tree of at most MAX_INLINE nodes.
         const ListNode* treeOf(ProtoContext* context, const ProtoList* list) {
             ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(list);
-            if (const Trie* trie = asTrie(list)) return trieToTree(context, trie);
+            if (const Rrb* r = rrb::rootOf(list)) return rrbToTree(context, r);
             if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
                 const auto* small = toImpl<const ProtoListSmallImplementation>(list);
                 if (small->size == 0) return nullptr;
@@ -867,7 +574,7 @@ namespace proto {
                 for (proto_ulong i = 0; i < small->size; ++i) out[at++] = small->slots[i];
                 return at;
             }
-            if (const Trie* trie = asTrie(list)) return at + static_cast<unsigned>(trie->toBuffer(out + at));
+            if (const Rrb* r = rrb::rootOf(list)) return at + static_cast<unsigned>(rrb::toBuffer(r, out + at));
             const auto* avl = toImpl<const ListNode>(list);
             if (avl->isEmpty) return at;
             return treeToBuffer(avl, out, at);
@@ -915,9 +622,10 @@ namespace proto {
         ProtoContext* context,
         const ProtoObject* b,
         proto_ulong index,
-        const ProtoListTrieNode* l,
-        proto_ulong lStart
-    ) : Cell(context), base(b), currentIndex(index), leaf(l), leafStart(lStart)
+        const ProtoListRrbLeaf* l,
+        proto_ulong lStart,
+        proto_ulong lEnd
+    ) : Cell(context), base(b), currentIndex(index), leaf(l), leafStart(lStart), leafEnd(lEnd)
     {
     }
 
@@ -944,41 +652,43 @@ namespace proto {
         }
     }
 
-    // An iterator over a trie carries the leaf holding currentIndex (a trie
-    // is never empty, so that leaf always exists); `leaf != nullptr` is what
-    // marks a trie base, so the AVL and inline paths stay as they were.
+    // An iterator over an RRB list carries the leaf (or tail) holding
+    // currentIndex and the range it covers (an RRB list is never empty, so
+    // that leaf always exists); `leaf != nullptr` is what marks an RRB base,
+    // so the AVL and inline paths stay as they were.
     namespace {
-        inline const ProtoListTrieImplementation* iterTrie(const ProtoObject* base) {
-            return reinterpret_cast<const ProtoListTrieImplementation*>(
+        inline const ProtoListRrbImplementation* iterRrb(const ProtoObject* base) {
+            return reinterpret_cast<const ProtoListRrbImplementation*>(
                 reinterpret_cast<uintptr_t>(base) & ~static_cast<uintptr_t>(0x3F));
         }
     }
 
     int ProtoListIteratorImplementation::implHasNext() const {
         if (!this->base) return false;
-        if (this->leaf) return this->currentIndex < iterTrie(this->base)->size;
+        if (this->leaf) return this->currentIndex < iterRrb(this->base)->size;
         return this->currentIndex < iterBaseSize(this->base);
     }
 
     const ProtoObject* ProtoListIteratorImplementation::implNext(ProtoContext* context) const {
         if (this->leaf) {
-            if (this->currentIndex >= iterTrie(this->base)->size) return nullptr;
-            return static_cast<const ProtoObject*>(this->leaf->slots[this->currentIndex - this->leafStart]);
+            if (this->currentIndex >= iterRrb(this->base)->size) return nullptr;
+            return this->leaf->slots[this->currentIndex - this->leafStart];
         }
         return iterBaseGetAt(context, this->base, this->currentIndex);
     }
 
     const ProtoListIteratorImplementation* ProtoListIteratorImplementation::implAdvance(ProtoContext* context) const {
         if (this->leaf) {
-            const auto* trie = iterTrie(this->base);
-            if (this->currentIndex >= trie->size) return this;
+            const auto* r = iterRrb(this->base);
+            if (this->currentIndex >= r->size) return this;
             const proto_ulong next = this->currentIndex + 1;
-            if (next < this->leafStart + ProtoListTrieNode::WIDTH || next >= trie->size) {
+            if (next < this->leafEnd || next >= r->size) {
                 return new (context) ProtoListIteratorImplementation(
-                    context, this->base, next, this->leaf, this->leafStart);
+                    context, this->base, next, this->leaf, this->leafStart, this->leafEnd);
             }
-            return new (context) ProtoListIteratorImplementation(
-                context, this->base, next, trie->leafFor(next), next);
+            proto_ulong start, end;
+            const ProtoListRrbLeaf* lf = rrb::locate(r, next, start, end);
+            return new (context) ProtoListIteratorImplementation(context, this->base, next, lf, start, end);
         }
         if (this->currentIndex < iterBaseSize(this->base)) {
             return new (context) ProtoListIteratorImplementation(context, this->base, this->currentIndex + 1);
@@ -1059,7 +769,7 @@ namespace proto {
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->size;
         }
-        if (const Trie* trie = asTrie(this)) return trie->size;
+        if (const Rrb* r = rrb::rootOf(this)) return r->size;
         return toImpl<const ProtoListImplementation>(this)->size;
     }
     const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const {
@@ -1067,8 +777,9 @@ namespace proto {
         const ProtoObject* result;
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             result = toImpl<const ProtoListSmallImplementation>(this)->implGetAt(context, index);
-        } else if (const Trie* trie = asTrie(this)) {
-            result = index < 0 ? nullptr : trie->implGetAt(context, static_cast<proto_ulong>(index));
+        } else if (const Rrb* r = rrb::rootOf(this)) {
+            result = (index < 0 || static_cast<proto_ulong>(index) >= r->size)
+                ? nullptr : rrb::getAt(r, static_cast<proto_ulong>(index));
         } else {
             result = toImpl<const ProtoListImplementation>(this)->implGetAt(context, index);
         }
@@ -1089,7 +800,14 @@ namespace proto {
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->implHas(context, value);
         }
-        if (const Trie* trie = asTrie(this)) return trie->implHas(context, value);
+        if (const Rrb* r = rrb::rootOf(this)) {
+            if (!value) return false;
+            struct Probe { ProtoContext* context; const ProtoObject* target; } probe{context, value};
+            return rrb::forEach(r, [](void* d, const ProtoObject* e) {
+                const auto* p = static_cast<const Probe*>(d);
+                return listElementEquals(p->context, e, p->target);
+            }, &probe);
+        }
         return toImpl<const ProtoListImplementation>(this)->implHas(context, value);
     }
     // --- ProtoArguments ---
@@ -1144,9 +862,9 @@ namespace proto {
             buf[index] = value;
             return makeOutputList(context, buf, n);
         }
-        if (const Trie* trie = asTrie(this)) {
-            if (index < 0 || static_cast<proto_ulong>(index) >= trie->size) return const_cast<ProtoList*>(this);
-            return trie->implSetAt(context, static_cast<proto_ulong>(index), value)->asProtoList(context);
+        if (const Rrb* r = rrb::rootOf(this)) {
+            if (index < 0 || static_cast<proto_ulong>(index) >= r->size) return const_cast<ProtoList*>(this);
+            return rrb::setAt(context, r, static_cast<proto_ulong>(index), value)->asProtoList(context);
         }
         const auto* impl = toImpl<const ProtoListImplementation>(this);
         const ProtoListImplementation* result = impl->implSetAt(context, index, value);
@@ -1169,14 +887,10 @@ namespace proto {
             for (unsigned i = static_cast<unsigned>(index); i < n; ++i) buf[i + 1] = small->slots[i];
             return makeOutputList(context, buf, n + 1);
         }
-        if (const Trie* trie = asTrie(this)) {
-            // At the end: an append, native to the trie.  Anywhere else the
-            // list moves to the AVL form, where inserting is O(log n).
+        if (const Rrb* r = rrb::rootOf(this)) {
+            // Native: one path copied (B-tree style); index clamped into [0, size].
             if (index < 0) index = 0;
-            if (static_cast<proto_ulong>(index) >= trie->size) {
-                return trie->implAppendLast(context, value)->asProtoList(context);
-            }
-            return outputFromImpl(context, trieToTree(context, trie)->implInsertAt(context, index, value));
+            return rrb::insertAt(context, r, static_cast<proto_ulong>(index), value)->asProtoList(context);
         }
         // Clamp into [0, size] as the small path does: implInsertAt compares
         // the index with unsigned sizes, so a negative one would land at the
@@ -1198,8 +912,8 @@ namespace proto {
             buf[n] = value;
             return makeOutputList(context, buf, n + 1);
         }
-        if (const Trie* trie = asTrie(this)) {
-            return trie->implAppendLast(context, value)->asProtoList(context);
+        if (const Rrb* r = rrb::rootOf(this)) {
+            return rrb::appendLast(context, r, value)->asProtoList(context);
         }
         return outputFromImpl(context,
             toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value));
@@ -1219,15 +933,10 @@ namespace proto {
             n = rawElementsToBuffer(context, other, buf, n);
             return makeOutputList(context, buf, n);
         }
-        // A trie extended by a short list: appends, native to the trie and
-        // cheaper than a conversion to the AVL form plus a join.
-        if (const Trie* trie = asTrie(this)) {
-            if (otherSize <= kTrieExtendByAppend) {
-                const ProtoObject* buf[kTrieExtendByAppend];
-                const unsigned k = rawElementsToBuffer(context, other, buf, 0);
-                for (unsigned i = 0; i < k; ++i) trie = trie->implAppendLast(context, buf[i]);
-                return trie->asProtoList(context);
-            }
+        // Neither operand AVL: RRB concatenation, O(log n + log m).
+        if (!isAvlList(this) && !isAvlList(other)) {
+            checkRrbSize(context, selfSize + otherSize);
+            return outputFromRrb(context, rrb::concat(context, rrbOf(context, this), rrbOf(context, other)));
         }
         // A SmallList operand next to a tree: join around one of its own
         // elements, so the small side costs at most MAX_INLINE - 1 cells and
@@ -1292,19 +1001,9 @@ namespace proto {
             }
             return makeOutputList(context, buf, out);
         }
-        if (const Trie* trie = asTrie(this)) {
-            if (index < 0 || static_cast<proto_ulong>(index) >= trie->size) return const_cast<ProtoList*>(this);
-            if (static_cast<proto_ulong>(index) == trie->size - 1) {
-                // removeLast, native to the trie; a result that fits inline
-                // becomes a SmallList, like every other mutator's.
-                if (trie->size - 1 <= ProtoListSmallImplementation::MAX_INLINE) {
-                    const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE + 1];
-                    trie->toBuffer(buf);
-                    return makeOutputList(context, buf, static_cast<unsigned>(trie->size - 1));
-                }
-                return trie->implRemoveLast(context)->asProtoList(context);
-            }
-            return outputFromImpl(context, trieToTree(context, trie)->implRemoveAt(context, index));
+        if (const Rrb* r = rrb::rootOf(this)) {
+            if (index < 0 || static_cast<proto_ulong>(index) >= r->size) return const_cast<ProtoList*>(this);
+            return outputFromRrb(context, rrb::removeAt(context, r, static_cast<proto_ulong>(index)));
         }
         const auto* impl = toImpl<const ProtoListImplementation>(this);
         const ProtoListImplementation* result = impl->implRemoveAt(context, index);
@@ -1330,6 +1029,11 @@ namespace proto {
             }
             return makeOutputList(context, buf, n);
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            return outputFromRrb(context,
+                rrb::concat(context, rrb::take(context, r, static_cast<proto_ulong>(from)),
+                                     rrb::drop(context, r, static_cast<proto_ulong>(to))));
+        }
         const ProtoListImplementation* t = treeOf(context, this);
         return outputFromTree(context,
             join2(context, take(context, t, static_cast<proto_ulong>(from)),
@@ -1351,6 +1055,11 @@ namespace proto {
             const auto* small = toImpl<const ProtoListSmallImplementation>(this);
             return makeOutputList(context, small->slots + from, static_cast<unsigned>(to - from));
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            return outputFromRrb(context,
+                rrb::take(context, rrb::drop(context, r, static_cast<proto_ulong>(from)),
+                          static_cast<proto_ulong>(to - from)));
+        }
         const ProtoListImplementation* t = treeOf(context, this);
         const ProtoListImplementation* tail = drop(context, t, static_cast<proto_ulong>(from));
         return outputFromTree(context, take(context, tail, static_cast<proto_ulong>(to - from)));
@@ -1360,7 +1069,7 @@ namespace proto {
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->implAsObject(context);
         }
-        if (const Trie* trie = asTrie(this)) return trie->implAsObject(context);
+        if (const Rrb* r = rrb::rootOf(this)) return r->implAsObject(context);
         return toImpl<const ProtoListImplementation>(this)->implAsObject(context);
     }
     const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const {
@@ -1371,9 +1080,11 @@ namespace proto {
                         context, reinterpret_cast<const ProtoObject*>(this), 0))
                     ->asProtoListIterator(context);
         }
-        if (const Trie* trie = asTrie(this)) {
+        if (const Rrb* r = rrb::rootOf(this)) {
+            proto_ulong start, end;
+            const ProtoListRrbLeaf* lf = rrb::locate(r, 0, start, end);
             return (new (context) ProtoListIteratorImplementation(
-                        context, reinterpret_cast<const ProtoObject*>(this), 0, trie->leafFor(0), 0))
+                        context, reinterpret_cast<const ProtoObject*>(this), 0, lf, start, end))
                     ->asProtoListIterator(context);
         }
         return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context);
@@ -1414,6 +1125,18 @@ namespace proto {
             for (long long r = 0; r < n; ++r)
                 for (unsigned i = 0; i < k; ++i) buf[out++] = once[i];
             return makeOutputList(context, buf, out);
+        }
+        if (!isAvlList(this)) {
+            checkRrbSize(context, selfSize * static_cast<proto_ulong>(n));
+            const Rrb* base = rrbOf(context, this);
+            const Rrb* acc = nullptr;
+            unsigned long long k = static_cast<unsigned long long>(n);
+            while (k) {
+                if (k & 1ULL) acc = rrb::concat(context, acc, base);
+                k >>= 1;
+                if (k) base = rrb::concat(context, base, base);
+            }
+            return outputFromRrb(context, acc);
         }
         const ProtoListImplementation* base = treeOf(context, this);
         const ProtoListImplementation* acc = nullptr;

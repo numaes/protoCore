@@ -23,7 +23,7 @@
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
-#include "ListTrieCheck.h"
+#include "ListRrbCheck.h"
 
 #include <algorithm>
 #include <climits>
@@ -76,9 +76,9 @@ std::string checkList(const ProtoList* l) {
         return "";
     }
     if (!isAvl(l)) return "not a list handle";
-    // The trie form shares the AVL form's tag (lists of more than
-    // MAX_INLINE elements built by appends, or grown out of a SmallList).
-    if (const auto* trie = proto_test::trieOf(l)) return proto_test::checkTrie(trie);
+    // The RRB form shares the AVL form's tag (every list of more than
+    // MAX_INLINE elements that no AVL operand produced).
+    if (const auto* r = proto_test::rrbOf(l)) return proto_test::checkRrb(r);
     const auto* root = toImpl<const ProtoListImplementation>(l);
     if (root->isEmpty) return root->size == 0 ? "" : "empty root with a size";
     std::string why;
