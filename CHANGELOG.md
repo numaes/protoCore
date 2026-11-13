@@ -2,7 +2,7 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased]
+## [3.6.0] - 2026-11-13
 
 ### Changed
 
@@ -25,6 +25,18 @@ All notable changes to protoCore are documented in this file.
   numbers. `protoCore.h` is unchanged apart from comments.
 - A list larger than 2^48 − 1 elements raises `ProtoErrorKind::Overflow`
   (`extend`, `multiply`).
+
+### Fixed
+
+- **Adaptive controller: a workload whose sweeps all walked one chain was
+  never measured.** The collector's throughput T was taken only from wide
+  sweeps; a single mutator that stalls every cycle with free cells left
+  (no safepoint, the heap growing past S during the cycle) never got one,
+  so the law kept S at S0 while the mutator waited 20–40 % of the time. A
+  narrow sweep's throughput is a lower bound of the collector's capacity, as
+  is the last wide sweep's: the controller now takes the larger of the two.
+  Found by `AdaptiveHeapStorm.SoftLimitRisesUnderStall` on two cores once the
+  RRB list removed the garbage whose early wide cycles used to measure T.
 
 ## [3.5.2] - 2026-11-10
 

@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 3.5.2
+    VERSION 3.6.0
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -143,6 +143,14 @@ add_library(protoCore SHARED
 # thread's root context with a new non-virtual ProtoContext constructor
 # (ProtoContext::ThreadRootTag), an addition; ProtoContext's layout and every
 # existing signature are unchanged.
+#
+# 3.6.0 keeps 5.  ProtoList's representation changed (an RRB tree beyond the
+# inline form) inside the library; protoCore.h changed only in comments.  The
+# CellType values are appended (proto_internal.h, not installed).  The one
+# exported symbol removed is ProtoListIteratorImplementation's constructor,
+# an internal class; no runtime of the ecosystem references it (nm -D checked
+# on the 3.5.x builds of protoST, protoClojure, protoScala, protoPython and
+# protoJS).  A binary built against 3.4.0 loads and links against 3.6.0.
 set(PROTOCORE_ABI_SOVERSION 5)
 
 # Shared library versioning (version for linker, soversion for ABI)
