@@ -214,8 +214,9 @@ void runWorkers(ProtoSpace& space, int threads, Workload& w) {
     gWork = nullptr;
 }
 
-// A live set reachable from a root set, built in chunks (about three cells
-// per element stay live: the object and the list's nodes).
+// A live set reachable from a root set, built in chunks (about 2.2 cells
+// per element stay live: the object and its share of the list's RRB nodes;
+// sizes scaled by 3 / 2.2 from the AVL list's three cells per element).
 void buildRootedList(ProtoSpace& space, int elements) {
     ProtoRootSet* rs = space.createRootSet("adaptive-heap-threads-live");
     ProtoRootSet::Handle h = rs->add(space.rootContext->newList()->asObject(space.rootContext));
@@ -255,7 +256,7 @@ TEST(AdaptiveHeapThreadsDeathTest, LowLiveSetWithHeavyGarbageDoesNotRunOutOfMemo
             AdaptiveHeapConfig c;
             c.hardCells = 1048576;   // 64 MB
             space.enableAdaptiveHeap(c);
-            buildRootedList(space, 85000);   // ~255,000 live cells, ~25 %
+            buildRootedList(space, 116000);  // ~255,000 live cells, ~25 %
             Workload w;
             w.pinnedCells = 150000;          // 4 x 150,000 = 57 % of the budget
             w.garbageCalls = 25000;          // 4 x 2.5 M objects of garbage
