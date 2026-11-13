@@ -115,6 +115,8 @@ const char* typeName(const Cell* c)
         case CellType::Object:              return "Object";
         case CellType::List:                return "List";
         case CellType::ListSmall:           return "ListSmall";
+        case CellType::ListTrie:            return "ListTrie";
+        case CellType::ListTrieNode:        return "ListTrieNode";
         case CellType::Tuple:               return "Tuple";
         case CellType::String:              return "String";
         case CellType::SparseList:          return "SparseList";

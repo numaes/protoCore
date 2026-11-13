@@ -155,6 +155,8 @@ namespace proto {
     class ParentLinkImplementation;
     class ProtoListImplementation;
     class ProtoListSmallImplementation;
+    class ProtoListTrieImplementation;
+    class ProtoListTrieNode;
     class ProtoListIteratorImplementation;
     class ProtoSparseListImplementation;
     class ProtoSparseListSmallImplementation;
@@ -487,6 +489,10 @@ namespace proto {
     template<> struct ExpectedTag<ProtoListImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST; };
 
     template<> struct ExpectedTag<const ProtoListSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST_SMALL; };
+    // The trie form shares POINTER_TAG_LIST with the AVL form; the two are
+    // told apart by CellType (ProtoList.cpp, isTrieList).
+    template<> struct ExpectedTag<const ProtoListTrieImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST; };
+    template<> struct ExpectedTag<ProtoListTrieImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST; };
     template<> struct ExpectedTag<ProtoListSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST_SMALL; };
 
     template<> struct ExpectedTag<const ProtoSparseListImplementation> { static constexpr proto_ulong value = POINTER_TAG_SPARSE_LIST; };
@@ -783,7 +789,9 @@ namespace proto {
         MPSCQueue,
         MPSCQueueNode,
         MPSCQueueRetain,
-        LinkedList
+        LinkedList,
+        ListTrie,
+        ListTrieNode
     };
 
     class Cell {
@@ -2231,18 +2239,87 @@ namespace proto {
                                void (*method)(ProtoContext *, void *, const Cell *)) const override;
     };
 
+    // One node of the trie form of a ProtoList: six slots in the 48 useful
+    // bytes of a cell.  In a leaf (and in the tail) a slot holds an element,
+    // as stored (it may be nullptr); in an inner node it holds a child node.
+    // A node does not know whether it is a leaf: the depth of the walk says
+    // so.  Unused slots are nullptr.  A node is never written after it
+    // becomes reachable.
+    class ProtoListTrieNode final : public Cell {
+    public:
+        static constexpr unsigned WIDTH = 6;
+        const void *slots[WIDTH];
+
+        CellType getType() const override { return CellType::ListTrieNode; }
+
+        // Copies the first `n` entries of `items` and leaves the rest nullptr.
+        ProtoListTrieNode(ProtoContext *context, unsigned n, const void *const *items);
+
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
+    // The trie form of a ProtoList (a persistent vector in the manner of
+    // Clojure's, with six slots per node so every node is one 64-byte cell).
+    // The last 1..6 elements live in `tail`; the first tailOffset() elements
+    // live in full leaves under `tree`, `levels` inner levels deep (levels == 0:
+    // `tree` is a single leaf).  Shares POINTER_TAG_LIST with the AVL form and is
+    // told apart by CellType::ListTrie.  Appends, indexed reads, setAt and
+    // removeLast run on the trie; the structural operations (insert or remove
+    // in the middle or at the front, concatenation, slices) convert the list to
+    // the AVL form once and continue there.
+    class ProtoListTrieImplementation final : public Cell {
+    public:
+        const proto_ulong size;              // > ProtoListSmallImplementation::MAX_INLINE
+        const ProtoListTrieNode *tree;       // nullptr while every element fits in the tail
+        const ProtoListTrieNode *tail;       // never nullptr
+        const unsigned char levels;
+        const unsigned char tailLen;         // 1..WIDTH
+
+        CellType getType() const override { return CellType::ListTrie; }
+
+        ProtoListTrieImplementation(ProtoContext *context, proto_ulong size,
+                                    const ProtoListTrieNode *tree, const ProtoListTrieNode *tail,
+                                    unsigned levels, unsigned tailLen);
+
+        proto_ulong tailOffset() const { return size - tailLen; }
+
+        const ProtoObject *implGetAt(ProtoContext *context, proto_ulong index) const;
+        const ProtoListTrieNode *leafFor(proto_ulong index) const;   // the leaf (or tail) holding index
+        bool implHas(ProtoContext *context, const ProtoObject *targetValue) const;
+        const ProtoListTrieImplementation *implAppendLast(ProtoContext *context, const ProtoObject *value) const;
+        const ProtoListTrieImplementation *implSetAt(ProtoContext *context, proto_ulong index, const ProtoObject *value) const;
+        // Requires size > MAX_INLINE + 1: the result is still a trie.
+        const ProtoListTrieImplementation *implRemoveLast(ProtoContext *context) const;
+        // Every element in order into `out` (sized by the caller); returns size.
+        proto_ulong toBuffer(const ProtoObject **out) const;
+
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        const ProtoList *asProtoList(ProtoContext *context) const;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
     class ProtoListIteratorImplementation final : public Cell {
     public:
         // base is stored as a tagged ProtoObject* so the iterator can carry
         // either an AVL ProtoListImplementation (POINTER_TAG_LIST) or a
         // ProtoListSmallImplementation (POINTER_TAG_LIST_SMALL); implNext /
         // implAdvance dispatch on the pointer tag, no virtual call.
+        // For a trie base (POINTER_TAG_LIST, CellType::ListTrie) the iterator
+        // also carries the leaf that holds currentIndex and the index of that
+        // leaf's first element, so next() reads one slot instead of walking
+        // the trie from its root.
         const ProtoObject *base;
         proto_ulong currentIndex;
+        const ProtoListTrieNode *leaf;       // trie base only; else nullptr
+        proto_ulong leafStart;
 
         CellType getType() const override { return CellType::ListIterator; }
 
-        ProtoListIteratorImplementation(ProtoContext *context, const ProtoObject *b, proto_ulong index);
+        ProtoListIteratorImplementation(ProtoContext *context, const ProtoObject *b, proto_ulong index,
+                                        const ProtoListTrieNode *leaf = nullptr, proto_ulong leafStart = 0);
 
         int implHasNext() const;
 
@@ -2974,6 +3051,8 @@ namespace proto {
             ProtoListIteratorImplementation listIteratorCell;
             ProtoListImplementation listCell;
             ProtoListSmallImplementation listSmallCell;
+            ProtoListTrieImplementation listTrieCell;
+            ProtoListTrieNode listTrieNodeCell;
             ProtoSparseListIteratorImplementation sparseListIteratorCell;
             ProtoSparseListImplementation sparseListCell;
             ProtoSparseListSmallImplementation sparseListSmallCell;
@@ -3016,6 +3095,8 @@ namespace proto {
     static_assert(sizeof(ProtoListIteratorImplementation) <= 64, "ProtoListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListImplementation) <= 64, "ProtoListImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListSmallImplementation) <= 64, "ProtoListSmallImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoListTrieImplementation) <= 64, "ProtoListTrieImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoListTrieNode) == 64, "ProtoListTrieNode must fill exactly one 64-byte cell");
     static_assert(sizeof(ProtoSparseListIteratorImplementation) <= 64, "ProtoSparseListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListImplementation) <= 64, "ProtoSparseListImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListSmallImplementation) <= 64, "ProtoSparseListSmallImplementation exceeds 64 bytes!");

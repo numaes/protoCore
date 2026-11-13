@@ -23,6 +23,7 @@
 #include <gtest/gtest.h>
 #include "../headers/protoCore.h"
 #include "../headers/proto_internal.h"
+#include "ListTrieCheck.h"
 
 #include <algorithm>
 #include <climits>
@@ -75,6 +76,9 @@ std::string checkList(const ProtoList* l) {
         return "";
     }
     if (!isAvl(l)) return "not a list handle";
+    // The trie form shares the AVL form's tag (lists of more than
+    // MAX_INLINE elements built by appends, or grown out of a SmallList).
+    if (const auto* trie = proto_test::trieOf(l)) return proto_test::checkTrie(trie);
     const auto* root = toImpl<const ProtoListImplementation>(l);
     if (root->isEmpty) return root->size == 0 ? "" : "empty root with a size";
     std::string why;
@@ -82,7 +86,8 @@ std::string checkList(const ProtoList* l) {
     return why;
 }
 
-// Canonical output form: SmallList up to MAX_INLINE elements, AVL beyond.
+// Canonical output form: SmallList up to MAX_INLINE elements, a tag-2 list
+// (AVL or trie, which share the tag) beyond.
 bool canonicalForm(ProtoContext* c, const ProtoList* l) {
     return l->getSize(c) <= MAX_INLINE ? isSmall(l) : isAvl(l);
 }

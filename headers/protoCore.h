@@ -2604,11 +2604,11 @@ namespace proto
         //- Factory methods for complex types
         // Empty list — returns the inline-storage form (POINTER_TAG_LIST_SMALL,
         // size 0).  Subsequent appendLast calls stay in the inline form for
-        // sizes 1..5 and only graduate to the AVL form on overflow.
+        // sizes 1..5 and only graduate to the trie form on overflow.
         const ProtoList* newList();
         // Bulk-construct a list from a count + contiguous source array in
-        // a SINGLE cell allocation when n ≤ 5; for n > 5 it falls back to
-        // the AVL builder.  Use this whenever the count is known at the call
+        // a SINGLE cell allocation when n ≤ 5; for n > 5 it appends into
+        // the trie form.  Use this whenever the count is known at the call
         // site (interpreter call dispatch, native method argument packs);
         // the result is functionally identical to newList() + N appendLast
         // but costs exactly 1 cell instead of 1 + N.
