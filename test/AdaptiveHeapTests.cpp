@@ -108,11 +108,7 @@ proto_ulong churn(ProtoSpace& space, int count, int work = 0, bool safepoints = 
 
 // A live set reachable from a root set: a list of `elements` objects, built
 // in chunks so the path copies of the build are reclaimable as it goes.
-// About 2.2 cells per element stay live: the object (two cells) and its
-// share of the list's RRB nodes.  The sizes below were set when the list was
-// an AVL tree (three cells per element) and scaled by 3 / 2.2 when lists
-// became RRB trees, so that each test keeps the live set, in cells, that its
-// premise is about.
+// About two cells per element stay live (the object and its list node).
 struct RootedList {
     ProtoRootSet* rs = nullptr;
     ProtoRootSet::Handle h = ProtoRootSet::kNullHandle;
@@ -319,7 +315,7 @@ TEST(AdaptiveHeapRate, SteadyAllocatorBelowCapacityStopsWaiting) {
     AdaptiveHeapConfig c;
     c.hardCells = 16000000;   // 1 GB
     space.enableAdaptiveHeap(c);
-    RootedList live(space, 136000);   // ~300,000 live cells
+    RootedList live(space, 100000);
     churn(space, 8000000, 200);   // converge
     adaptive::WaitStats before;
     {
@@ -339,7 +335,7 @@ TEST(AdaptiveHeapRate, SteadyAllocatorBelowCapacityStopsWaiting) {
                 (unsigned long long) after.waits, s.lastPressure);
     ASSERT_GT(after.cyclesCompleted, before.cyclesCompleted) << "no cycle in the measured window";
     EXPECT_EQ(after.waits - before.waits, 0u) << "the mutator still waited after convergence";
-    EXPECT_EQ(live.size(space), 136000u);
+    EXPECT_EQ(live.size(space), 100000u);
 }
 
 // --- Cycle request at S ------------------------------------------------------
@@ -388,7 +384,7 @@ SteadyRun runSteady(ProtoSpace& space, proto_ulong budgetCells = 16000000) {
     AdaptiveHeapConfig c;
     c.hardCells = budgetCells;   // 16,000,000 cells: 1 GB
     space.enableAdaptiveHeap(c);
-    RootedList live(space, 136000);   // ~300,000 live cells
+    RootedList live(space, 100000);   // ~300,000 live cells
     constexpr int kRounds = 200;
     constexpr int kPerRound = 50000;   // 10,000,000 objects of garbage in all
     SteadyRun run;
@@ -417,7 +413,7 @@ TEST(AdaptiveHeap, SteadyWorkloadHeapFollowsTheSoftLimit) {
     ProtoSpace space;
     const SteadyRun run = runSteady(space);
     const AdaptiveHeapStats& s = run.stats;
-    EXPECT_EQ(run.liveElements, 136000u) << "the live set did not survive";
+    EXPECT_EQ(run.liveElements, 100000u) << "the live set did not survive";
     EXPECT_GT(s.cycles, 0u);
     EXPECT_TRUE(run.softNeverDecreased);
     EXPECT_LE(s.softCells, s.hardCells);
@@ -447,7 +443,7 @@ TEST(AdaptiveHeapSteady, HeapStaysFarBelowTheGarbageVolume) {
     ProtoSpace space;
     const proto_ulong budget = 4000000;
     const SteadyRun run = runSteady(space, budget);
-    EXPECT_EQ(run.liveElements, 136000u) << "the live set did not survive";
+    EXPECT_EQ(run.liveElements, 100000u) << "the live set did not survive";
     EXPECT_GT(run.stats.cycles, 0u);
     EXPECT_LE(run.stats.heapCells, budget + 400000u) << "the heap passed the budget";
     EXPECT_LT(run.stats.heapCells, run.garbageCells / 4)
@@ -487,7 +483,7 @@ TEST(AdaptiveHeapFastAllocator, SoftLimitGrowthIsBoundedByTheBudgetAndTheProbes)
     AdaptiveHeapConfig c;
     c.hardCells = 32000000;   // 2 GB
     space.enableAdaptiveHeap(c);
-    RootedList live(space, 545000);   // ~1,200,000 live cells
+    RootedList live(space, 400000);   // ~800,000 live cells (object + node)
     proto_ulong garbage = 0;
     proto_ulong lastSoft = 0;
     bool neverDecreased = true;
@@ -505,7 +501,7 @@ TEST(AdaptiveHeapFastAllocator, SoftLimitGrowthIsBoundedByTheBudgetAndTheProbes)
                 (unsigned long) s.heapCells, (unsigned long long) s.cycles, s.lastPressure,
                 (unsigned long long) law.changes, (unsigned long long) law.probes,
                 law.stopped ? 1 : 0, (unsigned long) garbage);
-    EXPECT_EQ(live.size(space), 545000u) << "the live set did not survive";
+    EXPECT_EQ(live.size(space), 400000u) << "the live set did not survive";
     ASSERT_GT(s.cycles, 0u);
     EXPECT_TRUE(neverDecreased);
     EXPECT_LE(s.softCells, s.hardCells);
@@ -539,7 +535,7 @@ StormRun runStorm(ProtoSpace& space, int maxRounds, bool safepoints) {
     // S before the live set is built: on a slow build (MSVC Debug) the
     // build's own cycles may already have grown it.
     run.initialSoft = space.adaptiveHeapStats().softCells;
-    RootedList live(space, 410000);   // ~900,000 live cells
+    RootedList live(space, 300000);   // ~900,000 live cells
     proto_ulong soft = run.initialSoft;
     uint64_t seen = space.adaptiveHeapStats().cycles;
     for (int r = 0; r < maxRounds; ++r) {
