@@ -7,6 +7,7 @@
 
 #include "../headers/proto_internal.h"
 #include "AdaptiveHeap.h"
+#include "ProtoListRrb.h"
 #include <stdexcept>
 #include <vector>
 #include <cstdlib>
@@ -806,8 +807,8 @@ namespace proto
     const ProtoList* ProtoContext::newList()
     {
         // Empty list lives in the inline form (1 cell).  Subsequent
-        // appendLast keeps it in inline form until the 6th element forces
-        // the AVL representation, matching the form-selection semantics
+        // appendLast keeps it in inline form until the 6th element moves it
+        // to the trie representation, matching the form-selection semantics
         // documented at every mutator trampoline in core/ProtoList.cpp.
         return (new(this) ProtoListSmallImplementation(this, 0, nullptr))->asProtoList(this);
     }
@@ -850,9 +851,10 @@ namespace proto
         // half-built.
         this->heapLimitCheckpoint();
 
-        const ProtoList* result =
-            (new(this) ProtoListImplementation(this, PROTO_NONE, true, nullptr, nullptr))
-                ->asProtoList(this);
+        // Starts from the empty inline form: appendLast keeps the list inline
+        // up to MAX_INLINE elements and then grows it as a trie, about three
+        // cells per element instead of the AVL's ~log2(n) path copy.
+        const ProtoList* result = this->newList();
         for (unsigned i = 0; i < n; ++i) {
             result = result->appendLast(this, items[i]);
             // The only point in this loop where the thread is outside a
@@ -890,6 +892,12 @@ namespace proto
             for (proto_ulong i = 0; i < small->size; ++i) {
                 elements.push_back(small->slots[i]);
             }
+            return ProtoTupleImplementation::tupleFromVector(this, elements)->asProtoTuple(this);
+        }
+        if (const auto* r = rrb::rootOf(sourceList)) {
+            // The RRB form shares POINTER_TAG_LIST with the AVL form (ProtoListRrb.h).
+            std::vector<const ProtoObject*> elements(r->size);
+            rrb::toBuffer(r, elements.data());
             return ProtoTupleImplementation::tupleFromVector(this, elements)->asProtoTuple(this);
         }
         return ProtoTupleImplementation::tupleFromList(this, toImpl<const ProtoListImplementation>(sourceList))->asProtoTuple(this);

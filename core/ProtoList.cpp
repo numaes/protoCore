@@ -6,6 +6,7 @@
  */
 
 #include "../headers/proto_internal.h"
+#include "ProtoListRrb.h"
 #include <algorithm> // For std::max
 #include <climits>
 
@@ -329,9 +330,9 @@ namespace proto {
                 (right && right->isEmpty) ? nullptr : right);
         }
 
-        // Picks the inline form when the resulting size fits, AVL otherwise.
-        // Used by every mutator output path so SmallList stays small as long
-        // as possible without forcing a one-way upgrade.
+        // Picks the inline form when the resulting size fits, the RRB form
+        // otherwise.  Used by every mutator output path so SmallList stays
+        // small as long as possible without forcing a one-way upgrade.
         const ProtoList* makeOutputList(
             ProtoContext* context, const ProtoObject* const* items, unsigned n)
         {
@@ -339,7 +340,58 @@ namespace proto {
                 return (new (context) ProtoListSmallImplementation(context, n, items))
                     ->asProtoList(context);
             }
-            return buildBalancedFromArray(context, items, n)->asProtoList(context);
+            return rrb::fromArray(context, items, n)->asProtoList(context);
+        }
+
+        // The cell behind a list handle of any form.
+        inline const Cell* listCell(const ProtoList* list) {
+            return reinterpret_cast<const Cell*>(
+                reinterpret_cast<uintptr_t>(list) & ~static_cast<uintptr_t>(0x3F));
+        }
+
+        using Rrb = ProtoListRrbImplementation;
+
+        // True for the AVL form, which every mutator still accepts as input
+        // (code that builds AVL cells directly) and keeps on its own
+        // algorithms; an operation produces it only when an operand is AVL.
+        inline bool isAvlList(const ProtoList* list) {
+            ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(list);
+            return pa.op.pointer_tag == POINTER_TAG_LIST && !rrb::rootOf(list);
+        }
+
+        // The RRB root holding the elements of a list that is not AVL: an
+        // RRB list itself, an inline one rebuilt (at most MAX_INLINE
+        // elements, one or two cells).  nullptr for the empty list.
+        const Rrb* rrbOf(ProtoContext* context, const ProtoList* list) {
+            if (const Rrb* r = rrb::rootOf(list)) return r;
+            const auto* small = toImpl<const ProtoListSmallImplementation>(list);
+            return rrb::fromArray(context, small->slots, small->size);
+        }
+
+        // The output form of an RRB result, chosen by size like every other
+        // mutator's: at most MAX_INLINE elements -> SmallList.
+        const ProtoList* outputFromRrb(ProtoContext* context, const Rrb* r) {
+            if (!r) return context->newList();
+            if (r->size <= ProtoListSmallImplementation::MAX_INLINE) {
+                const ProtoObject* buf[ProtoListSmallImplementation::MAX_INLINE];
+                const unsigned n = static_cast<unsigned>(rrb::toBuffer(r, buf));
+                return makeOutputList(context, buf, n);
+            }
+            return r->asProtoList(context);
+        }
+
+        // An RRB list as an AVL tree, for an operation that mixes it with an
+        // AVL operand (the AVL side's algorithms run).  O(n).
+        const ProtoListImplementation* rrbToTree(ProtoContext* context, const Rrb* r) {
+            std::vector<const ProtoObject*> buf(r->size);
+            rrb::toBuffer(r, buf.data());
+            return buildBalancedFromArray(context, buf.data(), static_cast<unsigned>(r->size));
+        }
+
+        // Size limit of the RRB form (48-bit size tables): an operation that
+        // would pass it raises instead of corrupting a size table.
+        void checkRrbSize(ProtoContext* context, proto_ulong n) {
+            if (n > rrb::kMaxSize) context->raiseError(ProtoErrorKind::Overflow, "List too large.");
         }
     }
 
@@ -500,6 +552,7 @@ namespace proto {
         // freshly built balanced tree of at most MAX_INLINE nodes.
         const ListNode* treeOf(ProtoContext* context, const ProtoList* list) {
             ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(list);
+            if (const Rrb* r = rrb::rootOf(list)) return rrbToTree(context, r);
             if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
                 const auto* small = toImpl<const ProtoListSmallImplementation>(list);
                 if (small->size == 0) return nullptr;
@@ -521,6 +574,7 @@ namespace proto {
                 for (proto_ulong i = 0; i < small->size; ++i) out[at++] = small->slots[i];
                 return at;
             }
+            if (const Rrb* r = rrb::rootOf(list)) return at + static_cast<unsigned>(rrb::toBuffer(r, out + at));
             const auto* avl = toImpl<const ListNode>(list);
             if (avl->isEmpty) return at;
             return treeToBuffer(avl, out, at);
@@ -567,8 +621,11 @@ namespace proto {
     ProtoListIteratorImplementation::ProtoListIteratorImplementation(
         ProtoContext* context,
         const ProtoObject* b,
-        proto_ulong index
-    ) : Cell(context), base(b), currentIndex(index)
+        proto_ulong index,
+        const ProtoListRrbLeaf* l,
+        proto_ulong lStart,
+        proto_ulong lEnd
+    ) : Cell(context), base(b), currentIndex(index), leaf(l), leafStart(lStart), leafEnd(lEnd)
     {
     }
 
@@ -595,16 +652,44 @@ namespace proto {
         }
     }
 
+    // An iterator over an RRB list carries the leaf (or tail) holding
+    // currentIndex and the range it covers (an RRB list is never empty, so
+    // that leaf always exists); `leaf != nullptr` is what marks an RRB base,
+    // so the AVL and inline paths stay as they were.
+    namespace {
+        inline const ProtoListRrbImplementation* iterRrb(const ProtoObject* base) {
+            return reinterpret_cast<const ProtoListRrbImplementation*>(
+                reinterpret_cast<uintptr_t>(base) & ~static_cast<uintptr_t>(0x3F));
+        }
+    }
+
     int ProtoListIteratorImplementation::implHasNext() const {
         if (!this->base) return false;
+        if (this->leaf) return this->currentIndex < iterRrb(this->base)->size;
         return this->currentIndex < iterBaseSize(this->base);
     }
 
     const ProtoObject* ProtoListIteratorImplementation::implNext(ProtoContext* context) const {
+        if (this->leaf) {
+            if (this->currentIndex >= iterRrb(this->base)->size) return nullptr;
+            return this->leaf->slots[this->currentIndex - this->leafStart];
+        }
         return iterBaseGetAt(context, this->base, this->currentIndex);
     }
 
     const ProtoListIteratorImplementation* ProtoListIteratorImplementation::implAdvance(ProtoContext* context) const {
+        if (this->leaf) {
+            const auto* r = iterRrb(this->base);
+            if (this->currentIndex >= r->size) return this;
+            const proto_ulong next = this->currentIndex + 1;
+            if (next < this->leafEnd || next >= r->size) {
+                return new (context) ProtoListIteratorImplementation(
+                    context, this->base, next, this->leaf, this->leafStart, this->leafEnd);
+            }
+            proto_ulong start, end;
+            const ProtoListRrbLeaf* lf = rrb::locate(r, next, start, end);
+            return new (context) ProtoListIteratorImplementation(context, this->base, next, lf, start, end);
+        }
         if (this->currentIndex < iterBaseSize(this->base)) {
             return new (context) ProtoListIteratorImplementation(context, this->base, this->currentIndex + 1);
         }
@@ -629,6 +714,8 @@ namespace proto {
         if (const Cell* c = ProtoObject::asCellPointer(base)) {
             callback(context, callback_data, c);
         }
+        // Reachable from base too; reported so the iterator never depends on that.
+        if (leaf) callback(context, callback_data, leaf);
     }
 
     // ProtoList / ProtoListIterator external API trampolines
@@ -682,13 +769,17 @@ namespace proto {
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->size;
         }
-        return toImpl<const ProtoListImplementation>(this)->size;
+        // Both tag-2 forms keep their size at the same offset (ProtoListRrb.h).
+        return rrb::treeListSize(this);
     }
     const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const {
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
         const ProtoObject* result;
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             result = toImpl<const ProtoListSmallImplementation>(this)->implGetAt(context, index);
+        } else if (const Rrb* r = rrb::rootOf(this)) {
+            result = (index < 0 || static_cast<proto_ulong>(index) >= r->size)
+                ? nullptr : rrb::getAt(r, static_cast<proto_ulong>(index));
         } else {
             result = toImpl<const ProtoListImplementation>(this)->implGetAt(context, index);
         }
@@ -708,6 +799,14 @@ namespace proto {
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->implHas(context, value);
+        }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            if (!value) return false;
+            struct Probe { ProtoContext* context; const ProtoObject* target; } probe{context, value};
+            return rrb::forEach(r, [](void* d, const ProtoObject* e) {
+                const auto* p = static_cast<const Probe*>(d);
+                return listElementEquals(p->context, e, p->target);
+            }, &probe);
         }
         return toImpl<const ProtoListImplementation>(this)->implHas(context, value);
     }
@@ -763,6 +862,10 @@ namespace proto {
             buf[index] = value;
             return makeOutputList(context, buf, n);
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            if (index < 0 || static_cast<proto_ulong>(index) >= r->size) return const_cast<ProtoList*>(this);
+            return rrb::setAt(context, r, static_cast<proto_ulong>(index), value)->asProtoList(context);
+        }
         const auto* impl = toImpl<const ProtoListImplementation>(this);
         const ProtoListImplementation* result = impl->implSetAt(context, index, value);
         if (result == impl) return const_cast<ProtoList*>(this);   // out of range: unchanged
@@ -784,6 +887,11 @@ namespace proto {
             for (unsigned i = static_cast<unsigned>(index); i < n; ++i) buf[i + 1] = small->slots[i];
             return makeOutputList(context, buf, n + 1);
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            // Native: one path copied (B-tree style); index clamped into [0, size].
+            if (index < 0) index = 0;
+            return rrb::insertAt(context, r, static_cast<proto_ulong>(index), value)->asProtoList(context);
+        }
         // Clamp into [0, size] as the small path does: implInsertAt compares
         // the index with unsigned sizes, so a negative one would land at the
         // end of the list instead of the front.
@@ -804,6 +912,9 @@ namespace proto {
             buf[n] = value;
             return makeOutputList(context, buf, n + 1);
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            return rrb::appendLast(context, r, value)->asProtoList(context);
+        }
         return outputFromImpl(context,
             toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value));
     }
@@ -821,6 +932,11 @@ namespace proto {
             unsigned n = rawElementsToBuffer(context, this, buf, 0);
             n = rawElementsToBuffer(context, other, buf, n);
             return makeOutputList(context, buf, n);
+        }
+        // Neither operand AVL: RRB concatenation, O(log n + log m).
+        if (!isAvlList(this) && !isAvlList(other)) {
+            checkRrbSize(context, selfSize + otherSize);
+            return outputFromRrb(context, rrb::concat(context, rrbOf(context, this), rrbOf(context, other)));
         }
         // A SmallList operand next to a tree: join around one of its own
         // elements, so the small side costs at most MAX_INLINE - 1 cells and
@@ -885,6 +1001,10 @@ namespace proto {
             }
             return makeOutputList(context, buf, out);
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            if (index < 0 || static_cast<proto_ulong>(index) >= r->size) return const_cast<ProtoList*>(this);
+            return outputFromRrb(context, rrb::removeAt(context, r, static_cast<proto_ulong>(index)));
+        }
         const auto* impl = toImpl<const ProtoListImplementation>(this);
         const ProtoListImplementation* result = impl->implRemoveAt(context, index);
         if (result == impl) return const_cast<ProtoList*>(this);   // out of range: unchanged
@@ -909,6 +1029,11 @@ namespace proto {
             }
             return makeOutputList(context, buf, n);
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            return outputFromRrb(context,
+                rrb::concat(context, rrb::take(context, r, static_cast<proto_ulong>(from)),
+                                     rrb::drop(context, r, static_cast<proto_ulong>(to))));
+        }
         const ProtoListImplementation* t = treeOf(context, this);
         return outputFromTree(context,
             join2(context, take(context, t, static_cast<proto_ulong>(from)),
@@ -930,6 +1055,11 @@ namespace proto {
             const auto* small = toImpl<const ProtoListSmallImplementation>(this);
             return makeOutputList(context, small->slots + from, static_cast<unsigned>(to - from));
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            return outputFromRrb(context,
+                rrb::take(context, rrb::drop(context, r, static_cast<proto_ulong>(from)),
+                          static_cast<proto_ulong>(to - from)));
+        }
         const ProtoListImplementation* t = treeOf(context, this);
         const ProtoListImplementation* tail = drop(context, t, static_cast<proto_ulong>(from));
         return outputFromTree(context, take(context, tail, static_cast<proto_ulong>(to - from)));
@@ -939,6 +1069,7 @@ namespace proto {
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->implAsObject(context);
         }
+        if (const Rrb* r = rrb::rootOf(this)) return r->implAsObject(context);
         return toImpl<const ProtoListImplementation>(this)->implAsObject(context);
     }
     const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const {
@@ -949,6 +1080,13 @@ namespace proto {
                         context, reinterpret_cast<const ProtoObject*>(this), 0))
                     ->asProtoListIterator(context);
         }
+        if (const Rrb* r = rrb::rootOf(this)) {
+            proto_ulong start, end;
+            const ProtoListRrbLeaf* lf = rrb::locate(r, 0, start, end);
+            return (new (context) ProtoListIteratorImplementation(
+                        context, reinterpret_cast<const ProtoObject*>(this), 0, lf, start, end))
+                    ->asProtoListIterator(context);
+        }
         return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context);
     }
     proto_ulong ProtoList::getHash(ProtoContext* context) const {
@@ -956,7 +1094,7 @@ namespace proto {
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->getHash(context);
         }
-        return toImpl<const ProtoListImplementation>(this)->getHash(context);
+        return listCell(this)->getHash(context);
     }
 
     int ProtoListIterator::hasNext(ProtoContext* context) const { if (!this) return 0; return toImpl<const ProtoListIteratorImplementation>(this)->implHasNext(); }
@@ -987,6 +1125,18 @@ namespace proto {
             for (long long r = 0; r < n; ++r)
                 for (unsigned i = 0; i < k; ++i) buf[out++] = once[i];
             return makeOutputList(context, buf, out);
+        }
+        if (!isAvlList(this)) {
+            checkRrbSize(context, selfSize * static_cast<proto_ulong>(n));
+            const Rrb* base = rrbOf(context, this);
+            const Rrb* acc = nullptr;
+            unsigned long long k = static_cast<unsigned long long>(n);
+            while (k) {
+                if (k & 1ULL) acc = rrb::concat(context, acc, base);
+                k >>= 1;
+                if (k) base = rrb::concat(context, base, base);
+            }
+            return outputFromRrb(context, acc);
         }
         const ProtoListImplementation* base = treeOf(context, this);
         const ProtoListImplementation* acc = nullptr;

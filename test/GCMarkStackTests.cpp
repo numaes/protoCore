@@ -63,9 +63,10 @@ struct CapacityGuard {
 
 }  // namespace
 
-// A context that appends 50,000 integers to a list, one version at a time,
-// leaves about 800,000 young cells (every intermediate version's path copy)
-// that the collector walks as roots.  The old walk pushed both children of
+// A context that appends 100,000 integers to a list, one version at a time,
+// leaves about 280,000 young cells (every intermediate version's tail, root
+// and path copies; the trie form makes about 2.8 per append) that the
+// collector walks as roots.  The old walk pushed both children of
 // every one of them before marking anything (about 1.6 million entries);
 // tracing each young cell's references as it is walked keeps the stack at
 // the depth of one traversal.
@@ -73,7 +74,7 @@ TEST(GCMarkStack, LargeYoungGenerationDoesNotFloodTheStack) {
     ProtoSpace space;
     ProtoContext sub(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
     const ProtoList* list = sub.newList();
-    for (int i = 0; i < 50000; ++i) list = list->appendLast(&sub, sub.fromInteger(i));
+    for (int i = 0; i < 100000; ++i) list = list->appendLast(&sub, sub.fromInteger(i));
     ASSERT_GT(chainLength(sub.lastAllocatedCell), 200000u) << "the young generation is large";
 
     // Park through a child context: its safepoint does not submit sub's
@@ -85,8 +86,8 @@ TEST(GCMarkStack, LargeYoungGenerationDoesNotFloodTheStack) {
     EXPECT_GT(ms.youngCellsWalked, 200000u);
     EXPECT_LT(ms.peakStackEntries, 4096u)
         << "the young walk must not push every young cell's references before marking";
-    EXPECT_EQ(list->getSize(&sub), 50000u);
-    EXPECT_EQ(list->getAt(&sub, 49999)->asLong(&sub), 49999);
+    EXPECT_EQ(list->getSize(&sub), 100000u);
+    EXPECT_EQ(list->getAt(&sub, 99999)->asLong(&sub), 99999);
 }
 
 // The main thread's root context is both on the thread's context chain and
@@ -97,7 +98,7 @@ TEST(GCMarkStack, EachYoungChainIsWalkedOnce) {
     ProtoContext* root = space.rootContext;
     ASSERT_EQ(space.mainContext, root) << "precondition: the root context is mainContext";
     const ProtoList* list = root->newList();
-    for (int i = 0; i < 20000; ++i) list = list->appendLast(root, root->fromInteger(i));
+    for (int i = 0; i < 50000; ++i) list = list->appendLast(root, root->fromInteger(i));
 
     ProtoContext inner(&space, root, nullptr, nullptr, nullptr, nullptr);
     const std::size_t rootChain = chainLength(root->lastAllocatedCell);
@@ -108,7 +109,7 @@ TEST(GCMarkStack, EachYoungChainIsWalkedOnce) {
     EXPECT_GE(ms.youngCellsWalked, rootChain);
     EXPECT_LT(ms.youngCellsWalked, rootChain + rootChain / 10)
         << "the root context's young chain was walked more than once";
-    EXPECT_EQ(list->getAt(root, 19999)->asLong(root), 19999);
+    EXPECT_EQ(list->getAt(root, 49999)->asLong(root), 49999);
 }
 
 // With a mark stack far too small for the structure, pushes fail and the

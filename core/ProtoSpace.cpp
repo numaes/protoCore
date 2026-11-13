@@ -297,6 +297,10 @@ namespace proto {
                 case CellType::StringLeafNode: return "StringLeafNode";
                 case CellType::StringInternalNode: return "StringInternalNode";
                 case CellType::ListSmall: return "ListSmall";
+                case CellType::ListRrb: return "ListRrb";
+                case CellType::ListRrbLeaf: return "ListRrbLeaf";
+                case CellType::ListRrbInner: return "ListRrbInner";
+                case CellType::ListRrbSizes: return "ListRrbSizes";
                 case CellType::SparseListSmall: return "SparseListSmall";
                 case CellType::Map: return "Map";
                 case CellType::MapSmall: return "MapSmall";

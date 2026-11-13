@@ -38,7 +38,7 @@ This builds the shared library, the test executable `build/test/proto_tests` and
 cmake --build build --target protoCore
 ```
 
-The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `3.5.2` as of 2026-11-10 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `5`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `5` for the second. On Linux the build directory contains:
+The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` says — `3.6.0` as of 2026-11-13 — and its ABI version is `PROTOCORE_ABI_SOVERSION`, currently `5`. Read both out of `CMakeLists.txt` rather than trusting a number repeated here; `<version>` below stands for the first and `5` for the second. On Linux the build directory contains:
 
 | File | Role |
 |------|------|
@@ -47,6 +47,17 @@ The library version is whatever `project(... VERSION ...)` in `CMakeLists.txt` s
 | `build/libprotoCore.so` | Link used at link time (`-lprotoCore`) |
 
 On macOS CMake uses the names `libprotoCore.<version>.dylib`, `libprotoCore.5.dylib` and `libprotoCore.dylib`.
+
+### protoCore 3.6.0: new list representation, same ABI
+
+protoCore 3.6.0 keeps `PROTOCORE_ABI_SOVERSION` 5 and needs no rebuild of an
+embedder built against 3.4.0 or later. `ProtoList` beyond five elements is an
+RRB tree instead of an AVL tree (CHANGELOG, 3.6.0): random access, appends
+and in-place replacement are faster, prepend, insertion, removal, slicing and
+concatenation slower; every operation keeps its result and its persistence.
+Lists still compare, hash and iterate as before. The adaptive heap controller
+now measures the collector from narrow sweeps too, so a single stalling
+mutator gets a larger soft limit where 3.5.x kept S0.
 
 ### protoCore 3.5.2: patch release, same ABI
 
@@ -200,7 +211,7 @@ sudo ldconfig
 
 | File | Path |
 |------|------|
-| Shared library | `lib/libprotoCore.so.<version>` (`3.5.2` as of 2026-11-10), with the links `lib/libprotoCore.so.5` (the soname) and `lib/libprotoCore.so` |
+| Shared library | `lib/libprotoCore.so.<version>` (`3.6.0` as of 2026-11-13), with the links `lib/libprotoCore.so.5` (the soname) and `lib/libprotoCore.so` |
 | Public header | `include/protoCore.h` |
 | CMake package configuration | `lib/cmake/protoCore/protoCoreConfig.cmake`, `protoCoreConfigVersion.cmake`, `protoCoreTargets.cmake` and one per-configuration targets file |
 | pkg-config metadata | `lib/pkgconfig/protoCore.pc` |
@@ -236,7 +247,7 @@ The package provides:
 Version compatibility is `SameMajorVersion`: a request for `3.0` is satisfied by
 any `3.x` and refused for `2.x` and `4.x`. The soname is a separate number —
 `PROTOCORE_ABI_SOVERSION`, bumped only when the ABI breaks: it is `5` while the
-project version is `3.5.2`, and it changed within major version 3 (4 in 3.0.0
+project version is `3.6.0`, and it changed within major version 3 (4 in 3.0.0
 to 3.3.x, 5 from 3.4.0) — so do not infer one from the other, and note that
 `find_package(protoCore 3.0)` alone does not guarantee a binary-compatible
 library: rebuild against the headers you link with. The requested minor

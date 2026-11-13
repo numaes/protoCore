@@ -18,6 +18,8 @@
 #include <string>
 #include <algorithm>
 #include <climits>
+#include <bit>
+#include <cstring>
 #include <iostream> // For std::cerr and std::abort
 #include <vector>
 #include <functional>
@@ -155,6 +157,10 @@ namespace proto {
     class ParentLinkImplementation;
     class ProtoListImplementation;
     class ProtoListSmallImplementation;
+    class ProtoListRrbImplementation;
+    class ProtoListRrbLeaf;
+    class ProtoListRrbInner;
+    class ProtoListRrbSizes;
     class ProtoListIteratorImplementation;
     class ProtoSparseListImplementation;
     class ProtoSparseListSmallImplementation;
@@ -487,6 +493,10 @@ namespace proto {
     template<> struct ExpectedTag<ProtoListImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST; };
 
     template<> struct ExpectedTag<const ProtoListSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST_SMALL; };
+    // The trie form shares POINTER_TAG_LIST with the AVL form; the two are
+    // told apart by CellType (ProtoList.cpp, isTrieList).
+    template<> struct ExpectedTag<const ProtoListRrbImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST; };
+    template<> struct ExpectedTag<ProtoListRrbImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST; };
     template<> struct ExpectedTag<ProtoListSmallImplementation> { static constexpr proto_ulong value = POINTER_TAG_LIST_SMALL; };
 
     template<> struct ExpectedTag<const ProtoSparseListImplementation> { static constexpr proto_ulong value = POINTER_TAG_SPARSE_LIST; };
@@ -783,7 +793,11 @@ namespace proto {
         MPSCQueue,
         MPSCQueueNode,
         MPSCQueueRetain,
-        LinkedList
+        LinkedList,
+        ListRrb,
+        ListRrbLeaf,
+        ListRrbInner,
+        ListRrbSizes
     };
 
     class Cell {
@@ -2231,18 +2245,136 @@ namespace proto {
                                void (*method)(ProtoContext *, void *, const Cell *)) const override;
     };
 
+    // ---- The RRB form of a ProtoList (docs/LIST_RRB_DESIGN.md) ----------
+    //
+    // A relaxed radix balanced tree (Bagwell & Rompf 2011) with six slots per
+    // node, so that every node fits the 48 useful bytes of a cell, and an open
+    // tail of 1..6 elements.  A list built only by appends is a plain radix
+    // trie (strict nodes only); concatenation, slicing, insertion and removal
+    // anywhere leave relaxed nodes, which carry a table of cumulative sizes.
+    // Every node is immutable once reachable.
+    //
+    // A child reference in an inner node (and the root's `tree`) is a tagged
+    // address: bit 0 set means the child is relaxed and the address is its
+    // ProtoListRrbSizes cell; bit 0 clear means a strict inner node or a leaf
+    // (the height of the walk tells which).
+
+    // A leaf: up to six elements, as stored (nullptr is a legal element).  Its
+    // length is not stored: under a strict parent a leaf is full, under a
+    // relaxed one the parent's size table gives it.
+    class ProtoListRrbLeaf final : public Cell {
+    public:
+        static constexpr unsigned WIDTH = 6;
+        const ProtoObject *slots[WIDTH];
+
+        CellType getType() const override { return CellType::ListRrbLeaf; }
+        // Copies items[0..n) and leaves the other slots nullptr.
+        ProtoListRrbLeaf(ProtoContext *context, unsigned n, const ProtoObject *const *items);
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
+    // An inner node's children (tagged references, see above); unused slots
+    // are 0.  Alone it is a strict node: dense (every child full but the
+    // last, every leaf below it full) and indexed by base-6 digits.  Pointed
+    // to by a ProtoListRrbSizes it is the children of a relaxed node.
+    class ProtoListRrbInner final : public Cell {
+    public:
+        static constexpr unsigned WIDTH = 6;
+        uintptr_t slots[WIDTH];
+
+        CellType getType() const override { return CellType::ListRrbInner; }
+        ProtoListRrbInner(ProtoContext *context, unsigned n, const uintptr_t *refs);
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
+    // A relaxed node: the cumulative sizes of its children, 48 bits each
+    // (2.8e14 elements, beyond what any memory can hold at >= 10 bytes per
+    // element), and the cell that holds the children.
+    class ProtoListRrbSizes final : public Cell {
+    public:
+        unsigned char cum[36];
+        unsigned char count;
+        unsigned char pad[3];
+        const ProtoListRrbInner *kids;
+
+        CellType getType() const override { return CellType::ListRrbSizes; }
+        ProtoListRrbSizes(ProtoContext *context, unsigned n, const proto_ulong *childSizes,
+                          const ProtoListRrbInner *kids);
+        // Entry k is bytes [6k, 6k + 6) of cum, little-endian.  On a
+        // little-endian host one 8-byte load reads it: the two bytes past
+        // the last entry are `count` and pad[0], inside this object.
+        proto_ulong cumAt(unsigned k) const {
+            if constexpr (std::endian::native == std::endian::little) {
+                proto_ulong v;
+                std::memcpy(&v, reinterpret_cast<const unsigned char *>(this)
+                                    + (cum - reinterpret_cast<const unsigned char *>(this)) + 6 * k, 8);
+                return v & 0xFFFFFFFFFFFFULL;
+            } else {
+                proto_ulong v = 0;
+                for (unsigned b = 0; b < 6; ++b) v |= static_cast<proto_ulong>(cum[6 * k + b]) << (8 * b);
+                return v;
+            }
+        }
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
+    // The list handle of the RRB form (POINTER_TAG_LIST, shared with the AVL
+    // form: the runtimes recognise lists by tag).  Layout contract with
+    // ProtoListImplementation, checked by test/ListRrbTests.cpp:
+    //   * `size` sits at the offset of ProtoListImplementation::size, so the
+    //     size of any tag-2 list is read without telling the forms apart;
+    //   * the bytes at the offsets of ProtoListImplementation::height and
+    //     ::isEmpty are 0 here; a non-empty AVL node has height >= 1 and an
+    //     empty one has isEmpty set, so those two bytes tell the forms apart
+    //     without a virtual call (listIsRrb in core/ProtoList.cpp).
+    class ProtoListRrbImplementation final : public Cell {
+    public:
+        const uintptr_t tree;                 // 0 while every element is in the tail
+        const ProtoListRrbLeaf *tail;         // never nullptr (the list has > MAX_INLINE elements)
+        const proto_ulong treeSize;
+        const proto_ulong reserved;           // 0
+        const proto_ulong size;               // = treeSize + tailLen
+        const unsigned char avlHeight;        // always 0 (see above)
+        const unsigned char avlIsEmpty;       // always 0 (see above)
+        const unsigned char height;           // of the tree: 0 = a single leaf
+        const unsigned char tailLen;          // 1..6
+
+        CellType getType() const override { return CellType::ListRrb; }
+        ProtoListRrbImplementation(ProtoContext *context, uintptr_t tree, unsigned height,
+                                   proto_ulong treeSize, const ProtoListRrbLeaf *tail, unsigned tailLen);
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+        const ProtoList *asProtoList(ProtoContext *context) const;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+    };
+
     class ProtoListIteratorImplementation final : public Cell {
     public:
         // base is stored as a tagged ProtoObject* so the iterator can carry
         // either an AVL ProtoListImplementation (POINTER_TAG_LIST) or a
         // ProtoListSmallImplementation (POINTER_TAG_LIST_SMALL); implNext /
         // implAdvance dispatch on the pointer tag, no virtual call.
+        // For an RRB base (POINTER_TAG_LIST, CellType::ListRrb) the iterator
+        // also carries the leaf (or tail) that holds currentIndex and the
+        // index range [leafStart, leafEnd) it covers, so next() reads one
+        // slot instead of walking the tree from its root.
         const ProtoObject *base;
         proto_ulong currentIndex;
+        const ProtoListRrbLeaf *leaf;        // RRB base only; else nullptr
+        proto_ulong leafStart;
+        proto_ulong leafEnd;
 
         CellType getType() const override { return CellType::ListIterator; }
 
-        ProtoListIteratorImplementation(ProtoContext *context, const ProtoObject *b, proto_ulong index);
+        ProtoListIteratorImplementation(ProtoContext *context, const ProtoObject *b, proto_ulong index,
+                                        const ProtoListRrbLeaf *leaf = nullptr, proto_ulong leafStart = 0,
+                                        proto_ulong leafEnd = 0);
 
         int implHasNext() const;
 
@@ -2974,6 +3106,10 @@ namespace proto {
             ProtoListIteratorImplementation listIteratorCell;
             ProtoListImplementation listCell;
             ProtoListSmallImplementation listSmallCell;
+            ProtoListRrbImplementation listRrbCell;
+            ProtoListRrbLeaf listRrbLeafCell;
+            ProtoListRrbInner listRrbInnerCell;
+            ProtoListRrbSizes listRrbSizesCell;
             ProtoSparseListIteratorImplementation sparseListIteratorCell;
             ProtoSparseListImplementation sparseListCell;
             ProtoSparseListSmallImplementation sparseListSmallCell;
@@ -3013,9 +3149,13 @@ namespace proto {
     static_assert(sizeof(BigCell) <= 64, "BigCell exceeds 64 bytes!!!!");
     static_assert(sizeof(ProtoObjectCell) <= 64, "ProtoObjectCell exceeds 64 bytes!");
     static_assert(sizeof(ProtoLazyObjectCell) <= 64, "ProtoLazyObjectCell exceeds 64 bytes!");
-    static_assert(sizeof(ProtoListIteratorImplementation) <= 64, "ProtoListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListImplementation) <= 64, "ProtoListImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListSmallImplementation) <= 64, "ProtoListSmallImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoListRrbImplementation) <= 64, "ProtoListRrbImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoListRrbLeaf) == 64, "ProtoListRrbLeaf must fill exactly one 64-byte cell");
+    static_assert(sizeof(ProtoListRrbInner) == 64, "ProtoListRrbInner must fill exactly one 64-byte cell");
+    static_assert(sizeof(ProtoListRrbSizes) == 64, "ProtoListRrbSizes must fill exactly one 64-byte cell");
+    static_assert(sizeof(ProtoListIteratorImplementation) <= 64, "ProtoListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListIteratorImplementation) <= 64, "ProtoSparseListIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListImplementation) <= 64, "ProtoSparseListImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSparseListSmallImplementation) <= 64, "ProtoSparseListSmallImplementation exceeds 64 bytes!");
