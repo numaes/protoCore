@@ -319,6 +319,30 @@ Reading the table:
   heap and collector state that the previous ones left in the same process,
   and the list benchmarks before them now leave six times less garbage.
 
+### In the runtimes
+
+Built against this branch (`ldd` checked) and against v3.5.2, interleaved,
+every run's output identical on both sides, median of 5 rounds:
+protoST `list_append` −18 %, `parallel_speedup` (pool) −21 %,
+`saturation_big` w=6 −14 %, `range_iterate` +8 %, the rest within ±2 %
+(its own `compare_builds.py`); protoScala `list_ops` −29 %, the rest within
+±4 %; protoClojure neutral (its lists are `ProtoLinkedList`, its vectors
+`ProtoTuple`). Their suites pass against the branch: protoST 1,291,
+protoClojure 886, protoScala 2,524 tests.
+
+### Open: the adaptive-heap storm gate
+
+`AdaptiveHeapStorm.SoftLimitRisesUnderStall` fails in CI (Linux release,
+macOS, Windows x64) and on DEV12 under `taskset -c 0,1`; v3.5.2 passes under
+the same restriction. The controller's trace shows the collector's throughput
+never measured (`T = 0` every cycle): the controller takes it only from wide
+sweeps, and every sweep of this single-mutator storm is narrow. Under the AVL
+list, building the live set allocated beyond the initial soft limit and the
+storm's sweeps were wide, so `T` was measured and S grew. Without `T` the law
+keeps S although the mutator waits 20–40 % of the time. Why every storm sweep
+is narrow with the RRB live set is not established yet. The fix belongs to the
+controller, so the branch is not merged until that is decided.
+
 ## References
 
 - P. Bagwell, T. Rompf, *RRB-Trees: Efficient Immutable Vectors*, EPFL 2011.
