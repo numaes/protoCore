@@ -11,6 +11,9 @@
 
 #include "../headers/proto_internal.h"
 
+#include <cstddef>
+#include <cstring>
+
 namespace proto {
 namespace rrb {
 
@@ -22,8 +25,33 @@ constexpr unsigned M = ProtoListRrbLeaf::WIDTH;
 // Lists may hold up to this many elements (48-bit size tables).
 constexpr proto_ulong kMaxSize = (static_cast<proto_ulong>(1) << 48) - 1;
 
+// Layout contract between the two forms that share POINTER_TAG_LIST:
+// the RRB root keeps zero bytes where the AVL root keeps `height` and
+// `isEmpty` (a non-empty AVL node has height >= 1, an empty one has isEmpty
+// set), and its size where the AVL root keeps `size`.  Checked by
+// static_asserts in ProtoListRrb.cpp.
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Winvalid-offsetof"
+#endif
+constexpr std::size_t kAvlHeightOffset = offsetof(ProtoListImplementation, height);
+constexpr std::size_t kAvlIsEmptyOffset = offsetof(ProtoListImplementation, isEmpty);
+constexpr std::size_t kListSizeOffset = offsetof(ProtoListImplementation, size);
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
 // The root behind a tag-2 list handle, or nullptr for the AVL form.
 const Root* rootOf(const ProtoList* list);
+
+// The size of a tag-2 list of either form, read through the object's bytes.
+inline proto_ulong treeListSize(const ProtoList* list) {
+    const auto* bytes = reinterpret_cast<const unsigned char*>(
+        reinterpret_cast<uintptr_t>(list) & ~static_cast<uintptr_t>(0x3F));
+    proto_ulong n;
+    std::memcpy(&n, bytes + kListSizeOffset, sizeof n);
+    return n;
+}
 
 const Root* fromArray(ProtoContext* context, const ProtoObject* const* items, proto_ulong n);
 

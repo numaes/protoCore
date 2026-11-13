@@ -68,12 +68,19 @@ namespace proto {
 
     ProtoListRrbSizes::ProtoListRrbSizes(ProtoContext* context, unsigned n, const proto_ulong* childSizes,
                                          const ProtoListRrbInner* k)
-        : Cell(context), cum{}, count(static_cast<unsigned char>(n)), pad{}, kids(k)
+        : Cell(context), count(static_cast<unsigned char>(n)), pad{}, kids(k)
     {
+        // Unused entries are zero, so the cell's bytes do not depend on
+        // what the allocator handed back.
         proto_ulong acc = 0;
-        for (unsigned i = 0; i < n; ++i) {
-            acc += childSizes[i];
-            for (unsigned b = 0; b < 6; ++b) cum[6 * i + b] = static_cast<unsigned char>(acc >> (8 * b));
+        for (unsigned i = 0; i < ProtoListRrbLeaf::WIDTH; ++i) {
+            if (i < n) acc += childSizes[i];
+            const proto_ulong v = i < n ? acc : 0;
+            if constexpr (std::endian::native == std::endian::little) {
+                std::memcpy(cum + 6 * i, &v, 6);
+            } else {
+                for (unsigned b = 0; b < 6; ++b) cum[6 * i + b] = static_cast<unsigned char>(v >> (8 * b));
+            }
         }
     }
 
@@ -121,13 +128,11 @@ namespace rrb {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Winvalid-offsetof"
 #endif
-    constexpr std::size_t kAvlHeightOffset = offsetof(ProtoListImplementation, height);
-    constexpr std::size_t kAvlIsEmptyOffset = offsetof(ProtoListImplementation, isEmpty);
     static_assert(offsetof(ProtoListRrbImplementation, avlHeight) == kAvlHeightOffset,
                   "RRB root: avlHeight must overlay ProtoListImplementation::height");
     static_assert(offsetof(ProtoListRrbImplementation, avlIsEmpty) == kAvlIsEmptyOffset,
                   "RRB root: avlIsEmpty must overlay ProtoListImplementation::isEmpty");
-    static_assert(offsetof(ProtoListRrbImplementation, size) == offsetof(ProtoListImplementation, size),
+    static_assert(offsetof(ProtoListRrbImplementation, size) == kListSizeOffset,
                   "RRB root: size must overlay ProtoListImplementation::size");
 #if defined(__GNUC__)
 #pragma GCC diagnostic pop
@@ -377,18 +382,19 @@ namespace rrb {
             }
             return cut(c, all, lvl, plan, n);
         }
-        Kids pack(ProtoContext* c, const Kids& all, unsigned h) {   // height h - 1 nodes into 1 or 2 of height h
+        Kids pack(ProtoContext* c, const Kids& all, unsigned h) {   // height h - 1 nodes into ceil(n / M) of height h
             Kids out;
-            if (all.n <= M) { out.push(mkInner(c, all.v, all.n, h)); return out; }
-            out.push(mkInner(c, all.v, M, h));
-            out.push(mkInner(c, all.v + M, all.n - M, h));
+            for (unsigned at = 0; at < all.n; at += M) out.push(mkInner(c, all.v + at, std::min(M, all.n - at), h));
             return out;
         }
-        // left ++ right as one or two nodes of height max(hl, hr).
-        Kids merge(ProtoContext* c, Sub L, unsigned hl, Sub R, unsigned hr) {
+        // left ++ leaf ++ right as one to three nodes of height max(hl, hr);
+        // `leaf` (ref 0 for none) is the left operand's tail, so that a
+        // concatenation repacks one seam, not two.  At most 5 + 3 + 5
+        // nodes meet at a level, so `Kids` (16) and `cut` hold them.
+        Kids merge(ProtoContext* c, Sub L, unsigned hl, Sub R, unsigned hr, Sub leaf) {
             if (hl > hr) {
                 const Kids kl = children(L, hl);
-                const Kids mid = merge(c, kl.v[kl.n - 1], hl - 1, R, hr);
+                const Kids mid = merge(c, kl.v[kl.n - 1], hl - 1, R, hr, leaf);
                 Kids all;
                 for (unsigned i = 0; i + 1 < kl.n; ++i) all.push(kl.v[i]);
                 for (unsigned i = 0; i < mid.n; ++i) all.push(mid.v[i]);
@@ -396,34 +402,30 @@ namespace rrb {
             }
             if (hl < hr) {
                 const Kids kr = children(R, hr);
-                const Kids mid = merge(c, L, hl, kr.v[0], hr - 1);
+                const Kids mid = merge(c, L, hl, kr.v[0], hr - 1, leaf);
                 Kids all;
                 for (unsigned i = 0; i < mid.n; ++i) all.push(mid.v[i]);
                 for (unsigned i = 1; i < kr.n; ++i) all.push(kr.v[i]);
                 return pack(c, rebalance(c, all, hr - 1), hr);
             }
-            Kids out;
             if (hl == 0) {
-                if (L.size + R.size <= M) {
-                    const ProtoObject* b[M];
-                    for (proto_ulong i = 0; i < L.size; ++i) b[i] = leafOf(L.ref)->slots[i];
-                    for (proto_ulong i = 0; i < R.size; ++i) b[L.size + i] = leafOf(R.ref)->slots[i];
-                    out.push(mkLeaf(c, b, static_cast<unsigned>(L.size + R.size)));
-                } else {
-                    out.push(L); out.push(R);
-                }
-                return out;
+                Kids leaves;
+                leaves.push(L);
+                if (leaf.ref) leaves.push(leaf);
+                leaves.push(R);
+                return rebalance(c, leaves, 0);
             }
             const Kids kl = children(L, hl), kr = children(R, hr);
-            const Kids mid = merge(c, kl.v[kl.n - 1], hl - 1, kr.v[0], hr - 1);
+            const Kids mid = merge(c, kl.v[kl.n - 1], hl - 1, kr.v[0], hr - 1, leaf);
             Kids all;
             for (unsigned i = 0; i + 1 < kl.n; ++i) all.push(kl.v[i]);
             for (unsigned i = 0; i < mid.n; ++i) all.push(mid.v[i]);
             for (unsigned i = 1; i < kr.n; ++i) all.push(kr.v[i]);
             return pack(c, rebalance(c, all, hl - 1), hl);
         }
-        void concatTrees(ProtoContext* c, Shape& s, Sub R, unsigned hr) {
-            const Kids v = merge(c, {s.tree, s.treeSize}, s.h, R, hr);
+        // The tree of s ++ leaf ++ R (leaf: ref 0 for none).
+        void concatTrees(ProtoContext* c, Shape& s, Sub R, unsigned hr, Sub leaf = {0, 0}) {
+            const Kids v = merge(c, {s.tree, s.treeSize}, s.h, R, hr, leaf);
             const unsigned h = std::max(s.h, hr);
             if (v.n == 1) { s.tree = v.v[0].ref; s.treeSize = v.v[0].size; s.h = h; return; }
             const Sub top = mkInner(c, v.v, v.n, h + 1);
@@ -715,8 +717,14 @@ namespace rrb {
             s.tail = newLeaf(c, buf + M, n - M); s.tailLen = n - M;
             return make(c, s);
         }
-        pushLeaf(c, s, {reinterpret_cast<uintptr_t>(a->tail), a->tailLen});
-        if (b->treeSize) concatTrees(c, s, {b->tree, b->treeSize}, b->height);
+        // a's tail joins b's tree on the one seam the trees are merged along.
+        const Sub aTail{reinterpret_cast<uintptr_t>(a->tail), a->tailLen};
+        if (a->treeSize) {
+            concatTrees(c, s, {b->tree, b->treeSize}, b->height, aTail);
+        } else {
+            s.tree = aTail.ref; s.treeSize = aTail.size; s.h = 0;
+            concatTrees(c, s, {b->tree, b->treeSize}, b->height);
+        }
         s.tail = b->tail; s.tailLen = b->tailLen;
         shrink(s);
         return make(c, s);

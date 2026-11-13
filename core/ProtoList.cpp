@@ -769,8 +769,8 @@ namespace proto {
         if (pa.op.pointer_tag == POINTER_TAG_LIST_SMALL) {
             return toImpl<const ProtoListSmallImplementation>(this)->size;
         }
-        if (const Rrb* r = rrb::rootOf(this)) return r->size;
-        return toImpl<const ProtoListImplementation>(this)->size;
+        // Both tag-2 forms keep their size at the same offset (ProtoListRrb.h).
+        return rrb::treeListSize(this);
     }
     const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const {
         ProtoObjectPointer pa{}; pa.oid = reinterpret_cast<const ProtoObject*>(this);

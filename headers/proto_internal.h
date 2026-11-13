@@ -18,6 +18,8 @@
 #include <string>
 #include <algorithm>
 #include <climits>
+#include <bit>
+#include <cstring>
 #include <iostream> // For std::cerr and std::abort
 #include <vector>
 #include <functional>
@@ -2302,10 +2304,20 @@ namespace proto {
         CellType getType() const override { return CellType::ListRrbSizes; }
         ProtoListRrbSizes(ProtoContext *context, unsigned n, const proto_ulong *childSizes,
                           const ProtoListRrbInner *kids);
+        // Entry k is bytes [6k, 6k + 6) of cum, little-endian.  On a
+        // little-endian host one 8-byte load reads it: the two bytes past
+        // the last entry are `count` and pad[0], inside this object.
         proto_ulong cumAt(unsigned k) const {
-            proto_ulong v = 0;
-            for (unsigned b = 0; b < 6; ++b) v |= static_cast<proto_ulong>(cum[6 * k + b]) << (8 * b);
-            return v;
+            if constexpr (std::endian::native == std::endian::little) {
+                proto_ulong v;
+                std::memcpy(&v, reinterpret_cast<const unsigned char *>(this)
+                                    + (cum - reinterpret_cast<const unsigned char *>(this)) + 6 * k, 8);
+                return v & 0xFFFFFFFFFFFFULL;
+            } else {
+                proto_ulong v = 0;
+                for (unsigned b = 0; b < 6; ++b) v |= static_cast<proto_ulong>(cum[6 * k + b]) << (8 * b);
+                return v;
+            }
         }
         const ProtoObject *implAsObject(ProtoContext *context) const override;
         void processReferences(ProtoContext *context, void *self,
