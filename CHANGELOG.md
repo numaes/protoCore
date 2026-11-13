@@ -2,6 +2,30 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- **`ProtoList` is an RRB tree beyond the inline form.** Every list of more
+  than 5 elements produced by a list operation is now a relaxed radix
+  balanced tree with six slots per 64-byte cell and an open tail, instead of
+  the persistent AVL tree with one element per node. All operations stay
+  persistent and O(log n), insertion, removal, slicing and concatenation
+  included. At 100,000 elements (interleaved A/B against 3.5.2,
+  `docs/LIST_RRB_DESIGN.md` section 9): random `getAt` 586 → 36 ns,
+  `appendLast` 777 → 30 ns and 20 → 2 cells, `setAt` 892 → 356 ns,
+  `removeLast` 297 → 83 ns, iteration 80 → 41 ns per element. Prepend,
+  insertion and removal at arbitrary positions, slicing and concatenation are
+  slower, 1.2× to 2.7× at 100,000 elements and up to 4.5× (`extend`) at
+  1,000, with at most 1.3× the AVL's cells.
+- The AVL form remains a readable input form: lists built from AVL cells
+  directly are accepted by every operation. Both forms share
+  `POINTER_TAG_LIST`. New `CellType` values (`ListRrb`, `ListRrbLeaf`,
+  `ListRrbInner`, `ListRrbSizes`) are appended; existing values keep their
+  numbers. `protoCore.h` is unchanged apart from comments.
+- A list larger than 2^48 − 1 elements raises `ProtoErrorKind::Overflow`
+  (`extend`, `multiply`).
+
 ## [3.5.2] - 2026-11-10
 
 Patch release. **No ABI break: SOVERSION stays 5.** The one addition to

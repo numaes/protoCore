@@ -1,7 +1,10 @@
-# ProtoList as an RRB tree — design study (November 2026)
+# ProtoList as an RRB tree — design (November 2026)
 
-Status: **proposal**, not implemented in protoCore. Prototype and measurements:
-`protoCpp` branch `perf/costmodel`, `costmodel/rrb_lab.cpp` (commit `db675a3`).
+Status: **implemented** on branch `perf/list-trie` (`core/ProtoListRrb.h`,
+`core/ProtoListRrb.cpp`), unreleased. Sections 1–7 are the design study that
+chose the structure and its parameters; section 8 records what the
+implementation changed and section 9 what it measured in the kernel.
+Prototype: `protoCpp` branch `perf/costmodel`, `costmodel/rrb_lab.cpp`.
 Author: Gustavo Marino, with Claude.
 
 ## 1. Why this study exists
@@ -183,24 +186,138 @@ allocation cost, and the cost of the cell-type changes in the runtimes. Those
 are the implementation's job, with the same test discipline as phase 1 plus the
 repeated-derivation benchmark.
 
-## 8. Proposal for the implementation
+## 8. The implementation
 
-1. Replace the phase-1 trie on `perf/list-trie` with the RRB tree; the AVL
-   cell type stays as a readable input form (lists built by older code paths,
-   tests), and every mutator outputs `SmallList` (≤ 5) or RRB.
-2. Keep `POINTER_TAG_LIST` for the RRB root (protoClojure and protoScala
-   recognise lists by tag), told apart from the AVL by cell type; make that
-   check cheap (no virtual call on the hot path).
-3. Cell types: `ListRrb` (root), `ListRrbLeaf`, `ListRrbInner`, `ListRrbSizes`
-   (the `R` cell of a relaxed node).
-4. E = 0 with the optimal-repack fallback; native insert/remove with B\* and
-   merge on underflow; native take/drop.
-5. Acceptance, all against v3.5.2 in the interleaved A/B harness, deriving from
-   one base list: no operation allocates more than 2× the AVL's cells (concat
-   is the expected worst case); `getAt`, `setAt`, `appendLast`, `removeLast` and
-   iteration at least 5× faster; the costmodel kernel completes with bounded
-   memory; the full protoCore suite, ASan and TSan clean; the runtimes' suites
-   linked against the branch (verified with `ldd`).
+The proposal of the study was followed; what differs from the lab is listed
+here.
+
+- **Forms.** A list of up to 5 elements is a `SmallList`; every larger list
+  produced by a list operation is an RRB tree. The AVL form remains readable
+  and accepted by every operation (code may still build AVL cells directly);
+  an operation whose operands are all non-AVL never produces it, and one with
+  an AVL operand runs the AVL algorithms after converting the other operand.
+- **Telling the forms apart.** The RRB root shares `POINTER_TAG_LIST` with the
+  AVL root (protoClojure and protoScala recognise lists by tag). A layout
+  contract replaces the virtual `getType()` call: the RRB root keeps zero bytes
+  where the AVL root keeps `height` and `isEmpty` (a non-empty AVL node has
+  height ≥ 1, an empty one has `isEmpty` set) and its size where the AVL root
+  keeps `size`, so `getSize` reads either form at one offset. `static_assert`s
+  in `ProtoListRrb.cpp` pin the offsets; the bytes are read through the object
+  representation (`memcpy`), not through a pointer of the other type.
+- **Cells.** `ListRrb` (root: tree, height, tree size, tail, tail length),
+  `ListRrbLeaf`, `ListRrbInner`, `ListRrbSizes`. New `CellType` values are
+  appended, so existing values keep their numbers.
+- **Concatenation merges one seam.** The left operand's tail joins the seam of
+  the two trees as a middle leaf, instead of being pushed into the left tree
+  first (a second seam merge); up to 5 + 3 + 5 nodes meet at a level and are
+  repacked to the optimum. This cut `extend` of two halves by 38 %. A right
+  operand without a tree (at most 6 elements) joins the left tail, and a full
+  leaf is pushed as an append would, so short extends do not relax the tree.
+- **Size limit.** Size tables hold 48 bits; an `extend` or `multiply` whose
+  result would pass 2^48 − 1 elements raises `ProtoErrorKind::Overflow`.
+- **Rooting.** Every operation runs inside the caller's critical section;
+  half-built paths live in C++ locals until the root is returned, as for the
+  AVL form.
+- **Iterator.** An iterator over an RRB list carries the leaf holding its
+  position and the range it covers; advancing inside a leaf reads no node.
+
+Tests (`test/ListRrbTests.cpp`, structural checker `test/ListRrbCheck.h`, also
+applied by `ListStructuralOpsTests` to every list it sees): every operation
+against `std::vector` models with nullptr elements, every change of form and
+height (5→6→7, 36→37, 216→217, 1296→1297), versions kept and re-checked,
+bounded cells per derivation from one base list (the phase-1 regression),
+height within one level of the optimum after prepends, middle inserts,
+random inserts, random removals and concatenation of small pieces, AVL
+operands alone and mixed, the size limit, collections between operations, and
+four ProtoThreads deriving from one shared list while a kicker requests
+collections. Mutation-tested: an off-by-one in the relaxed lookup, a merge
+that overfills a node and a seam left unbalanced were each caught. The full
+suite passes (852 tests); the list and collector suites are clean under
+AddressSanitizer and ThreadSanitizer.
+
+## 9. Measured in the kernel
+
+Interleaved A/B on DEV12 (AMD Ryzen 5 5500U), 2026-11-13: blocks base, RRB,
+RRB, base, each `costmodel/run.sh` with 3 rounds (`protoCpp` `perf/costmodel`,
+`costmodel_list_ops_kernel`, adaptive heap, a fresh copy of the library per
+round, machine busy 4–8 %); base is protoCore v3.5.2 (AVL), RRB is commit
+`13f5da3f`; `ldd` checked per block. Median of the 6 per-round medians per
+side; every operation derives from one base list built by appends.
+Results in `worktrees/costmodel/results/ab-20261113-0027`.
+
+| operation | N | AVL ns / cells | RRB ns / cells | AVL / RRB |
+|---|---:|---:|---:|---:|
+| `getSize` | 1000 | 2.0 / 0.00 | 2.0 / 0.00 | 1.00× |
+| `getLast` | 1000 | 15.4 / 0.00 | 6.1 / 0.00 | 2.53× |
+| `getAt_random` | 1000 | 47.5 / 0.00 | 10.6 / 0.00 | 4.48× |
+| `setAt_random` | 1000 | 232.9 / 8.99 | 181.2 / 4.99 | 1.29× |
+| `appendLast_on_N` | 1000 | 399.6 / 13.00 | 89.8 / 2.00 | 4.45× |
+| `appendFirst` | 1000 | 156.6 / 11.00 | 406.3 / 11.00 | 0.39× |
+| `insertAt_middle` | 1000 | 439.8 / 11.00 | 282.5 / 12.00 | 1.56× |
+| `removeAt_middle` | 1000 | 147.4 / 10.00 | 376.9 / 8.00 | 0.39× |
+| `removeFirst` | 1000 | 142.0 / 10.00 | 372.8 / 8.00 | 0.38× |
+| `removeLast` | 1000 | 401.5 / 10.00 | 36.8 / 2.00 | 10.90× |
+| `extend_two_halves` | 1000 | 111.6 / 9.00 | 502.5 / 11.00 | 0.22× |
+| `getSlice_middle_half` | 1000 | 873.5 / 14.00 | 327.6 / 13.00 | 2.67× |
+| `splitFirst_half` | 1000 | 94.1 / 7.00 | 165.4 / 5.00 | 0.57× |
+| `iterate_all` | 1000 | 28.6 / 1.001 | 21.9 / 1.001 | 1.31× |
+| `getAt_sequential_all` | 1000 | 27.1 / 0.000 | 10.1 / 0.000 | 2.69× |
+| `has_missing_scan` | 1000 | 8.4 / 0.000 | 7.7 / 0.000 | 1.09× |
+| `getSize` | 100000 | 2.2 / 0.00 | 2.1 / 0.00 | 1.06× |
+| `getLast` | 100000 | 25.6 / 0.00 | 6.3 / 0.00 | 4.08× |
+| `getAt_random` | 100000 | 586.0 / 0.00 | 36.4 / 0.00 | 16.12× |
+| `setAt_random` | 100000 | 891.5 / 15.69 | 355.5 / 8.00 | 2.51× |
+| `appendLast_on_N` | 100000 | 777.3 / 20.00 | 30.3 / 2.00 | 25.65× |
+| `appendFirst` | 100000 | 275.7 / 18.00 | 470.9 / 20.00 | 0.59× |
+| `insertAt_middle` | 100000 | 255.7 / 18.00 | 583.5 / 23.00 | 0.44× |
+| `removeAt_middle` | 100000 | 266.4 / 17.00 | 313.3 / 14.00 | 0.85× |
+| `removeFirst` | 100000 | 243.3 / 17.00 | 300.9 / 14.00 | 0.81× |
+| `removeLast` | 100000 | 296.7 / 17.00 | 83.1 / 2.00 | 3.57× |
+| `extend_two_halves` | 100000 | 283.2 / 16.00 | 753.9 / 19.00 | 0.38× |
+| `getSlice_middle_half` | 100000 | 402.6 / 23.00 | 547.2 / 22.00 | 0.74× |
+| `splitFirst_half` | 100000 | 228.7 / 12.00 | 267.5 / 8.00 | 0.86× |
+| `iterate_all` | 100000 | 80.3 / 1.000 | 40.9 / 1.000 | 1.97× |
+| `getAt_sequential_all` | 100000 | 76.2 / 0.000 | 23.2 / 0.000 | 3.29× |
+| `has_missing_scan` | 100000 | 75.3 / 0.000 | 8.1 / 0.000 | 9.35× |
+
+Whole-list builds in the general kernel table (`costmodel_kernel`, same run):
+appending to 100,000 elements 296 → 62 ns and 18.7 → 2.9 cells per element;
+`getAt` random over 100,000 elements 606 → 40 ns, sequential 75 → 22 ns.
+Against CPython's C API, list append goes from 16.9× to 2.0× and random index
+from 26.7× to 1.8×.
+
+Reading the table:
+
+- **Reads, appends, `removeLast` and `setAt` win by 2.5× to 26×** at 100,000
+  elements, and allocate 2–9 times fewer cells. Iteration wins 2× only: the
+  immutable iterator allocates a cell per `advance`, which the RRB cannot
+  remove; a scan through `has` (no iterator) wins 9.4×.
+- **Prepend, removal, slicing and concatenation are slower in time.** At
+  N = 100,000: `removeAt` 1.2×, `splitFirst` 1.2×, `removeFirst` 1.2×,
+  `getSlice` 1.4×, `appendFirst` 1.7×, `insertAt` 2.3×, `extend` 2.7×. At
+  N = 1,000: `splitFirst` 1.8×, `appendFirst`, `removeAt` and `removeFirst`
+  2.6×, `extend` 4.5× (there `insertAt` and `getSlice` are faster, 1.6× and
+  2.7×). The cell counts are similar (5–23 against 7–18). The extra time is CPU spent building nodes (decoding children, size
+  tables, the B\* attempt, relaxed nodes taking two cells); a profile of
+  `insertAt` is flat across the node builders, with no single hot spot. An
+  insertion into a dense tree splits a full node at every level, which is the
+  B-tree price of keeping nodes full (and reads fast).
+- **Cells: every operation allocates at most 1.3× the AVL's cells**
+  (`insertAt` middle 23 against 18); concatenation fell from 31 cells in the
+  study to 19 with the single-seam merge (AVL 16). The acceptance threshold of
+  the study (≤ 2×) holds everywhere.
+- **The study's speed thresholds hold partly.** ≥ 5× was asked for `getAt`
+  (16×), `appendLast` (26×), `removeLast` (3.6×), `setAt` (2.5×) and
+  iteration (2×); the last three miss it.
+- The base list in this table is strict; a heavily relaxed list reads about
+  2× slower (study, section 6).
+- One artefact to know when reading the general kernel table: its string
+  appends, which use no list code, read 300 → 550 ns (2,000 characters, wall)
+  and 370 → 690 ns (10,000, CPU) in the RRB blocks. Run alone, against each
+  library, they are equal or faster with the RRB (2,000: 311 → 275 ns;
+  10,000: 381 → 346 ns, median of 3). Each kernel measurement inherits the
+  heap and collector state that the previous ones left in the same process,
+  and the list benchmarks before them now leave six times less garbage.
 
 ## References
 
