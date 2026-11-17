@@ -309,6 +309,10 @@ namespace proto {
                 case CellType::MPSCQueueNode: return "MPSCQueueNode";
                 case CellType::MPSCQueueRetain: return "MPSCQueueRetain";
                 case CellType::LinkedList: return "LinkedList";
+                case CellType::MutableObject: return "MutableObject";
+                case CellType::Shape: return "Shape";
+                case CellType::AttrLeaf: return "AttrLeaf";
+                case CellType::AttrBranch: return "AttrBranch";
             }
             return "unknown";
         }
@@ -419,8 +423,8 @@ namespace proto {
                 marked.push_back(cell);
                 // A handle's index slot is read when the handle is scanned:
                 // start the miss now, while the cell's line is in cache.
-                if (mutableStates && cell->getType() == CellType::Object) {
-                    const proto_ulong ref = static_cast<const ProtoObjectCell*>(cell)->mutable_ref;
+                if (mutableStates && cell->getType() == CellType::MutableObject) {
+                    const proto_ulong ref = static_cast<const ProtoMutableObjectCell*>(cell)->mutable_ref;
                     if (ref) mutableStates->prefetch(ref);
                 }
             }
@@ -462,8 +466,8 @@ namespace proto {
             // The snapshot graph is immutable, so this is an ordinary edge
             // of the frozen graph the concurrent mark walks.
             inline void reportMutableState(const Cell* cell) {
-                if (!mutableStates || cell->getType() != CellType::Object) return;
-                const proto_ulong ref = static_cast<const ProtoObjectCell*>(cell)->mutable_ref;
+                if (!mutableStates || cell->getType() != CellType::MutableObject) return;
+                const proto_ulong ref = static_cast<const ProtoMutableObjectCell*>(cell)->mutable_ref;
                 if (ref == 0) return;
                 const ProtoObject* state = mutableStates->find(ref);
                 if (state && ProtoObject::isCellPointer(state))
@@ -617,7 +621,11 @@ namespace proto {
                 if (cell->isMarked()) continue;
                 auto* state = const_cast<ProtoObjectCell*>(static_cast<const ProtoObjectCell*>(cell));
                 state->parent = nullptr;
-                state->attributes = nullptr;
+                state->shape = nullptr;
+                state->rawSlots[0] = 0;
+                state->rawSlots[1] = 0;
+                state->rawSlots[2] = 0;
+                state->rawSlots[3] = 0;
                 ++emptied;
             }
             return emptied;

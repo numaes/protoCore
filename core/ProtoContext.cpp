@@ -970,18 +970,13 @@ namespace proto
 
     const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
-        proto_ulong ref = mutableObject ? generate_mutable_ref(this) : 0;
-        // GC critical section: `attributes` is held in a C++ local across
-        // the wrapping ProtoObjectCell allocation.  Same discipline as
-        // ProtoObject::newChild (which already wraps); this is the
-        // simpler factory path used everywhere else.
+        if (mutableObject) {
+            proto_ulong ref = generate_mutable_ref(this);
+            ProtoContext::CriticalSection cs(this);
+            return (new(this) ProtoMutableObjectCell(this, nullptr, ref, nullptr))->asObject(this);
+        }
         ProtoContext::CriticalSection cs(this);
-        // ProtoObjectCell::attributes is a raw ProtoSparseListImplementation*
-        // (internal IMPL pointer) — pass an empty AVL impl directly. No
-        // tag, no public-API handle, no Small-form dispatch.
-        const ProtoSparseListImplementation* attributes = newSparseListImpl();
-        const ProtoObject* result = (new(this) ProtoObjectCell(this, nullptr, attributes, ref))->asObject(this);
-        return result;
+        return (new(this) ProtoObjectCell(this, nullptr, nullptr))->asObject(this);
     }
 
     const ProtoObject* ProtoContext::newExternalBuffer(proto_ulong size)

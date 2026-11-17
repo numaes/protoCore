@@ -2,6 +2,57 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased] - 2026-11-17
+
+### Added
+
+- **`ProtoObject::newClone(context, isMutable = false)`**: creates a sibling
+  object sharing `parent`, `ProtoShape`, and initial attribute values in a
+  single 64-byte cell. Subsequent `setAttribute` calls on existing attributes
+  keep the same `ProtoShape` across all cloned instances, enabling $O(1)$
+  per-thread shape cache hits across homogeneous object collections (trees,
+  graphs, records).
+
+### Changed
+
+- **Object attributes stored via shared `ProtoShape` and $4 \times 6^d$ value
+  trees instead of per-object AVL trees.**
+  - `ProtoShape` (`CellType::Shape`, 64 bytes) is an internal singly-linked list
+    packing up to 4 interned attribute names per cell from `names[3]` down to
+    `names[0]`. The slot offset of `b->names[i]` is fixed permanently at
+    `((b->count - 1) & ~3UL) + (3 - i)`, so prepending new attributes at the
+    head (`offset = new_count - 1`) leaves all previous attribute offsets
+    unchanged.
+  - `ProtoObjectCell` (`CellType::Object`, 64 bytes) holds `parent`, `shape`,
+    and 4 slot words: for `count <= 4` (depth $d = 0$), the 4 `ProtoObject*`
+    values live directly inside `ProtoObjectCell::values[0..3]` (0 extra cells);
+    for `count > 4`, `ProtoObjectCell::blocks[0..3]` point to a $4 \times 6^d$
+    tree of 64-byte `ProtoAttrBranchCell` (6 child pointers) and
+    `ProtoAttrLeafCell` (6 `ProtoObject*` values) cells whose depth $d$ is
+    determined purely by `shape->count`. Accessors for depths $d = 0, 1, 2, 3$
+    ($n \le 4, 24, 144, 864$) are unrolled with compile-time divisors (`6`,
+    `36`, `216`).
+  - Mutable object handles use `ProtoMutableObjectCell`
+    (`CellType::MutableObject`, 64 bytes) with `shape == nullptr`, dedicating
+    all 4 inline slots of immutable `ProtoObjectCell`s to attribute storage.
+    Empty objects (`newObject(false)`) now allocate 1 cell instead of 2.
+  - The per-thread attribute cache now maps `(ProtoShape*, ProtoString*) ->
+    (offset, count)`, shared across all instances with the same shape and never
+    invalidated by value writes or removals.
+  - Measured in `protoCpp` (`costmodel_kernel`, `PROTOCORE_ADAPTIVE_HEAP=1`):
+    - Immutable `setAttribute` replacement: $n = 4$: 64.25 → 31.96 ns (2.01×)
+      and 3.00 → 1.00 cells; $n = 16$: 97.19 → 47.96 ns (2.03×) and 4.36 → 2.00
+      cells; $n = 100$: 152.67 → 71.93 ns (2.12×, CPU 293.55 → 89.51 ns, 3.28×)
+      and 6.68 → 2.96 cells.
+    - `clone` + `setAttribute` ($n = 4$): 109.27 → 55.69 ns (1.96×) and 4.00 →
+      2.00 cells.
+    - Mutable `setAttribute` ($n = 4$): 141.93 → 64.58 ns (2.20×) and 4.00 →
+      2.00 cells; at $n = 16$ (1 / 1k / 100k live mutables): 128.27 → 82.59 ns,
+      488.33 → 288.63 ns, 805.61 → 242.47 ns (cells reduced by 2.37 per write).
+    - `new_object_4_attrs`: 18.00 → 10.00 cells, CPU 805.85 → 372.22 ns (2.16×).
+    - `getattr_cloned_nodes_1000` ($n = 16$): 15.47 → 11.97 ns (CPU 30.48 →
+      11.97 ns, 2.55×).
+
 ## [3.6.0] - 2026-11-13
 
 ### Changed

@@ -87,6 +87,13 @@ int main() {
     check(account->getOwnAttributeDirect(ctx, yearComputed->intern(ctx))->asLong(ctx) == 2026,
           "the short non-ASCII name reads the attribute");
 
+    // Cloning with newClone shares the ProtoShape and isolates subsequent value updates.
+    const ProtoObject* account2 = account->newClone(ctx, false)
+        ->setAttribute(ctx, names.balance, ctx->fromInteger(250));
+    check(account2->getOwnAttributeDirect(ctx, names.balance)->asLong(ctx) == 250 &&
+          account->getOwnAttributeDirect(ctx, names.balance)->asLong(ctx) == 100,
+          "newClone shares the shape while keeping values independent");
+
     std::printf("01_attribute_names: %s\n", g_failures ? "FAILED" : "PASS");
     return g_failures ? EXIT_FAILURE : EXIT_SUCCESS;
 }

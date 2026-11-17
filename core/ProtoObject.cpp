@@ -20,6 +20,12 @@
 #include <thread>
 #include <vector>
 
+#if defined(__GNUC__) || defined(__clang__)
+#define PROTO_LIKELY(x) __builtin_expect(!!(x), 1)
+#else
+#define PROTO_LIKELY(x) (x)
+#endif
+
 #ifdef PROTO_CACHE_STATS
 #include <atomic>
 #include <cstdio>
@@ -205,14 +211,18 @@ namespace proto
          */
         inline const ProtoObjectCell* resolveOwnCell(ProtoContext* context, const ProtoObject* node) {
             auto* oc = toImpl<const ProtoObjectCell>(node);
-            if (oc->mutable_ref > 0) {
-                const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+            if (oc->isMutableCell()) {
+                const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
+                const ProtoObject* storedState = resolveMutableSnapshot(context, moc->mutable_ref);
                 if (storedState != nullptr && storedState != node) {
                     ProtoObjectPointer psa{};
                     psa.oid = storedState;
                     if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                        oc = toImpl<const ProtoObjectCell>(storedState);
+                        return toImpl<const ProtoObjectCell>(storedState);
                     }
+                }
+                if (moc->initialState != nullptr) {
+                    return moc->initialState;
                 }
             }
             return oc;
@@ -230,43 +240,443 @@ namespace proto
             if (!oc->parent || ((uintptr_t)oc->parent & 0x3F) != 0) return false;
             return toImpl<const ParentLinkImplementation>(oc->parent)->getType() == CellType::ParentLink;
         }
+
+        inline AttributeCacheEntry* getShapeCache(ProtoContext* context) {
+            if (!context) return nullptr;
+            if (AttributeCacheEntry* c = shapeCacheOf(context->mutableValueCache_)) return c;
+            if (context->thread) {
+                auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+                if (threadImpl->extension) return threadImpl->extension->attributeCache;
+            }
+            return nullptr;
+        }
+
+        inline proto_ulong shapeCacheSlot(const ProtoShape* shape, const ProtoString* name) {
+            const uint64_t h = (reinterpret_cast<uint64_t>(shape) * 0x9E3779B97F4A7C15ULL) ^
+                               (reinterpret_cast<uint64_t>(name)  * 0xBF58476D1CE4E5B9ULL);
+            return static_cast<proto_ulong>((h >> 54) ^ (h >> 32)) % THREAD_CACHE_DEPTH;
+        }
+
+        /**
+         * Resolves the attribute offset (0 .. shape->count - 1) of `name` in
+         * `shape`, or -1 when `name` is not in `shape`.
+         *
+         * Uses the per-thread shape cache keyed on (shape, name). On a cache
+         * miss at the head `shape`, walks `b = shape; b != nullptr; b = b->next`;
+         * if any suffix block `b` is already in cache, stops immediately with
+         * that offset, and caches the resolved offset at the head `shape` (and
+         * at the defining block `b` when found) without polluting the cache
+         * with every intermediate block on deep chains.
+         */
+        inline proto_long findAttributeOffset(AttributeCacheEntry* cache,
+                                              const ProtoShape* shape,
+                                              const ProtoString* name,
+                                              proto_ulong& outCount) {
+            if (!shape) return -1;
+
+            proto_ulong headIdx = 0;
+            if (cache) {
+                headIdx = shapeCacheSlot(shape, name);
+                if (cache[headIdx].shape == shape && cache[headIdx].name == name) {
+#ifdef PROTO_CACHE_STATS
+                    ++protoCacheStats_hits;
+#endif
+                    outCount = cache[headIdx].count;
+                    return cache[headIdx].offset;
+                }
+#ifdef PROTO_CACHE_STATS
+                if (cache[headIdx].shape != nullptr) {
+                    ++protoCacheStats_collisions;
+                    if (cache[headIdx].name == name) ++protoCacheStats_collisionsSameName;
+                } else {
+                    ++protoCacheStats_coldMisses;
+                }
+#endif
+            }
+
+            outCount = shape->count;
+            proto_long foundOffset = -1;
+            const ProtoShape* foundBlock = nullptr;
+
+            for (const ProtoShape* b = shape; b != nullptr; b = b->next) {
+                if (b != shape && cache) {
+                    const proto_ulong bIdx = shapeCacheSlot(b, name);
+                    if (cache[bIdx].shape == b && cache[bIdx].name == name) {
+                        foundOffset = cache[bIdx].offset;
+                        break;
+                    }
+                }
+                const proto_ulong baseOffset = (b->count - 1) & ~PROTO_UL(3);
+                if (b->names[3] == name) { foundOffset = static_cast<proto_long>(baseOffset + 0); foundBlock = b; break; }
+                if (b->names[2] == name) { foundOffset = static_cast<proto_long>(baseOffset + 1); foundBlock = b; break; }
+                if (b->names[1] == name) { foundOffset = static_cast<proto_long>(baseOffset + 2); foundBlock = b; break; }
+                if (b->names[0] == name) { foundOffset = static_cast<proto_long>(baseOffset + 3); foundBlock = b; break; }
+            }
+
+            if (cache) {
+                if (foundBlock && foundBlock != shape) {
+                    const proto_ulong fIdx = shapeCacheSlot(foundBlock, name);
+                    cache[fIdx] = {foundBlock, name, foundOffset, foundBlock->count};
+                }
+                cache[headIdx] = {shape, name, foundOffset, outCount};
+            }
+            return foundOffset;
+        }
+
+        inline proto_long findAttributeOffset(AttributeCacheEntry* cache,
+                                              const ProtoShape* shape,
+                                              const ProtoString* name) {
+            proto_ulong dummyCount = 0;
+            return findAttributeOffset(cache, shape, name, dummyCount);
+        }
+
+        /**
+         * Unrolled read of slot `offset` (0 <= offset < count) from `oc`.
+         * Depths 0, 1, 2, 3 (count <= 4, 24, 144, 864) use straight-line code
+         * with compile-time divisors (6, 36, 216); deeper trees use a loop.
+         */
+        inline const ProtoObject* getValueAt(const ProtoObjectCell* oc,
+                                             proto_ulong count,
+                                             proto_ulong offset) {
+            if (PROTO_LIKELY(count <= 4)) {
+                return oc->values[offset];
+            }
+            if (PROTO_LIKELY(count <= 24)) {
+                const auto* leaf = static_cast<const ProtoAttrLeafCell*>(oc->blocks[offset / 6]);
+                return leaf ? leaf->values[offset % 6] : nullptr;
+            }
+            if (PROTO_LIKELY(count <= 144)) {
+                const auto* b1 = static_cast<const ProtoAttrBranchCell*>(oc->blocks[offset / 36]);
+                if (!b1) return nullptr;
+                const proto_ulong r1 = offset % 36;
+                const auto* leaf = static_cast<const ProtoAttrLeafCell*>(b1->children[r1 / 6]);
+                return leaf ? leaf->values[r1 % 6] : nullptr;
+            }
+            if (PROTO_LIKELY(count <= 864)) {
+                const auto* b1 = static_cast<const ProtoAttrBranchCell*>(oc->blocks[offset / 216]);
+                if (!b1) return nullptr;
+                const proto_ulong r1 = offset % 216;
+                const auto* b2 = static_cast<const ProtoAttrBranchCell*>(b1->children[r1 / 36]);
+                if (!b2) return nullptr;
+                const proto_ulong r2 = r1 % 36;
+                const auto* leaf = static_cast<const ProtoAttrLeafCell*>(b2->children[r2 / 6]);
+                return leaf ? leaf->values[r2 % 6] : nullptr;
+            }
+            proto_ulong step = 1296; // 6^4
+            unsigned depth = 4;
+            while (count > 4 * step) {
+                step *= 6;
+                ++depth;
+            }
+            const Cell* cur = oc->blocks[offset / step];
+            proto_ulong rem = offset % step;
+            for (unsigned level = 1; level < depth; ++level) {
+                if (!cur) return nullptr;
+                step /= 6;
+                cur = static_cast<const ProtoAttrBranchCell*>(cur)->children[rem / step];
+                rem %= step;
+            }
+            return cur ? static_cast<const ProtoAttrLeafCell*>(cur)->values[rem] : nullptr;
+        }
+
+        const Cell* setSubtreeAt(ProtoContext* context, const Cell* node, unsigned depth,
+                                 proto_ulong step, proto_ulong rem, const ProtoObject* value) {
+            if (depth == 1) {
+                const auto* oldLeaf = static_cast<const ProtoAttrLeafCell*>(node);
+                return oldLeaf
+                    ? oldLeaf->withValueAt(context, rem, value)
+                    : new(context) ProtoAttrLeafCell(context, rem, value);
+            }
+            const proto_ulong nextStep = step / 6;
+            const proto_ulong idx = rem / nextStep;
+            const proto_ulong nextRem = rem % nextStep;
+            const auto* oldBranch = static_cast<const ProtoAttrBranchCell*>(node);
+            const Cell* oldChild = oldBranch ? oldBranch->children[idx] : nullptr;
+            const Cell* newChild = setSubtreeAt(context, oldChild, depth - 1, nextStep, nextRem, value);
+            return oldBranch
+                ? oldBranch->withChildAt(context, idx, newChild)
+                : new(context) ProtoAttrBranchCell(context, idx, newChild);
+        }
+
+        /**
+         * Unrolled path-copy setting slot `offset` to `value` on an object of
+         * `count` attributes and `targetShape` (where `oc` already has the
+         * same tree depth as `count`).
+         */
+        inline const ProtoObjectCell* setSlotAt(ProtoContext* context,
+                                                const ProtoObjectCell* oc,
+                                                const ProtoShape* targetShape,
+                                                proto_ulong count,
+                                                proto_ulong offset,
+                                                const ProtoObject* value) {
+            if (PROTO_LIKELY(count <= 4)) {
+                const ProtoObject* v0 = (offset == 0) ? value : oc->values[0];
+                const ProtoObject* v1 = (offset == 1) ? value : oc->values[1];
+                const ProtoObject* v2 = (offset == 2) ? value : oc->values[2];
+                const ProtoObject* v3 = (offset == 3) ? value : oc->values[3];
+                return new(context) ProtoObjectCell(context, oc->parent, targetShape, v0, v1, v2, v3);
+            }
+            if (PROTO_LIKELY(count <= 24)) {
+                const proto_ulong top = offset / 6;
+                const proto_ulong rem = offset % 6;
+                const auto* oldLeaf = static_cast<const ProtoAttrLeafCell*>(oc->blocks[top]);
+                const auto* newLeaf = oldLeaf
+                    ? oldLeaf->withValueAt(context, rem, value)
+                    : new(context) ProtoAttrLeafCell(context, rem, value);
+                const Cell* b0 = (top == 0) ? newLeaf : oc->blocks[0];
+                const Cell* b1 = (top == 1) ? newLeaf : oc->blocks[1];
+                const Cell* b2 = (top == 2) ? newLeaf : oc->blocks[2];
+                const Cell* b3 = (top == 3) ? newLeaf : oc->blocks[3];
+                return new(context) ProtoObjectCell(context, oc->parent, targetShape, b0, b1, b2, b3);
+            }
+            if (PROTO_LIKELY(count <= 144)) {
+                const proto_ulong top = offset / 36;
+                const proto_ulong r1 = offset % 36;
+                const proto_ulong mid = r1 / 6;
+                const proto_ulong rem = r1 % 6;
+                const auto* oldB1 = static_cast<const ProtoAttrBranchCell*>(oc->blocks[top]);
+                const auto* oldLeaf = oldB1 ? static_cast<const ProtoAttrLeafCell*>(oldB1->children[mid]) : nullptr;
+                const auto* newLeaf = oldLeaf
+                    ? oldLeaf->withValueAt(context, rem, value)
+                    : new(context) ProtoAttrLeafCell(context, rem, value);
+                const auto* newB1 = oldB1
+                    ? oldB1->withChildAt(context, mid, newLeaf)
+                    : new(context) ProtoAttrBranchCell(context, mid, newLeaf);
+                const Cell* b0 = (top == 0) ? newB1 : oc->blocks[0];
+                const Cell* b1 = (top == 1) ? newB1 : oc->blocks[1];
+                const Cell* b2 = (top == 2) ? newB1 : oc->blocks[2];
+                const Cell* b3 = (top == 3) ? newB1 : oc->blocks[3];
+                return new(context) ProtoObjectCell(context, oc->parent, targetShape, b0, b1, b2, b3);
+            }
+            if (PROTO_LIKELY(count <= 864)) {
+                const proto_ulong top = offset / 216;
+                const proto_ulong r1 = offset % 216;
+                const proto_ulong m1 = r1 / 36;
+                const proto_ulong r2 = r1 % 36;
+                const proto_ulong m2 = r2 / 6;
+                const proto_ulong rem = r2 % 6;
+                const auto* oldB1 = static_cast<const ProtoAttrBranchCell*>(oc->blocks[top]);
+                const auto* oldB2 = oldB1 ? static_cast<const ProtoAttrBranchCell*>(oldB1->children[m1]) : nullptr;
+                const auto* oldLeaf = oldB2 ? static_cast<const ProtoAttrLeafCell*>(oldB2->children[m2]) : nullptr;
+                const auto* newLeaf = oldLeaf
+                    ? oldLeaf->withValueAt(context, rem, value)
+                    : new(context) ProtoAttrLeafCell(context, rem, value);
+                const auto* newB2 = oldB2
+                    ? oldB2->withChildAt(context, m2, newLeaf)
+                    : new(context) ProtoAttrBranchCell(context, m2, newLeaf);
+                const auto* newB1 = oldB1
+                    ? oldB1->withChildAt(context, m1, newB2)
+                    : new(context) ProtoAttrBranchCell(context, m1, newB2);
+                const Cell* b0 = (top == 0) ? newB1 : oc->blocks[0];
+                const Cell* b1 = (top == 1) ? newB1 : oc->blocks[1];
+                const Cell* b2 = (top == 2) ? newB1 : oc->blocks[2];
+                const Cell* b3 = (top == 3) ? newB1 : oc->blocks[3];
+                return new(context) ProtoObjectCell(context, oc->parent, targetShape, b0, b1, b2, b3);
+            }
+            proto_ulong step = 1296;
+            unsigned depth = 4;
+            while (count > 4 * step) {
+                step *= 6;
+                ++depth;
+            }
+            const proto_ulong top = offset / step;
+            const proto_ulong rem = offset % step;
+            const Cell* newSub = setSubtreeAt(context, oc->blocks[top], depth, step, rem, value);
+            const Cell* b0 = (top == 0) ? newSub : oc->blocks[0];
+            const Cell* b1 = (top == 1) ? newSub : oc->blocks[1];
+            const Cell* b2 = (top == 2) ? newSub : oc->blocks[2];
+            const Cell* b3 = (top == 3) ? newSub : oc->blocks[3];
+            return new(context) ProtoObjectCell(context, oc->parent, targetShape, b0, b1, b2, b3);
+        }
+
+        /**
+         * Prepends `name` to `oldShape`, packing up to 4 names per ProtoShape cell
+         * from `names[3]` down to `names[0]`.
+         */
+        inline const ProtoShape* extendShape(ProtoContext* context,
+                                             const ProtoShape* oldShape,
+                                             const ProtoString* name) {
+            if (!oldShape) {
+                return new(context) ProtoShape(context, 1, nullptr, nullptr, nullptr, nullptr, name);
+            }
+            const proto_ulong oldCount = oldShape->count;
+            const proto_ulong newCount = oldCount + 1;
+            const unsigned usedInHead = static_cast<unsigned>(((oldCount - 1) & 3UL) + 1);
+            if (usedInHead < 4) {
+                const ProtoString* n0 = (usedInHead == 3) ? name : oldShape->names[0];
+                const ProtoString* n1 = (usedInHead == 2) ? name : oldShape->names[1];
+                const ProtoString* n2 = (usedInHead == 1) ? name : oldShape->names[2];
+                const ProtoString* n3 = oldShape->names[3];
+                return new(context) ProtoShape(context, newCount, oldShape->next, n0, n1, n2, n3);
+            }
+            return new(context) ProtoShape(context, newCount, oldShape, nullptr, nullptr, nullptr, name);
+        }
+
+        /**
+         * Appends a brand-new attribute value at `offset = oldCount` (`newCount = oldCount + 1`),
+         * handling indirection level transitions (4 -> 5, 24 -> 25, 144 -> 145, 4*6^d -> 4*6^d + 1)
+         * without copying existing full subtrees.
+         */
+        inline const ProtoObjectCell* appendValueAt(ProtoContext* context,
+                                                    const ProtoObjectCell* oc,
+                                                    const ProtoShape* newShape,
+                                                    proto_ulong oldCount,
+                                                    const ProtoObject* value) {
+            const proto_ulong newCount = oldCount + 1;
+            if (PROTO_LIKELY(newCount <= 4)) {
+                const ProtoObject* v0 = (oldCount == 0) ? value : oc->values[0];
+                const ProtoObject* v1 = (oldCount == 1) ? value : (oldCount > 1 ? oc->values[1] : nullptr);
+                const ProtoObject* v2 = (oldCount == 2) ? value : (oldCount > 2 ? oc->values[2] : nullptr);
+                const ProtoObject* v3 = (oldCount == 3) ? value : nullptr;
+                return new(context) ProtoObjectCell(context, oc->parent, newShape, v0, v1, v2, v3);
+            }
+            if (oldCount == 4) {
+                // Transition d: 0 -> 1 (inline 4 values -> first 6-value leaf)
+                const auto* leaf = new(context) ProtoAttrLeafCell(
+                    context, oc->values[0], oc->values[1], oc->values[2], oc->values[3], value, nullptr);
+                return new(context) ProtoObjectCell(context, oc->parent, newShape, leaf, nullptr, nullptr, nullptr);
+            }
+            // Check if oldCount is exactly 4 * 6^d (24, 144, 864, ...):
+            // if so, the 4 full subtrees in oc->blocks[0..3] become children[0..3]
+            // of the new root branch at blocks[0], and children[4] gets a fresh spine!
+            proto_ulong cap = 24;
+            unsigned prevDepth = 1;
+            while (cap < oldCount) {
+                cap *= 6;
+                ++prevDepth;
+            }
+            if (oldCount == cap) {
+                const Cell* spine = new(context) ProtoAttrLeafCell(context, 0, value);
+                for (unsigned l = 1; l < prevDepth; ++l) {
+                    spine = new(context) ProtoAttrBranchCell(context, 0, spine);
+                }
+                const auto* rootBranch = new(context) ProtoAttrBranchCell(
+                    context, oc->blocks[0], oc->blocks[1], oc->blocks[2], oc->blocks[3], spine, nullptr);
+                return new(context) ProtoObjectCell(context, oc->parent, newShape, rootBranch, nullptr, nullptr, nullptr);
+            }
+            return setSlotAt(context, oc, newShape, newCount, oldCount, value);
+        }
     }
 
-    /**
-     * @class ProtoObjectCell
-     * @brief The internal implementation of a standard, user-creatable object.
-     *
-     * This class is the concrete representation of a dynamic object in Proto.
-     * It combines the two key aspects of the object model: its own attributes
-     * and its link to a prototype chain for inheritance.
-     */
+    ProtoShape::ProtoShape(ProtoContext* context, proto_ulong count, const ProtoShape* next,
+                           const ProtoString* n0, const ProtoString* n1,
+                           const ProtoString* n2, const ProtoString* n3)
+        : Cell(context), count(count), next(next), names{n0, n1, n2, n3} {}
 
-    /**
-     * @brief Constructs a new object cell.
-     * @param context The current execution context.
-     * @param parent A pointer to the `ParentLink` that forms the head of the prototype chain.
-     * @param attributes A `ProtoSparseList` holding the object's own key-value attributes.
-     * @param mutable_ref A non-zero ID if this object is a mutable reference, otherwise 0.
-     */
-    ProtoObjectCell::ProtoObjectCell(
-        ProtoContext* context,
-        const ParentLinkImplementation* parent,
-        const ProtoSparseListImplementation* attributes,
-        const proto_ulong mutable_ref
-    ) : Cell(context), parent(parent),
-        attributes(attributes ? attributes : context->newSparseListImpl()),
-        mutable_ref(mutable_ref)
-    {
+    void ProtoShape::processReferences(ProtoContext* context, void* self,
+                                       void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (this->next) {
+            method(context, self, this->next);
+        }
     }
 
-    /**
-     * @brief Creates a new object that inherits from the current one.
-     * This is a key part of the immutable API. It returns a new `ProtoObjectCell`
-     * whose prototype chain includes the `newParentToAdd`.
-     * @param context The current execution context.
-     * @param newParentToAdd The object to be added as the immediate parent of the new object.
-     * @return A new `ProtoObjectCell` instance.
-     */
+    const ProtoObject* ProtoShape::implAsObject(ProtoContext*) const {
+        return PROTO_NONE;
+    }
+
+    ProtoAttrLeafCell::ProtoAttrLeafCell(ProtoContext* context,
+                                         const ProtoObject* v0, const ProtoObject* v1,
+                                         const ProtoObject* v2, const ProtoObject* v3,
+                                         const ProtoObject* v4, const ProtoObject* v5)
+        : Cell(context), values{v0, v1, v2, v3, v4, v5} {}
+
+    ProtoAttrLeafCell::ProtoAttrLeafCell(ProtoContext* context, proto_ulong idx, const ProtoObject* val)
+        : Cell(context),
+          values{idx == 0 ? val : nullptr, idx == 1 ? val : nullptr,
+                 idx == 2 ? val : nullptr, idx == 3 ? val : nullptr,
+                 idx == 4 ? val : nullptr, idx == 5 ? val : nullptr} {}
+
+    const ProtoAttrLeafCell* ProtoAttrLeafCell::withValueAt(ProtoContext* context,
+                                                            proto_ulong idx,
+                                                            const ProtoObject* val) const {
+        return new(context) ProtoAttrLeafCell(
+            context,
+            idx == 0 ? val : values[0],
+            idx == 1 ? val : values[1],
+            idx == 2 ? val : values[2],
+            idx == 3 ? val : values[3],
+            idx == 4 ? val : values[4],
+            idx == 5 ? val : values[5]);
+    }
+
+    void ProtoAttrLeafCell::processReferences(ProtoContext* context, void* self,
+                                              void (*method)(ProtoContext*, void*, const Cell*)) const {
+        for (unsigned i = 0; i < 6; ++i) {
+            if (const Cell* c = ProtoObject::asCellPointer(this->values[i])) {
+                method(context, self, c);
+            }
+        }
+    }
+
+    const ProtoObject* ProtoAttrLeafCell::implAsObject(ProtoContext*) const {
+        return PROTO_NONE;
+    }
+
+    ProtoAttrBranchCell::ProtoAttrBranchCell(ProtoContext* context,
+                                             const Cell* c0, const Cell* c1, const Cell* c2,
+                                             const Cell* c3, const Cell* c4, const Cell* c5)
+        : Cell(context), children{c0, c1, c2, c3, c4, c5} {}
+
+    ProtoAttrBranchCell::ProtoAttrBranchCell(ProtoContext* context, proto_ulong idx, const Cell* child)
+        : Cell(context),
+          children{idx == 0 ? child : nullptr, idx == 1 ? child : nullptr,
+                   idx == 2 ? child : nullptr, idx == 3 ? child : nullptr,
+                   idx == 4 ? child : nullptr, idx == 5 ? child : nullptr} {}
+
+    const ProtoAttrBranchCell* ProtoAttrBranchCell::withChildAt(ProtoContext* context,
+                                                                proto_ulong idx,
+                                                                const Cell* child) const {
+        return new(context) ProtoAttrBranchCell(
+            context,
+            idx == 0 ? child : children[0],
+            idx == 1 ? child : children[1],
+            idx == 2 ? child : children[2],
+            idx == 3 ? child : children[3],
+            idx == 4 ? child : children[4],
+            idx == 5 ? child : children[5]);
+    }
+
+    void ProtoAttrBranchCell::processReferences(ProtoContext* context, void* self,
+                                                void (*method)(ProtoContext*, void*, const Cell*)) const {
+        for (unsigned i = 0; i < 6; ++i) {
+            if (this->children[i]) {
+                method(context, self, this->children[i]);
+            }
+        }
+    }
+
+    const ProtoObject* ProtoAttrBranchCell::implAsObject(ProtoContext*) const {
+        return PROTO_NONE;
+    }
+
+    ProtoObjectCell::ProtoObjectCell(ProtoContext* context,
+                                     const ParentLinkImplementation* parent,
+                                     const ProtoShape* shape,
+                                     uintptr_t s0, uintptr_t s1, uintptr_t s2, uintptr_t s3)
+        : Cell(context), parent(parent), shape(shape), rawSlots{s0, s1, s2, s3} {}
+
+    ProtoObjectCell::ProtoObjectCell(ProtoContext* context,
+                                     const ParentLinkImplementation* parent,
+                                     const ProtoShape* shape,
+                                     const ProtoObject* v0, const ProtoObject* v1,
+                                     const ProtoObject* v2, const ProtoObject* v3)
+        : Cell(context), parent(parent), shape(shape), values{v0, v1, v2, v3} {}
+
+    ProtoObjectCell::ProtoObjectCell(ProtoContext* context,
+                                     const ParentLinkImplementation* parent,
+                                     const ProtoShape* shape,
+                                     const Cell* b0, const Cell* b1, const Cell* b2, const Cell* b3)
+        : Cell(context), parent(parent), shape(shape), blocks{b0, b1, b2, b3} {}
+
+    ProtoMutableObjectCell::ProtoMutableObjectCell(ProtoContext* context,
+                                                   const ParentLinkImplementation* parent,
+                                                   proto_ulong ref,
+                                                   const ProtoObjectCell* init)
+        : ProtoObjectCell(context, parent, nullptr,
+                          static_cast<uintptr_t>(ref),
+                          reinterpret_cast<uintptr_t>(init),
+                          0, 0) {}
+
     const ProtoObjectCell* ProtoObjectCell::addParent(
         ProtoContext* context, const ProtoObject* newParentToAdd) const
     {
@@ -279,8 +689,11 @@ namespace proto
         return new(context) ProtoObjectCell(
             context,
             newParentLink,
-            this->attributes,
-            0 // Snapshot or child object should not have a mutable_ref by default
+            this->shape,
+            this->rawSlots[0],
+            this->rawSlots[1],
+            this->rawSlots[2],
+            this->rawSlots[3]
         );
     }
 
@@ -563,12 +976,9 @@ namespace proto
      * kind as the mark work list: a plain std::vector of integers, used only
      * by the GC thread, which is the only thread that runs finalizers.
      */
-    void ProtoObjectCell::finalize(ProtoContext* context) const
+    void ProtoMutableObjectCell::finalize(ProtoContext* context) const
     {
         if (this->mutable_ref > 0 && context && context->space) {
-            // On a sweep helper thread the ref goes to that sweeper's own
-            // vector, merged by the collector thread before Phase 5b reads
-            // the space's (core/Sweep.h).
             if (std::vector<proto_ulong>* sink = sweep::finalizedRefSink())
                 sink->push_back(this->mutable_ref);
             else
@@ -576,12 +986,24 @@ namespace proto
         }
     }
 
-    /**
-     * @brief Informs the GC about the cells this object holds references to.
-     * An object cell holds references to its parent link chain and its own
-     * attribute list. Both must be reported to the GC to prevent them from
-     * being prematurely collected.
-     */
+    void ProtoMutableObjectCell::processReferences(
+        ProtoContext* context,
+        void* self,
+        void (*method)(
+            ProtoContext* context,
+            void* self,
+            const Cell* cell
+        )
+    ) const
+    {
+        if (this->parent) {
+            method(context, self, this->parent);
+        }
+        if (this->initialState) {
+            method(context, self, this->initialState);
+        }
+    }
+
     void ProtoObjectCell::processReferences(
         ProtoContext* context,
         void* self,
@@ -592,18 +1014,28 @@ namespace proto
         )
     ) const
     {
-        // Report the head of the prototype chain.
         if (this->parent)
         {
             method(context, self, this->parent);
         }
 
-        // Report the attribute list. `attributes` is now a raw
-        // ProtoSparseListImplementation* (internal IMPL) — the same
-        // type the GC tracer expects (Cell*-derived). No conversion.
-        if (this->attributes)
+        if (this->shape)
         {
-            method(context, self, this->attributes);
+            method(context, self, this->shape);
+            const proto_ulong count = this->shape->count;
+            if (count <= 4) {
+                for (proto_ulong i = 0; i < count; ++i) {
+                    if (const Cell* c = ProtoObject::asCellPointer(this->values[i])) {
+                        method(context, self, c);
+                    }
+                }
+            } else {
+                for (unsigned i = 0; i < 4; ++i) {
+                    if (this->blocks[i]) {
+                        method(context, self, this->blocks[i]);
+                    }
+                }
+            }
         }
     }
 
@@ -678,35 +1110,34 @@ namespace proto
         }
     }
 
-    const ProtoObject* ProtoObject::clone(ProtoContext* context, bool isMutable) const
+    const ProtoObject* ProtoObject::newClone(ProtoContext* context, bool isMutable) const
     {
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return PROTO_NONE;
-        auto* oc = toImpl<const ProtoObjectCell>(this);
 
-        // Resolve the mutable snapshot before copying, exactly as
-        // getAttribute, getOwnAttributes, getAttributes and isInstanceOf do.
-        // A mutable object never writes back into its handle cell:
-        // setAttribute publishes a fresh state cell into the mutable shard
-        // table and returns the SAME handle, so `oc->attributes` and
-        // `oc->parent` still hold what the object was BORN with.  Copying
-        // them directly produced a clone that had lost every attribute
-        // written since it was created — for a freshly built mutable object,
-        // an empty one.
-        const ParentLinkImplementation* parent = oc->parent;
-        const ProtoSparseListImplementation* attributes = oc->attributes;
-        if (oc->mutable_ref > 0) {
-            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
-            if (storedState != nullptr) {
-                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                parent = storedOc->parent;
-                attributes = storedOc->attributes;
+        ProtoContext::CriticalSection cs(context);
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
+
+        if (isMutable) {
+            proto_ulong ref = generate_mutable_ref(context);
+            const ProtoObjectCell* init = nullptr;
+            if (oc->shape != nullptr) {
+                init = new(context) ProtoObjectCell(
+                    context, oc->parent, oc->shape,
+                    oc->rawSlots[0], oc->rawSlots[1], oc->rawSlots[2], oc->rawSlots[3]);
             }
+            return (new(context) ProtoMutableObjectCell(context, oc->parent, ref, init))->asObject(context);
         }
 
-        proto_ulong ref = isMutable ? generate_mutable_ref(context) : 0;
-        return (new(context) ProtoObjectCell(context, parent, attributes, ref))->asObject(context);
+        return (new(context) ProtoObjectCell(
+            context, oc->parent, oc->shape,
+            oc->rawSlots[0], oc->rawSlots[1], oc->rawSlots[2], oc->rawSlots[3]))->asObject(context);
+    }
+
+    const ProtoObject* ProtoObject::clone(ProtoContext* context, bool isMutable) const
+    {
+        return newClone(context, isMutable);
     }
 
     const ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const
@@ -714,38 +1145,18 @@ namespace proto
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) {
-             // If not an object, get its prototype and create a child of that
              const ProtoObject* prototype = getPrototype(context);
              return prototype ? prototype->newChild(context, isMutable) : PROTO_NONE;
         }
         proto_ulong ref = isMutable ? generate_mutable_ref(context) : 0;
 
-        // GC critical section opened BEFORE the mutable snapshot is
-        // resolved (matching getParents/getFirstParent/getAttributes —
-        // see getParents' comment for the full rationale): entering the
-        // section can itself park for a GC heap-limit checkpoint at the
-        // outermost depth (CriticalSection's constructor), and a snapshot
-        // resolved beforehand would be held only in the `oc` C++ local,
-        // unprotected, across that park. It also still covers the
-        // three-cell allocation below the same way it always did — none
-        // of the SparseList / ParentLink / ProtoObjectCell triple is
-        // reachable from a root until the outer ProtoObjectCell finishes
-        // linking them together.
         ProtoContext::CriticalSection cs(context);
-
-        // Resolve `this` (the prototype being childed) to its CURRENT
-        // snapshot before reading its chain — critical when `this` is
-        // mutable: the handle cell's OWN `parent` field is fixed at
-        // `newObject(true)` time and never updated in place, so reading
-        // it directly would silently drop every ancestor added since via
-        // `addParent`/`setParents`. The child's chain tail is captured BY
-        // VALUE, here, from whatever the class's chain is as of THIS
-        // call — see the header doc comment for the "capture at creation
-        // time" contract this gives newChild.
         const ProtoObjectCell* oc = resolveOwnCell(context, this);
-        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, oc->parent, this), context->newSparseListImpl(), ref);
-        const ProtoObject* result = newObject->asObject(context);
-        return result;
+        const auto* link = new(context) ParentLinkImplementation(context, oc->parent, this);
+        if (isMutable) {
+            return (new(context) ProtoMutableObjectCell(context, link, ref, nullptr))->asObject(context);
+        }
+        return (new(context) ProtoObjectCell(context, link, nullptr))->asObject(context);
     }
 
     // newChild(false) with a ProtoLazyObjectCell in place of the object cell
@@ -758,14 +1169,11 @@ namespace proto
             const ProtoObject* prototype = getPrototype(context);
             return prototype ? prototype->newLazyChild(context, producer) : PROTO_NONE;
         }
-        // The same critical section as newChild: the three new cells are
-        // reachable from no root until the object cell links them, and
-        // `producer`, which the caller roots, is copied into the cell.
         ProtoContext::CriticalSection cs(context);
         const ProtoObjectCell* oc = resolveOwnCell(context, this);
         auto* newObject = new(context) ProtoLazyObjectCell(
             context, new(context) ParentLinkImplementation(context, oc->parent, this),
-            context->newSparseListImpl(), producer);
+            producer);
         return newObject->asObject(context);
     }
 
@@ -922,23 +1330,11 @@ namespace proto
     {
         if (!this || !name || !context) return nullptr;
 
-        // Look up the canonical symbol for this key without inserting.
-        // If the key was never interned, it was never used as an attribute key,
-        // so the attribute cannot exist — return PROTO_NONE for "not found"
-        // (the convention across the API; nullptr is reserved for invalid
-        // input, not "missing").
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
             if (pa.op.pointer_tag == POINTER_TAG_STRING && context->space->symbolTable) {
                 nonInterned::note(nonInterned::Get, PROTO_RETURN_ADDRESS());
-                // EXPERIMENT (2026-06-16): when PROTOCORE_TRUST_SYMBOLS=1
-                // is set, treat a STRING-tagged name as definitely-absent
-                // — the embedder contract is "always pass a SYMBOL".  This
-                // lets us measure how much the defensive lookupByContent
-                // costs and reveal embedder sites that violate the
-                // contract (they will read back PROTO_NONE and tests will
-                // fail).  Without the env var, behaviour is unchanged.
                 static const bool s_trust =
                     std::getenv("PROTOCORE_TRUST_SYMBOLS") != nullptr;
                 if (s_trust) return PROTO_NONE;
@@ -949,190 +1345,58 @@ namespace proto
             }
         }
 
-        // Attribute Cache Setup.  The cache is NOT a GC root.  The owning
-        // thread clears it when it resumes after every stop-the-world
-        // (ProtoThreadExtension::clearCachesAfterStopTheWorld), so every
-        // entry seen here was written after the last stop-the-world: its
-        // cells were marked or young then, and none can be freed or its
-        // address reused before the next stop-the-world clears the entry.
-        // The loop below has no park point.
-        AttributeCacheEntry* cache = nullptr;
-        if (context->thread) {
-            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
-            if (threadImpl->extension) {
-                cache = threadImpl->extension->attributeCache;
-            }
-        }
+        AttributeCacheEntry* cache = getShapeCache(context);
 
         const ProtoObject* currentPointer = this;
         const ParentLinkImplementation* currentLink = nullptr;
-        const proto_ulong attr_hash = reinterpret_cast<uintptr_t>(name);
 #ifdef PROTO_CACHE_STATS
         proto_ulong pcsSteps = 0, pcsAvlSteps = 0, pcsMutableSteps = 0;
 #endif
 
-        // No step cap: this loop always terminates, because it is a
-        // single-level walk of ONE receiver's own ParentLinkImplementation
-        // list -- built once, forward only, by newChild/addParent/
-        // setParents (buildParentChainFromFlat) -- and it never follows a
-        // visited link's OBJECT into that object's OWN separate `.parent`
-        // chain; it only ever advances via `currentLink->parent`, the
-        // NEXT link in THIS SAME list. That list's length is fixed at the
-        // moment it was built (bounded by however many links were
-        // allocated then) and nothing mutates it afterward, so this walk
-        // is always over a strictly finite sequence, regardless of
-        // whether some OTHER object's chain happens to reference this
-        // one, or this one's own listed entries reference another
-        // mutable object that (via a LATER, separate setParents call
-        // elsewhere) ends up referencing this receiver back -- that
-        // never matters here, because this walk never leaves the one
-        // list it started on. (An earlier `> 500` cap here gave a false
-        // "not found" for any attribute living further down the chain
-        // than that -- the same class of bug isInstanceOf's and
-        // hasAttribute's old caps had, both since removed.)
         while (currentPointer) {
-            // Pure 6-bit tag check — POINTER_TAG_OBJECT is 0, so
-            // alignment-clear low bits identifies an object cell.
-            // No virtual getCellTypeRaw() probe needed: every cell
-            // the chain navigation reaches is invariantly a
-            // ProtoObjectCell or a tagged primitive, and tagged
-            // primitives are filtered here by the non-zero low bits.
-            // For the FIRST iteration (currentPointer == this) the
-            // caller may have passed any value — including primitives
-            // like SmallInteger that go to getPrototype below — so
-            // we still need the branch.  Subsequent iterations
-            // visit either a getPrototype result (an *Prototype
-            // ProtoObjectCell, tag 0) or a ParentLink->object
-            // (always a ProtoObjectCell), so the tag check on those
-            // is a single bit-and that the predictor learns to
-            // handle as taken-not-taken in the steady state.
             const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & PROTO_UL(0x3F)) == POINTER_TAG_OBJECT;
             if (!isObj) {
-                // Non-object tagged pointers (e.g. Integers, None) — fall
-                // through to their prototype.  Move out of the hot
-                // attribute-lookup path entirely.
                 const ProtoObject* nextProto = currentPointer->getPrototype(context);
                 if (nextProto == currentPointer) break;
                 currentPointer = nextProto;
                 continue;
             }
 
-            const ProtoObject* currentValue = currentPointer;
             auto oc = toImpl<const ProtoObjectCell>(currentPointer);
-            auto ocValue = oc;  // Default: immutable case → currentValue == currentPointer.
+            const ProtoObjectCell* ocValue = oc;
 #ifdef PROTO_CACHE_STATS
             ++pcsSteps;
-            if (oc->mutable_ref > 0) ++pcsMutableSteps;
 #endif
-            if (oc->mutable_ref > 0) {
+            if (oc->isMutableCell()) {
+#ifdef PROTO_CACHE_STATS
+                ++pcsMutableSteps;
+#endif
+                const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
                 const proto::ProtoObject* storedState =
-                    resolveMutableSnapshot(context, oc->mutable_ref);
+                    resolveMutableSnapshot(context, moc->mutable_ref);
                 if (storedState != nullptr) {
-                    currentValue = storedState;
-                    ocValue = toImpl<const ProtoObjectCell>(currentValue);
+                    ocValue = toImpl<const ProtoObjectCell>(storedState);
+                } else if (moc->initialState != nullptr) {
+                    ocValue = moc->initialState;
                 }
             }
 
-            // Cache keyed on currentValue (the resolved immutable snapshot).
-            // For immutable objects currentValue == currentPointer, so behaviour is unchanged.
-            // For mutable objects currentValue is the snapshot stored in mutableRoot; when the
-            // object mutates mutableRoot is updated to a new snapshot pointer, so the next lookup
-            // gets a different currentValue → natural cache miss → correct re-lookup.
-            //
-            // hash_idx uses the name's pointer identity as the hash
-            // component: attribute keys are auto-interned (perennial)
-            // symbols (SymbolTable::intern), so two names with the same
-            // content always share a pointer.  Avoids the
-            // cross-DSO `name->getHash(context)` call, which on
-            // rope-backed symbols re-traverses the tree and was costing
-            // ~5 % of CPU per lookup before this change.  Right-shift by
-            // 4 to spread the low alignment-zero bits into the index
-            // range.
-            proto_ulong hash_idx = 0;
-            bool cache_resolved = false;
-            const proto::ProtoObject* result = nullptr;
-            if (cache) {
-                hash_idx = ((reinterpret_cast<uintptr_t>(currentValue) >> 6) ^
-                              (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
-                if (cache[hash_idx].object == currentValue && cache[hash_idx].name == name) {
-                    // Hit.  Cache stores OWN-attribute facts only:
-                    //   result != nullptr → currentValue owns name with that value.
-                    //   result == nullptr → currentValue confirmed-missing.
-                    // Either way, this step is resolved without an AVL probe.
-                    result = cache[hash_idx].result;
-                    cache_resolved = true;
+            const ProtoShape* shape = ocValue->shape;
+            if (shape != nullptr) {
+                proto_ulong shapeCount = 0;
+                const proto_long offset = findAttributeOffset(cache, shape, name, shapeCount);
+                if (offset >= 0) {
+                    const ProtoObject* result = getValueAt(
+                        ocValue, shapeCount, static_cast<proto_ulong>(offset));
+                    if (result != nullptr) {
 #ifdef PROTO_CACHE_STATS
-                    ++protoCacheStats_hits;
+                        protoCacheStatsRecordCall(pcsSteps, pcsAvlSteps, pcsMutableSteps, true);
 #endif
-                } else {
-#ifdef PROTO_CACHE_STATS
-                    // Occupied with different key → collision; empty → cold miss.
-                    if (cache[hash_idx].object != nullptr) {
-                        ++protoCacheStats_collisions;
-                        if (cache[hash_idx].name == name) ++protoCacheStats_collisionsSameName;
+                        return result;
                     }
-                    else ++protoCacheStats_coldMisses;
-#endif
                 }
             }
 
-            // Check OWN attributes in currentValue.  ocValue was
-            // computed up-front above (re-using `oc` in the immutable
-            // case to avoid a redundant toImpl call on the hot path).
-            // Single `implGetAt` walk: it already returns nullptr for
-            // "not found", so calling `implHas` first would just walk
-            // the AVL twice.
-            if (!cache_resolved) {
-#ifdef PROTO_CACHE_STATS
-                ++pcsAvlSteps;
-#endif
-                // Direct IMPL access: `attributes` is now a raw
-                // ProtoSparseListImplementation* (AVL form), so the
-                // lookup is a single C++ call into the AVL probe with
-                // no toImpl, no tag dispatch. `implGetAt` returns
-                // nullptr for absent keys and the actual value
-                // (possibly PROTO_NONE) for present keys — the
-                // distinction `x = None` vs `hasattr(x)` is preserved.
-                result = ocValue->attributes
-                    ? ocValue->attributes->implGetAt(context, attr_hash)
-                    : nullptr;
-                if (cache) {
-                    // Persist the own-fact (positive OR negative).  A
-                    // cached miss prevents the next chain walk from
-                    // re-probing this step's AVL — the dominant cost
-                    // for inherited-attribute lookups (a 10-level
-                    // walk would otherwise pay 10 × implGetAt every
-                    // time, even when the answer is "not here, walk
-                    // up").  Pinning is via
-                    // ProtoThreadExtension::processReferences, which
-                    // traces all three slots of every cache entry as
-                    // GC roots so neither object, name, nor result
-                    // can be reclaimed while the entry is live.
-                    cache[hash_idx] = {currentValue, result, name, nullptr};
-                }
-            }
-            if (result != nullptr) {
-#ifdef PROTO_CACHE_STATS
-                protoCacheStatsRecordCall(pcsSteps, pcsAvlSteps, pcsMutableSteps, true);
-#endif
-                return result;
-            }
-
-            // Move to NEXT in linearised chain.  First iteration
-            // (currentLink == nullptr) starts from this object's
-            // parent link; subsequent iterations dereference the
-            // previous link's `parent` field directly.
-            //
-            // We skip the per-step `getType() == ParentLink` virtual
-            // probe — every cell that the parent / parent->parent
-            // chain reaches IS a ParentLinkImplementation by
-            // construction (newChild and addParent only ever produce
-            // those), so the cell-alignment check (`& 0x3F == 0`,
-            // ruling out tagged pointers) is the only safety filter
-            // we need here.  Saved cost: 2 virtual calls per chain
-            // step.  On a 10-level inheritance walk that is ~20 ns
-            // per call, exactly the gap between the post-revert
-            // ~89 ns and the pre-revert ~37 ns 10-level numbers.
             const ParentLinkImplementation* nextLink =
                 (currentLink == nullptr) ? ocValue->parent : currentLink->parent;
             if (nextLink && ((uintptr_t)nextLink & 0x3F) == 0) {
@@ -1143,35 +1407,92 @@ namespace proto
                 currentLink = nullptr;
             }
         }
-        // Full prototype chain searched, attribute not found.  Return
-        // PROTO_NONE per the API convention (nullptr is reserved for
-        // invalid inputs at the top of this function).
 #ifdef PROTO_CACHE_STATS
         protoCacheStatsRecordCall(pcsSteps, pcsAvlSteps, pcsMutableSteps, false);
 #endif
         return PROTO_NONE;
     }
 
+    namespace {
+        inline const ProtoObjectCell* applySingleAttributeWrite(
+            ProtoContext* context,
+            AttributeCacheEntry* cache,
+            const ProtoObjectCell* currentOc,
+            const ProtoString* name,
+            const ProtoObject* value)
+        {
+            const ProtoShape* shape = currentOc->shape;
+            const proto_ulong oldCount = shape ? shape->count : 0;
+            const proto_long offset = findAttributeOffset(cache, shape, name);
+
+            if (offset >= 0) {
+                const proto_ulong uoff = static_cast<proto_ulong>(offset);
+                if (getValueAt(currentOc, oldCount, uoff) == value) {
+                    return currentOc;
+                }
+                return setSlotAt(context, currentOc, shape, oldCount, uoff, value);
+            }
+
+            // Attribute not present in shape: if value is nullptr (removal of
+            // non-existent attribute), nothing changes.
+            if (value == nullptr) {
+                return currentOc;
+            }
+
+            const ProtoShape* newShape = extendShape(context, shape, name);
+            if (cache) {
+                const proto_ulong idx = shapeCacheSlot(newShape, name);
+                cache[idx] = {newShape, name, static_cast<proto_long>(oldCount), newShape->count};
+            }
+            return appendValueAt(context, currentOc, newShape, oldCount, value);
+        }
+
+        const ProtoShape* extendShapeBulk(ProtoContext* context,
+                                          const ProtoShape* oldShape,
+                                          const ProtoString* const* addedNames,
+                                          unsigned addedCount)
+        {
+            if (addedCount == 0) return oldShape;
+            const ProtoShape* curShape = oldShape;
+            proto_ulong curCount = oldShape ? oldShape->count : 0;
+            unsigned idx = 0;
+
+            if (curShape != nullptr) {
+                const unsigned used = static_cast<unsigned>(((curCount - 1) & 3UL) + 1);
+                if (used < 4) {
+                    const unsigned take = std::min<unsigned>(4 - used, addedCount);
+                    const ProtoString* n[4] = {
+                        curShape->names[0], curShape->names[1],
+                        curShape->names[2], curShape->names[3]
+                    };
+                    for (unsigned j = 0; j < take; ++j) {
+                        n[3 - (used + j)] = addedNames[idx + j];
+                    }
+                    curCount += take;
+                    idx += take;
+                    curShape = new(context) ProtoShape(
+                        context, curCount, curShape->next, n[0], n[1], n[2], n[3]);
+                }
+            }
+
+            while (idx < addedCount) {
+                const unsigned take = std::min<unsigned>(4, addedCount - idx);
+                const ProtoString* n[4] = {nullptr, nullptr, nullptr, nullptr};
+                for (unsigned j = 0; j < take; ++j) {
+                    n[3 - j] = addedNames[idx + j];
+                }
+                curCount += take;
+                idx += take;
+                curShape = new(context) ProtoShape(
+                    context, curCount, curShape, n[0], n[1], n[2], n[3]);
+            }
+            return curShape;
+        }
+    }
+
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const {
         if (!this || !name) return this;
 
-        // Auto-intern the key if it is a non-interned heap String (POINTER_TAG_STRING).
-        //
-        // Intern STRONGLY: the resulting Symbol becomes a permanent
-        // root so that the attribute SparseList — which stores the
-        // Symbol *pointer* as its key — can never see that pointer
-        // dangle.  A weak intern would be reclaimed by the next GC
-        // cycle (the SparseList's processReferences only traces
-        // `value`, not `key`), the SymbolTable bucket would still
-        // hold the freed pointer, and the next createSymbol() with
-        // the same content would return a fresh pointer that no
-        // longer matches the SparseList key — a missed lookup that
-        // surfaces as `Array.isArray === undefined` after a few
-        // hundred async operations have triggered a GC.
-        //
-        // Strong-interning attribute names is bounded by the
-        // program's vocabulary; in practice the cost is negligible
-        // and identical to manually pre-interning every key.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -1183,117 +1504,73 @@ namespace proto
             }
         }
 
-        // 1. Invalidate Cache
-        if (context->thread) {
-            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
-            if (threadImpl->extension) {
-                proto_ulong hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
-                                            (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
-                if (threadImpl->extension->attributeCache[hash_idx].object == this &&
-                    threadImpl->extension->attributeCache[hash_idx].name == name) {
-                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr, nullptr};
-                }
-            }
-        }
-
         if (!proto::isObjectFast(this)) return this;
         auto* oc = toImpl<ProtoObjectCell>(this);
+        AttributeCacheEntry* cache = getShapeCache(context);
 
-        // Handle Mutable Objects
-        if (oc->mutable_ref > 0) {
-             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-             // Retry until the CAS succeeds.  Silently bailing out after a
-             // fixed iteration cap loses the user's write — under enough
-             // cross-thread contention (multiple JS deferreds resolving
-             // concurrently and each updating an attribute on the global
-             // mutable object) we hit that cap, which manifested as
-             // attributes like Array.isArray reading back as undefined
-             // because they were never installed.  Add a tiny pause every
-             // few rounds so the writers don't burn CPU livelocking each
-             // other on the same shard.
-             //
-             // GC critical section: every iteration of this loop allocates
-             // a new SparseList tree (newAttributes), a new ProtoObjectCell
-             // (newState), and a new outer SparseList tree (newRootImpl)
-             // BEFORE any of them are reachable from a GC root — the only
-             // root publish is the final compare_exchange_weak on
-             // mutableRoot[shard].root.  Without the guard the per-context
-             // allocation-threshold submission can land in dirtySegments
-             // mid-construction and a concurrent STW + sweep would free
-             // the half-built tree under the running mutator.
-             ProtoContext::CriticalSection cs(context);
-             int casIteration = 0;
-             while (true) {
-                 ++casIteration;
+        if (oc->isMutableCell()) {
+            const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
+            const proto_ulong ref = moc->mutable_ref;
+            int shard = ref % context->space->MUTABLE_ROOT_SHARDS;
+            ProtoContext::CriticalSection cs(context);
+            int casIteration = 0;
+            while (true) {
+                ++casIteration;
 
-                 // 1. Get current object state from the shard.  Use the
-                 //    per-thread mutable-value cache: on the common case
-                 //    where this thread (or another that already validated
-                 //    the same shard root) has the live snapshot cached,
-                 //    this avoids the AVL implGetAt traversal entirely.
-                 //    `resolveMutableState` validates the cache by
-                 //    re-loading the shard root and invalidating stale
-                 //    entries; on miss it falls back to the authoritative
-                 //    load + AVL and refreshes the cache.
-                 const ProtoObject* currentObjState = this;
-                 ProtoSparseList* oldRoot = nullptr;
-                 const ProtoObject* storedState = nullptr;
-                 resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
-                 if (storedState != nullptr) {
-                     currentObjState = storedState;
-                 }
+                ProtoSparseList* oldRoot = nullptr;
+                const ProtoObject* storedState = nullptr;
+                resolveMutableState(context, ref, &oldRoot, &storedState);
 
-                 // 2. Create new state with updated attribute
-                 if (!proto::isObjectFast(currentObjState)) {
-                     return this; // Corruption detected or inconsistent state
-                 }
-                 auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
-                 // Direct IMPL setAt: returns a new AVL impl pointer
-                 // (raw, untagged), suitable for storage in the next
-                 // ProtoObjectCell's `attributes` field.
-                 const ProtoSparseListImplementation* newAttributes =
-                     currentOc->attributes->implSetAt(context, reinterpret_cast<uintptr_t>(name), value);
+                const ProtoObjectCell* currentOc = nullptr;
+                if (storedState != nullptr) {
+                    if (!proto::isObjectFast(storedState)) return this;
+                    currentOc = toImpl<const ProtoObjectCell>(storedState);
+                } else if (moc->initialState != nullptr) {
+                    currentOc = moc->initialState;
+                } else {
+                    currentOc = moc; // parent = moc->parent, shape = nullptr
+                }
 
-                 // CRITICAL: newState MUST have mutable_ref = 0 to avoid infinite loop during lookup
-                 auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
+                const ProtoObjectCell* nextOc =
+                    applySingleAttributeWrite(context, cache, currentOc, name, value);
+                if (nextOc == currentOc) {
+                    // If the write was a no-op (e.g. removing an absent key),
+                    // still publish an empty state if nothing was published yet
+                    // and the caller expects the mutable object initialized, or
+                    // return immediately if unchanged.
+                    if (storedState != nullptr || value == nullptr) return this;
+                    nextOc = new(context) ProtoObjectCell(
+                        context, currentOc->parent, currentOc->shape,
+                        currentOc->rawSlots[0], currentOc->rawSlots[1],
+                        currentOc->rawSlots[2], currentOc->rawSlots[3]);
+                }
 
-                 // 3. CAS only the shard that owns this mutable_ref.
-                 // The shard root is always handled via the public API so
-                 // it transparently uses Small while the thread / mutable
-                 // population stays small (≤ 3 references).
-                 const ProtoSparseList* oldRootSL =
-                     (oldRoot == nullptr) ? context->newSparseList()
-                                          : oldRoot;
-                 ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
-                     oldRootSL->setAt(context, oc->mutable_ref, newState));
-                 ProtoSparseList* expected = oldRoot;
-                 if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
-                     // Refresh per-thread cache so subsequent reads on this thread hit immediately.
-                     refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
-                     break;
-                 }
-                 // CAS lost — another writer beat us; back off briefly
-                 // every 32 retries so we don't livelock on the same
-                 // shard.  std::this_thread::yield is cheap and gives
-                 // contending writers a chance to make progress.
-                 if ((casIteration & 31) == 0) {
-                     std::this_thread::yield();
-                 }
-             }
-
-             return this; // Return the same handle!
+                const ProtoObject* newState = nextOc->asObject(context);
+                const ProtoSparseList* oldRootSL =
+                    (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
+                ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
+                    oldRootSL->setAt(context, ref, newState));
+                ProtoSparseList* expected = oldRoot;
+                if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
+                    refreshMutableCache(context, ref, newRoot, newState);
+                    break;
+                }
+                if ((casIteration & 31) == 0) {
+                    std::this_thread::yield();
+                }
+            }
+            return this;
         }
 
-        // Handle Immutable Objects (Copy-on-Write).  Same critical-section
-        // discipline as the mutable branch: newAttributes (a SparseList
-        // tree) and the surrounding ProtoObjectCell are allocated and only
-        // reachable through this function's return value once both are
-        // wired up; sweeping mid-build would orphan them.
+        // Immutable object (or ProtoLazyObjectCell, which produces a plain ProtoObjectCell).
         ProtoContext::CriticalSection cs(context);
-        const ProtoSparseListImplementation* newAttributes =
-            oc->attributes->implSetAt(context, (uintptr_t)name, value);
-        const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
-        return result;
+        const ProtoObjectCell* nextOc = applySingleAttributeWrite(context, cache, oc, name, value);
+        if (nextOc == oc) {
+            return (new(context) ProtoObjectCell(
+                context, oc->parent, oc->shape,
+                oc->rawSlots[0], oc->rawSlots[1], oc->rawSlots[2], oc->rawSlots[3]))->asObject(context);
+        }
+        return nextOc->asObject(context);
     }
 
     const ProtoObject* ProtoObject::setAttributes(ProtoContext* context, unsigned count,
@@ -1302,12 +1579,7 @@ namespace proto
         if (!this || count == 0 || !names || !values) return this;
         if (!proto::isObjectFast(this)) return this;
 
-        // The group as (key, value) pairs: names interned exactly as
-        // setAttribute interns them (the attribute tree is keyed by the
-        // symbol's pointer), nullptr names skipped, and this thread's
-        // attribute cache dropped for every (this, name) the group writes.
-        // A group of up to kInline names stays on the stack.
-        struct Write { proto_ulong key; const ProtoObject* value; };
+        struct Write { const ProtoString* name; const ProtoObject* value; };
         constexpr unsigned kInline = 16;
         Write inlineWrites[kInline];
         std::vector<Write> heapWrites;
@@ -1317,11 +1589,6 @@ namespace proto
             writes = heapWrites.data();
         }
 
-        AttributeCacheEntry* attrCache = nullptr;
-        if (context->thread) {
-            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
-            if (threadImpl->extension) attrCache = threadImpl->extension->attributeCache;
-        }
         unsigned n = 0;
         for (unsigned i = 0; i < count; ++i) {
             const ProtoString* name = names[i];
@@ -1333,97 +1600,179 @@ namespace proto
                 name = reinterpret_cast<const ProtoString*>(context->space->symbolTable->intern(
                     context, reinterpret_cast<const ProtoObject*>(name)));
             }
-            if (attrCache) {
-                const proto_ulong h = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
-                                       (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
-                if (attrCache[h].object == this && attrCache[h].name == name)
-                    attrCache[h] = {nullptr, nullptr, nullptr, nullptr};
+            // Deduplicate in-place: if `name` already appeared earlier, update
+            // its value (later write wins) while keeping its first-seen order.
+            bool found = false;
+            for (unsigned j = 0; j < n; ++j) {
+                if (writes[j].name == name) {
+                    writes[j].value = values[i];
+                    found = true;
+                    break;
+                }
             }
-            writes[n++] = {reinterpret_cast<uintptr_t>(name), values[i]};
+            if (!found) {
+                writes[n++] = {name, values[i]};
+            }
         }
         if (n == 0) return this;
 
-        // Sort by key, keeping array order among equal keys, and keep only
-        // the LAST write of each key: the outcome of the sequential calls.
-        // The surviving keys and values are compacted into two parallel
-        // arrays, the shape setSorted takes.
-        std::stable_sort(writes, writes + n,
-                         [](const Write& a, const Write& b) { return a.key < b.key; });
-        proto_ulong inlineKeys[kInline];
-        const ProtoObject* inlineValues[kInline];
-        std::vector<proto_ulong> heapKeys;
-        std::vector<const ProtoObject*> heapValues;
-        proto_ulong* sortedKeys = inlineKeys;
-        const ProtoObject** sortedValues = inlineValues;
-        if (n > kInline) {
-            heapKeys.resize(n);
-            heapValues.resize(n);
-            sortedKeys = heapKeys.data();
-            sortedValues = heapValues.data();
-        }
-        size_t m = 0;
-        for (unsigned i = 0; i < n; ++i) {
-            if (m > 0 && sortedKeys[m - 1] == writes[i].key) {
-                sortedValues[m - 1] = writes[i].value;      // later write wins
-            } else {
-                sortedKeys[m] = writes[i].key;
-                sortedValues[m] = writes[i].value;
-                ++m;
-            }
-        }
+        AttributeCacheEntry* cache = getShapeCache(context);
 
-        // The new attribute tree from `attrs`, built in one pass.  Answers
-        // `attrs` itself when the group changes nothing.
-        auto applyGroup = [&](const ProtoSparseListImplementation* attrs)
-                -> const ProtoSparseListImplementation* {
-            const ProtoSparseListImplementation* r =
-                sparse_avl::setSorted(context, attrs, sortedKeys, sortedValues, 0, m);
-            return r ? r : sparse_avl::makeEmpty<ProtoSparseListImplementation>(context);
+        auto applyGroup = [&](const ProtoObjectCell* currentOc) -> const ProtoObjectCell* {
+            const ProtoShape* oldShape = currentOc->shape;
+            const proto_ulong oldCount = oldShape ? oldShape->count : 0;
+
+            struct OffsetWrite { proto_ulong offset; const ProtoObject* value; };
+            OffsetWrite inlineUpdates[kInline];
+            std::vector<OffsetWrite> heapUpdates;
+            OffsetWrite* updates = (n > kInline) ? (heapUpdates.resize(n), heapUpdates.data()) : inlineUpdates;
+            unsigned updateCount = 0;
+
+            const ProtoString* inlineAddedNames[kInline];
+            const ProtoObject* inlineAddedVals[kInline];
+            std::vector<const ProtoString*> heapAddedNames;
+            std::vector<const ProtoObject*> heapAddedVals;
+            const ProtoString** addedNames = (n > kInline) ? (heapAddedNames.resize(n), heapAddedNames.data()) : inlineAddedNames;
+            const ProtoObject** addedVals = (n > kInline) ? (heapAddedVals.resize(n), heapAddedVals.data()) : inlineAddedVals;
+            unsigned addedCount = 0;
+
+            for (unsigned i = 0; i < n; ++i) {
+                const proto_long off = findAttributeOffset(cache, oldShape, writes[i].name);
+                if (off >= 0) {
+                    const proto_ulong uoff = static_cast<proto_ulong>(off);
+                    if (getValueAt(currentOc, oldCount, uoff) != writes[i].value) {
+                        updates[updateCount++] = {uoff, writes[i].value};
+                    }
+                } else if (writes[i].value != nullptr) {
+                    addedNames[addedCount] = writes[i].name;
+                    addedVals[addedCount] = writes[i].value;
+                    ++addedCount;
+                }
+            }
+
+            if (updateCount == 0 && addedCount == 0) {
+                return currentOc;
+            }
+
+            const ProtoShape* newShape = extendShapeBulk(context, oldShape, addedNames, addedCount);
+            const proto_ulong newCount = oldCount + addedCount;
+
+            if (newCount <= 4) {
+                const ProtoObject* v[4] = {
+                    oldCount > 0 ? currentOc->values[0] : nullptr,
+                    oldCount > 1 ? currentOc->values[1] : nullptr,
+                    oldCount > 2 ? currentOc->values[2] : nullptr,
+                    oldCount > 3 ? currentOc->values[3] : nullptr
+                };
+                for (unsigned i = 0; i < updateCount; ++i) {
+                    v[updates[i].offset] = updates[i].value;
+                }
+                for (unsigned j = 0; j < addedCount; ++j) {
+                    v[oldCount + j] = addedVals[j];
+                }
+                return new(context) ProtoObjectCell(
+                    context, currentOc->parent, newShape, v[0], v[1], v[2], v[3]);
+            }
+
+            if (newCount <= 24) {
+                const ProtoAttrLeafCell* leaves[4] = {nullptr, nullptr, nullptr, nullptr};
+                const ProtoObject* leafVals[4][6] = {};
+                bool leafDirty[4] = {false, false, false, false};
+
+                if (oldCount <= 4) {
+                    for (proto_ulong i = 0; i < oldCount; ++i) {
+                        leafVals[0][i] = currentOc->values[i];
+                    }
+                    if (oldCount > 0) leafDirty[0] = true;
+                } else {
+                    for (unsigned b = 0; b < 4; ++b) {
+                        leaves[b] = static_cast<const ProtoAttrLeafCell*>(currentOc->blocks[b]);
+                        if (leaves[b]) {
+                            for (unsigned k = 0; k < 6; ++k) leafVals[b][k] = leaves[b]->values[k];
+                        }
+                    }
+                }
+                for (unsigned i = 0; i < updateCount; ++i) {
+                    const proto_ulong off = updates[i].offset;
+                    leafVals[off / 6][off % 6] = updates[i].value;
+                    leafDirty[off / 6] = true;
+                }
+                for (unsigned j = 0; j < addedCount; ++j) {
+                    const proto_ulong off = oldCount + j;
+                    leafVals[off / 6][off % 6] = addedVals[j];
+                    leafDirty[off / 6] = true;
+                }
+                for (unsigned b = 0; b < 4; ++b) {
+                    if (leafDirty[b]) {
+                        leaves[b] = new(context) ProtoAttrLeafCell(
+                            context,
+                            leafVals[b][0], leafVals[b][1], leafVals[b][2],
+                            leafVals[b][3], leafVals[b][4], leafVals[b][5]);
+                    }
+                }
+                return new(context) ProtoObjectCell(
+                    context, currentOc->parent, newShape,
+                    leaves[0], leaves[1], leaves[2], leaves[3]);
+            }
+
+            // General case for newCount > 24: apply appends to reach newCount's
+            // tree geometry, then apply updates.
+            const ProtoObjectCell* cur = currentOc;
+            for (unsigned j = 0; j < addedCount; ++j) {
+                cur = appendValueAt(context, cur, newShape, oldCount + j, addedVals[j]);
+            }
+            for (unsigned i = 0; i < updateCount; ++i) {
+                cur = setSlotAt(context, cur, newShape, newCount, updates[i].offset, updates[i].value);
+            }
+            return cur;
         };
 
         auto* oc = toImpl<const ProtoObjectCell>(this);
-
-        // Every iteration below allocates a new attribute tree, a new
-        // ProtoObjectCell and (mutable case) a new shard-root tree that are
-        // reachable from no root until they are returned or published:
-        // same critical-section discipline as setAttribute.
         ProtoContext::CriticalSection cs(context);
 
-        if (oc->mutable_ref == 0) {
-            const ProtoSparseListImplementation* newAttributes = applyGroup(oc->attributes);
-            return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
+        if (!oc->isMutableCell()) {
+            const ProtoObjectCell* nextOc = applyGroup(oc);
+            if (nextOc == oc) {
+                return (new(context) ProtoObjectCell(
+                    context, oc->parent, oc->shape,
+                    oc->rawSlots[0], oc->rawSlots[1], oc->rawSlots[2], oc->rawSlots[3]))->asObject(context);
+            }
+            return nextOc->asObject(context);
         }
 
-        // Mutable: one snapshot read, one new version, one publication.  A
-        // lost CAS means another writer published first; every entry of the
-        // group is "set to value", so reapplying the whole group onto the
-        // newer snapshot is correct and keeps the other writer's names.
-        const int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+        const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
+        const proto_ulong ref = moc->mutable_ref;
+        const int shard = ref % context->space->MUTABLE_ROOT_SHARDS;
         int casIteration = 0;
         while (true) {
             ++casIteration;
-            const ProtoObject* currentObjState = this;
             ProtoSparseList* oldRoot = nullptr;
             const ProtoObject* storedState = nullptr;
-            resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
-            if (storedState != nullptr) currentObjState = storedState;
-            if (!proto::isObjectFast(currentObjState)) return this;
-            auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+            resolveMutableState(context, ref, &oldRoot, &storedState);
 
-            const ProtoSparseListImplementation* newAttributes = applyGroup(currentOc->attributes);
-            if (newAttributes == currentOc->attributes) {
-                return this;   // every name already holds its value: nothing to publish
+            const ProtoObjectCell* currentOc = nullptr;
+            if (storedState != nullptr) {
+                if (!proto::isObjectFast(storedState)) return this;
+                currentOc = toImpl<const ProtoObjectCell>(storedState);
+            } else if (moc->initialState != nullptr) {
+                currentOc = moc->initialState;
+            } else {
+                currentOc = moc;
             }
-            auto* newState = (new(context) ProtoObjectCell(
-                context, currentOc->parent, newAttributes, 0))->asObject(context);
+
+            const ProtoObjectCell* nextOc = applyGroup(currentOc);
+            if (nextOc == currentOc) {
+                return this;
+            }
+            const ProtoObject* newState = nextOc->asObject(context);
 
             const ProtoSparseList* oldRootSL =
                 (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
             ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
-                oldRootSL->setAt(context, oc->mutable_ref, newState));
+                oldRootSL->setAt(context, ref, newState));
             ProtoSparseList* expected = oldRoot;
             if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
-                refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
+                refreshMutableCache(context, ref, newRoot, newState);
                 return this;
             }
             if ((casIteration & 31) == 0) {
@@ -1437,9 +1786,6 @@ namespace proto
                                           const ProtoObject* newValue) const {
         if (!this || !name) return false;
 
-        // Auto-intern the key exactly as setAttribute does: the attribute
-        // SparseList is keyed by the Symbol *pointer*, so a non-interned heap
-        // String must be canonicalised first or the key would never match.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -1453,82 +1799,64 @@ namespace proto
 
         if (!proto::isObjectFast(this)) return false;
         auto* oc = toImpl<ProtoObjectCell>(this);
+        if (!oc->isMutableCell()) return false;
 
-        // A compare-and-swap on an attribute is only meaningful for a mutable
-        // receiver — an immutable object's attributes can never change, so
-        // the swap can never legitimately succeed.
-        if (oc->mutable_ref == 0) return false;
+        const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
+        const proto_ulong ref = moc->mutable_ref;
+        const int shard = ref % context->space->MUTABLE_ROOT_SHARDS;
+        AttributeCacheEntry* cache = getShapeCache(context);
 
-        // Invalidate this thread's attribute cache for (this, name): a
-        // successful swap changes the resolved value, mirroring setAttribute.
-        if (context->thread) {
-            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
-            if (threadImpl->extension) {
-                proto_ulong hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
-                                            (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
-                if (threadImpl->extension->attributeCache[hash_idx].object == this &&
-                    threadImpl->extension->attributeCache[hash_idx].name == name) {
-                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr, nullptr};
-                }
-            }
-        }
-
-        const int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-        const proto_ulong key = reinterpret_cast<uintptr_t>(name);
-
-        // Same critical-section discipline as setAttribute: every iteration
-        // builds a new attribute tree + ProtoObjectCell + shard SparseList
-        // that are unreachable from any GC root until the final
-        // compare_exchange_weak publishes them.
         ProtoContext::CriticalSection cs(context);
         int casIteration = 0;
         while (true) {
             ++casIteration;
 
-            // Resolve the live snapshot of this mutable object.
-            const ProtoObject* currentObjState = this;
             ProtoSparseList* oldRoot = nullptr;
             const ProtoObject* storedState = nullptr;
-            resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+            resolveMutableState(context, ref, &oldRoot, &storedState);
+
+            const ProtoObjectCell* currentOc = nullptr;
             if (storedState != nullptr) {
-                currentObjState = storedState;
+                if (!proto::isObjectFast(storedState)) return false;
+                currentOc = toImpl<const ProtoObjectCell>(storedState);
+            } else if (moc->initialState != nullptr) {
+                currentOc = moc->initialState;
+            } else {
+                currentOc = moc;
             }
-            if (!proto::isObjectFast(currentObjState)) {
-                return false; // inconsistent state — treat as CAS failure
+
+            const ProtoObject* currentValue = nullptr;
+            if (currentOc->shape != nullptr) {
+                const proto_long off = findAttributeOffset(cache, currentOc->shape, name);
+                if (off >= 0) {
+                    currentValue = getValueAt(
+                        currentOc, currentOc->shape->count, static_cast<proto_ulong>(off));
+                }
             }
-            auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
 
-            // The current OWN value of `name` (nullptr == attribute absent).
-            const ProtoObject* currentValue = currentOc->attributes
-                ? currentOc->attributes->implGetAt(context, key)
-                : nullptr;
-
-            // Precondition: the attribute must still hold `expected`.  A
-            // mismatch is a genuine concurrent write — report failure so the
-            // caller can re-read and rebuild.  This is checked on every
-            // retry, so a CAS lost to an *unrelated* shard write re-validates
-            // it rather than blindly overwriting.
             if (currentValue != expected) {
                 return false;
             }
 
-            // Build the new snapshot with name := newValue.
-            const ProtoSparseListImplementation* newAttributes =
-                currentOc->attributes->implSetAt(context, key, newValue);
-            auto* newState = (new(context) ProtoObjectCell(
-                context, currentOc->parent, newAttributes, 0))->asObject(context);
+            const ProtoObjectCell* nextOc =
+                applySingleAttributeWrite(context, cache, currentOc, name, newValue);
+            if (nextOc == currentOc && storedState == nullptr) {
+                nextOc = new(context) ProtoObjectCell(
+                    context, currentOc->parent, currentOc->shape,
+                    currentOc->rawSlots[0], currentOc->rawSlots[1],
+                    currentOc->rawSlots[2], currentOc->rawSlots[3]);
+            }
+            const ProtoObject* newState = nextOc->asObject(context);
 
             const ProtoSparseList* oldRootSL =
                 (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
             ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
-                oldRootSL->setAt(context, oc->mutable_ref, newState));
+                oldRootSL->setAt(context, ref, newState));
             ProtoSparseList* expectedRoot = oldRoot;
             if (globalMutableShards[shard].root.compare_exchange_weak(expectedRoot, newRoot)) {
-                refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
+                refreshMutableCache(context, ref, newRoot, newState);
                 return true;
             }
-            // CAS lost to a concurrent shard write; back off occasionally and
-            // retry — the loop re-validates `expected` against the new state.
             if ((casIteration & 31) == 0) {
                 std::this_thread::yield();
             }
@@ -1538,11 +1866,6 @@ namespace proto
     const ProtoObject* ProtoObject::removeAttribute(ProtoContext* context, const ProtoString* name) const {
         if (!this || !name) return this;
 
-        // Auto-intern the key the same way setAttribute does, so the
-        // SparseList key (Symbol pointer cast to ulong) matches the slot
-        // setAttribute would have written.  A non-interned heap String
-        // produces a different ProtoString* than the interned one, and
-        // would silently miss the entry — turning every del into a no-op.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -1554,104 +1877,75 @@ namespace proto
             }
         }
 
-        // Invalidate any cached attribute hit on this thread for (this, name)
-        // — same shape as setAttribute's invalidation path.  Stale cache
-        // entries would resurrect the removed attribute on the next read.
-        if (context->thread) {
-            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
-            if (threadImpl->extension) {
-                proto_ulong hash_idx = ((reinterpret_cast<uintptr_t>(this) >> 6) ^
-                                            (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
-                if (threadImpl->extension->attributeCache[hash_idx].object == this &&
-                    threadImpl->extension->attributeCache[hash_idx].name == name) {
-                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr, nullptr};
-                }
-            }
-        }
-
         if (!proto::isObjectFast(this)) return this;
         auto* oc = toImpl<ProtoObjectCell>(this);
+        AttributeCacheEntry* cache = getShapeCache(context);
 
-        // Mutable path: same CAS structure as setAttribute, but the new
-        // attribute table is built via SparseList::removeAt instead of setAt.
-        if (oc->mutable_ref > 0) {
-             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-             ProtoContext::CriticalSection cs(context);
-             int casIteration = 0;
-             while (true) {
-                 ++casIteration;
+        if (oc->isMutableCell()) {
+            const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
+            const proto_ulong ref = moc->mutable_ref;
+            int shard = ref % context->space->MUTABLE_ROOT_SHARDS;
+            ProtoContext::CriticalSection cs(context);
+            int casIteration = 0;
+            while (true) {
+                ++casIteration;
 
-                 const ProtoObject* currentObjState = this;
-                 ProtoSparseList* oldRoot = nullptr;
-                 const ProtoObject* storedState = nullptr;
-                 resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
-                 if (storedState != nullptr) {
-                     currentObjState = storedState;
-                 }
+                ProtoSparseList* oldRoot = nullptr;
+                const ProtoObject* storedState = nullptr;
+                resolveMutableState(context, ref, &oldRoot, &storedState);
 
-                 if (!proto::isObjectFast(currentObjState)) {
-                     return this;
-                 }
-                 auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+                const ProtoObjectCell* currentOc = nullptr;
+                if (storedState != nullptr) {
+                    if (!proto::isObjectFast(storedState)) return this;
+                    currentOc = toImpl<const ProtoObjectCell>(storedState);
+                } else if (moc->initialState != nullptr) {
+                    currentOc = moc->initialState;
+                } else {
+                    currentOc = moc;
+                }
 
-                 // No-op fast path: if the name isn't present as OWN, skip
-                 // the allocation+CAS entirely and return `this` unchanged.
-                 // Matches the "no allocation if no change" contract callers
-                 // can rely on for cheap idempotent del.
-                 if (!currentOc->attributes->implHas(context, reinterpret_cast<uintptr_t>(name))) {
-                     return this;
-                 }
+                if (!currentOc->shape) return this;
+                const proto_long off = findAttributeOffset(cache, currentOc->shape, name);
+                if (off < 0) return this;
+                const proto_ulong uoff = static_cast<proto_ulong>(off);
+                if (getValueAt(currentOc, currentOc->shape->count, uoff) == nullptr) {
+                    return this;
+                }
 
-                 const ProtoSparseListImplementation* newAttributes =
-                     currentOc->attributes->implRemoveAt(context, reinterpret_cast<uintptr_t>(name));
+                const ProtoObjectCell* nextOc = setSlotAt(
+                    context, currentOc, currentOc->shape, currentOc->shape->count, uoff, nullptr);
+                const ProtoObject* newState = nextOc->asObject(context);
 
-                 auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, 0))->asObject(context);
-
-                 const ProtoSparseList* oldRootSL =
-                     (oldRoot == nullptr) ? context->newSparseList()
-                                          : oldRoot;
-                 ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
-                     oldRootSL->setAt(context, oc->mutable_ref, newState));
-                 ProtoSparseList* expected = oldRoot;
-                 if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
-                     refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
-                     break;
-                 }
-                 if ((casIteration & 31) == 0) {
-                     std::this_thread::yield();
-                 }
-             }
-
-             return this;
+                const ProtoSparseList* oldRootSL =
+                    (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
+                ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
+                    oldRootSL->setAt(context, ref, newState));
+                ProtoSparseList* expected = oldRoot;
+                if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
+                    refreshMutableCache(context, ref, newRoot, newState);
+                    break;
+                }
+                if ((casIteration & 31) == 0) {
+                    std::this_thread::yield();
+                }
+            }
+            return this;
         }
 
-        // Immutable path: copy-on-write.  No-op when the name isn't OWN.
-        if (!oc->attributes->implHas(context, reinterpret_cast<uintptr_t>(name))) {
+        if (!oc->shape) return this;
+        const proto_long off = findAttributeOffset(cache, oc->shape, name);
+        if (off < 0) return this;
+        const proto_ulong uoff = static_cast<proto_ulong>(off);
+        if (getValueAt(oc, oc->shape->count, uoff) == nullptr) {
             return this;
         }
         ProtoContext::CriticalSection cs(context);
-        const ProtoSparseListImplementation* newAttributes =
-            oc->attributes->implRemoveAt(context, reinterpret_cast<uintptr_t>(name));
-        const ProtoObject* result = (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
-        return result;
+        return setSlotAt(context, oc, oc->shape, oc->shape->count, uoff, nullptr)->asObject(context);
     }
 
     const ProtoObject* ProtoObject::getFirstParent(ProtoContext* context) const {
         if (!proto::isObjectFast(this)) return PROTO_NONE;
-        const auto* oc = toImpl<const ProtoObjectCell>(this);
-
-        // Resolve mutable to its current snapshot — same logic getParents uses.
-        if (oc->mutable_ref > 0) {
-            const proto::ProtoObject* storedState =
-                resolveMutableSnapshot(context, oc->mutable_ref);
-            if (storedState != nullptr && storedState != this) {
-                ProtoObjectPointer psa{};
-                psa.oid = storedState;
-                if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                    oc = toImpl<const ProtoObjectCell>(storedState);
-                }
-            }
-        }
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
 
         if (oc->parent && ((uintptr_t)oc->parent & 0x3F) == 0) {
             auto pl = toImpl<const ParentLinkImplementation>(oc->parent);
@@ -1662,30 +1956,9 @@ namespace proto
 
     const ProtoList* ProtoObject::getParents(ProtoContext* context) const {
         if (!proto::isObjectFast(this)) return context->newList();
-        const auto* oc = toImpl<const ProtoObjectCell>(this);
 
-        // GC critical section opened BEFORE the mutable snapshot is resolved.
-        // The parent chain read from the snapshot is used across the list
-        // allocations below, and the snapshot is referenced only from this
-        // frame: if another thread publishes a new state, nothing else keeps
-        // the old one alive.  Inside the section no thread parks, so no
-        // stop-the-world can run between the resolve and the last use; the
-        // heap checkpoint runs at the section's entry, before the resolve.
-        // The result list is young in `context` when the section ends.
         ProtoContext::CriticalSection cs(context);
-
-        // Handle Mutable Objects (cache-fast)
-        if (oc->mutable_ref > 0) {
-             const proto::ProtoObject* storedState =
-                 resolveMutableSnapshot(context, oc->mutable_ref);
-             if (storedState != nullptr && storedState != this) {
-                 ProtoObjectPointer psa{};
-                 psa.oid = storedState;
-                 if (psa.op.pointer_tag == POINTER_TAG_OBJECT) {
-                     oc = toImpl<const ProtoObjectCell>(storedState);
-                 }
-             }
-        }
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
 
         const ProtoList* parents = context->newList();
         const ParentLinkImplementation* p = oc->parent;
@@ -1705,11 +1978,6 @@ namespace proto
 
         if (!proto::isObjectFast(this)) return 0;
 
-        // Same shallow, single-level scan getParents() performs (own chain
-        // only — no descent into a visited parent's own further chain),
-        // just without allocating the ProtoList: walk oc->parent directly,
-        // mutable-resolved so a mutable receiver answers for its current
-        // version's chain.
         const ProtoObjectCell* oc = resolveOwnCell(context, this);
         const ParentLinkImplementation* link = oc->parent;
         while (link && ((uintptr_t)link & 0x3F) == 0) {
@@ -1726,49 +1994,37 @@ namespace proto
 
         const auto* oc = toImpl<const ProtoObjectCell>(this);
 
-        // Handle Mutable Objects.  See setAttribute (above) for the
-        // rationale on the unbounded-retry-with-backoff loop: an early
-        // cap silently dropped writes when shards were contended.
-        if (oc->mutable_ref > 0) {
-             int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
-             // GC critical section: every iteration allocates a new
-             // ProtoObjectCell + a new ParentLinkImplementation + a new
-             // outer SparseList tree before any of them are reachable
-             // from a GC root — only the final compare_exchange_weak on
-             // mutableRoot[shard].root publishes the new state.  Same
-             // discipline as setAttribute (see core/ProtoObject.cpp
-             // mutable branch); without it a concurrent STW root scan
-             // would observe the half-built tree as candidate-but-
-             // unreachable and sweep would free it.
+        if (oc->isMutableCell()) {
+             const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
+             const proto_ulong ref = moc->mutable_ref;
+             int shard = ref % context->space->MUTABLE_ROOT_SHARDS;
              ProtoContext::CriticalSection cs(context);
              int casIteration = 0;
              while (true) {
                  ++casIteration;
 
-                 // 1. Get current object state from the shard via the
-                 //    per-thread mutable-value cache (see setAttribute).
-                 const ProtoObject* currentObjState = this;
                  ProtoSparseList* oldRoot = nullptr;
                  const ProtoObject* storedState = nullptr;
-                 resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+                 resolveMutableState(context, ref, &oldRoot, &storedState);
+
+                 const ProtoObjectCell* currentOc = nullptr;
                  if (storedState != nullptr) {
-                     currentObjState = storedState;
+                     currentOc = toImpl<const ProtoObjectCell>(storedState);
+                 } else if (moc->initialState != nullptr) {
+                     currentOc = moc->initialState;
+                 } else {
+                     currentOc = moc;
                  }
 
-                 // 2. Create new state with added parent
-                 auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
                  auto* newState = currentOc->addParent(context, newParent)->asObject(context);
 
-                 // 3. CAS only the shard that owns this mutable_ref via
-                 // the public API so the small / AVL forms are honored.
                  const ProtoSparseList* oldRootSL =
                      (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
                  ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
-                     oldRootSL->setAt(context, oc->mutable_ref, newState));
+                     oldRootSL->setAt(context, ref, newState));
                  ProtoSparseList* expected = oldRoot;
                  if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
-                     // Refresh per-thread cache so subsequent reads on this thread hit immediately.
-                     refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
+                     refreshMutableCache(context, ref, newRoot, newState);
                      break;
                  }
                  if ((casIteration & 31) == 0) {
@@ -1776,15 +2032,9 @@ namespace proto
                  }
              }
 
-             return this; // Return the same handle
+             return this;
         }
 
-        // Immutable branch: build a new ProtoObjectCell with the added
-        // parent.  The intermediate ParentLinkImplementation cell is
-        // held in the constructor's argument list across the
-        // ProtoObjectCell allocation; both must stay reachable until the
-        // result is returned to the caller.  Critical section forbids
-        // STW root scan during construction.
         ProtoContext::CriticalSection cs(context);
         return oc->addParent(context, newParent)->asObject(context);
     }
@@ -1794,21 +2044,11 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT || !ProtoObject::isCellPointer(newParent)) return this;
 
-        // GC critical section: the loop below holds `result` (a
-        // ProtoObject* returned by addParentInternal) in a C++ local
-        // across multiple allocations — every iteration of the
-        // ancestors loop allocates new cells via the inner
-        // addParentInternal.  Without the guard a concurrent STW
-        // between iterations would observe `result` only via this C++
-        // local (it is not yet in any GC root) and a sweep could free
-        // its underlying cell.
         ProtoContext::CriticalSection cs(context);
 
         const ProtoObject* result = this;
         const ProtoList* mroOfNew = newParent->getParents(context);
 
-        // Add ancestors of newParent that are not in 'this' chain
-        // We add them in reverse order to maintain 'newParent parent chain order' after prepending
         if (mroOfNew) {
             for (int i = static_cast<int>(mroOfNew->getSize(context)) - 1; i >= 0; --i) {
                 const ProtoObject* ancestor = mroOfNew->getAt(context, i);
@@ -1818,7 +2058,6 @@ namespace proto
             }
         }
 
-        // Finally add newParent itself
         if (!result->hasParent(context, newParent)) {
             result = result->addParentInternal(context, newParent);
         }
@@ -1826,25 +2065,6 @@ namespace proto
         return result;
     }
 
-    /**
-     * @brief Replace the parent chain wholesale.
-     *
-     * For embedders that need true reassignment semantics (e.g. a
-     * Python-level `__bases__` setter) — `addParent` only extends the
-     * chain, which leaves stale ancestors visible to raw chain-walks.
-     *
-     * The trampoline structure mirrors `addParentInternal` /
-     * `setAttribute`:
-     *   - Mutable objects (`mutable_ref > 0`) take the same per-shard
-     *     CAS loop used by mutating writes, returning the SAME handle
-     *     so callers don't need to reseat references.
-     *   - Immutable objects build a fresh ProtoObjectCell with the
-     *     rebuilt chain and return its handle.
-     *
-     * Type tag check on `this` is the only sanity gate — non-cell
-     * pointers (embedded ints/floats/bools) silently no-op like
-     * addParent does.
-     */
     const ProtoObject* ProtoObject::setParents(ProtoContext* context, const ProtoList* newParents) const {
         if (!this || !context) return this;
         ProtoObjectPointer pa{};
@@ -1852,74 +2072,47 @@ namespace proto
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;
 
         const auto* oc = toImpl<const ProtoObjectCell>(this);
+        const bool isMut = oc->isMutableCell();
 
-        // Flattening (steps 1+2: the given list, de-duplicated, then each
-        // listed parent's own ancestors) is pure scratch computation — no
-        // Cell allocation — and does not depend on `this`'s own current
-        // state, only on `newParents` and each listed parent's own already
-        // -published chain. Done ONCE, here, OUTSIDE any critical section
-        // and OUTSIDE the mutable CAS retry loop below: the old code
-        // recomputed it (an O(n^2) dedup, at that) on every retry, for no
-        // benefit — a retry only means THIS object's own shard state
-        // changed concurrently, which the flattened chain never depended
-        // on.
-        //
-        // `this` is passed as the skip identity ONLY when `this` is
-        // mutable: its handle is stable across mutation, so it is the
-        // only case where the object being reshaped could already be
-        // listed as (or reachable as an ancestor of) one of its own new
-        // parents (e.g. two mutable objects setParents'd at each other).
-        // An immutable rebuild always produces a brand-new handle that
-        // NOTHING could have referenced yet — passing `this` (the OLD
-        // handle) as the skip identity there would be a false positive:
-        // an immutable object is free to list, or transitively reach
-        // through a listed parent's own chain, its own OLD handle (a
-        // different identity from the NEW one this call produces)
-        // without that being a self-reference. So no identity is passed,
-        // and an immutable setParents call never skips anything on this
-        // account.
         FlatParentList flat;
-        flattenParentsOrder(context, newParents, oc->mutable_ref > 0 ? this : nullptr, flat);
+        flattenParentsOrder(context, newParents, isMut ? this : nullptr, flat);
 
-        // GC critical section: building the link chain allocates one Cell
-        // per flattened entry; the intermediate links are not reachable
-        // from any root until the final head is itself linked into a
-        // ProtoObjectCell. Also built ONCE here (not once per CAS retry
-        // below) — the chain is identical regardless of how many times
-        // the CAS is retried.
         ProtoContext::CriticalSection cs(context);
         const ParentLinkImplementation* newChain = buildParentChainFromFlat(context, flat);
 
-        if (oc->mutable_ref > 0) {
-            int shard = oc->mutable_ref % context->space->MUTABLE_ROOT_SHARDS;
+        if (isMut) {
+            const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
+            const proto_ulong ref = moc->mutable_ref;
+            int shard = ref % context->space->MUTABLE_ROOT_SHARDS;
             int casIteration = 0;
             while (true) {
                 ++casIteration;
 
-                const ProtoObject* currentObjState = this;
                 ProtoSparseList* oldRoot = nullptr;
                 const ProtoObject* storedState = nullptr;
-                resolveMutableState(context, oc->mutable_ref, &oldRoot, &storedState);
+                resolveMutableState(context, ref, &oldRoot, &storedState);
+
+                const ProtoObjectCell* currentOc = nullptr;
                 if (storedState != nullptr) {
-                    currentObjState = storedState;
+                    currentOc = toImpl<const ProtoObjectCell>(storedState);
+                } else if (moc->initialState != nullptr) {
+                    currentOc = moc->initialState;
+                } else {
+                    currentOc = moc;
                 }
 
-                // Only the wrapping ProtoObjectCell is built per retry —
-                // reusing the precomputed `newChain` — to pick up whatever
-                // `attributes` the CURRENT state holds (which may have
-                // changed concurrently via setAttribute); the parent chain
-                // itself does not need to be, and is not, rebuilt.
-                auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
-                auto* newState =
-                    (new(context) ProtoObjectCell(context, newChain, currentOc->attributes, 0))->asObject(context);
+                auto* newState = (new(context) ProtoObjectCell(
+                    context, newChain, currentOc->shape,
+                    currentOc->rawSlots[0], currentOc->rawSlots[1],
+                    currentOc->rawSlots[2], currentOc->rawSlots[3]))->asObject(context);
 
                 const ProtoSparseList* oldRootSL =
                     (oldRoot == nullptr) ? context->newSparseList() : oldRoot;
                 ProtoSparseList* newRoot = const_cast<ProtoSparseList*>(
-                    oldRootSL->setAt(context, oc->mutable_ref, newState));
+                    oldRootSL->setAt(context, ref, newState));
                 ProtoSparseList* expected = oldRoot;
                 if (globalMutableShards[shard].root.compare_exchange_weak(expected, newRoot)) {
-                    refreshMutableCache(context, oc->mutable_ref, newRoot, newState);
+                    refreshMutableCache(context, ref, newRoot, newState);
                     break;
                 }
                 if ((casIteration & 31) == 0) {
@@ -1927,12 +2120,12 @@ namespace proto
                 }
             }
 
-            return this; // mutable: same handle
+            return this;
         }
 
-        // Immutable branch: wrap the precomputed chain in a new
-        // ProtoObjectCell sharing this cell's attributes table.
-        return (new(context) ProtoObjectCell(context, newChain, oc->attributes, 0))->asObject(context);
+        return (new(context) ProtoObjectCell(
+            context, newChain, oc->shape,
+            oc->rawSlots[0], oc->rawSlots[1], oc->rawSlots[2], oc->rawSlots[3]))->asObject(context);
     }
 
     int ProtoObject::isCell(ProtoContext* context) const {
@@ -2091,65 +2284,14 @@ namespace proto
     const ProtoObject* ProtoObject::getOwnAttributeDirect(ProtoContext* context, const ProtoString* name) const {
         ProtoObjectPointer pa{}; pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return nullptr;
-        auto oc = toImpl<const ProtoObjectCell>(this);
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
+        if (!oc->shape) return nullptr;
 
-        // Resolve to the immutable snapshot. For immutable objects
-        // snapshot == this; for mutables it's the snapshot pointer
-        // currently published in mutableRoot. The per-thread
-        // AttributeCache keys on (snapshot, name) — see getAttribute()
-        // above — so once we have the snapshot we can short-circuit
-        // the AVL probe on repeat reads.
-        const ProtoObject* snapshot = this;
-        const ProtoSparseListImplementation* attrs = oc->attributes;
-        if (oc->mutable_ref > 0) {
-            const ProtoObject* ss = resolveMutableSnapshot(context, oc->mutable_ref);
-            if (ss != nullptr) {
-                snapshot = ss;
-                attrs = toImpl<const ProtoObjectCell>(ss)->attributes;
-            }
-        }
-
-        // AttributeCache lookup on (snapshot, name). Same hash / lookup /
-        // populate pattern as getAttribute(): result==nullptr is a
-        // legitimate cached fact (confirmed-missing), result!=nullptr
-        // is the cached own-attribute value. GC pinning is handled by
-        // ProtoThreadExtension::processReferences, which traces all
-        // three slots of every cache entry.
-        AttributeCacheEntry* cache = nullptr;
-        if (context->thread) {
-            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
-            if (threadImpl->extension) {
-                cache = threadImpl->extension->attributeCache;
-            }
-        }
-
-        proto_ulong hash_idx = 0;
-        if (cache) {
-            hash_idx = ((reinterpret_cast<uintptr_t>(snapshot) >> 6) ^
-                          (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
-            if (cache[hash_idx].object == snapshot && cache[hash_idx].name == name) {
-#ifdef PROTO_CACHE_STATS
-                protoCacheStats_directHits.fetch_add(1, std::memory_order_relaxed);
-#endif
-                return cache[hash_idx].result;
-            }
-        }
-#ifdef PROTO_CACHE_STATS
-        protoCacheStats_directMisses.fetch_add(1, std::memory_order_relaxed);
-#endif
-
-        // Miss — walk the AVL. Preserves the nullptr-for-absent contract:
-        // an attribute legitimately set to PROTO_NONE (Python's
-        // `x = None`) returns PROTO_NONE here, not nullptr — callers
-        // that want existence semantics use hasOwnAttribute.
-        const ProtoObject* result = attrs
-            ? attrs->implGetAt(context, reinterpret_cast<uintptr_t>(name))
-            : nullptr;
-
-        if (cache) {
-            cache[hash_idx] = {snapshot, result, name, nullptr};
-        }
-        return result;
+        AttributeCacheEntry* cache = getShapeCache(context);
+        proto_ulong shapeCount = 0;
+        const proto_long off = findAttributeOffset(cache, oc->shape, name, shapeCount);
+        if (off < 0) return nullptr;
+        return getValueAt(oc, shapeCount, static_cast<proto_ulong>(off));
     }
 
     proto_ulong ProtoObject::getHash(ProtoContext* context) const {
@@ -2487,12 +2629,6 @@ namespace proto
     {
         if (!this || !name || !context) return PROTO_FALSE;
 
-        // Look up the canonical symbol for this key without inserting.
-        // If the key was never interned, it was never used as an attribute key,
-        // so the attribute cannot exist — return PROTO_FALSE immediately.
-        // Fast-path: if the name is already a SYMBOL (interned), the
-        // pointer is canonical — skip the SymbolTable lookup, which
-        // would otherwise hash the rope and compare bucket entries.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -2506,27 +2642,13 @@ namespace proto
                 if (!sym) return PROTO_FALSE;
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
-            // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
-        // Same shape as getAttribute's chain-navigation loop (own
-        // attributes, then the linearised chain, head to tail) — a pure
-        // linear scan, no allocation, no recursion, and (unlike
-        // getAttribute) NO step cap: newChild/addParent/setParents all
-        // guarantee the receiver's own chain already contains every one
-        // of its ancestors as a direct entry, so there is no length this
-        // walk cannot reach. The old fixed-size (64-slot) sibling-stack
-        // DFS with its 50-step cap returned PROTO_FALSE (a false
-        // negative) for any hierarchy deeper than 50 links — the same
-        // class of bug isInstanceOf had before its own fix.
+        AttributeCacheEntry* cache = getShapeCache(context);
         const ProtoObject* currentPointer = this;
         const ParentLinkImplementation* currentLink = nullptr;
-        const proto_ulong attr_hash = reinterpret_cast<uintptr_t>(name);
 
         while (currentPointer) {
-            // Pure 6-bit tag check, matching getAttribute's own hot-path
-            // check — see its comment for why no virtual getType() probe
-            // is needed for either this or the chain-advance step below.
             const bool isObj = (reinterpret_cast<uintptr_t>(currentPointer) & PROTO_UL(0x3F)) == POINTER_TAG_OBJECT;
             if (!isObj) {
                 const ProtoObject* nextProto = currentPointer->getPrototype(context);
@@ -2535,21 +2657,12 @@ namespace proto
                 continue;
             }
 
-            auto oc = toImpl<const ProtoObjectCell>(currentPointer);
-            auto ocValue = oc;
-            if (oc->mutable_ref > 0) {
-                const proto::ProtoObject* storedState =
-                    resolveMutableSnapshot(context, oc->mutable_ref);
-                if (storedState != nullptr) {
-                    ocValue = toImpl<const ProtoObjectCell>(storedState);
+            const ProtoObjectCell* ocValue = resolveOwnCell(context, currentPointer);
+            if (ocValue->shape != nullptr) {
+                const proto_long off = findAttributeOffset(cache, ocValue->shape, name);
+                if (off >= 0 && getValueAt(ocValue, ocValue->shape->count, static_cast<proto_ulong>(off)) != nullptr) {
+                    return PROTO_TRUE;
                 }
-            }
-
-            // Direct IMPL probe. nullptr means absent; anything else
-            // (including PROTO_NONE) means present — `attr = None` still
-            // answers True (vs missing).
-            if (ocValue->attributes && ocValue->attributes->implGetAt(context, attr_hash) != nullptr) {
-                return PROTO_TRUE;
             }
 
             const ParentLinkImplementation* nextLink =
@@ -2564,27 +2677,36 @@ namespace proto
         }
         return PROTO_FALSE;
     }
-    
-    /**
-     * @brief Merges this object's own attributes with those of every
-     * ancestor in its own FLATTENED chain, in the same precedence order
-     * attribute lookup uses: own attributes win over any ancestor's, and
-     * a NEARER ancestor (earlier in the chain) wins over a FARTHER one
-     * for the same key — matching getAttribute's/hasAttribute's "own,
-     * then chain head to tail, first match wins" rule exactly.
-     *
-     * This used to recurse into only the FIRST parent link
-     * (`pl->getObject(context)->getAttributes(context)`), so a second or
-     * later DIRECT parent (an addParent-built diamond, or a setParents
-     * list with more than one entry) never contributed its own
-     * attributes to the merged view at all — even though
-     * getAttribute/hasAttribute/isInstanceOf, which walk the receiver's
-     * own chain directly rather than recursing into just the first
-     * entry, already saw it. It is now the same iterative, allocation-
-     * for-the-merge-only walk of the receiver's own chain those methods
-     * use: no recursion, so no missed sibling and no C++ stack depth
-     * proportional to chain length either.
-     */
+
+    namespace {
+        const ProtoSparseListImplementation* mergeObjectIntoSparseList(
+            ProtoContext* context,
+            const ProtoSparseListImplementation* attrs,
+            const ProtoObjectCell* oc,
+            bool overwriteExisting)
+        {
+            if (!oc || !oc->shape) return attrs;
+            const proto_ulong total = oc->shape->count;
+            for (const ProtoShape* b = oc->shape; b != nullptr; b = b->next) {
+                const proto_ulong baseOff = (b->count - 1) & ~PROTO_UL(3);
+                for (int i = 3; i >= 0; --i) {
+                    const ProtoString* nm = b->names[i];
+                    if (!nm) continue;
+                    const proto_ulong off = baseOff + static_cast<proto_ulong>(3 - i);
+                    const ProtoObject* val = getValueAt(oc, total, off);
+                    if (val == nullptr) continue;
+                    const proto_ulong key = reinterpret_cast<uintptr_t>(nm);
+                    if (overwriteExisting || !attrs || attrs->implGetAt(context, key) == nullptr) {
+                        attrs = attrs
+                            ? attrs->implSetAt(context, key, val)
+                            : new(context) ProtoSparseListImplementation(context, key, val, nullptr, nullptr, false);
+                    }
+                }
+            }
+            return attrs;
+        }
+    }
+
     const ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
@@ -2593,44 +2715,17 @@ namespace proto
             return prototype ? prototype->getAttributes(context) : context->newSparseList();
         }
 
-        // GC critical section: covers the whole flattened-chain walk and
-        // the merge build, whose partial tree is reachable only via
-        // `attrs` (a C++ local) until the final return — same rationale
-        // as before, now spanning the whole chain in one section instead
-        // of one recursive hop's worth at a time.
         ProtoContext::CriticalSection cs(context);
 
-        auto oc = toImpl<const ProtoObjectCell>(this);
-        if (oc->mutable_ref > 0) {
-            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
-            if (storedState != nullptr) {
-                oc = toImpl<const ProtoObjectCell>(storedState);
-            }
-        }
-
-        // Seed `attrs` with the receiver's own attribute tree directly —
-        // structural sharing, no allocation — matching the fast path an
-        // object with no ancestors always had. Ancestors (if any) are
-        // merged in below, only adding a key not already present.
-        const ProtoSparseListImplementation* attrs = oc->attributes;
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
+        const ProtoSparseListImplementation* attrs = context->newSparseListImpl();
+        attrs = mergeObjectIntoSparseList(context, attrs, oc, true);
 
         const ParentLinkImplementation* link = oc->parent;
         while (link && ((uintptr_t)link & 0x3F) == 0) {
             auto pl = toImpl<const ParentLinkImplementation>(link);
             if (pl->getType() != CellType::ParentLink) break;
 
-            // Policy for a non-object chain entry (addParent accepts any
-            // cell pointer that is not an embedded value, e.g. a heap
-            // ProtoString; setParents' own flattening accepts literally
-            // anything, including an embedded value like a SmallInteger
-            // -- see flattenParentsOrder's comment on this): mirror
-            // getAttribute's chain-navigation loop exactly. Redirect to
-            // the entry's OWN prototype and merge THAT prototype's OWN
-            // attributes -- a single hop, never the prototype's own
-            // further chain -- then continue this scan's ORIGINAL chain
-            // exactly as before. `toImpl<ProtoObjectCell>` must never be
-            // called on a non-object tagged pointer: it does not address
-            // a ProtoObjectCell-shaped Cell at all.
             const ProtoObject* ancestor = pl->getObject(context);
             const ProtoObject* attrSource = ancestor;
             if (!proto::isObjectFast(attrSource)) {
@@ -2639,72 +2734,26 @@ namespace proto
 
             if (attrSource && proto::isObjectFast(attrSource)) {
                 const ProtoObjectCell* ancOc = resolveOwnCell(context, attrSource);
-                if (ancOc->attributes) {
-                    const ProtoSparseListIteratorImplementation* it = ancOc->attributes->implGetIterator(context);
-                    while (it && it->implHasNext()) {
-                        proto_ulong key = it->implNextKey();
-                        const ProtoObject* value = it->implNextValue();
-                        if (!attrs || attrs->implGetAt(context, key) == nullptr) {
-                            attrs = attrs ? attrs->implSetAt(context, key, value)
-                                          : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
-                        }
-                        it = it->implAdvance(context);
-                    }
-                }
+                attrs = mergeObjectIntoSparseList(context, attrs, ancOc, false);
             }
 
             link = pl->getParent(context);
         }
 
-        // Convert the IMPL pointer to the public API tagged handle at
-        // the boundary — this is the trampoline that returns to the
-        // user/external callers.
         return attrs ? attrs->asSparseList(context) : context->newSparseList();
     }
-    
+
     const ProtoSparseList* ProtoObject::getOwnAttributes(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return context->newSparseList();
-        auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseListImplementation* attributes = oc->attributes;
 
-        if (oc->mutable_ref > 0) {
-            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
-            if (storedState != nullptr) {
-                auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
-                attributes = storedOc->attributes;
-            }
-        }
-        // Trampoline boundary: convert the internal IMPL pointer to the
-        // public-API tagged handle.
-        return attributes ? attributes->asSparseList(context) : context->newSparseList();
+        ProtoContext::CriticalSection cs(context);
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
+        const ProtoSparseListImplementation* attrs = context->newSparseListImpl();
+        attrs = mergeObjectIntoSparseList(context, attrs, oc, true);
+        return attrs ? attrs->asSparseList(context) : context->newSparseList();
     }
-    
-    /**
-     * processOwnAttributes pins a mutable receiver's resolved state with
-     * WalkPin (headers/proto_internal.h) for the duration of the walk.
-     *
-     * Why a pin is needed at all: a state is reached by the collector
-     * only through its handle, as the entry the handle's ref names in
-     * the table snapshot taken at the pause (Marker::reportMutableState,
-     * docs/GLOBAL_MUTABLE_TABLE.md "States are not roots").  Once a
-     * write -- from the callback or from another thread -- replaces the
-     * state, the superseded one is reachable from nothing, and it is
-     * not young either unless this very context wrote it since its last
-     * submission.  A collection that the callback lets run (it may
-     * allocate and call safepoint()) would then free the tree the walk
-     * is standing on.
-     *
-     * Why this mechanism: the walk allocates no Cell, so it cannot put
-     * the state on the caller's young generation; the caller's
-     * automatic locals belong to the activation that owns the context
-     * (a primitive runs in the caller's context and creates none), so
-     * protoCore has no slot of its own there.  A root-set entry is a
-     * C++-side root the collector already scans, it nests (every walk
-     * holds its own entry), and it is released on every exit path,
-     * including an exception thrown by the callback.
-     */
 
     void ProtoObject::processOwnAttributes(
         ProtoContext* context, void* self,
@@ -2716,78 +2765,56 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return;
 
-        // Resolve the mutable snapshot exactly once, the same way
-        // getAttribute and getOwnAttributes do, so the walk reports one
-        // coherent view even if the receiver is mutated meanwhile.
         auto oc = toImpl<const ProtoObjectCell>(this);
         const ProtoObject* snapshot = nullptr;
-        const ProtoSparseListImplementation* attributes = oc->attributes;
-        if (oc->mutable_ref > 0) {
-            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
+        const ProtoObjectCell* stateOc = oc;
+        if (oc->isMutableCell()) {
+            const auto* moc = static_cast<const ProtoMutableObjectCell*>(oc);
+            const ProtoObject* storedState = resolveMutableSnapshot(context, moc->mutable_ref);
             if (storedState != nullptr) {
                 snapshot = storedState;
-                attributes = toImpl<const ProtoObjectCell>(storedState)->attributes;
+                stateOc = toImpl<const ProtoObjectCell>(storedState);
+            } else if (moc->initialState != nullptr) {
+                snapshot = moc->initialState->asObject(context);
+                stateOc = moc->initialState;
             }
         }
-        if (!attributes) return;
+        if (!stateOc || !stateOc->shape) return;
 
-        // Keep the tree reachable for the whole walk.  An immutable
-        // receiver's tree hangs off the receiver itself, which the caller
-        // keeps reachable as it keeps any argument it passes
-        // (docs/EMBEDDER-CONFORMANCE.md rule 3): nothing to do.  A mutable
-        // receiver's tree hangs off a state that a write may supersede at
-        // any time, so that state is pinned (see WalkPin).
-        //
-        // The resolution above and the pin below run with no allocation and
-        // no park between them, so no pause can fall between reading the
-        // state and pinning it; a cycle whose pause came earlier marks the
-        // state through its handle, the state the pause's table snapshot
-        // named for it (or the state is young, written after that pause).
         WalkPin pin(context, snapshot);
 
-        // Iterative in-order traversal over the attribute AVL.  The explicit
-        // stack lives in C++ automatic storage: no Cell is allocated, and no
-        // critical section is held across `method`.  The sparse list keeps
-        // `size` in 24 bits, so it holds at most 2^24 entries and an AVL of
-        // that size is at most ~35 deep; 64 frames is a safe bound.
-        constexpr int kMaxDepth = 64;
-        const ProtoSparseListImplementation* stack[kMaxDepth];
-        int sp = 0;
-        const ProtoSparseListImplementation* node = attributes;
+        const proto_ulong total = stateOc->shape->count;
+        const ProtoShape* b = stateOc->shape;
+        while (b != nullptr) {
+            const proto_ulong baseOff = (b->count - 1) & ~PROTO_UL(3);
+            const ProtoString* n0 = b->names[0];
+            const ProtoString* n1 = b->names[1];
+            const ProtoString* n2 = b->names[2];
+            const ProtoString* n3 = b->names[3];
+            const ProtoShape* nextBlock = b->next;
 
-        while (node != nullptr || sp > 0) {
-            while (node != nullptr && !node->isEmpty && sp < kMaxDepth) {
-                stack[sp++] = node;
-                node = node->previous;
+            if (n3) {
+                const ProtoObject* v = getValueAt(stateOc, total, baseOff + 0);
+                if (v != nullptr) method(context, self, n3, v);
             }
-            if (sp == 0) break;
-            node = stack[--sp];
-
-            // Read everything out of the cell BEFORE handing control to the
-            // callback, which may run arbitrary embedder code.
-            const proto_ulong key = node->key;
-            const ProtoObject* value = node->value;
-            const ProtoSparseListImplementation* right = node->next;
-
-            if (value != nullptr) {
-                // The key IS the canonical symbol pointer the attribute was
-                // set with (see setAttribute / getAttribute, which compute
-                // `reinterpret_cast<uintptr_t>(name)`).  Symbols are
-                // perennial — interned with a null context, never marked,
-                // swept, moved or evicted — so casting back is sound.
-                method(context, self, reinterpret_cast<const ProtoString*>(key), value);
+            if (n2) {
+                const ProtoObject* v = getValueAt(stateOc, total, baseOff + 1);
+                if (v != nullptr) method(context, self, n2, v);
             }
-            node = right;
+            if (n1) {
+                const ProtoObject* v = getValueAt(stateOc, total, baseOff + 2);
+                if (v != nullptr) method(context, self, n1, v);
+            }
+            if (n0) {
+                const ProtoObject* v = getValueAt(stateOc, total, baseOff + 3);
+                if (v != nullptr) method(context, self, n0, v);
+            }
+
+            b = nextBlock;
         }
     }
 
     const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, const ProtoString* name) const {
-        // Look up the canonical symbol for this key without inserting.
-        // If the key was never interned, it was never used as an attribute key,
-        // so the attribute cannot exist — return PROTO_FALSE immediately.
-        // Fast-path: if the name is already a SYMBOL (interned), the
-        // pointer is canonical — skip the SymbolTable lookup, which
-        // would otherwise hash the rope and compare bucket entries.
         {
             ProtoObjectPointer pa{};
             pa.oid = reinterpret_cast<const ProtoObject*>(name);
@@ -2801,23 +2828,17 @@ namespace proto
                 if (!sym) return PROTO_FALSE;
                 name = reinterpret_cast<const ProtoString*>(sym);
             }
-            // POINTER_TAG_SYMBOL pointers are already canonical; nothing to do.
         }
 
         if (!proto::isObjectFast(this)) return PROTO_FALSE;
-        auto oc = toImpl<const ProtoObjectCell>(this);
-        const ProtoSparseListImplementation* attributes = oc->attributes;
+        const ProtoObjectCell* oc = resolveOwnCell(context, this);
+        if (!oc->shape) return PROTO_FALSE;
 
-        if (oc->mutable_ref > 0) {
-            const ProtoObject* storedState = resolveMutableSnapshot(context, oc->mutable_ref);
-            if (storedState != nullptr) {
-                attributes = toImpl<const ProtoObjectCell>(storedState)->attributes;
-            }
-        }
-        // Direct IMPL probe — an attribute set to PROTO_NONE is still
-        // "present" (implGetAt returns PROTO_NONE, not nullptr).
+        AttributeCacheEntry* cache = getShapeCache(context);
+        const proto_long off = findAttributeOffset(cache, oc->shape, name);
+        if (off < 0) return PROTO_FALSE;
         return context->fromBoolean(
-            attributes && attributes->implGetAt(context, reinterpret_cast<uintptr_t>(name)) != nullptr);
+            getValueAt(oc, oc->shape->count, static_cast<proto_ulong>(off)) != nullptr);
     }
     
     const ProtoObject* ProtoObject::divmod(ProtoContext* context, const ProtoObject* other) const {

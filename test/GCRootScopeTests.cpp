@@ -31,7 +31,7 @@ using namespace proto;
 namespace {
 
 constexpr int kHeadroomCells = 40000;
-constexpr int kGarbagePerBatch = 5000;
+constexpr int kGarbagePerBatch = 10000;
 
 // Allocates garbage in short-lived children of `parent` under a hard heap
 // limit just above the current heap until at least `minCycles` cycles have

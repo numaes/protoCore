@@ -294,7 +294,7 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
         while ((current = phase.load(std::memory_order_relaxed)) != 2) {
             for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
                 if (current == 0) {
-                    ext->attributeCache[i].result = toCell ? cellValue : nullptr;
+                    ext->attributeCache[i].shape = toCell ? reinterpret_cast<const ProtoShape*>(cellValue) : nullptr;
                 } else {
                     // mutable_ref i + 1 never matches its slot index, so the
                     // owner's lookups never hit these entries.
@@ -333,7 +333,7 @@ TEST(ConcurrentMarkSafety, ThreadCacheSlotFlipsDuringMark) {
     flipper.join();
 
     for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
-        ext->attributeCache[i] = {nullptr, nullptr, nullptr, nullptr};
+        ext->attributeCache[i] = {nullptr, nullptr, 0, 0};
     }
     for (int i = 0; i < MUTABLE_VALUE_CACHE_DEPTH; ++i) {
         ext->mutableValueCache[i] = {0, nullptr, nullptr};

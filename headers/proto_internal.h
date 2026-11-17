@@ -153,7 +153,11 @@ namespace proto {
     struct DirtySegment;
     class ProtoContext;
     class ProtoObjectCell;
+    class ProtoMutableObjectCell;
     class ProtoLazyObjectCell;
+    class ProtoShape;
+    class ProtoAttrLeafCell;
+    class ProtoAttrBranchCell;
     class ParentLinkImplementation;
     class ProtoListImplementation;
     class ProtoListSmallImplementation;
@@ -797,7 +801,11 @@ namespace proto {
         ListRrb,
         ListRrbLeaf,
         ListRrbInner,
-        ListRrbSizes
+        ListRrbSizes,
+        MutableObject,
+        Shape,
+        AttrLeaf,
+        AttrBranch
     };
 
     class Cell {
@@ -945,7 +953,8 @@ namespace proto {
         if (!obj) return false;
         ProtoObjectPointer pa{}; pa.oid = obj;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return false;
-        return reinterpret_cast<const Cell*>(obj)->getType() == CellType::Object;
+        const CellType t = reinterpret_cast<const Cell*>(obj)->getType();
+        return t == CellType::Object || t == CellType::MutableObject;
     }
 
     class ProtoRangeIteratorImplementation final : public Cell {
@@ -996,45 +1005,136 @@ namespace proto {
         const ParentLinkImplementation *getParent(ProtoContext *context) const;
     };
 
+    /**
+     * @brief Internal 64-byte cell describing an object's attribute layout.
+     *
+     * A singly-linked list of up to 4 attribute names per cell, filled from
+     * `names[3]` down to `names[0]` (unused leading slots are nullptr).
+     * The offset of non-null `b->names[i]` in the object's value table is:
+     *   offset = ((b->count - 1) & ~3UL) + (3 - i)
+     */
+    class ProtoShape final : public Cell {
+    public:
+        const proto_ulong count;
+        const ProtoShape *const next;
+        const ProtoString *names[4];
+
+        CellType getType() const override { return CellType::Shape; }
+
+        ProtoShape(ProtoContext *context, proto_ulong count, const ProtoShape *next,
+                   const ProtoString *n0, const ProtoString *n1,
+                   const ProtoString *n2, const ProtoString *n3);
+
+        ~ProtoShape() override = default;
+
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+    };
+
+    /**
+     * @brief Internal 64-byte leaf block holding up to 6 attribute values.
+     */
+    class ProtoAttrLeafCell final : public Cell {
+    public:
+        const ProtoObject *values[6];
+
+        CellType getType() const override { return CellType::AttrLeaf; }
+
+        ProtoAttrLeafCell(ProtoContext *context,
+                          const ProtoObject *v0, const ProtoObject *v1,
+                          const ProtoObject *v2, const ProtoObject *v3,
+                          const ProtoObject *v4, const ProtoObject *v5);
+
+        ProtoAttrLeafCell(ProtoContext *context, proto_ulong idx, const ProtoObject *val);
+
+        ~ProtoAttrLeafCell() override = default;
+
+        const ProtoAttrLeafCell *withValueAt(ProtoContext *context, proto_ulong idx,
+                                             const ProtoObject *val) const;
+
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+    };
+
+    /**
+     * @brief Internal 64-byte branch block holding up to 6 child block pointers
+     *        (either ProtoAttrBranchCell* or ProtoAttrLeafCell*).
+     */
+    class ProtoAttrBranchCell final : public Cell {
+    public:
+        const Cell *children[6];
+
+        CellType getType() const override { return CellType::AttrBranch; }
+
+        ProtoAttrBranchCell(ProtoContext *context,
+                            const Cell *c0, const Cell *c1, const Cell *c2,
+                            const Cell *c3, const Cell *c4, const Cell *c5);
+
+        ProtoAttrBranchCell(ProtoContext *context, proto_ulong idx, const Cell *child);
+
+        ~ProtoAttrBranchCell() override = default;
+
+        const ProtoAttrBranchCell *withChildAt(ProtoContext *context, proto_ulong idx,
+                                               const Cell *child) const;
+
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+    };
+
     class ProtoObjectCell : public Cell {
     public:
         const ParentLinkImplementation *parent;
-        // Raw IMPL pointer to the AVL-form sparse list. Internal struct
-        // fields in protoCore implementation classes are always raw
-        // C++ pointers to other implementation classes — never tagged
-        // public-API handles. This lets every internal access go through
-        // the IMPL methods directly (`implGetAt`, `implSetAt`,
-        // `implRemoveAt`, `implHas`) with zero tag dispatch and no
-        // toImpl conversions.
-        //
-        // The Small variant of sparse list does not appear here: the
-        // AVL-vs-Small dispatch was a public-API optimisation that
-        // leaked into a private slot and produced inconsistent type
-        // discipline. Object attribute storage is always AVL form.
-        const ProtoSparseListImplementation *attributes;
-        const proto_ulong mutable_ref;
+        const ProtoShape *shape;
+        union {
+            const ProtoObject *values[4];
+            const Cell *blocks[4];
+            uintptr_t rawSlots[4];
+            struct {
+                proto_ulong mutable_ref;
+                const ProtoObjectCell *initialState;
+            };
+            struct {
+                uintptr_t lazy_reserved_zero;
+                const ProtoObject *lazy_producer;
+                mutable const ProtoObject *lazy_value;
+                mutable uint64_t lazy_stateEpoch;
+            };
+        };
 
         CellType getType() const override { return CellType::Object; }
 
         ProtoObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
-                        const ProtoSparseListImplementation *attributes, proto_ulong mutable_ref);
+                        const ProtoShape *shape = nullptr,
+                        uintptr_t s0 = 0, uintptr_t s1 = 0, uintptr_t s2 = 0, uintptr_t s3 = 0);
+
+        ProtoObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
+                        const ProtoShape *shape,
+                        const ProtoObject *v0, const ProtoObject *v1,
+                        const ProtoObject *v2, const ProtoObject *v3);
+
+        ProtoObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
+                        const ProtoShape *shape,
+                        const Cell *b0, const Cell *b1, const Cell *b2, const Cell *b3);
 
         ~ProtoObjectCell() override = default;
 
+        bool isMutableCell() const {
+            return shape == nullptr && mutable_ref > 0;
+        }
+
+        proto_ulong getMutableRef() const {
+            return isMutableCell() ? mutable_ref : 0;
+        }
+
         const ProtoObjectCell *addParent(ProtoContext *context, const ProtoObject *newParentToAdd) const;
 
-        // setParents has no ProtoObjectCell-level method: the flattening
-        // (order computation) and the chain-building (Cell allocation)
-        // are free functions local to core/ProtoObject.cpp
-        // (flattenParentsOrder, buildParentChainFromFlat) called directly
-        // by the ProtoObject::setParents trampoline — split out so the
-        // (potentially large) flattening work can run once, outside any
-        // GC critical section and outside a mutable receiver's CAS retry
-        // loop, instead of being redone on every retry.
-
         const ProtoObject *asObject(ProtoContext *context) const;
-
-        void finalize(ProtoContext *context) const;
 
         void processReferences(ProtoContext *context, void *self,
                                void (*method)(ProtoContext *, void *, const Cell *)) const override;
@@ -1045,6 +1145,28 @@ namespace proto {
         // for a plain object. Declared last so the vtable slots of the
         // virtuals above keep their positions.
         virtual const ProtoLazyObjectCell *asLazyCell() const { return nullptr; }
+    };
+
+    /**
+     * @brief Handle cell for a mutable object (`CellType::MutableObject`).
+     *
+     * Always has `shape == nullptr`. Holds `mutable_ref` in `rawSlots[0]` and
+     * an optional immutable birth state in `initialState` (`rawSlots[1]`) when
+     * created via `clone(context, true)` / `newClone(context, true)`.
+     */
+    class ProtoMutableObjectCell final : public ProtoObjectCell {
+    public:
+        CellType getType() const override { return CellType::MutableObject; }
+
+        ProtoMutableObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
+                               proto_ulong ref, const ProtoObjectCell *init = nullptr);
+
+        ~ProtoMutableObjectCell() override = default;
+
+        void finalize(ProtoContext *context) const override;
+
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
     };
 
     /**
@@ -1102,13 +1224,16 @@ namespace proto {
      */
     class ProtoLazyObjectCell final : public ProtoObjectCell {
     public:
-        const ProtoObject *const producer;
-        mutable std::atomic<const ProtoObject *> value;
-        mutable std::atomic<uint64_t> stateEpoch;
-
         ProtoLazyObjectCell(ProtoContext *context, const ParentLinkImplementation *parent,
-                            const ProtoSparseListImplementation *attributes,
                             const ProtoObject *producer);
+
+        const ProtoObject *getProducerField() const { return lazy_producer; }
+        std::atomic<const ProtoObject *> &valueAtomic() const {
+            return *reinterpret_cast<std::atomic<const ProtoObject *> *>(&lazy_value);
+        }
+        std::atomic<uint64_t> &stateEpochAtomic() const {
+            return *reinterpret_cast<std::atomic<uint64_t> *>(&lazy_stateEpoch);
+        }
 
         void processReferences(ProtoContext *context, void *self,
                                void (*method)(ProtoContext *, void *, const Cell *)) const override;
@@ -1997,10 +2122,10 @@ namespace proto {
     //      line boundary, eliminating split-line loads on the hit path.
     // The padding field is intentionally unused; it stays nullptr.
     struct AttributeCacheEntry {
-        const ProtoObject* object;
-        const ProtoObject* result;
+        const ProtoShape*  shape;
         const ProtoString* name;
-        const void*        _pad_reserved;
+        proto_long         offset;
+        proto_ulong        count;
     };
     static_assert(sizeof(AttributeCacheEntry) == 32,
                   "AttributeCacheEntry must be 32 bytes for SHL-indexable hot path");
@@ -2071,12 +2196,17 @@ namespace proto {
     struct ThreadBuffers {
         MutableValueCacheEntry mutableValueCache[MUTABLE_VALUE_CACHE_DEPTH];
         ContextSlotStack slotStack;
+        AttributeCacheEntry* attributeCache;
     };
     static_assert(offsetof(ThreadBuffers, mutableValueCache) == 0,
                   "mutableValueCache must start the ThreadBuffers allocation");
 
     inline ContextSlotStack* contextSlotStackOf(MutableValueCacheEntry* mutableValueCache) {
         return mutableValueCache ? &reinterpret_cast<ThreadBuffers*>(mutableValueCache)->slotStack : nullptr;
+    }
+
+    inline AttributeCacheEntry* shapeCacheOf(MutableValueCacheEntry* mutableValueCache) {
+        return mutableValueCache ? reinterpret_cast<ThreadBuffers*>(mutableValueCache)->attributeCache : nullptr;
     }
 
     class ProtoThreadExtension : public Cell {
@@ -3147,8 +3277,12 @@ namespace proto {
     };
 
     static_assert(sizeof(BigCell) <= 64, "BigCell exceeds 64 bytes!!!!");
-    static_assert(sizeof(ProtoObjectCell) <= 64, "ProtoObjectCell exceeds 64 bytes!");
-    static_assert(sizeof(ProtoLazyObjectCell) <= 64, "ProtoLazyObjectCell exceeds 64 bytes!");
+    static_assert(sizeof(ProtoObjectCell) == 64, "ProtoObjectCell must fill one 64-byte cell");
+    static_assert(sizeof(ProtoMutableObjectCell) == 64, "ProtoMutableObjectCell must fill one 64-byte cell");
+    static_assert(sizeof(ProtoLazyObjectCell) == 64, "ProtoLazyObjectCell must fill one 64-byte cell");
+    static_assert(sizeof(ProtoShape) == 64, "ProtoShape must fill one 64-byte cell");
+    static_assert(sizeof(ProtoAttrLeafCell) == 64, "ProtoAttrLeafCell must fill one 64-byte cell");
+    static_assert(sizeof(ProtoAttrBranchCell) == 64, "ProtoAttrBranchCell must fill one 64-byte cell");
     static_assert(sizeof(ProtoListImplementation) <= 64, "ProtoListImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListSmallImplementation) <= 64, "ProtoListSmallImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoListRrbImplementation) <= 64, "ProtoListRrbImplementation exceeds 64 bytes!");

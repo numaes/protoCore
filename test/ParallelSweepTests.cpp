@@ -71,11 +71,11 @@ void runCycle(ProtoSpace& space) {
     }
 }
 
-// `objects` objects of garbage in contexts of three (segments of ~6 cells).
+// `objects` two-cell units of garbage in contexts of six 1-cell objects (segments of ~6 cells).
 void garbage(ProtoSpace& space, int objects) {
     for (int done = 0; done < objects; done += 3) {
         ProtoContext sub(&space, space.rootContext, nullptr, nullptr, nullptr, nullptr);
-        for (int j = 0; j < 3; ++j) (void) sub.newObject(false);
+        for (int j = 0; j < 6; ++j) (void) sub.newObject(false);
     }
 }
 

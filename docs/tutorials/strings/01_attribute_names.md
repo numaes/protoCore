@@ -84,9 +84,24 @@ plain heap string misses there **silently** and returns `nullptr`
 in the runtime, once per source name and once per computed access, makes every
 path receive a canonical name.
 
+## Cloning with shared shapes (`newClone`)
+
+When a program builds many objects with the same set of attribute names (such as
+nodes of a tree or records of a table), creating a template object once and
+cloning it with `newClone` shares the underlying `ProtoShape` across every
+instance. Updates to existing attributes keep the same `ProtoShape` and copy
+only the changed value slot, so every node hits the per-thread shape cache on
+the first probe:
+
+```cpp
+const ProtoObject* account2 = account->newClone(ctx, false)
+    ->setAttribute(ctx, names.balance, ctx->fromInteger(250));
+```
+
 ## Checklist for a runtime
 
 1. Every attribute name in compiled code is a `createSymbol` result made at
    module initialization, never during the access.
 2. Every computed name goes through `ProtoString::intern` before the access.
-3. The runtime requires protoCore ≥ 3.2.0 (`find_package(protoCore 3.2 REQUIRED)`).
+3. Use `newClone` when creating sibling instances that share an attribute layout.
+4. The runtime requires protoCore ≥ 3.2.0 (`find_package(protoCore 3.2 REQUIRED)`).

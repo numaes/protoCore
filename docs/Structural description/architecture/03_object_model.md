@@ -34,24 +34,28 @@ Embedded types for tag 1:
 
 Immediate values need no heap allocation and are never seen by the collector. Values outside these ranges are promoted to heap objects (`LargeInteger`, `Double`, heap strings). Embedders can use the inline helpers `proto::isSmallInt`, `proto::asSmallInt`, `proto::smallIntInRange` and `proto::makeSmallInt` from `protoCore.h` to work with SmallInts without calling into the library.
 
-## Prototype-Based Inheritance
+## Prototype-Based Inheritance and Shared Shapes
 
-protoCore uses prototype delegation instead of classes. An object's parents are held in a chain of `ParentLink` cells, and an object can have several parents. `newChild` creates an object whose parent is the receiver, `addParent` adds a parent, and `setParents` replaces the parent list.
+protoCore uses prototype delegation instead of classes. An object's parents are held in a chain of `ParentLink` cells, and an object can have several parents. `newChild` creates an object whose parent is the receiver (starting with an empty attribute shape), `newClone` (and `clone`) creates a sibling object that shares the receiver's `parent`, `ProtoShape`, and initial attribute values, `addParent` adds a parent, and `setParents` replaces the parent list.
+
+An immutable `ProtoObjectCell` (64 bytes) separates attribute names from attribute values:
+- **`ProtoShape` (64 bytes):** a singly-linked list of up to 4 interned attribute names per cell (`names[3]` filled down to `names[0]`). The slot index of `b->names[i]` is `((b->count - 1) & ~3UL) + (3 - i)`, so adding new attributes at the front of the shape chain never shifts the indices of earlier attributes.
+- **Values ($4 \times 6^d$):** for up to 4 attributes, the 4 values sit inline inside `ProtoObjectCell::values[0..3]` (0 extra cells). Beyond 4 attributes, `ProtoObjectCell::blocks[0..3]` point to a $4 \times 6^d$ tree of 6-entry 64-byte cells (`ProtoAttrBranchCell` and `ProtoAttrLeafCell`) whose depth $d$ is determined by `shape->count`, with unrolled accessors for depths $d = 0, 1, 2, 3$.
 
 `getAttribute` looks in the object's own attributes first and then walks the parent chain until it finds the attribute or the chain ends. It returns `PROTO_NONE` when the attribute is missing; because an attribute can also hold `PROTO_NONE`, use `hasAttribute` or `hasOwnAttribute` to test for presence. `getOwnAttributeDirect` reads only the object's own attributes.
 
-Attribute names are stored as the interned symbol pointer reinterpreted as an integer, which is why `getOwnAttributes` returns a sparse list whose keys are opaque numbers: it gives an embedder the values but not the names. To walk an object's own attributes as (name, value) pairs, use `processOwnAttributes(context, self, callback)`. It hands the callback the canonical symbol for each name — the same pointer the attribute was set with, so `getAttribute` on it returns the value the callback received — visits own attributes only, reports an attribute whose value is `PROTO_NONE` like any other, allocates nothing, and runs the callback outside any GC critical section, so the callback may allocate and reach a safepoint. The order in which attributes are visited is unspecified.
+To walk an object's own attributes as (name, value) pairs, use `processOwnAttributes(context, self, callback)`. It hands the callback the canonical symbol for each name — the same pointer the attribute was set with, so `getAttribute` on it returns the value the callback received — visits own attributes only, reports an attribute whose value is `PROTO_NONE` like any other, allocates nothing, and runs the callback outside any GC critical section, so the callback may allocate and reach a safepoint. The order in which attributes are visited is unspecified.
 
 `ProtoObject::call` looks up a method by name with `getAttribute` and, if the value is a method, calls its native function with the receiver and the arguments. Native methods are C++ functions of type `ProtoMethod`; `ProtoContext::fromMethod` wraps one, together with its receiver, in a method object.
 
-## The Per-Thread Attribute Cache
+## The Per-Thread Shape Cache
 
-Each thread keeps a 1024-entry attribute cache (`THREAD_CACHE_DEPTH`) in its `ProtoThreadExtension`. Each 32-byte entry records an object state, an attribute name and a result. The slot index is computed from the two pointers:
+Each thread keeps a 1024-entry shape cache (`THREAD_CACHE_DEPTH`) in its `ProtoThreadExtension`. Each 32-byte entry maps a `(ProtoShape*, ProtoString*)` pair to the attribute's slot `offset` (`0 .. count - 1`, or `-1` if absent) and `count`:
 
 ```
-((object >> 6) ^ (name >> 4)) % THREAD_CACHE_DEPTH
+((shape >> 6) ^ (name >> 4) ^ (name >> 13) ^ (name >> 21)) % THREAD_CACHE_DEPTH
 ```
 
-In `getAttribute`, an entry records an own-attribute fact: the value an object state owns for a name, or that it does not own that name. A hit avoids searching that object's attribute tree during the lookup. For a mutable object the key is its current state, so an update by any thread produces a different key; `setAttribute` also clears the matching entry on the writing thread. The cache belongs to a single thread, so reading it needs no locks.
+Because `ProtoShape` cells are immutable and shared across object versions and clones (`newClone`), every object with the same shape hits the same cache entry, and overwriting attribute values (`setAttribute`) reuses the cached offset without invalidating the cache. On a cache miss, walking the `ProtoShape` chain caches every visited block along the chain, so extending a shape with new attributes still hits the cache on the shared suffix.
 
 A second per-thread table, the mutable value cache, maps a mutable object's `mutable_ref` to its current state; see [the mutability model](02_mutability_model.md).
