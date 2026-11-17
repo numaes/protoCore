@@ -170,7 +170,7 @@ const ProtoObject* stressMain(ProtoContext* ctx, const ProtoObject*, const Paren
         const ProtoObject* back = target->getAttribute(&step, slot);
         const ProtoList* l = back ? back->asList(&step) : nullptr;
         if (!l || l->getSize(&step) != 1 || !l->getAt(&step, 0)->isInteger(&step)) s.errors.fetch_add(1);
-        for (int k = 0; k < 60; ++k) (void) step.newObject(false);   // garbage: drives collections
+        for (int k = 0; k < 120; ++k) (void) step.newObject(false);   // garbage: drives collections
         priv->setAttribute(&step, mine, step.fromInteger(i));
         if (longAttr(&step, priv, "mine") != i) s.errors.fetch_add(1);
         if ((i & 63) == 0) step.safepoint();

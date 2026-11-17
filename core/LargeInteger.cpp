@@ -111,7 +111,8 @@ namespace proto
          if (!obj) return false;
          ProtoObjectPointer pa{}; pa.oid = obj;
          if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return false;
-         return toImpl<const Cell>(obj)->getType() == CellType::Object;
+         const CellType t = toImpl<const Cell>(obj)->getType();
+         return t == CellType::Object || t == CellType::MutableObject;
      }
 
 } // namespace proto

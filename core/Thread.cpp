@@ -355,7 +355,7 @@ namespace proto {
         this->attributeCache = static_cast<AttributeCacheEntry*>(
             alignedAlloc(64, THREAD_CACHE_DEPTH * sizeof(AttributeCacheEntry)));
         for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
-            this->attributeCache[i] = {nullptr, nullptr, nullptr, nullptr};
+            this->attributeCache[i] = {nullptr, nullptr, 0, 0};
         }
         // The mutable-value cache opens a ThreadBuffers allocation that also
         // holds this thread's context slot stack (proto_internal.h); the
@@ -369,6 +369,7 @@ namespace proto {
         buffers->slotStack.top = nullptr;
         buffers->slotStack.limit = nullptr;
         buffers->slotStack.holeCount = 0;
+        buffers->attributeCache = this->attributeCache;
         // The caches start empty, so they are "cleared" as of the current
         // cycle.  A new thread therefore does not clear again on its first
         // park exit unless a stop-the-world completes after this point.

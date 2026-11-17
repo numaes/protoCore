@@ -377,41 +377,42 @@ All core collection types in protoCore are implemented as persistent, immutable 
 protoCore implements a flexible and dynamic object model inspired by the Self programming language and JavaScript.
 
 *   **Controlled Mutability (The 256-Shard System)**: While the default is immutability, protoCore provides a mechanism for controlled mutation.
-    *   **Mutable Identity**: A mutable object (`ProtoObjectCell`) holds a unique 64-bit `mutable_ref` ID.
+    *   **Mutable Identity**: A mutable object handle (`ProtoMutableObjectCell`, `CellType::MutableObject`) holds a unique 64-bit `mutable_ref` ID while keeping `shape == nullptr` so immutable objects (`ProtoObjectCell`, `CellType::Object`) dedicate all four inline slot words to attribute storage.
     *   **Global Side Table**: The ID refers to an entry in the process-global table `globalMutableShards`, organized into **256 independent shards** (selected by `mutable_ref % MUTABLE_ROOT_SHARDS`). Each shard slot holds a `std::atomic<ProtoSparseList*>` and is padded to 64 bytes. The table is shared by every `ProtoSpace` of the process and a ref carries its space's id in its high bits, so an object resolves its own state through any space's context; every space's collector marks the whole table. See [docs/GLOBAL_MUTABLE_TABLE.md](docs/GLOBAL_MUTABLE_TABLE.md). (`ProtoSpace::mutableRoot` remains in the class for the ABI 3 layout and is not read.)
-    *   **Lock-Free Mutation**: A "mutation" is a lock-free `compare-and-swap` (CAS) operation on the shard root. This replaces the old immutable snapshot with a new one (structural sharing via AVL). Writers conflict only when they update mutables in the same shard.
-    *   **Validation via Pointer Equality**: Because AVL nodes and shard roots are immutable and newly allocated on change, pointer equality on a shard root guarantees content equality (no ABA problem at the snapshot level).
+    *   **Lock-Free Mutation**: A "mutation" is a lock-free `compare-and-swap` (CAS) operation on the shard root. This replaces the old immutable snapshot with a new one. Writers conflict only when they update mutables in the same shard.
+    *   **Validation via Pointer Equality**: Because shard roots are immutable and newly allocated on change, pointer equality on a shard root guarantees content equality (no ABA problem at the snapshot level).
     *   **Release of Entries**: When a mutable object's handle is collected, its finalizer records the `mutable_ref`, and after sweep the collector removes the entry from its shard (one compare-and-swap per shard, allocating through the collector's own `ProtoSpace::gcContext`). The state is freed in the following cycle. Without `PROTOCORE_GC_REINCLUDE_SURVIVORS` a handle that survives a cycle is never collected, so its entry stays. See [docs/GarbageCollector.md](docs/GarbageCollector.md) § "Phase 5b" and, for embedders, [the mutability model](docs/Structural%20description/architecture/02_mutability_model.md) § "What a Mutable Object Costs, and When It Is Released".
 
-*   **Attribute Storage and Enumeration**: An object's own attributes live in a `ProtoSparseList` (always the AVL form) whose key is the **interned symbol pointer of the name, reinterpreted as an integer** — `getAttribute` and `setAttribute` both compute `reinterpret_cast<uintptr_t>(name)`. This is sound because symbols are perennial (§ 2): interned with a null `ProtoContext`, allocated outside the GC, never marked, swept, moved or evicted, so a name keeps its canonical pointer for the lifetime of the process. The key therefore needs no GC tracing, and `ProtoSparseListImplementation::processReferences` deliberately traces only the value.
-    *   **Consequence for embedders**: `getOwnAttributes()` hands back a sparse list whose keys are those opaque integers, so it yields an object's own *values* but not its *names*.
+*   **Attribute Storage (`ProtoShape` and $4 \times 6^d$ Value Tree)**:
+    *   **Shared Shape (`ProtoShape`)**: An immutable `ProtoObjectCell` (64 bytes) stores `parent`, `shape` (`const ProtoShape*`), and 4 slot words (`values[4]` or `blocks[4]`). Each `ProtoShape` cell (64 bytes) holds `count` (total attributes in the chain), `next` (`const ProtoShape*`), and 4 interned symbol pointers `names[4]` filled from `names[3]` down to `names[0]` (unused leading slots are `nullptr`). The slot offset of `b->names[i]` is fixed permanently at `((b->count - 1) & ~3UL) + (3 - i)`, so adding a new attribute at the head (`offset = new_count - 1`) leaves all previous attribute offsets unchanged.
+    *   **Dense Value Representation ($4 \times 6^d$)**: When `shape->count <= 4` (depth $d = 0$), the 4 `ProtoObject*` values live inline inside `ProtoObjectCell::values[0..3]` (**0 extra cells**). When `shape->count > 4`, `ProtoObjectCell::blocks[0..3]` point to a tree of 64-byte internal cells (`ProtoAttrBranchCell` with 6 child pointers, `ProtoAttrLeafCell` with 6 `ProtoObject*` values) whose depth $d$ is determined purely by `shape->count` ($d = 1$ for $5 \dots 24$, $d = 2$ for $25 \dots 144$, $d = 3$ for $145 \dots 864$). Accessors for depths $d = 0, 1, 2, 3$ are unrolled with compile-time divisors (`6`, `36`, `216`).
+    *   **Cloning with Shared Shape (`newClone` / `clone`)**: `ProtoObject::newClone(context, isMutable)` creates a sibling object sharing `parent`, `shape`, and initial slots in a single 64-byte cell. Subsequent overwrites on existing attributes reuse the same `ProtoShape*` and path-copy only the modified value path, enabling $O(1)$ per-thread shape cache hits across homogeneous object collections (such as trees or graphs).
     *   **Enumerating names**: use **`ProtoObject::processOwnAttributes(context, self, callback)`**, which reports each own attribute as a `(name, value)` pair, passing the canonical symbol for the name — so it compares equal by identity to the symbol the embedder holds, and feeding it back to `getAttribute` returns the same value. It resolves the mutable snapshot exactly as `getAttribute` does, visits own attributes only (never the prototype chain), reports a `PROTO_NONE` value like any other, allocates nothing, and runs the callback **outside** any GC critical section, so the callback may allocate, reach a safepoint and run embedder code. **The visiting order is unspecified.**
 
 ---
 
 ## 4. The Two-Tier Cache Architecture
 
-To eliminate the $O(\log N)$ cost of AVL lookups and prototype chain walks on hot paths, protoCore implements a two-tier per-thread caching system.
+To eliminate the cost of shape chain scans and prototype chain walks on hot paths, protoCore implements a two-tier per-thread caching system.
 
 ### Tier 1: Mutable Value Cache (Snapshot Resolution)
 Every `ProtoThread` carries a 1024-entry `MutableValueCacheEntry` table. This short-circuits the resolution of a mutable ID to its current snapshot.
 *   **Key**: `mutable_ref`.
 *   **Validation**: The cache stores the `shard_root` pointer at the time of caching. A lookup reloads the current atomic `shard_root`; if it still matches the cached pointer, the `current_value` snapshot is returned in $O(1)$.
-*   **Self-Healing**: If another thread CASes the shard root, the pointer equality check fails, forcing an authoritative AVL lookup and a cache refresh.
+*   **Self-Healing**: If another thread CASes the shard root, the pointer equality check fails, forcing an authoritative lookup and a cache refresh.
 *   **Not GC roots**: Neither per-thread cache is traced by the collector. Each thread clears both of its caches when it resumes after a stop-the-world (leaving the allocation poll's park, `safepoint()`, `synchToGC()` or a heap-headroom wait, or returning from an unmanaged region), so every entry a lookup sees was written after the last stop-the-world and names only cells that were marked or young then. The lookup path is unchanged. See [docs/GarbageCollector.md](docs/GarbageCollector.md) § "Concurrent Mark Without Barriers", point 7.
 
-### Tier 2: Attribute Cache (Resolution & Inheritance)
-A 1024-entry `AttributeCacheEntry` table (`THREAD_CACHE_DEPTH`) accelerates attribute lookups. In `getAttribute`, an entry records an own-attribute fact for one object state: the value the object owns for a name, or that it does not own that name. A hit avoids the AVL search of that object during the lookup.
-*   **Hash Function**: `((reinterpret_cast<uintptr_t>(obj) >> 6) ^ (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH`, where `obj` is the resolved object state.
-*   **6-bit Shift**: Because cells are 64-byte aligned, bits 0-5 of the object pointer are always zero; shifting them out keeps them from cancelling index bits.
-*   **Entry Size**: Each entry is 32 bytes (checked by a `static_assert` in `headers/proto_internal.h`), so an entry's address is computed with a single shift and two entries fit in a 64-byte cache line.
-*   **Consistency**: `setAttribute` uses the same hash to clear the matching entry on the writing thread, so a write is immediately visible to later cached reads on that thread.
+### Tier 2: Shape Offset Cache (Attribute Index Resolution)
+A 1024-entry `AttributeCacheEntry` table (`THREAD_CACHE_DEPTH`) accelerates attribute offset lookups across all objects sharing a `ProtoShape` (or shape suffix). Each 32-byte entry maps `(shape_block, name) -> (offset, count)`, where `offset` is `0 .. count - 1` when present or `-1` when confirmed absent in that shape chain.
+*   **Hash Function**: `((reinterpret_cast<uintptr_t>(shape) >> 6) ^ (reinterpret_cast<uintptr_t>(name) >> 4) ^ (reinterpret_cast<uintptr_t>(name) >> 13) ^ (reinterpret_cast<uintptr_t>(name) >> 21)) % THREAD_CACHE_DEPTH`.
+*   **Chain Suffix Caching**: On a miss at the head `shape`, `findAttributeOffset` walks `b = shape; b != nullptr; b = b->next`, checking the cache at each block `b` and recording the resolved offset for every visited block in the prefix. If an object extends a known shape with a new head block, lookups of older attributes hit the cache as soon as they step to `b->next`.
+*   **Zero Invalidation on Value Writes**: Because `ProtoShape` cells and interned symbols are immutable, overwriting or removing attribute values never invalidates the shape cache—both `getAttribute` and `setAttribute` reuse cached offsets directly.
 
 ### Complexity
 | Access Type | Complexity |
 | :--- | :--- |
-| **Attribute cache hit** | $O(1)$ |
-| **AVL search (miss)** | $O(\log N)$ |
+| **Shape cache hit + inline read ($n \le 4$)** | $O(1)$ (0 indirect cells) |
+| **Shape cache hit + indirect read ($n > 4$)** | $O(\log_6 N)$ unrolled |
 | **Mutable snapshot resolution (cache hit)** | $O(1)$ |
 
 This repository records no benchmark results for these paths; the microbenchmarks in `performance/` (for example `cache_timing_benchmark.cpp` and `microbenchmark_final.cpp`) measure them.

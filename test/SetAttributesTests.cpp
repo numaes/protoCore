@@ -261,30 +261,55 @@ TEST_F(SetAttributesTest, FreshObjectGroupAllocatesLessThanSequential) {
 
 namespace {
 
-// Checks the AVL invariants of an attribute tree and answers its height:
-// keys strictly ascending, every node's height and size consistent with its
-// children, and the two subtrees of every node within one level.
-int checkAvl(const ProtoSparseListImplementation* n, uintptr_t lo, uintptr_t hi, bool& ok,
-             proto_ulong* size) {
-    if (!n || n->isEmpty) { *size = 0; return 0; }
-    if (n->key <= lo || n->key >= hi) ok = false;
-    proto_ulong ls = 0, rs = 0;
-    const int lh = checkAvl(n->previous, lo, n->key, ok, &ls);
-    const int rh = checkAvl(n->next, n->key, hi, ok, &rs);
-    if (lh - rh > 1 || rh - lh > 1) ok = false;
-    const int h = 1 + (lh > rh ? lh : rh);
-    if (static_cast<int>(n->height) != h) ok = false;
-    *size = ls + rs + 1;
-    if (n->size != *size) ok = false;
-    if (n->value == nullptr) ok = false;
-    return h;
+// Checks the ProtoShape and 4x6^d value-tree invariants of an immutable
+// ProtoObjectCell and counts its non-null own attributes.
+void checkObjectStorage(const ProtoObjectCell* oc, bool& ok, proto_ulong* nonNullCount) {
+    *nonNullCount = 0;
+    if (!oc) { ok = false; return; }
+    const ProtoShape* shape = oc->shape;
+    if (!shape) return;
+    proto_ulong expectedCount = shape->count;
+    if (expectedCount == 0) { ok = false; return; }
+
+    proto_ulong seenNames = 0;
+    for (const ProtoShape* b = shape; b != nullptr; b = b->next) {
+        if (b->getType() != CellType::Shape) { ok = false; return; }
+        const unsigned used = static_cast<unsigned>(((b->count - 1) & 3UL) + 1);
+        for (unsigned i = 0; i < 4; ++i) {
+            const bool shouldBeUsed = (i >= 4 - used);
+            if (shouldBeUsed && b->names[i] == nullptr) ok = false;
+            if (!shouldBeUsed && b->names[i] != nullptr) ok = false;
+        }
+        seenNames += used;
+        if (b->next && b->next->count + used != b->count) ok = false;
+        if (!b->next && b->count != used) ok = false;
+    }
+    if (seenNames != expectedCount) ok = false;
+
+    for (proto_ulong off = 0; off < expectedCount; ++off) {
+        const ProtoObject* v = nullptr;
+        if (expectedCount <= 4) {
+            v = oc->values[off];
+        } else if (expectedCount <= 24) {
+            const auto* leaf = static_cast<const ProtoAttrLeafCell*>(oc->blocks[off / 6]);
+            if (!leaf || leaf->getType() != CellType::AttrLeaf) { ok = false; return; }
+            v = leaf->values[off % 6];
+        } else {
+            const auto* b1 = static_cast<const ProtoAttrBranchCell*>(oc->blocks[off / 36]);
+            if (!b1 || b1->getType() != CellType::AttrBranch) { ok = false; return; }
+            const auto* leaf = static_cast<const ProtoAttrLeafCell*>(b1->children[(off % 36) / 6]);
+            if (!leaf || leaf->getType() != CellType::AttrLeaf) { ok = false; return; }
+            v = leaf->values[off % 6];
+        }
+        if (v != nullptr) ++(*nonNullCount);
+    }
 }
 
 }  // namespace
 
 // Random groups (inserts, overwrites, removals, repeated names) on random
-// trees: the one-pass build must equal the chained result and stay a valid
-// AVL tree.
+// objects: the one-pass build must equal the chained result and maintain
+// valid shape + value tree invariants.
 TEST_F(SetAttributesTest, RandomGroupsMatchChainedWritesAndStayBalanced) {
     std::mt19937 rng(20261003);
     std::vector<const ProtoString*> pool;
@@ -308,8 +333,8 @@ TEST_F(SetAttributesTest, RandomGroupsMatchChainedWritesAndStayBalanced) {
 
         bool ok = true;
         proto_ulong size = 0;
-        checkAvl(toImpl<const ProtoObjectCell>(grouped)->attributes, 0, UINTPTR_MAX, ok, &size);
-        ASSERT_TRUE(ok) << "round " << round << ": the built tree is not a valid AVL tree";
+        checkObjectStorage(toImpl<const ProtoObjectCell>(grouped), ok, &size);
+        ASSERT_TRUE(ok) << "round " << round << ": invalid shape or value tree";
         ASSERT_EQ(size, ownEntries(ctx, chained).size()) << "round " << round;
     }
 }
@@ -416,8 +441,9 @@ TEST_F(SetAttributesTest, FreshValuesSurviveCyclesDuringTheCall) {
             const ProtoList* list = c.newList()->appendLast(&c, c.fromUTF8String(text.c_str()));
             values.push_back(list->asObject(&c));
         }
-        // Garbage so the space keeps cycling.
-        for (int g = 0; g < 400; ++g) (void) c.newObject(false);
+        // Garbage so the space keeps cycling (newObject(false) now allocates
+        // 1 cell instead of 2, so 800 calls produces the same 800 cells/round).
+        for (int g = 0; g < 800; ++g) (void) c.newObject(false);
         obj->setAttributes(&c, N, names.data(), values.data());
         c.safepoint();
     }

@@ -55,12 +55,12 @@ namespace proto
 
     ProtoLazyObjectCell::ProtoLazyObjectCell(ProtoContext* context,
                                              const ParentLinkImplementation* parent,
-                                             const ProtoSparseListImplementation* attributes,
                                              const ProtoObject* producer)
-        : ProtoObjectCell(context, parent, attributes, 0),
-          producer(producer ? producer : PROTO_NONE),
-          value(nullptr),
-          stateEpoch(ProtoObject::LazyUnrealized) {}
+        : ProtoObjectCell(context, parent, nullptr,
+                          0,
+                          reinterpret_cast<uintptr_t>(producer ? producer : PROTO_NONE),
+                          0,
+                          static_cast<uintptr_t>(ProtoObject::LazyUnrealized)) {}
 
     void ProtoLazyObjectCell::processReferences(
         ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
@@ -74,10 +74,10 @@ namespace proto
     {
         // ORDER IS LOAD-BEARING: the state before the value (see the class
         // comment). A Realized state guarantees the value store is visible.
-        const uint64_t word = stateEpoch.load(std::memory_order_acquire);
+        const uint64_t word = stateEpochAtomic().load(std::memory_order_acquire);
         const int state = stateOf(word);
         if (state == ProtoObject::LazyRealized || state == ProtoObject::LazyPublishing) {
-            if (const Cell* v = ProtoObject::asCellPointer(value.load(std::memory_order_acquire)))
+            if (const Cell* v = ProtoObject::asCellPointer(valueAtomic().load(std::memory_order_acquire)))
                 method(context, self, v);
         }
         // The producer is released from the first cycle whose pause found the
@@ -85,7 +85,7 @@ namespace proto
         const bool released = state == ProtoObject::LazyRealized &&
             (word >> 2) < multispace::gcEpoch.load(std::memory_order_acquire);
         if (!released) {
-            if (const Cell* p = ProtoObject::asCellPointer(producer)) method(context, self, p);
+            if (const Cell* p = ProtoObject::asCellPointer(getProducerField())) method(context, self, p);
         }
     }
 
@@ -96,7 +96,7 @@ namespace proto
     int ProtoObject::getLazyState(ProtoContext*) const {
         const ProtoLazyObjectCell* c = lazyCellOf(this);
         if (!c) return LazyNotLazy;
-        return stateOf(c->stateEpoch.load(std::memory_order_acquire));
+        return stateOf(c->stateEpochAtomic().load(std::memory_order_acquire));
     }
 
     const ProtoObject* ProtoObject::getLazyProducer(ProtoContext*) const {
@@ -107,24 +107,24 @@ namespace proto
         // another space is not stopped by it), and the collector would then
         // stop tracing a producer this reader holds. seq_cst: see the file
         // comment.
-        const int state = stateOf(c->stateEpoch.load(std::memory_order_seq_cst));
+        const int state = stateOf(c->stateEpochAtomic().load(std::memory_order_seq_cst));
         if (state != LazyUnrealized && state != LazyClaimed) return nullptr;
-        return c->producer;
+        return c->getProducerField();
     }
 
     const ProtoObject* ProtoObject::getLazyValue(ProtoContext*) const {
         const ProtoLazyObjectCell* c = lazyCellOf(this);
         if (!c) return nullptr;
-        if (stateOf(c->stateEpoch.load(std::memory_order_acquire)) != LazyRealized) return nullptr;
-        return c->value.load(std::memory_order_acquire);
+        if (stateOf(c->stateEpochAtomic().load(std::memory_order_acquire)) != LazyRealized) return nullptr;
+        return c->valueAtomic().load(std::memory_order_acquire);
     }
 
     bool ProtoObject::claimLazy(ProtoContext*) const {
         const ProtoLazyObjectCell* c = lazyCellOf(this);
         if (!c) return false;
-        uint64_t expected = c->stateEpoch.load(std::memory_order_acquire);
+        uint64_t expected = c->stateEpochAtomic().load(std::memory_order_acquire);
         if (stateOf(expected) != LazyUnrealized) return false;
-        return c->stateEpoch.compare_exchange_strong(
+        return c->stateEpochAtomic().compare_exchange_strong(
             expected, (expected & ~kStateMask) | LazyClaimed,
             std::memory_order_acq_rel, std::memory_order_acquire);
     }
@@ -132,9 +132,9 @@ namespace proto
     void ProtoObject::unclaimLazy(ProtoContext*) const {
         const ProtoLazyObjectCell* c = lazyCellOf(this);
         if (!c) return;
-        uint64_t expected = c->stateEpoch.load(std::memory_order_acquire);
+        uint64_t expected = c->stateEpochAtomic().load(std::memory_order_acquire);
         if (stateOf(expected) != LazyClaimed) return;
-        c->stateEpoch.compare_exchange_strong(
+        c->stateEpochAtomic().compare_exchange_strong(
             expected, (expected & ~kStateMask) | LazyUnrealized,
             std::memory_order_acq_rel, std::memory_order_acquire);
     }
@@ -142,11 +142,11 @@ namespace proto
     bool ProtoObject::publishLazy(ProtoContext*, const ProtoObject* v) const {
         const ProtoLazyObjectCell* c = lazyCellOf(this);
         if (!c) return false;
-        uint64_t expected = c->stateEpoch.load(std::memory_order_acquire);
+        uint64_t expected = c->stateEpochAtomic().load(std::memory_order_acquire);
         for (;;) {
             const int state = stateOf(expected);
             if (state == LazyRealized || state == LazyPublishing) return false;
-            if (c->stateEpoch.compare_exchange_weak(
+            if (c->stateEpochAtomic().compare_exchange_weak(
                     expected, (expected & ~kStateMask) | LazyPublishing,
                     std::memory_order_seq_cst, std::memory_order_acquire))
                 break;
@@ -161,9 +161,9 @@ namespace proto
         // space -- which this space's pause does not stop -- could read the
         // epoch just before the increment and store an epoch one cycle too
         // old.
-        c->value.store(v ? v : PROTO_NONE, std::memory_order_release);
+        c->valueAtomic().store(v ? v : PROTO_NONE, std::memory_order_release);
         const uint64_t epoch = multispace::gcEpoch.load(std::memory_order_seq_cst);
-        c->stateEpoch.store((epoch << 2) | LazyRealized, std::memory_order_release);
+        c->stateEpochAtomic().store((epoch << 2) | LazyRealized, std::memory_order_release);
         return true;
     }
 }  // namespace proto

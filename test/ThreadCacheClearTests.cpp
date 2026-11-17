@@ -57,9 +57,10 @@ ProtoThreadExtension* extensionOf(ProtoContext* ctx) {
     return toImpl<ProtoThreadImplementation>(ctx->thread)->extension;
 }
 
-proto::proto_ulong attributeSlot(const ProtoObject* object, const ProtoString* name) {
-    return ((reinterpret_cast<uintptr_t>(object) >> 6) ^
-            (reinterpret_cast<uintptr_t>(name) >> 4)) % THREAD_CACHE_DEPTH;
+proto::proto_ulong attributeSlot(const ProtoShape* shape, const ProtoString* name) {
+    const uint64_t h = (reinterpret_cast<uint64_t>(shape) * 0x9E3779B97F4A7C15ULL) ^
+                       (reinterpret_cast<uint64_t>(name)  * 0xBF58476D1CE4E5B9ULL);
+    return static_cast<proto::proto_ulong>((h >> 54) ^ (h >> 32)) % THREAD_CACHE_DEPTH;
 }
 
 }  // namespace
@@ -96,17 +97,20 @@ TEST(ThreadCacheClear, AttributeEntryIsClearedWhenTheOwnerResumesAfterACycle) {
     const ProtoString* key = ProtoString::createSymbol(ctx, "value");
 
     const ProtoObject* object = ctx->newObject(false)->setAttribute(ctx, key, ctx->fromInteger(1));
-    AttributeCacheEntry& entry = extensionOf(ctx)->attributeCache[attributeSlot(object, key)];
+    const ProtoShape* shape = toImpl<const ProtoObjectCell>(object)->shape;
+    ASSERT_NE(shape, nullptr);
+    AttributeCacheEntry& entry = extensionOf(ctx)->attributeCache[attributeSlot(shape, key)];
     ASSERT_EQ(object->getAttribute(ctx, key)->asLong(ctx), 1);
-    ASSERT_EQ(entry.object, object) << "the lookup must have filled the entry";
+    ASSERT_EQ(entry.shape, shape) << "the lookup must have filled the entry";
 
     ASSERT_TRUE(runGcCycle(space, ctx));
-    EXPECT_EQ(entry.object, nullptr) << "the owner must clear its cache when it resumes after a cycle";
-    EXPECT_EQ(entry.result, nullptr);
+    EXPECT_EQ(entry.shape, nullptr) << "the owner must clear its cache when it resumes after a cycle";
     EXPECT_EQ(entry.name, nullptr);
+    EXPECT_EQ(entry.offset, 0);
+    EXPECT_EQ(entry.count, 0u);
 
     EXPECT_EQ(object->getAttribute(ctx, key)->asLong(ctx), 1);
-    EXPECT_EQ(entry.object, object) << "a lookup after the cycle refills the entry";
+    EXPECT_EQ(entry.shape, shape) << "a lookup after the cycle refills the entry";
 }
 
 // Objects whose lookups are cached are dropped and collected; the cells are

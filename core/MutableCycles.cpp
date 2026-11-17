@@ -143,18 +143,50 @@ const char* typeName(const Cell* c)
         case CellType::MPSCQueueRetain:     return "MPSCQueueRetain";
         case CellType::LinkedList:          return "LinkedList";
         case CellType::TupleDictionary:     return "TupleDictionary";
+        case CellType::MutableObject:       return "Object";
+        case CellType::Shape:               return "Shape";
+        case CellType::AttrLeaf:            return "AttrLeaf";
+        case CellType::AttrBranch:          return "AttrBranch";
         default:                            return "Cell";
     }
 }
 
 /// The mutable_ref a cell carries, or 0 when it is not a mutable's handle.
-/// `getType() == Object` is the only reliable discriminator: tag 0 is shared by
-/// seven cell types (see the tag-layout comment in proto_internal.h), so a bare
-/// tag check would read `mutable_ref` out of a ParentLink.
 proto_ulong handleRefOf(const Cell* c)
 {
-    if (!c || c->getType() != CellType::Object) return 0;
-    return static_cast<const ProtoObjectCell*>(c)->mutable_ref;
+    if (!c || c->getType() != CellType::MutableObject) return 0;
+    return static_cast<const ProtoMutableObjectCell*>(c)->mutable_ref;
+}
+
+const ProtoObject* objectAttrValueAt(const ProtoObjectCell* oc, proto_ulong count, proto_ulong offset)
+{
+    if (count <= 4) return oc->values[offset];
+    if (count <= 24) {
+        const auto* leaf = static_cast<const ProtoAttrLeafCell*>(oc->blocks[offset / 6]);
+        return leaf ? leaf->values[offset % 6] : nullptr;
+    }
+    if (count <= 144) {
+        const auto* b1 = static_cast<const ProtoAttrBranchCell*>(oc->blocks[offset / 36]);
+        if (!b1) return nullptr;
+        const proto_ulong r1 = offset % 36;
+        const auto* leaf = static_cast<const ProtoAttrLeafCell*>(b1->children[r1 / 6]);
+        return leaf ? leaf->values[r1 % 6] : nullptr;
+    }
+    proto_ulong step = 6;
+    unsigned depth = 1;
+    while (count > 4 * step) {
+        step *= 6;
+        ++depth;
+    }
+    const Cell* cur = oc->blocks[offset / step];
+    proto_ulong rem = offset % step;
+    for (unsigned level = 1; level < depth; ++level) {
+        if (!cur) return nullptr;
+        step /= 6;
+        cur = static_cast<const ProtoAttrBranchCell*>(cur)->children[rem / step];
+        rem %= step;
+    }
+    return cur ? static_cast<const ProtoAttrLeafCell*>(cur)->values[rem] : nullptr;
 }
 
 /// Recover an attribute key's spelling.  Only ever called for a node known to
@@ -268,18 +300,40 @@ private:
     {
         out.clear();
         switch (cell->getType()) {
+            case CellType::MutableObject: {
+                const auto* moc = static_cast<const ProtoMutableObjectCell*>(cell);
+                if (moc->parent)
+                    out.push_back({moc->parent, NodeKind::Other, "prototype"});
+                if (moc->mutable_ref > 0) {
+                    auto it = entries_.find(moc->mutable_ref);
+                    if (it != entries_.end()) {
+                        if (const Cell* v = ProtoObject::asCellPointer(it->second))
+                            out.push_back({v, NodeKind::Other, ""});
+                    } else if (moc->initialState) {
+                        out.push_back({moc->initialState, NodeKind::Other, ""});
+                    }
+                }
+                return;
+            }
             case CellType::Object: {
                 const auto* oc = static_cast<const ProtoObjectCell*>(cell);
                 if (oc->parent)
                     out.push_back({oc->parent, NodeKind::Other, "prototype"});
-                if (oc->attributes)
-                    out.push_back({oc->attributes, NodeKind::AttributeList, ""});
-                // The synthetic edge that makes the whole scan work.
-                if (oc->mutable_ref > 0) {
-                    auto it = entries_.find(oc->mutable_ref);
-                    if (it != entries_.end()) {
-                        if (const Cell* v = ProtoObject::asCellPointer(it->second))
-                            out.push_back({v, NodeKind::Other, ""});
+                if (oc->shape) {
+                    const proto_ulong total = oc->shape->count;
+                    for (const ProtoShape* b = oc->shape; b != nullptr; b = b->next) {
+                        const proto_ulong baseOff = (b->count - 1) & ~PROTO_UL(3);
+                        for (int i = 3; i >= 0; --i) {
+                            const ProtoString* nm = b->names[i];
+                            if (!nm) continue;
+                            const proto_ulong off = baseOff + static_cast<proto_ulong>(3 - i);
+                            const ProtoObject* val = objectAttrValueAt(oc, total, off);
+                            if (const Cell* vc = ProtoObject::asCellPointer(val)) {
+                                const std::string name = attributeName(readCtx_, reinterpret_cast<proto_ulong>(nm));
+                                const std::string label = name.empty() ? std::string(".<attr>") : ("." + name);
+                                out.push_back({vc, NodeKind::Other, label});
+                            }
+                        }
                     }
                 }
                 // A lazy object's value and (until released) producer: what

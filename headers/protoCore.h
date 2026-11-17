@@ -278,6 +278,16 @@ namespace proto
          */
         const ProtoObject* clone(ProtoContext* context, bool isMutable = false) const;
         /**
+         * @brief Creates a sibling clone sharing `parent`, `shape`, and current
+         *        attribute values with the receiver.
+         *
+         * Subsequent attribute writes on either object maintain independent
+         * value storage while continuing to share the same `ProtoShape` as long
+         * as existing attributes are updated, enabling O(1) per-thread shape
+         * cache hits across homogeneous object collections (e.g. trees/graphs).
+         */
+        const ProtoObject* newClone(ProtoContext* context, bool isMutable = false) const;
+        /**
          * @brief Creates a new object whose immediate parent is `this`.
          *
          * The new object's own chain is `{this} ∪ this's own chain at the
