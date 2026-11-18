@@ -2,6 +2,21 @@
 
 All notable changes to protoCore are documented in this file.
 
+## [Unreleased]
+
+### Added
+
+- **Shape transition table**: objects that add the same attribute names in
+  the same order now share one `ProtoShape` chain, whether they were built
+  one `setAttribute` at a time or with `setAttributes`. Each space keeps a
+  table of `(parent shape, name) -> child shape` transitions in 64
+  mutex-protected shards, fronted by a 512-entry per-thread cache. Interned
+  shapes are pinned in a root set of the space (they are perennial, like
+  interned symbols) and the table is freed with the space. A shape whose
+  parent already has 64 attributes is not interned, so dictionary-like
+  objects keep private shapes. `PROTOCORE_SHAPE_TRANSITIONS=0` disables the
+  table for A/B measurements.
+
 ## [3.6.1] - 2026-11-18
 
 Patch release. **No ABI break: SOVERSION stays 5.** The public header only
