@@ -2,16 +2,10 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased] - 2026-11-17
+## [Unreleased]
 
 ### Added
 
-- **`ProtoObject::newClone(context, isMutable = false)`**: creates a sibling
-  object sharing `parent`, `ProtoShape`, and initial attribute values in a
-  single 64-byte cell. Subsequent `setAttribute` calls on existing attributes
-  keep the same `ProtoShape` across all cloned instances, enabling $O(1)$
-  per-thread shape cache hits across homogeneous object collections (trees,
-  graphs, records).
 - **Shape transition table**: objects that add the same attribute names in
   the same order now share one `ProtoShape` chain, whether they were built
   one `setAttribute` at a time or with `setAttributes`. Each space keeps a
@@ -22,6 +16,23 @@ All notable changes to protoCore are documented in this file.
   parent already has 64 attributes is not interned, so dictionary-like
   objects keep private shapes. `PROTOCORE_SHAPE_TRANSITIONS=0` disables the
   table for A/B measurements.
+
+## [3.6.1] - 2026-11-18
+
+Patch release. **No ABI break: SOVERSION stays 5.** The public header only
+adds `ProtoObject::newClone`; the changed cell layouts live in
+`proto_internal.h`, which is not installed. An embedder built against 3.4.0 or
+later loads and runs against 3.6.1 without a rebuild. An embedder that
+compiles against `proto_internal.h` from a source tree must be rebuilt.
+
+### Added
+
+- **`ProtoObject::newClone(context, isMutable = false)`**: creates a sibling
+  object sharing `parent`, `ProtoShape`, and initial attribute values in a
+  single 64-byte cell. Subsequent `setAttribute` calls on existing attributes
+  keep the same `ProtoShape` across all cloned instances, enabling $O(1)$
+  per-thread shape cache hits across homogeneous object collections (trees,
+  graphs, records).
 
 ### Changed
 
