@@ -2,7 +2,13 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased] - 2026-11-17
+## [3.6.1] - 2026-11-18
+
+Patch release. **No ABI break: SOVERSION stays 5.** The public header only
+adds `ProtoObject::newClone`; the changed cell layouts live in
+`proto_internal.h`, which is not installed. An embedder built against 3.4.0 or
+later loads and runs against 3.6.1 without a rebuild. An embedder that
+compiles against `proto_internal.h` from a source tree must be rebuilt.
 
 ### Added
 
