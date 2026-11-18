@@ -3066,6 +3066,10 @@ namespace proto {
     public:
         ProtoRootSet* roots = nullptr;
 
+        /** Shape transition table (PROTOTYPE): opaque, created lazily by
+         *  core/ProtoObject.cpp (ShapeTransitionTable). */
+        mutable std::atomic<void*> shapeTransitions{nullptr};
+
         /** ProtoSpace::setErrorFactoryWithLength (since 3.5.1; kept here so
          *  the public ProtoSpace layout does not change). */
         mutable std::atomic<ProtoErrorFactoryWithLength> errorFactoryWithLength{nullptr};
@@ -3172,6 +3176,10 @@ namespace proto {
 
     /** See ProtoSpaceImplementation::walkPinSetFor (core/ProtoRootSet.cpp). */
     ProtoRootSet* createSingleWriterRootSet(ProtoSpace* space, const char* name);
+
+    /** Frees the space's shape transition table (core/ProtoObject.cpp).
+     *  ~ProtoSpace calls it after deleting the space's root sets. */
+    void destroyShapeTransitionTable(const ProtoSpaceImplementation* impl);
 
     /**
      * Destroys the calling ProtoThread's own walk-pin set in `space`, if it

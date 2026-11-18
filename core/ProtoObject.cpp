@@ -18,6 +18,8 @@
 #include <cstdlib>
 #include <string>
 #include <thread>
+#include <mutex>
+#include <unordered_map>
 #include <vector>
 
 #if defined(__GNUC__) || defined(__clang__)
@@ -512,6 +514,113 @@ namespace proto
             return new(context) ProtoShape(context, newCount, oldShape, nullptr, nullptr, nullptr, name);
         }
 
+        // ---------------------------------------------------------------
+        // Shape transition table (PROTOTYPE).  (parent shape, name) ->
+        // child shape, so that objects adding the same names in the same
+        // order converge on the same ProtoShape*.  Interned shapes are
+        // pinned in a root set of the space (perennial).  Front: a
+        // per-thread direct-mapped cache keyed by space id; back: a
+        // per-space table of 64 mutex-protected shards.  Shapes whose
+        // parent already has kMaxInternedCount attributes are not
+        // interned (dictionary-like objects keep private shapes).
+        // PROTOCORE_SHAPE_TRANSITIONS=0 disables it (A/B measurements).
+        // ---------------------------------------------------------------
+        constexpr proto_ulong kMaxInternedCount = 64;
+
+        struct TransitionKey {
+            const ProtoShape* parent;
+            const ProtoString* name;
+            bool operator==(const TransitionKey& o) const {
+                return parent == o.parent && name == o.name;
+            }
+        };
+        struct TransitionKeyHash {
+            size_t operator()(const TransitionKey& k) const {
+                const uint64_t h = (reinterpret_cast<uint64_t>(k.parent) * 0x9E3779B97F4A7C15ULL) ^
+                                   (reinterpret_cast<uint64_t>(k.name)   * 0xBF58476D1CE4E5B9ULL);
+                return static_cast<size_t>(h ^ (h >> 29));
+            }
+        };
+        struct ShapeTransitionTable {
+            static constexpr unsigned SHARDS = 64;
+            struct Shard {
+                std::mutex mutex;
+                std::unordered_map<TransitionKey, const ProtoShape*, TransitionKeyHash> map;
+            };
+            Shard shards[SHARDS];
+            ProtoRootSet* roots = nullptr;
+        };
+
+        struct TransitionCacheEntry {
+            proto_ulong spaceId;
+            const ProtoShape* parent;
+            const ProtoString* name;
+            const ProtoShape* child;
+        };
+        constexpr unsigned kTransitionCacheSize = 512;
+        thread_local TransitionCacheEntry tlTransitionCache[kTransitionCacheSize] = {};
+
+        inline bool shapeTransitionsEnabled() {
+            static const bool enabled = [] {
+                const char* v = std::getenv("PROTOCORE_SHAPE_TRANSITIONS");
+                return !(v && v[0] == '0');
+            }();
+            return enabled;
+        }
+
+        ShapeTransitionTable* transitionTableFor(ProtoSpace* space) {
+            auto* impl = space->impl;
+            void* t = impl->shapeTransitions.load(std::memory_order_acquire);
+            if (PROTO_LIKELY(t != nullptr)) return static_cast<ShapeTransitionTable*>(t);
+            auto* fresh = new ShapeTransitionTable();
+            fresh->roots = space->createRootSet("protoCore-shape-transitions");
+            void* expected = nullptr;
+            if (impl->shapeTransitions.compare_exchange_strong(expected, fresh,
+                                                               std::memory_order_acq_rel)) {
+                return fresh;
+            }
+            space->destroyRootSet(fresh->roots);
+            delete fresh;
+            return static_cast<ShapeTransitionTable*>(expected);
+        }
+
+        /**
+         * extendShape through the transition table.  Callers hold a
+         * CriticalSection, so a freshly allocated shape cannot be swept
+         * before it is pinned in the table's root set.
+         */
+        const ProtoShape* internedExtendShape(ProtoContext* context,
+                                              const ProtoShape* oldShape,
+                                              const ProtoString* name) {
+            if (!shapeTransitionsEnabled() ||
+                (oldShape && oldShape->count >= kMaxInternedCount)) {
+                return extendShape(context, oldShape, name);
+            }
+            const proto_ulong sid = spaceIdOf(context->space);
+            const TransitionKey key{oldShape, name};
+            const size_t h = TransitionKeyHash{}(key);
+            TransitionCacheEntry& e = tlTransitionCache[h % kTransitionCacheSize];
+            if (e.spaceId == sid && e.parent == oldShape && e.name == name) {
+                return e.child;
+            }
+            ShapeTransitionTable* table = transitionTableFor(context->space);
+            auto& shard = table->shards[(h >> 20) % ShapeTransitionTable::SHARDS];
+            const ProtoShape* child = nullptr;
+            {
+                std::lock_guard<std::mutex> lock(shard.mutex);
+                auto it = shard.map.find(key);
+                if (it != shard.map.end()) {
+                    child = it->second;
+                } else {
+                    child = extendShape(context, oldShape, name);
+                    table->roots->add(reinterpret_cast<const ProtoObject*>(child));
+                    shard.map.emplace(key, child);
+                }
+            }
+            e = {sid, oldShape, name, child};
+            return child;
+        }
+
         /**
          * Appends a brand-new attribute value at `offset = oldCount` (`newCount = oldCount + 1`),
          * handling indirection level transitions (4 -> 5, 24 -> 25, 144 -> 145, 4*6^d -> 4*6^d + 1)
@@ -556,6 +665,15 @@ namespace proto
             }
             return setSlotAt(context, oc, newShape, newCount, oldCount, value);
         }
+    }
+
+    void destroyShapeTransitionTable(const ProtoSpaceImplementation* impl) {
+        // Called by ~ProtoSpace after it has deleted every root set of the
+        // space, the table's own among them: only the table itself is left.
+        // Per-thread cache entries naming this space are never matched
+        // again, because space ids are not reused.
+        delete static_cast<ShapeTransitionTable*>(
+            impl->shapeTransitions.exchange(nullptr, std::memory_order_acq_rel));
     }
 
     ProtoShape::ProtoShape(ProtoContext* context, proto_ulong count, const ProtoShape* next,
@@ -1439,7 +1557,7 @@ namespace proto
                 return currentOc;
             }
 
-            const ProtoShape* newShape = extendShape(context, shape, name);
+            const ProtoShape* newShape = internedExtendShape(context, shape, name);
             if (cache) {
                 const proto_ulong idx = shapeCacheSlot(newShape, name);
                 cache[idx] = {newShape, name, static_cast<proto_long>(oldCount), newShape->count};
@@ -1453,6 +1571,13 @@ namespace proto
                                           unsigned addedCount)
         {
             if (addedCount == 0) return oldShape;
+            if (shapeTransitionsEnabled() &&
+                (oldShape ? oldShape->count : 0) + addedCount <= kMaxInternedCount) {
+                const ProtoShape* s = oldShape;
+                for (unsigned i = 0; i < addedCount; ++i)
+                    s = internedExtendShape(context, s, addedNames[i]);
+                return s;
+            }
             const ProtoShape* curShape = oldShape;
             proto_ulong curCount = oldShape ? oldShape->count : 0;
             unsigned idx = 0;

@@ -2249,6 +2249,7 @@ namespace proto {
         // BYTES, which are not.
         delete tupleInterner;
         tupleInterner = nullptr;
+        if (impl) destroyShapeTransitionTable(impl);
         delete impl;
         impl = nullptr;
 
