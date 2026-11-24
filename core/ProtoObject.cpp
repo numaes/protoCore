@@ -24,8 +24,10 @@
 
 #if defined(__GNUC__) || defined(__clang__)
 #define PROTO_LIKELY(x) __builtin_expect(!!(x), 1)
+#define PROTO_UNLIKELY(x) __builtin_expect(!!(x), 0)
 #else
 #define PROTO_LIKELY(x) (x)
+#define PROTO_UNLIKELY(x) (x)
 #endif
 
 #ifdef PROTO_CACHE_STATS
@@ -259,16 +261,72 @@ namespace proto
             return static_cast<proto_ulong>((h >> 54) ^ (h >> 32)) % THREAD_CACHE_DEPTH;
         }
 
+        /// Offset stored in a ProtoShapeIndex entry (a SmallInteger).
+        inline proto_long shapeIndexOffset(const ProtoObject* v) {
+            ProtoObjectPointer p{};
+            p.oid = v;
+            return static_cast<proto_long>(p.si.smallInteger);
+        }
+
+        inline const ProtoObject* shapeIndexValue(proto_ulong offset) {
+            ProtoObjectPointer p{};
+            p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+            p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
+            p.si.smallInteger = static_cast<proto_long>(offset);
+            return p.oid;
+        }
+
+        /**
+         * The chain walk behind findAttributeOffset.  Reads at most
+         * SHAPE_INDEX_STRIDE / 4 blocks (SHAPE_INDEX_FIRST / 4 on a chain
+         * that has no index yet) and, on reaching an indexed block, answers
+         * from its ProtoShapeIndex: every name older than that block is in
+         * the index, so the walk stops there whether the name is found or
+         * not.  When `cache` is given, a (block, name) hit on any block
+         * after the head also ends the walk.  `foundBlock` is set when the
+         * name was found in a block (not through an index).  `steps`, when
+         * given, counts the blocks read plus one per index probe.
+         */
+        template<bool CountSteps>
+        inline proto_long walkShapeChain(AttributeCacheEntry* cache,
+                                         const ProtoShape* shape,
+                                         const ProtoString* name,
+                                         const ProtoShape*& foundBlock,
+                                         unsigned* steps) {
+            for (const ProtoShape* b = shape; b != nullptr; ) {
+                if (CountSteps) ++*steps;
+                if (b != shape && cache) {
+                    const proto_ulong bIdx = shapeCacheSlot(b, name);
+                    if (cache[bIdx].shape == b && cache[bIdx].name == name) {
+                        return cache[bIdx].offset;
+                    }
+                }
+                const proto_ulong baseOffset = (b->count - 1) & ~PROTO_UL(3);
+                if (b->names[3] == name) { foundBlock = b; return static_cast<proto_long>(baseOffset + 0); }
+                if (b->names[2] == name) { foundBlock = b; return static_cast<proto_long>(baseOffset + 1); }
+                if (b->names[1] == name) { foundBlock = b; return static_cast<proto_long>(baseOffset + 2); }
+                if (b->names[0] == name) { foundBlock = b; return static_cast<proto_long>(baseOffset + 3); }
+                if (PROTO_UNLIKELY(b->isIndexed())) {
+                    if (CountSteps) ++*steps;
+                    const auto* ix = static_cast<const ProtoShapeIndex*>(b->link);
+                    const ProtoObject* v = sparse_avl::getAt(ix->names, reinterpret_cast<proto_ulong>(name));
+                    return v ? shapeIndexOffset(v) : -1;
+                }
+                b = static_cast<const ProtoShape*>(b->link);
+            }
+            return -1;
+        }
+
         /**
          * Resolves the attribute offset (0 .. shape->count - 1) of `name` in
          * `shape`, or -1 when `name` is not in `shape`.
          *
          * Uses the per-thread shape cache keyed on (shape, name). On a cache
-         * miss at the head `shape`, walks `b = shape; b != nullptr; b = b->next`;
-         * if any suffix block `b` is already in cache, stops immediately with
-         * that offset, and caches the resolved offset at the head `shape` (and
-         * at the defining block `b` when found) without polluting the cache
-         * with every intermediate block on deep chains.
+         * miss at the head `shape`, walks the chain with walkShapeChain
+         * (bounded by the name index, see ProtoShape), and caches the
+         * resolved offset at the head `shape` (and at the defining block
+         * when found in a block) without polluting the cache with every
+         * intermediate block on deep chains.
          */
         inline proto_long findAttributeOffset(AttributeCacheEntry* cache,
                                               const ProtoShape* shape,
@@ -297,23 +355,8 @@ namespace proto
             }
 
             outCount = shape->count;
-            proto_long foundOffset = -1;
             const ProtoShape* foundBlock = nullptr;
-
-            for (const ProtoShape* b = shape; b != nullptr; b = b->next) {
-                if (b != shape && cache) {
-                    const proto_ulong bIdx = shapeCacheSlot(b, name);
-                    if (cache[bIdx].shape == b && cache[bIdx].name == name) {
-                        foundOffset = cache[bIdx].offset;
-                        break;
-                    }
-                }
-                const proto_ulong baseOffset = (b->count - 1) & ~PROTO_UL(3);
-                if (b->names[3] == name) { foundOffset = static_cast<proto_long>(baseOffset + 0); foundBlock = b; break; }
-                if (b->names[2] == name) { foundOffset = static_cast<proto_long>(baseOffset + 1); foundBlock = b; break; }
-                if (b->names[1] == name) { foundOffset = static_cast<proto_long>(baseOffset + 2); foundBlock = b; break; }
-                if (b->names[0] == name) { foundOffset = static_cast<proto_long>(baseOffset + 3); foundBlock = b; break; }
-            }
+            const proto_long foundOffset = walkShapeChain<false>(cache, shape, name, foundBlock, nullptr);
 
             if (cache) {
                 if (foundBlock && foundBlock != shape) {
@@ -492,6 +535,61 @@ namespace proto
         }
 
         /**
+         * Builds the ProtoShapeIndex an indexed block links to: `older` (the
+         * full block just below the new one) and every name of `older` and
+         * the blocks under it.  Starts from the index of the previous
+         * indexed block and inserts only the names added since, at most
+         * SHAPE_INDEX_FIRST of them.
+         */
+        const ProtoShapeIndex* buildShapeIndex(ProtoContext* context, const ProtoShape* older) {
+            constexpr unsigned kMaxPending = ProtoShape::SHAPE_INDEX_FIRST > ProtoShape::SHAPE_INDEX_STRIDE
+                ? ProtoShape::SHAPE_INDEX_FIRST : ProtoShape::SHAPE_INDEX_STRIDE;
+            const ProtoString* pendingNames[kMaxPending];
+            proto_ulong pendingOffsets[kMaxPending];
+            unsigned pending = 0;
+            const ProtoSparseListImplementation* names = nullptr;
+            for (const ProtoShape* b = older; b != nullptr; ) {
+                const proto_ulong baseOffset = (b->count - 1) & ~PROTO_UL(3);
+                for (int i = 3; i >= 0; --i) {
+                    if (!b->names[i]) continue;
+                    if (pending == kMaxPending) std::abort();  // broken chain invariant
+                    pendingNames[pending] = b->names[i];
+                    pendingOffsets[pending] = baseOffset + static_cast<proto_ulong>(3 - i);
+                    ++pending;
+                }
+                if (b->isIndexed()) {
+                    names = static_cast<const ProtoShapeIndex*>(b->link)->names;
+                    break;
+                }
+                b = static_cast<const ProtoShape*>(b->link);
+            }
+            for (unsigned i = 0; i < pending; ++i) {
+                const proto_ulong key = reinterpret_cast<proto_ulong>(pendingNames[i]);
+                const ProtoObject* value = shapeIndexValue(pendingOffsets[i]);
+                names = names
+                    ? sparse_avl::setAt(context, names, key, value)
+                    : new(context) ProtoSparseListImplementation(context, key, value, nullptr, nullptr, false);
+            }
+            return new(context) ProtoShapeIndex(context, older, names);
+        }
+
+        /**
+         * A new block of `count` attributes on top of `older` (a full block,
+         * or nullptr), linked through a fresh ProtoShapeIndex when `count`
+         * makes it an indexed block.
+         */
+        inline const ProtoShape* newShapeBlock(ProtoContext* context, proto_ulong count,
+                                               const ProtoShape* older,
+                                               const ProtoString* n0, const ProtoString* n1,
+                                               const ProtoString* n2, const ProtoString* n3) {
+            const Cell* link = older;
+            if (PROTO_UNLIKELY(ProtoShape::isIndexedCount(count))) {
+                link = buildShapeIndex(context, older);
+            }
+            return new(context) ProtoShape(context, count, link, n0, n1, n2, n3);
+        }
+
+        /**
          * Prepends `name` to `oldShape`, packing up to 4 names per ProtoShape cell
          * from `names[3]` down to `names[0]`.
          */
@@ -509,9 +607,11 @@ namespace proto
                 const ProtoString* n1 = (usedInHead == 2) ? name : oldShape->names[1];
                 const ProtoString* n2 = (usedInHead == 1) ? name : oldShape->names[2];
                 const ProtoString* n3 = oldShape->names[3];
-                return new(context) ProtoShape(context, newCount, oldShape->next, n0, n1, n2, n3);
+                // Same block slot, one more name: the link (older block or
+                // index) is shared verbatim.
+                return new(context) ProtoShape(context, newCount, oldShape->link, n0, n1, n2, n3);
             }
-            return new(context) ProtoShape(context, newCount, oldShape, nullptr, nullptr, nullptr, name);
+            return newShapeBlock(context, newCount, oldShape, nullptr, nullptr, nullptr, name);
         }
 
         // ---------------------------------------------------------------
@@ -676,16 +776,39 @@ namespace proto
             impl->shapeTransitions.exchange(nullptr, std::memory_order_acq_rel));
     }
 
-    ProtoShape::ProtoShape(ProtoContext* context, proto_ulong count, const ProtoShape* next,
+    ProtoShape::ProtoShape(ProtoContext* context, proto_ulong count, const Cell* link,
                            const ProtoString* n0, const ProtoString* n1,
                            const ProtoString* n2, const ProtoString* n3)
-        : Cell(context), count(count), next(next), names{n0, n1, n2, n3} {}
+        : Cell(context), count(count), link(link), names{n0, n1, n2, n3} {}
 
     void ProtoShape::processReferences(ProtoContext* context, void* self,
                                        void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (this->next) {
-            method(context, self, this->next);
+        if (this->link) {
+            method(context, self, this->link);
         }
+    }
+
+    ProtoShapeIndex::ProtoShapeIndex(ProtoContext* context, const ProtoShape* next,
+                                     const ProtoSparseListImplementation* names)
+        : Cell(context), next(next), names(names) {}
+
+    void ProtoShapeIndex::processReferences(ProtoContext* context, void* self,
+                                            void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (this->next) method(context, self, this->next);
+        if (this->names) method(context, self, this->names);
+    }
+
+    const ProtoObject* ProtoShapeIndex::implAsObject(ProtoContext*) const {
+        return PROTO_NONE;
+    }
+
+    proto_long shapeFindOffsetForTesting(const ProtoShape* shape, const ProtoString* name,
+                                         unsigned* blocksVisited) {
+        unsigned steps = 0;
+        const ProtoShape* foundBlock = nullptr;
+        const proto_long offset = walkShapeChain<true>(nullptr, shape, name, foundBlock, &steps);
+        if (blocksVisited) *blocksVisited = steps;
+        return offset;
     }
 
     const ProtoObject* ProtoShape::implAsObject(ProtoContext*) const {
@@ -1596,7 +1719,7 @@ namespace proto
                     curCount += take;
                     idx += take;
                     curShape = new(context) ProtoShape(
-                        context, curCount, curShape->next, n[0], n[1], n[2], n[3]);
+                        context, curCount, curShape->link, n[0], n[1], n[2], n[3]);
                 }
             }
 
@@ -1608,7 +1731,7 @@ namespace proto
                 }
                 curCount += take;
                 idx += take;
-                curShape = new(context) ProtoShape(
+                curShape = newShapeBlock(
                     context, curCount, curShape, n[0], n[1], n[2], n[3]);
             }
             return curShape;
@@ -2812,7 +2935,7 @@ namespace proto
         {
             if (!oc || !oc->shape) return attrs;
             const proto_ulong total = oc->shape->count;
-            for (const ProtoShape* b = oc->shape; b != nullptr; b = b->next) {
+            for (const ProtoShape* b = oc->shape; b != nullptr; b = b->nextBlock()) {
                 const proto_ulong baseOff = (b->count - 1) & ~PROTO_UL(3);
                 for (int i = 3; i >= 0; --i) {
                     const ProtoString* nm = b->names[i];
@@ -2916,7 +3039,7 @@ namespace proto
             const ProtoString* n1 = b->names[1];
             const ProtoString* n2 = b->names[2];
             const ProtoString* n3 = b->names[3];
-            const ProtoShape* nextBlock = b->next;
+            const ProtoShape* nextBlock = b->nextBlock();
 
             if (n3) {
                 const ProtoObject* v = getValueAt(stateOc, total, baseOff + 0);

@@ -94,7 +94,7 @@ TEST_F(ShapeTransitionTest, SameNamesInSameOrderShareTheShape) {
     ASSERT_NE(shapeOf(a), nullptr);
     EXPECT_EQ(shapeOf(a), shapeOf(b));
     // Every prefix converges too: the chains are the same cells.
-    EXPECT_EQ(shapeOf(a)->next, shapeOf(b)->next);
+    EXPECT_EQ(shapeOf(a)->nextBlock(), shapeOf(b)->nextBlock());
     for (size_t i = 0; i < n.size(); ++i) {
         EXPECT_EQ(b->getAttribute(ctx, n[i])->asLong(ctx), static_cast<long long>(i));
     }
@@ -140,9 +140,9 @@ TEST_F(ShapeTransitionTest, ObjectsPastTheCapKeepPrivateShapes) {
     // Shapes up to the cap are shared; the 65th attribute onward is private.
     EXPECT_NE(shapeOf(a), shapeOf(b));
     const ProtoShape* sa = shapeOf(a);
-    while (sa && sa->count > 64) sa = sa->next;
+    while (sa && sa->count > 64) sa = sa->nextBlock();
     const ProtoShape* sb = shapeOf(b);
-    while (sb && sb->count > 64) sb = sb->next;
+    while (sb && sb->count > 64) sb = sb->nextBlock();
     ASSERT_NE(sa, nullptr);
     EXPECT_EQ(sa->count, 64u);
     EXPECT_EQ(sa, sb);
@@ -195,7 +195,7 @@ TEST_F(ShapeTransitionTest, InternedShapesSurviveCollectionWithNoObjectLeft) {
     const ProtoShape* walk = before;
     for (int i = 6; i >= 0; --i) {
         const unsigned slot = static_cast<unsigned>(3 - (i % 4));
-        if (i < 6 && i % 4 == 3) walk = walk->next;
+        if (i < 6 && i % 4 == 3) walk = walk->nextBlock();
         ASSERT_NE(walk, nullptr);
         EXPECT_EQ(walk->names[slot], n[i]) << "attribute " << i;
     }

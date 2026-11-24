@@ -76,11 +76,11 @@ TEST_F(ObjectShapeAttributesTest, ShapePacksFromLastSlotToFirstAndChainsAtFour) 
     const auto* oc9 = toImpl<const ProtoObjectCell>(obj);
     ASSERT_NE(oc9->shape, nullptr);
     EXPECT_EQ(oc9->shape->count, 9u);
-    ASSERT_NE(oc9->shape->next, nullptr);
-    EXPECT_EQ(oc9->shape->next->count, 8u);
-    ASSERT_NE(oc9->shape->next->next, nullptr);
-    EXPECT_EQ(oc9->shape->next->next->count, 4u);
-    EXPECT_EQ(oc9->shape->next->next->next, nullptr);
+    ASSERT_NE(oc9->shape->nextBlock(), nullptr);
+    EXPECT_EQ(oc9->shape->nextBlock()->count, 8u);
+    ASSERT_NE(oc9->shape->nextBlock()->nextBlock(), nullptr);
+    EXPECT_EQ(oc9->shape->nextBlock()->nextBlock()->count, 4u);
+    EXPECT_EQ(oc9->shape->nextBlock()->nextBlock()->nextBlock(), nullptr);
 }
 
 TEST_F(ObjectShapeAttributesTest, ExactCellCountsAcrossIndirectionLevels) {

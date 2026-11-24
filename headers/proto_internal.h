@@ -156,6 +156,7 @@ namespace proto {
     class ProtoMutableObjectCell;
     class ProtoLazyObjectCell;
     class ProtoShape;
+    class ProtoShapeIndex;
     class ProtoAttrLeafCell;
     class ProtoAttrBranchCell;
     class ParentLinkImplementation;
@@ -805,7 +806,8 @@ namespace proto {
         MutableObject,
         Shape,
         AttrLeaf,
-        AttrBranch
+        AttrBranch,
+        ShapeIndex
     };
 
     class Cell {
@@ -1012,26 +1014,102 @@ namespace proto {
      * `names[3]` down to `names[0]` (unused leading slots are nullptr).
      * The offset of non-null `b->names[i]` in the object's value table is:
      *   offset = ((b->count - 1) & ~3UL) + (3 - i)
+     *
+     * Name index (3.6.2).  Proving that a name is absent from a chain used
+     * to walk every block, so adding N attributes to one object cost
+     * O(N^2).  Blocks whose first offset `(count - 1) & ~3` is a multiple of
+     * SHAPE_INDEX_STRIDE and at least SHAPE_INDEX_FIRST are *indexed*: their
+     * `link` points to a ProtoShapeIndex that maps every name of the older
+     * blocks to its offset and holds the older block itself.  Whether a
+     * block is indexed follows from its `count` alone, so no field is
+     * spent on it.  A lookup visits at most SHAPE_INDEX_STRIDE / 4 blocks
+     * before it reaches an index; chains of up to SHAPE_INDEX_FIRST names
+     * (all interned shapes among them) carry no index at all.
      */
     class ProtoShape final : public Cell {
     public:
+        static constexpr proto_ulong SHAPE_INDEX_FIRST = 64;
+        static constexpr proto_ulong SHAPE_INDEX_STRIDE = 32;
+
         const proto_ulong count;
-        const ProtoShape *const next;
+        // Older block (a ProtoShape) or, for an indexed block, the
+        // ProtoShapeIndex covering every older block.  Use nextBlock().
+        const Cell *const link;
         const ProtoString *names[4];
 
         CellType getType() const override { return CellType::Shape; }
 
-        ProtoShape(ProtoContext *context, proto_ulong count, const ProtoShape *next,
+        ProtoShape(ProtoContext *context, proto_ulong count, const Cell *link,
                    const ProtoString *n0, const ProtoString *n1,
                    const ProtoString *n2, const ProtoString *n3);
 
         ~ProtoShape() override = default;
+
+        /// True when a block of `count` attributes links to a ProtoShapeIndex.
+        static bool isIndexedCount(proto_ulong count) {
+            const proto_ulong base = (count - 1) & ~PROTO_UL(3);
+            return base >= SHAPE_INDEX_FIRST && (base % SHAPE_INDEX_STRIDE) == 0;
+        }
+
+        bool isIndexed() const { return isIndexedCount(count); }
+
+        /// The index of an indexed block (nullptr otherwise).
+        inline const ProtoShapeIndex *index() const;
+
+        /// The next older block, or nullptr at the end of the chain.
+        inline const ProtoShape *nextBlock() const;
 
         void processReferences(ProtoContext *context, void *self,
                                void (*method)(ProtoContext *, void *, const Cell *)) const override;
 
         const ProtoObject *implAsObject(ProtoContext *context) const override;
     };
+
+    /**
+     * @brief Internal 64-byte cell linking an indexed ProtoShape block to
+     *        the older blocks of its chain.
+     *
+     * `names` maps the word of every attribute name held by `next` and the
+     * blocks older than it to that name's offset (a SmallInteger).  It is
+     * built from the previous index by inserting the SHAPE_INDEX_STRIDE (or,
+     * for the first index, SHAPE_INDEX_FIRST) names added since, so each
+     * name costs one persistent AVL insert, O(log N) cells, once.
+     */
+    class ProtoShapeIndex final : public Cell {
+    public:
+        const ProtoShape *const next;
+        const ProtoSparseListImplementation *const names;
+
+        CellType getType() const override { return CellType::ShapeIndex; }
+
+        ProtoShapeIndex(ProtoContext *context, const ProtoShape *next,
+                        const ProtoSparseListImplementation *names);
+
+        ~ProtoShapeIndex() override = default;
+
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *, const Cell *)) const override;
+
+        const ProtoObject *implAsObject(ProtoContext *context) const override;
+    };
+
+    inline const ProtoShapeIndex *ProtoShape::index() const {
+        return isIndexed() ? static_cast<const ProtoShapeIndex *>(link) : nullptr;
+    }
+
+    inline const ProtoShape *ProtoShape::nextBlock() const {
+        return isIndexed() ? static_cast<const ProtoShapeIndex *>(link)->next
+                           : static_cast<const ProtoShape *>(link);
+    }
+
+    /**
+     * @brief Test hook: resolves `name` in `shape` exactly as attribute
+     *        lookup does, without the per-thread cache, and reports in
+     *        `blocksVisited` the shape blocks it read plus one per index
+     *        probe.  Returns the offset, or -1 when `name` is absent.
+     */
+    proto_long shapeFindOffsetForTesting(const ProtoShape *shape, const ProtoString *name,
+                                         unsigned *blocksVisited);
 
     /**
      * @brief Internal 64-byte leaf block holding up to 6 attribute values.
@@ -3289,6 +3367,7 @@ namespace proto {
     static_assert(sizeof(ProtoMutableObjectCell) == 64, "ProtoMutableObjectCell must fill one 64-byte cell");
     static_assert(sizeof(ProtoLazyObjectCell) == 64, "ProtoLazyObjectCell must fill one 64-byte cell");
     static_assert(sizeof(ProtoShape) == 64, "ProtoShape must fill one 64-byte cell");
+    static_assert(sizeof(ProtoShapeIndex) <= 64, "ProtoShapeIndex exceeds 64 bytes!");
     static_assert(sizeof(ProtoAttrLeafCell) == 64, "ProtoAttrLeafCell must fill one 64-byte cell");
     static_assert(sizeof(ProtoAttrBranchCell) == 64, "ProtoAttrBranchCell must fill one 64-byte cell");
     static_assert(sizeof(ProtoListImplementation) <= 64, "ProtoListImplementation exceeds 64 bytes!");
