@@ -211,10 +211,39 @@ TEST(GCRootScope, ObjectReachableOnlyThroughTheMutablesTreeSurvives) {
 namespace {
 
 constexpr int kThreadIterations = 1500;
+// Every worker forces a whole cycle every kForceEvery iterations, right
+// after its old list became a candidate.  Each forced cycle starts after the
+// previous one of the same worker, so one worker alone guarantees
+// kThreadIterations / kForceEvery cycles during the test.
+constexpr int kForceEvery = 300;
 std::atomic<proto::proto_ulong> gThreadChecks{0};
 std::atomic<proto::proto_ulong> gThreadErrors{0};
+std::atomic<proto::proto_ulong> gThreadForcedCycles{0};
 std::atomic<int> gThreadsDone{0};
 std::atomic<bool> gThreadsRelease{false};
+
+// Requests a cycle unconditionally (ProtoSpace::triggerGC fires only below a
+// 20 % free ratio) and parks at safepoints until a cycle that started after
+// the request has completed, sweep included.  A request that a running
+// cycle clears at its end is made again.  The deadline only keeps a broken
+// collector from hanging the suite; the verdict never depends on it.
+bool forceCycleAndWait(ProtoContext* ctx, ProtoThread* self) {
+    ProtoSpace* space = ctx->space;
+    const uint64_t before = space->getGCCycleCount();
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(60);
+    while (std::chrono::steady_clock::now() < deadline) {
+        const bool pending = space->gcStarted.load();
+        if (space->getGCCycleCount() > before && !pending) return true;
+        if (!pending) {
+            std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+            space->gcStarted = true;
+            space->gcCV.notify_all();
+        }
+        self->synchToGC();
+        std::this_thread::yield();
+    }
+    return false;
+}
 
 // Each iteration makes an old list (a candidate once its context is gone),
 // references it from a young list held only in C++ locals and the thread's
@@ -240,6 +269,8 @@ const ProtoObject* allocatingThreadMain(ProtoContext* ctx, const ProtoObject*, c
             // flake of this test (about 1 run in 110 under --gtest_repeat).
             young = ctx->newList()->appendLast(ctx, old->asObject(ctx));
         }  // `old` is now a candidate, reachable only through `young`
+        if (iteration % kForceEvery == kForceEvery - 1 && forceCycleAndWait(ctx, self))
+            gThreadForcedCycles.fetch_add(1, std::memory_order_relaxed);
         {
             ProtoContext garbage(ctx->space, ctx, nullptr, nullptr, nullptr, nullptr);
             for (int i = 0; i < 256; ++i) {
@@ -265,11 +296,15 @@ const ProtoObject* allocatingThreadMain(ProtoContext* ctx, const ProtoObject*, c
 
 // Several ProtoThreads allocate, build young cells over old candidates and
 // verify them while cycles run and the concurrent mark traverses their young
-// chains.
+// chains.  Cycles come from the hard heap limit and, deterministically, from
+// the cycles each worker forces: how many the heap limit alone starts depends
+// on how the collector is scheduled against the workers, and a runner that
+// started only two failed the cycle-count check below.
 TEST(GCRootScope, AllocationDuringConcurrentMarkIsSafe) {
     constexpr int kThreads = 4;
     gThreadChecks = 0;
     gThreadErrors = 0;
+    gThreadForcedCycles = 0;
     gThreadsDone = 0;
     gThreadsRelease = false;
 
@@ -304,6 +339,9 @@ TEST(GCRootScope, AllocationDuringConcurrentMarkIsSafe) {
     ASSERT_EQ(done, kThreads) << "worker threads did not finish";
     EXPECT_EQ(gThreadChecks.load(), static_cast<proto::proto_ulong>(kThreads) * kThreadIterations);
     EXPECT_EQ(gThreadErrors.load(), 0u);
+    EXPECT_EQ(gThreadForcedCycles.load(),
+              static_cast<proto::proto_ulong>(kThreads) * (kThreadIterations / kForceEvery))
+        << "a forced cycle did not complete";
     EXPECT_GE(cycles, 3u) << "too few collection cycles ran for the test to exercise the mark";
 }
 
