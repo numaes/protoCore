@@ -2,7 +2,7 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [Unreleased]
+## [3.6.2] - Unreleased
 
 ### Added
 
@@ -16,6 +16,45 @@ All notable changes to protoCore are documented in this file.
   parent already has 64 attributes is not interned, so dictionary-like
   objects keep private shapes. `PROTOCORE_SHAPE_TRANSITIONS=0` disables the
   table for A/B measurements.
+
+### Fixed
+
+- **Adding attributes to one object was quadratic since 3.6.1.** A
+  `setAttribute` (or `setAttributes`) of a new name proved the name absent
+  by reading every block of the object's `ProtoShape` chain, and the
+  per-thread shape cache cannot remember the absence of a name never seen
+  before, so N adds cost O(N^2) block reads. In protoJS, `Array.from` with a
+  non-Array constructor took 39-53 times as long for 40,000 keys as for
+  10,000. Long chains now carry a name index: a block whose first offset
+  `(count - 1) & ~3` is a multiple of 32 and at least 64 links to an
+  internal `ProtoShapeIndex` cell (`CellType::ShapeIndex`) holding the older
+  block and a persistent AVL map from every older name to its offset. A
+  lookup reads at most 16 blocks and one index probe; each index is built
+  from the previous one by inserting the 32 names added since, so each name
+  costs one O(log N) insert. Whether a block is indexed follows from its
+  `count`, so `ProtoShape` keeps its 64-byte layout; in `proto_internal.h`
+  its `next` field becomes `link`, and walkers step with `nextBlock()`.
+  Chains of up to 64 names, every interned shape among them, carry no index
+  and behave as before. Removing an attribute still clears its slot only,
+  and re-adding the name reuses its offset.
+  - Measured (one object, 1-minute load below 3.5, `perf stat -r 3`):
+    40,000 adds to a mutable object take 3.44 s on 50a3d40a and 0.056 s
+    now (23.8 G vs 0.27 G process cycles). The 4N/N time ratio from
+    N = 10,000 falls from 82 to 9.7 (a cache-size step between 10,000 and
+    20,000), and from 40,000 to 80,000 it is 2.4. Cold reads of 4,000 names
+    on one object are 9.7 times faster. Cold reads on 32-attribute objects
+    (128 M vs 133 M cycles) and hot reads on a shared 16-attribute shape
+    (108 M vs 114 M cycles) are unchanged.
+  - Cost: objects past 64 attributes allocate about 15 more cells per new
+    attribute (the index insert): 21-26 cells per add at 10,000-80,000
+    attributes instead of 7-8. Objects with up to 64 attributes allocate
+    exactly as before.
+  - Tests: `ShapeIndexScalingTests` count work instead of time. At
+    N = 1,000 and 65,536 they assert that the walk an add makes stays within
+    16 blocks (immutable objects, mutable objects and `setAttributes`), that
+    the index height is O(log N) and cells per add O(log N), that removal and
+    re-add keep the offset, and that the index survives forced collections.
+    Without the index the walk bound fails at the 65th attribute.
 
 ## [3.6.1] - 2026-11-18
 
