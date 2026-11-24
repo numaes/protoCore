@@ -2,7 +2,13 @@
 
 All notable changes to protoCore are documented in this file.
 
-## [3.6.2] - Unreleased
+## [3.6.2] - 2026-11-24
+
+Patch release. **No ABI break: SOVERSION stays 5.** `protoCore.h` is
+unchanged from 3.6.1; both changes below are internal to `proto_internal.h`,
+which is not installed. An embedder built against 3.4.0 or later loads and
+runs against 3.6.2 without a rebuild. An embedder that compiles against
+`proto_internal.h` from a source tree must be rebuilt.
 
 ### Added
 

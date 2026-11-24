@@ -5,7 +5,7 @@
 # 1. Set minimum required version and project details
 cmake_minimum_required(VERSION 3.16)
 project(protoCore
-    VERSION 3.6.1
+    VERSION 3.6.2
     DESCRIPTION "protoCore - High-Performance Embeddable Dynamic Object System for C++"
     HOMEPAGE_URL "https://github.com/numaes/protoCore"
     LANGUAGES CXX
@@ -157,6 +157,10 @@ add_library(protoCore SHARED
 # The cell layouts changed in proto_internal.h, which is not installed;
 # protoCore.h only adds ProtoObject::newClone, a new non-virtual member.  No
 # existing signature changed.
+#
+# 3.6.2 keeps 5.  A patch release: a shape transition table and a name index
+# on long ProtoShape chains, both internal (proto_internal.h).  protoCore.h is
+# byte-identical to 3.6.1.
 set(PROTOCORE_ABI_SOVERSION 5)
 
 # Shared library versioning (version for linker, soversion for ABI)
