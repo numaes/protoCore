@@ -45,10 +45,27 @@ All notable changes to protoCore are documented in this file.
     on one object are 9.7 times faster. Cold reads on 32-attribute objects
     (128 M vs 133 M cycles) and hot reads on a shared 16-attribute shape
     (108 M vs 114 M cycles) are unchanged.
-  - Cost: objects past 64 attributes allocate about 15 more cells per new
-    attribute (the index insert): 21-26 cells per add at 10,000-80,000
-    attributes instead of 7-8. Objects with up to 64 attributes allocate
-    exactly as before.
+  - Cost, allocated: objects past 64 attributes allocate about 15 more
+    cells per new attribute (the index insert): 21-26 cells per add at
+    10,000-80,000 attributes instead of 7-8. The cost is uneven: the add that
+    creates an indexed block (the 65th, 97th, 129th, ... attribute) builds a
+    new index and costs about 300 cells (~19 KB; 443 for the 65th, which
+    builds the first index from 64 names), against 4 for an ordinary add.
+    Shapes past 64 attributes are private, so objects that extend the same
+    large base each pay this separately, and a mutable write that loses its
+    compare-and-swap rebuilds it on every retry.
+  - Cost, retained: the extra cells are not only garbage. Every indexed
+    block keeps its own version of the index, sharing structure with the
+    previous one, so a chain retains the paths every batch of 32 inserts
+    copied. Measured on one object, index-tree cells retained per attribute
+    are 4.3 at 1,000 attributes and 8.6-10.8 at 65,536 when the names'
+    addresses are in no particular order, about 37-44 MB at 65,536
+    attributes against about 1 MB for the names themselves (0.25 cells per
+    attribute, the shape blocks). The figure grows with log N. When the
+    names are allocated in the order they are added (their addresses
+    increase), the inserts share the right spine and the figure falls to
+    1.3-1.5 cells per attribute. Objects with up to 64 attributes allocate
+    and retain exactly as before.
   - Tests: `ShapeIndexScalingTests` count work instead of time. At
     N = 1,000 and 65,536 they assert that the walk an add makes stays within
     16 blocks (immutable objects, mutable objects and `setAttributes`), that

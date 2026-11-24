@@ -28,13 +28,16 @@ using namespace proto;
 
 namespace {
 
-// Longest walk allowed: a chain without an index yet has at most
-// SHAPE_INDEX_FIRST / 4 blocks; past it, at most SHAPE_INDEX_STRIDE / 4
-// blocks precede an indexed block, plus one index probe.
-constexpr unsigned kMaxBlocksVisited =
-    ProtoShape::SHAPE_INDEX_FIRST / 4 > ProtoShape::SHAPE_INDEX_STRIDE / 4 + 1
-        ? ProtoShape::SHAPE_INDEX_FIRST / 4
-        : ProtoShape::SHAPE_INDEX_STRIDE / 4 + 1;
+// Longest walk allowed for a chain of `count` names.  Up to
+// SHAPE_INDEX_FIRST names there is no index: every block may be read
+// (SHAPE_INDEX_FIRST / 4 = 16).  Past it, at most SHAPE_INDEX_STRIDE / 4 = 8
+// blocks are read before an indexed block, plus one index probe.  The
+// tighter bound past 64 catches a wrong stride.
+unsigned maxVisits(proto_ulong count) {
+    return count <= ProtoShape::SHAPE_INDEX_FIRST
+        ? static_cast<unsigned>(ProtoShape::SHAPE_INDEX_FIRST / 4)
+        : static_cast<unsigned>(ProtoShape::SHAPE_INDEX_STRIDE / 4 + 1);
+}
 
 const ProtoShapeIndex* firstIndexOf(const ProtoShape* shape) {
     for (const ProtoShape* b = shape; b != nullptr; b = b->nextBlock())
@@ -70,21 +73,18 @@ protected:
                                     proto_ulong* cellsOut) {
         const ProtoObject* obj = ctx->newObject(false);
         const proto_ulong c0 = ctx->allocatedCellsCount;
-        unsigned worst = 0;
         for (size_t i = 0; i < n.size(); ++i) {
             obj = obj->setAttribute(ctx, n[i], ctx->fromInteger(static_cast<long long>(i)));
             const ProtoShape* shape = toImpl<const ProtoObjectCell>(obj)->shape;
             unsigned visited = 0;
             EXPECT_EQ(shapeFindOffsetForTesting(shape, absent, &visited), -1);
-            if (visited > worst) worst = visited;
-            if (visited > kMaxBlocksVisited) {
+            if (visited > maxVisits(shape->count)) {
                 ADD_FAILURE() << "an add at count " << (i + 1) << " walks " << visited
-                              << " blocks (bound " << kMaxBlocksVisited << ")";
+                              << " blocks (bound " << maxVisits(shape->count) << ")";
                 break;
             }
         }
         if (cellsOut) *cellsOut = ctx->allocatedCellsCount - c0;
-        EXPECT_LE(worst, kMaxBlocksVisited);
         return obj;
     }
 };
@@ -103,7 +103,7 @@ TEST_P(ShapeIndexScalingTest, AddWalksABoundedNumberOfBlocks) {
     for (int i = 0; i < n; ++i) {
         unsigned visited = 0;
         ASSERT_EQ(shapeFindOffsetForTesting(shape, keys[i], &visited), i) << "attribute " << i;
-        ASSERT_LE(visited, kMaxBlocksVisited) << "attribute " << i;
+        ASSERT_LE(visited, maxVisits(shape->count)) << "attribute " << i;
     }
 
     // The index is a balanced tree: height O(log N).
@@ -132,7 +132,6 @@ TEST_P(ShapeIndexScalingTest, MutableObjectAddsStayBounded) {
     const auto keys = names("m", n);
     const ProtoString* absent = ProtoString::createSymbol(ctx, "never_added_m");
     const ProtoObject* obj = ctx->newObject(true);
-    unsigned worst = 0;
     for (int i = 0; i < n; ++i) {
         obj->setAttribute(ctx, keys[i], ctx->fromInteger(i));
         // An immutable clone shares the mutable's current shape.
@@ -141,10 +140,8 @@ TEST_P(ShapeIndexScalingTest, MutableObjectAddsStayBounded) {
         ASSERT_EQ(shape->count, static_cast<proto_ulong>(i + 1));
         unsigned visited = 0;
         ASSERT_EQ(shapeFindOffsetForTesting(shape, absent, &visited), -1);
-        if (visited > worst) worst = visited;
-        ASSERT_LE(visited, kMaxBlocksVisited) << "an add at count " << (i + 1);
+        ASSERT_LE(visited, maxVisits(shape->count)) << "an add at count " << (i + 1);
     }
-    EXPECT_LE(worst, kMaxBlocksVisited);
     for (int i = 0; i < n; ++i)
         ASSERT_EQ(obj->getAttribute(ctx, keys[i])->asLong(ctx), i) << "attribute " << i;
 }
@@ -165,10 +162,10 @@ TEST_P(ShapeIndexScalingTest, BulkSetAttributesBuildsTheSameIndex) {
     const ProtoString* absent = ProtoString::createSymbol(ctx, "never_added_b");
     unsigned visited = 0;
     EXPECT_EQ(shapeFindOffsetForTesting(shape, absent, &visited), -1);
-    EXPECT_LE(visited, kMaxBlocksVisited);
+    EXPECT_LE(visited, maxVisits(shape->count));
     for (int i = 0; i < n; ++i) {
         ASSERT_EQ(shapeFindOffsetForTesting(shape, keys[i], &visited), i) << "attribute " << i;
-        ASSERT_LE(visited, kMaxBlocksVisited);
+        ASSERT_LE(visited, maxVisits(shape->count));
         ASSERT_EQ(obj->getAttribute(ctx, keys[i])->asLong(ctx), i);
     }
 }
@@ -195,6 +192,23 @@ TEST(ShapeIndex, RemoveAndReAddKeepTheOffsetAcrossAnIndex) {
     EXPECT_EQ(obj->getAttribute(ctx, keys[299])->asLong(ctx), 299);
 }
 
+TEST(ShapeIndex, IndexedCountBoundaries) {
+    EXPECT_FALSE(ProtoShape::isIndexedCount(0));
+    for (proto_ulong c = 1; c <= 68; ++c)
+        EXPECT_EQ(ProtoShape::isIndexedCount(c), c >= 65) << "count " << c;
+    EXPECT_FALSE(ProtoShape::isIndexedCount(69));
+    EXPECT_FALSE(ProtoShape::isIndexedCount(96));
+    EXPECT_TRUE(ProtoShape::isIndexedCount(97));
+    EXPECT_TRUE(ProtoShape::isIndexedCount(100));
+    EXPECT_FALSE(ProtoShape::isIndexedCount(101));
+}
+
+// Detects an untraced index only when the collector frees its cells AND the
+// allocations below reuse them: the sweep leaves a freed cell's payload in
+// place and clears the mark bit, the only per-cell liveness record, so no
+// existing hook can tell a freed cell from a live one after the cycle.  The
+// 200,000 allocations make reuse near certain on this heap; with the
+// index's `names` left untraced this test fails.
 TEST(ShapeIndex, IndexSurvivesCollection) {
     ProtoSpace space;
     ProtoContext* ctx = space.rootContext;

@@ -1047,6 +1047,7 @@ namespace proto {
 
         /// True when a block of `count` attributes links to a ProtoShapeIndex.
         static bool isIndexedCount(proto_ulong count) {
+            if (count == 0) return false;  // (0 - 1) & ~3 would wrap
             const proto_ulong base = (count - 1) & ~PROTO_UL(3);
             return base >= SHAPE_INDEX_FIRST && (base % SHAPE_INDEX_STRIDE) == 0;
         }
