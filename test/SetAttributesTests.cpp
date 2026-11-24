@@ -272,7 +272,7 @@ void checkObjectStorage(const ProtoObjectCell* oc, bool& ok, proto_ulong* nonNul
     if (expectedCount == 0) { ok = false; return; }
 
     proto_ulong seenNames = 0;
-    for (const ProtoShape* b = shape; b != nullptr; b = b->next) {
+    for (const ProtoShape* b = shape; b != nullptr; b = b->nextBlock()) {
         if (b->getType() != CellType::Shape) { ok = false; return; }
         const unsigned used = static_cast<unsigned>(((b->count - 1) & 3UL) + 1);
         for (unsigned i = 0; i < 4; ++i) {
@@ -281,8 +281,8 @@ void checkObjectStorage(const ProtoObjectCell* oc, bool& ok, proto_ulong* nonNul
             if (!shouldBeUsed && b->names[i] != nullptr) ok = false;
         }
         seenNames += used;
-        if (b->next && b->next->count + used != b->count) ok = false;
-        if (!b->next && b->count != used) ok = false;
+        if (b->nextBlock() && b->nextBlock()->count + used != b->count) ok = false;
+        if (!b->nextBlock() && b->count != used) ok = false;
     }
     if (seenNames != expectedCount) ok = false;
 

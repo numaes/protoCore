@@ -313,6 +313,7 @@ namespace proto {
                 case CellType::Shape: return "Shape";
                 case CellType::AttrLeaf: return "AttrLeaf";
                 case CellType::AttrBranch: return "AttrBranch";
+                case CellType::ShapeIndex: return "ShapeIndex";
             }
             return "unknown";
         }

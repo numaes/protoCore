@@ -147,6 +147,7 @@ const char* typeName(const Cell* c)
         case CellType::Shape:               return "Shape";
         case CellType::AttrLeaf:            return "AttrLeaf";
         case CellType::AttrBranch:          return "AttrBranch";
+        case CellType::ShapeIndex:          return "ShapeIndex";
         default:                            return "Cell";
     }
 }
@@ -321,7 +322,7 @@ private:
                     out.push_back({oc->parent, NodeKind::Other, "prototype"});
                 if (oc->shape) {
                     const proto_ulong total = oc->shape->count;
-                    for (const ProtoShape* b = oc->shape; b != nullptr; b = b->next) {
+                    for (const ProtoShape* b = oc->shape; b != nullptr; b = b->nextBlock()) {
                         const proto_ulong baseOff = (b->count - 1) & ~PROTO_UL(3);
                         for (int i = 3; i >= 0; --i) {
                             const ProtoString* nm = b->names[i];
