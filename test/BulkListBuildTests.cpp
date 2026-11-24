@@ -281,6 +281,30 @@ TEST(BulkListBuild, YoungGenerationRootsTheBuild) {
             ProtoContext build(&space, &holder, nullptr, nullptr, nullptr, nullptr);
             const proto::proto_ulong countBefore = build.allocatedCellsCount;
             const uint64_t before = space.getGCCycleCount();
+            // Deterministic: wait until the collector has raised a
+            // stop-the-world and waits for this thread, the only ProtoThread
+            // of the space, to park.  The flag is read under globalMutex,
+            // which the collector holds from raising it until its quorum
+            // wait, so the stop is fully announced once it reads true.  This
+            // thread parks first inside newList (heapLimitCheckpoint or the
+            // poll after the first append), so a cycle starts during every
+            // build, however the kicker and the collector are scheduled.  The
+            // kicker still adds cycles at arbitrary points of the builds.
+            // The deadline only keeps a broken collector from hanging the
+            // suite; the verdict never depends on it.
+            const auto deadline = Clock::now() + std::chrono::seconds(60);
+            bool stopRaised = false;
+            while (!stopRaised && Clock::now() < deadline) {
+                {
+                    std::lock_guard<std::recursive_mutex> lock(ProtoSpace::globalMutex);
+                    stopRaised = space.stwFlag.load();
+                    if (!stopRaised) {
+                        space.gcStarted = true;
+                        space.gcCV.notify_all();
+                    }
+                }
+                if (!stopRaised) std::this_thread::yield();
+            }
             const ProtoList* list = build.newList(kElements, items.data());
             cyclesDuringBuild += space.getGCCycleCount() - before;
             // Structural, and deterministic: the young chain holds exactly
@@ -304,8 +328,8 @@ TEST(BulkListBuild, YoungGenerationRootsTheBuild) {
     EXPECT_EQ(badElements, 0u)
         << "a list built by newList(n, items) lost cells to a collection that "
            "ran during the build";
-    EXPECT_GE(cyclesDuringBuild, 2u)
-        << "too few cycles completed while builds were in flight; the test did "
+    EXPECT_GE(cyclesDuringBuild, static_cast<uint64_t>(kRepeats))
+        << "a build ran without a collection starting during it; the test did "
            "not exercise a collection mid-build";
 }
 
